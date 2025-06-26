@@ -220,7 +220,7 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
       if ((*application_data_end) - (*application_data_start) == 2) {
         /* read application identifier */
         *application_identifier = atoi(&result[*application_data_start]);
-
+        /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
         switch(*application_identifier) {
         case 0: {
           if (debug == 1) printf("SSCC ");
