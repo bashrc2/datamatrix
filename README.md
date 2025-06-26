@@ -33,6 +33,21 @@ Optionally, if you want debugging information and images for each decoding stage
 ``` bash
 ./datamatrix -f myimage.png --debug
 ```
+
+## Testing with specific settings
+
+It you want to test how well the decoding works with a specific settings:
+
+``` bash
+./datamatrix -f myimage.png --debug \
+    --erode [value] --dilate [value] \
+    --meanlight [value] --edgethresh [value]
+```
+
+*erode* and *dilate* values are in pixels. *meanlight* is typically in the range 0-20 and *edgethresh* is typically in the range 0-10.
+
+A set of images will be produced which show the detection process at each stage.
+
 ## References
 
 Canny edge detection https://en.wikipedia.org/wiki/Canny_edge_detector
