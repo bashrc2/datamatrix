@@ -34,9 +34,6 @@ int main(int argc, char* argv[])
   char * filename = NULL;
   char output_filename[255];
   unsigned char * image_data = NULL;
-  unsigned char * hsv_image_data = NULL;
-  unsigned char * hsl_image_data = NULL;
-  unsigned char * cielab_image_data = NULL;
   unsigned char * resized_image_data = NULL;
   unsigned int image_width=0;
   unsigned int image_height=0;
@@ -44,9 +41,6 @@ int main(int argc, char* argv[])
   unsigned int resized_image_height=0;
   unsigned int image_bitsperpixel=0;
   unsigned char debug = 0;
-  int convert_to_hsv = 0;
-  int convert_to_hsl = 0;
-  int convert_to_cielab = 0;
   int minimum_grid_dimension = 10;
   int maximum_grid_dimension = 48;
   int test_ml_threshold = 0;
@@ -109,19 +103,6 @@ int main(int argc, char* argv[])
       run_all_tests();
       return 0;
     }
-    if (strcmp(argv[i],"--hsv")==0) {
-      convert_to_hsv = 1;
-      i--;
-    }
-    if (strcmp(argv[i],"--hsl")==0) {
-      convert_to_hsl = 1;
-      i--;
-    }
-
-    if (strcmp(argv[i],"--cielab")==0) {
-      convert_to_cielab = 1;
-      i--;
-    }
   }
 
   /* was a file specified */
@@ -148,69 +129,6 @@ int main(int argc, char* argv[])
     printf("Image: %s\n", filename);
     printf("Resolution: %dx%d\n", image_width, image_height);
     printf("Depth: %d\n", image_bitsperpixel);
-  }
-
-  if (convert_to_hsv != 0) {
-    hsv_image_data =
-      (unsigned char*)malloc(image_width*image_height*
-                             image_bitsperpixel/8);
-    if (hsv_image_data == NULL) {
-      printf("Unable to create hsv buffer\n");
-      free(image_data);
-      return 1;
-    }
-    if (rgb_to_hsv(image_data, image_width, image_height,
-                   image_bitsperpixel, hsv_image_data) != 0) {
-      printf("Error creating hsv buffer\n");
-      free(image_data);
-      return 1;
-    }
-    memcpy((void*)image_data,
-           (void*)hsv_image_data,
-           image_width * image_height * (image_bitsperpixel/8));
-    free(hsv_image_data);
-  }
-
-  if (convert_to_hsl != 0) {
-    hsl_image_data =
-      (unsigned char*)malloc(image_width*image_height*
-                             image_bitsperpixel/8);
-    if (hsl_image_data == NULL) {
-      printf("Unable to create hsl buffer\n");
-      free(image_data);
-      return 1;
-    }
-    if (rgb_to_hsl(image_data, image_width, image_height,
-                   image_bitsperpixel, hsl_image_data) != 0) {
-      printf("Error creating hsl buffer\n");
-      free(image_data);
-      return 1;
-    }
-    memcpy((void*)image_data,
-           (void*)hsl_image_data,
-           image_width * image_height * (image_bitsperpixel/8));
-    free(hsl_image_data);
-  }
-
-  if (convert_to_cielab != 0) {
-    cielab_image_data =
-      (unsigned char*)malloc(image_width*image_height*
-                             image_bitsperpixel/8);
-    if (cielab_image_data == NULL) {
-      printf("Unable to create cielab buffer\n");
-      free(image_data);
-      return 1;
-    }
-    if (rgb_to_cielab(image_data, image_width, image_height,
-                      image_bitsperpixel, cielab_image_data) != 0) {
-      printf("Error creating cielab buffer\n");
-      free(image_data);
-      return 1;
-    }
-    memcpy((void*)image_data,
-           (void*)cielab_image_data,
-           image_width * image_height * (image_bitsperpixel/8));
-    free(cielab_image_data);
   }
 
   if (resized_image_width > 0) {

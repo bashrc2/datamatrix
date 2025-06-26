@@ -233,34 +233,6 @@ void darklight(unsigned char * img,
                int sampling_radius_percent,
                unsigned char * dark, unsigned char * light);
 
-/* colours.h */
-
-void remove_channel(unsigned char * img, int width, int height, int bitsperpixel,
-                    int channel);
-int rgb_to_hsv(unsigned char img[],
-               int width, int height, int bitsperpixel,
-               unsigned char img_hsv[]);
-int rgb_to_hsl(unsigned char img[],
-               int width, int height, int bitsperpixel,
-               unsigned char img_hsl[]);
-int rgb_to_cielab(unsigned char img[],
-                  int width, int height, int bitsperpixel,
-                  unsigned char img_cielab[]);
-void rgb_colour_reduce(unsigned char img[],
-                       int width, int height);
-void enhance_channel(unsigned char * img,
-                     int width, int height,
-                     int channel, int threshold);
-void enhance_colour(unsigned char * img,
-                    int width, int height,
-                    int r, int g, int b, int threshold);
-void remove_colour(unsigned char * img,
-                   int width, int height,
-                   int r, int g, int b, int radius);
-void single_channel(unsigned char * img,
-                    int width, int height, int bitsperpixel,
-                    int channel, int threshold);
-
 /* lines.c */
 
 void remove_lines(unsigned char * img,
