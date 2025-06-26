@@ -28,6 +28,12 @@ make
 ./datamatrix -f myimage.png
 ```
 
+If needed, an image can be saved showing the detected datamatrix region.
+
+``` bash
+./datamatrix -f myimage.png -o detection.png
+```
+
 Optionally, if you want debugging information and images for each decoding stage:
 
 ``` bash
