@@ -1,24 +1,24 @@
 /*********************************************************************
-* Software License Agreement (GPLv3)
-*
-*  datamatrix
-*  Copyright (c) 2025, Bob Mottram
-*  bob@libreserver.org
-*
-*  This program is free software: you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation, either version 3 of the License, or
-*  (at your option) any later version.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  You should have received a copy of the GNU General Public License
-*  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*
-*********************************************************************/
+ * Software License Agreement (GPLv3)
+ *
+ *  datamatrix
+ *  Copyright (c) 2025, Bob Mottram
+ *  bob@libreserver.org
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *********************************************************************/
 
 
 #ifndef VISIONUTILS_HEADERS_H
@@ -135,47 +135,47 @@ struct line_segments {
 int histogram_mean_reflectance(int * histogram);
 
 void region_histogram(
-              unsigned char * img, int width, int height,
-              int tx, int ty, int bx, int by,
-              int bitsperpixel,
-              int * histogram);
+                      unsigned char * img, int width, int height,
+                      int tx, int ty, int bx, int by,
+                      int bitsperpixel,
+                      int * histogram);
 
 /* threshold.c */
 
 void adaptive_threshold(
-            unsigned char * img, int width, int height,
-            int bitsperpixel,
-            int radius,
-            unsigned char * thresholded);
+                        unsigned char * img, int width, int height,
+                        int bitsperpixel,
+                        int radius,
+                        unsigned char * thresholded);
 
 int meanlight_threshold(unsigned char * img, int width, int height,
                         int bitsperpixel, int threshold,
                         unsigned char * thresholded);
 
 int proximal_threshold(unsigned char * img, int width, int height,
-		       int r, int g, int b, int radius,
-		       unsigned char * result);
+                       int r, int g, int b, int radius,
+                       unsigned char * result);
 int proximal_erase(unsigned char * img, int width, int height,
-		   int radius, int min_coverage_percent);
+                   int radius, int min_coverage_percent);
 int proximal_fill(unsigned char * img, int width, int height,
-		  unsigned char * result,
-		  int max_width, int max_height,
-		  int max_variance,
-		  int * polygon_id,
-		  int * polygon_vertices,
-		  int * polygons,
-		  int max_total_polygon_points);
+                  unsigned char * result,
+                  int max_width, int max_height,
+                  int max_variance,
+                  int * polygon_id,
+                  int * polygon_vertices,
+                  int * polygons,
+                  int max_total_polygon_points);
 int show_polygons(unsigned char * img, int width, int height,
-		  int no_of_polygons,
-		  int * polygon_id,
-		  int * polygon_vertices,
-		  int * polygons);
+                  int no_of_polygons,
+                  int * polygon_id,
+                  int * polygon_vertices,
+                  int * polygons);
 int point_in_polygon(int x, int y, int * points, int no_of_points);
 int save_polygons_json(int no_of_polygons,
-		       int * polygon_id,
-		       int * polygon_vertices,
-		       int * polygons,
-		       char * filename);
+                       int * polygon_id,
+                       int * polygon_vertices,
+                       int * polygons,
+                       char * filename);
 
 /* convert.c */
 
@@ -186,12 +186,12 @@ void bitwise_to_colour(unsigned char * bitwise, int width, int height,
                        unsigned char * img, int bytesperpixel);
 
 void mono_to_colour(unsigned char * img, int width, int height,
-            int bitsperpixel,
-            unsigned char * colour);
+                    int bitsperpixel,
+                    unsigned char * colour);
 
 void colour_to_mono(unsigned char * img, int width, int height,
-            int bitsperpixel,
-            unsigned char * mono);
+                    int bitsperpixel,
+                    unsigned char * mono);
 
 void mono_to_bitwise(unsigned char * img, int width, int height,
                      unsigned char * bitwise);
@@ -205,14 +205,14 @@ int load_bitwise(char * filename,
 /* erosiondilation.c */
 
 void erosion(
-         unsigned char * img,
-         int width, int height,
-         int itterations);
+             unsigned char * img,
+             int width, int height,
+             int itterations);
 
 void dilation(
-          unsigned char * img,
-          int width, int height,
-          int itterations);
+              unsigned char * img,
+              int width, int height,
+              int itterations);
 
 void dilate(unsigned char * img, int width, int height,
             unsigned char * buffer,
@@ -236,7 +236,7 @@ void darklight(unsigned char * img,
 /* colours.h */
 
 void remove_channel(unsigned char * img, int width, int height, int bitsperpixel,
-            int channel);
+                    int channel);
 int rgb_to_hsv(unsigned char img[],
                int width, int height, int bitsperpixel,
                unsigned char img_hsv[]);
@@ -280,9 +280,9 @@ void correct_background_gradient(unsigned char * img,
 /* edges.c */
 
 void detect_edges(
-          unsigned char * img,
-          int width, int height,
-          float threshold, float radius);
+                  unsigned char * img,
+                  int width, int height,
+                  float threshold, float radius);
 
 void get_line_segments(unsigned char * edgesImage, int width, int height,
                        struct line_segments * segments,
@@ -357,32 +357,32 @@ unsigned int rand_num(unsigned int * seed);
 /* som.c */
 
 struct gpr_som_elem {
-    float * vect;
+  float * vect;
 };
 typedef struct gpr_som_elem gpr_som_element;
 
 
 struct gpr_som_struct {
-    int dimension;
-    int no_of_sensors;
-    struct gpr_som_elem ** weight;
-    float * state;
-    float * sensor_scale;
+  int dimension;
+  int no_of_sensors;
+  struct gpr_som_elem ** weight;
+  float * state;
+  float * sensor_scale;
 };
 typedef struct gpr_som_struct gpr_som;
 
 struct gpr_som_stack_struct {
-    int no_of_layers;
-    unsigned char ** img;
-    int * img_width;
-    int * img_height;
-    int * patch_width;
-    gpr_som * som;
-    int inhibit_radius;
-    int excite_radius;
-    float learning_rate;
-    unsigned int random_seed;
-    unsigned char initialised;
+  int no_of_layers;
+  unsigned char ** img;
+  int * img_width;
+  int * img_height;
+  int * patch_width;
+  gpr_som * som;
+  int inhibit_radius;
+  int excite_radius;
+  float learning_rate;
+  unsigned int random_seed;
+  unsigned char initialised;
 };
 typedef struct gpr_som_stack_struct gpr_som_stack;
 

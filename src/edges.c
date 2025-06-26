@@ -2029,8 +2029,8 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
   }
 
   /* if lines cannot be fitted to all sides then try fitting two lines and
-   then interpolating the rest. This is not as reliable, but better than
-   nothing. */
+     then interpolating the rest. This is not as reliable, but better than
+     nothing. */
 
   /* line fit the first side */
   no_of_samples = segments->side_edges_count[max_side1];

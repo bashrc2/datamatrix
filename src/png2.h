@@ -9,22 +9,22 @@ static unsigned char * read_png_file(char * filename,
                                      unsigned int * height,
                                      unsigned int * bitsperpixel)
 {
-    unsigned error;
+  unsigned error;
 	unsigned char* image;
 	unsigned w, h;
 	error = lodepng_decode24_file(&image, &w, &h, filename);
 	if (error) printf("read_png_file: error %u: %s\n", error, lodepng_error_text(error));
 
-    *width = w;
-    *height = h;
-    *bitsperpixel=24;
-    return image;
+  *width = w;
+  *height = h;
+  *bitsperpixel=24;
+  return image;
 }
 
 static int write_png_file(char* filename,
-						  unsigned int width, unsigned int height,
-						  unsigned int bitsperpixel,
-						  unsigned char *buffer)
+                          unsigned int width, unsigned int height,
+                          unsigned int bitsperpixel,
+                          unsigned char *buffer)
 {
 	unsigned error=1;
 	unsigned int i;
@@ -53,7 +53,7 @@ static int write_png_file(char* filename,
 		printf("write_png_file: error %u: %s\n", error, lodepng_error_text(error));
 		return -1;
 	}
-    return 0;
+  return 0;
 }
 
 #endif

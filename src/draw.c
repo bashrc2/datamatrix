@@ -48,56 +48,56 @@ void draw_line(unsigned char img[],
                int line_width,
                int r, int g, int b)
 {
-    int linewidth = bx - tx;
-    int lineheight = by - ty;
-    int x, y, n, xx, yy, incr=1;
-    int bytes_per_pixel = bitsperpixel/8;
-    int half_width = line_width/2;
+  int linewidth = bx - tx;
+  int lineheight = by - ty;
+  int x, y, n, xx, yy, incr=1;
+  int bytes_per_pixel = bitsperpixel/8;
+  int half_width = line_width/2;
 
-    if (abs(lineheight) > abs(linewidth)) {
-        /* vertical orientation */
-        if (by < ty) incr = -1;
-        for (y = ty; y != by; y+=incr) {
-	  if ((y < 0) || (y >= (int)height))
-                continue;
-            x = tx + ((y - ty) * linewidth / lineheight);
-            for (xx = x - half_width; xx < x - half_width + line_width; xx++) {
+  if (abs(lineheight) > abs(linewidth)) {
+    /* vertical orientation */
+    if (by < ty) incr = -1;
+    for (y = ty; y != by; y+=incr) {
+      if ((y < 0) || (y >= (int)height))
+        continue;
+      x = tx + ((y - ty) * linewidth / lineheight);
+      for (xx = x - half_width; xx < x - half_width + line_width; xx++) {
 	      if ((xx < 0) || (xx >= (int)width))
-                    continue;
-                n = (y * width + xx) * bytes_per_pixel;
-                if (bytes_per_pixel == 3) {
-                    img[n] = b;
-                    img[n+1] = g;
-                    img[n+2] = r;
-                }
-                else {
-                    img[n] = r;
-                }
-            }
+          continue;
+        n = (y * width + xx) * bytes_per_pixel;
+        if (bytes_per_pixel == 3) {
+          img[n] = b;
+          img[n+1] = g;
+          img[n+2] = r;
         }
+        else {
+          img[n] = r;
+        }
+      }
     }
-    else {
-        /* horizontal orientation */
-        if (bx < tx) incr = -1;
-        for (x = tx; x != bx; x+=incr) {
-	  if ((x < 0) || (x >= (int)width))
-                continue;
-            y = ty + ((x - tx) * lineheight / linewidth);
-            for (yy = y - half_width; yy < y - half_width + line_width; yy++) {
+  }
+  else {
+    /* horizontal orientation */
+    if (bx < tx) incr = -1;
+    for (x = tx; x != bx; x+=incr) {
+      if ((x < 0) || (x >= (int)width))
+        continue;
+      y = ty + ((x - tx) * lineheight / linewidth);
+      for (yy = y - half_width; yy < y - half_width + line_width; yy++) {
 	      if ((yy < 0) || (yy >= (int)height))
-                    continue;
-                n = (yy * width + x) * bytes_per_pixel;
-                if (bytes_per_pixel == 3) {
-                    img[n] = b;
-                    img[n+1] = g;
-                    img[n+2] = r;
-                }
-                else {
-                    img[n] = r;
-                }
-            }
+          continue;
+        n = (yy * width + x) * bytes_per_pixel;
+        if (bytes_per_pixel == 3) {
+          img[n] = b;
+          img[n+1] = g;
+          img[n+2] = r;
         }
+        else {
+          img[n] = r;
+        }
+      }
     }
+  }
 }
 
 void draw_curve(unsigned char img[],
@@ -109,36 +109,36 @@ void draw_curve(unsigned char img[],
                 int line_width,
                 int r, int g, int b)
 {
-    float A1 = -(x1*x1) + (x2*x2);
-    float B1 = -x1 + x2;
-    float D1 = -y1 + y2;
-    float A2 = -(x2*x2) + (x3*x3);
-    float B2 = -x2 + x3;
-    float D2 = -y2 + y3;
-    float Bmult = -(B2/B1);
-    float A3 = Bmult*A1 + A2;
-    float D3 = Bmult*D1 + D2;
-    float a = D3/A3;
-    float bb = (D1 - (A1*a)) / B1;
-    float c = y1 - (a*x1*x1) - (bb*x1);
-    int x, y, prev_x=-9999, prev_y;
+  float A1 = -(x1*x1) + (x2*x2);
+  float B1 = -x1 + x2;
+  float D1 = -y1 + y2;
+  float A2 = -(x2*x2) + (x3*x3);
+  float B2 = -x2 + x3;
+  float D2 = -y2 + y3;
+  float Bmult = -(B2/B1);
+  float A3 = Bmult*A1 + A2;
+  float D3 = Bmult*D1 + D2;
+  float a = D3/A3;
+  float bb = (D1 - (A1*a)) / B1;
+  float c = y1 - (a*x1*x1) - (bb*x1);
+  int x, y, prev_x=-9999, prev_y;
 
-    x = x1;
-    while (x != x3) {
-        y = (int)((a*x*x) + (bb*x) + c);
+  x = x1;
+  while (x != x3) {
+    y = (int)((a*x*x) + (bb*x) + c);
 
-        if (prev_x != -9999) {
-            draw_line(img, width, height, bitsperpixel,
-                      prev_x, prev_y, x, y, line_width,
-                      r, g, b);
-        }
-
-        prev_x = x;
-        prev_y = y;
-
-        if (x3 > x1)
-            x++;
-        else
-            x--;
+    if (prev_x != -9999) {
+      draw_line(img, width, height, bitsperpixel,
+                prev_x, prev_y, x, y, line_width,
+                r, g, b);
     }
+
+    prev_x = x;
+    prev_y = y;
+
+    if (x3 > x1)
+      x++;
+    else
+      x--;
+  }
 }

@@ -28,14 +28,14 @@
 /* return the mean reflectance from a reflectance histogram */
 int histogram_mean_reflectance(int * histogram)
 {
-    unsigned int i, mean_reflectance=0,total=0;
+  unsigned int i, mean_reflectance=0,total=0;
 
-    for (i=0;i<256;i++) {
-        total += histogram[i];
-        mean_reflectance += i*histogram[i];
-    }
-    if (total==0) total=1;
-    return mean_reflectance / total;
+  for (i=0;i<256;i++) {
+    total += histogram[i];
+    mean_reflectance += i*histogram[i];
+  }
+  if (total==0) total=1;
+  return mean_reflectance / total;
 }
 
 /* create a histogram from a region of an image */
@@ -45,25 +45,25 @@ void region_histogram(unsigned char * img,
                       int bitsperpixel,
                       int * histogram)
 {
-    int i,x,y,n,reflectance;
-    const int step = 2;
-    int bytesperpixel = bitsperpixel/8;
+  int i,x,y,n,reflectance;
+  const int step = 2;
+  int bytesperpixel = bitsperpixel/8;
 
-    memset((void*)histogram,'\0',256*sizeof(int));
+  memset((void*)histogram,'\0',256*sizeof(int));
 
-    if (tx < 0) tx = 0;
-    if (ty < 0) ty = 0;
-    if (bx >= width) bx = width-1;
-    if (by >= height) by = height-1;
+  if (tx < 0) tx = 0;
+  if (ty < 0) ty = 0;
+  if (bx >= width) bx = width-1;
+  if (by >= height) by = height-1;
 
-    for (y = ty; y <= by; y+=step) {
-        for (x = tx; x <= bx; x+=step) {
-            n = (y*width*bytesperpixel) + (x*bytesperpixel);
-            reflectance = 0;
-            for (i = 0; i < bytesperpixel; i++) {
-                reflectance += img[n++];
-            }
-            histogram[reflectance/bytesperpixel]++;
-        }
+  for (y = ty; y <= by; y+=step) {
+    for (x = tx; x <= bx; x+=step) {
+      n = (y*width*bytesperpixel) + (x*bytesperpixel);
+      reflectance = 0;
+      for (i = 0; i < bytesperpixel; i++) {
+        reflectance += img[n++];
+      }
+      histogram[reflectance/bytesperpixel]++;
     }
+  }
 }

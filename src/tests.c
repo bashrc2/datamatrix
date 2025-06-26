@@ -112,7 +112,7 @@ static void test_decode()
    XX  02 02 02 03 03 0b 0b 0b 00 00
    XX
    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-   */
+  */
 
   create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy2);
   show_grid(&grid2);

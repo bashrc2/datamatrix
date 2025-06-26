@@ -270,15 +270,15 @@ int detect_timing_pattern(unsigned char mono_img[],
   else {
     /* TODO rectangle */
     /*
-    int no_of_valid_rectangles = 6;
-    int IEC16022_valid_rectangles[] = {
+      int no_of_valid_rectangles = 6;
+      int IEC16022_valid_rectangles[] = {
       8, 18,
       8, 32,
       12, 26,
       12, 36,
       16, 36,
       16, 48
-    };
+      };
     */
   }
   return -1;
@@ -715,18 +715,18 @@ void show_grid_image(struct grid_2d * grid,
   int grid_x, grid_y;
   float grid_pos_x, grid_pos_y, xi=0, yi=0;
 
-    draw_line(image_data, image_width, image_height,
-              image_bitsperpixel,
-              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
-              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
-              1,
-              0, 255, 0);
-    draw_line(image_data, image_width, image_height,
-              image_bitsperpixel,
-              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
-              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
-              1,
-              255, 0, 0);
+  draw_line(image_data, image_width, image_height,
+            image_bitsperpixel,
+            (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+            (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+            1,
+            0, 255, 0);
+  draw_line(image_data, image_width, image_height,
+            image_bitsperpixel,
+            (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+            (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+            1,
+            255, 0, 0);
 
   float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
   float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
