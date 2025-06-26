@@ -25,19 +25,19 @@ make
 ## Example usage
 
 ``` bash
-./datamatrix -f myimage.png
+./datamatrix -f examples/01.png
 ```
 
 If needed, an image can be saved showing the detected datamatrix region.
 
 ``` bash
-./datamatrix -f myimage.png -o detection.png
+./datamatrix -f examples/01.png -o detection.png
 ```
 
 Optionally, if you want debugging information and images for each decoding stage:
 
 ``` bash
-./datamatrix -f myimage.png --debug
+./datamatrix -f examples/01.png --debug
 ```
 
 ## Testing with specific settings
@@ -45,7 +45,7 @@ Optionally, if you want debugging information and images for each decoding stage
 It you want to test how well the decoding works with a specific settings:
 
 ``` bash
-./datamatrix -f myimage.png --debug \
+./datamatrix -f examples/01.png --debug \
     --erode [value] --dilate [value] \
     --meanlight [value] --edgethresh [value]
 ```

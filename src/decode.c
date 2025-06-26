@@ -178,13 +178,20 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
     *is_structured_append = 1;
   }
   else if (current_byte == 234) {
-    /* unused */
+    /* reader programming */
   }
   else if (current_byte == 235) {
     *shift = 1;
   }
+  else if (current_byte == 236) {
+    /* 05 Macro */
+  }
+  else if (current_byte == 237) {
+    /* 06 Macro */
+  }
   else if ((current_byte == 129) ||
            (current_byte == 253)) {
+    /* PAD */
     *position = datalength;
   }
 }
