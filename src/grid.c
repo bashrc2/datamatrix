@@ -577,8 +577,8 @@ void create_grid(int dimension_x, int dimension_y,
   grid->perimeter.y2 = perimeter_y2;
   grid->perimeter.x3 = perimeter_x3;
   grid->perimeter.y3 = perimeter_y3;
-	grid->dimension_x = dimension_x;
-	grid->dimension_y = dimension_y;
+  grid->dimension_x = dimension_x;
+  grid->dimension_y = dimension_y;
 
   create_grid_base(dimension_x, dimension_y, grid);
 
