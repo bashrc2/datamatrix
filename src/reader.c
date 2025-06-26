@@ -528,7 +528,7 @@ int read_datamatrix(unsigned char image_data[],
                 mono_to_colour(mono_img, image_width, image_height,
                                image_bitsperpixel, image_data);
                 show_grid_image(&grid, image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
-                write_png_file("debug_14_grid_sampling.png", image_width, image_height, 24, image_data);
+                write_png_file("debug_16_grid_sampling.png", image_width, image_height, 24, image_data);
               }
               break;
             }
