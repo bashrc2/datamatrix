@@ -131,7 +131,14 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
   int no, first_digit, last_digit;
 
   unsigned char current_byte = data[*position];
-  if (debug == 1) printf("%d ", (int)current_byte);
+  if (debug == 1) {
+    if ((*position == 0) && (current_byte == 232)) {
+      printf("GS1 ");
+    }
+    else {
+      printf("%d ", (int)current_byte);
+    }
+  }
   *position = (*position) + 1;
   if ((current_byte >= 1) && (current_byte <= 128)) {
     /* ASCII 0-127 */
