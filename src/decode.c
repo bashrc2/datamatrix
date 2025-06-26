@@ -125,11 +125,13 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                                      int * position,
                                      int * state,
                                      int * shift,
-                                     char result[])
+                                     char result[],
+                                     unsigned char debug)
 {
   int no, first_digit, last_digit;
 
   unsigned char current_byte = data[*position];
+  if (debug == 1) printf("%d ", (int)current_byte);
   *position = (*position) + 1;
   if ((current_byte >= 1) && (current_byte <= 128)) {
     /* ASCII 0-127 */
@@ -171,8 +173,12 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
   }
   else if (current_byte == 232) {
     /* FNC1 */
-    if (*position > 1)
+    if (*position > 1) {
       decode_strcat_char(result, (char)(29));
+    }
+    else {
+      /* GS1 encodation */
+    }
   }
   else if (current_byte == 233) {
     *is_structured_append = 1;
@@ -205,7 +211,8 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                                    int * position,
                                    int * state,
                                    int * shift,
-                                   char result[])
+                                   char result[],
+                                   unsigned char debug)
 {
   int i, a, b, c, packed;
 
@@ -217,7 +224,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                              position,
                              state,
                              shift,
-                             result);
+                             result, debug);
     return;
   }
 
@@ -235,6 +242,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 
   /* extract the three characters */
   for (i = 0; i < 3; i++) {
+    if (debug == 1) printf("%d ", c40Values[i]);
     if (*shift == 0) {
       if (c40Values[i] <= 2) {
         *shift = c40Values[i] + 1;
@@ -323,7 +331,8 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        int * position,
                                        int * state,
                                        int * shift,
-                                       char result[])
+                                       char result[],
+                                       unsigned char debug)
 {
   int i;
   char * unpacked = (char*)malloc(4*sizeof(char));
@@ -342,6 +351,8 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
     *position = (*position) + 3;
 
     for (i = 0; i < 4; i++) {
+      if (debug == 1) printf("%d ", unpacked[i]);
+
       /* Test for unlatch condition */
       if (unpacked[i] == 0x1f) {
         free(unpacked);
@@ -359,7 +370,7 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                  position,
                                  state,
                                  shift,
-                                 result);
+                                 result, debug);
 
       free(unpacked);
       return;
@@ -375,7 +386,8 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                                    int * position,
                                    int * state,
                                    int * shift,
-                                   char result[])
+                                   char result[],
+                                   unsigned char debug)
 {
   int i, a, b, packed;
 
@@ -387,7 +399,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                              position,
                              state,
                              shift,
-                             result);
+                             result, debug);
     return;
   }
 
@@ -405,6 +417,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
 
   /* extract the three characters */
   for (i = 0; i < 3; i++) {
+    if (debug == 1) printf("%d ", x12Values[i]);
     if (x12Values[i] == 0) {
       /* <CR> */
       decode_strcat_char(result, (char)13);
@@ -449,46 +462,54 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
 
 static void ecc200_decode(unsigned char data1[],
                           int data_length,
-                          char * result)
+                          char * result,
+                          unsigned char debug)
 {
   /* initial state is ASCII, which may change later */
-  int state = ASCII;
+  int state = ASCII, prev_state = -1;
   int datalength = data_length;
   unsigned char * data = data1;
   int position = 0;
   int shift = 0;
   unsigned char is_structured_append = 0;
 
+  if (debug == 1) {
+    printf("\nECC200 bytes: ");
+  }
   while (position < datalength) {
     switch (state) {
     case ASCII:
+      if ((debug == 1) && (prev_state != state)) printf("ASC ");
       ecc200_decode_next_ascii(&is_structured_append,
                                data,
                                datalength,
                                &position,
                                &state,
                                &shift,
-                               result);
+                               result, debug);
       break;
     case C40:
+      if ((debug == 1) && (prev_state != state)) printf("C40 ");
       ecc200_decode_next_c40(&is_structured_append,
                              data,
                              datalength,
                              &position,
                              &state,
                              &shift,
-                             result);
+                             result, debug);
       break;
     case TEXT:
+      if ((debug == 1) && (prev_state != state)) printf("TXT ");
       ecc200_decode_next_c40(&is_structured_append,
                              data,
                              datalength,
                              &position,
                              &state,
                              &shift,
-                             result);
+                             result, debug);
       break;
     case BYTE256:
+      if ((debug == 1) && (prev_state != state)) printf("BYT ");
       ecc200_decode_next_byte_256(&is_structured_append,
                                   data,
                                   datalength,
@@ -498,29 +519,34 @@ static void ecc200_decode(unsigned char data1[],
                                   result);
       break;
     case EDIFACT:
+      if ((debug == 1) && (prev_state != state)) printf("EDI ");
       ecc200_decode_next_edifact(&is_structured_append,
                                  data,
                                  datalength,
                                  &position,
                                  &state,
                                  &shift,
-                                 result);
+                                 result, debug);
       break;
     case X12:
+      if ((debug == 1) && (prev_state != state)) printf("X12 ");
       ecc200_decode_next_x12(&is_structured_append,
                              data,
                              datalength,
                              &position,
                              &state,
                              &shift,
-                             result);
+                             result, debug);
       break;
     default: {
-      printf("Unknown ECC200 decode state\n");
       result[0] = 0;
       position = datalength;
     }
     }
+    prev_state = state;
+  }
+  if (debug == 1) {
+    printf("\n\n");
   }
 }
 
@@ -1919,7 +1945,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     grid->no_of_errors = grid_no_of_errors;
     grid->no_of_erasures = grid_no_of_erasures;
     ecc200_decode(grid->corrected_codewords,
-                  corrected_codewords_length, result);
+                  corrected_codewords_length, result, debug);
     grid->unused_error_correction =
       get_unused_error_correction(codewords_length,
                                   error_correcting_words,
