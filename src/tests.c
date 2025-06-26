@@ -1,0 +1,147 @@
+/*********************************************************************
+ * Software License Agreement (GPLv3)
+ *
+ *  Unit tests
+ *  Copyright (c) 2025, Bob Mottram
+ *  bob@libreserver.org
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *********************************************************************/
+
+
+#include "datamatrix.h"
+
+static void test_decode()
+{
+  printf("test_decode\n");
+  int dimension_x, dimension_y;
+  struct grid_2d grid, grid2;
+
+  char * decode_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+  assert(decode_result != NULL);
+
+  unsigned char occupancy1[] = {
+    1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+    1, 0, 0, 0, 0, 1, 0, 1, 0, 1,
+    1, 0, 1, 0, 0, 1, 0, 1, 1, 0,
+    1, 1, 0, 0, 1, 0, 0, 1, 0, 1,
+    1, 1, 0, 0, 0, 1, 0, 0, 0, 0,
+    1, 0, 1, 1, 0, 0, 0, 1, 1, 1,
+    1, 0, 0, 1, 1, 0, 0, 0, 0, 0,
+    1, 0, 1, 1, 0, 1, 1, 0, 0, 1,
+    1, 0, 1, 0, 0, 0, 1, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  };
+  dimension_x = 10;
+  dimension_y = 10;
+  create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
+  show_grid(&grid);
+  datamatrix_decode(&grid, 1, decode_result);
+  assert(strlen(decode_result) > 0);
+  assert(strcmp(decode_result, "123") == 0);
+
+  free_grid(&grid);
+
+  unsigned char occupancy2[] = {
+    1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+    1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1,
+    1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+    1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+    1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0,
+    1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1,
+    1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0,
+    1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1,
+    1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0,
+    1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1,
+    1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  };
+  dimension_x = 12;
+  dimension_y = 12;
+
+  /*
+   * Expected translation table
+   02 01 02 03 02 06 01 05 01 08 07 02 07 04 07 07 03 01 03 03
+   02 02 02 04 02 07 06 01 06 03 06 06 07 05 07 08 03 02 03 04
+   03 06 02 05 02 08 06 02 06 04 06 07 08 01 08 03 08 06 03 05
+   03 07 05 01 05 03 05 06 06 05 06 08 08 02 08 04 08 07 04 01
+   03 08 05 02 05 04 05 07 09 01 09 03 09 06 08 05 08 08 04 02
+   04 03 04 06 05 05 05 08 09 02 09 04 09 07 12 01 12 03 12 06
+   04 04 04 07 10 01 10 03 10 06 09 05 09 08 12 02 12 04 12 07
+   04 05 04 08 10 02 10 04 10 07 11 01 11 03 11 06 12 05 12 08
+   01 01 01 03 01 06 10 05 10 08 11 02 11 04 11 07 00 00 00 00
+   01 02 01 04 01 07 07 01 07 03 07 06 11 05 11 08 00 00 00 00
+
+   * Current translation table
+   02 01 02 03 02 06 01 05 01 08 05 02 05 04 05 07 00 00 00 00
+   02 02 02 04 02 07 04 01 04 03 04 06 05 05 05 08 00 00 00 00
+   00 00 02 05 02 08 04 02 04 04 04 07 06 01 06 03 06 06 00 00
+   00 00 03 01 03 03 03 06 04 05 04 08 06 02 06 04 06 07 00 00
+   00 00 03 02 03 04 03 07 07 01 07 03 07 06 06 05 06 08 00 00
+   00 00 00 00 03 05 03 08 07 02 07 04 07 07 10 01 10 03 10 06
+   00 00 00 00 08 01 08 03 08 06 07 05 07 08 10 02 10 04 10 07
+   00 00 00 00 08 02 08 04 08 07 09 01 09 03 09 06 10 05 10 08
+   01 01 01 03 01 06 08 05 08 08 09 02 09 04 09 07 00 00 00 00
+   01 02 01 04 01 07 05 01 05 03 05 06 09 05 09 08 00 00 00 00
+
+   * Expected codeword pattern
+
+   XX     XX    XX    XX    XX    XX
+   XX
+   XX  01 01 02 02 02 03 03 03 00 00  XX
+   XX  01 01 01 04 04 03 03 03 00 00
+   XX  01 01 01 04 04 04 09 09 00 00  XX
+   XX  00 05 05 04 04 04 09 09 09 06
+   XX  00 05 05 05 08 08 09 09 09 06  XX
+   XX  06 05 05 05 08 08 08 0a 0a 06
+   XX  06 06 07 07 08 08 08 0a 0a 0a  XX
+   XX  06 06 07 07 07 0b 0b 0a 0a 0a
+   XX  02 02 07 07 07 0b 0b 0b 00 00  XX
+   XX  02 02 02 03 03 0b 0b 0b 00 00
+   XX
+   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+   */
+
+  create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy2);
+  show_grid(&grid2);
+  datamatrix_decode(&grid2, 1, decode_result);
+  assert(strlen(decode_result) > 0);
+  assert(strcmp(decode_result, "Test") == 0);
+
+  free(decode_result);
+  free_grid(&grid2);
+}
+
+void test_strcat()
+{
+  printf("test_strcat\n");
+  char initial_string[32];
+  strcpy(initial_string, "First string");
+  assert(strcmp(initial_string, "First string") == 0);
+  decode_strcat(initial_string, " second string");
+  assert(strcmp(initial_string, "First string second string") == 0);
+  decode_strcat_char(initial_string, ' ');
+  decode_strcat_char(initial_string, 'a');
+  decode_strcat_char(initial_string, 'b');
+  decode_strcat_char(initial_string, 'c');
+  assert(strcmp(initial_string, "First string second string abc") == 0);
+}
+
+void run_all_tests()
+{
+  test_strcat();
+  test_decode();
+  printf("All tests complete\n");
+}
