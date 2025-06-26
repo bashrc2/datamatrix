@@ -36,7 +36,11 @@ Optionally, if you want debugging information and images for each decoding stage
 ## References
 
 Canny edge detection https://en.wikipedia.org/wiki/Canny_edge_detector
+
 Data Matrix https://en.wikipedia.org/wiki/Data_Matrix
+
 Edge linking https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html
+
 Line–line intersection https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+
 Reed–Solomon error correction https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
