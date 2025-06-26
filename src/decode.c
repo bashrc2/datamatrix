@@ -120,6 +120,8 @@ static float get_unused_error_correction(int no_of_codewords,
 }
 
 static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
+                                     unsigned char * is_gs1_encodation,
+                                     unsigned char * application_identifier,
                                      unsigned char data[],
                                      int datalength,
                                      int * position,
@@ -134,9 +136,6 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
   if (debug == 1) {
     if ((*position == 0) && (current_byte == 232)) {
       printf("GS1 ");
-    }
-    else {
-      printf("%d ", (int)current_byte);
     }
   }
   *position = (*position) + 1;
@@ -185,6 +184,7 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
     }
     else {
       /* GS1 encodation */
+      *is_gs1_encodation = 1;
     }
   }
   else if (current_byte == 233) {
@@ -207,12 +207,53 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
     /* PAD */
     *position = datalength;
   }
+
+  if (debug == 1) {
+    printf("%d ", (int)current_byte);
+  }
+
+  if (*is_gs1_encodation == 1) {
+    if (strlen(result) == 2) {
+      *application_identifier = atoi(result);
+      if (debug == 1) {
+        switch(*application_identifier) {
+        case 1: {
+          printf("GTIN ");
+          break;
+        }
+        case 10: {
+          printf("Batch/Lot ");
+          break;
+        }
+        case 11: {
+          printf("Production Date ");
+          break;
+        }
+        case 15: {
+          printf("Best before ");
+          break;
+        }
+        case 17: {
+          printf("Expires ");
+          break;
+        }
+        case 21: {
+          printf("Serial ");
+          break;
+        }
+        }
+      }
+    }
+
+  }
 }
 
 /*!
  * \brief C40 encoding (IEC 16022)
  */
 static void ecc200_decode_next_c40(unsigned char * is_structured_append,
+                                   unsigned char * is_gs1_encodation,
+                                   unsigned char * application_identifier,
                                    unsigned char data[],
                                    int datalength,
                                    int * position,
@@ -226,6 +267,8 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
   if ((*position) + 1 == datalength) {
     /* ASCII used for a single character */
     ecc200_decode_next_ascii(is_structured_append,
+                             is_gs1_encodation,
+                             application_identifier,
                              data,
                              datalength,
                              position,
@@ -333,6 +376,8 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 
 /* edifact encodation */
 static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
+                                       unsigned char * is_gs1_encodation,
+                                       unsigned char * application_identifier,
                                        unsigned char data[],
                                        int datalength,
                                        int * position,
@@ -372,6 +417,8 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
     if (datalength - (*position) < 3) {
       for (i = 0; i < datalength; i++)
         ecc200_decode_next_ascii(is_structured_append,
+                                 is_gs1_encodation,
+                                 application_identifier,
                                  data,
                                  datalength,
                                  position,
@@ -388,6 +435,8 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
 
 /* x12 encodation */
 static void ecc200_decode_next_x12(unsigned char * is_structured_append,
+                                   unsigned char * is_gs1_encodation,
+                                   unsigned char * application_identifier,
                                    unsigned char data[],
                                    int datalength,
                                    int * position,
@@ -401,6 +450,8 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
   if ((*position) + 1 == datalength) {
     /* ASCII used for a single character */
     ecc200_decode_next_ascii(is_structured_append,
+                             is_gs1_encodation,
+                             application_identifier,
                              data,
                              datalength,
                              position,
@@ -479,6 +530,8 @@ static void ecc200_decode(unsigned char data1[],
   int position = 0;
   int shift = 0;
   unsigned char is_structured_append = 0;
+  unsigned char is_gs1_encodation = 0;
+  unsigned char application_identifier = 0;
 
   if (debug == 1) {
     printf("\nECC200 bytes: ");
@@ -488,6 +541,8 @@ static void ecc200_decode(unsigned char data1[],
     case ASCII:
       if ((debug == 1) && (prev_state != state)) printf("ASC ");
       ecc200_decode_next_ascii(&is_structured_append,
+                               &is_gs1_encodation,
+                               &application_identifier,
                                data,
                                datalength,
                                &position,
@@ -498,6 +553,8 @@ static void ecc200_decode(unsigned char data1[],
     case C40:
       if ((debug == 1) && (prev_state != state)) printf("C40 ");
       ecc200_decode_next_c40(&is_structured_append,
+                             &is_gs1_encodation,
+                             &application_identifier,
                              data,
                              datalength,
                              &position,
@@ -508,6 +565,8 @@ static void ecc200_decode(unsigned char data1[],
     case TEXT:
       if ((debug == 1) && (prev_state != state)) printf("TXT ");
       ecc200_decode_next_c40(&is_structured_append,
+                             &is_gs1_encodation,
+                             &application_identifier,
                              data,
                              datalength,
                              &position,
@@ -528,6 +587,8 @@ static void ecc200_decode(unsigned char data1[],
     case EDIFACT:
       if ((debug == 1) && (prev_state != state)) printf("EDI ");
       ecc200_decode_next_edifact(&is_structured_append,
+                                 &is_gs1_encodation,
+                                 &application_identifier,
                                  data,
                                  datalength,
                                  &position,
@@ -538,6 +599,8 @@ static void ecc200_decode(unsigned char data1[],
     case X12:
       if ((debug == 1) && (prev_state != state)) printf("X12 ");
       ecc200_decode_next_x12(&is_structured_append,
+                             &is_gs1_encodation,
+                             &application_identifier,
                              data,
                              datalength,
                              &position,
