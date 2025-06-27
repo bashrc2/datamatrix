@@ -724,6 +724,7 @@ int read_datamatrix(unsigned char image_data[],
                     int test_erode, int test_dilate,
                     float test_edge_threshold,
                     int test_frequency,
+                    unsigned char verify,
                     char * decode_result);
 
 /* tests.c */

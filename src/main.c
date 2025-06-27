@@ -48,6 +48,7 @@ int main(int argc, char* argv[])
   int test_dilate = 0;
   float test_edge_threshold = 0;
   int test_frequency = 0;
+  unsigned char verify = 0;
 
   /* no output image by default */
   output_filename[0] = 0;
@@ -97,6 +98,12 @@ int main(int argc, char* argv[])
     }
     if (strcmp(argv[i],"--debug")==0) {
       debug = 1;
+      i--;
+    }
+    if ((strcmp(argv[i],"--verify")==0) ||
+        (strcmp(argv[i],"--quality")==0) ||
+        (strcmp(argv[i],"--verification")==0)) {
+      verify = 1;
       i--;
     }
     if (strcmp(argv[i],"--tests")==0) {
@@ -171,9 +178,15 @@ int main(int argc, char* argv[])
                   test_dilate,
                   test_edge_threshold,
                   test_frequency,
+                  verify,
                   decode_result);
   if (strlen(decode_result) > 0) {
-    printf("%s\n", decode_result);
+    if (verify == 0) {
+      printf("%s\n", decode_result);
+    }
+    else {
+      printf("Decode: \"%s\"\n", decode_result);
+    }
   }
 
   free(decode_result);

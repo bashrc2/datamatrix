@@ -7,6 +7,7 @@ Some image processing functions are based on *visionutils*.
  * Outputs the plain text encoded by the datamatrix pattern
  * Implemented in pure C99
  * Supports GS1 semantics https://www.gs1.org/standards/barcodes/2d
+ * Can generate quality metrics for verification reports
  * No dependencies or supply chains!
 
 ## Build
@@ -33,6 +34,12 @@ If needed, an image can be saved showing the detected datamatrix region.
 
 ``` bash
 ./datamatrix -f examples/01.png -o detection.png
+```
+
+If you want to calculate quality metrics for symbol verification purposes:
+
+``` bash
+./datamatrix -f examples/01.png -o detection.png --quality
 ```
 
 Optionally, if you want debugging information and images for each decoding stage:

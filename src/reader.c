@@ -38,6 +38,7 @@ int read_datamatrix(unsigned char image_data[],
                     int test_erode, int test_dilate,
                     float test_edge_threshold,
                     int test_frequency,
+                    unsigned char verify,
                     char * decode_result)
 {
   struct line_segments segments;
@@ -550,15 +551,13 @@ int read_datamatrix(unsigned char image_data[],
   }
 
   /* quality metrics */
-  if (strlen(decode_result) > 0) {
+  if ((verify == 1) && (strlen(decode_result) > 0)) {
     calculate_quality_metrics(&grid,
                               original_image_data,
                               original_thresholded_image_data,
                               image_width, image_height,
                               image_bitsperpixel);
-    if (debug == 1) {
-      show_quality_metrics(&grid);
-    }
+    show_quality_metrics(&grid);
   }
 
   /* free allocated memory */
