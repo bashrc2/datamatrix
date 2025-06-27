@@ -2726,6 +2726,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     grid->no_of_erasures = grid_no_of_erasures;
     ecc200_decode(grid->corrected_codewords,
                   corrected_codewords_length, result, gs1_result, debug);
+    /* if there is a GS1 formatted decode then return that instead */
     if (strlen(gs1_result) > 0) {
       strcpy(result, gs1_result);
       /* remove the final newline */
