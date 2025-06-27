@@ -328,6 +328,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
           occupied_reflectance += image_data[n+b];
         }
         occupied_reflectance_hits++;
+        /* is this the quiet zone? */
         if (point_in_perimeter(grid, x, y) == 0) {
           quiet_zone_pixels++;
           quiet_zone_occupancy++;
@@ -339,6 +340,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
           empty_reflectance += image_data[n+b];
         }
         empty_reflectance_hits++;
+        /* is this the quiet zone? */
         if (point_in_perimeter(grid, x, y) == 0) {
           quiet_zone_pixels++;
         }
