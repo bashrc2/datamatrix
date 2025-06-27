@@ -22,6 +22,19 @@
 
 #include "datamatrix.h"
 
+static float get_cell_width(struct grid_2d * grid)
+{
+  float longest_side =
+    get_longest_side(grid->perimeter.x0, grid->perimeter.y0,
+                     grid->perimeter.x1, grid->perimeter.y1,
+                     grid->perimeter.x2, grid->perimeter.y2,
+                     grid->perimeter.x3, grid->perimeter.y3);
+  if (grid->dimension_x > grid->dimension_y) {
+    return longest_side / grid->dimension_x;
+  }
+  return longest_side / grid->dimension_y;
+}
+
 /* returns 1 if the given point is in the grid quiet zone perimeter */
 static unsigned char point_in_quiet_zone(struct grid_2d * grid,
                                          int x, int y)
@@ -39,7 +52,7 @@ static unsigned char point_in_quiet_zone(struct grid_2d * grid,
 static void calculate_quiet_zone(struct grid_2d * grid)
 {
   int i;
-  float centre_x=0, centre_y=0,dx,dy, fraction, side_length, cell_width;
+  float centre_x=0, centre_y=0,dx,dy, fraction, cell_width;
   float points[4*2] = {
     grid->perimeter.x0, grid->perimeter.y0,
     grid->perimeter.x1, grid->perimeter.y1,
@@ -54,11 +67,13 @@ static void calculate_quiet_zone(struct grid_2d * grid)
                &centre_x, &centre_y);
 
   /* how much to we need to expand, equivalent to one cell width */
-  dx = grid->perimeter.x1 - grid->perimeter.x0;
-  dy = grid->perimeter.y1 - grid->perimeter.y0;
-  side_length = (float)sqrt(dx*dx + dy*dy);
-  cell_width = side_length / grid->dimension_x;
-  fraction = (side_length + cell_width) / side_length;
+  cell_width = get_cell_width(grid);
+  float longest_side =
+    get_longest_side(grid->perimeter.x0, grid->perimeter.y0,
+                     grid->perimeter.x1, grid->perimeter.y1,
+                     grid->perimeter.x2, grid->perimeter.y2,
+                     grid->perimeter.x3, grid->perimeter.y3);
+  fraction = (longest_side + cell_width) / longest_side;
 
   /* calculate the expanded points */
   for (i = 0; i < 4; i++) {
@@ -75,6 +90,32 @@ static void calculate_quiet_zone(struct grid_2d * grid)
   grid->quiet_zone_perimeter.y2 = points[5];
   grid->quiet_zone_perimeter.x3 = points[6];
   grid->quiet_zone_perimeter.y3 = points[7];
+}
+
+/* calculate axial non-uniformity as the percent difference between
+   cell width and height */
+static void quality_matric_axial_nonuniformity(struct grid_2d * grid)
+{
+  float cell_width_longest, cell_width_shortest;
+  float longest_side =
+    get_longest_side(grid->perimeter.x0, grid->perimeter.y0,
+                     grid->perimeter.x1, grid->perimeter.y1,
+                     grid->perimeter.x2, grid->perimeter.y2,
+                     grid->perimeter.x3, grid->perimeter.y3);
+  float shortest_side =
+    get_shortest_side(grid->perimeter.x0, grid->perimeter.y0,
+                      grid->perimeter.x1, grid->perimeter.y1,
+                      grid->perimeter.x2, grid->perimeter.y2,
+                      grid->perimeter.x3, grid->perimeter.y3);
+  if (grid->dimension_x > grid->dimension_y) {
+    cell_width_longest = longest_side / grid->dimension_x;
+    cell_width_shortest = shortest_side / grid->dimension_y;
+  }
+  else {
+    cell_width_longest = longest_side / grid->dimension_y;
+    cell_width_shortest = shortest_side / grid->dimension_x;
+  }
+  grid->axial_non_uniformity = (1.0f - (cell_width_shortest/cell_width_longest))*100;
 }
 
 /* contrast between highest and lowest reflectance */
@@ -155,6 +196,7 @@ void calculate_quality_metrics(struct grid_2d * grid,
   quality_matric_symbol_contrast(grid, image_data,
                                  image_width, image_height,
                                  image_bitsperpixel);
+  quality_matric_axial_nonuniformity(grid);
 }
 
 void show_quality_metrics(struct grid_2d * grid)
@@ -162,4 +204,5 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
   printf("Symbol contrast: %d%%\n", (int)grid->symbol_contrast);
+  printf("Axial non-uniformity: %.1f%%\n", grid->axial_non_uniformity);
 }
