@@ -89,6 +89,7 @@ struct grid_2d {
   float axial_non_uniformity;
   float grid_non_uniformity;
   unsigned char modulation;
+  float elongation;
 
   unsigned char* data_bytes;
 

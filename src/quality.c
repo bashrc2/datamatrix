@@ -97,12 +97,16 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
                                          int image_width, int image_height,
                                          int image_bytesperpixel,
                                          int x, int y, int radius,
-                                         int * offset_x, int * offset_y)
+                                         int * offset_x, int * offset_y,
+                                         float * elongation)
 {
   int search_x, search_y, av_x=0, av_y=0, hits=0;
+  int cell_width, cell_height;
+  int min_x=image_width, min_y=image_height, max_x=0, max_y=0;
   int n = (y*image_width + x)*image_bytesperpixel;
 
   *offset_x = NO_OFFSET;
+  *elongation = 0;
   if (thresholded_image_data[n] == 0) return;
 
   for (search_y = y - radius; search_y <= y + radius; search_y++) {
@@ -111,13 +115,26 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
       if ((search_x < 0) || (search_x >= image_width)) continue;
       n = (search_y*image_width + search_x)*image_bytesperpixel;
       if (thresholded_image_data[n] != 0) {
+        if (search_x < min_x) min_x = search_x;
+        if (search_x > max_x) max_x = search_x;
+        if (search_y < min_y) min_y = search_y;
+        if (search_y > max_y) max_y = search_y;
         av_x += search_x;
         av_y += search_y;
         hits++;
       }
     }
   }
+
   if (hits > 0) {
+    /* calculate elongation */
+    cell_width = max_x - min_x;
+    cell_height = max_y - min_y;
+    if (cell_height > 0) {
+      *elongation = fabs(1.0f - (cell_width / (float)cell_height));
+    }
+
+    /* calculate offset from centre */
     av_x /= hits;
     av_y /= hits;
     *offset_x = x - av_x;
@@ -134,6 +151,7 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
   int grid_x, grid_y, offset_x=0, offset_y=0;
   int av_offset_x=0, av_offset_y=0, offset_hits=0;
   float grid_non_uniformity_x, grid_non_uniformity_y;
+  float cell_elongation, av_elongation=0;
   float xi, yi, grid_pos_x, grid_pos_y;
   float horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
   float vertical_x1, vertical_y1, vertical_x2, vertical_y2;
@@ -175,10 +193,12 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
                                      image_width, image_height,
                                      image_bytesperpixel,
                                      (int)xi, (int)yi, cell_radius,
-                                     &offset_x, &offset_y);
+                                     &offset_x, &offset_y,
+                                     &cell_elongation);
         if (offset_x != NO_OFFSET) {
           av_offset_x += abs(offset_x);
           av_offset_y += abs(offset_y);
+          av_elongation += cell_elongation;
           offset_hits++;
         }
       }
@@ -186,7 +206,10 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
   }
 
   grid->grid_non_uniformity = 0;
+  grid->elongation = 0;
   if (offset_hits > 0) {
+    grid->elongation = (av_elongation / offset_hits) * 100;
+
     grid_non_uniformity_x = fabs(av_offset_x / (float)offset_hits);
     grid_non_uniformity_y = fabs(av_offset_y / (float)offset_hits);
     grid->grid_non_uniformity = (grid_non_uniformity_x + grid_non_uniformity_y) * 100 / cell_width;
@@ -426,4 +449,5 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Unused error correction: %d%%\n", (int)grid->unused_error_correction);
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
+  printf("Elongation: %.1f%%\n", grid->elongation);
 }
