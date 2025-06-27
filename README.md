@@ -80,6 +80,8 @@ Edge linking https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/n
 
 GS1 General Specifications https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications
 
+GS1 2D Barcode Verification Process Implementation Guideline https://www.gs1.org/docs/barcodes/2D_Barcode_Verification_Process_Implementation_Guideline.pdf
+
 Line–line intersection https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
 
 Reed–Solomon error correction https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
