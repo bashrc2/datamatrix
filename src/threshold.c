@@ -631,7 +631,7 @@ int show_polygons(unsigned char * img, int width, int height,
 }
 
 /* returns non-zero if the given point is in the given polygon */
-int point_in_polygon(int x, int y, int * points, int no_of_points)
+int point_in_polygon(int x, int y, int points[], int no_of_points)
 {
   int i, j, c = 0;
 

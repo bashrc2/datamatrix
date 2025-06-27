@@ -83,6 +83,7 @@ struct grid_2d {
   int * erasures;
   unsigned char fixed_pattern_damage;
   float angle_of_distortion;
+  unsigned char symbol_contrast;
 
   unsigned char* data_bytes;
 
@@ -172,7 +173,7 @@ int show_polygons(unsigned char * img, int width, int height,
                   int * polygon_id,
                   int * polygon_vertices,
                   int * polygons);
-int point_in_polygon(int x, int y, int * points, int no_of_points);
+int point_in_polygon(int x, int y, int points[], int no_of_points);
 int save_polygons_json(int no_of_polygons,
                        int * polygon_id,
                        int * polygon_vertices,
@@ -696,7 +697,11 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
 
 /* quality.c */
 
-void calculate_quality_metrics(struct grid_2d * grid);
+void calculate_quality_metrics(struct grid_2d * grid,
+                               unsigned char image_data[],
+                               unsigned char thresholded_image_data[],
+                               int image_width, int image_height,
+                               int image_bitsperpixel);
 
 void show_quality_metrics(struct grid_2d * grid);
 

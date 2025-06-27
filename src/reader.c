@@ -549,6 +549,18 @@ int read_datamatrix(unsigned char image_data[],
     if (test_specific_config_settings == 1) break;
   }
 
+  /* quality metrics */
+  if (strlen(decode_result) > 0) {
+    calculate_quality_metrics(&grid,
+                              original_image_data,
+                              original_thresholded_image_data,
+                              image_width, image_height,
+                              image_bitsperpixel);
+    if (debug == 1) {
+      show_quality_metrics(&grid);
+    }
+  }
+
   /* free allocated memory */
   free(original_image_data);
   free(meanlight_image_data);
@@ -558,11 +570,6 @@ int read_datamatrix(unsigned char image_data[],
   free(resized_image_data);
   free(thresholded);
   if (strlen(decode_result) > 0) {
-    calculate_quality_metrics(&grid);
-    if (debug == 1) {
-      show_quality_metrics(&grid);
-    }
-
     return 0;
   }
   return -1;
