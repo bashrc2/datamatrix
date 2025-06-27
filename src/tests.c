@@ -124,6 +124,51 @@ static void test_decode()
   free_grid(&grid2);
 }
 
+static void test_gs1_decode()
+{
+  printf("test_gs1_decode\n");
+  int dimension_x, dimension_y;
+  struct grid_2d grid;
+
+  char * decode_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+  assert(decode_result != NULL);
+
+  /* example from GS1 General Specifications */
+  unsigned char occupancy1[] = {
+    1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,
+    1,1,0,0,1,0,0,0,1,1,0,1,0,0,0,0,0,1,1,1,
+    1,0,0,0,1,1,0,0,0,1,0,0,0,1,0,1,0,1,0,0,
+    1,0,1,1,0,1,1,1,0,0,0,1,0,0,0,0,0,0,0,1,
+    1,1,1,1,0,0,1,0,0,1,0,1,0,1,1,1,1,0,1,0,
+    1,0,0,1,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,1,
+    1,0,0,1,0,1,0,0,1,0,1,0,0,0,0,1,1,1,0,0,
+    1,0,0,1,0,0,0,0,0,0,1,1,1,0,0,1,0,0,0,1,
+    1,1,0,0,0,1,0,0,1,1,0,1,0,1,1,1,0,1,0,0,
+    1,1,0,1,1,1,1,1,0,1,0,0,0,0,1,0,0,1,0,1,
+    1,0,0,1,1,0,1,0,0,1,0,1,0,1,0,1,1,0,0,0,
+    1,0,1,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,1,1,
+    1,0,1,1,0,0,1,1,0,1,0,0,0,1,1,0,1,1,0,0,
+    1,1,0,1,1,1,0,0,0,0,1,0,1,1,0,0,1,1,1,1,
+    1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,
+    1,1,0,1,0,0,0,1,0,1,0,0,1,1,1,0,1,0,0,1,
+    1,1,0,0,0,1,0,1,0,0,0,0,0,1,1,1,0,1,1,0,
+    1,1,0,1,1,1,1,1,1,1,0,1,0,1,0,1,1,1,0,1,
+    1,0,0,0,1,0,1,1,1,0,0,1,0,1,0,0,1,0,1,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+  };
+  dimension_x = 20;
+  dimension_y = 20;
+  create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
+  show_grid(&grid);
+  datamatrix_decode(&grid, 1, decode_result);
+  assert(strlen(decode_result) > 0);
+  assert(strcmp(decode_result,
+                "GTIN: 00068780000108\nPACK DATE: 301231\nBATCH/LOT: ABC123") == 0);
+
+  free_grid(&grid);
+  free(decode_result);
+}
+
 void test_strcat()
 {
   printf("test_strcat\n");
@@ -143,5 +188,6 @@ void run_all_tests()
 {
   test_strcat();
   test_decode();
+  test_gs1_decode();
   printf("All tests complete\n");
 }
