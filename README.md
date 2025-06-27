@@ -55,6 +55,14 @@ It you want to test how well the decoding works with a specific settings:
 
 A set of images will be produced which show the detection process at each stage.
 
+## Running unit tests
+
+Unit tests may be run with:
+
+``` bash
+./datamatrix --tests
+```
+
 ## References
 
 Canny edge detection https://en.wikipedia.org/wiki/Canny_edge_detector
