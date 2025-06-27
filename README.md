@@ -6,7 +6,7 @@ Some image processing functions are based on *visionutils*.
  * Reads PNG files (recommended at least 800 pixels across) using *lodepng*
  * Outputs the plain text encoded by the datamatrix pattern
  * Implemented in pure C99
- * Supports GS1 encodation https://www.gs1.org/standards/barcodes/2d
+ * Supports GS1 semantics https://www.gs1.org/standards/barcodes/2d
  * No dependencies or supply chains!
 
 ## Build
