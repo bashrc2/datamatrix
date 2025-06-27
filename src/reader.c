@@ -560,8 +560,7 @@ int read_datamatrix(unsigned char image_data[],
   if (strlen(decode_result) > 0) {
     calculate_quality_metrics(&grid);
     if (debug == 1) {
-      printf("Fixed pattern damage: %d%%\n", (int)grid.fixed_pattern_damage);
-      printf("Angle of distortion: %.1f degrees\n", grid.angle_of_distortion);
+      show_quality_metrics(&grid);
     }
 
     return 0;

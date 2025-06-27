@@ -40,3 +40,9 @@ void calculate_quality_metrics(struct grid_2d * grid)
 {
   quality_metric_angle_of_distortion(grid);
 }
+
+void show_quality_metrics(struct grid_2d * grid)
+{
+  printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
+  printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
+}
