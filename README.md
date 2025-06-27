@@ -63,6 +63,8 @@ Data Matrix https://en.wikipedia.org/wiki/Data_Matrix
 
 Edge linking https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html
 
+GS1 General Specifications https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications
+
 Line–line intersection https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
 
 Reed–Solomon error correction https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
