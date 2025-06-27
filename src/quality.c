@@ -94,7 +94,7 @@ static void calculate_quiet_zone(struct grid_2d * grid)
 
 /* calculate axial non-uniformity as the percent difference between
    cell width and height */
-static void quality_matric_axial_nonuniformity(struct grid_2d * grid)
+static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
 {
   float cell_width_longest, cell_width_shortest;
   float longest_side =
@@ -118,36 +118,145 @@ static void quality_matric_axial_nonuniformity(struct grid_2d * grid)
   grid->axial_non_uniformity = (1.0f - (cell_width_shortest/cell_width_longest))*100;
 }
 
-/* contrast between highest and lowest reflectance */
-static void quality_matric_symbol_contrast(struct grid_2d * grid,
-                                           unsigned char image_data[],
-                                           int image_width, int image_height,
-                                           int image_bitsperpixel)
+/* returns the bounding box for the grid, including the quiet zone */
+static void get_grid_bounding_box(struct grid_2d * grid,
+                                  int image_width, int image_height,
+                                  int * min_x, int * min_y,
+                                  int * max_x, int * max_y)
 {
-  int image_bytesperpixel = image_bitsperpixel/8;
-  int x, y, n, b, i, min_x=image_width, min_y=image_height, max_x=0, max_y=0;
-  int reflectance, min_reflectance=-1, max_reflectance=0;
-  /* NOTE: the perimeter should be expanded to include quiet zone */
-  calculate_quiet_zone(grid);
+  int i;
   int points[4*2] = {
     (int)grid->quiet_zone_perimeter.x0, (int)grid->quiet_zone_perimeter.y0,
     (int)grid->quiet_zone_perimeter.x1, (int)grid->quiet_zone_perimeter.y1,
     (int)grid->quiet_zone_perimeter.x2, (int)grid->quiet_zone_perimeter.y2,
     (int)grid->quiet_zone_perimeter.x3, (int)grid->quiet_zone_perimeter.y3
   };
+
+  *min_x=image_width;
+  *min_y=image_height;
+  *max_x=0;
+  *max_y=0;
+
   /* get the bounding box for the perimeter */
   for (i = 0; i < 4; i++) {
-    if (points[i*2] < min_x) min_x = points[i*2];
-    if (points[i*2+1] < min_y) min_y = points[i*2+1];
-    if (points[i*2] > max_x) max_x = points[i*2];
-    if (points[i*2+1] > max_y) max_y = points[i*2+1];
+    if (points[i*2] < *min_x) *min_x = points[i*2];
+    if (points[i*2+1] < *min_y) *min_y = points[i*2+1];
+    if (points[i*2] > *max_x) *max_x = points[i*2];
+    if (points[i*2+1] > *max_y) *max_y = points[i*2+1];
   }
 
   /* ensure that the bounding box is inside of the image */
-  if (min_x < 0) min_x = 0;
-  if (min_y < 0) min_y = 0;
-  if (max_x >= image_width) max_x = image_width-1;
-  if (max_y >= image_height) max_y = image_height-1;
+  if (*min_x < 0) *min_x = 0;
+  if (*min_y < 0) *min_y = 0;
+  if (*max_x >= image_width) *max_x = image_width-1;
+  if (*max_y >= image_height) *max_y = image_height-1;
+}
+
+/* calculate grid cell modulation */
+static void quality_metric_modulation(struct grid_2d * grid,
+                                      unsigned char image_data[],
+                                      unsigned char thresholded_image_data[],
+                                      int image_width, int image_height,
+                                      int image_bitsperpixel)
+{
+  int min_x=image_width,min_y=image_height,max_x=0,max_y=0;
+  int image_bytesperpixel = image_bitsperpixel/8;
+  int x, y, n, b, cell_modulation, occupied_modulation=0, empty_modulation=0;
+  int occupied_reflectance=0, occupied_reflectance_hits=0;
+  int empty_reflectance=0, empty_reflectance_hits=0;
+  int occupied_modulation_variance=0,empty_modulation_variance=0;
+  int light_dark_variance;
+  float empty_modulation_variance_fraction=0,occupied_modulation_variance_fraction=0;
+
+  get_grid_bounding_box(grid, image_width, image_height,
+                        &min_x, &min_y, &max_x, &max_y);
+
+  for (y = min_y; y <= max_y; y++) {
+    for (x = min_x; x <= max_x; x++) {
+      if (point_in_quiet_zone(grid, x, y) == 0) continue;
+
+      n = (y*image_width + x)*image_bytesperpixel;
+      if (thresholded_image_data[n] != 0) {
+        /* occupied cell */
+        for (b = 0; b < image_bytesperpixel; b++) {
+          occupied_reflectance += image_data[n+b];
+        }
+        occupied_reflectance_hits++;
+      }
+      else {
+        /* empty cell */
+        for (b = 0; b < image_bytesperpixel; b++) {
+          empty_reflectance += image_data[n+b];
+        }
+        empty_reflectance_hits++;
+      }
+    }
+  }
+
+  /* average occupied cell reflectance */
+  if (occupied_reflectance_hits > 0) {
+    occupied_reflectance /= occupied_reflectance_hits;
+  }
+  /* average empty cell reflectance */
+  if (empty_reflectance_hits > 0) {
+    empty_reflectance /= empty_reflectance_hits;
+  }
+  /* variance between average reflectance of occupied and empty cells */
+  light_dark_variance = abs(occupied_reflectance - empty_reflectance);
+
+  /* how much does each cell differ from the expected average reflectance? */
+  for (y = min_y; y <= max_y; y++) {
+    for (x = min_x; x <= max_x; x++) {
+      if (point_in_quiet_zone(grid, x, y) == 0) continue;
+
+      n = (y*image_width + x)*image_bytesperpixel;
+      cell_modulation = 0;
+      if (thresholded_image_data[n] != 0) {
+        /* occupied cell */
+        for (b = 0; b < image_bytesperpixel; b++) {
+          cell_modulation += image_data[n+b];
+        }
+        occupied_modulation += abs(cell_modulation - occupied_reflectance);
+      }
+      else {
+        /* empty cell */
+        for (b = 0; b < image_bytesperpixel; b++) {
+          cell_modulation += image_data[n+b];
+        }
+        empty_modulation += abs(cell_modulation - empty_reflectance);
+      }
+    }
+  }
+
+  if (light_dark_variance > 0) {
+    if (occupied_reflectance_hits > 0) {
+      occupied_modulation_variance = occupied_modulation / occupied_reflectance_hits;
+      occupied_modulation_variance_fraction =
+        occupied_modulation_variance / (float)(light_dark_variance * image_bytesperpixel);
+    }
+    if (empty_reflectance_hits > 0) {
+      empty_modulation_variance = empty_modulation / empty_reflectance_hits;
+      empty_modulation_variance_fraction =
+        empty_modulation_variance / (float)(light_dark_variance * image_bytesperpixel);
+    }
+  }
+
+  grid->modulation =
+    (unsigned char)((occupied_modulation_variance_fraction + empty_modulation_variance_fraction) * 50);
+}
+
+/* contrast between highest and lowest reflectance */
+static void quality_metric_symbol_contrast(struct grid_2d * grid,
+                                           unsigned char image_data[],
+                                           int image_width, int image_height,
+                                           int image_bitsperpixel)
+{
+  int image_bytesperpixel = image_bitsperpixel/8;
+  int x, y, n, b, min_x=image_width, min_y=image_height, max_x=0, max_y=0;
+  int reflectance, min_reflectance=-1, max_reflectance=0;
+
+  get_grid_bounding_box(grid, image_width, image_height,
+                        &min_x, &min_y, &max_x, &max_y);
 
   /* for all pixels inside the perimeter get the min and max reflectance */
   for (y = min_y; y <= max_y; y++) {
@@ -192,11 +301,16 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                int image_width, int image_height,
                                int image_bitsperpixel)
 {
+  calculate_quiet_zone(grid);
   quality_metric_angle_of_distortion(grid);
-  quality_matric_symbol_contrast(grid, image_data,
+  quality_metric_symbol_contrast(grid, image_data,
                                  image_width, image_height,
                                  image_bitsperpixel);
-  quality_matric_axial_nonuniformity(grid);
+  quality_metric_axial_nonuniformity(grid);
+  quality_metric_modulation(grid, image_data,
+                            thresholded_image_data,
+                            image_width, image_height,
+                            image_bitsperpixel);
 }
 
 void show_quality_metrics(struct grid_2d * grid)
@@ -205,4 +319,5 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
   printf("Symbol contrast: %d%%\n", (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %.1f%%\n", grid->axial_non_uniformity);
+  printf("Modulation: %d%%\n", (int)grid->modulation);
 }

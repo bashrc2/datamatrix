@@ -86,6 +86,7 @@ struct grid_2d {
   float angle_of_distortion;
   unsigned char symbol_contrast;
   float axial_non_uniformity;
+  unsigned char modulation;
 
   unsigned char* data_bytes;
 
