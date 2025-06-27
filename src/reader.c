@@ -62,6 +62,7 @@ int read_datamatrix(unsigned char image_data[],
   unsigned char test_specific_config_settings = 0;
   int timing_pattern_sampling_radius = 1;
   int curr_sampling_radius;
+  float corner_radians, angle_degrees;
 
   unsigned char * original_image_data =
     (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
@@ -273,13 +274,13 @@ int read_datamatrix(unsigned char image_data[],
 
         /* check that the corners are approximately square */
         /* first corner */
-        float corner_radians = corner_angle(perimeter_x0, perimeter_y0,
-                                            perimeter_x1, perimeter_y1,
-                                            perimeter_x2, perimeter_y2);
+        corner_radians = corner_angle(perimeter_x0, perimeter_y0,
+                                      perimeter_x1, perimeter_y1,
+                                      perimeter_x2, perimeter_y2);
         if (corner_radians < 0) corner_radians = -corner_radians;
         if (corner_radians > PI)
           corner_radians = (2 * (float)PI) - corner_radians;
-        float angle_degrees = corner_radians / (float)PI * 180;
+        angle_degrees = corner_radians / (float)PI * 180;
         if ((angle_degrees < 70) || (angle_degrees > 110)) continue;
 
         /* second corner */
@@ -557,9 +558,21 @@ int read_datamatrix(unsigned char image_data[],
   free(resized_image_data);
   free(thresholded);
   if (strlen(decode_result) > 0) {
+    /* calculate angle of distortion */
+    corner_radians = corner_angle(grid.perimeter.x0, grid.perimeter.y0,
+                                  grid.perimeter.x1, grid.perimeter.y1,
+                                  grid.perimeter.x2, grid.perimeter.y2);
+    if (corner_radians < 0) corner_radians = -corner_radians;
+    if (corner_radians > PI)
+      corner_radians = (2 * (float)PI) - corner_radians;
+    angle_degrees = corner_radians / (float)PI * 180;
+    grid.angle_of_distortion = 90 - angle_degrees;
+
     if (debug == 1) {
       printf("Fixed pattern damage: %d%%\n", (int)grid.fixed_pattern_damage);
+      printf("Angle of distortion: %.1f degrees\n", grid.angle_of_distortion);
     }
+
     return 0;
   }
   return -1;

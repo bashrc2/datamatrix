@@ -82,6 +82,7 @@ struct grid_2d {
   int no_of_erasures;
   int * erasures;
   unsigned char fixed_pattern_damage;
+  float angle_of_distortion;
 
   unsigned char* data_bytes;
 
