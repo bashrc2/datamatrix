@@ -558,7 +558,7 @@ int read_datamatrix(unsigned char image_data[],
   free(resized_image_data);
   free(thresholded);
   if (strlen(decode_result) > 0) {
-    /* calculate angle of distortion */
+    /* AS9132 calculate angle of distortion */
     corner_radians = corner_angle(grid.perimeter.x0, grid.perimeter.y0,
                                   grid.perimeter.x1, grid.perimeter.y1,
                                   grid.perimeter.x2, grid.perimeter.y2);
