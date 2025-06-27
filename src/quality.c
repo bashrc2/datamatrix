@@ -49,6 +49,20 @@ static unsigned char point_in_quiet_zone(struct grid_2d * grid,
   return 0;
 }
 
+/* returns 1 if the given point is within the grid perimeter */
+static unsigned char point_in_perimeter(struct grid_2d * grid,
+                                        int x, int y)
+{
+  int points[4*2] = {
+    (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+    (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+    (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+    (int)grid->perimeter.x3, (int)grid->perimeter.y3
+  };
+  if (point_in_polygon(x, y, &points[0], 4) != 0) return 1;
+  return 0;
+}
+
 static void calculate_quiet_zone(struct grid_2d * grid)
 {
   int i;
@@ -98,7 +112,8 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
                                          int image_bytesperpixel,
                                          int x, int y, int radius,
                                          int * offset_x, int * offset_y,
-                                         float * elongation)
+                                         float * elongation,
+                                         int * no_of_pixels)
 {
   int search_x, search_y, av_x=0, av_y=0, hits=0;
   int cell_width, cell_height;
@@ -107,6 +122,7 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
 
   *offset_x = NO_OFFSET;
   *elongation = 0;
+  *no_of_pixels = 0;
   if (thresholded_image_data[n] == 0) return;
 
   for (search_y = y - radius; search_y <= y + radius; search_y++) {
@@ -139,6 +155,7 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
     av_y /= hits;
     *offset_x = x - av_x;
     *offset_y = y - av_y;
+    *no_of_pixels = hits;
   }
 }
 
@@ -150,6 +167,7 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
   int image_bytesperpixel = image_bitsperpixel/8;
   int grid_x, grid_y, offset_x=0, offset_y=0;
   int av_offset_x=0, av_offset_y=0, offset_hits=0;
+  int cell_no_of_pixels, av_cell_no_of_pixels=0;
   float grid_non_uniformity_x, grid_non_uniformity_y;
   float cell_elongation, av_elongation=0;
   float xi, yi, grid_pos_x, grid_pos_y;
@@ -194,11 +212,13 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
                                      image_bytesperpixel,
                                      (int)xi, (int)yi, cell_radius,
                                      &offset_x, &offset_y,
-                                     &cell_elongation);
+                                     &cell_elongation,
+                                     &cell_no_of_pixels);
         if (offset_x != NO_OFFSET) {
           av_offset_x += abs(offset_x);
           av_offset_y += abs(offset_y);
           av_elongation += cell_elongation;
+          av_cell_no_of_pixels += cell_no_of_pixels;
           offset_hits++;
         }
       }
@@ -207,8 +227,10 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
 
   grid->grid_non_uniformity = 0;
   grid->elongation = 0;
+  grid->dots_per_element = 0;
   if (offset_hits > 0) {
     grid->elongation = (av_elongation / offset_hits) * 100;
+    grid->dots_per_element = av_cell_no_of_pixels / offset_hits;
 
     grid_non_uniformity_x = fabs(av_offset_x / (float)offset_hits);
     grid_non_uniformity_y = fabs(av_offset_y / (float)offset_hits);
@@ -289,7 +311,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
   int occupied_reflectance=0, occupied_reflectance_hits=0;
   int empty_reflectance=0, empty_reflectance_hits=0;
   int occupied_modulation_variance=0,empty_modulation_variance=0;
-  int light_dark_variance;
+  int light_dark_variance, quiet_zone_pixels=0, quiet_zone_occupancy=0;
   float empty_modulation_variance_fraction=0,occupied_modulation_variance_fraction=0;
 
   get_grid_bounding_box(grid, image_width, image_height,
@@ -306,6 +328,10 @@ static void quality_metric_modulation(struct grid_2d * grid,
           occupied_reflectance += image_data[n+b];
         }
         occupied_reflectance_hits++;
+        if (point_in_perimeter(grid, x, y) == 0) {
+          quiet_zone_pixels++;
+          quiet_zone_occupancy++;
+        }
       }
       else {
         /* empty cell */
@@ -313,8 +339,17 @@ static void quality_metric_modulation(struct grid_2d * grid,
           empty_reflectance += image_data[n+b];
         }
         empty_reflectance_hits++;
+        if (point_in_perimeter(grid, x, y) == 0) {
+          quiet_zone_pixels++;
+        }
       }
     }
+  }
+
+  /* calculate occupancy of the quiet zone */
+  grid->quiet_zone = 0;
+  if (quiet_zone_pixels > 0) {
+    grid->quiet_zone = (unsigned char)(100-(quiet_zone_occupancy * 100 / quiet_zone_pixels));
   }
 
   /* average occupied cell reflectance */
@@ -450,4 +485,6 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
   printf("Elongation: %.1f%%\n", grid->elongation);
+  printf("Dots per element: %d\n", grid->dots_per_element);
+  printf("Quiet zone: %d%%\n", (int)grid->quiet_zone);
 }
