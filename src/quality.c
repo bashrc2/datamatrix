@@ -22,20 +22,62 @@
 
 #include "datamatrix.h"
 
-/* returns 1 if the given point is in the grid perimeter */
-static unsigned char point_in_perimeter(struct grid_2d * grid,
-                                        int x, int y)
+/* returns 1 if the given point is in the grid quiet zone perimeter */
+static unsigned char point_in_quiet_zone(struct grid_2d * grid,
+                                         int x, int y)
 {
   int points[4*2] = {
-    (int)grid->perimeter.x0, (int)grid->perimeter.y0,
-    (int)grid->perimeter.x1, (int)grid->perimeter.y1,
-    (int)grid->perimeter.x2, (int)grid->perimeter.y2,
-    (int)grid->perimeter.x3, (int)grid->perimeter.y3
+    (int)grid->quiet_zone_perimeter.x0, (int)grid->quiet_zone_perimeter.y0,
+    (int)grid->quiet_zone_perimeter.x1, (int)grid->quiet_zone_perimeter.y1,
+    (int)grid->quiet_zone_perimeter.x2, (int)grid->quiet_zone_perimeter.y2,
+    (int)grid->quiet_zone_perimeter.x3, (int)grid->quiet_zone_perimeter.y3
   };
   if (point_in_polygon(x, y, &points[0], 4) != 0) return 1;
   return 0;
 }
 
+static void calculate_quiet_zone(struct grid_2d * grid)
+{
+  int i;
+  float centre_x=0, centre_y=0,dx,dy, fraction, side_length, cell_width;
+  float points[4*2] = {
+    grid->perimeter.x0, grid->perimeter.y0,
+    grid->perimeter.x1, grid->perimeter.y1,
+    grid->perimeter.x2, grid->perimeter.y2,
+    grid->perimeter.x3, grid->perimeter.y3
+  };
+
+  get_centroid(grid->perimeter.x0, grid->perimeter.y0,
+               grid->perimeter.x1, grid->perimeter.y1,
+               grid->perimeter.x2, grid->perimeter.y2,
+               grid->perimeter.x3, grid->perimeter.y3,
+               &centre_x, &centre_y);
+
+  /* how much to we need to expand, equivalent to one cell width */
+  dx = grid->perimeter.x1 - grid->perimeter.x0;
+  dy = grid->perimeter.y1 - grid->perimeter.y0;
+  side_length = (float)sqrt(dx*dx + dy*dy);
+  cell_width = side_length / grid->dimension_x;
+  fraction = (side_length + cell_width) / side_length;
+
+  /* calculate the expanded points */
+  for (i = 0; i < 4; i++) {
+    dx = points[i*2] - centre_x;
+    dy = points[i*2+1] - centre_y;
+    points[i*2] = centre_x + (dx*fraction);
+    points[i*2+1] = centre_y + (dy*fraction);
+  }
+  grid->quiet_zone_perimeter.x0 = points[0];
+  grid->quiet_zone_perimeter.y0 = points[1];
+  grid->quiet_zone_perimeter.x1 = points[2];
+  grid->quiet_zone_perimeter.y1 = points[3];
+  grid->quiet_zone_perimeter.x2 = points[4];
+  grid->quiet_zone_perimeter.y2 = points[5];
+  grid->quiet_zone_perimeter.x3 = points[6];
+  grid->quiet_zone_perimeter.y3 = points[7];
+}
+
+/* contrast between highest and lowest reflectance */
 static void quality_matric_symbol_contrast(struct grid_2d * grid,
                                            unsigned char image_data[],
                                            int image_width, int image_height,
@@ -45,11 +87,12 @@ static void quality_matric_symbol_contrast(struct grid_2d * grid,
   int x, y, n, b, i, min_x=image_width, min_y=image_height, max_x=0, max_y=0;
   int reflectance, min_reflectance=-1, max_reflectance=0;
   /* NOTE: the perimeter should be expanded to include quiet zone */
+  calculate_quiet_zone(grid);
   int points[4*2] = {
-    (int)grid->perimeter.x0, (int)grid->perimeter.y0,
-    (int)grid->perimeter.x1, (int)grid->perimeter.y1,
-    (int)grid->perimeter.x2, (int)grid->perimeter.y2,
-    (int)grid->perimeter.x3, (int)grid->perimeter.y3
+    (int)grid->quiet_zone_perimeter.x0, (int)grid->quiet_zone_perimeter.y0,
+    (int)grid->quiet_zone_perimeter.x1, (int)grid->quiet_zone_perimeter.y1,
+    (int)grid->quiet_zone_perimeter.x2, (int)grid->quiet_zone_perimeter.y2,
+    (int)grid->quiet_zone_perimeter.x3, (int)grid->quiet_zone_perimeter.y3
   };
   /* get the bounding box for the perimeter */
   for (i = 0; i < 4; i++) {
@@ -68,7 +111,7 @@ static void quality_matric_symbol_contrast(struct grid_2d * grid,
   /* for all pixels inside the perimeter get the min and max reflectance */
   for (y = min_y; y <= max_y; y++) {
     for (x = min_x; x <= max_x; x++) {
-      if (point_in_perimeter(grid, x, y) == 0) continue;
+      if (point_in_quiet_zone(grid, x, y) == 0) continue;
 
       n = (y*image_width + x)*image_bytesperpixel;
       reflectance = 0;

@@ -71,6 +71,7 @@ struct perimeter_points {
 
 struct grid_2d {
   struct perimeter_points perimeter;
+  struct perimeter_points quiet_zone_perimeter;
   unsigned char ** occupancy;
   unsigned char * damage;
   int ** codeword_pattern;
