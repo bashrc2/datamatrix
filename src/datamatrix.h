@@ -79,7 +79,7 @@ struct grid_2d {
   unsigned char * codeword;
   unsigned char * corrected_codewords;
   int dimension_x, dimension_y;
-  int unused_error_correction;
+  unsigned char unused_error_correction;
   int no_of_errors;
   int no_of_erasures;
   int * erasures;

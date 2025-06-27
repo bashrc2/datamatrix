@@ -419,10 +419,11 @@ void calculate_quality_metrics(struct grid_2d * grid,
 
 void show_quality_metrics(struct grid_2d * grid)
 {
-  printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
-  printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
   printf("Symbol contrast: %d%%\n", (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %.1f%%\n", grid->axial_non_uniformity);
   printf("Grid non-uniformity: %.1f%%\n", grid->grid_non_uniformity);
   printf("Modulation: %d%%\n", (int)grid->modulation);
+  printf("Unused error correction: %d%%\n", (int)grid->unused_error_correction);
+  printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
+  printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
 }

@@ -107,10 +107,11 @@ static void ecc200_decode_next_byte_256(unsigned char * is_structured_append,
   *state = ASCII;
 }
 
-static float get_unused_error_correction(int no_of_codewords,
-                                         int error_correction_codewords,
-                                         int * no_of_errors,
-                                         int * no_of_erasures)
+/* returns the percentage of unused error correction */
+static unsigned char get_unused_error_correction(int no_of_codewords,
+                                                 int error_correction_codewords,
+                                                 int * no_of_errors,
+                                                 int * no_of_erasures)
 {
   float unused_error_correction;
 
@@ -123,7 +124,7 @@ static float get_unused_error_correction(int no_of_codewords,
   else {
     unused_error_correction = 1.0f - (e2t / Ecap);
   }
-  return unused_error_correction;
+  return (unsigned char)(unused_error_correction * 100);
 }
 
 static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
