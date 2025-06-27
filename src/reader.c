@@ -557,6 +557,9 @@ int read_datamatrix(unsigned char image_data[],
   free(resized_image_data);
   free(thresholded);
   if (strlen(decode_result) > 0) {
+    if (debug == 1) {
+      printf("Fixed pattern damage: %d%%\n", (int)grid.fixed_pattern_damage);
+    }
     return 0;
   }
   return -1;

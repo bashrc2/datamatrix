@@ -287,23 +287,38 @@ int detect_timing_pattern(unsigned char mono_img[],
 /* fills in any missing fixed pattern after orientation */
 static void complete_fixed_pattern(struct grid_2d * grid)
 {
-  int grid_x, grid_y;
+  int grid_x, grid_y, expected;
+  int damage=0;
+  int fixed_pattern_cells=0;
 
   /* solid border */
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+    if (grid->occupancy[0][grid_y] == 0) damage++;
     grid->occupancy[0][grid_y] = 1;
+    fixed_pattern_cells++;
   }
   for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+    if (grid->occupancy[grid_x][grid->dimension_y-1] == 0) damage++;
     grid->occupancy[grid_x][grid->dimension_y-1] = 1;
+    fixed_pattern_cells++;
   }
 
   /* timing border */
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-    grid->occupancy[grid->dimension_x-1][grid_y] = grid_y % 2;
+    expected = grid_y % 2;
+    if (grid->occupancy[grid->dimension_x-1][grid_y] != expected) damage++;
+    grid->occupancy[grid->dimension_x-1][grid_y] = expected;
+    fixed_pattern_cells++;
   }
   for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-    grid->occupancy[grid_x][0] = 1 - (grid_x % 2);
+    expected = 1 - (grid_x % 2);
+    if (grid->occupancy[grid_x][0] != expected) damage++;
+    grid->occupancy[grid_x][0] = expected;
+    fixed_pattern_cells++;
   }
+
+  /* fixed pattern damage as a percentage */
+  grid->fixed_pattern_damage = (unsigned char)(damage * 100 / fixed_pattern_cells);
 }
 
 /* flips and/or mirrors the grid to get it into a standard orientation for decoding */
@@ -385,6 +400,9 @@ static void create_grid_base(int dimension_x, int dimension_y,
 
   grid->dimension_x = dimension_x;
   grid->dimension_y = dimension_y;
+
+  /* percent of fixed pattern damage */
+  grid->fixed_pattern_damage = 0;
 
   /* generate the grid cells and initialise them to zero */
   grid->occupancy = (unsigned char**)malloc(dimension_x*sizeof(unsigned char*));

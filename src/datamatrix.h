@@ -81,6 +81,7 @@ struct grid_2d {
   int no_of_errors;
   int no_of_erasures;
   int * erasures;
+  unsigned char fixed_pattern_damage;
 
   unsigned char* data_bytes;
 
