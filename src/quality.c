@@ -92,6 +92,107 @@ static void calculate_quiet_zone(struct grid_2d * grid)
   grid->quiet_zone_perimeter.y3 = points[7];
 }
 
+/* get the offset of a grid cell from its theoretical centre */
+static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
+                                         int image_width, int image_height,
+                                         int image_bytesperpixel,
+                                         int x, int y, int radius,
+                                         int * offset_x, int * offset_y)
+{
+  int search_x, search_y, av_x=0, av_y=0, hits=0;
+  int n = (y*image_width + x)*image_bytesperpixel;
+
+  *offset_x = NO_OFFSET;
+  if (thresholded_image_data[n] == 0) return;
+
+  for (search_y = y - radius; search_y <= y + radius; search_y++) {
+    if ((search_y < 0) || (search_y >= image_height)) continue;
+    for (search_x = x - radius; search_x <= x + radius; search_x++) {
+      if ((search_x < 0) || (search_x >= image_width)) continue;
+      n = (search_y*image_width + search_x)*image_bytesperpixel;
+      if (thresholded_image_data[n] != 0) {
+        av_x += search_x;
+        av_y += search_y;
+        hits++;
+      }
+    }
+  }
+  if (hits > 0) {
+    av_x /= hits;
+    av_y /= hits;
+    *offset_x = x - av_x;
+    *offset_y = y - av_y;
+  }
+}
+
+static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
+                                              unsigned char thresholded_image_data[],
+                                              int image_width, int image_height,
+                                              int image_bitsperpixel)
+{
+  int image_bytesperpixel = image_bitsperpixel/8;
+  int grid_x, grid_y, offset_x=0, offset_y=0;
+  int av_offset_x=0, av_offset_y=0, offset_hits=0;
+  float grid_non_uniformity_x, grid_non_uniformity_y;
+  float xi, yi, grid_pos_x, grid_pos_y;
+  float horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
+  float vertical_x1, vertical_y1, vertical_x2, vertical_y2;
+  float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
+  float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
+  float horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
+  float horizontal_dy2 = grid->perimeter.y2 - grid->perimeter.y1;
+
+  float vertical_dx1 = grid->perimeter.x1 - grid->perimeter.x0;
+  float vertical_dy1 = grid->perimeter.y1 - grid->perimeter.y0;
+  float vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
+  float vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
+
+  float cell_width = get_cell_width(grid);
+  int cell_radius = (int)(cell_width/2);
+
+  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+    /* horizontal line */
+    grid_pos_y = grid_y + 0.5f;
+    horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+    horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+    horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+    horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+
+    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+      /* vertical line */
+      grid_pos_x = grid_x + 0.5f;
+      vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
+      vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
+      vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
+      vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+      intersection(horizontal_x1, horizontal_y1,
+                   horizontal_x2, horizontal_y2,
+                   vertical_x1, vertical_y1,
+                   vertical_x2, vertical_y2,
+                   &xi, &yi);
+      if (xi != PARALLEL_LINES) {
+        grid_nonuniformity_test_cell(thresholded_image_data,
+                                     image_width, image_height,
+                                     image_bytesperpixel,
+                                     (int)xi, (int)yi, cell_radius,
+                                     &offset_x, &offset_y);
+        if (offset_x != NO_OFFSET) {
+          av_offset_x += abs(offset_x);
+          av_offset_y += abs(offset_y);
+          offset_hits++;
+        }
+      }
+    }
+  }
+
+  grid->grid_non_uniformity = 0;
+  if (offset_hits > 0) {
+    grid_non_uniformity_x = fabs(av_offset_x / (float)offset_hits);
+    grid_non_uniformity_y = fabs(av_offset_y / (float)offset_hits);
+    grid->grid_non_uniformity = (grid_non_uniformity_x + grid_non_uniformity_y) * 100 / cell_width;
+  }
+}
+
 /* calculate axial non-uniformity as the percent difference between
    cell width and height */
 static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
@@ -311,6 +412,9 @@ void calculate_quality_metrics(struct grid_2d * grid,
                             thresholded_image_data,
                             image_width, image_height,
                             image_bitsperpixel);
+  quality_metric_grid_nonuniformity(grid, thresholded_image_data,
+                                    image_width, image_height,
+                                    image_bitsperpixel);
 }
 
 void show_quality_metrics(struct grid_2d * grid)
@@ -319,5 +423,6 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
   printf("Symbol contrast: %d%%\n", (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %.1f%%\n", grid->axial_non_uniformity);
+  printf("Grid non-uniformity: %.1f%%\n", grid->grid_non_uniformity);
   printf("Modulation: %d%%\n", (int)grid->modulation);
 }

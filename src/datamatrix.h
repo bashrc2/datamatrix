@@ -39,6 +39,7 @@
 #define PARALLEL_LINES            -2
 #define UNKNOWN_DISTANCE          999999
 #define NO_LINE_FIT               999998
+#define NO_OFFSET                 999998
 #define PI                        3.1415927
 #define FREQ_DIMENSION            256
 #define MAX_DECODE_LENGTH         1024
@@ -86,6 +87,7 @@ struct grid_2d {
   float angle_of_distortion;
   unsigned char symbol_contrast;
   float axial_non_uniformity;
+  float grid_non_uniformity;
   unsigned char modulation;
 
   unsigned char* data_bytes;
