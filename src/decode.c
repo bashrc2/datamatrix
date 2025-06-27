@@ -2728,6 +2728,8 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                   corrected_codewords_length, result, gs1_result, debug);
     if (strlen(gs1_result) > 0) {
       strcpy(result, gs1_result);
+      /* remove the final newline */
+      result[strlen(result)-1] = 0;
     }
     grid->unused_error_correction =
       get_unused_error_correction(codewords_length,
