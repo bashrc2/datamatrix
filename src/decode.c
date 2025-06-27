@@ -121,7 +121,8 @@ static float get_unused_error_correction(int no_of_codewords,
 
 static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                                      unsigned char * is_gs1_encodation,
-                                     unsigned char * application_identifier,
+                                     int * application_identifier,
+                                     unsigned char * application_identifier_length,
                                      int * application_data_start,
                                      int * application_data_end,
                                      unsigned char data[],
@@ -217,7 +218,8 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
   if (*is_gs1_encodation == 1) {
     curr_pos = (int)strlen(result);
     if (curr_pos == (*application_data_end)) {
-      if ((*application_data_end) - (*application_data_start) == 2) {
+      if ((*application_data_end) - (*application_data_start) ==
+          (*application_identifier_length)) {
         /* read application identifier */
         *application_identifier = atoi(&result[*application_data_start]);
         /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -225,173 +227,579 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
         case 0: {
           if (debug == 1) printf("SSCC ");
           *application_data_end = curr_pos + 18;
+          *application_identifier_length = 2;
           break;
         }
         case 1: {
           if (debug == 1) printf("GTIN ");
           *application_data_end = curr_pos + 14;
+          *application_identifier_length = 2;
           break;
         }
         case 2: {
           if (debug == 1) printf("CONTENT ");
           *application_data_end = curr_pos + 14;
+          *application_identifier_length = 2;
           break;
         }
         case 3: {
           if (debug == 1) printf("MTO GTIN ");
           *application_data_end = curr_pos + 14;
+          *application_identifier_length = 2;
           break;
         }
         case 4: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 16;
+          *application_identifier_length = 2;
           break;
         }
         case 10: {
           if (debug == 1) printf("BATCH/LOT ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 11: {
           if (debug == 1) printf("PROD DATE ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 12: {
           if (debug == 1) printf("DUE DATE ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 13: {
           if (debug == 1) printf("PACK DATE ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 15: {
           if (debug == 1) printf("BEST BEFORE ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 16: {
           if (debug == 1) printf("SELL BY ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 17: {
           if (debug == 1) printf("EXPIRY ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 18: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 19: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 2;
           break;
         }
         case 21: {
           if (debug == 1) printf("SERIAL ");
           *application_data_end = curr_pos + 20;
+          *application_identifier_length = 2;
           break;
         }
         case 22: {
           if (debug == 1) printf("CPV ");
           *application_data_end = curr_pos + 20;
+          *application_identifier_length = 2;
+          break;
+        }
+        case 30: {
+          if (debug == 1) printf("VAR COUNT ");
+          *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
           break;
         }
         case 31: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
           break;
         }
         case 32: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
           break;
         }
         case 33: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
           break;
         }
         case 34: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
           break;
         }
         case 35: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
           break;
         }
         case 36: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
+          break;
+        }
+        case 37: {
+          if (debug == 1) printf("COUNT ");
+          *application_data_end = curr_pos + 8;
+          *application_identifier_length = 2;
           break;
         }
         case 41: {
           if (debug == 1) printf("ID ");
           *application_data_end = curr_pos + 8;
+          *application_identifier_length = 3;
           break;
         }
         case 235: {
           if (debug == 1) printf("TPX ");
           *application_data_end = curr_pos + 28;
+          *application_identifier_length = 3;
           break;
         }
         case 240: {
           if (debug == 1) printf("ADDITIONAL ID ");
           *application_data_end = curr_pos + 30;
+          *application_identifier_length = 3;
           break;
         }
         case 241: {
           if (debug == 1) printf("CUST PART No ");
           *application_data_end = curr_pos + 30;
+          *application_identifier_length = 3;
           break;
         }
         case 242: {
           if (debug == 1) printf("MTO VARIANT ");
           *application_data_end = curr_pos + 6;
+          *application_identifier_length = 3;
           break;
         }
         case 243: {
           if (debug == 1) printf("PCN ");
           *application_data_end = curr_pos + 20;
+          *application_identifier_length = 3;
           break;
         }
         case 250: {
           if (debug == 1) printf("SECONDARY SERIAL ");
           *application_data_end = curr_pos + 30;
+          *application_identifier_length = 3;
           break;
         }
         case 251: {
           if (debug == 1) printf("REF TO SOURCE ");
           *application_data_end = curr_pos + 30;
+          *application_identifier_length = 3;
+          *application_identifier_length = 3;
           break;
         }
         case 253: {
           if (debug == 1) printf("GDTI ");
           *application_data_end = curr_pos + 13;
+          *application_identifier_length = 3;
           break;
         }
         case 254: {
           if (debug == 1) printf("GLN EXTENSION COMPONENT ");
           *application_data_end = curr_pos + 20;
+          *application_identifier_length = 3;
           break;
         }
         case 255: {
           if (debug == 1) printf("GCN ");
           *application_data_end = curr_pos + 13;
+          *application_identifier_length = 3;
+          break;
+        }
+        case 310: {
+          if (debug == 1) printf("NET WEIGHT (kg) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 311: {
+          if (debug == 1) printf("LENGTH (m) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 312: {
+          if (debug == 1) printf("WIDTH (m) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 313: {
+          if (debug == 1) printf("HEIGHT (m) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 314: {
+          if (debug == 1) printf("AREA (m2) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 315: {
+          if (debug == 1) printf("NET VOLUME (l) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 316: {
+          if (debug == 1) printf("NET VOLUME (m3) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 320: {
+          if (debug == 1) printf("NET WEIGHT (lb) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 321: {
+          if (debug == 1) printf("LENGTH (in) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 322: {
+          if (debug == 1) printf("LENGTH (ft) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 323: {
+          if (debug == 1) printf("LENGTH (yd) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 324: {
+          if (debug == 1) printf("WIDTH (in) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 325: {
+          if (debug == 1) printf("WIDTH (ft) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 326: {
+          if (debug == 1) printf("WIDTH (yd) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 327: {
+          if (debug == 1) printf("HEIGHT (in) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 328: {
+          if (debug == 1) printf("HEIGHT (ft) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 329: {
+          if (debug == 1) printf("HEIGHT (yd) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 330: {
+          if (debug == 1) printf("GROSS WEIGHT (kg) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 331: {
+          if (debug == 1) printf("LENGTH (m), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 332: {
+          if (debug == 1) printf("WIDTH (m), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 333: {
+          if (debug == 1) printf("HEIGHT (m), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 334: {
+          if (debug == 1) printf("AREA (m2), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 335: {
+          if (debug == 1) printf("VOLUME (l), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 336: {
+          if (debug == 1) printf("VOLUME (m3), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 337: {
+          if (debug == 1) printf("KG PER m2 ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 340: {
+          if (debug == 1) printf("GROSS WEIGHT (lb) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 341: {
+          if (debug == 1) printf("LENGTH (in), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 342: {
+          if (debug == 1) printf("LENGTH (ft), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 343: {
+          if (debug == 1) printf("LENGTH (yd), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 344: {
+          if (debug == 1) printf("WIDTH (in), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 345: {
+          if (debug == 1) printf("WIDTH (ft), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 346: {
+          if (debug == 1) printf("WIDTH (yd), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 347: {
+          if (debug == 1) printf("HEIGHT (in), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 348: {
+          if (debug == 1) printf("HEIGHT (ft), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 349: {
+          if (debug == 1) printf("HEIGHT (yd), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 350: {
+          if (debug == 1) printf("AREA (in2) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 351: {
+          if (debug == 1) printf("AREA (ft2) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 352: {
+          if (debug == 1) printf("AREA (yd2) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 353: {
+          if (debug == 1) printf("AREA (in2), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 354: {
+          if (debug == 1) printf("AREA (ft2), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 355: {
+          if (debug == 1) printf("AREA (yd2), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 356: {
+          if (debug == 1) printf("NET WEIGHT (tr oz) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 357: {
+          if (debug == 1) printf("NET VOLUME (oz) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 360: {
+          if (debug == 1) printf("NET VOLUME (qt US) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 361: {
+          if (debug == 1) printf("NET VOLUME (gal US) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 362: {
+          if (debug == 1) printf("VOLUME (qt US), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 363: {
+          if (debug == 1) printf("VOLUME (gal US), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 364: {
+          if (debug == 1) printf("VOLUME (in3) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 365: {
+          if (debug == 1) printf("VOLUME (ft3) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 366: {
+          if (debug == 1) printf("VOLUME (yd3) ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 367: {
+          if (debug == 1) printf("VOLUME (in3), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 368: {
+          if (debug == 1) printf("VOLUME (ft3), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 369: {
+          if (debug == 1) printf("VOLUME (yd3), log ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 390: {
+          if (debug == 1) printf("AMOUNT ");
+          *application_data_end = curr_pos + 15;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 391: {
+          if (debug == 1) printf("AMOUNT ");
+          *application_data_end = curr_pos + 18;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 392: {
+          if (debug == 1) printf("PRICE ");
+          *application_data_end = curr_pos + 15;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 393: {
+          if (debug == 1) printf("PRICE ");
+          *application_data_end = curr_pos + 15;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 394: {
+          if (debug == 1) printf("PRCNT OFF ");
+          *application_data_end = curr_pos + 4;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 395: {
+          if (debug == 1) printf("PRICE/UoM ");
+          *application_data_end = curr_pos + 6;
+          *application_identifier_length = 4;
+          break;
+        }
+        case 400: {
+          if (debug == 1) printf("ORDER NUMBER ");
+          *application_data_end = curr_pos + 30;
+          *application_identifier_length = 3;
           break;
         }
         }
       }
       else {
         /* read data associated with the application identifier */
-        *application_data_end = curr_pos + 2;
+        *application_data_end = curr_pos + (*application_identifier_length);
         if (debug == 1) {
           printf("| (%d)%s | ", *application_identifier, &result[*application_data_start]);
         }
@@ -407,7 +815,8 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
  */
 static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                                    unsigned char * is_gs1_encodation,
-                                   unsigned char * application_identifier,
+                                   int * application_identifier,
+                                   unsigned char * application_identifier_length,
                                    int * application_data_start,
                                    int * application_data_end,
                                    unsigned char data[],
@@ -425,6 +834,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
     ecc200_decode_next_ascii(is_structured_append,
                              is_gs1_encodation,
                              application_identifier,
+                             application_identifier_length,
                              application_data_start,
                              application_data_end,
                              data,
@@ -535,7 +945,8 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 /* edifact encodation */
 static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        unsigned char * is_gs1_encodation,
-                                       unsigned char * application_identifier,
+                                       int * application_identifier,
+                                       unsigned char * application_identifier_length,
                                        int * application_data_start,
                                        int * application_data_end,
                                        unsigned char data[],
@@ -579,6 +990,7 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
         ecc200_decode_next_ascii(is_structured_append,
                                  is_gs1_encodation,
                                  application_identifier,
+                                 application_identifier_length,
                                  application_data_start,
                                  application_data_end,
                                  data,
@@ -598,7 +1010,8 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
 /* x12 encodation */
 static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                                    unsigned char * is_gs1_encodation,
-                                   unsigned char * application_identifier,
+                                   int * application_identifier,
+                                   unsigned char * application_identifier_length,
                                    int * application_data_start,
                                    int * application_data_end,
                                    unsigned char data[],
@@ -616,6 +1029,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
     ecc200_decode_next_ascii(is_structured_append,
                              is_gs1_encodation,
                              application_identifier,
+                             application_identifier_length,
                              application_data_start,
                              application_data_end,
                              data,
@@ -697,7 +1111,8 @@ static void ecc200_decode(unsigned char data1[],
   int shift = 0;
   unsigned char is_structured_append = 0;
   unsigned char is_gs1_encodation = 0;
-  unsigned char application_identifier = 0;
+  int application_identifier = 0;
+  unsigned char application_identifier_length = 2;
   int application_data_start = 0;
   int application_data_end = 2;
 
@@ -711,6 +1126,7 @@ static void ecc200_decode(unsigned char data1[],
       ecc200_decode_next_ascii(&is_structured_append,
                                &is_gs1_encodation,
                                &application_identifier,
+                               &application_identifier_length,
                                &application_data_start,
                                &application_data_end,
                                data,
@@ -725,6 +1141,7 @@ static void ecc200_decode(unsigned char data1[],
       ecc200_decode_next_c40(&is_structured_append,
                              &is_gs1_encodation,
                              &application_identifier,
+                             &application_identifier_length,
                              &application_data_start,
                              &application_data_end,
                              data,
@@ -739,6 +1156,7 @@ static void ecc200_decode(unsigned char data1[],
       ecc200_decode_next_c40(&is_structured_append,
                              &is_gs1_encodation,
                              &application_identifier,
+                             &application_identifier_length,
                              &application_data_start,
                              &application_data_end,
                              data,
@@ -763,6 +1181,7 @@ static void ecc200_decode(unsigned char data1[],
       ecc200_decode_next_edifact(&is_structured_append,
                                  &is_gs1_encodation,
                                  &application_identifier,
+                                 &application_identifier_length,
                                  &application_data_start,
                                  &application_data_end,
                                  data,
@@ -777,6 +1196,7 @@ static void ecc200_decode(unsigned char data1[],
       ecc200_decode_next_x12(&is_structured_append,
                              &is_gs1_encodation,
                              &application_identifier,
+                             &application_identifier_length,
                              &application_data_start,
                              &application_data_end,
                              data,
