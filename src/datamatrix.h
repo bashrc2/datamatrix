@@ -694,6 +694,10 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
                                        unsigned char image_data[],
                                        int image_bitsperpixel);
 
+/* quality.c */
+
+void calculate_quality_metrics(struct grid_2d * grid);
+
 /* reader.c */
 
 int read_datamatrix(unsigned char image_data[],

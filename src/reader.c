@@ -558,16 +558,7 @@ int read_datamatrix(unsigned char image_data[],
   free(resized_image_data);
   free(thresholded);
   if (strlen(decode_result) > 0) {
-    /* AS9132 calculate angle of distortion */
-    corner_radians = corner_angle(grid.perimeter.x0, grid.perimeter.y0,
-                                  grid.perimeter.x1, grid.perimeter.y1,
-                                  grid.perimeter.x2, grid.perimeter.y2);
-    if (corner_radians < 0) corner_radians = -corner_radians;
-    if (corner_radians > PI)
-      corner_radians = (2 * (float)PI) - corner_radians;
-    angle_degrees = corner_radians / (float)PI * 180;
-    grid.angle_of_distortion = 90 - angle_degrees;
-
+    calculate_quality_metrics(&grid);
     if (debug == 1) {
       printf("Fixed pattern damage: %d%%\n", (int)grid.fixed_pattern_damage);
       printf("Angle of distortion: %.1f degrees\n", grid.angle_of_distortion);

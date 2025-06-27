@@ -317,7 +317,7 @@ static void complete_fixed_pattern(struct grid_2d * grid)
     fixed_pattern_cells++;
   }
 
-  /* fixed pattern damage as a percentage */
+  /* QUALITY METRIC: fixed pattern damage as a percentage */
   grid->fixed_pattern_damage = (unsigned char)(damage * 100 / fixed_pattern_cells);
 }
 
