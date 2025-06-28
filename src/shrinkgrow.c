@@ -23,7 +23,18 @@
 
 #include "datamatrix.h"
 
-/* shrinks the perimeter after dilation */
+/* \brief shrinks the perimeter after dilation
+ * \param erosion_itterations number of erosion itterations
+ * \param dilate_itterations number of dilation itterations
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ */
 void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
                                 float * perimeter_x0, float * perimeter_y0,
                                 float * perimeter_x1, float * perimeter_y1,
@@ -66,7 +77,16 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
   *perimeter_y3 = cy + (dy * fraction);
 }
 
-/* does at least one edge exist along a given line? */
+/* \brief does at least one edge exist along a given line?
+ * \param mono_img mono image
+ * \param width width of the image
+ * \param height height of the image
+ * \param tx start x coordinate of the line to be checked for edges
+ * \param ty start y coordinate of the line to be checked for edges
+ * \param bx end x coordinate of the line to be checked for edges
+ * \param by end y coordinate of the line to be checked for edges
+ * \return 1 is an edge exists on the line, 0 otherwise
+ */
 static unsigned char line_has_edges(unsigned char mono_img[],
                                     int width, int height,
                                     int tx, int ty, int bx, int by)
@@ -98,7 +118,23 @@ static unsigned char line_has_edges(unsigned char mono_img[],
   return 0;
 }
 
-/* search for edges along a line in a particular direction */
+/* \brief search for edges along a line in a particular direction
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param image_data original colour image data
+ * \param image_bytesperpixel Number of bytes per pixel in the colour image
+ * \param debug set to 1 if in debug mode
+ * \param start_x start x coordinate for the direction to be searched
+ * \param start_y start y coordinate for the direction to be searched
+ * \param end_x end x coordinate for the direction to be searched
+ * \param end_y end y coordinate for the direction to be searched
+ * \param line_dx x component of the line vector to be searched for edges
+ * \param line_dy y component of the line vector to be searched for edges
+ * \param positive presence or absence of edges
+ * \param pos_x returned x coordinate for the position where edges exist
+ * \param pos_y returned y coordinate for the position where edges exist
+ */
 static unsigned char search_line_points(unsigned char mono_img[],
                                         int width, int height,
                                         unsigned char image_data[],
@@ -150,7 +186,24 @@ static unsigned char search_line_points(unsigned char mono_img[],
   return 0;
 }
 
-/* try to expand each side outwards until no edges are encountered */
+/* \brief try to expand each side outwards until no edges are encountered
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \param max_extension_percent
+ * \param debug set to 1 if in debug mode
+ * \param image_data original colour image data
+ * \param image_bitsperpixel Number of bits per pixel in the colour image
+ * \return 1 if expanded, 0 otherwise
+ */
 unsigned char expand_perimeter_sides(unsigned char mono_img[],
                                      int width, int height,
                                      float * perimeter_x0, float * perimeter_y0,
@@ -282,7 +335,23 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
   return grown;
 }
 
-/* try to fit each side to edges */
+/* \brief try to fit each side to edges
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \param min_extension_percent
+ * \param image_data original colour image data
+ * \param image_bitsperpixel Number of bits per pixel in the colour image
+ * \return 1 if contracted, 0 otherwise
+ */
 unsigned char contract_perimeter_sides(unsigned char mono_img[],
                                        int width, int height,
                                        float * perimeter_x0, float * perimeter_y0,
