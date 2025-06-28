@@ -1,7 +1,6 @@
 <img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/datamatrix.png" width="25%" alt="Picture of a datamatrix"/>
 
-*datamatrix* is a commandline utility for reading square Datamatrix direct part markings.
-Some image processing functions are based on *visionutils*.
+*datamatrix* is a commandline utility for reading and verifying square Datamatrix direct part markings. Some image processing functions are based on [visionutils](https://codeberg.org/bashrc/visionutils).
 
 ## Key features
 
