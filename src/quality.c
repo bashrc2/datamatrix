@@ -524,6 +524,29 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                     image_bitsperpixel);
 }
 
+/* returns the overall quality grading
+   See GS1 2D Barcode Verification Process Implementation Guideline 7.3 */
+static unsigned char overall_quality_grade(struct grid_2d * grid)
+{
+  unsigned char grade = grid->symbol_contrast_grade;
+  if (grid->axial_non_uniformity_grade < grade) {
+    grade = grid->axial_non_uniformity_grade;
+  }
+  if (grid->grid_non_uniformity_grade < grade) {
+    grade = grid->grid_non_uniformity_grade;
+  }
+  if (grid->unused_error_correction_grade < grade) {
+    grade = grid->unused_error_correction_grade;
+  }
+  if (grid->clock_track_regularity_grade < grade) {
+    grade = grid->clock_track_regularity_grade;
+  }
+  if (grid->modulation_grade < grade) {
+    grade = grid->modulation_grade;
+  }
+  return grade;
+}
+
 void show_quality_metrics(struct grid_2d * grid)
 {
   printf("Symbol contrast: %d (%d%%)\n",
@@ -537,6 +560,7 @@ void show_quality_metrics(struct grid_2d * grid)
          (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
   printf("Clock track regularity: %d (%d%%)\n",
          (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+  printf("Overall symbol grade: %d.0\n\n", (int)overall_quality_grade(grid));
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
   printf("Elongation: %.1f%%\n", grid->elongation);
