@@ -154,16 +154,6 @@ struct line_segments {
 };
 
 
-/* histogram.c */
-
-int histogram_mean_reflectance(int * histogram);
-
-void region_histogram(
-                      unsigned char * img, int width, int height,
-                      int tx, int ty, int bx, int by,
-                      int bitsperpixel,
-                      int * histogram);
-
 /* threshold.c */
 
 int meanlight_threshold(unsigned char img[], int width, int height,
