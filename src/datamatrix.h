@@ -170,30 +170,12 @@ int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
                         unsigned char thresholded[]);
 
-int proximal_threshold(unsigned char * img, int width, int height,
-                       int r, int g, int b, int radius,
-                       unsigned char * result);
-int proximal_erase(unsigned char * img, int width, int height,
-                   int radius, int min_coverage_percent);
-int proximal_fill(unsigned char * img, int width, int height,
-                  unsigned char * result,
-                  int max_width, int max_height,
-                  int max_variance,
-                  int * polygon_id,
-                  int * polygon_vertices,
-                  int * polygons,
-                  int max_total_polygon_points);
 int show_polygons(unsigned char * img, int width, int height,
                   int no_of_polygons,
                   int * polygon_id,
                   int * polygon_vertices,
                   int * polygons);
 int point_in_polygon(int x, int y, int points[], int no_of_points);
-int save_polygons_json(int no_of_polygons,
-                       int * polygon_id,
-                       int * polygon_vertices,
-                       int * polygons,
-                       char * filename);
 
 /* convert.c */
 
