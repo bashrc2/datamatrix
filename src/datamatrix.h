@@ -79,12 +79,13 @@ struct grid_2d {
   unsigned char * codeword;
   unsigned char * corrected_codewords;
   int dimension_x, dimension_y;
-  unsigned char unused_error_correction;
   int no_of_errors;
   int no_of_erasures;
   int * erasures;
 
   /* quality metrics */
+  unsigned char unused_error_correction;
+  unsigned char unused_error_correction_grade;
   unsigned char fixed_pattern_damage;
   float angle_of_distortion;
   unsigned char symbol_contrast;
