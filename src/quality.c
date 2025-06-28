@@ -399,6 +399,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
   /* calculate global threshold, half way between occupied and empty reflectance */
   global_threshold = empty_reflectance + ((occupied_reflectance - empty_reflectance)/2);
 
+  /* calculate the average of all cell modulation */
   modulation = 0;
   hits = 0;
   for (y = min_y; y <= max_y; y++) {
