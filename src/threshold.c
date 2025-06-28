@@ -26,42 +26,7 @@
 
 #include "datamatrix.h"
 
-/* apply an adaptive threshold to produce a binary image */
-void adaptive_threshold(unsigned char * img, int width, int height,
-                        int bitsperpixel, int radius,
-                        unsigned char * thresholded)
-{
-  int histogram[256];
-  int i,x,y,n,reflectance,threshold;
-  int bytesperpixel = bitsperpixel/8;
-
-  memset((void*)thresholded,'\0',
-         width*height*sizeof(unsigned char));
-
-  for (y = 0; y < height; y++) {
-    n = y*width;
-    for (x = 0; x < width; x++,n++) {
-
-      region_histogram(img, width, height,
-                       x-radius, y-radius, x+radius, y+radius,
-                       bitsperpixel, histogram);
-
-      threshold = histogram_mean_reflectance(histogram);
-
-      reflectance=0;
-      for (i = 0; i < bytesperpixel; i++) {
-        reflectance += img[n*bytesperpixel+i];
-      }
-      reflectance /= bytesperpixel;
-
-      if (reflectance > threshold) {
-        thresholded[n] = 255;
-      }
-    }
-  }
-}
-
-/* is this a mostly dark image? */
+/* \brief is this a mostly dark image? */
 unsigned char is_dark_image(unsigned char * img_mono,
                             int width, int height,
                             unsigned char dark,

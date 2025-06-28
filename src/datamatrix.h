@@ -166,12 +166,6 @@ void region_histogram(
 
 /* threshold.c */
 
-void adaptive_threshold(
-                        unsigned char * img, int width, int height,
-                        int bitsperpixel,
-                        int radius,
-                        unsigned char * thresholded);
-
 int meanlight_threshold(unsigned char * img, int width, int height,
                         int bitsperpixel, int threshold,
                         unsigned char * thresholded);
