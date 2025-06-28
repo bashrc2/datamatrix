@@ -87,6 +87,8 @@ struct grid_2d {
   unsigned char unused_error_correction;
   unsigned char unused_error_correction_grade;
   unsigned char fixed_pattern_damage;
+  unsigned char clock_track_regularity;
+  unsigned char clock_track_regularity_grade;
   float angle_of_distortion;
   unsigned char symbol_contrast;
   unsigned char symbol_contrast_grade;

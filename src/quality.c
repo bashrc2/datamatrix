@@ -535,8 +535,10 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Modulation: %d (%d%%)\n", (int)grid->modulation_grade, (int)grid->modulation);
   printf("Unused error correction: %d (%d%%)\n",
          (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+  printf("Clock track regularity: %d (%d%%)\n",
+         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
-  printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);
+  printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
   printf("Elongation: %.1f%%\n", grid->elongation);
   printf("Dots per element: %d\n", grid->dots_per_element);
   printf("Quiet zone: %d%%\n", (int)grid->quiet_zone);

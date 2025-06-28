@@ -288,8 +288,9 @@ int detect_timing_pattern(unsigned char mono_img[],
 static void complete_fixed_pattern(struct grid_2d * grid)
 {
   int grid_x, grid_y, expected;
-  int damage=0;
+  int damage=0, timing_border_damage=0;
   int fixed_pattern_cells=0;
+  int timing_border_cells=0;
 
   /* solid border */
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
@@ -306,19 +307,30 @@ static void complete_fixed_pattern(struct grid_2d * grid)
   /* timing border */
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
     expected = grid_y % 2;
-    if (grid->occupancy[grid->dimension_x-1][grid_y] != expected) damage++;
+    if (grid->occupancy[grid->dimension_x-1][grid_y] != expected) {
+      damage++;
+      timing_border_damage++;
+    }
     grid->occupancy[grid->dimension_x-1][grid_y] = expected;
     fixed_pattern_cells++;
+    timing_border_cells++;
   }
   for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
     expected = 1 - (grid_x % 2);
-    if (grid->occupancy[grid_x][0] != expected) damage++;
+    if (grid->occupancy[grid_x][0] != expected) {
+      damage++;
+      timing_border_damage++;
+    }
     grid->occupancy[grid_x][0] = expected;
     fixed_pattern_cells++;
+    timing_border_cells++;
   }
 
   /* QUALITY METRIC: fixed pattern damage as a percentage */
   grid->fixed_pattern_damage = (unsigned char)(damage * 100 / fixed_pattern_cells);
+  /* QUALITY METRIC: clock track regularity as a percentage */
+  grid->clock_track_regularity =
+    (unsigned char)(timing_border_damage*100/timing_border_cells);
 }
 
 /* flips and/or mirrors the grid to get it into a standard orientation for decoding */
