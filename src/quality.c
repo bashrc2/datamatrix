@@ -549,6 +549,9 @@ static unsigned char overall_quality_grade(struct grid_2d * grid)
 
 void show_quality_metrics(struct grid_2d * grid)
 {
+  unsigned char grade = overall_quality_grade(grid);
+  char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+
   printf("Symbol contrast: %d (%d%%)\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %d (%.1f%%)\n",
@@ -560,7 +563,7 @@ void show_quality_metrics(struct grid_2d * grid)
          (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
   printf("Clock track regularity: %d (%d%%)\n",
          (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
-  printf("Overall symbol grade: %d.0\n\n", (int)overall_quality_grade(grid));
+  printf("Overall symbol grade: %d.0 (%c)\n\n", (int)grade, grade_letter[grade]);
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
   printf("Elongation: %.1f%%\n", grid->elongation);
