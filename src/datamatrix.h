@@ -84,6 +84,8 @@ struct grid_2d {
   int * erasures;
 
   /* quality metrics */
+  unsigned char minimum_reflectance;
+  unsigned char minimum_reflectance_grade;
   unsigned char unused_error_correction;
   unsigned char unused_error_correction_grade;
   unsigned char fixed_pattern_damage;

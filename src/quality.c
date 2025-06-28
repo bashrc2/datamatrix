@@ -470,6 +470,14 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
     }
   }
 
+  /* minimum reflectance grade */
+  grid->minimum_reflectance = (unsigned char)(min_reflectance*100/(255*image_bytesperpixel));
+  grid->minimum_reflectance_grade = 0;
+  if (grid->minimum_reflectance < 50) {
+    /* below half the maximum reflectance */
+    grid->minimum_reflectance_grade = 4;
+  }
+
   /* symbol contrast as a percentage */
   grid->symbol_contrast = (unsigned char)((max_reflectance - min_reflectance) * 100 / (255*image_bytesperpixel));
   /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
@@ -547,6 +555,9 @@ static unsigned char overall_quality_grade(struct grid_2d * grid)
   if (grid->fixed_pattern_damage_grade < grade) {
     grade = grid->fixed_pattern_damage_grade;
   }
+  if (grid->minimum_reflectance_grade < grade) {
+    grade = grid->minimum_reflectance_grade;
+  }
   return grade;
 }
 
@@ -568,6 +579,8 @@ void show_quality_metrics(struct grid_2d * grid)
          (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
   printf("Fixed pattern damage: %d (%d%%)\n",
          (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+  printf("Minimum reflectance: %d (%d%%)\n",
+         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
   printf("Overall symbol grade: %d.0 (%c)\n\n", (int)grade, grade_letter[grade]);
   printf("Matrix size: %dx%d\n", grid->dimension_x, grid->dimension_y);
   printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
