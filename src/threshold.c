@@ -26,11 +26,13 @@
 
 #include "datamatrix.h"
 
-/* \brief is this a mostly dark image? */
-unsigned char is_dark_image(unsigned char * img_mono,
-                            int width, int height,
-                            unsigned char dark,
-                            unsigned char light)
+/* \brief is this a mostly dark image?
+ * \param img_mono mono image array
+ */
+static unsigned char is_dark_image(unsigned char img_mono[],
+                                   int width, int height,
+                                   unsigned char dark,
+                                   unsigned char light)
 {
   int dark_pixels=0, light_pixels=0;
   int i, diff_dark, diff_light;
