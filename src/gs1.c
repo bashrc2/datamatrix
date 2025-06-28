@@ -27,6 +27,15 @@
 
 #include "datamatrix.h"
 
+/* \brief state machine for handling GS1 semantics
+ * \param result Plaintext decode string
+ * \param gs1_result human readable GS1 formatted decode string
+ * \param debug set to 1 if in debug mode
+ * \param application_identifier Current GS1 application identifier
+ * \param application_identifier_length length of the application identifier string in bytes
+ * \param application_data_start position in the result decode string where application data starts
+ * \param application_data_end position in the result decode string where application data ends
+ */
 void gs1_semantics(char result[],
                    char gs1_result[],
                    unsigned char debug,
