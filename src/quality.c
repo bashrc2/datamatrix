@@ -22,6 +22,11 @@
 
 #include "datamatrix.h"
 
+/*
+ * \brief returns the grid cell width
+ * \param grid grid object
+ * \return cell width
+ */
 static float get_cell_width(struct grid_2d * grid)
 {
   float longest_side =
@@ -35,7 +40,13 @@ static float get_cell_width(struct grid_2d * grid)
   return longest_side / grid->dimension_y;
 }
 
-/* returns 1 if the given point is in the grid quiet zone perimeter */
+/*
+ * \brief returns 1 if the given point is in the grid quiet zone perimeter
+ * \param grid grid object
+ * \param x x coordinate to test
+ * \param y y coordinate to test
+ * \return 1 if the point is in the quiet zone
+ */
 static unsigned char point_in_quiet_zone(struct grid_2d * grid,
                                          int x, int y)
 {
@@ -49,7 +60,13 @@ static unsigned char point_in_quiet_zone(struct grid_2d * grid,
   return 0;
 }
 
-/* returns 1 if the given point is within the grid perimeter */
+/*
+ * \brief returns 1 if the given point is within the grid perimeter
+ * \param grid grid object
+ * \param x x coordinate to test
+ * \param y y coordinate to test
+ * \return 1 if the given point is inside the perimeter
+ */
 static unsigned char point_in_perimeter(struct grid_2d * grid,
                                         int x, int y)
 {
@@ -63,6 +80,10 @@ static unsigned char point_in_perimeter(struct grid_2d * grid,
   return 0;
 }
 
+/*
+ * \brief calculates the perimeter of the quiet zone around the datamatrix symbol
+ * \param grid grid object
+ */
 static void calculate_quiet_zone(struct grid_2d * grid)
 {
   int i;
@@ -106,7 +127,19 @@ static void calculate_quiet_zone(struct grid_2d * grid)
   grid->quiet_zone_perimeter.y3 = points[7];
 }
 
-/* get the offset of a grid cell from its theoretical centre */
+/*
+ * \brief get the offset of a grid cell from its theoretical centre
+ * \param thresholded_image_data thresholded (binary) image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param x theoretical/ideal x coordinate of the centre of the grid cell
+ * \param y theoretical/ideal y coordinate of the centre of the grid cell
+ * \param radius radius of the grid cell
+ * \param offset_x returned x offset of the cell centre
+ * \param offset_y returned y offset of the cell centre
+ * \param elongation returned elongation of the cell
+ * \param no_of_pixels returned number of pixels within the cell
+ */
 static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
                                          int image_width, int image_height,
                                          int image_bytesperpixel,
