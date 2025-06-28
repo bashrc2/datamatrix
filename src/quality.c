@@ -544,6 +544,9 @@ static unsigned char overall_quality_grade(struct grid_2d * grid)
   if (grid->modulation_grade < grade) {
     grade = grid->modulation_grade;
   }
+  if (grid->fixed_pattern_damage_grade < grade) {
+    grade = grid->fixed_pattern_damage_grade;
+  }
   return grade;
 }
 
@@ -563,9 +566,10 @@ void show_quality_metrics(struct grid_2d * grid)
          (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
   printf("Clock track regularity: %d (%d%%)\n",
          (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+  printf("Fixed pattern damage: %d (%d%%)\n",
+         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
   printf("Overall symbol grade: %d.0 (%c)\n\n", (int)grade, grade_letter[grade]);
   printf("Matrix size: %dx%d\n", grid->dimension_x, grid->dimension_y);
-  printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
   printf("Elongation: %.1f%%\n", grid->elongation);
   printf("Dots per element: %d\n", grid->dots_per_element);

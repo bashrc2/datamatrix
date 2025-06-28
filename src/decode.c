@@ -2773,6 +2773,21 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
       grid->clock_track_regularity_grade = 4;
     }
 
+    /* calculate fixed pattern damage grade */
+    grid->fixed_pattern_damage_grade = 0;
+    if (grid->fixed_pattern_damage < 17) {
+      grid->fixed_pattern_damage_grade = 1;
+    }
+    if (grid->fixed_pattern_damage < 13) {
+      grid->fixed_pattern_damage_grade = 2;
+    }
+    if (grid->fixed_pattern_damage < 9) {
+      grid->fixed_pattern_damage_grade = 3;
+    }
+    if (grid->fixed_pattern_damage == 0) {
+      grid->fixed_pattern_damage_grade = 4;
+    }
+
     grid->no_of_errors = grid_no_of_errors;
     grid->no_of_erasures = grid_no_of_erasures;
   }
