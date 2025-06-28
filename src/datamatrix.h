@@ -170,11 +170,6 @@ int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
                         unsigned char thresholded[]);
 
-int show_polygons(unsigned char * img, int width, int height,
-                  int no_of_polygons,
-                  int * polygon_id,
-                  int * polygon_vertices,
-                  int * polygons);
 int point_in_polygon(int x, int y, int points[], int no_of_points);
 
 /* convert.c */
