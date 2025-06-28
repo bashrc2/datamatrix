@@ -26,10 +26,18 @@
 
 #include "datamatrix.h"
 
-void dilate(unsigned char * img, int width, int height,
-            unsigned char * buffer,
+/* \brief perform morphological dilation on the given mono image
+ * \param img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param buffer image processing buffer, same size as img
+ * \param itterations number of dilation itterations
+ * \param result returned dilated image
+ */
+void dilate(unsigned char img[], int width, int height,
+            unsigned char buffer[],
             int itterations,
-            unsigned char * result)
+            unsigned char result[])
 {
   int pixels = width * height;
 
@@ -69,6 +77,14 @@ void dilate(unsigned char * img, int width, int height,
   }
 }
 
+/* \brief perform morphological erosion on the given mono image
+ * \param img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param buffer image processing buffer, same size as img
+ * \param itterations number of erosion itterations
+ * \param result returned eroded image
+ */
 void erode(unsigned char * img, int width, int height,
            unsigned char * buffer,
            int itterations,
