@@ -471,7 +471,7 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
   /* symbol contrast as a percentage */
   grid->symbol_contrast = (unsigned char)((max_reflectance - min_reflectance) * 100 / (255*image_bytesperpixel));
   /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
-     table 7-3 */
+     table 9-1 */
   grid->symbol_contrast_grade = 0;
   if (grid->symbol_contrast >= 20) {
     grid->symbol_contrast_grade = 1;
