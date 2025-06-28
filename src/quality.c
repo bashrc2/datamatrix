@@ -564,6 +564,7 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Clock track regularity: %d (%d%%)\n",
          (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
   printf("Overall symbol grade: %d.0 (%c)\n\n", (int)grade, grade_letter[grade]);
+  printf("Matrix size: %dx%d\n", grid->dimension_x, grid->dimension_y);
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
   printf("Elongation: %.1f%%\n", grid->elongation);

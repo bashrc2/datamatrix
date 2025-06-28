@@ -185,7 +185,7 @@ int main(int argc, char* argv[])
       printf("%s\n", decode_result);
     }
     else {
-      printf("Decode: \"%s\"\n", decode_result);
+      printf("Decode: PASS (%s)\n", decode_result);
     }
   }
 
