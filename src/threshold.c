@@ -28,6 +28,11 @@
 
 /* \brief is this a mostly dark image?
  * \param img_mono mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param dark peak dark
+ * \param light peak light
+ * \return 0 if this is a mostly dark image
  */
 static unsigned char is_dark_image(unsigned char img_mono[],
                                    int width, int height,
