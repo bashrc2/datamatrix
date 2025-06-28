@@ -506,7 +506,7 @@ float get_shortest_side(float perimeter_x0, float perimeter_y0,
  * \param perimeter_x3 fourth perimeter x coord
  * \param perimeter_y3 fourth perimeter y coord
  * \param centre_x returned x coordinate for the centroid
- * \param centre_y returned x coordinate for the centroid
+ * \param centre_y returned y coordinate for the centroid
  */
 void get_centroid(float perimeter_x0, float perimeter_y0,
                   float perimeter_x1, float perimeter_y1,

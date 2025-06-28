@@ -228,16 +228,6 @@ int load_bitwise(char * filename,
 
 /* erosiondilation.c */
 
-void erosion(
-             unsigned char * img,
-             int width, int height,
-             int itterations);
-
-void dilation(
-              unsigned char * img,
-              int width, int height,
-              int itterations);
-
 void dilate(unsigned char * img, int width, int height,
             unsigned char * buffer,
             int itterations,
