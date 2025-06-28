@@ -381,7 +381,18 @@ float corner_angle(float x0, float y0,
   return(angle);
 }
 
-/* get the length of the given perimeter side */
+/* \brief get the length of the given perimeter side
+ * \param side index number of the perimeter side
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \return length of the side
+ */
 float get_side_length(int side,
                       float perimeter_x0, float perimeter_y0,
                       float perimeter_x1, float perimeter_y1,
@@ -425,7 +436,17 @@ float get_side_length(int side,
   return (float)sqrt(dx*dx + dy*dy);
 }
 
-/* get the longest side of a perimeter */
+/* \brief get the longest side of a perimeter
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \return longest side length
+ */
 float get_longest_side(float perimeter_x0, float perimeter_y0,
                        float perimeter_x1, float perimeter_y1,
                        float perimeter_x2, float perimeter_y2,
@@ -445,7 +466,17 @@ float get_longest_side(float perimeter_x0, float perimeter_y0,
   return max_length;
 }
 
-/* get the shortest side of a perimeter */
+/* \brief get the shortest side of a perimeter
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \return shortest side length
+ */
 float get_shortest_side(float perimeter_x0, float perimeter_y0,
                         float perimeter_x1, float perimeter_y1,
                         float perimeter_x2, float perimeter_y2,
@@ -465,7 +496,18 @@ float get_shortest_side(float perimeter_x0, float perimeter_y0,
   return min_length;
 }
 
-/* get the centre of a perimeter */
+/* \brief get the centre of a perimeter
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \param centre_x returned x coordinate for the centroid
+ * \param centre_y returned x coordinate for the centroid
+ */
 void get_centroid(float perimeter_x0, float perimeter_y0,
                   float perimeter_x1, float perimeter_y1,
                   float perimeter_x2, float perimeter_y2,
