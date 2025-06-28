@@ -7,7 +7,7 @@
  * Reads PNG files (recommended at least 800 pixels across) using *lodepng*
  * Outputs the plain text encoded by the datamatrix pattern
  * Implemented in pure C99
- * Supports GS1 semantics https://www.gs1.org/standards/barcodes/2d
+ * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d)
  * Can generate quality metrics for verification reports
  * No dependencies or supply chains!
 
@@ -73,16 +73,16 @@ Unit tests may be run with:
 
 ## References
 
-Canny edge detection https://en.wikipedia.org/wiki/Canny_edge_detector
+[Canny edge detection](https://en.wikipedia.org/wiki/Canny_edge_detector)
 
-Data Matrix https://en.wikipedia.org/wiki/Data_Matrix
+[Data Matrix](https://en.wikipedia.org/wiki/Data_Matrix)
 
-Edge linking https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html
+[Edge linking](https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html)
 
-GS1 General Specifications https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications
+[GS1 General Specifications](https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications)
 
-GS1 2D Barcode Verification Process Implementation Guideline https://www.gs1.org/docs/barcodes/2D_Barcode_Verification_Process_Implementation_Guideline.pdf
+[GS1 2D Barcode Verification Process Implementation Guideline](https://www.gs1.org/docs/barcodes/2D_Barcode_Verification_Process_Implementation_Guideline.pdf)
 
-Line–line intersection https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+[Line–line intersection](https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection)
 
-Reed–Solomon error correction https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
+[Reed–Solomon error correction](https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction)
