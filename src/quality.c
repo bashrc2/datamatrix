@@ -339,7 +339,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
   /* symbol contrast converted back to a pixel value */
   float symbol_contrast = grid->symbol_contrast * 255 * image_bytesperpixel / 100.0f;
   int hits, reflectance, global_threshold;
-  float modulation;
+  float modulation, cell_modulation, min_modulation=1;
   int min_x=image_width,min_y=image_height,max_x=0,max_y=0;
   int x, y, n, b;
   int occupied_reflectance=0, occupied_reflectance_hits=0;
@@ -413,7 +413,11 @@ static void quality_metric_modulation(struct grid_2d * grid,
       }
       /* cell modulation
          from GS1 2D Barcode Verification Process Implementation Guideline 9.1.3 */
-      modulation += 2.0f * abs(reflectance - global_threshold) / symbol_contrast;
+      cell_modulation = 2.0f * abs(reflectance - global_threshold) / symbol_contrast;
+      modulation += cell_modulation;
+      if (cell_modulation < min_modulation) {
+        min_modulation = cell_modulation;
+      }
       hits++;
     }
   }
@@ -421,6 +425,8 @@ static void quality_metric_modulation(struct grid_2d * grid,
     modulation /= hits;
   }
   grid->modulation = (unsigned char)(modulation * 100);
+  /* contrast uniformity is the minimum cell modulation */
+  grid->contrast_uniformity = (unsigned char)(min_modulation * 100);
   /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
      table 9-2 */
   grid->modulation_grade = 0;
@@ -584,7 +590,8 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Overall symbol grade: %d.0 (%c)\n\n", (int)grade, grade_letter[grade]);
   printf("Matrix size: %dx%d\n", grid->dimension_x, grid->dimension_y);
   printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
-  printf("Elongation: %.1f%%\n", grid->elongation);
+  printf("Contrast uniformity: %d%%\n", (int)grid->contrast_uniformity);
   printf("Dots per element: %d\n", grid->dots_per_element);
+  printf("Elongation: %.1f%%\n", grid->elongation);
   printf("Quiet zone: %d%%\n", (int)grid->quiet_zone);
 }
