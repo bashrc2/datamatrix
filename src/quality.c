@@ -536,6 +536,55 @@ void calculate_quality_metrics(struct grid_2d * grid,
   quality_metric_grid_nonuniformity(grid, thresholded_image_data,
                                     image_width, image_height,
                                     image_bitsperpixel);
+
+  /* calculate unused error correction grade as per
+     GS1 2D Barcode Verification Process Implementation Guideline
+     table 9-6 */
+  grid->unused_error_correction_grade = 0;
+  if (grid->unused_error_correction >= 25) {
+    grid->unused_error_correction_grade = 1;
+  }
+  if (grid->unused_error_correction >= 37) {
+    grid->unused_error_correction_grade = 2;
+  }
+  if (grid->unused_error_correction >= 50) {
+    grid->unused_error_correction_grade = 3;
+  }
+  if (grid->unused_error_correction >= 62) {
+    grid->unused_error_correction_grade = 4;
+  }
+
+  /* calculate clock track regularity grade as per
+     GS1 2D Barcode Verification Process Implementation Guideline
+     table 9-3 */
+  grid->clock_track_regularity_grade = 0;
+  if (grid->clock_track_regularity < 25) {
+    grid->clock_track_regularity_grade = 1;
+  }
+  if (grid->clock_track_regularity < 20) {
+    grid->clock_track_regularity_grade = 2;
+  }
+  if (grid->clock_track_regularity < 15) {
+    grid->clock_track_regularity_grade = 3;
+  }
+  if (grid->clock_track_regularity < 10) {
+    grid->clock_track_regularity_grade = 4;
+  }
+
+  /* calculate fixed pattern damage grade */
+  grid->fixed_pattern_damage_grade = 0;
+  if (grid->fixed_pattern_damage < 17) {
+    grid->fixed_pattern_damage_grade = 1;
+  }
+  if (grid->fixed_pattern_damage < 13) {
+    grid->fixed_pattern_damage_grade = 2;
+  }
+  if (grid->fixed_pattern_damage < 9) {
+    grid->fixed_pattern_damage_grade = 3;
+  }
+  if (grid->fixed_pattern_damage == 0) {
+    grid->fixed_pattern_damage_grade = 4;
+  }
 }
 
 /* returns the overall quality grading
