@@ -28,7 +28,23 @@
 #include "png2.h"
 #include "datamatrix.h"
 
-
+/*
+ * \brief read a datamatrix from an image
+ * \param image_data image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param image_bitsperpixel Number of bits per pixel
+ * \param debug set to 1 if in debug mode
+ * \param output_filename array containing output image with detected datamatrix
+ * \param test_ml_threshold test with a specific mean light value
+ * \param test_erode test with a specific erosion value
+ * \param test_dilate test with a specific dilation value
+ * \param test_edge_threshold test with a specific edge threshold
+ * \param test_frequency test using a known grid dimension
+ * \param verify set to 1 if symbol quality metrics are to be calculated
+ * \param decode_result returned decode text
+ * \return zero on decode success, -1 otherwise
+ */
 int read_datamatrix(unsigned char image_data[],
                     int image_width, int image_height,
                     int image_bitsperpixel,
@@ -51,10 +67,13 @@ int read_datamatrix(unsigned char image_data[],
   int min_segment_length=20;
   int segment_join_radius=6;
   const int no_of_configs = 6;
+
+  /* the magic numbers */
   int ml_threshold_configs[] = {0, 0, 50, 10, 10, 20};
   int erosion_itterations_configs[] = {1, 0, 1, 0, 0, 0};
   int dilate_itterations_configs[] = {9, 5, 4, 6, 5, 2};
   float edge_threshold_configs[] = {5, 1, 1, 1, 5, 5};
+
   int resized_thresholded_width = 320;
   int resized_thresholded_height = image_height * resized_thresholded_width / image_width;
   int sampling_radius = 1;
