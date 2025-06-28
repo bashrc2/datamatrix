@@ -335,18 +335,21 @@ static void quality_metric_modulation(struct grid_2d * grid,
                                       int image_width, int image_height,
                                       int image_bitsperpixel)
 {
-  int min_x=image_width,min_y=image_height,max_x=0,max_y=0;
   int image_bytesperpixel = image_bitsperpixel/8;
-  int x, y, n, b, cell_modulation, occupied_modulation=0, empty_modulation=0;
+  /* symbol contrast converted back to a pixel value */
+  float symbol_contrast = grid->symbol_contrast * 255 * image_bytesperpixel / 100.0f;
+  int hits, reflectance, global_threshold;
+  float modulation;
+  int min_x=image_width,min_y=image_height,max_x=0,max_y=0;
+  int x, y, n, b;
   int occupied_reflectance=0, occupied_reflectance_hits=0;
   int empty_reflectance=0, empty_reflectance_hits=0;
-  int occupied_modulation_variance=0,empty_modulation_variance=0;
-  int light_dark_variance, quiet_zone_pixels=0, quiet_zone_occupancy=0;
-  float empty_modulation_variance_fraction=0,occupied_modulation_variance_fraction=0;
+  int quiet_zone_pixels=0, quiet_zone_occupancy=0;
 
   get_grid_bounding_box(grid, image_width, image_height,
                         &min_x, &min_y, &max_x, &max_y);
 
+  /* calculate average reflectance for occupied and empty cells */
   for (y = min_y; y <= max_y; y++) {
     for (x = min_x; x <= max_x; x++) {
       if (point_in_quiet_zone(grid, x, y) == 0) continue;
@@ -392,48 +395,46 @@ static void quality_metric_modulation(struct grid_2d * grid,
   if (empty_reflectance_hits > 0) {
     empty_reflectance /= empty_reflectance_hits;
   }
-  /* variance between average reflectance of occupied and empty cells */
-  light_dark_variance = abs(occupied_reflectance - empty_reflectance);
 
-  /* how much does each cell differ from the expected average reflectance? */
+  /* calculate global threshold, half way between occupied and empty reflectance */
+  global_threshold = empty_reflectance + ((occupied_reflectance - empty_reflectance)/2);
+
+  modulation = 0;
+  hits = 0;
   for (y = min_y; y <= max_y; y++) {
     for (x = min_x; x <= max_x; x++) {
       if (point_in_quiet_zone(grid, x, y) == 0) continue;
 
       n = (y*image_width + x)*image_bytesperpixel;
-      cell_modulation = 0;
-      if (thresholded_image_data[n] != 0) {
-        /* occupied cell */
-        for (b = 0; b < image_bytesperpixel; b++) {
-          cell_modulation += image_data[n+b];
-        }
-        occupied_modulation += abs(cell_modulation - occupied_reflectance);
+      reflectance = 0;
+      for (b = 0; b < image_bytesperpixel; b++) {
+        reflectance += image_data[n+b];
       }
-      else {
-        /* empty cell */
-        for (b = 0; b < image_bytesperpixel; b++) {
-          cell_modulation += image_data[n+b];
-        }
-        empty_modulation += abs(cell_modulation - empty_reflectance);
-      }
+      /* cell modulation
+         from GS1 2D Barcode Verification Process Implementation Guideline 9.1.3 */
+      modulation += 2.0f * abs(reflectance - global_threshold) / symbol_contrast;
+      hits++;
     }
   }
-
-  if (light_dark_variance > 0) {
-    if (occupied_reflectance_hits > 0) {
-      occupied_modulation_variance = occupied_modulation / occupied_reflectance_hits;
-      occupied_modulation_variance_fraction =
-        occupied_modulation_variance / (float)(light_dark_variance * image_bytesperpixel);
-    }
-    if (empty_reflectance_hits > 0) {
-      empty_modulation_variance = empty_modulation / empty_reflectance_hits;
-      empty_modulation_variance_fraction =
-        empty_modulation_variance / (float)(light_dark_variance * image_bytesperpixel);
-    }
+  if (hits > 0) {
+    modulation /= hits;
   }
-
-  grid->modulation =
-    (unsigned char)((occupied_modulation_variance_fraction + empty_modulation_variance_fraction) * 50);
+  grid->modulation = (unsigned char)(modulation * 100);
+  /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
+     table 9-2 */
+  grid->modulation_grade = 0;
+  if (grid->modulation >= 20) {
+    grid->modulation_grade = 1;
+  }
+  if (grid->modulation >= 30) {
+    grid->modulation_grade = 2;
+  }
+  if (grid->modulation >= 40) {
+    grid->modulation_grade = 3;
+  }
+  if (grid->modulation >= 50) {
+    grid->modulation_grade = 4;
+  }
 }
 
 /* contrast between highest and lowest reflectance */
@@ -530,7 +531,7 @@ void show_quality_metrics(struct grid_2d * grid)
          (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
   printf("Grid non-uniformity: %d (%.1f%%)\n",
          (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
-  printf("Modulation: %d%%\n", (int)grid->modulation);
+  printf("Modulation: %d (%d%%)\n", (int)grid->modulation_grade, (int)grid->modulation);
   printf("Unused error correction: %d%%\n", (int)grid->unused_error_correction);
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);
   printf("Angle of distortion: %.1f degrees\n", grid->angle_of_distortion);

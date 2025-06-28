@@ -94,6 +94,7 @@ struct grid_2d {
   float grid_non_uniformity;
   unsigned char grid_non_uniformity_grade;
   unsigned char modulation;
+  unsigned char modulation_grade;
   float elongation;
   int dots_per_element;
   unsigned char quiet_zone;
