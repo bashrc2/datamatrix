@@ -58,9 +58,19 @@ static unsigned char is_dark_image(unsigned char img_mono[],
   return 1;
 }
 
-int meanlight_threshold(unsigned char * img, int width, int height,
+/*
+ * \brief creates a thresholded image
+ * \param img image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param bitsperpixel Number of bits per pixel
+ * \param threshold the threshold to be applied
+ * \param thresholded returned thresholded image array
+ * \return
+ */
+int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
-                        unsigned char * thresholded)
+                        unsigned char thresholded[])
 {
   unsigned char * img_mono = thresholded;
   unsigned char dark=0,light=0,range;

@@ -166,9 +166,9 @@ void region_histogram(
 
 /* threshold.c */
 
-int meanlight_threshold(unsigned char * img, int width, int height,
+int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
-                        unsigned char * thresholded);
+                        unsigned char thresholded[]);
 
 int proximal_threshold(unsigned char * img, int width, int height,
                        int r, int g, int b, int radius,
