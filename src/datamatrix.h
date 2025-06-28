@@ -726,6 +726,16 @@ void calculate_quality_metrics(struct grid_2d * grid,
 
 void show_quality_metrics(struct grid_2d * grid);
 
+/* gs1.c */
+
+void gs1_semantics(char result[],
+                   char gs1_result[],
+                   unsigned char debug,
+                   int * application_identifier,
+                   unsigned char * application_identifier_length,
+                   int * application_data_start,
+                   int * application_data_end);
+
 /* reader.c */
 
 int read_datamatrix(unsigned char image_data[],
