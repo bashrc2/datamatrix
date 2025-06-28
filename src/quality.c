@@ -440,6 +440,21 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
 
   /* symbol contrast as a percentage */
   grid->symbol_contrast = (unsigned char)((max_reflectance - min_reflectance) * 100 / (255*image_bytesperpixel));
+  /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
+     table 7-3 */
+  grid->symbol_contrast_grade = 0;
+  if (grid->symbol_contrast >= 20) {
+    grid->symbol_contrast_grade = 1;
+  }
+  if (grid->symbol_contrast >= 40) {
+    grid->symbol_contrast_grade = 2;
+  }
+  if (grid->symbol_contrast >= 55) {
+    grid->symbol_contrast_grade = 3;
+  }
+  if (grid->symbol_contrast >= 70) {
+    grid->symbol_contrast_grade = 4;
+  }
 }
 
 /* AS9132 calculate angle of distortion */
@@ -479,7 +494,8 @@ void calculate_quality_metrics(struct grid_2d * grid,
 
 void show_quality_metrics(struct grid_2d * grid)
 {
-  printf("Symbol contrast: %d%%\n", (int)grid->symbol_contrast);
+  printf("Symbol contrast: %d (%d%%)\n",
+         (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %.1f%%\n", grid->axial_non_uniformity);
   printf("Grid non-uniformity: %.1f%%\n", grid->grid_non_uniformity);
   printf("Modulation: %d%%\n", (int)grid->modulation);
