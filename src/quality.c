@@ -226,6 +226,7 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
   }
 
   grid->grid_non_uniformity = 0;
+  grid->grid_non_uniformity_grade = 0;
   grid->elongation = 0;
   grid->dots_per_element = 0;
   if (offset_hits > 0) {
@@ -235,6 +236,20 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
     grid_non_uniformity_x = fabs(av_offset_x / (float)offset_hits);
     grid_non_uniformity_y = fabs(av_offset_y / (float)offset_hits);
     grid->grid_non_uniformity = (grid_non_uniformity_x + grid_non_uniformity_y) * 100 / cell_width;
+    /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
+       table 9-5 */
+    if (grid->grid_non_uniformity <= 75) {
+      grid->grid_non_uniformity_grade = 1;
+    }
+    if (grid->grid_non_uniformity <= 63) {
+      grid->grid_non_uniformity_grade = 2;
+    }
+    if (grid->grid_non_uniformity <= 50) {
+      grid->grid_non_uniformity_grade = 3;
+    }
+    if (grid->grid_non_uniformity <= 38) {
+      grid->grid_non_uniformity_grade = 4;
+    }
   }
 }
 
@@ -262,6 +277,21 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
     cell_width_shortest = shortest_side / grid->dimension_x;
   }
   grid->axial_non_uniformity = (1.0f - (cell_width_shortest/cell_width_longest))*100;
+  /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
+     table 9-4 */
+  grid->axial_non_uniformity_grade = 0;
+  if (grid->axial_non_uniformity <= 12) {
+    grid->axial_non_uniformity_grade = 1;
+  }
+  if (grid->axial_non_uniformity <= 10) {
+    grid->axial_non_uniformity_grade = 2;
+  }
+  if (grid->axial_non_uniformity <= 8) {
+    grid->axial_non_uniformity_grade = 3;
+  }
+  if (grid->axial_non_uniformity <= 6) {
+    grid->axial_non_uniformity_grade = 4;
+  }
 }
 
 /* returns the bounding box for the grid, including the quiet zone */
@@ -496,8 +526,10 @@ void show_quality_metrics(struct grid_2d * grid)
 {
   printf("Symbol contrast: %d (%d%%)\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
-  printf("Axial non-uniformity: %.1f%%\n", grid->axial_non_uniformity);
-  printf("Grid non-uniformity: %.1f%%\n", grid->grid_non_uniformity);
+  printf("Axial non-uniformity: %d (%.1f%%)\n",
+         (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
+  printf("Grid non-uniformity: %d (%.1f%%)\n",
+         (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
   printf("Modulation: %d%%\n", (int)grid->modulation);
   printf("Unused error correction: %d%%\n", (int)grid->unused_error_correction);
   printf("Fixed pattern damage: %d%%\n", (int)grid->fixed_pattern_damage);

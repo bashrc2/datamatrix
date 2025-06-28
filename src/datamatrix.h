@@ -83,19 +83,23 @@ struct grid_2d {
   int no_of_errors;
   int no_of_erasures;
   int * erasures;
+
+  /* quality metrics */
   unsigned char fixed_pattern_damage;
   float angle_of_distortion;
   unsigned char symbol_contrast;
   unsigned char symbol_contrast_grade;
   float axial_non_uniformity;
+  unsigned char axial_non_uniformity_grade;
   float grid_non_uniformity;
+  unsigned char grid_non_uniformity_grade;
   unsigned char modulation;
   float elongation;
   int dots_per_element;
   unsigned char quiet_zone;
 
+  /* decoding arrays */
   unsigned char* data_bytes;
-
   int * m_Pp;
   int * m_alpha_to;
   int * m_index_of;
