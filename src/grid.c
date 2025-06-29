@@ -103,6 +103,7 @@ static int get_timing_prob_side(unsigned char mono_img[],
  * \param next_corner_y y coordinate of the next corner to be checked
  *                      (last point of the "L" shape)
  * \param frequency the timing border frequency to be checked
+ * \param frequency2 the second timing border frequency to be checked
  * \param sampling_radius radius of pixels to be checked at each location in the frequency
  * \param debug set to 1 if in debug mode
  * \param image_data colour image array
@@ -114,21 +115,43 @@ static int get_timing_prob(unsigned char mono_img[],
                            float corner_x, float corner_y,
                            float prev_corner_x, float prev_corner_y,
                            float next_corner_x, float next_corner_y,
-                           int frequency, int sampling_radius,
+                           int frequency, int frequency_shortest,
+                           int sampling_radius,
                            unsigned char debug,
                            unsigned char image_data[],
                            int debug_frequency)
 {
+  int frequency1 = frequency;
+  int frequency2 = frequency;
+
+  if (frequency_shortest < frequency) {
+    /* rectangular shape */
+    float dx1 = corner_x - prev_corner_x;
+    float dy1 = corner_y - prev_corner_y;
+    float dist1_sqr = dx1*dx1 + dy1*dy1;
+    float dx2 = corner_x - next_corner_x;
+    float dy2 = corner_y - next_corner_y;
+    float dist2_sqr = dx2*dx2 + dy2*dy2;
+    if (dist1_sqr > dist2_sqr) {
+      frequency1 = frequency;
+      frequency2 = frequency_shortest;
+    }
+    else {
+      frequency1 = frequency_shortest;
+      frequency2 = frequency;
+    }
+  }
+
   int prob = get_timing_prob_side(mono_img, width, height,
                                   corner_x, corner_y,
                                   prev_corner_x, prev_corner_y,
-                                  frequency, sampling_radius,
+                                  frequency1, sampling_radius,
                                   debug, image_data,
                                   debug_frequency);
   prob += get_timing_prob_side(mono_img, width, height,
                                corner_x, corner_y,
                                next_corner_x, next_corner_y,
-                               frequency, sampling_radius,
+                               frequency2, sampling_radius,
                                debug, image_data,
                                debug_frequency);
   return prob;
@@ -288,7 +311,179 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
       }
       prob = get_timing_prob(mono_img, width, height,
                              x1, y1, x0, y0, x2, y2,
-                             freq, sampling_radius,
+                             freq, freq, sampling_radius,
+                             debug, image_data,
+                             debug_frequency);
+      if ((prob > threshold) && (prob > max_prob)) {
+        max_prob = prob;
+        probable_frequency = freq;
+      }
+    }
+  }
+  return probable_frequency;
+}
+
+/**
+ * \brief detects the timing border for a rectangular datamatrix
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param minimum_grid_dimension minimum grid dimension
+ * \param maximum_grid_dimension maximum grid dimension
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \param threshold minimum threshold for probable timing border
+ * \param side_length length of perimeter sides in the square
+ * \param sampling_radius radius of pixels to be checked at each location in the frequency
+ * \param debug set to 1 if in debug mode
+ * \param image_data colour image array
+ * \param debug_frequency set to 1 to show the pixels being checked within the colour image
+ * \return the most likely timing border frequency
+ */
+static int detect_timing_pattern_rectangular(unsigned char mono_img[],
+                                             int width, int height,
+                                             int minimum_grid_dimension,
+                                             int maximum_grid_dimension,
+                                             float perimeter_x0, float perimeter_y0,
+                                             float perimeter_x1, float perimeter_y1,
+                                             float perimeter_x2, float perimeter_y2,
+                                             float perimeter_x3, float perimeter_y3,
+                                             int threshold, float side_length,
+                                             int sampling_radius,
+                                             unsigned char debug,
+                                             unsigned char image_data[],
+                                             int debug_frequency)
+{
+  float pitch, half_pitch, centre_x, centre_y, vertex_x, vertex_y, dx, dy;
+  int side, corner, index, freq, freq_shortest, prob, max_prob=0, probable_frequency=-1;
+  float timing_perimeter_x0, timing_perimeter_y0;
+  float timing_perimeter_x1, timing_perimeter_y1;
+  float timing_perimeter_x2, timing_perimeter_y2;
+  float timing_perimeter_x3, timing_perimeter_y3;
+  float x0, y0, x1, y1, x2, y2, fraction;
+  int no_of_valid_rectangles = 6;
+  int IEC16022_valid_rectangles[] = {
+    8, 18,
+    8, 32,
+    12, 26,
+    12, 36,
+    16, 36,
+    16, 48
+  };
+
+  get_centroid(perimeter_x0, perimeter_y0,
+               perimeter_x1, perimeter_y1,
+               perimeter_x2, perimeter_y2,
+               perimeter_x3, perimeter_y3,
+               &centre_x, &centre_y);
+
+  for (index = 0; index < no_of_valid_rectangles; index++) {
+    /* frequency of the longest side */
+    freq = IEC16022_valid_rectangles[index*2+1];
+    if ((freq < minimum_grid_dimension) ||
+        (freq > maximum_grid_dimension)) continue;
+    freq_shortest = IEC16022_valid_rectangles[index*2];
+    pitch = side_length / freq;
+    half_pitch = pitch/2;
+    /* make a shrunken perimeter half the pitch smaller */
+    for (side = 0; side < 4; side++) {
+      switch(side) {
+      case 0: {
+        vertex_x = perimeter_x0;
+        vertex_y = perimeter_y0;
+        break;
+      }
+      case 1: {
+        vertex_x = perimeter_x1;
+        vertex_y = perimeter_y1;
+        break;
+      }
+      case 2: {
+        vertex_x = perimeter_x2;
+        vertex_y = perimeter_y2;
+        break;
+      }
+      case 3: {
+        vertex_x = perimeter_x3;
+        vertex_y = perimeter_y3;
+        break;
+      }
+      }
+      dx = vertex_x - centre_x;
+      dy = vertex_y - centre_y;
+      fraction = half_pitch / (float)sqrt(dx*dx + dy*dy);
+      switch(side) {
+      case 0: {
+        timing_perimeter_x0 = vertex_x - (dx*fraction);
+        timing_perimeter_y0 = vertex_y - (dy*fraction);
+        break;
+      }
+      case 1: {
+        timing_perimeter_x1 = vertex_x - (dx*fraction);
+        timing_perimeter_y1 = vertex_y - (dy*fraction);
+        break;
+      }
+      case 2: {
+        timing_perimeter_x2 = vertex_x - (dx*fraction);
+        timing_perimeter_y2 = vertex_y - (dy*fraction);
+        break;
+      }
+      case 3: {
+        timing_perimeter_x3 = vertex_x - (dx*fraction);
+        timing_perimeter_y3 = vertex_y - (dy*fraction);
+        break;
+      }
+      }
+    }
+    /* test each corner for a timing pattern */
+    for (corner = 0; corner < 4; corner++) {
+      switch(corner) {
+      case 0: {
+        x0 = timing_perimeter_x3;
+        y0 = timing_perimeter_y3;
+        x1 = timing_perimeter_x0;
+        y1 = timing_perimeter_y0;
+        x2 = timing_perimeter_x1;
+        y2 = timing_perimeter_y1;
+        break;
+      }
+      case 1: {
+        x0 = timing_perimeter_x0;
+        y0 = timing_perimeter_y0;
+        x1 = timing_perimeter_x1;
+        y1 = timing_perimeter_y1;
+        x2 = timing_perimeter_x2;
+        y2 = timing_perimeter_y2;
+        break;
+      }
+      case 2: {
+        x0 = timing_perimeter_x1;
+        y0 = timing_perimeter_y1;
+        x1 = timing_perimeter_x2;
+        y1 = timing_perimeter_y2;
+        x2 = timing_perimeter_x3;
+        y2 = timing_perimeter_y3;
+        break;
+      }
+      case 3: {
+        x0 = timing_perimeter_x2;
+        y0 = timing_perimeter_y2;
+        x1 = timing_perimeter_x3;
+        y1 = timing_perimeter_y3;
+        x2 = timing_perimeter_x0;
+        y2 = timing_perimeter_y0;
+        break;
+      }
+      }
+      prob = get_timing_prob(mono_img, width, height,
+                             x1, y1, x0, y0, x2, y2,
+                             freq, freq_shortest, sampling_radius,
                              debug, image_data,
                              debug_frequency);
       if ((prob > threshold) && (prob > max_prob)) {
@@ -345,7 +540,7 @@ int detect_timing_pattern(unsigned char mono_img[],
                                          perimeter_x3, perimeter_y3);
   if (longest_side < 1) return -1;
   float aspect_ratio = shortest_side * 100 / longest_side;
-  if ((aspect_ratio > 80) && (aspect_ratio < 120)) {
+  if ((aspect_ratio > 90) && (aspect_ratio < 110)) {
     /* square */
     return detect_timing_pattern_square(mono_img, width, height,
                                         minimum_grid_dimension,
@@ -360,18 +555,18 @@ int detect_timing_pattern(unsigned char mono_img[],
                                         debug_frequency);
   }
   else {
-    /* TODO rectangle */
-    /*
-      int no_of_valid_rectangles = 6;
-      int IEC16022_valid_rectangles[] = {
-      8, 18,
-      8, 32,
-      12, 26,
-      12, 36,
-      16, 36,
-      16, 48
-      };
-    */
+    /* rectangle */
+    return detect_timing_pattern_rectangular(mono_img, width, height,
+                                             minimum_grid_dimension,
+                                             maximum_grid_dimension,
+                                             perimeter_x0, perimeter_y0,
+                                             perimeter_x1, perimeter_y1,
+                                             perimeter_x2, perimeter_y2,
+                                             perimeter_x3, perimeter_y3,
+                                             threshold, longest_side,
+                                             sampling_radius,
+                                             debug, image_data,
+                                             debug_frequency);
   }
   return -1;
 }

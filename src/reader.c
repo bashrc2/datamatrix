@@ -80,8 +80,9 @@ int read_datamatrix(unsigned char image_data[],
 
   int resized_thresholded_width = 320;
   int resized_thresholded_height = image_height * resized_thresholded_width / image_width;
-  int sampling_radius = 1;
-  int most_probable_frequency = 0;
+  int sampling_radius=1;
+  int most_probable_frequency=0;
+  int most_probable_frequency_x=0, most_probable_frequency_y=0;
   int aspect_ratio_percent;
   unsigned char test_specific_config_settings = 0;
   int timing_pattern_sampling_radius = 1;
@@ -215,6 +216,7 @@ int read_datamatrix(unsigned char image_data[],
     }
 
     if (edge_threshold > 0) {
+      unsigned char rectangular = 0;
       unsigned char perimeter_found = 0;
       float perimeter_x0=0, perimeter_y0=0;
       float perimeter_x1=0, perimeter_y1=0;
@@ -314,9 +316,10 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x1, perimeter_y1,
                                  perimeter_x2, perimeter_y2,
                                  perimeter_x3, perimeter_y3);
-        /* TODO allow for rectangular aspects */
+        rectangular = 0;
         if ((aspect_ratio_percent < 90) || (aspect_ratio_percent > 110)) {
-          continue;
+          rectangular = rectangular_joined_line_segments(aspect_ratio_percent);
+          if (rectangular == 0) continue;
         }
 
         /* check that the corners are approximately square */
@@ -548,42 +551,111 @@ int read_datamatrix(unsigned char image_data[],
 
         /* if timing border frequency detection fails then try to decode using
            all possible grids */
-        int no_of_valid_squares = 24;
-        int IEC16022_valid_squares[] = {
-          10,  12,  14,  16,  18,  20,  22,  24,  26,  32, 36,  40,  44,  48,
-          52,  64,  72,  80,  88,  96, 104, 120, 132, 144
-        };
-        for (int frequency_index = 0; frequency_index < no_of_valid_squares;
-             frequency_index++) {
-          most_probable_frequency = IEC16022_valid_squares[frequency_index];
-          if ((most_probable_frequency < minimum_grid_dimension) ||
-              (most_probable_frequency > maximum_grid_dimension)) continue;
-          /* sample grid cells in different patterns */
-          curr_sampling_radius = sampling_radius;
-          for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
-               curr_sampling_pattern <= SAMPLING_PATTERN_RING;
-               curr_sampling_pattern++) {
-            /* increase the radius for ring sampling */
-            if (curr_sampling_pattern == SAMPLING_PATTERN_RING) curr_sampling_radius+=2;
-            create_grid(most_probable_frequency, most_probable_frequency,
-                        perimeter_x0, perimeter_y0,
-                        perimeter_x1, perimeter_y1,
-                        perimeter_x2, perimeter_y2,
-                        perimeter_x3, perimeter_y3,
-                        mono_img,
-                        image_width, image_height,
-                        curr_sampling_radius, curr_sampling_pattern,
-                        &grid);
-            datamatrix_decode(&grid, debug, decode_result);
-            free_grid(&grid);
-            if (strlen(decode_result) > 0) {
-              if (debug == 1) {
-                printf("Frequency: %d\n", most_probable_frequency);
-                mono_to_colour(mono_img, image_width, image_height,
-                               image_bitsperpixel, image_data);
-                show_grid_image(&grid, image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
-                write_png_file("debug_17_grid_sampling.png", image_width, image_height, 24, image_data);
+        if (rectangular == 0) {
+          int no_of_valid_squares = 24;
+          int IEC16022_valid_squares[] = {
+            10,  12,  14,  16,  18,  20,  22,  24,  26,  32, 36,  40,  44,  48,
+            52,  64,  72,  80,  88,  96, 104, 120, 132, 144
+          };
+          for (int frequency_index = 0; frequency_index < no_of_valid_squares;
+               frequency_index++) {
+            most_probable_frequency = IEC16022_valid_squares[frequency_index];
+            if ((most_probable_frequency < minimum_grid_dimension) ||
+                (most_probable_frequency > maximum_grid_dimension)) continue;
+            /* sample grid cells in different patterns */
+            curr_sampling_radius = sampling_radius;
+            for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
+                 curr_sampling_pattern <= SAMPLING_PATTERN_RING;
+                 curr_sampling_pattern++) {
+              /* increase the radius for ring sampling */
+              if (curr_sampling_pattern == SAMPLING_PATTERN_RING) curr_sampling_radius+=2;
+              create_grid(most_probable_frequency, most_probable_frequency,
+                          perimeter_x0, perimeter_y0,
+                          perimeter_x1, perimeter_y1,
+                          perimeter_x2, perimeter_y2,
+                          perimeter_x3, perimeter_y3,
+                          mono_img,
+                          image_width, image_height,
+                          curr_sampling_radius, curr_sampling_pattern,
+                          &grid);
+              datamatrix_decode(&grid, debug, decode_result);
+              free_grid(&grid);
+              if (strlen(decode_result) > 0) {
+                if (debug == 1) {
+                  printf("Frequency: %d\n", most_probable_frequency);
+                  mono_to_colour(mono_img, image_width, image_height,
+                                 image_bitsperpixel, image_data);
+                  show_grid_image(&grid, image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
+                  write_png_file("debug_17_grid_sampling.png", image_width, image_height, 24, image_data);
+                }
+                break;
               }
+            }
+            if (strlen(decode_result) > 0) {
+              /* decode achieved */
+              break;
+            }
+          }
+        }
+        else {
+          /* try all rectangles */
+          int no_of_valid_rectangles = 6;
+          int IEC16022_valid_rectangles[] = {
+            8, 18,
+            8, 32,
+            12, 26,
+            12, 36,
+            16, 36,
+            16, 48
+          };
+          for (int frequency_index = 0; frequency_index < no_of_valid_rectangles;
+               frequency_index++) {
+            most_probable_frequency = IEC16022_valid_rectangles[frequency_index*2];
+
+            if (aspect_ratio_percent < 100) {
+              most_probable_frequency_x = IEC16022_valid_rectangles[frequency_index*2];
+              most_probable_frequency_y = IEC16022_valid_rectangles[frequency_index*2+1];
+              most_probable_frequency = most_probable_frequency_y;
+            }
+            else {
+              most_probable_frequency_x = IEC16022_valid_rectangles[frequency_index*2+1];
+              most_probable_frequency_y = IEC16022_valid_rectangles[frequency_index*2];
+              most_probable_frequency = most_probable_frequency_x;
+            }
+            if ((most_probable_frequency < minimum_grid_dimension) ||
+                (most_probable_frequency > maximum_grid_dimension)) continue;
+            /* sample grid cells in different patterns */
+            curr_sampling_radius = sampling_radius;
+            for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
+                 curr_sampling_pattern <= SAMPLING_PATTERN_RING;
+                 curr_sampling_pattern++) {
+              /* increase the radius for ring sampling */
+              if (curr_sampling_pattern == SAMPLING_PATTERN_RING) curr_sampling_radius+=2;
+              create_grid(most_probable_frequency_x, most_probable_frequency_y,
+                          perimeter_x0, perimeter_y0,
+                          perimeter_x1, perimeter_y1,
+                          perimeter_x2, perimeter_y2,
+                          perimeter_x3, perimeter_y3,
+                          mono_img,
+                          image_width, image_height,
+                          curr_sampling_radius, curr_sampling_pattern,
+                          &grid);
+              datamatrix_decode(&grid, debug, decode_result);
+              free_grid(&grid);
+              if (strlen(decode_result) > 0) {
+                if (debug == 1) {
+                  printf("Frequency: %dx%d\n",
+                         most_probable_frequency_x, most_probable_frequency_y);
+                  mono_to_colour(mono_img, image_width, image_height,
+                                 image_bitsperpixel, image_data);
+                  show_grid_image(&grid, image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
+                  write_png_file("debug_17_grid_sampling.png", image_width, image_height, 24, image_data);
+                }
+                break;
+              }
+            }
+            if (strlen(decode_result) > 0) {
+              /* decode achieved */
               break;
             }
           }
@@ -591,7 +663,6 @@ int read_datamatrix(unsigned char image_data[],
         if (strlen(decode_result) > 0) {
           break;
         }
-
       }
 
       free_line_segments(&segments);
