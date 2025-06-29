@@ -31,7 +31,7 @@ make
 ./datamatrix -f examples/01.png
 ```
 
-If you know the range of grid dimensions which are expected then you can narrow down the search range using the *--mingrid* and *--maxgrid* options.
+If you know the range of grid dimensions which are expected then you can narrow down the search using the *--mingrid* and *--maxgrid* options.
 
 ``` bash
 ./datamatrix -f examples/01.png --mingrid 10 --maxgrid 20
