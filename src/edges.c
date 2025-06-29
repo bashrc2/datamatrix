@@ -1542,7 +1542,7 @@ void show_square_line_segments(struct line_segments * segments,
 /**
  * \brief returns 1 if the given aspect ratio could correspond to
  *        a rectangular datamatrix
- * \param aspect_ratio aspect ratio of joined line segments
+ * \param aspect_ratio aspect ratio (x100) of joined line segments
  * \return 1 if the aspect ratio is rectangular
  */
 unsigned char rectangular_joined_line_segments(int aspect_ratio)
