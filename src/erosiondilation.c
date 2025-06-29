@@ -26,7 +26,8 @@
 
 #include "datamatrix.h"
 
-/* \brief perform morphological dilation on the given mono image
+/**
+ * \brief perform morphological dilation on the given mono image
  * \param img mono image array
  * \param width width of the image
  * \param height height of the image
@@ -77,7 +78,8 @@ void dilate(unsigned char img[], int width, int height,
   }
 }
 
-/* \brief perform morphological erosion on the given mono image
+/**
+ * \brief perform morphological erosion on the given mono image
  * \param img mono image array
  * \param width width of the image
  * \param height height of the image

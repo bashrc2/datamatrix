@@ -26,7 +26,7 @@
 
 #include "datamatrix.h"
 
-/*!
+/**
  * \brief does the line intersect with the given line?
  * \param x0 first line top x
  * \param y0 first line top y
@@ -109,7 +109,7 @@ int intersection(float x0, float y0,
   return inside_line;
 }
 
-/*!
+/**
  * \brief returns the perpendicular distance of a point from a line
  * \param x0 line first point x coordinate
  * \param y0 line first point y coordinate
@@ -136,7 +136,7 @@ float point_dist_from_line(float x0, float y0,
   return UNKNOWN_DISTANCE;
 }
 
-/*!
+/**
  * \brief fits a line to set of edges using RANSAC
  * \param edges array of edges
  * \param no_of_edges number of edges in the array
@@ -357,7 +357,7 @@ int ransac_fit(int edges[], int no_of_edges,
 	return(linefit_no_of_edges);
 }
 
-/*!
+/**
  * \brief angle between three points describing a corner
  * \param x0 line first point x coordinate
  * \param y0 line first point y coordinate
@@ -381,7 +381,8 @@ float corner_angle(float x0, float y0,
   return(angle);
 }
 
-/* \brief get the length of the given perimeter side
+/**
+ * \brief get the length of the given perimeter side
  * \param side index number of the perimeter side
  * \param perimeter_x0 first perimeter x coord
  * \param perimeter_y0 first perimeter y coord
@@ -436,7 +437,8 @@ float get_side_length(int side,
   return (float)sqrt(dx*dx + dy*dy);
 }
 
-/* \brief get the longest side of a perimeter
+/**
+ * \brief get the longest side of a perimeter
  * \param perimeter_x0 first perimeter x coord
  * \param perimeter_y0 first perimeter y coord
  * \param perimeter_x1 second perimeter x coord
@@ -466,7 +468,8 @@ float get_longest_side(float perimeter_x0, float perimeter_y0,
   return max_length;
 }
 
-/* \brief get the shortest side of a perimeter
+/**
+ * \brief get the shortest side of a perimeter
  * \param perimeter_x0 first perimeter x coord
  * \param perimeter_y0 first perimeter y coord
  * \param perimeter_x1 second perimeter x coord
@@ -496,7 +499,8 @@ float get_shortest_side(float perimeter_x0, float perimeter_y0,
   return min_length;
 }
 
-/* \brief get the centre of a perimeter
+/**
+ * \brief get the centre of a perimeter
  * \param perimeter_x0 first perimeter x coord
  * \param perimeter_y0 first perimeter y coord
  * \param perimeter_x1 second perimeter x coord
