@@ -26,6 +26,13 @@
 
 #include "datamatrix.h"
 
+/**
+ * \brief returns the mean light and mean dark thresholds for the given
+ *        reflectance histogram
+ * \param histogram reflectance histogram with 256 buckets
+ * \param meanDark returned mean dark threshold
+ * \param meanLight returned mean light threshold
+ */
 static void darklight_thresholds(unsigned int histogram[],
                                  float * meanDark,
                                  float * meanLight)
@@ -109,7 +116,17 @@ static void darklight_thresholds(unsigned int histogram[],
   }
 }
 
-void darklight(unsigned char * img,
+/**
+ * \brief calculates mean light and mean dark thresholds within an image
+ * \param img image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param sample_step subsampling step
+ * \param sampling_radius_percent Radius to sample within as a percentage of image width
+ * \param dark returned mean dark threshold
+ * \param light returned mean light threshold
+ */
+void darklight(unsigned char img[],
                int width, int height,
                int sample_step,
                int sampling_radius_percent,

@@ -187,9 +187,9 @@ void erode(unsigned char img[], int width, int height,
 
 /* dark and light thresholds */
 
-void darklight(unsigned char * img,
+void darklight(unsigned char img[],
                int width, int height,
-               int samplingStepSize,
+               int sample_step,
                int sampling_radius_percent,
                unsigned char * dark, unsigned char * light);
 
