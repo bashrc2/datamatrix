@@ -54,7 +54,7 @@ void dilate(unsigned char img[], int width, int height,
       if (buffer[i - 1] > value) value = buffer[i - 1];
       if (buffer[i + 1] > value) value = buffer[i + 1];
 
-      // above
+      /* above */
       n = i - width - 1;
       if (buffer[n] > value) value = buffer[n];
       n++;
@@ -62,7 +62,7 @@ void dilate(unsigned char img[], int width, int height,
       n++;
       if (buffer[n] > value) value = buffer[n];
 
-      // below
+      /* below */
       n = i + width - 1;
       if (buffer[n] > value) value = buffer[n];
       n++;
@@ -107,7 +107,7 @@ void erode(unsigned char * img, int width, int height,
       if (buffer[i - 1] < value) value = buffer[i - 1];
       if (buffer[i + 1] < value) value = buffer[i + 1];
 
-      // above
+      /* above */
       n = i - width - 1;
       if (buffer[n] < value) value = buffer[n];
       n++;
@@ -115,7 +115,7 @@ void erode(unsigned char * img, int width, int height,
       n++;
       if (buffer[n] < value) value = buffer[n];
 
-      // below
+      /* below */
       n = i + width - 1;
       if (buffer[n] < value) value = buffer[n];
       n++;
