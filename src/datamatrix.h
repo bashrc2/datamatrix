@@ -164,28 +164,13 @@ int point_in_polygon(int x, int y, int points[], int no_of_points);
 
 /* convert.c */
 
-void bitwise_to_mono(unsigned char * bitwise, int width, int height,
-                     unsigned char * img);
-
-void bitwise_to_colour(unsigned char * bitwise, int width, int height,
-                       unsigned char * img, int bytesperpixel);
-
-void mono_to_colour(unsigned char * img, int width, int height,
+void mono_to_colour(unsigned char img[], int width, int height,
                     int bitsperpixel,
-                    unsigned char * colour);
+                    unsigned char colour[]);
 
-void colour_to_mono(unsigned char * img, int width, int height,
+void colour_to_mono(unsigned char img[], int width, int height,
                     int bitsperpixel,
-                    unsigned char * mono);
-
-void mono_to_bitwise(unsigned char * img, int width, int height,
-                     unsigned char * bitwise);
-
-int save_bitwise(char * filename,
-                 unsigned char * bitwise, int width, int height);
-
-int load_bitwise(char * filename,
-                 unsigned char * bitwise, int width, int height);
+                    unsigned char mono[]);
 
 /* erosiondilation.c */
 
