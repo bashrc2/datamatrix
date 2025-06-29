@@ -85,6 +85,12 @@ struct canny_params {
 int params_initialised = 0;
 struct canny_params cannyparams;
 
+/**
+ * \brief initialise object used to contain line segments
+ * \param segments object containing line segments
+ * \param width width of the image
+ * \param height height of the image
+ */
 void init_line_segments(struct line_segments * segments,
                         int width, int height)
 {
@@ -135,6 +141,10 @@ void init_line_segments(struct line_segments * segments,
   segments->edge_centre_hits = 0;
 }
 
+/**
+ * \brief free memory for an object containing line segments
+ * \param segments object containing line segments
+ */
 void free_line_segments(struct line_segments * segments)
 {
   int i;
@@ -165,8 +175,11 @@ void free_line_segments(struct line_segments * segments)
   free(segments->linefit2);
 }
 
-/*! \brief initialise arrays */
-void canny_init_arrays(struct canny_params * params)
+/**
+ * \brief initialise arrays
+ * \param params object used to store the results of edge detection
+ */
+static void canny_init_arrays(struct canny_params * params)
 {
   unsigned int i;
   unsigned int picSize = params->picSize;
@@ -199,7 +212,12 @@ void canny_init_arrays(struct canny_params * params)
   }
 }
 
-void canny_init(struct canny_params * params, float edge_radius)
+/**
+ * \brief initialise canny edges object
+ * \param params object used to store the results of edge detection
+ * \param edge_radius canny edge detection radius
+ */
+static void canny_init(struct canny_params * params, float edge_radius)
 {
   params->GAUSSIAN_CUT_OFF = 0.005f;
   params->MAGNITUDE_SCALE = 100.0f;
@@ -239,7 +257,11 @@ void canny_init(struct canny_params * params, float edge_radius)
   params->diffKernel.Data = NULL;
 }
 
-void canny_free(struct canny_params * params)
+/**
+ * \brief free memory for a canny edges object
+ * \param params object used to store the results of edge detection
+ */
+static void canny_free(struct canny_params * params)
 {
   if (params->kernel.Data != NULL) {
     free(params->data);
@@ -257,20 +279,25 @@ void canny_free(struct canny_params * params)
   }
 }
 
-float canny_gaussian(float x, float sigma)
+/**
+ * \brief canny gausiian function
+ */
+static float canny_gaussian(float x, float sigma)
 {
   return exp(-(x * x) / (2.0f * sigma * sigma));
 }
 
-/* non-recursive edge following */
-void canny_follow(unsigned int x1,
-                  unsigned int y1,
-                  unsigned int i1,
-                  int * threshold,
-                  int * followedEdges,
-                  int * magnitude,
-                  int * width,
-                  int * height)
+/**
+ * \brief non-recursive edge following
+ */
+static void canny_follow(unsigned int x1,
+                         unsigned int y1,
+                         unsigned int i1,
+                         int * threshold,
+                         int * followedEdges,
+                         int * magnitude,
+                         int * width,
+                         int * height)
 {
   int following = 1;
   unsigned int x0,x2,y0,y2,x,y,i2,i3;
@@ -308,12 +335,19 @@ void canny_follow(unsigned int x1,
   }
 }
 
-void canny_perform_hysteresis(int width, int height,
-                              int low,
-                              int high,
-                              int * followedEdges,
-                              int no_of_edges,
-                              struct canny_params * params)
+/**
+ * \brief canny edge detection hysteresis
+ * \param width width of the image
+ * \param height height of the image
+ * \param followedEdges array containing edges followed
+ * \param no_of_edges number of edges in the image
+ * \param params object used to store the results of edge detection
+ */
+static void canny_perform_hysteresis(int width, int height,
+                                     int low, int high,
+                                     int followedEdges[],
+                                     int no_of_edges,
+                                     struct canny_params * params)
 {
   int imageSize = width * height;
   int offset = imageSize - 1;
@@ -339,12 +373,16 @@ void canny_perform_hysteresis(int width, int height,
   }
 }
 
-void canny_get_thresholds(unsigned int histogram[],
-                          float * meanDark,
-                          float * meanLight)
+/**
+ * \brief gets mean dark and light thresholds for canny edge detection
+ * \param reflectance histogram
+ * \param meanDark returned mean dark threshold
+ * \param meanLight returned mean light threshold
+ */
+static void canny_get_thresholds(unsigned int histogram[],
+                                 float * meanDark,
+                                 float * meanLight)
 {
-  /*float Tmin = 0.0f;
-    float Tmax = 0.0f;*/
   float minVariance = 999999.0f;
   float currMeanDark = 0.0f;
   float currMeanLight = 0.0f;
@@ -352,8 +390,6 @@ void canny_get_thresholds(unsigned int histogram[],
   float varianceLight = 0.0f;
   float darkHits = 0.0f;
   float lightHits = 0.0f;
-  /*float bestDarkHits = 0.0f;
-    float bestLightHits = 0.0f;*/
   float histogramSquaredMagnitude[256] = {0};
   int h = 0;
   int bucket = 0;
@@ -418,25 +454,28 @@ void canny_get_thresholds(unsigned int histogram[],
 
     if (variance < minVariance) {
       minVariance = variance;
-      /*Tmin = greyLevel;*/
       *meanDark = currMeanDark;
       *meanLight = currMeanLight;
-      /*bestDarkHits = darkHits;
-        bestLightHits = lightHits;*/
     }
 
     if ((int)(variance * 1000) == (int)(minVariance * 1000)) {
-      /*Tmax = greyLevel;*/
       *meanLight = currMeanLight;
-      /*bestLightHits = lightHits;*/
     }
   }
 }
 
-void canny_auto_threshold(unsigned char * img,
-                          int width, int height,
-                          int samplingStepSize,
-                          struct canny_params * params)
+/**
+ * \brief canny edge detection with automatic threshold calculation
+ * \param img mono image
+ * \param width width of the image
+ * \param height height of the image
+ * \param samplingStepSize subsampling step size
+ * \param params object used to store the results of edge detection
+ */
+static void canny_auto_threshold(unsigned char img[],
+                                 int width, int height,
+                                 int samplingStepSize,
+                                 struct canny_params * params)
 {
   unsigned int tx =
     (unsigned int)(width * params->sampling_radius_percent / 100);
