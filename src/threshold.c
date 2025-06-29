@@ -129,25 +129,3 @@ int meanlight_threshold(unsigned char img[], int width, int height,
   mono_to_colour(img_mono, width, height, bitsperpixel, img);
   return percent;
 }
-
-/**
- * \brief returns non-zero if the given point is in the given polygon
- * \param x x coordinate
- * \param y y coordinate
- * \param points polygon vertices
- * \param no_of_points number of polygon vertices
- * \return non-zero if inside polygon
- */
-int point_in_polygon(int x, int y, int points[], int no_of_points)
-{
-  int i, j, c = 0;
-
-  for(i = 0, j = no_of_points - 1; i < no_of_points; j = i++) {
-    if (((points[i*2+1] >= y) != (points[j*2+1] >= y)) &&
-        (x <= (points[j*2] - points[i*2]) * (y - points[i*2+1]) /
-         (points[j*2+1] - points[i*2+1]) + points[i*2]))
-      c = 1 - c;
-  }
-
-  return c;
-}

@@ -521,3 +521,25 @@ void get_centroid(float perimeter_x0, float perimeter_y0,
   *centre_x = (perimeter_x0 + perimeter_x1 + perimeter_x2 + perimeter_x3) / 4;
   *centre_y = (perimeter_y0 + perimeter_y1 + perimeter_y2 + perimeter_y3) / 4;
 }
+
+/**
+ * \brief returns non-zero if the given point is in the given polygon
+ * \param x x coordinate
+ * \param y y coordinate
+ * \param points polygon vertices
+ * \param no_of_points number of polygon vertices
+ * \return non-zero if inside polygon
+ */
+int point_in_polygon(int x, int y, int points[], int no_of_points)
+{
+  int i, j, c = 0;
+
+  for(i = 0, j = no_of_points - 1; i < no_of_points; j = i++) {
+    if (((points[i*2+1] >= y) != (points[j*2+1] >= y)) &&
+        (x <= (points[j*2] - points[i*2]) * (y - points[i*2+1]) /
+         (points[j*2+1] - points[i*2+1]) + points[i*2]))
+      c = 1 - c;
+  }
+
+  return c;
+}

@@ -160,8 +160,6 @@ int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
                         unsigned char thresholded[]);
 
-int point_in_polygon(int x, int y, int points[], int no_of_points);
-
 /* convert.c */
 
 void mono_to_colour(unsigned char img[], int width, int height,
@@ -515,6 +513,8 @@ int detect_vertical_symmetry(unsigned char img[],
                              int * tx, int * ty, int * bx, int * by);
 
 /* geometry.c */
+int point_in_polygon(int x, int y, int points[], int no_of_points);
+
 void get_centroid(float perimeter_x0, float perimeter_y0,
                   float perimeter_x1, float perimeter_y1,
                   float perimeter_x2, float perimeter_y2,
