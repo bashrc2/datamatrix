@@ -23,7 +23,8 @@
 
 #include "datamatrix.h"
 
-/* \brief shrinks the perimeter after dilation
+/**
+ * \brief shrinks the perimeter after dilation
  * \param erosion_itterations number of erosion itterations
  * \param dilate_itterations number of dilation itterations
  * \param perimeter_x0 first perimeter x coord
@@ -77,7 +78,8 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
   *perimeter_y3 = cy + (dy * fraction);
 }
 
-/* \brief does at least one edge exist along a given line?
+/**
+ * \brief does at least one edge exist along a given line?
  * \param mono_img mono image
  * \param width width of the image
  * \param height height of the image
@@ -118,7 +120,8 @@ static unsigned char line_has_edges(unsigned char mono_img[],
   return 0;
 }
 
-/* \brief search for edges along a line in a particular direction
+/**
+ * \brief search for edges along a line in a particular direction
  * \param mono_img mono image array
  * \param width width of the image
  * \param height height of the image
@@ -186,7 +189,8 @@ static unsigned char search_line_points(unsigned char mono_img[],
   return 0;
 }
 
-/* \brief try to expand each side outwards until no edges are encountered
+/**
+ * \brief try to expand each side outwards until no edges are encountered
  * \param mono_img mono image array
  * \param width width of the image
  * \param height height of the image
@@ -335,7 +339,8 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
   return grown;
 }
 
-/* \brief try to fit each side to edges
+/**
+ * \brief try to fit each side to edges
  * \param mono_img mono image array
  * \param width width of the image
  * \param height height of the image

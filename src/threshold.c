@@ -26,7 +26,8 @@
 
 #include "datamatrix.h"
 
-/* \brief is this a mostly dark image?
+/**
+ * \brief is this a mostly dark image?
  * \param img_mono mono image array
  * \param width width of the image
  * \param height height of the image
@@ -58,7 +59,7 @@ static unsigned char is_dark_image(unsigned char img_mono[],
   return 1;
 }
 
-/*
+/**
  * \brief creates a thresholded image
  * \param img image array
  * \param width width of the image
@@ -129,7 +130,7 @@ int meanlight_threshold(unsigned char img[], int width, int height,
   return percent;
 }
 
-/*
+/**
  * \brief returns non-zero if the given point is in the given polygon
  * \param x x coordinate
  * \param y y coordinate

@@ -23,7 +23,7 @@
 
 #include "datamatrix.h"
 
-/*
+/**
  * \brief returns a probability that a given perimeter side described by a
  *        line is the timing border at a given frequency
  * \param mono_img mono image array
@@ -84,7 +84,7 @@ static int get_timing_prob_side(unsigned char mono_img[],
   return (int)(prob * 5000 / (samples*frequency));
 }
 
-/*
+/**
  * \brief returns a probability in the range 0-10000 for the existence of
  *        timing border at the given frequency.
  *        Here we check three corners - an "L" shape - which the timing borders
@@ -134,7 +134,7 @@ static int get_timing_prob(unsigned char mono_img[],
   return prob;
 }
 
-/*
+/**
  * \brief detects the timing border for a square NxN datamatrix
  * \param mono_img mono image array
  * \param width width of the image
@@ -294,7 +294,7 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
   return probable_frequency;
 }
 
-/*
+/**
  * \brief returns the probable frequency of the timing border
  * \param mono_img mono image array
  * \param width width of the image
@@ -364,7 +364,7 @@ int detect_timing_pattern(unsigned char mono_img[],
   return -1;
 }
 
-/*
+/**
  * \brief fills in any missing fixed pattern after orientation
  * \param grid grid object
  */
@@ -416,7 +416,7 @@ static void complete_fixed_pattern(struct grid_2d * grid)
     (unsigned char)(timing_border_damage*100/timing_border_cells);
 }
 
-/*
+/**
  * \brief flips and/or mirrors the grid to get it into a standard orientation for decoding
  * \param grid grid object
  */
@@ -489,7 +489,7 @@ static void orient_grid(struct grid_2d * grid)
   }
 }
 
-/*
+/**
  * \brief creates a grid object with various arrays used for decoding
  * \param dimension_x x dimension of the grid
  * \param dimension_y y dimension of the grid
@@ -596,7 +596,7 @@ static void create_grid_base(int dimension_x, int dimension_y,
   assert(grid->loc != NULL);
 }
 
-/*
+/**
  * \brief create a grid from an occupancy pattern.
  *        This is used by unit testing
  * \param dimension_x x dimension of the grid
@@ -621,7 +621,7 @@ void create_grid_from_pattern(int dimension_x, int dimension_y,
   complete_fixed_pattern(grid);
 }
 
-/*
+/**
  * \brief samples a number of pixels for a grid cell within a thresholded image
  *        and returns the number of white pixels in the cell
  * \param mono_img mono binary image array
@@ -652,7 +652,7 @@ static int cell_sample_solid(unsigned char mono_img[],
   return hits;
 }
 
-/*
+/**
  * \brief samples a number of pixels in a ring pattern for a grid cell within
  *        a thresholded image and returns the number of white pixels in the
  *        cell. Ring sampling is useful because under some illumination types
@@ -700,7 +700,7 @@ static int cell_sample_ring(unsigned char mono_img[],
   return hits;
 }
 
-/*
+/**
  * \brief create a new grid with the given dimensions
  * \param dimension_x x dimension of the grid
  * \param dimension_y y dimension of the grid
@@ -819,7 +819,7 @@ void create_grid(int dimension_x, int dimension_y,
   complete_fixed_pattern(grid);
 }
 
-/*
+/**
  * \brief frees memory for a grid object
  * \param grid grid object
  */
@@ -855,7 +855,7 @@ void free_grid(struct grid_2d * grid)
   free(grid->loc);
 }
 
-/*
+/**
  * \brief shows the grid occupancy, including any detected cell damage
  * \param grid grid object
  */
@@ -884,7 +884,7 @@ void show_grid(struct grid_2d * grid)
   printf("\n");
 }
 
-/*
+/**
  * \brief shows the detected grid as an image
  * \param grid grid object
  * \param image_data image array to be shown

@@ -28,7 +28,7 @@
 #include "png2.h"
 #include "datamatrix.h"
 
-/*
+/**
  * \brief read a datamatrix from an image
  * \param image_data image array
  * \param image_width width of the image

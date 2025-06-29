@@ -22,7 +22,7 @@
 
 #include "datamatrix.h"
 
-/*
+/**
  * \brief returns the grid cell width
  * \param grid grid object
  * \return cell width
@@ -40,7 +40,7 @@ static float get_cell_width(struct grid_2d * grid)
   return longest_side / grid->dimension_y;
 }
 
-/*
+/**
  * \brief returns 1 if the given point is in the grid quiet zone perimeter
  * \param grid grid object
  * \param x x coordinate to test
@@ -60,7 +60,7 @@ static unsigned char point_in_quiet_zone(struct grid_2d * grid,
   return 0;
 }
 
-/*
+/**
  * \brief returns 1 if the given point is within the grid perimeter
  * \param grid grid object
  * \param x x coordinate to test
@@ -80,7 +80,7 @@ static unsigned char point_in_perimeter(struct grid_2d * grid,
   return 0;
 }
 
-/*
+/**
  * \brief calculates the perimeter of the quiet zone around the datamatrix symbol
  * \param grid grid object
  */
@@ -127,7 +127,7 @@ static void calculate_quiet_zone(struct grid_2d * grid)
   grid->quiet_zone_perimeter.y3 = points[7];
 }
 
-/*
+/**
  * \brief get the offset of a grid cell from its theoretical centre
  * \param thresholded_image_data thresholded (binary) image array
  * \param image_width width of the image
@@ -192,7 +192,7 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
   }
 }
 
-/*
+/**
  * \brief calculate grid non-uniformity
  * \param grid grid object
  * \param thresholded_image_data binary image
@@ -294,7 +294,7 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
   }
 }
 
-/*
+/**
  * \brief calculate axial non-uniformity as the percent difference between
  *        cell width and height
  * \param grid grid object
@@ -338,7 +338,7 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
   }
 }
 
-/*
+/**
  * \brief returns the bounding box for the grid, including the quiet zone
  * \param grid grid object
  * \param image_width width of the image
@@ -381,7 +381,8 @@ static void get_grid_bounding_box(struct grid_2d * grid,
   if (*max_y >= image_height) *max_y = image_height-1;
 }
 
-/* \brief Calculate grid cell modulation
+/**
+ * \brief Calculate grid cell modulation
  *        Also calculates quiet zone occupancy and contrast uniformity
  * \param grid grid object
  * \param image_data image array
@@ -505,7 +506,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
   }
 }
 
-/*
+/**
  * \brief contrast between highest and lowest reflectance
  *        Also calculates minimum reflectance
  * \param grid grid object
@@ -572,7 +573,7 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
   }
 }
 
-/*
+/**
  * \brief AS9132 calculate angle of distortion
  * \param grid grid object
  */
@@ -589,8 +590,8 @@ static void quality_metric_angle_of_distortion(struct grid_2d * grid)
   grid->angle_of_distortion = 90 - angle_degrees;
 }
 
-/*
- * Calculates all quality metrics for symbol verification
+/**
+ * \brief Calculates all quality metrics for symbol verification
  * \param grid grid object
  * \param image_data image array
  * \param thresholded_image_data binary image array
@@ -668,7 +669,8 @@ void calculate_quality_metrics(struct grid_2d * grid,
   }
 }
 
-/* \brief returns the overall quality grading
+/**
+ * \brief returns the overall quality grading
  *        See GS1 2D Barcode Verification Process Implementation
  *        Guideline 7.3
  * \param grid grid object
@@ -701,7 +703,7 @@ static unsigned char overall_quality_grade(struct grid_2d * grid)
   return grade;
 }
 
-/*
+/**
  * \brief displays quality metrics
  * \param grid grid object
  */

@@ -27,7 +27,8 @@
 
 #include "datamatrix.h"
 
-/* \brief state machine for handling GS1 semantics
+/**
+ * \brief state machine for handling GS1 semantics
  * \param result Plaintext decode string
  * \param gs1_result human readable GS1 formatted decode string
  * \param debug set to 1 if in debug mode

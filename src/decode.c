@@ -107,7 +107,10 @@ static void ecc200_decode_next_byte_256(unsigned char * is_structured_append,
   *state = ASCII;
 }
 
-/* returns the percentage of unused error correction */
+/**
+ * \brief returns the percentage of unused error correction
+ * \return unused error correction as a percentage
+ */
 static unsigned char get_unused_error_correction(int no_of_codewords,
                                                  int error_correction_codewords,
                                                  int * no_of_errors,
@@ -127,6 +130,9 @@ static unsigned char get_unused_error_correction(int no_of_codewords,
   return (unsigned char)(unused_error_correction * 100);
 }
 
+/**
+ * \brief ASCII encoding
+ */
 static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                                      unsigned char * is_gs1_encodation,
                                      int * application_identifier,
@@ -234,7 +240,7 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
   }
 }
 
-/*!
+/**
  * \brief C40 encoding (IEC 16022)
  */
 static void ecc200_decode_next_c40(unsigned char * is_structured_append,
@@ -367,7 +373,9 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
   }
 }
 
-/* edifact encodation */
+/**
+ * \brief edifact encodation
+ */
 static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        unsigned char * is_gs1_encodation,
                                        int * application_identifier,
@@ -433,7 +441,9 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
   free(unpacked);
 }
 
-/* x12 encodation */
+/**
+ * \brief x12 encodation
+ */
 static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                                    unsigned char * is_gs1_encodation,
                                    int * application_identifier,
@@ -1335,7 +1345,9 @@ static int reed_solomon_decode(int symbolBits,
   return count;
 }
 
-/* error correction */
+/**
+ * \brief reed solomon error correction
+ */
 static int reed_solomon_correct(int n_err_data,
                                 unsigned char rs_codewords[],
                                 int rs_codewords_length,
@@ -1509,7 +1521,7 @@ static unsigned char reed_solomon(unsigned char codewords[],
   return -1;
 }
 
-/*!
+/**
  * \brief returns the number of error correction words within the given data matrix pattern
  * \param cells_across number of cells across the grid
  * \param cells_down number of cells down the grid
@@ -1569,7 +1581,7 @@ static int get_no_of_error_correction_words(int cells_across, int cells_down)
   return 0;
 }
 
-/*!
+/**
  * \brief place key and value within translation_table
  * \param translation_table Translation table array
  * \param no_of_rows number of rows in the table
@@ -1600,7 +1612,7 @@ static void translation_table_module(struct key_value_pair_int* translation_tabl
   }
 }
 
-/*!
+/**
  * \brief "utah" places the 8 bits in utah shape
  * \param translation_table table data
  * \param no_of_rows number of rows in the table
@@ -1631,7 +1643,7 @@ static void utah(struct key_value_pair_int** translation_table,
                            row, col, chr, 8);
 }
 
-/*!
+/**
  * \brief corner1 shape within translation table
  * \param translation_table
  * \param no_of_rows number of rows in the table
@@ -1660,7 +1672,7 @@ static void corner1(struct key_value_pair_int** translation_table,
                            3, no_of_cols - 1, chr, 8);
 }
 
-/*!
+/**
  * \brief corner2 shape within translation table
  * \param translation_table
  * \param no_of_rows number of rows in the table
@@ -1689,7 +1701,7 @@ static void corner2(struct key_value_pair_int** translation_table,
                            1, no_of_cols - 1, chr, 8);
 }
 
-/*!
+/**
  * \brief corner3 shape within translation table
  * \param translation_table
  * \param no_of_rows number of rows in the table
@@ -1718,7 +1730,7 @@ static void corner3(struct key_value_pair_int** translation_table,
                            3, no_of_cols - 1, chr, 8);
 }
 
-/*!
+/**
  * \brief corner4 shape within translation table
  * \param translation_table
  * \param no_of_rows number of rows in the table
@@ -1769,7 +1781,7 @@ static void show_translation_table(struct key_value_pair_int** translation_table
   printf("\n");
 }
 
-/*!
+/**
  * \brief creates a translation table using the given dimensions
  * \param no_of_rows number of rows in the table
  * \param no_of_cols number of columns in the table
@@ -1844,7 +1856,9 @@ static struct key_value_pair_int** generate_translation_table(int no_of_rows, in
   return NULL;
 }
 
-/* finds the given codeword+bit within the translation table */
+/**
+ * \brief finds the given codeword+bit within the translation table
+ */
 static void locate_bit(struct key_value_pair_int* translation_table[],
                        int table_dim_x,
                        int table_dim_y,
@@ -1871,6 +1885,13 @@ static void locate_bit(struct key_value_pair_int* translation_table[],
   }
 }
 
+/**
+ * \brief displays the codeword pattern
+ * \param title title to be shown
+ * \param codeword_pattern the coreword array to be shown
+ * \param dimension_x x dimension of the grid
+ * \param dimension_y y dimension of the grid
+ */
 static void show_codeword_pattern(char * title, int * codeword_pattern[],
                                   int dimension_x, int dimension_y)
 {
@@ -1925,7 +1946,7 @@ static void show_codeword_pattern(char * title, int * codeword_pattern[],
   }
 }
 
-/*!
+/**
  * \brief translates the given grid occupancy pattern into a set of codewords
  * \param grid grid object
  * \param debug set to 1 if in debug mode
@@ -1993,6 +2014,12 @@ static int translate(struct grid_2d * grid, unsigned char debug)
   return codewords_length;
 }
 
+/**
+ * \brief decode the detected datamatrix within the given grid
+ * \param grid grid object
+ * \param debug set to 1 to enable debug mode
+ * \param result returned decoded text
+ */
 void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                        char result[])
 {

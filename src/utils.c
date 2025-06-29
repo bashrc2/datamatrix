@@ -22,7 +22,8 @@
 
 #include "datamatrix.h"
 
-/* \brief a safe version of strcat which avoids buffer overrun
+/**
+ * \brief a safe version of strcat which avoids buffer overrun
  * \param result the string to be added to
  * \param text the string to be added */
 int decode_strcat(char * result, char * text)
@@ -33,7 +34,8 @@ int decode_strcat(char * result, char * text)
   return 0;
 }
 
-/* \brief add a single character to a string
+/**
+ * \brief add a single character to a string
  * \param result the string to be added to
  * \param chr the character to be added */
 int decode_strcat_char(char * result, char chr)
