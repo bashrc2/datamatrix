@@ -192,6 +192,14 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
   }
 }
 
+/*
+ * \brief calculate grid non-uniformity
+ * \param grid grid object
+ * \param thresholded_image_data binary image
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param image_bitsperpixel Number of bits per pixel
+ */
 static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
                                               unsigned char thresholded_image_data[],
                                               int image_width, int image_height,
@@ -286,8 +294,11 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
   }
 }
 
-/* calculate axial non-uniformity as the percent difference between
-   cell width and height */
+/*
+ * \brief calculate axial non-uniformity as the percent difference between
+ *        cell width and height
+ * \param grid grid object
+ */
 static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
 {
   float cell_width_longest, cell_width_shortest;
@@ -327,7 +338,16 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
   }
 }
 
-/* returns the bounding box for the grid, including the quiet zone */
+/*
+ * \brief returns the bounding box for the grid, including the quiet zone
+ * \param grid grid object
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param min_x returned bounding box top left x coordinate
+ * \param min_y returned bounding box top left y coordinate
+ * \param max_x returned bounding box bottom right x coordinate
+ * \param max_y returned bounding box bottom right y coordinate
+ */
 static void get_grid_bounding_box(struct grid_2d * grid,
                                   int image_width, int image_height,
                                   int * min_x, int * min_y,
@@ -361,7 +381,15 @@ static void get_grid_bounding_box(struct grid_2d * grid,
   if (*max_y >= image_height) *max_y = image_height-1;
 }
 
-/* calculate grid cell modulation */
+/* \brief Calculate grid cell modulation
+ *        Also calculates quiet zone occupancy and contrast uniformity
+ * \param grid grid object
+ * \param image_data image array
+ * \param thresholded_image_data binary image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param mage_bitsperpixel Number of bits per pixel
+ */
 static void quality_metric_modulation(struct grid_2d * grid,
                                       unsigned char image_data[],
                                       unsigned char thresholded_image_data[],
@@ -477,7 +505,15 @@ static void quality_metric_modulation(struct grid_2d * grid,
   }
 }
 
-/* contrast between highest and lowest reflectance */
+/*
+ * \brief contrast between highest and lowest reflectance
+ *        Also calculates minimum reflectance
+ * \param grid grid object
+ * \param image_data image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param mage_bitsperpixel Number of bits per pixel
+ */
 static void quality_metric_symbol_contrast(struct grid_2d * grid,
                                            unsigned char image_data[],
                                            int image_width, int image_height,
@@ -536,7 +572,10 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
   }
 }
 
-/* AS9132 calculate angle of distortion */
+/*
+ * \brief AS9132 calculate angle of distortion
+ * \param grid grid object
+ */
 static void quality_metric_angle_of_distortion(struct grid_2d * grid)
 {
   float corner_radians =
@@ -550,6 +589,15 @@ static void quality_metric_angle_of_distortion(struct grid_2d * grid)
   grid->angle_of_distortion = 90 - angle_degrees;
 }
 
+/*
+ * Calculates all quality metrics for symbol verification
+ * \param grid grid object
+ * \param image_data image array
+ * \param thresholded_image_data binary image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param mage_bitsperpixel Number of bits per pixel
+ */
 void calculate_quality_metrics(struct grid_2d * grid,
                                unsigned char image_data[],
                                unsigned char thresholded_image_data[],
@@ -620,8 +668,12 @@ void calculate_quality_metrics(struct grid_2d * grid,
   }
 }
 
-/* returns the overall quality grading
-   See GS1 2D Barcode Verification Process Implementation Guideline 7.3 */
+/* \brief returns the overall quality grading
+ *        See GS1 2D Barcode Verification Process Implementation
+ *        Guideline 7.3
+ * \param grid grid object
+ * \return overall grade in the range 0-4
+ */
 static unsigned char overall_quality_grade(struct grid_2d * grid)
 {
   unsigned char grade = grid->symbol_contrast_grade;
@@ -649,6 +701,10 @@ static unsigned char overall_quality_grade(struct grid_2d * grid)
   return grade;
 }
 
+/*
+ * \brief displays quality metrics
+ * \param grid grid object
+ */
 void show_quality_metrics(struct grid_2d * grid)
 {
   unsigned char grade = overall_quality_grade(grid);
