@@ -254,6 +254,9 @@ void show_line_segments(struct line_segments * segments,
 void show_square_line_segments(struct line_segments * segments,
                                unsigned char result[], int width, int height,
                                int result_bitsperpixel);
+void show_rectangular_line_segments(struct line_segments * segments,
+                                    unsigned char result[], int width, int height,
+                                    int result_bitsperpixel);
 void show_peripheral_edges(struct line_segments * segments,
                            unsigned char result[], int width, int height,
                            int result_bitsperpixel);

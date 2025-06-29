@@ -194,7 +194,8 @@ int read_datamatrix(unsigned char image_data[],
       mono_to_colour(mono_img, image_width, image_height,
                      image_bitsperpixel, image_data);
       if (debug == 1) {
-        write_png_file("debug_03_erode_dilate.png", image_width, image_height, 24, image_data);
+        write_png_file("debug_03_erode_dilate.png",
+                       image_width, image_height, 24, image_data);
       }
     }
 
@@ -208,7 +209,9 @@ int read_datamatrix(unsigned char image_data[],
       return -724;
     }
     if (debug == 1) {
-      write_png_file("debug_04_thresholded.png", resized_thresholded_width, resized_thresholded_height, 24, resized_image_data);
+      write_png_file("debug_04_thresholded.png",
+                     resized_thresholded_width, resized_thresholded_height, 24,
+                     resized_image_data);
     }
 
     if (edge_threshold > 0) {
@@ -219,32 +222,41 @@ int read_datamatrix(unsigned char image_data[],
       float perimeter_x3=0, perimeter_y3=0;
 
       colour_to_mono(resized_image_data,
-                     resized_thresholded_width,resized_thresholded_height,image_bitsperpixel,thresholded);
+                     resized_thresholded_width,resized_thresholded_height,
+                     image_bitsperpixel,thresholded);
 
-      detect_edges(thresholded,resized_thresholded_width,resized_thresholded_height,edge_threshold, edge_radius);
+      detect_edges(thresholded,resized_thresholded_width,resized_thresholded_height,
+                   edge_threshold, edge_radius);
 
       /* convert the mono image back to colour */
       mono_to_colour(thresholded, resized_thresholded_width, resized_thresholded_height,
                      image_bitsperpixel, resized_image_data);
       if (debug == 1) {
-        write_png_file("debug_05_edges.png", resized_thresholded_width, resized_thresholded_height, 24, resized_image_data);
+        write_png_file("debug_05_edges.png", resized_thresholded_width,
+                       resized_thresholded_height, 24, resized_image_data);
       }
 
-      get_line_segments(thresholded, resized_thresholded_width, resized_thresholded_height, &segments, min_segment_length);
+      get_line_segments(thresholded, resized_thresholded_width,
+                        resized_thresholded_height, &segments, min_segment_length);
 
       if (debug == 1) {
         show_line_segments(&segments, resized_image_data,
-                           resized_thresholded_width, resized_thresholded_height, image_bitsperpixel);
-        write_png_file("debug_06a_line_segments.png", resized_thresholded_width, resized_thresholded_height,
+                           resized_thresholded_width, resized_thresholded_height,
+                           image_bitsperpixel);
+        write_png_file("debug_06a_line_segments.png",
+                       resized_thresholded_width, resized_thresholded_height,
                        24, resized_image_data);
       }
 
-      segment_edges_within_roi(&segments, resized_thresholded_width, resized_thresholded_height, 50);
+      segment_edges_within_roi(&segments, resized_thresholded_width,
+                               resized_thresholded_height, 50);
 
       if (debug == 1) {
         show_line_segments(&segments, resized_image_data,
-                           resized_thresholded_width, resized_thresholded_height, image_bitsperpixel);
-        write_png_file("debug_06b_line_segments_with_roi.png", resized_thresholded_width, resized_thresholded_height,
+                           resized_thresholded_width, resized_thresholded_height,
+                           image_bitsperpixel);
+        write_png_file("debug_06b_line_segments_with_roi.png",
+                       resized_thresholded_width, resized_thresholded_height,
                        24, resized_image_data);
       }
 
@@ -252,16 +264,26 @@ int read_datamatrix(unsigned char image_data[],
 
       if (debug == 1) {
         show_line_segments(&segments, resized_image_data,
-                           resized_thresholded_width, resized_thresholded_height, image_bitsperpixel);
-        write_png_file("debug_06c_joined_line_segments.png", resized_thresholded_width, resized_thresholded_height,
+                           resized_thresholded_width, resized_thresholded_height,
+                           image_bitsperpixel);
+        write_png_file("debug_06c_joined_line_segments.png",
+                       resized_thresholded_width, resized_thresholded_height,
                        24, resized_image_data);
       }
 
       if (debug == 1) {
         show_square_line_segments(&segments, resized_image_data,
-                                  resized_thresholded_width, resized_thresholded_height, image_bitsperpixel);
+                                  resized_thresholded_width,
+                                  resized_thresholded_height, image_bitsperpixel);
         write_png_file("debug_07_square_joined_line_segments.png",
-                       resized_thresholded_width, resized_thresholded_height, 24, resized_image_data);
+                       resized_thresholded_width, resized_thresholded_height, 24,
+                       resized_image_data);
+        show_rectangular_line_segments(&segments, resized_image_data,
+                                       resized_thresholded_width,
+                                       resized_thresholded_height, image_bitsperpixel);
+        write_png_file("debug_08_rectangular_joined_line_segments.png",
+                       resized_thresholded_width, resized_thresholded_height, 24,
+                       resized_image_data);
       }
 
       if (segments.no_of_segments == 0) {
@@ -328,13 +350,13 @@ int read_datamatrix(unsigned char image_data[],
         if (debug == 1) {
           show_peripheral_edges(&segments, resized_image_data, resized_thresholded_width, resized_thresholded_height,
                                 image_bitsperpixel);
-          write_png_file("debug_08_peripheral_edges.png", resized_thresholded_width, resized_thresholded_height,
+          write_png_file("debug_09_peripheral_edges.png", resized_thresholded_width, resized_thresholded_height,
                          24, resized_image_data);
         }
         if (debug == 1) {
           show_perimeter(&segments, resized_image_data, resized_thresholded_width, resized_thresholded_height,
                          image_bitsperpixel);
-          write_png_file("debug_09_perimeter.png", resized_thresholded_width, resized_thresholded_height,
+          write_png_file("debug_10_perimeter.png", resized_thresholded_width, resized_thresholded_height,
                          24, resized_image_data);
         }
 
@@ -346,7 +368,7 @@ int read_datamatrix(unsigned char image_data[],
                                perimeter_x1, perimeter_y1,
                                perimeter_x2, perimeter_y2,
                                perimeter_x3, perimeter_y3);
-          write_png_file("debug_10_shape_perimeter_small.png", resized_thresholded_width, resized_thresholded_height, 24, resized_image_data);
+          write_png_file("debug_11_shape_perimeter_small.png", resized_thresholded_width, resized_thresholded_height, 24, resized_image_data);
         }
 
         /* convert back to original image resolution */
@@ -369,7 +391,7 @@ int read_datamatrix(unsigned char image_data[],
                              perimeter_x2, perimeter_y2,
                              perimeter_x3, perimeter_y3);
         if (debug == 1) {
-          write_png_file("debug_11_shape_perimeter.png",
+          write_png_file("debug_12_shape_perimeter.png",
                          image_width, image_height, 24, image_data);
         }
         perimeter_found = 1;
@@ -404,7 +426,7 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x3, perimeter_y3);
           }
           if (debug == 1) {
-            write_png_file("debug_12_expand_perimeter_sides.png",
+            write_png_file("debug_13_expand_perimeter_sides.png",
                            image_width, image_height, 24, image_data);
           }
         }
@@ -430,7 +452,7 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x1, perimeter_y1,
                                  perimeter_x2, perimeter_y2,
                                  perimeter_x3, perimeter_y3);
-            write_png_file("debug_13_contract_perimeter_sides.png",
+            write_png_file("debug_14_contract_perimeter_sides.png",
                            image_width, image_height, 24, image_data);
           }
         }
@@ -478,7 +500,7 @@ int read_datamatrix(unsigned char image_data[],
                                 perimeter_x3, perimeter_y3, 1,
                                 debug, image_data,
                                 most_probable_frequency);
-          write_png_file("debug_14_detect_timing_pattern.png",
+          write_png_file("debug_15_detect_timing_pattern.png",
                          image_width, image_height, 24, image_data);
         }
 
@@ -507,7 +529,7 @@ int read_datamatrix(unsigned char image_data[],
                              image_bitsperpixel, image_data);
               show_grid_image(&grid, image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
               show_grid(&grid);
-              write_png_file("debug_15_grid_sampling.png", image_width, image_height, 24, image_data);
+              write_png_file("debug_16_grid_sampling.png", image_width, image_height, 24, image_data);
             }
             datamatrix_decode(&grid, debug, decode_result);
             free_grid(&grid);
@@ -560,7 +582,7 @@ int read_datamatrix(unsigned char image_data[],
                 mono_to_colour(mono_img, image_width, image_height,
                                image_bitsperpixel, image_data);
                 show_grid_image(&grid, image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
-                write_png_file("debug_16_grid_sampling.png", image_width, image_height, 24, image_data);
+                write_png_file("debug_17_grid_sampling.png", image_width, image_height, 24, image_data);
               }
               break;
             }
