@@ -522,14 +522,6 @@ void draw_line(unsigned char img[],
                int tx, int ty, int bx, int by,
                int line_width,
                int r, int g, int b);
-void draw_curve(unsigned char img[],
-                unsigned int width, unsigned int height,
-                int bitsperpixel,
-                int x1, int y1,
-                int x2, int y2,
-                int x3, int y3,
-                int line_width,
-                int r, int g, int b);
 
 /* symmetry.c */
 int detect_vertical_symmetry(unsigned char img[],
