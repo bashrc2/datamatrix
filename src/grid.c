@@ -23,6 +23,23 @@
 
 #include "datamatrix.h"
 
+/*
+ * \brief returns a probability that a given perimeter side described by a
+ *        line is the timing border at a given frequency
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param tx start x coordinate for the perimeter side
+ * \param ty start y coordinate for the perimeter side
+ * \param bx end x coordinate for the perimeter side
+ * \param by end y coordinate for the perimeter side
+ * \param frequency the timing border frequency to be checked
+ * \param sampling_radius radius of pixels to be checked at each location in the frequency
+ * \param debug set to 1 if in debug mode
+ * \param image_data colour image array
+ * \param debug_frequency set to 1 to show the pixels being checked within the colour image
+ * \return probability that a timing border exists at this frequency
+ */
 static int get_timing_prob_side(unsigned char mono_img[],
                                 int width, int height,
                                 float tx, float ty,
@@ -67,7 +84,31 @@ static int get_timing_prob_side(unsigned char mono_img[],
   return (int)(prob * 5000 / (samples*frequency));
 }
 
-/* returns a probability in the range 0-10000 for the existence of timing border at the given frequency */
+/*
+ * \brief returns a probability in the range 0-10000 for the existence of
+ *        timing border at the given frequency.
+ *        Here we check three corners - an "L" shape - which the timing borders
+ *        are expected to appear in
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param corner_x x coordinate of the corner to be checked (mid point of the "L" shape)
+ * \param corner_y y coordinate of the corner to be checked (mid point of the "L" shape)
+ * \param prev_corner_x x coordinate of the previous corner to be checked
+ *                      (first point of the "L" shape)
+ * \param prev_corner_y y coordinate of the previous corner to be checked
+ *                      (first point of the "L" shape)
+ * \param next_corner_x x coordinate of the next corner to be checked
+ *                      (last point of the "L" shape)
+ * \param next_corner_y y coordinate of the next corner to be checked
+ *                      (last point of the "L" shape)
+ * \param frequency the timing border frequency to be checked
+ * \param sampling_radius radius of pixels to be checked at each location in the frequency
+ * \param debug set to 1 if in debug mode
+ * \param image_data colour image array
+ * \param debug_frequency set to 1 to show the pixels being checked within the colour image
+ * \return probability that the given corner is the timing border
+ */
 static int get_timing_prob(unsigned char mono_img[],
                            int width, int height,
                            float corner_x, float corner_y,
@@ -93,6 +134,27 @@ static int get_timing_prob(unsigned char mono_img[],
   return prob;
 }
 
+/*
+ * \brief detects the timing border for a square NxN datamatrix
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \param threshold minimum threshold for probable timing border
+ * \param side_length length of perimeter sides in the square
+ * \param sampling_radius radius of pixels to be checked at each location in the frequency
+ * \param debug set to 1 if in debug mode
+ * \param image_data colour image array
+ * \param debug_frequency set to 1 to show the pixels being checked within the colour image
+ * \return the most likely timing border frequency
+ */
 static int detect_timing_pattern_square(unsigned char mono_img[],
                                         int width, int height,
                                         float perimeter_x0, float perimeter_y0,
@@ -232,7 +294,25 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
   return probable_frequency;
 }
 
-/* returns the probable frequency of the timing border */
+/*
+ * \brief returns the probable frequency of the timing border
+ * \param mono_img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \param sampling_radius radius of pixels to be checked at each location in the frequency
+ * \param debug set to 1 if in debug mode
+ * \param image_data colour image array
+ * \param debug_frequency set to 1 to show the pixels being checked within the colour image
+ * \return the most likely timing border frequency
+ */
 int detect_timing_pattern(unsigned char mono_img[],
                           int width, int height,
                           float perimeter_x0, float perimeter_y0,
@@ -284,7 +364,10 @@ int detect_timing_pattern(unsigned char mono_img[],
   return -1;
 }
 
-/* fills in any missing fixed pattern after orientation */
+/*
+ * \brief fills in any missing fixed pattern after orientation
+ * \param grid grid object
+ */
 static void complete_fixed_pattern(struct grid_2d * grid)
 {
   int grid_x, grid_y, expected;
@@ -333,7 +416,10 @@ static void complete_fixed_pattern(struct grid_2d * grid)
     (unsigned char)(timing_border_damage*100/timing_border_cells);
 }
 
-/* flips and/or mirrors the grid to get it into a standard orientation for decoding */
+/*
+ * \brief flips and/or mirrors the grid to get it into a standard orientation for decoding
+ * \param grid grid object
+ */
 static void orient_grid(struct grid_2d * grid)
 {
   int n, grid_x, grid_y, left_hits=0, right_hits=0, top_hits=0, bottom_hits=0;
@@ -403,6 +489,12 @@ static void orient_grid(struct grid_2d * grid)
   }
 }
 
+/*
+ * \brief creates a grid object with various arrays used for decoding
+ * \param dimension_x x dimension of the grid
+ * \param dimension_y y dimension of the grid
+ * \param grid grid object
+ */
 static void create_grid_base(int dimension_x, int dimension_y,
                              struct grid_2d * grid)
 {
@@ -504,7 +596,14 @@ static void create_grid_base(int dimension_x, int dimension_y,
   assert(grid->loc != NULL);
 }
 
-/* create a grid from an occupancy pattern */
+/*
+ * \brief create a grid from an occupancy pattern.
+ *        This is used by unit testing
+ * \param dimension_x x dimension of the grid
+ * \param dimension_y y dimension of the grid
+ * \param grid grid object
+ * \param occupancy grid occupancy array to be inserted
+ */
 void create_grid_from_pattern(int dimension_x, int dimension_y,
                               struct grid_2d * grid,
                               unsigned char occupancy[])
@@ -522,8 +621,17 @@ void create_grid_from_pattern(int dimension_x, int dimension_y,
   complete_fixed_pattern(grid);
 }
 
-/* samples a number of pixels for a grid cell within a thresholded image
-   and returns the number of white pixels in the cell */
+/*
+ * \brief samples a number of pixels for a grid cell within a thresholded image
+ *        and returns the number of white pixels in the cell
+ * \param mono_img mono binary image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param x x coordinate within the image to sample around
+ * \param y y coordinate within the image to sample around
+ * \param sampling_radius the radius within which to sample
+ * \return number of white (occupied) pixels
+ */
 static int cell_sample_solid(unsigned char mono_img[],
                              int image_width, int image_height,
                              int x, int y, int sampling_radius)
@@ -544,8 +652,19 @@ static int cell_sample_solid(unsigned char mono_img[],
   return hits;
 }
 
-/* samples a number of pixels for a grid cell within a thresholded image
-   and returns the number of white pixels in the cell */
+/*
+ * \brief samples a number of pixels in a ring pattern for a grid cell within
+ *        a thresholded image and returns the number of white pixels in the
+ *        cell. Ring sampling is useful because under some illumination types
+ *        part surface markings may appear as "donuts" or "O" shapes.
+ * \param mono_img mono binary image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param x x coordinate within the image to sample around
+ * \param y y coordinate within the image to sample around
+ * \param sampling_radius the radius within which to sample
+ * \return number of white (occupied) pixels
+ */
 static int cell_sample_ring(unsigned char mono_img[],
                             int image_width, int image_height,
                             int x, int y, int sampling_radius)
@@ -556,17 +675,21 @@ static int cell_sample_ring(unsigned char mono_img[],
   int bx = x + sampling_radius;
   int by = y + sampling_radius;
 
+  /* for computational efficiency we actually sample a square shape */
   if (tx < 0) tx = 0;
   if (ty < 0) ty = 0;
   if (bx >= image_width-1) bx = image_width-1;
   if (by >= image_height-1) by = image_height-1;
 
+  /* horizontal sides of the square */
   for (sample_x = tx; sample_x <= bx; sample_x++) {
     n = ty*image_width + sample_x;
     if (mono_img[n] > 0) hits++;
     n = by*image_width + sample_x;
     if (mono_img[n] > 0) hits++;
   }
+
+  /* vertical sides of the square */
   for (sample_y = ty; sample_y <= by; sample_y++) {
     n = sample_y*image_width + tx;
     if (mono_img[n] > 0) hits++;
@@ -577,7 +700,25 @@ static int cell_sample_ring(unsigned char mono_img[],
   return hits;
 }
 
-/* create a new grid with the given dimensions */
+/*
+ * \brief create a new grid with the given dimensions
+ * \param dimension_x x dimension of the grid
+ * \param dimension_y y dimension of the grid
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \param mono_img mono binary image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param sampling_radius the radius of pixels to sample for each grid cell
+ * \param sampling_pattern solid or ring sampling
+ * \param grid grid object
+ */
 void create_grid(int dimension_x, int dimension_y,
                  float perimeter_x0,
                  float perimeter_y0,
@@ -678,6 +819,10 @@ void create_grid(int dimension_x, int dimension_y,
   complete_fixed_pattern(grid);
 }
 
+/*
+ * \brief frees memory for a grid object
+ * \param grid grid object
+ */
 void free_grid(struct grid_2d * grid)
 {
   int x;
@@ -710,6 +855,10 @@ void free_grid(struct grid_2d * grid)
   free(grid->loc);
 }
 
+/*
+ * \brief shows the grid occupancy, including any detected cell damage
+ * \param grid grid object
+ */
 void show_grid(struct grid_2d * grid)
 {
   int n, x, y;
@@ -735,6 +884,16 @@ void show_grid(struct grid_2d * grid)
   printf("\n");
 }
 
+/*
+ * \brief shows the detected grid as an image
+ * \param grid grid object
+ * \param image_data image array to be shown
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param image_bitsperpixel Number of bits per pixel
+ * \param sampling_radius the radius of pixels to sample for each grid cell
+ * \param sampling_pattern solid or ring sampling
+ */
 void show_grid_image(struct grid_2d * grid,
                      unsigned char image_data[],
                      int image_width, int image_height,
