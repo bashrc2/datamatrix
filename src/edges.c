@@ -1919,7 +1919,7 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
                            no_of_edge_samples,
                            &x0, &y0, &x1, &y1);
     if (fit_edges == NO_LINE_FIT) {
-      printf("All sodes unable to fit line %d %d\n", side, fit_edges);
+      printf("All sides unable to fit line %d %d\n", side, fit_edges);
       return -1;
     }
     line_x0[side] = x0;
