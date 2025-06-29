@@ -139,6 +139,8 @@ static int get_timing_prob(unsigned char mono_img[],
  * \param mono_img mono image array
  * \param width width of the image
  * \param height height of the image
+ * \param minimum_grid_dimension minimum grid dimension
+ * \param maximum_grid_dimension maximum grid dimension
  * \param perimeter_x0 first perimeter x coord
  * \param perimeter_y0 first perimeter y coord
  * \param perimeter_x1 second perimeter x coord
@@ -157,6 +159,8 @@ static int get_timing_prob(unsigned char mono_img[],
  */
 static int detect_timing_pattern_square(unsigned char mono_img[],
                                         int width, int height,
+                                        int minimum_grid_dimension,
+                                        int maximum_grid_dimension,
                                         float perimeter_x0, float perimeter_y0,
                                         float perimeter_x1, float perimeter_y1,
                                         float perimeter_x2, float perimeter_y2,
@@ -188,6 +192,8 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
 
   for (index = 0; index < no_of_valid_squares; index++) {
     freq = IEC16022_valid_squares[index];
+    if ((freq < minimum_grid_dimension) ||
+        (freq > maximum_grid_dimension)) continue;
     pitch = side_length / freq;
     half_pitch = pitch/2;
     /* make a shrunken perimeter half the pitch smaller */
@@ -299,6 +305,8 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
  * \param mono_img mono image array
  * \param width width of the image
  * \param height height of the image
+ * \param minimum_grid_dimension minimum grid dimension
+ * \param maximum_grid_dimension maximum grid dimension
  * \param perimeter_x0 first perimeter x coord
  * \param perimeter_y0 first perimeter y coord
  * \param perimeter_x1 second perimeter x coord
@@ -315,6 +323,8 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
  */
 int detect_timing_pattern(unsigned char mono_img[],
                           int width, int height,
+                          int minimum_grid_dimension,
+                          int maximum_grid_dimension,
                           float perimeter_x0, float perimeter_y0,
                           float perimeter_x1, float perimeter_y1,
                           float perimeter_x2, float perimeter_y2,
@@ -338,6 +348,8 @@ int detect_timing_pattern(unsigned char mono_img[],
   if ((aspect_ratio > 80) && (aspect_ratio < 120)) {
     /* square */
     return detect_timing_pattern_square(mono_img, width, height,
+                                        minimum_grid_dimension,
+                                        maximum_grid_dimension,
                                         perimeter_x0, perimeter_y0,
                                         perimeter_x1, perimeter_y1,
                                         perimeter_x2, perimeter_y2,

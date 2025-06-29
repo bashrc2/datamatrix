@@ -45,6 +45,7 @@
 #define MAX_DECODE_LENGTH         1024
 /* max perimeter side length in pixels */
 #define MAX_PERIMETER_SIDE_LENGTH 4096
+#define MIN_GRID_DIMENSION        10
 #define MAX_GRID_DIMENSION        144
 #define MAX_CODEWORDS             (MAX_GRID_DIMENSION*MAX_GRID_DIMENSION)
 
@@ -583,6 +584,8 @@ void create_grid_from_pattern(int dimension_x, int dimension_y,
 
 int detect_timing_pattern(unsigned char mono_img[],
                           int width, int height,
+                          int minimum_grid_dimension,
+                          int maximum_grid_dimension,
                           float perimeter_x0, float perimeter_y0,
                           float perimeter_x1, float perimeter_y1,
                           float perimeter_x2, float perimeter_y2,
@@ -675,6 +678,8 @@ int read_datamatrix(unsigned char image_data[],
                     float test_edge_threshold,
                     int test_frequency,
                     unsigned char verify,
+                    int minimum_grid_dimension,
+                    int maximum_grid_dimension,
                     char * decode_result);
 
 /* tests.c */

@@ -42,6 +42,8 @@
  * \param test_edge_threshold test with a specific edge threshold
  * \param test_frequency test using a known grid dimension
  * \param verify set to 1 if symbol quality metrics are to be calculated
+ * \param minimum_grid_dimension minimum grid dimension
+ * \param maximum_grid_dimension maximum grid dimension
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -55,6 +57,8 @@ int read_datamatrix(unsigned char image_data[],
                     float test_edge_threshold,
                     int test_frequency,
                     unsigned char verify,
+                    int minimum_grid_dimension,
+                    int maximum_grid_dimension,
                     char * decode_result)
 {
   struct line_segments segments;
@@ -453,6 +457,8 @@ int read_datamatrix(unsigned char image_data[],
         else {
           most_probable_frequency =
             detect_timing_pattern(mono_img, image_width, image_height,
+                                  minimum_grid_dimension,
+                                  maximum_grid_dimension,
                                   perimeter_x0, perimeter_y0,
                                   perimeter_x1, perimeter_y1,
                                   perimeter_x2, perimeter_y2,
@@ -464,6 +470,8 @@ int read_datamatrix(unsigned char image_data[],
           memcpy(image_data, original_thresholded_image_data,
                  image_width*image_height*(image_bitsperpixel/8));
           detect_timing_pattern(mono_img, image_width, image_height,
+                                minimum_grid_dimension,
+                                maximum_grid_dimension,
                                 perimeter_x0, perimeter_y0,
                                 perimeter_x1, perimeter_y1,
                                 perimeter_x2, perimeter_y2,
@@ -526,6 +534,8 @@ int read_datamatrix(unsigned char image_data[],
         for (int frequency_index = 0; frequency_index < no_of_valid_squares;
              frequency_index++) {
           most_probable_frequency = IEC16022_valid_squares[frequency_index];
+          if ((most_probable_frequency < minimum_grid_dimension) ||
+              (most_probable_frequency > maximum_grid_dimension)) continue;
           /* sample grid cells in different patterns */
           curr_sampling_radius = sampling_radius;
           for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;

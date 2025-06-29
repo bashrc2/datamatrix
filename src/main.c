@@ -84,11 +84,15 @@ int main(int argc, char* argv[])
     }
     if (strcmp(argv[i],"--mingrid")==0) {
       minimum_grid_dimension = atoi(argv[i+1]);
-      if (minimum_grid_dimension < 10) minimum_grid_dimension = 10;
+      if (minimum_grid_dimension < MIN_GRID_DIMENSION) {
+        minimum_grid_dimension = MIN_GRID_DIMENSION;
+      }
     }
     if (strcmp(argv[i],"--maxgrid")==0) {
       maximum_grid_dimension = atoi(argv[i+1]);
-      if (maximum_grid_dimension > 144) maximum_grid_dimension = 144;
+      if (maximum_grid_dimension > MAX_GRID_DIMENSION) {
+        maximum_grid_dimension = MAX_GRID_DIMENSION;
+      }
     }
     if (strcmp(argv[i],"--resizewidth")==0) {
       resized_image_width = atoi(argv[i+1]);
@@ -179,6 +183,8 @@ int main(int argc, char* argv[])
                   test_edge_threshold,
                   test_frequency,
                   verify,
+                  minimum_grid_dimension,
+                  maximum_grid_dimension,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {
