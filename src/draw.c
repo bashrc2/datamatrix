@@ -27,19 +27,19 @@
 #include "datamatrix.h"
 
 /**
- * @brief Draws a line of the given width and colour
- * @param Array containing image
- * @param width Width of the image
- * @param height Height of the image
- * @param bitsperpixel Number of bits per pixel
- * @param tx top left of the line
- * @param ty top of the line
- * @param bx bottom right of the line
- * @param by bottom of the line
- * @param line_width width of the line
- * @param r Red
- * @param g Green
- * @param b Blue
+ * \brief Draws a line of the given width and colour
+ * \param Array containing image
+ * \param width Width of the image
+ * \param height Height of the image
+ * \param bitsperpixel Number of bits per pixel
+ * \param tx top left of the line
+ * \param ty top of the line
+ * \param bx bottom right of the line
+ * \param by bottom of the line
+ * \param line_width width of the line
+ * \param r Red
+ * \param g Green
+ * \param b Blue
  */
 void draw_line(unsigned char img[],
                unsigned int width, unsigned int height,
