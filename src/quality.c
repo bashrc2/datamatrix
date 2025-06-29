@@ -320,7 +320,7 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
     cell_width_longest = longest_side / grid->dimension_y;
     cell_width_shortest = shortest_side / grid->dimension_x;
   }
-  grid->axial_non_uniformity = (1.0f - (cell_width_shortest/cell_width_longest))*100;
+  grid->axial_non_uniformity = fabs(1.0f - (cell_width_shortest/cell_width_longest))*100;
   /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
      table 9-4 */
   grid->axial_non_uniformity_grade = 0;
