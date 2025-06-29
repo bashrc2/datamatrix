@@ -41,8 +41,8 @@ int main(int argc, char* argv[])
   unsigned int resized_image_height=0;
   unsigned int image_bitsperpixel=0;
   unsigned char debug = 0;
-  int minimum_grid_dimension = 10;
-  int maximum_grid_dimension = 48;
+  int minimum_grid_dimension = MIN_GRID_DIMENSION;
+  int maximum_grid_dimension = MAX_GRID_DIMENSION;
   int test_ml_threshold = 0;
   int test_erode = 0;
   int test_dilate = 0;
