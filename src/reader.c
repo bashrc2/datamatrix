@@ -288,6 +288,7 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x1, perimeter_y1,
                                  perimeter_x2, perimeter_y2,
                                  perimeter_x3, perimeter_y3);
+        /* TODO allow for rectangular aspects */
         if ((aspect_ratio_percent < 90) || (aspect_ratio_percent > 110)) {
           continue;
         }
