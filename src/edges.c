@@ -1540,6 +1540,45 @@ void show_square_line_segments(struct line_segments * segments,
 }
 
 /**
+ * \brief returns 1 if the given aspect ratio could correspond to
+ *        a rectangular datamatrix
+ * \param aspect_ratio aspect ratio of joined line segments
+ * \return 1 if the aspect ratio is rectangular
+ */
+unsigned char rectangular_joined_line_segments(int aspect_ratio)
+{
+  int i, possible_aspect_ratio, min_aspect_ratio, max_aspect_ratio;
+  const int aspect_tollerance = 10;
+  const int no_of_valid_rectangles = 6;
+  const int IEC16022_valid_rectangles[] = {
+    8, 18,
+    8, 32,
+    12, 26,
+    12, 36,
+    16, 36,
+    16, 48
+  };
+
+  for (i = 0; i < no_of_valid_rectangles; i++) {
+    if (aspect_ratio < 100) {
+      possible_aspect_ratio =
+        IEC16022_valid_rectangles[i*2] * 100 / IEC16022_valid_rectangles[i*2+1];
+    }
+    else {
+      possible_aspect_ratio =
+        IEC16022_valid_rectangles[i*2+1] * 100 / IEC16022_valid_rectangles[i*2];
+    }
+    min_aspect_ratio = possible_aspect_ratio - aspect_tollerance;
+    max_aspect_ratio = possible_aspect_ratio + aspect_tollerance;
+    if ((aspect_ratio >= min_aspect_ratio) ||
+        (aspect_ratio <= max_aspect_ratio)) {
+      return (unsigned char)1;
+    }
+  }
+  return (unsigned char)0;
+}
+
+/**
  * \brief shows square shaped line segments
  * \param segments object containing line segments
  * \param result image within which to show the line segments
@@ -1551,45 +1590,16 @@ void show_rectangular_line_segments(struct line_segments * segments,
                                     unsigned char result[], int width, int height,
                                     int result_bitsperpixel)
 {
-  int i,j,index=0,x,y,n,aspect_ratio, possible_aspect_ratio;
-  int min_aspect_ratio, max_aspect_ratio, found;
+  int i,j,index=0,x,y,n,aspect_ratio;
   unsigned char r,g,b;
   int result_bytesperpixel = result_bitsperpixel/8;
-  int no_of_valid_rectangles = 6;
-  const int IEC16022_valid_rectangles[] = {
-    8, 18,
-    8, 32,
-    12, 26,
-    12, 36,
-    16, 36,
-    16, 48
-  };
 
   memset(result, 0, width*height*result_bytesperpixel);
 
   for (i = 0; i < segments->no_of_segments; i++) {
     aspect_ratio = get_segment_aspect_ratio(segments, i);
 
-    found = 0;
-    for (j = 0; j < no_of_valid_rectangles; j++) {
-      if (aspect_ratio < 100) {
-        possible_aspect_ratio =
-          IEC16022_valid_rectangles[j*2] * 100 / IEC16022_valid_rectangles[j*2+1];
-      }
-      else {
-        possible_aspect_ratio =
-          IEC16022_valid_rectangles[j*2+1] * 100 / IEC16022_valid_rectangles[j*2];
-      }
-      min_aspect_ratio = possible_aspect_ratio - 10;
-      max_aspect_ratio = possible_aspect_ratio + 10;
-      if ((aspect_ratio >= min_aspect_ratio) ||
-          (aspect_ratio <= max_aspect_ratio)) {
-        found = 1;
-        break;
-      }
-    }
-
-    if (found == 0) {
+    if (rectangular_joined_line_segments(aspect_ratio) == 0) {
       index += segments->no_of_members[i];
       continue;
     }
