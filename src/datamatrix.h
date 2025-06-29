@@ -209,12 +209,11 @@ void correct_background_gradient(unsigned char * img,
 
 /* edges.c */
 
-void detect_edges(
-                  unsigned char * img,
+void detect_edges(unsigned char img[],
                   int width, int height,
                   float threshold, float radius);
 
-void get_line_segments(unsigned char * edgesImage, int width, int height,
+void get_line_segments(unsigned char edges_image[], int width, int height,
                        struct line_segments * segments,
                        int min_segment_length);
 void join_line_segments(struct line_segments * segments,
@@ -249,16 +248,16 @@ int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
 void free_line_segments(struct line_segments * segments);
 
 void show_line_segments(struct line_segments * segments,
-                        unsigned char * result, int width, int height,
+                        unsigned char result[], int width, int height,
                         int result_bitsperpixel);
 void show_square_line_segments(struct line_segments * segments,
-                               unsigned char * result, int width, int height,
+                               unsigned char result[], int width, int height,
                                int result_bitsperpixel);
 void show_peripheral_edges(struct line_segments * segments,
-                           unsigned char * result, int width, int height,
+                           unsigned char result[], int width, int height,
                            int result_bitsperpixel);
 void show_perimeter(struct line_segments * segments,
-                    unsigned char * result, int width, int height,
+                    unsigned char result[], int width, int height,
                     int result_bitsperpixel);
 void show_shape_perimeter(struct line_segments * segments,
                           unsigned char result[], int width, int height,

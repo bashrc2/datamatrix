@@ -484,9 +484,15 @@ void canny_auto_threshold(unsigned char * img,
     (fraction * params->highhresholdMultiplier);
 }
 
-void canny_create_masks(float kernelRadius,
-                        unsigned int kernelWidth,
-                        struct canny_params * params)
+/**
+ * \brief create masks for canny edges
+ * \param kernelRadius radius of the edge kernel
+ * \param kernelWidth width of the edge kernel
+ * \param params object used to store the results of edge detection
+ */
+static void canny_create_masks(float kernelRadius,
+                               unsigned int kernelWidth,
+                               struct canny_params * params)
 {
   int kw_length,kwidth;
   float g1,g2,g3;
@@ -520,11 +526,21 @@ void canny_create_masks(float kernelRadius,
   }
 }
 
-int canny_compute_gradients(int * data,
-                            int width, int height,
-                            float kernelRadius,
-                            unsigned int kernelWidth,
-                            struct canny_params * params)
+/**
+ * \brief compute gradients for canny edges
+ * \param data
+ * \param width width of the image
+ * \param height height of the image
+ * \param kernelRadius radius of the edge kernel
+ * \param kernelWidth width of the edge kernel
+ * \param params object used to store the results of edge detection
+ * \return number of detected edges
+ */
+static int canny_compute_gradients(int data[],
+                                   int width, int height,
+                                   float kernelRadius,
+                                   unsigned int kernelWidth,
+                                   struct canny_params * params)
 {
   int initX = 0;
   int maxX = 0;
@@ -741,10 +757,18 @@ int canny_compute_gradients(int * data,
   return(no_of_edges);
 }
 
-void canny_threshold_edges(int width, int height,
-                           int * data,
-                           int * edges,
-                           int * no_of_edges)
+/**
+ * \brief canny edge detection
+ * \param width width of the image
+ * \param height height of the image
+ * \param data
+ * \param edges array storing edges
+ * \param no_of_edges returned number of edges
+ */
+static void canny_threshold_edges(int width, int height,
+                                  int data[],
+                                  int edges[],
+                                  int * no_of_edges)
 {
   int x,y,i;
 
@@ -771,9 +795,16 @@ void canny_threshold_edges(int width, int height,
   }
 }
 
-void canny_update(unsigned char * img,
-                  int width, int height,
-                  struct canny_params * params)
+/**
+ * \brief canny edge detection algorithm
+ * \param img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param params object used to store the results of edge detection
+ */
+static void canny_update(unsigned char img[],
+                         int width, int height,
+                         struct canny_params * params)
 {
   int low = 0;
   int high = 0;
@@ -824,8 +855,15 @@ void canny_update(unsigned char * img,
   }
 }
 
-/* The image is expected to be one byte per pixel */
-void detect_edges(unsigned char * img,
+/**
+ * \brief Canny edge detection
+ * \param img mono image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param threshold canny edge threshold
+ * \param radius canny edge radius
+ */
+void detect_edges(unsigned char img[],
                   int width, int height,
                   float threshold, float radius)
 {
@@ -845,20 +883,35 @@ void detect_edges(unsigned char * img,
 }
 
 
-/* traces along a set of edges and returns the
-   edge members and the perimeter */
-void trace_edge(unsigned char * edges_image,
-                int width, int height,
-                int x, int y,
-                int image_border,
-                int * perimeter_tx,
-                int * perimeter_ty,
-                int * perimeter_bx,
-                int * perimeter_by,
-                int ignore_periphery,
-                int max_members,
-                int * members,
-                int * no_of_members)
+/**
+ * \brief traces along a set of edges and returns the edge members and the perimeter
+ * \param edges_image image array containing edges
+ * \param width width of the image
+ * \param height height of the image
+ * \param x starting x coordinate
+ * \param y starting y coordinate
+ * \param image_border
+ * \param perimeter_tx returned top left x coordinate of the bounding box
+ * \param perimeter_ty returned top left y coordinate of the bounding box
+ * \param perimeter_bx returned bottom right x coordinate of the bounding box
+ * \param perimeter_by returned bottom right y coordinate of the bounding box
+ * \param ignore_periphery
+ * \param max_members maximum segment length
+ * \param members array containing line segment edges
+ * \param no_of_members returned number of edges within the line segment
+ */
+static void trace_edge(unsigned char edges_image[],
+                       int width, int height,
+                       int x, int y,
+                       int image_border,
+                       int * perimeter_tx,
+                       int * perimeter_ty,
+                       int * perimeter_bx,
+                       int * perimeter_by,
+                       int ignore_periphery,
+                       int max_members,
+                       int members[],
+                       int * no_of_members)
 {
   int following,n,xx,yy;
 
@@ -987,10 +1040,16 @@ void trace_edge(unsigned char * edges_image,
 }
 
 
-/* traces along a set of edges and returns the edge members and the perimeter */
-void trace_edges(unsigned char * edges_image,
-                 int width, int height,
-                 struct line_segments * segments)
+/**
+ * \brief traces along a set of edges and returns the edge members and the perimeter
+ * \param edges_image image array containing edges
+ * \param width width of the image
+ * \param height height of the image
+ * \param segments object containing line segments
+ */
+static void trace_edges(unsigned char edges_image[],
+                        int width, int height,
+                        struct line_segments * segments)
 {
   int x,y,n,index=0,max;
   int tx = segments->image_border;
@@ -1037,7 +1096,15 @@ void trace_edges(unsigned char * edges_image,
   }
 }
 
-void get_line_segments(unsigned char * edges_image,
+/**
+ * /brief extracts line segments from the edges image
+ * \param edges_image image array containing edges
+ * \param width width of the image
+ * \param height height of the image
+ * \param segments object containing line segments
+ * \param min_segment_length minimum length of a line segment
+ */
+void get_line_segments(unsigned char edges_image[],
                        int width, int height,
                        struct line_segments * segments,
                        int min_segment_length)
@@ -1047,8 +1114,16 @@ void get_line_segments(unsigned char * edges_image,
   trace_edges(edges_image,width,height,segments);
 }
 
+/**
+ * \brief shows line segments within the given image
+ * \param segments object containing line segments
+ * \param result image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param result_bitsperpixel Number of bits per pixel
+ */
 void show_line_segments(struct line_segments * segments,
-                        unsigned char * result, int width, int height,
+                        unsigned char result[], int width, int height,
                         int result_bitsperpixel)
 {
   int i,j,index=0,x,y,n;
@@ -1079,7 +1154,14 @@ void show_line_segments(struct line_segments * segments,
   }
 }
 
-/* line segment edges within a region of interest */
+/**
+ * \brief line segment edges within a region of interest
+ * \param segments object containing line segments
+ * \param width width of the image
+ * \param height height of the image
+ * \param roi_radius_percent region of interest radius around the centre
+ *        of the image as a percentage of image width
+ */
 void segment_edges_within_roi(struct line_segments * segments,
                               int width, int height,
                               int roi_radius_percent)
@@ -1113,7 +1195,12 @@ void segment_edges_within_roi(struct line_segments * segments,
   }
 }
 
-/* returns the index of the start of a sequence of segments */
+/**
+ * \brief returns the index of the start of a sequence of segments
+ * \param segments object containing line segments
+ * \param index of the line segment
+ * \return start line segment index
+ */
 static int get_joined_segment_start(struct line_segments * segments,
                                     int index)
 {
@@ -1127,7 +1214,12 @@ static int get_joined_segment_start(struct line_segments * segments,
   return -1;
 }
 
-/* returns the index of the end of a sequence of segments */
+/**
+ * \brief returns the index of the end of a sequence of segments
+ * \param segments object containing line segments
+ * \param index of the line segment
+ * \return end line segment index
+ */
 static int get_joined_segment_end(struct line_segments * segments,
                                   int index)
 {
@@ -1141,7 +1233,12 @@ static int get_joined_segment_end(struct line_segments * segments,
   return -1;
 }
 
-/* gets the total joined length of a given segment */
+/**
+ * \brief gets the total joined length of a given segment
+ * \param segments object containing line segments
+ * \param index of the line segment
+ * \return length of the joined line segment
+ */
 static int get_joined_segment_length(struct line_segments * segments,
                                      int index)
 {
@@ -1166,7 +1263,11 @@ static int get_joined_segment_length(struct line_segments * segments,
   return total_length;
 }
 
-/* join line segments which are close together */
+/**
+ * \brief join line segments which are close together
+ * \param segments object containing line segments
+ * \param join_radius radius within which to join line segments together
+ */
 void join_line_segments(struct line_segments * segments,
                         int join_radius)
 {
@@ -1284,11 +1385,19 @@ void join_line_segments(struct line_segments * segments,
   }
 }
 
-/* returns the bounding box for the given segment */
+/**
+ * \brief returns the bounding box for the given segment
+ * \param segments object containing line segments
+ * \param index index of the line segment
+ * \param min_x returned top left x coordinate for the bounding box
+ * \param min_y returned top left y coordinate for the bounding box
+ * \param max_x returned bottom right x coordinate for the bounding box
+ * \param max_y returned bottom right y coordinate for the bounding box
+ */
 static void get_segment_bounding_box(struct line_segments * segments,
                                      int index,
-                                     int *min_x, int *min_y,
-                                     int *max_x, int *max_y)
+                                     int * min_x, int * min_y,
+                                     int * max_x, int * max_y)
 {
   int i, j, x, y, idx=0;
 
@@ -1312,7 +1421,12 @@ static void get_segment_bounding_box(struct line_segments * segments,
   }
 }
 
-/* returns the aspect ratio of the given segment */
+/**
+ * \brief returns the aspect ratio of the given segment
+ * \param segments object containing line segments
+ * \param index index of the line segment
+ * \return integer aspect ratio (x100)
+ */
 int get_segment_aspect_ratio(struct line_segments * segments,
                              int index)
 {
@@ -1346,8 +1460,16 @@ int get_segment_aspect_ratio(struct line_segments * segments,
   return dx * 100 / (1+dy);
 }
 
+/**
+ * \brief shows square shaped line segments
+ * \param segments object containing line segments
+ * \param result image within which to show the line segments
+ * \param width width of the image
+ * \param height height of the image
+ * \param result_bitsperpixel Number of bits per pixel
+ */
 void show_square_line_segments(struct line_segments * segments,
-                               unsigned char * result, int width, int height,
+                               unsigned char result[], int width, int height,
                                int result_bitsperpixel)
 {
   int i,j,index=0,x,y,n,aspect_ratio;
@@ -1378,8 +1500,12 @@ void show_square_line_segments(struct line_segments * segments,
   }
 }
 
-/* updates arrays used to find the periphery of a square, using
-   the given segment */
+/**
+ * \brief updates arrays used to find the periphery of a square, using
+ *        the given segment
+ * \param segments object containing line segments
+ * \param index index of the line segment
+ */
 static void update_peripheral(struct line_segments * segments,
                               int index)
 {
@@ -1413,7 +1539,13 @@ static void update_peripheral(struct line_segments * segments,
   }
 }
 
-/* for a given segment find the peripheral edges used to create a square */
+/**
+ * \brief for a given segment find the peripheral edges used to create a square
+ * \param segments object containing line segments
+ * \param index index of the line segment
+ * \param width width of the image
+ * \param height height of the image
+ */
 void get_peripheral_edges(struct line_segments * segments,
                           int index, int width, int height)
 {
@@ -1469,6 +1601,18 @@ void get_peripheral_edges(struct line_segments * segments,
   }
 }
 
+/**
+ * \brief assigns edges to a single perimeter side
+ * \param segments object containing line segments
+ * \param side index of the side (0-3)
+ * \param histogram_length length of the orientation histogram
+ * \param orientation_quantized2
+ * \param orthogonal
+ * \param separator_x0 x coordinate of the start of the demarcation line
+ * \param separator_y0 y coordinate of the start of the demarcation line
+ * \param separator_x1 x coordinate of the end of the demarcation line
+ * \param separator_y1 y coordinate of the end of the demarcation line
+ */
 static void assign_edges_to_side(struct line_segments * segments,
                                  int side, int histogram_length,
                                  int orientation_quantized2,
@@ -1539,6 +1683,13 @@ static void assign_edges_to_side(struct line_segments * segments,
   }
 }
 
+/**
+ * \brief assigns edges to all sides of a perimeter using an orientation histogram
+ * \param segments object containing line segments
+ * \param orientation_quantized histogram index of the detected orientation
+ * \param orientation_radians orientation of the shape in radians
+ * \param quantization_degrees angular quantization used for orientation histogram
+ */
 static void assign_edges_to_sides(struct line_segments * segments,
                                   int orientation_quantized,
                                   float orientation_radians,
@@ -1591,11 +1742,18 @@ static void assign_edges_to_sides(struct line_segments * segments,
   }
 }
 
-/* knowing the dominant orientation is useful because the
-   square may be rotated such that left and right edge arrays
-   are insufficient to get a good line fit.
-   Once the orientation is known then we can figure out which
-   edges correspond to which sides of the square */
+/**
+ * \brief knowing the dominant orientation is useful because the
+ *        square may be rotated such that left and right edge arrays
+ *        are insufficient to get a good line fit.
+ *        Once the orientation is known then we can figure out which
+ *        edges correspond to which sides of the square
+ * \param segments object storing line segments
+ * \param width width of the image
+ * \param height height of the image
+ * \param quantization_degrees used to create orientation histogram buckets
+ * \return orientation in radians
+ */
 float get_segments_orientation(struct line_segments * segments,
                                int width, int height,
                                int quantization_degrees)
@@ -1786,8 +1944,16 @@ float get_segments_orientation(struct line_segments * segments,
   return orientation_radians;
 }
 
+/**
+ * \brief shows edges detected around a perimeter
+ * \param segments object containing line segments
+ * \param result image to be updated
+ * \param width width of the image
+ * \param height height of the image
+ * \param result_bitsperpixel Number of bits per pixel
+ */
 void show_peripheral_edges(struct line_segments * segments,
-                           unsigned char * result, int width, int height,
+                           unsigned char result[], int width, int height,
                            int result_bitsperpixel)
 {
   int side, edge_index, x, y, n, no_of_edges;
@@ -1827,8 +1993,16 @@ void show_peripheral_edges(struct line_segments * segments,
   }
 }
 
+/**
+ * \brief shows a detected perimeter within an image
+ * \param segments object containing line segments
+ * \param result image to be updated
+ * \param width width of the image
+ * \param height height of the image
+ * \param result_bitsperpixel Number of bits per pixel
+ */
 void show_perimeter(struct line_segments * segments,
-                    unsigned char * result, int width, int height,
+                    unsigned char result[], int width, int height,
                     int result_bitsperpixel)
 {
   int side, x, y, n;
@@ -1891,14 +2065,32 @@ void show_perimeter(struct line_segments * segments,
   }
 }
 
+/**
+ * \brief fits a perimeter to all four sides
+ * \param segments object containing line segments
+ * \param width width of the image
+ * \param height height of the image
+ * \param max_deviation
+ * \param centre_x
+ * \param centre_y
+ * \param perimeter_x0 returned first perimeter x coord
+ * \param perimeter_y0 returned first perimeter y coord
+ * \param perimeter_x1 returned second perimeter x coord
+ * \param perimeter_y1 returned second perimeter y coord
+ * \param perimeter_x2 returned third perimeter x coord
+ * \param perimeter_y2 returned third perimeter y coord
+ * \param perimeter_x3 returned fourth perimeter x coord
+ * \param perimeter_y3 returned fourth perimeter y coord
+ * \return 0 on success, -1 otherwise
+ */
 static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
                                                 int width, int height,
                                                 float max_deviation,
                                                 int centre_x, int centre_y,
-                                                float *perimeter_x0, float *perimeter_y0,
-                                                float *perimeter_x1, float *perimeter_y1,
-                                                float *perimeter_x2, float *perimeter_y2,
-                                                float *perimeter_x3, float *perimeter_y3)
+                                                float * perimeter_x0, float * perimeter_y0,
+                                                float * perimeter_x1, float * perimeter_y1,
+                                                float * perimeter_x2, float * perimeter_y2,
+                                                float * perimeter_x3, float * perimeter_y3)
 {
   int side, side2, no_of_samples, no_of_edge_samples, fit_edges;
   float x0=0, y0=0, x1=0, y1=0;
@@ -1973,12 +2165,24 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
   return 0;
 }
 
+/**
+ * \brief finds a RANSAC best fit to the side edges to generate the perimeter
+ * \param perimeter_x0 returned first perimeter x coord
+ * \param perimeter_y0 returned first perimeter y coord
+ * \param perimeter_x1 returned second perimeter x coord
+ * \param perimeter_y1 returned second perimeter y coord
+ * \param perimeter_x2 returned third perimeter x coord
+ * \param perimeter_y2 returned third perimeter y coord
+ * \param perimeter_x3 returned fourth perimeter x coord
+ * \param perimeter_y3 returned fourth perimeter y coord
+ * \return 0 on success, -1 otherwise
+ */
 unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                      int width, int height,
-                                     float *perimeter_x0, float *perimeter_y0,
-                                     float *perimeter_x1, float *perimeter_y1,
-                                     float *perimeter_x2, float *perimeter_y2,
-                                     float *perimeter_x3, float *perimeter_y3)
+                                     float * perimeter_x0, float * perimeter_y0,
+                                     float * perimeter_x1, float * perimeter_y1,
+                                     float * perimeter_x2, float * perimeter_y2,
+                                     float * perimeter_x3, float * perimeter_y3)
 {
   int side, no_of_edges, max_edges=0, max_edges2=0, max_side1=-1, max_side2=-1;
   int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy, dist, max_dist;
@@ -2134,6 +2338,22 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
   return 0;
 }
 
+/**
+ * \brief shows a perimeter within an image
+ * \param segments object containing line segments
+ * \param result image to be updated
+ * \param width width of the image
+ * \param height height of the image
+ * \param result_bitsperpixel Number of bits per pixel
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ */
 void show_shape_perimeter(struct line_segments * segments,
                           unsigned char result[], int width, int height,
                           int result_bitsperpixel,
@@ -2162,6 +2382,18 @@ void show_shape_perimeter(struct line_segments * segments,
             1, r, g, b);
 }
 
+/**
+ * \brief returns the aspect ratio (x100) for the perimeter
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ * \return integer aspect ratio (x100)
+ */
 int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
                            float perimeter_x1, float perimeter_y1,
                            float perimeter_x2, float perimeter_y2,
