@@ -676,6 +676,11 @@ void gs1_semantics(char result[],
                    int * application_data_start,
                    int * application_data_end);
 
+/* condense.c */
+
+unsigned char condense_data_blocks(struct grid_2d * grid,
+                                   unsigned char debug);
+
 /* reader.c */
 
 int read_datamatrix(unsigned char image_data[],
