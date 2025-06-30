@@ -91,4 +91,6 @@ Unit tests may be run with:
 
 [Line–line intersection](https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection)
 
+[Popular ISO/IEC 15434 Barcode Formats](https://www.barcodefaq.com/2d/data-matrix/iso-iec-15434)
+
 [Reed–Solomon error correction](https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction)
