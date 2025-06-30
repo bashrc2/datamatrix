@@ -84,6 +84,10 @@ struct grid_2d {
   int no_of_erasures;
   int * erasures;
 
+  /* temporary decoding arrays used during condensation */
+  unsigned char ** temp_occupancy;
+  unsigned char * temp_damage;
+
   /* quality metrics */
   unsigned char minimum_reflectance;
   unsigned char minimum_reflectance_grade;
@@ -613,6 +617,8 @@ void show_grid_image(struct grid_2d * grid,
 
 void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                        char result[]);
+unsigned char condense_data_blocks(struct grid_2d * grid,
+                                   unsigned char debug);
 
 /* utils.c */
 

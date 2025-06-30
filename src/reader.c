@@ -160,7 +160,9 @@ int read_datamatrix(unsigned char image_data[],
       dilate_itterations = test_dilate;
       edge_threshold = test_edge_threshold;
     }
-
+    else if (test_frequency > 0) {
+      test_specific_config_settings = 1;
+    }
 
     /* convert to meanlight */
     meanlight_threshold(image_data, image_width, image_height,
