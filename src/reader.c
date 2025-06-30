@@ -537,6 +537,13 @@ int read_datamatrix(unsigned char image_data[],
               write_png_file("debug_16_grid_sampling.png", image_width, image_height, 24, image_data);
             }
             datamatrix_decode(&grid, debug, decode_result);
+            if (strlen(decode_result) > 0) {
+              free_grid(&grid);
+              break;
+            }
+            /* try again with rotation */
+            rotate_grid(&grid);
+            datamatrix_decode(&grid, debug, decode_result);
             free_grid(&grid);
             if (strlen(decode_result) > 0) {
               break;
@@ -581,7 +588,20 @@ int read_datamatrix(unsigned char image_data[],
                           curr_sampling_radius, curr_sampling_pattern,
                           &grid);
               datamatrix_decode(&grid, debug, decode_result);
-              free_grid(&grid);
+              if (strlen(decode_result) > 0) {
+                free_grid(&grid);
+                if (debug == 1) {
+                  printf("Frequency: %d\n", most_probable_frequency);
+                  mono_to_colour(mono_img, image_width, image_height,
+                                 image_bitsperpixel, image_data);
+                  show_grid_image(&grid, image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
+                  write_png_file("debug_17_grid_sampling.png", image_width, image_height, 24, image_data);
+                }
+                break;
+              }
+              /* try again with rotated grid */
+              rotate_grid(&grid);
+              datamatrix_decode(&grid, debug, decode_result);
               if (strlen(decode_result) > 0) {
                 if (debug == 1) {
                   printf("Frequency: %d\n", most_probable_frequency);
@@ -592,6 +612,7 @@ int read_datamatrix(unsigned char image_data[],
                 }
                 break;
               }
+              free_grid(&grid);
             }
             if (strlen(decode_result) > 0) {
               /* decode achieved */
