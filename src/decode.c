@@ -228,6 +228,9 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
 
   if (debug == 1) {
     printf("%d ", (int)current_byte);
+    if (current_byte == 29) {
+      printf("<GS>");
+    }
   }
 
   /* GS1 semantics processing */
@@ -291,7 +294,9 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 
   /* extract the three characters */
   for (i = 0; i < 3; i++) {
-    if (debug == 1) printf("%d ", c40Values[i]);
+    if (debug == 1) {
+      printf("%d ", c40Values[i]);
+    }
     if (*shift == 0) {
       if (c40Values[i] <= 2) {
         *shift = c40Values[i] + 1;
@@ -301,8 +306,13 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
         decode_strcat_char(result, ' ');
       }
       else if (c40Values[i] <= 13) {
-        /* 0-9 */
-        decode_strcat_char(result, (char)(c40Values[i] - 13 + '9'));
+        if (c40Values[i] == 4) {
+          decode_strcat(result, "<EOT>");
+        }
+        else {
+          /* 0-9 */
+          decode_strcat_char(result, (char)(c40Values[i] - 13 + '9'));
+        }
       }
       else if (c40Values[i] <= 39) {
         if (*state == C40) {
@@ -415,7 +425,9 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
         free(unpacked);
         return;
       }
-      decode_strcat_char(result, (char)(unpacked[i] ^ (((unpacked[i] & 0x20) ^ 0x20) << 1)));
+      else {
+        decode_strcat_char(result, (char)(unpacked[i] ^ (((unpacked[i] & 0x20) ^ 0x20) << 1)));
+      }
     }
 
     /* Unlatch is implied if fewer than 3 codewords remain */
