@@ -55,9 +55,15 @@ Optionally, if you want debugging information and images for each decoding stage
 ./datamatrix -f examples/01.png --debug
 ```
 
-## Testing with specific settings
+## Testing
 
-It you want to test how well the decoding works with a specific settings:
+Unit tests may be run with:
+
+``` bash
+./datamatrix --tests
+```
+
+If you want to test how well the decoding works with a specific settings:
 
 ``` bash
 ./datamatrix -f examples/01.png --debug \
@@ -68,14 +74,6 @@ It you want to test how well the decoding works with a specific settings:
 *erode* and *dilate* values are in pixels. *meanlight* is typically in the range 0-20 and *edgethresh* is typically in the range 0-10.
 
 A set of images will be produced which show the detection process at each stage.
-
-## Running unit tests
-
-Unit tests may be run with:
-
-``` bash
-./datamatrix --tests
-```
 
 ## References
 
