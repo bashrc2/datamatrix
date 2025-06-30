@@ -25,34 +25,40 @@ Then compile.
 make
 ```
 
+And finally install.
+
+``` bash
+sudo make install
+```
+
 ## Example usage
 
 ``` bash
-./datamatrix -f examples/01.png
+datamatrix -f examples/01.png
 ```
 
 If you know the range of grid dimensions which are expected then you can narrow down the search using the *--mingrid* and *--maxgrid* options.
 
 ``` bash
-./datamatrix -f examples/01.png --mingrid 10 --maxgrid 20
+datamatrix -f examples/01.png --mingrid 10 --maxgrid 20
 ```
 
 If needed, an image can be saved showing the detected datamatrix region.
 
 ``` bash
-./datamatrix -f examples/01.png -o detection.png
+datamatrix -f examples/01.png -o detection.png
 ```
 
 If you want to calculate quality metrics for symbol verification purposes:
 
 ``` bash
-./datamatrix -f examples/01.png -o detection.png --quality
+datamatrix -f examples/01.png -o detection.png --quality
 ```
 
 Optionally, if you want debugging information and images for each decoding stage:
 
 ``` bash
-./datamatrix -f examples/01.png --debug
+datamatrix -f examples/01.png --debug
 ```
 
 ## Testing
@@ -60,13 +66,13 @@ Optionally, if you want debugging information and images for each decoding stage
 Unit tests may be run with:
 
 ``` bash
-./datamatrix --tests
+datamatrix --tests
 ```
 
 If you want to test how well the decoding works with a specific settings:
 
 ``` bash
-./datamatrix -f examples/01.png --debug \
+datamatrix -f examples/01.png --debug \
     --erode [value] --dilate [value] \
     --meanlight [value] --edgethresh [value]
 ```
