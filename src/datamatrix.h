@@ -75,7 +75,9 @@ struct grid_2d {
   struct perimeter_points perimeter;
   struct perimeter_points quiet_zone_perimeter;
   unsigned char ** occupancy;
+  unsigned char ** occupancy_buffer;
   unsigned char * damage;
+  unsigned char * damage_buffer;
   int ** codeword_pattern;
   unsigned char * codeword;
   unsigned char * corrected_codewords;
@@ -602,6 +604,8 @@ int detect_timing_pattern(unsigned char mono_img[],
                           unsigned char debug,
                           unsigned char image_data[],
                           int debug_frequency);
+
+void rotate_grid(struct grid_2d * grid);
 
 void free_grid(struct grid_2d * grid);
 

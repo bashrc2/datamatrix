@@ -624,6 +624,36 @@ static void complete_fixed_pattern(struct grid_2d * grid)
 }
 
 /**
+ * \brief square grids can have ambiguous orientation, so rotating sometimes
+ *        achieves a decode
+ * \param grid grid object
+ */
+void rotate_grid(struct grid_2d * grid)
+{
+  int grid_x, grid_y, grid_y2;
+
+  if ((grid->dimension_x != grid->dimension_y)) return;
+
+  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
+    grid_y2 = grid->dimension_y-1-grid_y;
+    for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
+      grid->occupancy_buffer[grid_x][grid_y] = grid->occupancy[grid_x][grid_y2];
+      grid->damage_buffer[grid_y*grid->dimension_x + grid_x] =
+        grid->damage[grid_y2*grid->dimension_x + grid_x];
+    }
+  }
+
+  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
+    grid_y2 = grid->dimension_y-1-grid_y;
+    for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
+      grid->occupancy[grid_x][grid_y2] = grid->occupancy_buffer[grid_y][grid_x];
+      grid->damage[grid_y2*grid->dimension_x + grid_x] =
+        grid->damage_buffer[grid_x*grid->dimension_x + grid_y];
+    }
+  }
+}
+
+/**
  * \brief flips and/or mirrors the grid to get it into a standard orientation for decoding
  * \param grid grid object
  */
@@ -724,10 +754,24 @@ static void create_grid_base(int dimension_x, int dimension_y,
     memset(grid->occupancy[grid_x], 0, dimension_y * sizeof(unsigned char));
   }
 
+  /* generate the grid buffer cells and initialise them to zero */
+  grid->occupancy_buffer = (unsigned char**)malloc(dimension_x*sizeof(unsigned char*));
+  assert(grid->occupancy_buffer != NULL);
+  for (grid_x = 0; grid_x < dimension_x; grid_x++) {
+    grid->occupancy_buffer[grid_x] = (unsigned char *)malloc(dimension_y*sizeof(unsigned char));
+    assert(grid->occupancy_buffer[grid_x] != NULL);
+    memset(grid->occupancy_buffer[grid_x], 0, dimension_y * sizeof(unsigned char));
+  }
+
   /* generate the damaged cells and initialise them to zero */
   grid->damage = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
   assert(grid->damage != NULL);
   memset(grid->damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
+
+  /* generate the damaged cells buffer and initialise them to zero */
+  grid->damage_buffer = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
+  assert(grid->damage_buffer != NULL);
+  memset(grid->damage_buffer, 0, dimension_x*dimension_y * sizeof(unsigned char));
 
   /* erasures */
   grid->erasures = (int*)malloc(MAX_GRID_DIMENSION*MAX_GRID_DIMENSION*sizeof(int));
@@ -1037,10 +1081,12 @@ void free_grid(struct grid_2d * grid)
   /* free the grid cells */
   for (x = 0; x < grid->dimension_x; x++) {
     free(grid->occupancy[x]);
+    free(grid->occupancy_buffer[x]);
     free(grid->codeword_pattern[x]);
   }
   free(grid->occupancy);
   free(grid->damage);
+  free(grid->damage_buffer);
   free(grid->erasures);
   free(grid->codeword);
   free(grid->codeword_pattern);

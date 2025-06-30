@@ -23,6 +23,60 @@
 
 #include "datamatrix.h"
 
+static void test_rotate()
+{
+  printf("test_rotate\n");
+  struct grid_2d grid;
+  int grid_x, grid_y;
+  unsigned char occupancy1[] = {
+    1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+    1, 0, 0, 0, 0, 1, 0, 1, 0, 1,
+    1, 0, 1, 0, 0, 1, 0, 1, 1, 0,
+    1, 1, 0, 0, 1, 0, 0, 1, 0, 1,
+    1, 1, 0, 0, 0, 1, 0, 0, 0, 0,
+    1, 0, 1, 1, 0, 0, 0, 1, 1, 1,
+    1, 0, 0, 1, 1, 0, 0, 0, 0, 0,
+    1, 0, 1, 1, 0, 1, 1, 0, 0, 1,
+    1, 0, 1, 0, 0, 0, 1, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  };
+
+  unsigned char expected[] = {
+    1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+    1, 0, 0, 0, 1, 0, 0, 1, 0, 1,
+    1, 0, 0, 0, 1, 0, 1, 1, 1, 0,
+    1, 1, 1, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 1, 0, 0, 1, 0, 1, 1, 0,
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+    1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
+    1, 1, 1, 0, 1, 0, 0, 1, 0, 1,
+    1, 0, 0, 0, 0, 1, 1, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  };
+
+  int dimension_x = 10;
+  int dimension_y = 10;
+  create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
+
+  printf("Not rotated:\n");
+  show_grid(&grid);
+
+  rotate_grid(&grid);
+  printf("Rotated:\n");
+  show_grid(&grid);
+
+  for (grid_y = 0; grid_y < dimension_y; grid_y++) {
+    for (grid_x = 0; grid_x < dimension_x; grid_x++) {
+      if (grid.occupancy[grid_x][grid_y] != expected[grid_y*dimension_x + grid_x]) {
+        printf("Not rotated at %d,%d\n", grid_x, grid_y);
+      }
+      assert(grid.occupancy[grid_x][grid_y] == expected[grid_y*dimension_x + grid_x]);
+    }
+  }
+
+  free_grid(&grid);
+}
+
 static void test_decode()
 {
   printf("test_decode\n");
@@ -318,5 +372,6 @@ void run_all_tests()
   test_decode();
   test_gs1_decode();
   test_condense();
+  test_rotate();
   printf("All tests complete\n");
 }
