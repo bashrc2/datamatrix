@@ -228,9 +228,6 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
 
   if (debug == 1) {
     printf("%d ", (int)current_byte);
-    if (current_byte == 29) {
-      printf("<GS>");
-    }
   }
 
   /* GS1 semantics processing */
