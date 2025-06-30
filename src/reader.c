@@ -602,6 +602,7 @@ int read_datamatrix(unsigned char image_data[],
               /* try again with rotated grid */
               rotate_grid(&grid);
               datamatrix_decode(&grid, debug, decode_result);
+              free_grid(&grid);
               if (strlen(decode_result) > 0) {
                 if (debug == 1) {
                   printf("Frequency: %d\n", most_probable_frequency);
@@ -612,7 +613,6 @@ int read_datamatrix(unsigned char image_data[],
                 }
                 break;
               }
-              free_grid(&grid);
             }
             if (strlen(decode_result) > 0) {
               /* decode achieved */
