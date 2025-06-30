@@ -138,21 +138,8 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
            new_dimension_x, new_dimension_y);
   }
 
-  /* generate the grid cells for the condensed datamatrix and initialise to zero */
-  unsigned char ** new_occupancy =
-    (unsigned char**)malloc(new_dimension_x*sizeof(unsigned char*));
-  assert(new_occupancy != NULL);
-  for (grid_x = 0; grid_x < new_dimension_x; grid_x++) {
-    new_occupancy[grid_x] =
-      (unsigned char *)malloc(new_dimension_y * sizeof(unsigned char));
-    assert(new_occupancy[grid_x] != NULL);
-    memset(new_occupancy[grid_x], 0, new_dimension_y * sizeof(unsigned char));
-  }
-
-  /* generate the damaged cells for the condensed datamatrix and initialise to zero */
-  unsigned char * new_damage =
-    (unsigned char*)malloc(new_dimension_x * new_dimension_y * sizeof(unsigned char));
-  assert(new_damage != NULL);
+  unsigned char ** new_occupancy = grid->occupancy_buffer;
+  unsigned char * new_damage = grid->damage_buffer;
   memset(new_damage, 0, new_dimension_x * new_dimension_y * sizeof(unsigned char));
 
   /* create a new occupancy and damage pattern */
@@ -209,13 +196,6 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
     printf("\nCondensed:\n");
     show_grid(grid);
   }
-
-  /* free the condensed occupancy and damage arrays */
-  for (grid_x = 0; grid_x < new_dimension_x; grid_x++) {
-    free(new_occupancy[grid_x]);
-  }
-  free(new_occupancy);
-  free(new_damage);
 
   return 1;
 }
