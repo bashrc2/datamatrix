@@ -1,9 +1,17 @@
+APP=datamatrix
+PREFIX?=/usr/local
 
 all:
-	gcc -Wall -std=c99 -pedantic -O3 -o datamatrix -Isrc src/*.c -lm
+	gcc -Wall -std=c99 -pedantic -O3 -o ${APP} -Isrc src/*.c -lm
 
 debug:
-	gcc -Wall -std=c99 -pedantic -g -o datamatrix -Isrc src/*.c -lm
+	gcc -Wall -std=c99 -pedantic -g -o ${APP} -Isrc src/*.c -lm
 
 clean:
-	rm -f src/*.plist datamatrix *.png
+	rm -f src/*.plist ${APP} *.png
+
+install:
+	mkdir -p ${DESTDIR}${PREFIX}/bin
+	cp ${APP} ${DESTDIR}${PREFIX}/bin
+	mkdir -m 755 -p ${DESTDIR}${PREFIX}/share/man/man1
+	cp man/${APP}.1.gz ${DESTDIR}${PREFIX}/share/man/man1
