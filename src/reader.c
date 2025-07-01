@@ -115,6 +115,8 @@ int read_datamatrix(unsigned char image_data[],
   for (try_config = 0; try_config < no_of_configs; try_config++) {
     thr_decode_result[try_config] = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
     assert(thr_decode_result[try_config] != NULL);
+    /* initialise as empty string */
+    thr_decode_result[try_config][0] = 0;
     debug_filename[try_config] = (char*)malloc(256*sizeof(char));
     assert(debug_filename[try_config]);
   }
@@ -792,8 +794,8 @@ int read_datamatrix(unsigned char image_data[],
     }
 
     /* quality metrics */
-    if (verify == 1) {
-      if (strlen(thr_decode_result[try_config]) > 0) {
+    if (strlen(thr_decode_result[try_config]) > 0) {
+      if (verify == 1) {
         calculate_quality_metrics(&grid[best_config],
                                   original_image_data,
                                   thr_original_thresholded_image_data,
