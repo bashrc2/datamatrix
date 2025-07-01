@@ -95,6 +95,7 @@ struct grid_2d {
   unsigned char minimum_reflectance_grade;
   unsigned char unused_error_correction;
   unsigned char unused_error_correction_grade;
+  unsigned char cell_fill;
   unsigned char distributed_damage;
   unsigned char fixed_pattern_damage;
   unsigned char fixed_pattern_damage_grade;
