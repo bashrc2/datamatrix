@@ -42,6 +42,7 @@
  * \param test_edge_threshold test with a specific edge threshold
  * \param test_frequency test using a known grid dimension
  * \param verify set to 1 if symbol quality metrics are to be calculated
+ * \param csv set to 1 if symbol quality metrics to be in CSV format
  * \param minimum_grid_dimension minimum grid dimension
  * \param maximum_grid_dimension maximum grid dimension
  * \param decode_result returned decode text
@@ -57,6 +58,7 @@ int read_datamatrix(unsigned char image_data[],
                     float test_edge_threshold,
                     int test_frequency,
                     unsigned char verify,
+                    unsigned char csv,
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
                     char * decode_result)
@@ -703,7 +705,7 @@ int read_datamatrix(unsigned char image_data[],
                               original_thresholded_image_data,
                               image_width, image_height,
                               image_bitsperpixel);
-    show_quality_metrics(&grid);
+    show_quality_metrics(&grid, csv);
   }
 
   /* free allocated memory */

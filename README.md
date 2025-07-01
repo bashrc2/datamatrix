@@ -55,6 +55,12 @@ If you want to calculate quality metrics for symbol verification purposes:
 datamatrix -f examples/01.png -o detection.png --quality
 ```
 
+Metrics can also be output in CSV format, for easy import into other systems.
+
+``` bash
+datamatrix -f examples/01.png -o detection.png --quality --csv
+```
+
 Optionally, if you want debugging information and images for each decoding stage:
 
 ``` bash

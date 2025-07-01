@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
   unsigned int resized_image_height=0;
   unsigned int image_bitsperpixel=0;
   unsigned char debug = 0;
+  unsigned char csv = 0;
   int minimum_grid_dimension = MIN_GRID_DIMENSION;
   int maximum_grid_dimension = MAX_GRID_DIMENSION;
   int test_ml_threshold = 0;
@@ -99,6 +100,10 @@ int main(int argc, char* argv[])
     }
     if (strcmp(argv[i],"--resizeheight")==0) {
       resized_image_height = atoi(argv[i+1]);
+    }
+    if (strcmp(argv[i],"--csv")==0) {
+      csv = 1;
+      i--;
     }
     if (strcmp(argv[i],"--debug")==0) {
       debug = 1;
@@ -182,7 +187,7 @@ int main(int argc, char* argv[])
                   test_dilate,
                   test_edge_threshold,
                   test_frequency,
-                  verify,
+                  verify, csv,
                   minimum_grid_dimension,
                   maximum_grid_dimension,
                   decode_result);
@@ -191,7 +196,12 @@ int main(int argc, char* argv[])
       printf("%s\n", decode_result);
     }
     else {
-      printf("Decode: PASS (%s)\n", decode_result);
+      if (csv != 1) {
+        printf("Decode: PASS (%s)\n", decode_result);
+      }
+      else {
+        printf("Decode, PASS, \"%s\"\n", decode_result);
+      }
     }
   }
 

@@ -737,10 +737,10 @@ static unsigned char overall_quality_grade(struct grid_2d * grid)
 }
 
 /**
- * \brief displays quality metrics
+ * \brief displays human readable quality metrics
  * \param grid grid object
  */
-void show_quality_metrics(struct grid_2d * grid)
+static void show_quality_metrics_human_readable(struct grid_2d * grid)
 {
   unsigned char grade = overall_quality_grade(grid);
   char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -769,4 +769,53 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Quiet zone: %d%%\n", (int)grid->quiet_zone);
   printf("Distributed damage: %d%%\n", (int)grid->distributed_damage);
   printf("Cell fill: %d%%\n", (int)grid->cell_fill);
+}
+
+/**
+ * \brief displays quality metrics in CSV format
+ * \param grid grid object
+ */
+static void show_quality_metrics_csv(struct grid_2d * grid)
+{
+  unsigned char grade = overall_quality_grade(grid);
+  char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+
+  printf("Metric, Grade, Value,\n");
+
+  printf("Symbol contrast, %d, %d,\n",
+         (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
+  printf("Axial non-uniformity, %d, \"%.1f\",\n",
+         (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
+  printf("Grid non-uniformity, %d, \"%.1f\",\n",
+         (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
+  printf("Modulation, %d, %d,\n", (int)grid->modulation_grade, (int)grid->modulation);
+  printf("Unused error correction, %d, %d,\n",
+         (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+  printf("Clock track regularity, %d, %d,\n",
+         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+  printf("Fixed pattern damage, %d, %d,\n",
+         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+  printf("Minimum reflectance, %d, %d,\n",
+         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
+  printf("Overall symbol grade, %d.0, %c,\n", (int)grade, grade_letter[grade]);
+  printf("Angle of distortion,, \"%.1f\",\n", grid->angle_of_distortion);
+  printf("Contrast uniformity,, %d,\n", (int)grid->contrast_uniformity);
+  printf("Dots per element,, %d,\n", grid->dots_per_element);
+  printf("Elongation,, \"%.1f\",\n", grid->elongation);
+  printf("Quiet zone,, %d,\n", (int)grid->quiet_zone);
+  printf("Distributed damage,, %d,\n", (int)grid->distributed_damage);
+  printf("Cell fill,, %d,\n", (int)grid->cell_fill);
+}
+
+/**
+ * \brief displays quality metrics
+ * \param grid grid object
+ */
+void show_quality_metrics(struct grid_2d * grid, unsigned char csv)
+{
+  if (csv == 1) {
+    show_quality_metrics_csv(grid);
+    return;
+  }
+  show_quality_metrics_human_readable(grid);
 }
