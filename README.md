@@ -9,6 +9,7 @@
  * Implemented in pure C99
  * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d)
  * Can generate quality metrics for verification reports
+ * Parallelized with [OpenMP](https://www.openmp.org)
  * No dependencies or supply chains!
 
 ## Build
