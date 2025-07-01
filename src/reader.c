@@ -31,6 +31,9 @@
 
 /**
  * \brief returns 1 if any decode has been achieved within any thread
+ * \param thr_decode_result array of decode strings, one for each thread
+ * \param max_config the number of threads
+ * \return 1 if any decode string has non-zero length, 0 otherwise
  */
 unsigned char any_decode(char * thr_decode_result[], int max_config)
 {
