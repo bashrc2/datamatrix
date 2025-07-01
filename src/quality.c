@@ -850,23 +850,23 @@ static void show_quality_metrics_json(struct grid_2d * grid)
   else {
     printf("  \"symbol_type\": \"datamatrix\",\n");
   }
-  printf("  \"symbol_contrast\": { \"grade\": %d, \"value\": %d},\n",
+  printf("  \"symbol_contrast\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
-  printf("  \"axial_non_uniformity\": { \"grade\": %d, \"value\": %.1f},\n",
+  printf("  \"axial_non_uniformity\": { \"grade\": %d, \"value\": %.1f },\n",
          (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
-  printf("  \"grid_non_uniformity\": { \"grade\": %d, \"value\": %.1f},\n",
+  printf("  \"grid_non_uniformity\": { \"grade\": %d, \"value\": %.1f },\n",
          (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
-  printf("  \"modulation\": { \"grade\": %d, \"value\": %d},\n",
+  printf("  \"modulation\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->modulation_grade, (int)grid->modulation);
-  printf("  \"unused_error_correction\": { \"grade\": %d, \"value\": %d},\n",
+  printf("  \"unused_error_correction\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
-  printf("  \"clock_track_regularity\": { \"grade\": %d, \"value\": %d},\n",
+  printf("  \"clock_track_regularity\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
-  printf("  \"fixed_pattern_damage\": { \"grade\": %d, \"value\": %d},\n",
+  printf("  \"fixed_pattern_damage\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
-  printf("  \"minimum_reflectance\": { \"grade\": %d, \"value\": %d},\n",
+  printf("  \"minimum_reflectance\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
-  printf("  \"overall_symbol_grade\": { \"grade\": %d.0, \"value\": \"%c\"},\n", (int)grade, grade_letter[grade]);
+  printf("  \"overall_symbol_grade\": { \"grade\": %d.0, \"value\": \"%c\" },\n", (int)grade, grade_letter[grade]);
   printf("  \"angle_of_distortion\": %.1f,\n", grid->angle_of_distortion);
   printf("  \"contrast_uniformity\": %d,\n", (int)grid->contrast_uniformity);
   printf("  \"dots_per_element\": %d,\n", grid->dots_per_element);
