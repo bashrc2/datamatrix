@@ -295,6 +295,25 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
 }
 
 /**
+ * \brief calculate distributed damage as a percentage
+ * \param grid grid object
+ */
+static void quality_metric_distributed_damage(struct grid_2d * grid)
+{
+  int n, x, y, damage=0, cells=0;
+
+  for (y = 1; y < grid->dimension_y-1; y++) {
+    n = y*grid->dimension_x;
+    for (x = 1; x < grid->dimension_x-1; x++, cells++) {
+      if (grid->damage[n+x] > 0) {
+        damage++;
+      }
+    }
+  }
+  grid->distributed_damage = (unsigned char)(damage * 100 / cells);
+}
+
+/**
  * \brief calculate axial non-uniformity as the percent difference between
  *        cell width and height
  * \param grid grid object
@@ -618,6 +637,7 @@ void calculate_quality_metrics(struct grid_2d * grid,
   quality_metric_grid_nonuniformity(grid, thresholded_image_data,
                                     image_width, image_height,
                                     image_bitsperpixel);
+  quality_metric_distributed_damage(grid);
 
   /* calculate unused error correction grade as per
      GS1 2D Barcode Verification Process Implementation Guideline
@@ -734,4 +754,5 @@ void show_quality_metrics(struct grid_2d * grid)
   printf("Dots per element: %d\n", grid->dots_per_element);
   printf("Elongation: %.1f%%\n", grid->elongation);
   printf("Quiet zone: %d%%\n", (int)grid->quiet_zone);
+  printf("Distributed damage: %d%%\n", (int)grid->distributed_damage);
 }
