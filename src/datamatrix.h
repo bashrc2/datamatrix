@@ -670,7 +670,8 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                int image_width, int image_height,
                                int image_bitsperpixel);
 
-void show_quality_metrics(struct grid_2d * grid, unsigned char csv);
+void show_quality_metrics(struct grid_2d * grid,
+                          unsigned char csv, unsigned char json);
 
 /* gs1.c */
 
@@ -700,6 +701,7 @@ int read_datamatrix(unsigned char image_data[],
                     int test_frequency,
                     unsigned char verify,
                     unsigned char csv,
+                    unsigned char json,
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
                     char * decode_result);

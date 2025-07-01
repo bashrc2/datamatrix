@@ -789,7 +789,7 @@ static void show_quality_metrics_csv(struct grid_2d * grid)
 
   printf("Metric, Grade, Value,\n");
 
-  printf("Timestamp,, %d-%02d-%02d %02d:%02d:%02d,\n",
+  printf("Timestamp,, \"%d-%02d-%02d %02d:%02d:%02d\",\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
   printf("Symbol contrast, %d, %d,\n",
@@ -807,24 +807,71 @@ static void show_quality_metrics_csv(struct grid_2d * grid)
          (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
   printf("Minimum reflectance, %d, %d,\n",
          (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
-  printf("Overall symbol grade, %d.0, %c,\n", (int)grade, grade_letter[grade]);
+  printf("Overall symbol grade, %d.0, \"%c\",\n", (int)grade, grade_letter[grade]);
   printf("Angle of distortion,, \"%.1f\",\n", grid->angle_of_distortion);
   printf("Contrast uniformity,, %d,\n", (int)grid->contrast_uniformity);
   printf("Dots per element,, %d,\n", grid->dots_per_element);
   printf("Elongation,, \"%.1f\",\n", grid->elongation);
   printf("Quiet zone,, %d,\n", (int)grid->quiet_zone);
   printf("Distributed damage,, %d,\n", (int)grid->distributed_damage);
-  printf("Cell fill,, %d,\n", (int)grid->cell_fill);
+  printf("Cell fill,, %d\n", (int)grid->cell_fill);
+}
+
+/**
+ * \brief displays quality metrics in json format
+ * \param grid grid object
+ */
+static void show_quality_metrics_json(struct grid_2d * grid)
+{
+  unsigned char grade = overall_quality_grade(grid);
+  char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+  time_t t = time(NULL);
+  struct tm tm = *localtime(&t);
+
+  printf("{\n");
+  printf("  \"timestamp\": \"%d-%02d-%02d %02d:%02d:%02d\",\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+         tm.tm_hour, tm.tm_min, tm.tm_sec);
+  printf("  \"symbol_contrast\": { \"grade\": %d, \"value\": %d},\n",
+         (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
+  printf("  \"axial_non_uniformity\": { \"grade\": %d, \"value\": %.1f},\n",
+         (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
+  printf("  \"grid_non_uniformity\": { \"grade\": %d, \"value\": %.1f},\n",
+         (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
+  printf("  \"modulation\": { \"grade\": %d, \"value\": %d},\n",
+         (int)grid->modulation_grade, (int)grid->modulation);
+  printf("  \"unused_error_correction\": { \"grade\": %d, \"value\": %d},\n",
+         (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+  printf("  \"clock_track_regularity\": { \"grade\": %d, \"value\": %d},\n",
+         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+  printf("  \"fixed_pattern_damage\": { \"grade\": %d, \"value\": %d},\n",
+         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+  printf("  \"minimum_reflectance\": { \"grade\": %d, \"value\": %d},\n",
+         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
+  printf("  \"overall_symbol_grade\": { \"grade\": %d.0, \"value\": \"%c\"},\n", (int)grade, grade_letter[grade]);
+  printf("  \"angle_of_distortion\": %.1f,\n", grid->angle_of_distortion);
+  printf("  \"contrast_uniformity\": %d,\n", (int)grid->contrast_uniformity);
+  printf("  \"dots_per_element\": %d,\n", grid->dots_per_element);
+  printf("  \"elongation\": %.1f,\n", grid->elongation);
+  printf("  \"quiet_zone\": %d,\n", (int)grid->quiet_zone);
+  printf("  \"distributed_damage\": %d,\n", (int)grid->distributed_damage);
+  printf("  \"cell_fill\": %d,\n", (int)grid->cell_fill);
 }
 
 /**
  * \brief displays quality metrics
  * \param grid grid object
  */
-void show_quality_metrics(struct grid_2d * grid, unsigned char csv)
+void show_quality_metrics(struct grid_2d * grid,
+                          unsigned char csv,
+                          unsigned char json)
 {
   if (csv == 1) {
     show_quality_metrics_csv(grid);
+    return;
+  }
+  else if (json == 1) {
+    show_quality_metrics_json(grid);
     return;
   }
   show_quality_metrics_human_readable(grid);

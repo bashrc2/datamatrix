@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
   unsigned int image_bitsperpixel=0;
   unsigned char debug = 0;
   unsigned char csv = 0;
+  unsigned char json = 0;
   int minimum_grid_dimension = MIN_GRID_DIMENSION;
   int maximum_grid_dimension = MAX_GRID_DIMENSION;
   int test_ml_threshold = 0;
@@ -103,6 +104,10 @@ int main(int argc, char* argv[])
     }
     if (strcmp(argv[i],"--csv")==0) {
       csv = 1;
+      i--;
+    }
+    if (strcmp(argv[i],"--json")==0) {
+      json = 1;
       i--;
     }
     if (strcmp(argv[i],"--debug")==0) {
@@ -187,7 +192,7 @@ int main(int argc, char* argv[])
                   test_dilate,
                   test_edge_threshold,
                   test_frequency,
-                  verify, csv,
+                  verify, csv, json,
                   minimum_grid_dimension,
                   maximum_grid_dimension,
                   decode_result);
@@ -196,11 +201,15 @@ int main(int argc, char* argv[])
       printf("%s\n", decode_result);
     }
     else {
-      if (csv != 1) {
+      if ((csv == 0) && (json == 0)) {
         printf("Decode: PASS (%s)\n", decode_result);
       }
-      else {
+      else if (csv == 1) {
         printf("Decode, PASS, \"%s\"\n", decode_result);
+      }
+      else if (json == 1) {
+        printf("  \"decode\": { \"grade\": \"PASS\", \"text\": \"%s\"}\n", decode_result);
+        printf("}\n");
       }
     }
   }
