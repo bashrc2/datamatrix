@@ -34,57 +34,6 @@
 /* max edges for each orientation histogram bucket */
 #define MAX_ORIENTATION_EDGES 2048
 
-struct Kernel {
-  unsigned int Size;
-  float * Data;
-};
-
-
-struct canny_params {
-  float    GAUSSIAN_CUT_OFF;
-  float    MAGNITUDE_SCALE;
-  float    MAGNITUDE_LIMIT;
-  float    MAGNITUDE_LIMIT_SQR;
-  int      MAGNITUDE_MAX;
-
-  float    gaussianKernelRadius;
-  float    lowThreshold;
-  float    highThreshold;
-  unsigned int gaussianKernelWidth;
-
-  struct Kernel   kernel;
-  struct Kernel   diffKernel;
-  unsigned int picSize;
-
-  int    * data;
-  int    * magnitude;
-
-  float  * xConv;
-  float  * yConv;
-  float  * xGradient;
-  float  * yGradient;
-
-  int    * edge_pixel_index;
-  float  * edge_magnitude;
-
-  int     automaticThresholds;
-  int    * edges;
-  int      no_of_edges;
-  unsigned char * edges_image;
-  int     sampling_radius_percent;
-  int     image_contrast;
-
-  float   contrast_multiplier;
-  float   lowThresholdOffset;
-  float   lowThresholdMultiplier;
-  float   highhresholdOffset;
-  float   highhresholdMultiplier;
-};
-
-
-int params_initialised = 0;
-struct canny_params cannyparams;
-
 /**
  * \brief initialise object used to contain line segments
  * \param segments object containing line segments
@@ -904,21 +853,22 @@ static void canny_update(unsigned char img[],
  */
 void detect_edges(unsigned char img[],
                   int width, int height,
-                  float threshold, float radius)
+                  float threshold, float radius,
+                  struct canny_params * cannyparams)
 {
   int i;
 
   /* initialise */
-  canny_init(&cannyparams, radius);
+  canny_init(cannyparams, radius);
 
-  canny_update(img,width,height,&cannyparams);
+  canny_update(img,width,height,cannyparams);
 
   for (i = (width*height) - 1; i >= 0; i--) {
-    img[i] = cannyparams.edges_image[i];
+    img[i] = cannyparams->edges_image[i];
   }
 
   /* free memory */
-  canny_free(&cannyparams);
+  canny_free(cannyparams);
 }
 
 
