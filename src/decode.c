@@ -303,13 +303,8 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
         decode_strcat_char(result, ' ');
       }
       else if (c40Values[i] <= 13) {
-        if (c40Values[i] == 4) {
-          decode_strcat(result, "<EOT>");
-        }
-        else {
-          /* 0-9 */
-          decode_strcat_char(result, (char)(c40Values[i] - 13 + '9'));
-        }
+        /* 0-9 */
+        decode_strcat_char(result, (char)(c40Values[i] - 13 + '9'));
       }
       else if (c40Values[i] <= 39) {
         if (*state == C40) {
