@@ -321,12 +321,18 @@ int read_datamatrix(unsigned char image_data[],
                        thr_resized_image_data);
       }
 
-      /*
-        if (segments.no_of_segments == 0) {
-        free_line_segments(&segments);
-        return 1;
-        }
-      */
+      /* check if no line segments found */
+      if (segments[try_config].no_of_segments == 0) {
+        free_line_segments(&segments[try_config]);
+        free(thr_image_data);
+        free(thr_meanlight_image_data);
+        free(thr_original_thresholded_image_data);
+        free(thr_mono_img);
+        free(thr_thresholded);
+        free(thr_buffer_img);
+        free(thr_resized_image_data);
+        continue;
+      }
 
       /* this must count upwards */
       for (int seg_idx = 0; seg_idx < segments[try_config].no_of_segments; seg_idx++) {
