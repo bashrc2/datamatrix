@@ -323,7 +323,10 @@ static void quality_metric_distributed_damage(struct grid_2d * grid)
       }
     }
   }
-  grid->distributed_damage = (unsigned char)(damage * 100 / cells);
+  grid->distributed_damage = 0;
+  if (cells > 0) {
+    grid->distributed_damage = (unsigned char)(damage * 100 / cells);
+  }
 }
 
 /**
@@ -619,7 +622,10 @@ static void quality_metric_angle_of_distortion(struct grid_2d * grid)
   if (corner_radians > PI)
     corner_radians = (2 * (float)PI) - corner_radians;
   float angle_degrees = corner_radians / (float)PI * 180;
-  grid->angle_of_distortion = 90 - angle_degrees;
+  grid->angle_of_distortion = 0;
+  if (!isnan(angle_degrees)) {
+    grid->angle_of_distortion = 90 - angle_degrees;
+  }
 }
 
 /**

@@ -69,7 +69,7 @@ int read_datamatrix(unsigned char image_data[],
   int original_image_width = image_width;
   int original_image_height = image_height;
   int image_bytesperpixel = image_bitsperpixel/8;
-  int try_config, best_config = 0;
+  int try_config, best_config = -1;
   const float edge_radius = 25;
   const int min_segment_length=20;
   const int segment_join_radius=6;
@@ -223,6 +223,12 @@ int read_datamatrix(unsigned char image_data[],
                                  resized_thresholded_height) != 0) {
       printf("Failed to resize thresholded image\n");
       free(thr_image_data);
+      free(thr_meanlight_image_data);
+      free(thr_original_thresholded_image_data);
+      free(thr_mono_img);
+      free(thr_thresholded);
+      free(thr_buffer_img);
+      free(thr_resized_image_data);
       continue;
     }
     if (debug == 1) {
@@ -600,14 +606,17 @@ int read_datamatrix(unsigned char image_data[],
           }
         }
 
-        if (strlen(thr_decode_result[try_config]) > 0) {
-          /* decode achieved */
-          /*
-            break;
-          */
+        if ((strlen(thr_decode_result[try_config]) > 0) ||
+            (test_specific_config_settings == 1)) {
+          free(thr_image_data);
+          free(thr_meanlight_image_data);
+          free(thr_original_thresholded_image_data);
+          free(thr_mono_img);
+          free(thr_thresholded);
+          free(thr_buffer_img);
+          free(thr_resized_image_data);
+          continue;
         }
-
-        if (test_specific_config_settings == 1) continue;
 
         /* if timing border frequency detection fails then try to decode using
            all possible grids */
@@ -776,12 +785,14 @@ int read_datamatrix(unsigned char image_data[],
     free(thr_resized_image_data);
   }
 
-  if (strlen(thr_decode_result[best_config]) > 0) {
-    /* quality metrics */
-    if (verify == 1) {
-      show_quality_metrics(&grid[best_config], csv, json);
+  if (best_config > -1) {
+    if (strlen(thr_decode_result[best_config]) > 0) {
+      /* quality metrics */
+      if (verify == 1) {
+        show_quality_metrics(&grid[best_config], csv, json);
+      }
+      strcpy(decode_result, thr_decode_result[best_config]);
     }
-    strcpy(decode_result, thr_decode_result[best_config]);
   }
 
   /* free all the threaded decode results */
