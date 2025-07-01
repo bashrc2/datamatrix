@@ -614,6 +614,13 @@ int read_datamatrix(unsigned char image_data[],
 
         if ((strlen(thr_decode_result[try_config]) > 0) ||
             (test_specific_config_settings == 1)) {
+          if (verify == 1) {
+            calculate_quality_metrics(&grid[best_config],
+                                      original_image_data,
+                                      thr_original_thresholded_image_data,
+                                      image_width, image_height,
+                                      image_bitsperpixel);
+          }
           free(thr_image_data);
           free(thr_meanlight_image_data);
           free(thr_original_thresholded_image_data);
@@ -761,11 +768,24 @@ int read_datamatrix(unsigned char image_data[],
             }
           }
         }
-        /*
-          if (strlen(decode_result) > 0) {
-          break;
+        if (strlen(thr_decode_result[try_config]) > 0) {
+          /* decode achieved */
+          if (verify == 1) {
+            calculate_quality_metrics(&grid[best_config],
+                                      original_image_data,
+                                      thr_original_thresholded_image_data,
+                                      image_width, image_height,
+                                      image_bitsperpixel);
           }
-        */
+          free(thr_image_data);
+          free(thr_meanlight_image_data);
+          free(thr_original_thresholded_image_data);
+          free(thr_mono_img);
+          free(thr_thresholded);
+          free(thr_buffer_img);
+          free(thr_resized_image_data);
+          continue;
+        }
       }
 
       free_line_segments(&segments[try_config]);
