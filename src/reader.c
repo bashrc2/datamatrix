@@ -30,6 +30,17 @@
 #include "datamatrix.h"
 
 /**
+ * \brief returns 1 if any decode has been achieved within any thread
+ */
+unsigned char any_decode(char * thr_decode_result[], int max_config)
+{
+  for (int i = 0; i < max_config; i++) {
+    if (strlen(thr_decode_result[i]) > 0) return 1;
+  }
+  return 0;
+}
+
+/**
  * \brief read a datamatrix from an image
  * \param image_data image array
  * \param image_width width of the image
@@ -324,7 +335,8 @@ int read_datamatrix(unsigned char image_data[],
       }
 
       /* check if no line segments found */
-      if (segments[try_config].no_of_segments == 0) {
+      if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
+          (segments[try_config].no_of_segments == 0)) {
         free_line_segments(&segments[try_config]);
         free(thr_image_data);
         free(thr_meanlight_image_data);
@@ -614,7 +626,7 @@ int read_datamatrix(unsigned char image_data[],
           }
         }
 
-        if ((strlen(thr_decode_result[try_config]) > 0) ||
+        if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
             (test_specific_config_settings == 1)) {
           if (verify == 1) {
             calculate_quality_metrics(&grid[best_config],
@@ -698,7 +710,7 @@ int read_datamatrix(unsigned char image_data[],
                 break;
               }
             }
-            if (strlen(thr_decode_result[try_config]) > 0) {
+            if (any_decode(&thr_decode_result[0], max_config) == 1) {
               /* decode achieved */
               break;
             }
@@ -765,13 +777,13 @@ int read_datamatrix(unsigned char image_data[],
                 break;
               }
             }
-            if (strlen(thr_decode_result[try_config]) > 0) {
+            if (any_decode(&thr_decode_result[0], max_config) == 1) {
               /* decode achieved */
               break;
             }
           }
         }
-        if (strlen(thr_decode_result[try_config]) > 0) {
+        if (any_decode(&thr_decode_result[0], max_config) == 1) {
           /* decode achieved */
           if (verify == 1) {
             calculate_quality_metrics(&grid[best_config],
