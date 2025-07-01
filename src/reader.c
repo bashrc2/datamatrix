@@ -623,6 +623,7 @@ int read_datamatrix(unsigned char image_data[],
                                       image_width, image_height,
                                       image_bitsperpixel);
           }
+          free_line_segments(&segments[try_config]);
           free(thr_image_data);
           free(thr_meanlight_image_data);
           free(thr_original_thresholded_image_data);
@@ -779,6 +780,7 @@ int read_datamatrix(unsigned char image_data[],
                                       image_width, image_height,
                                       image_bitsperpixel);
           }
+          free_line_segments(&segments[try_config]);
           free(thr_image_data);
           free(thr_meanlight_image_data);
           free(thr_original_thresholded_image_data);
