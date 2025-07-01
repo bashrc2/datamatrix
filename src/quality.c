@@ -744,7 +744,12 @@ static void show_quality_metrics_human_readable(struct grid_2d * grid)
 {
   unsigned char grade = overall_quality_grade(grid);
   char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+  time_t t = time(NULL);
+  struct tm tm = *localtime(&t);
 
+  printf("Timestamp: %d-%02d-%02d %02d:%02d:%02d\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+         tm.tm_hour, tm.tm_min, tm.tm_sec);
   printf("Symbol contrast: %d (%d%%)\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %d (%.1f%%)\n",
@@ -779,9 +784,14 @@ static void show_quality_metrics_csv(struct grid_2d * grid)
 {
   unsigned char grade = overall_quality_grade(grid);
   char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+  time_t t = time(NULL);
+  struct tm tm = *localtime(&t);
 
   printf("Metric, Grade, Value,\n");
 
+  printf("Timestamp,, %d-%02d-%02d %02d:%02d:%02d,\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+         tm.tm_hour, tm.tm_min, tm.tm_sec);
   printf("Symbol contrast, %d, %d,\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("Axial non-uniformity, %d, \"%.1f\",\n",
