@@ -2074,6 +2074,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
   grid->no_of_errors = 0;
   grid->no_of_erasures = 0;
   grid->unused_error_correction = 0;
+  grid->gs1_datamatrix = 0;
   grid_no_of_errors = grid->no_of_errors;
   grid_no_of_erasures = grid->no_of_erasures;
   if (reed_solomon(grid->codeword, codewords_length,
@@ -2088,6 +2089,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                   corrected_codewords_length, result, gs1_result, debug);
     /* if there is a GS1 formatted decode then return that instead */
     if (strlen(gs1_result) > 0) {
+      grid->gs1_datamatrix = 1;
       strcpy(result, gs1_result);
       /* remove the final newline */
       result[strlen(result)-1] = 0;

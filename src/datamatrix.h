@@ -91,6 +91,7 @@ struct grid_2d {
   unsigned char * temp_damage;
 
   /* quality metrics */
+  unsigned char gs1_datamatrix;
   unsigned char minimum_reflectance;
   unsigned char minimum_reflectance_grade;
   unsigned char unused_error_correction;
