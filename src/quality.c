@@ -750,6 +750,7 @@ static void show_quality_metrics_human_readable(struct grid_2d * grid)
   printf("Timestamp: %d-%02d-%02d %02d:%02d:%02d\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
+  printf("Symbol type: datamatrix\n");
   printf("Symbol contrast: %d (%d%%)\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %d (%.1f%%)\n",
@@ -792,6 +793,7 @@ static void show_quality_metrics_csv(struct grid_2d * grid)
   printf("Timestamp,, \"%d-%02d-%02d %02d:%02d:%02d\",\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
+  printf("Symbol Type,, \"datamatrix\",\n");
   printf("Symbol contrast, %d, %d,\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("Axial non-uniformity, %d, \"%.1f\",\n",
@@ -832,6 +834,7 @@ static void show_quality_metrics_json(struct grid_2d * grid)
   printf("  \"timestamp\": \"%d-%02d-%02d %02d:%02d:%02d\",\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
+  printf("  \"symbol_type\": \"datamatrix\",\n");
   printf("  \"symbol_contrast\": { \"grade\": %d, \"value\": %d},\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("  \"axial_non_uniformity\": { \"grade\": %d, \"value\": %.1f},\n",
