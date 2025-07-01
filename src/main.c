@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
         printf("Decode: PASS (%s)\n", decode_result);
       }
       else if (csv == 1) {
-        printf("Decode, PASS, \"%s\"\n", decode_result);
+        printf("\"PASS\", \"%s\",\n", decode_result);
       }
       else if (json == 1) {
         printf("  \"decode\": { \"grade\": \"PASS\", \"text\": \"%s\" }\n", decode_result);

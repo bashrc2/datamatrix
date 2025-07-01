@@ -793,40 +793,38 @@ static void show_quality_metrics_csv(struct grid_2d * grid)
   time_t t = time(NULL);
   struct tm tm = *localtime(&t);
 
-  printf("Metric, Grade, Value,\n");
-
-  printf("Timestamp,, \"%d-%02d-%02d %02d:%02d:%02d\",\n",
+  printf("\"%d-%02d-%02d %02d:%02d:%02d\", ",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
   if (grid->gs1_datamatrix == 1) {
-    printf("Symbol Type,, \"GS1 datamatrix\",\n");
+    printf("\"GS1 datamatrix\", ");
   }
   else {
-    printf("Symbol Type,, \"datamatrix\",\n");
+    printf("\"datamatrix\", ");
   }
-  printf("Symbol contrast, %d, %d,\n",
+  printf("%d, %d, ",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
-  printf("Axial non-uniformity, %d, \"%.1f\",\n",
+  printf("%d, \"%.1f\", ",
          (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
-  printf("Grid non-uniformity, %d, \"%.1f\",\n",
+  printf("%d, \"%.1f\", ",
          (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
-  printf("Modulation, %d, %d,\n", (int)grid->modulation_grade, (int)grid->modulation);
-  printf("Unused error correction, %d, %d,\n",
+  printf("%d, %d, ", (int)grid->modulation_grade, (int)grid->modulation);
+  printf("%d, %d, ",
          (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
-  printf("Clock track regularity, %d, %d,\n",
+  printf("%d, %d, ",
          (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
-  printf("Fixed pattern damage, %d, %d,\n",
+  printf("%d, %d, ",
          (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
-  printf("Minimum reflectance, %d, %d,\n",
+  printf("%d, %d, ",
          (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
-  printf("Overall symbol grade, %d.0, \"%c\",\n", (int)grade, grade_letter[grade]);
-  printf("Angle of distortion,, \"%.1f\",\n", grid->angle_of_distortion);
-  printf("Contrast uniformity,, %d,\n", (int)grid->contrast_uniformity);
-  printf("Dots per element,, %d,\n", grid->dots_per_element);
-  printf("Elongation,, \"%.1f\",\n", grid->elongation);
-  printf("Quiet zone,, %d,\n", (int)grid->quiet_zone);
-  printf("Distributed damage,, %d,\n", (int)grid->distributed_damage);
-  printf("Cell fill,, %d\n", (int)grid->cell_fill);
+  printf("%d.0, \"%c\", ", (int)grade, grade_letter[grade]);
+  printf("\"%.1f\", ", grid->angle_of_distortion);
+  printf("%d, ", (int)grid->contrast_uniformity);
+  printf("%d, ", grid->dots_per_element);
+  printf("\"%.1f\", ", grid->elongation);
+  printf("%d, ", (int)grid->quiet_zone);
+  printf("%d, ", (int)grid->distributed_damage);
+  printf("%d, ", (int)grid->cell_fill);
 }
 
 /**
