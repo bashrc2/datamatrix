@@ -51,11 +51,13 @@ int main(int argc, char* argv[])
   float test_edge_threshold = 0;
   int test_frequency = 0;
   unsigned char verify = 0;
+  int loop_incr = 2;
 
   /* no output image by default */
   output_filename[0] = 0;
 
-  for (i=1;i<argc;i+=2) {
+  for (i = 1; i < argc; i += loop_incr) {
+    loop_incr = 2;
     if ((strcmp(argv[i],"-f")==0) ||
         (strcmp(argv[i],"--filename")==0)) {
       filename = argv[i+1];
@@ -104,21 +106,21 @@ int main(int argc, char* argv[])
     }
     if (strcmp(argv[i],"--csv")==0) {
       csv = 1;
-      i--;
+      loop_incr = 1;
     }
     if (strcmp(argv[i],"--json")==0) {
       json = 1;
-      i--;
+      loop_incr = 1;
     }
     if (strcmp(argv[i],"--debug")==0) {
       debug = 1;
-      i--;
+      loop_incr = 1;
     }
     if ((strcmp(argv[i],"--verify")==0) ||
         (strcmp(argv[i],"--quality")==0) ||
         (strcmp(argv[i],"--verification")==0)) {
       verify = 1;
-      i--;
+      loop_incr = 1;
     }
     if (strcmp(argv[i],"--tests")==0) {
       run_all_tests();

@@ -777,11 +777,11 @@ int read_datamatrix(unsigned char image_data[],
   }
 
   if (strlen(thr_decode_result[best_config]) > 0) {
-    strcpy(decode_result, thr_decode_result[best_config]);
     /* quality metrics */
     if (verify == 1) {
       show_quality_metrics(&grid[best_config], csv, json);
     }
+    strcpy(decode_result, thr_decode_result[best_config]);
   }
 
   /* free all the threaded decode results */
