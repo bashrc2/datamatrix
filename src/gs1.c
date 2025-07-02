@@ -29,6 +29,7 @@
 
 /**
  * \brief state machine for handling GS1 semantics
+ * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
  * \param result Plaintext decode string
  * \param gs1_result human readable GS1 formatted decode string
  * \param gs1_url url prefix to use with GS1 digital link
