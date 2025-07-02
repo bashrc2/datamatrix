@@ -44,6 +44,12 @@ You can specify a [GS1 resolver](https://www.gs1.org/standards/resolver) if you 
 datamatrix -f examples/01.png --resolver https://id.gs1.org
 ```
 
+If you set the resolver as a '.' character then the GS1 code will be shown with brackets, such as *(01)00068780000108(13)301231(10)ABC123*.
+
+``` bash
+datamatrix -f examples/01.png --resolver .
+```
+
 If you know the range of grid dimensions which are expected then you can narrow down the search using the *--mingrid* and *--maxgrid* options.
 
 ``` bash

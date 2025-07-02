@@ -63,10 +63,19 @@ void gs1_semantics(char result[],
     if (strlen(gs1_url) > 0) {
       /* build the GS1 digital link */
       if (strlen(gs1_result) == 0) {
-        decode_strcat(gs1_result, gs1_url);
+        if (gs1_url[0] != '.') {
+          decode_strcat(gs1_result, gs1_url);
+        }
       }
-      decode_strcat_char(gs1_result, '/');
-      decode_strcat(gs1_result, app_id_str);
+      if (gs1_url[0] != '.') {
+        decode_strcat_char(gs1_result, '/');
+        decode_strcat(gs1_result, app_id_str);
+      }
+      else {
+        decode_strcat_char(gs1_result, '(');
+        decode_strcat(gs1_result, app_id_str);
+        decode_strcat_char(gs1_result, ')');
+      }
       is_digital_link = 1;
     }
     *application_identifier = atoi(app_id_str);
@@ -937,7 +946,9 @@ void gs1_semantics(char result[],
 
     if (strlen(gs1_url) > 0) {
       /* build the GS1 digital link */
-      decode_strcat_char(gs1_result, '/');
+      if (gs1_url[0] != '.') {
+        decode_strcat_char(gs1_result, '/');
+      }
       decode_strcat(gs1_result, data_str);
     }
     else {
