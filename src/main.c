@@ -31,7 +31,6 @@
 int main(int argc, char* argv[])
 {
   int i;
-  char output_filename[255];
   unsigned char * image_data = NULL;
   unsigned char * resized_image_data = NULL;
   unsigned int image_width=0;
@@ -53,6 +52,7 @@ int main(int argc, char* argv[])
   int loop_incr = 2;
   char gs1_url[MAX_DECODE_LENGTH];
   char filename[MAX_DECODE_LENGTH];
+  char output_filename[MAX_DECODE_LENGTH];
 
   /* no filename specified */
   filename[0] = 0;
@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
     }
     if ((strcmp(argv[i],"-o")==0) ||
         (strcmp(argv[i],"--output")==0)) {
-      sprintf((char*)output_filename,"%s",argv[i+1]);
+      decode_strcat(&output_filename[0], argv[i+1]);
     }
     if ((strcmp(argv[i],"--url")==0) ||
         (strcmp(argv[i],"--resolver")==0) ||
@@ -201,7 +201,7 @@ int main(int argc, char* argv[])
   char * decode_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
   read_datamatrix(image_data, image_width, image_height,
                   image_bitsperpixel, debug,
-                  output_filename,
+                  &output_filename[0],
                   test_ml_threshold,
                   test_erode,
                   test_dilate,
