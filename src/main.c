@@ -31,7 +31,6 @@
 int main(int argc, char* argv[])
 {
   int i;
-  char * filename = NULL;
   char output_filename[255];
   unsigned char * image_data = NULL;
   unsigned char * resized_image_data = NULL;
@@ -53,6 +52,10 @@ int main(int argc, char* argv[])
   unsigned char verify = 0;
   int loop_incr = 2;
   char gs1_url[MAX_DECODE_LENGTH];
+  char filename[MAX_DECODE_LENGTH];
+
+  /* no filename specified */
+  filename[0] = 0;
 
   /* no output image by default */
   output_filename[0] = 0;
@@ -64,7 +67,7 @@ int main(int argc, char* argv[])
     loop_incr = 2;
     if ((strcmp(argv[i],"-f")==0) ||
         (strcmp(argv[i],"--filename")==0)) {
-      filename = argv[i+1];
+      decode_strcat(&filename[0], argv[i+1]);
     }
     if ((strcmp(argv[i],"-e")==0) ||
         (strcmp(argv[i],"--edgethresh")==0)) {
@@ -139,14 +142,14 @@ int main(int argc, char* argv[])
   }
 
   /* was a file specified */
-  if (filename == NULL) {
+  if (strlen(&filename[0]) == 0) {
     printf("No image file specified\n");
     return 0;
   }
 
-  image_data = read_png_file(filename, &image_width, &image_height, &image_bitsperpixel);
+  image_data = read_png_file(&filename[0], &image_width, &image_height, &image_bitsperpixel);
   if (image_data == NULL) {
-    printf("Couldn't load image %s\n", filename);
+    printf("Couldn't load image %s\n", &filename[0]);
     return 0;
   }
   if ((image_width == 0) || (image_height==0)) {
@@ -159,7 +162,7 @@ int main(int argc, char* argv[])
   }
 
   if (debug == 1) {
-    printf("Image: %s\n", filename);
+    printf("Image: %s\n", &filename[0]);
     printf("Resolution: %dx%d\n", image_width, image_height);
     printf("Depth: %d\n", image_bitsperpixel);
   }
