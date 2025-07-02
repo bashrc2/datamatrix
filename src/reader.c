@@ -945,7 +945,7 @@ int read_datamatrix(unsigned char image_data[],
                              best_perimeter_x2, best_perimeter_y2,
                              best_perimeter_x3, best_perimeter_y3);
         write_png_file(output_filename,
-                       image_width, image_height, 24, original_image_data);
+                       image_width, image_height, 24, image_data);
       }
 
       /* quality metrics */
