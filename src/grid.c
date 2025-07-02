@@ -1245,11 +1245,13 @@ void show_grid_image(struct grid_2d * grid,
             ((int)xi >= 0) && ((int)xi < image_width)) {
           n = (((int)yi * image_width) + (int)xi) * image_bytesperpixel;
           if (grid->original_damage[grid_y*grid->dimension_x + grid_x] == 0) {
+            /* valid cell */
             r = (int)image_data[n+2] - 40;
             g = (int)image_data[n+1] + 40;
             b = (int)image_data[n] - 40;
           }
           else {
+            /* damaged cell */
             r = (int)image_data[n+1] + 40;
             g = (int)image_data[n+2] - 40;
             b = (int)image_data[n] - 40;
