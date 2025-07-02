@@ -680,6 +680,15 @@ static void orient_grid(struct grid_2d * grid)
   int n, grid_x, grid_y, left_hits=0, right_hits=0, top_hits=0, bottom_hits=0;
   unsigned char * temp;
 
+  /* keep a copy of the original damage pattern for use when displaying
+     damage in an image */
+  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+    n = grid_y * grid->dimension_x;
+    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+      grid->original_damage[n+grid_x] = grid->damage[n+grid_x];
+    }
+  }
+
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
     if (grid->occupancy[0][grid_y]) left_hits++;
     if (grid->occupancy[grid->dimension_x-1][grid_y]) right_hits++;
@@ -788,6 +797,11 @@ static void create_grid_base(int dimension_x, int dimension_y,
   grid->damage = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
   assert(grid->damage != NULL);
   memset(grid->damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
+
+  /* generate original damaged cells for use when drawing damage in an image */
+  grid->original_damage = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
+  assert(grid->original_damage != NULL);
+  memset(grid->original_damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
 
   /* generate the damaged cells buffer and initialise them to zero */
   grid->damage_buffer = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
@@ -1106,6 +1120,7 @@ void free_grid(struct grid_2d * grid)
     free(grid->codeword_pattern[x]);
   }
   free(grid->occupancy);
+  free(grid->original_damage);
   free(grid->damage);
   free(grid->damage_buffer);
   free(grid->erasures);
@@ -1229,11 +1244,20 @@ void show_grid_image(struct grid_2d * grid,
         if (((int)yi >= 0) && ((int)yi < image_height) &&
             ((int)xi >= 0) && ((int)xi < image_width)) {
           n = (((int)yi * image_width) + (int)xi) * image_bytesperpixel;
-          r = (int)image_data[n+2] - 40;
+          if (grid->original_damage[grid_y*grid->dimension_x + grid_x] == 0) {
+            r = (int)image_data[n+2] - 40;
+            g = (int)image_data[n+1] + 40;
+            b = (int)image_data[n] - 40;
+          }
+          else {
+            r = (int)image_data[n+1] + 40;
+            g = (int)image_data[n+2] - 40;
+            b = (int)image_data[n] - 40;
+          }
+          if (r > 255) r = 255;
           if (r < 0) r = 0;
-          g = (int)image_data[n+1] + 40;
+          if (g < 0) g = 0;
           if (g > 255) g = 255;
-          b = (int)image_data[n] - 40;
           if (b < 0) b = 0;
           draw_dot(image_data, image_width, image_height,
                    image_bitsperpixel,

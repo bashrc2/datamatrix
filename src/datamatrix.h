@@ -77,6 +77,7 @@ struct grid_2d {
   unsigned char ** occupancy;
   unsigned char ** occupancy_buffer;
   unsigned char * damage;
+  unsigned char * original_damage;
   unsigned char * damage_buffer;
   int ** codeword_pattern;
   unsigned char * codeword;
