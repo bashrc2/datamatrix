@@ -1219,7 +1219,7 @@ void show_grid_image(struct grid_2d * grid,
   float vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
   float vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
 
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+  for (grid_y = -1; grid_y <= grid->dimension_y; grid_y++) {
     /* horizontal line */
     grid_pos_y = grid_y + 0.5f;
     float horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
@@ -1227,7 +1227,7 @@ void show_grid_image(struct grid_2d * grid,
     float horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
     float horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
 
-    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+    for (grid_x = -1; grid_x <= grid->dimension_x; grid_x++) {
       /* vertical line */
       grid_pos_x = grid_x + 0.5f;
       float vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
@@ -1244,17 +1244,26 @@ void show_grid_image(struct grid_2d * grid,
         if (((int)yi >= 0) && ((int)yi < image_height) &&
             ((int)xi >= 0) && ((int)xi < image_width)) {
           n = (((int)yi * image_width) + (int)xi) * image_bytesperpixel;
-          if (grid->original_damage[grid_y*grid->dimension_x + grid_x] == 0) {
-            /* valid cell */
-            r = (int)image_data[n+2] - 40;
-            g = (int)image_data[n+1] + 40;
-            b = (int)image_data[n] - 40;
+          if ((grid_x > -1) && (grid_x < grid->dimension_x) &&
+              (grid_y > -1) && (grid_y < grid->dimension_y)) {
+            if (grid->original_damage[grid_y*grid->dimension_x + grid_x] == 0) {
+              /* valid cell */
+              r = (int)image_data[n+2] - 30;
+              g = (int)image_data[n+1] + 30;
+              b = (int)image_data[n] - 30;
+            }
+            else {
+              /* damaged cell */
+              r = (int)image_data[n+1] + 30;
+              g = (int)image_data[n+2] - 30;
+              b = (int)image_data[n] - 30;
+            }
           }
           else {
-            /* damaged cell */
-            r = (int)image_data[n+1] + 40;
-            g = (int)image_data[n+2] - 40;
-            b = (int)image_data[n] - 40;
+            /* quiet zone */
+            r = (int)image_data[n+1] - 20;
+            g = (int)image_data[n+2] - 20;
+            b = (int)image_data[n] + 20;
           }
           if (r > 255) r = 255;
           if (r < 0) r = 0;
@@ -1266,7 +1275,9 @@ void show_grid_image(struct grid_2d * grid,
                    (int)xi, (int)yi, cell_radius, r, g, b);
         }
 
-        if (cross_radius > 0) {
+        if ((cross_radius > 0) &&
+            ((grid_x > -1) && (grid_x < grid->dimension_x) &&
+             (grid_y > -1) && (grid_y < grid->dimension_y))) {
           if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
             /* solid sampling */
             draw_line(image_data, image_width, image_height,
