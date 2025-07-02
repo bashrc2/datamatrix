@@ -1261,15 +1261,16 @@ void show_grid_image(struct grid_2d * grid,
           }
           else {
             /* quiet zone */
-            r = (int)image_data[n+1] - 20;
-            g = (int)image_data[n+2] - 20;
-            b = (int)image_data[n] + 20;
+            r = (int)image_data[n+1] - 30;
+            g = (int)image_data[n+2] - 30;
+            b = (int)image_data[n] + 30;
           }
-          if (r > 255) r = 255;
           if (r < 0) r = 0;
+          if (r > 255) r = 255;
           if (g < 0) g = 0;
           if (g > 255) g = 255;
           if (b < 0) b = 0;
+          if (b > 255) b = 255;
           draw_dot(image_data, image_width, image_height,
                    image_bitsperpixel,
                    (int)xi, (int)yi, cell_radius, r, g, b);
