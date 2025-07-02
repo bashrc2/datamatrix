@@ -490,7 +490,7 @@ int read_datamatrix(unsigned char image_data[],
                                    &perimeter_x3, &perimeter_y3,
                                    120, debug, thr_image_data,
                                    image_bitsperpixel) == 1) {
-          if ((debug == 1) || (strlen(output_filename) > 0)) {
+          if (debug == 1) {
             show_shape_perimeter(&segments[try_config],
                                  thr_image_data, image_width, image_height,
                                  image_bitsperpixel,
@@ -498,8 +498,6 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x1, perimeter_y1,
                                  perimeter_x2, perimeter_y2,
                                  perimeter_x3, perimeter_y3);
-          }
-          if (debug == 1) {
             sprintf(debug_filename[try_config],
                     "debug_%d_13_expand_perimeter_sides.png", try_config);
             write_png_file(debug_filename[try_config],
