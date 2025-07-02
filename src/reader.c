@@ -667,7 +667,7 @@ int read_datamatrix(unsigned char image_data[],
         if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
             (test_specific_config_settings == 1)) {
           if (verify == 1) {
-            calculate_quality_metrics(&grid[best_config],
+            calculate_quality_metrics(&grid[try_config],
                                       original_image_data,
                                       thr_original_thresholded_image_data,
                                       image_width, image_height,
@@ -889,7 +889,7 @@ int read_datamatrix(unsigned char image_data[],
         if (any_decode(&thr_decode_result[0], max_config) == 1) {
           /* decode achieved */
           if (verify == 1) {
-            calculate_quality_metrics(&grid[best_config],
+            calculate_quality_metrics(&grid[try_config],
                                       original_image_data,
                                       thr_original_thresholded_image_data,
                                       image_width, image_height,
@@ -913,7 +913,7 @@ int read_datamatrix(unsigned char image_data[],
     /* quality metrics */
     if (strlen(thr_decode_result[try_config]) > 0) {
       if (verify == 1) {
-        calculate_quality_metrics(&grid[best_config],
+        calculate_quality_metrics(&grid[try_config],
                                   original_image_data,
                                   thr_original_thresholded_image_data,
                                   image_width, image_height,
