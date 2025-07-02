@@ -23,24 +23,6 @@
 #include "datamatrix.h"
 
 /**
- * \brief returns the grid cell width
- * \param grid grid object
- * \return cell width
- */
-static float get_cell_width(struct grid_2d * grid)
-{
-  float longest_side =
-    get_longest_side(grid->perimeter.x0, grid->perimeter.y0,
-                     grid->perimeter.x1, grid->perimeter.y1,
-                     grid->perimeter.x2, grid->perimeter.y2,
-                     grid->perimeter.x3, grid->perimeter.y3);
-  if (grid->dimension_x > grid->dimension_y) {
-    return longest_side / grid->dimension_x;
-  }
-  return longest_side / grid->dimension_y;
-}
-
-/**
  * \brief returns 1 if the given point is in the grid quiet zone perimeter
  * \param grid grid object
  * \param x x coordinate to test

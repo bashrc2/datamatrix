@@ -566,6 +566,12 @@ void draw_line(unsigned char img[],
                int line_width,
                int r, int g, int b);
 
+void draw_dot(unsigned char img[],
+              unsigned int width, unsigned int height,
+              int bitsperpixel,
+              int centre_x, int centre_y, int radius,
+              int r, int g, int b);
+
 /* symmetry.c */
 int detect_vertical_symmetry(unsigned char img[],
                              unsigned int width, unsigned int height,
@@ -622,6 +628,8 @@ float corner_angle(float x0, float y0,
                    float x2, float y2);
 
 /* grid.c */
+
+float get_cell_width(struct grid_2d * grid);
 
 void create_grid(int dimension_x, int dimension_y,
                  float perimeter_x0,
@@ -744,6 +752,7 @@ int read_datamatrix(unsigned char image_data[],
                     int image_bitsperpixel,
                     unsigned char debug,
                     char output_filename[],
+                    char grid_filename[],
                     int test_ml_threshold,
                     int test_erode, int test_dilate,
                     float test_edge_threshold,

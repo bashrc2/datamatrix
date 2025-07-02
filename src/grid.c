@@ -24,6 +24,24 @@
 #include "datamatrix.h"
 
 /**
+ * \brief returns the grid cell width
+ * \param grid grid object
+ * \return cell width
+ */
+float get_cell_width(struct grid_2d * grid)
+{
+  float longest_side =
+    get_longest_side(grid->perimeter.x0, grid->perimeter.y0,
+                     grid->perimeter.x1, grid->perimeter.y1,
+                     grid->perimeter.x2, grid->perimeter.y2,
+                     grid->perimeter.x3, grid->perimeter.y3);
+  if (grid->dimension_x > grid->dimension_y) {
+    return longest_side / grid->dimension_x;
+  }
+  return longest_side / grid->dimension_y;
+}
+
+/**
  * \brief returns a probability that a given perimeter side described by a
  *        line is the timing border at a given frequency
  * \param mono_img mono image array
@@ -1156,9 +1174,12 @@ void show_grid_image(struct grid_2d * grid,
                      int image_bitsperpixel,
                      int sampling_radius, int sampling_pattern)
 {
+  int image_bytesperpixel = image_bitsperpixel/8;
   const int cross_radius = sampling_radius;
-  int grid_x, grid_y;
+  int grid_x, grid_y, r, g, b, n;
   float grid_pos_x, grid_pos_y, xi=0, yi=0;
+  float cell_width = get_cell_width(grid);
+  int cell_radius = (int)(cell_width/3);
 
   draw_line(image_data, image_width, image_height,
             image_bitsperpixel,
@@ -1204,41 +1225,58 @@ void show_grid_image(struct grid_2d * grid,
                    vertical_x2, vertical_y2,
                    &xi, &yi);
       if (xi != PARALLEL_LINES) {
-        if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
-          /* solid sampling */
-          draw_line(image_data, image_width, image_height,
-                    image_bitsperpixel,
-                    (int)xi-cross_radius, (int)yi,
-                    (int)xi+cross_radius, (int)yi,
-                    1, 0, 255, 0);
-          draw_line(image_data, image_width, image_height,
-                    image_bitsperpixel,
-                    (int)xi, (int)yi-cross_radius,
-                    (int)xi, (int)yi+cross_radius,
-                    1, 0, 255, 0);
+        /* dot */
+        if (((int)yi >= 0) && ((int)yi < image_height) &&
+            ((int)xi >= 0) && ((int)xi < image_width)) {
+          n = (((int)yi * image_width) + (int)xi) * image_bytesperpixel;
+          r = (int)image_data[n+2] - 40;
+          if (r < 0) r = 0;
+          g = (int)image_data[n+1] + 40;
+          if (g > 255) g = 255;
+          b = (int)image_data[n] - 40;
+          if (b < 0) b = 0;
+          draw_dot(image_data, image_width, image_height,
+                   image_bitsperpixel,
+                   (int)xi, (int)yi, cell_radius, r, g, b);
         }
-        else {
-          /* ring sampling */
-          draw_line(image_data, image_width, image_height,
-                    image_bitsperpixel,
-                    (int)xi-cross_radius, (int)yi-cross_radius,
-                    (int)xi+cross_radius, (int)yi-cross_radius,
-                    1, 0, 255, 0);
-          draw_line(image_data, image_width, image_height,
-                    image_bitsperpixel,
-                    (int)xi-cross_radius, (int)yi+cross_radius,
-                    (int)xi+cross_radius, (int)yi+cross_radius,
-                    1, 0, 255, 0);
-          draw_line(image_data, image_width, image_height,
-                    image_bitsperpixel,
-                    (int)xi-cross_radius, (int)yi-cross_radius,
-                    (int)xi-cross_radius, (int)yi+cross_radius,
-                    1, 0, 255, 0);
-          draw_line(image_data, image_width, image_height,
-                    image_bitsperpixel,
-                    (int)xi+cross_radius, (int)yi-cross_radius,
-                    (int)xi+cross_radius, (int)yi+cross_radius,
-                    1, 0, 255, 0);
+
+        if (cross_radius > 0) {
+          if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
+            /* solid sampling */
+            draw_line(image_data, image_width, image_height,
+                      image_bitsperpixel,
+                      (int)xi-cross_radius, (int)yi,
+                      (int)xi+cross_radius, (int)yi,
+                      1, 0, 255, 0);
+            draw_line(image_data, image_width, image_height,
+                      image_bitsperpixel,
+                      (int)xi, (int)yi-cross_radius,
+                      (int)xi, (int)yi+cross_radius,
+                      1, 0, 255, 0);
+          }
+          else {
+            /* ring sampling */
+            draw_line(image_data, image_width, image_height,
+                      image_bitsperpixel,
+                      (int)xi-cross_radius, (int)yi-cross_radius,
+                      (int)xi+cross_radius, (int)yi-cross_radius,
+                      1, 0, 255, 0);
+            draw_line(image_data, image_width, image_height,
+                      image_bitsperpixel,
+                      (int)xi-cross_radius, (int)yi+cross_radius,
+                      (int)xi+cross_radius, (int)yi+cross_radius,
+                      1, 0, 255, 0);
+            draw_line(image_data, image_width, image_height,
+                      image_bitsperpixel,
+                      (int)xi-cross_radius, (int)yi-cross_radius,
+                      (int)xi-cross_radius, (int)yi+cross_radius,
+                      1, 0, 255, 0);
+            draw_line(image_data, image_width, image_height,
+                      image_bitsperpixel,
+                      (int)xi+cross_radius, (int)yi-cross_radius,
+                      (int)xi+cross_radius, (int)yi+cross_radius,
+                      1, 0, 255, 0);
+          }
         }
       }
     }

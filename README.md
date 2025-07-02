@@ -56,23 +56,23 @@ If you know the range of grid dimensions which are expected then you can narrow 
 datamatrix -f examples/01.png --mingrid 10 --maxgrid 20
 ```
 
-If needed, an image can be saved showing the detected datamatrix region.
+If needed, an image can be saved showing the detected datamatrix region and also the grid.
 
 ``` bash
-datamatrix -f examples/01.png -o detection.png
+datamatrix -f examples/01.png -o detection.png -g grid.png
 ```
 
 If you want to calculate quality metrics for symbol verification purposes:
 
 ``` bash
-datamatrix -f examples/01.png -o detection.png --quality
+datamatrix -f examples/01.png -o detection.png -g grid.png --quality
 ```
 
 Metrics can also be output in *CSV* or *JSON* formats, for easy import into other systems.
 
 ``` bash
-datamatrix -f examples/01.png -o detection.png --quality --csv
-datamatrix -f examples/01.png -o detection.png --quality --json
+datamatrix -f examples/01.png -o detection.png -g grid.png --quality --csv
+datamatrix -f examples/01.png -o detection.png -g grid.png --quality --json
 ```
 
 Optionally, if you want debugging information and images for each decoding stage:

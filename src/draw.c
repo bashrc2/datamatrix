@@ -99,3 +99,47 @@ void draw_line(unsigned char img[],
     }
   }
 }
+
+/**
+ * \brief Draws a dot of the given width and colour
+ * \param Array containing image
+ * \param width Width of the image
+ * \param height Height of the image
+ * \param bitsperpixel Number of bits per pixel
+ * \param centre_x x coordinate of the centre of the dot
+ * \param centre_y y coordinate of the centre of the dot
+ * \param radius radius of the dot
+ * \param r Red
+ * \param g Green
+ * \param b Blue
+ */
+void draw_dot(unsigned char img[],
+              unsigned int width, unsigned int height,
+              int bitsperpixel,
+              int centre_x, int centre_y, int radius,
+              int r, int g, int b)
+{
+  int bytesperpixel = bitsperpixel/8;
+  int x, y, n, dx ,dy, radius_sqr = radius*radius;
+  int tx = centre_x - radius;
+  int ty = centre_y - radius;
+  int bx = centre_x + radius;
+  int by = centre_y + radius;
+
+  if (tx < 0) tx = 0;
+  if (bx >= width) bx = width-1;
+  if (ty < 0) ty = 0;
+  if (by >= height) by = height-1;
+
+  for (y = ty; y <= by; y++) {
+    dy = y - centre_y;
+    for (x = tx; x <= bx; x++) {
+      dx = x - centre_x;
+      if (dx*dx + dy*dy > radius_sqr) continue;
+      n = (y*width + x)*bytesperpixel;
+      img[n] = b;
+      img[n+1] = g;
+      img[n+2] = r;
+    }
+  }
+}
