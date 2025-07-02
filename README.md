@@ -38,7 +38,7 @@ sudo make install
 datamatrix -f examples/01.png
 ```
 
-You can specify a [GS1 resolver](https://www.gs1.org/standards/resolver) if you want a digital link to be returned.
+By default any GS1 data will be shown in human readable form. However, you can also specify a [GS1 resolver](https://www.gs1.org/standards/resolver) if you want a digital link to be returned.
 
 ``` bash
 datamatrix -f examples/01.png --resolver https://id.gs1.org
