@@ -111,6 +111,11 @@ int read_datamatrix(unsigned char image_data[],
   unsigned char * original_image_data =
     (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
 
+  float best_perimeter_x0=-1, best_perimeter_y0=0;
+  float best_perimeter_x1=0, best_perimeter_y1=0;
+  float best_perimeter_x2=0, best_perimeter_y2=0;
+  float best_perimeter_x3=0, best_perimeter_y3=0;
+
   decode_result[0] = 0;
 
   if (original_image_data == NULL) {
@@ -533,21 +538,6 @@ int read_datamatrix(unsigned char image_data[],
           }
         }
 
-        /* -o option: output image showing perimeter */
-        if (strlen(output_filename) > 0) {
-          memcpy(thr_image_data, original_image_data,
-                 image_width*image_height*image_bytesperpixel);
-          show_shape_perimeter(&segments[try_config],
-                               thr_image_data, image_width, image_height,
-                               image_bitsperpixel,
-                               perimeter_x0, perimeter_y0,
-                               perimeter_x1, perimeter_y1,
-                               perimeter_x2, perimeter_y2,
-                               perimeter_x3, perimeter_y3);
-          write_png_file(output_filename,
-                         image_width, image_height, 24, thr_image_data);
-        }
-
         /* find the timing border frequency */
         if (test_frequency > 0) {
           most_probable_frequency = test_frequency;
@@ -617,6 +607,14 @@ int read_datamatrix(unsigned char image_data[],
             if (strlen(thr_decode_result[try_config]) > 0) {
               free_grid(&grid[try_config]);
               best_config = try_config;
+              best_perimeter_x0 = perimeter_x0;
+              best_perimeter_y0 = perimeter_y0;
+              best_perimeter_x1 = perimeter_x1;
+              best_perimeter_y1 = perimeter_y1;
+              best_perimeter_x2 = perimeter_x2;
+              best_perimeter_y2 = perimeter_y2;
+              best_perimeter_x3 = perimeter_x3;
+              best_perimeter_y3 = perimeter_y3;
               break;
             }
             /* try again with rotation */
@@ -626,6 +624,14 @@ int read_datamatrix(unsigned char image_data[],
             free_grid(&grid[try_config]);
             if (strlen(thr_decode_result[try_config]) > 0) {
               best_config = try_config;
+              best_perimeter_x0 = perimeter_x0;
+              best_perimeter_y0 = perimeter_y0;
+              best_perimeter_x1 = perimeter_x1;
+              best_perimeter_y1 = perimeter_y1;
+              best_perimeter_x2 = perimeter_x2;
+              best_perimeter_y2 = perimeter_y2;
+              best_perimeter_x3 = perimeter_x3;
+              best_perimeter_y3 = perimeter_y3;
               break;
             }
           }
@@ -685,6 +691,14 @@ int read_datamatrix(unsigned char image_data[],
               if (strlen(thr_decode_result[try_config]) > 0) {
                 free_grid(&grid[try_config]);
                 best_config = try_config;
+                best_perimeter_x0 = perimeter_x0;
+                best_perimeter_y0 = perimeter_y0;
+                best_perimeter_x1 = perimeter_x1;
+                best_perimeter_y1 = perimeter_y1;
+                best_perimeter_x2 = perimeter_x2;
+                best_perimeter_y2 = perimeter_y2;
+                best_perimeter_x3 = perimeter_x3;
+                best_perimeter_y3 = perimeter_y3;
                 if (debug == 1) {
                   printf("Frequency: %d\n", most_probable_frequency);
                   mono_to_colour(thr_mono_img, image_width, image_height,
@@ -704,6 +718,14 @@ int read_datamatrix(unsigned char image_data[],
               free_grid(&grid[try_config]);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 best_config = try_config;
+                best_perimeter_x0 = perimeter_x0;
+                best_perimeter_y0 = perimeter_y0;
+                best_perimeter_x1 = perimeter_x1;
+                best_perimeter_y1 = perimeter_y1;
+                best_perimeter_x2 = perimeter_x2;
+                best_perimeter_y2 = perimeter_y2;
+                best_perimeter_x3 = perimeter_x3;
+                best_perimeter_y3 = perimeter_y3;
                 if (debug == 1) {
                   printf("Frequency: %d\n", most_probable_frequency);
                   mono_to_colour(thr_mono_img, image_width, image_height,
@@ -771,6 +793,14 @@ int read_datamatrix(unsigned char image_data[],
               free_grid(&grid[try_config]);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 best_config = try_config;
+                best_perimeter_x0 = perimeter_x0;
+                best_perimeter_y0 = perimeter_y0;
+                best_perimeter_x1 = perimeter_x1;
+                best_perimeter_y1 = perimeter_y1;
+                best_perimeter_x2 = perimeter_x2;
+                best_perimeter_y2 = perimeter_y2;
+                best_perimeter_x3 = perimeter_x3;
+                best_perimeter_y3 = perimeter_y3;
                 if (debug == 1) {
                   printf("Frequency: %dx%d\n",
                          most_probable_frequency_x, most_probable_frequency_y);
@@ -837,6 +867,20 @@ int read_datamatrix(unsigned char image_data[],
 
   if (best_config > -1) {
     if (strlen(thr_decode_result[best_config]) > 0) {
+      /* -o option: output image showing perimeter */
+      if ((strlen(output_filename) > 0) &&
+          (best_perimeter_x0 > -1)) {
+        show_shape_perimeter(&segments[best_config],
+                             original_image_data, image_width, image_height,
+                             image_bitsperpixel,
+                             best_perimeter_x0, best_perimeter_y0,
+                             best_perimeter_x1, best_perimeter_y1,
+                             best_perimeter_x2, best_perimeter_y2,
+                             best_perimeter_x3, best_perimeter_y3);
+        write_png_file(output_filename,
+                       image_width, image_height, 24, original_image_data);
+      }
+
       /* quality metrics */
       if (verify == 1) {
         show_quality_metrics(&grid[best_config], csv, json);
