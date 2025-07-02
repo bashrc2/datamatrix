@@ -91,6 +91,7 @@ int main(int argc, char* argv[])
       sprintf((char*)output_filename,"%s",argv[i+1]);
     }
     if ((strcmp(argv[i],"--url")==0) ||
+        (strcmp(argv[i],"--resolver")==0) ||
         (strcmp(argv[i],"--gs1link")==0) ||
         (strcmp(argv[i],"--link")==0)) {
       decode_strcat(&gs1_url[0], argv[i+1]);

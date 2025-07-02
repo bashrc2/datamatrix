@@ -7,7 +7,7 @@
  * Reads PNG files (recommended at least 800 pixels across) using *lodepng*
  * Outputs the plain text encoded by the datamatrix pattern
  * Implemented in pure C99
- * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d)
+ * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d) and digital links
  * Can generate quality metrics for verification reports
  * Parallelized with [OpenMP](https://www.openmp.org)
  * No dependencies or supply chains!
@@ -36,6 +36,12 @@ sudo make install
 
 ``` bash
 datamatrix -f examples/01.png
+```
+
+You can specify a [GS1 resolver](https://www.gs1.org/standards/resolver) if you want a digital link to be returned.
+
+``` bash
+datamatrix -f examples/01.png --resolver https://id.gs1.org
 ```
 
 If you know the range of grid dimensions which are expected then you can narrow down the search using the *--mingrid* and *--maxgrid* options.
