@@ -670,7 +670,7 @@ void show_grid_image(struct grid_2d * grid,
 /* decode.c */
 
 void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
-                       char result[]);
+                       char gs1_url[], char result[]);
 unsigned char condense_data_blocks(struct grid_2d * grid,
                                    unsigned char debug);
 
@@ -725,6 +725,7 @@ void show_quality_metrics(struct grid_2d * grid,
 
 void gs1_semantics(char result[],
                    char gs1_result[],
+                   char gs1_url[],
                    unsigned char debug,
                    int * application_identifier,
                    unsigned char * application_identifier_length,
@@ -752,6 +753,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char json,
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
+                    char gs1_url[],
                     char * decode_result);
 
 /* tests.c */

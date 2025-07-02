@@ -61,6 +61,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param json set to 1 if symbol quality metrics to be in json format
  * \param minimum_grid_dimension minimum grid dimension
  * \param maximum_grid_dimension maximum grid dimension
+ * \param gs1_url url for GS1 digital link
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -78,6 +79,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char json,
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
+                    char gs1_url[],
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -612,7 +614,8 @@ int read_datamatrix(unsigned char image_data[],
               write_png_file(debug_filename[try_config],
                              image_width, image_height, 24, thr_image_data);
             }
-            datamatrix_decode(&grid[try_config], debug, thr_decode_result[try_config]);
+            datamatrix_decode(&grid[try_config], debug, gs1_url,
+                              thr_decode_result[try_config]);
             if (strlen(thr_decode_result[try_config]) > 0) {
               free_grid(&grid[try_config]);
               best_config = try_config;
@@ -620,7 +623,8 @@ int read_datamatrix(unsigned char image_data[],
             }
             /* try again with rotation */
             rotate_grid(&grid[try_config]);
-            datamatrix_decode(&grid[try_config], debug, thr_decode_result[try_config]);
+            datamatrix_decode(&grid[try_config], debug,
+                              gs1_url, thr_decode_result[try_config]);
             free_grid(&grid[try_config]);
             if (strlen(thr_decode_result[try_config]) > 0) {
               best_config = try_config;
@@ -678,7 +682,8 @@ int read_datamatrix(unsigned char image_data[],
                           image_width, image_height,
                           curr_sampling_radius, curr_sampling_pattern,
                           &grid[try_config]);
-              datamatrix_decode(&grid[try_config], debug, thr_decode_result[try_config]);
+              datamatrix_decode(&grid[try_config], debug,
+                                gs1_url, thr_decode_result[try_config]);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 free_grid(&grid[try_config]);
                 best_config = try_config;
@@ -696,7 +701,8 @@ int read_datamatrix(unsigned char image_data[],
               }
               /* try again with rotated grid */
               rotate_grid(&grid[try_config]);
-              datamatrix_decode(&grid[try_config], debug, thr_decode_result[try_config]);
+              datamatrix_decode(&grid[try_config], debug,
+                                gs1_url, thr_decode_result[try_config]);
               free_grid(&grid[try_config]);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 best_config = try_config;
@@ -762,7 +768,8 @@ int read_datamatrix(unsigned char image_data[],
                           image_width, image_height,
                           curr_sampling_radius, curr_sampling_pattern,
                           &grid[try_config]);
-              datamatrix_decode(&grid[try_config], debug, thr_decode_result[try_config]);
+              datamatrix_decode(&grid[try_config], debug,
+                                gs1_url, thr_decode_result[try_config]);
               free_grid(&grid[try_config]);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 best_config = try_config;

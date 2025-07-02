@@ -52,9 +52,13 @@ int main(int argc, char* argv[])
   int test_frequency = 0;
   unsigned char verify = 0;
   int loop_incr = 2;
+  char gs1_url[MAX_DECODE_LENGTH];
 
   /* no output image by default */
   output_filename[0] = 0;
+
+  /* no GS1 digital link specified */
+  gs1_url[0] = 0;
 
   for (i = 1; i < argc; i += loop_incr) {
     loop_incr = 2;
@@ -85,6 +89,11 @@ int main(int argc, char* argv[])
     if ((strcmp(argv[i],"-o")==0) ||
         (strcmp(argv[i],"--output")==0)) {
       sprintf((char*)output_filename,"%s",argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--url")==0) ||
+        (strcmp(argv[i],"--gs1link")==0) ||
+        (strcmp(argv[i],"--link")==0)) {
+      decode_strcat(&gs1_url[0], argv[i+1]);
     }
     if (strcmp(argv[i],"--mingrid")==0) {
       minimum_grid_dimension = atoi(argv[i+1]);
@@ -197,6 +206,7 @@ int main(int argc, char* argv[])
                   verify, csv, json,
                   minimum_grid_dimension,
                   maximum_grid_dimension,
+                  &gs1_url[0],
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

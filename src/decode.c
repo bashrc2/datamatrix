@@ -146,6 +146,7 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                                      int * shift,
                                      char result[],
                                      char gs1_result[],
+                                     char gs1_url[],
                                      unsigned char debug)
 {
   int no, first_digit, last_digit;
@@ -232,7 +233,7 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
 
   /* GS1 semantics processing */
   if (*is_gs1_encodation == 1) {
-    gs1_semantics(result, gs1_result, debug,
+    gs1_semantics(result, gs1_result, gs1_url, debug,
                   application_identifier,
                   application_identifier_length,
                   application_data_start,
@@ -256,6 +257,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                                    int * shift,
                                    char result[],
                                    char gs1_result[],
+                                   char gs1_url[],
                                    unsigned char debug)
 {
   int i, a, b, c, packed;
@@ -273,7 +275,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                              position,
                              state,
                              shift,
-                             result, gs1_result, debug);
+                             result, gs1_result, gs1_url, debug);
     return;
   }
 
@@ -391,6 +393,7 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        int * shift,
                                        char result[],
                                        char gs1_result[],
+                                       char gs1_url[],
                                        unsigned char debug)
 {
   int i;
@@ -436,7 +439,7 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                  position,
                                  state,
                                  shift,
-                                 result, gs1_result, debug);
+                                 result, gs1_result, gs1_url, debug);
 
       free(unpacked);
       return;
@@ -461,6 +464,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                                    int * shift,
                                    char result[],
                                    char gs1_result[],
+                                   char gs1_url[],
                                    unsigned char debug)
 {
   int i, a, b, packed;
@@ -478,7 +482,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                              position,
                              state,
                              shift,
-                             result, gs1_result, debug);
+                             result, gs1_result, gs1_url, debug);
     return;
   }
 
@@ -541,7 +545,8 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
 
 static void ecc200_decode(unsigned char data1[],
                           int data_length,
-                          char result[], char gs1_result[],
+                          char result[],
+                          char gs1_result[], char gs1_url[],
                           unsigned char debug)
 {
   /* initial state is ASCII, which may change later */
@@ -575,7 +580,7 @@ static void ecc200_decode(unsigned char data1[],
                                &position,
                                &state,
                                &shift,
-                               result, gs1_result, debug);
+                               result, gs1_result, gs1_url, debug);
       break;
     case C40:
       if ((debug == 1) && (prev_state != state)) printf("C40 ");
@@ -590,7 +595,7 @@ static void ecc200_decode(unsigned char data1[],
                              &position,
                              &state,
                              &shift,
-                             result, gs1_result, debug);
+                             result, gs1_result, gs1_url, debug);
       break;
     case TEXT:
       if ((debug == 1) && (prev_state != state)) printf("TXT ");
@@ -605,7 +610,7 @@ static void ecc200_decode(unsigned char data1[],
                              &position,
                              &state,
                              &shift,
-                             result, gs1_result, debug);
+                             result, gs1_result, gs1_url, debug);
       break;
     case BYTE256:
       if ((debug == 1) && (prev_state != state)) printf("BYT ");
@@ -631,7 +636,7 @@ static void ecc200_decode(unsigned char data1[],
                                  &position,
                                  &state,
                                  &shift,
-                                 result, gs1_result, debug);
+                                 result, gs1_result, gs1_url, debug);
       break;
     case X12:
       if ((debug == 1) && (prev_state != state)) printf("X12 ");
@@ -646,7 +651,7 @@ static void ecc200_decode(unsigned char data1[],
                              &position,
                              &state,
                              &shift,
-                             result, gs1_result, debug);
+                             result, gs1_result, gs1_url, debug);
       break;
     default: {
       result[0] = 0;
@@ -2022,10 +2027,11 @@ static int translate(struct grid_2d * grid, unsigned char debug)
  * \brief decode the detected datamatrix within the given grid
  * \param grid grid object
  * \param debug set to 1 to enable debug mode
+ * \param gs1_url url prefix for GS1 digital link
  * \param result returned decoded text
  */
 void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
-                       char result[])
+                       char gs1_url[], char result[])
 {
   int i, codewords_length, error_correcting_words;
   int corrected_codewords_length, erasures_length;
@@ -2081,13 +2087,16 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     grid->no_of_errors = grid_no_of_errors;
     grid->no_of_erasures = grid_no_of_erasures;
     ecc200_decode(grid->corrected_codewords,
-                  corrected_codewords_length, result, gs1_result, debug);
+                  corrected_codewords_length, result,
+                  gs1_result, gs1_url, debug);
     /* if there is a GS1 formatted decode then return that instead */
     if (strlen(gs1_result) > 0) {
       grid->gs1_datamatrix = 1;
       strcpy(result, gs1_result);
-      /* remove the final newline */
-      result[strlen(result)-1] = 0;
+      if (strlen(gs1_url) == 0) {
+        /* remove the final newline */
+        result[strlen(result)-1] = 0;
+      }
     }
     grid->unused_error_correction =
       get_unused_error_correction(codewords_length,
