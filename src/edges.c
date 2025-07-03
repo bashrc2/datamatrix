@@ -52,40 +52,58 @@ void init_line_segments(struct line_segments * segments,
   segments->ignore_periphery = 0;
   segments->members =
     (int*)malloc(segments->max_members*2*sizeof(int));
+  assert(segments->members != NULL);
   segments->no_of_members =
     (int*)malloc(segments->max_segments*sizeof(int));
+  assert(segments->no_of_members != NULL);
   segments->joins =
     (unsigned char*)malloc(segments->max_segments*segments->max_segments*sizeof(unsigned char));
+  assert(segments->joins != NULL);
   segments->joins_sorted =
     (int*)malloc(segments->max_segments*sizeof(int));
+  assert(segments->joins_sorted != NULL);
   segments->selected =
     (unsigned char*)malloc(segments->max_segments*sizeof(unsigned char));
+  assert(segments->selected != NULL);
   segments->joined_length =
     (int*)malloc(segments->max_segments*sizeof(int));
+  assert(segments->joined_length != NULL);
   segments->minimum_segment_length = 20;
 
   segments->perimeter_left = (int*)malloc(height*sizeof(int));
+  assert(segments->perimeter_left != NULL);
   segments->perimeter_right = (int*)malloc(height*sizeof(int));
+  assert(segments->perimeter_right != NULL);
   segments->perimeter_top = (int*)malloc(width*sizeof(int));
+  assert(segments->perimeter_top != NULL);
   segments->perimeter_bottom = (int*)malloc(width*sizeof(int));
+  assert(segments->perimeter_bottom != NULL);
   segments->orientation_histogram = (int*)malloc(360*sizeof(int));
+  assert(segments->orientation_histogram != NULL);
 
   segments->orientation_histogram_edges = (int**)malloc(360*sizeof(int*));
+  assert(segments->orientation_histogram_edges != NULL);
   for (i = 0; i < 360; i++) {
     segments->orientation_histogram_edges[i] =
       (int*)malloc(MAX_ORIENTATION_EDGES*4*sizeof(int));
+    assert(segments->orientation_histogram_edges[i] != NULL);
   }
 
   segments->side_edges = (int**)malloc(4*sizeof(int*));
+  assert(segments->side_edges);
   for (i = 0; i < 4; i++) {
     segments->side_edges[i] =
       (int*)malloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
+    assert(segments->side_edges[i]);
   }
   segments->side_edges_count = (int*)malloc(4*sizeof(int));
+  assert(segments->side_edges_count != NULL);
   segments->linefit =
     (int*)malloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
+  assert(segments->linefit != NULL);
   segments->linefit2 =
     (int*)malloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
+  assert(segments->linefit2 != NULL);
 
   segments->edge_centre_hits = 0;
 }
@@ -134,19 +152,29 @@ static void canny_init_arrays(struct canny_params * params)
   unsigned int picSize = params->picSize;
 
   params->edges = (int*)malloc(picSize*sizeof(int));
+  assert(params->edges != NULL);
   params->edges_image =
     (unsigned char*)malloc(picSize*sizeof(unsigned char));
+  assert(params->edges_image != NULL);
   params->data = (int*)malloc(picSize*sizeof(int));
+  assert(params->data != NULL);
   params->magnitude = (int*)malloc(picSize*sizeof(int));
+  assert(params->magnitude != NULL);
   params->xConv = (float*)malloc(picSize*sizeof(float));
+  assert(params->xConv != NULL);
   params->yConv = (float*)malloc(picSize*sizeof(float));
+  assert(params->yConv != NULL);
   params->xGradient = (float*)malloc(picSize*sizeof(float));
+  assert(params->xGradient != NULL);
   params->yGradient =
     (float*)malloc(picSize*sizeof(float));
+  assert(params->yGradient != NULL);
   params->edge_pixel_index =
     (int*) malloc(picSize*sizeof(int));
+  assert(params->edge_pixel_index != NULL);
   params->edge_magnitude =
     (float*) malloc(picSize*sizeof(float));
+  assert(params->edge_magnitude != NULL);
 
   for (i = 0; i < params->picSize; i++) {
     params->data[i] = 0;

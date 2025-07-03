@@ -112,6 +112,7 @@ int read_datamatrix(unsigned char image_data[],
 
   unsigned char * original_image_data =
     (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
+  assert(original_image_data != NULL);
 
   float best_perimeter_x0=-1, best_perimeter_y0=0;
   float best_perimeter_x1=0, best_perimeter_y1=0;
