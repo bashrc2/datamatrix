@@ -93,6 +93,7 @@ struct grid_2d {
 
   /* quality metrics */
   unsigned char gs1_datamatrix;
+  unsigned char iso15434_datamatrix;
   unsigned char minimum_reflectance;
   unsigned char minimum_reflectance_grade;
   unsigned char unused_error_correction;
@@ -745,6 +746,15 @@ void gs1_semantics(char result[],
 
 unsigned char condense_data_blocks(struct grid_2d * grid,
                                    unsigned char debug);
+
+/* iso15434.c */
+
+void iso15434_semantics(char result[],
+                        char iso15434_result[],
+                        unsigned char debug,
+                        unsigned char * is_iso1543,
+                        char format_code[],
+                        int * iso15434_data_start);
 
 /* reader.c */
 
