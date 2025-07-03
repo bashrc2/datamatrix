@@ -23,14 +23,15 @@
 #include "datamatrix.h"
 
 /**
- * \brief translates the abbreviated data to something human readable
+ * \brief translates the abbreviated data qualifier to something human readable
  * \param result string decoded so far
  * \param start_index starting position in the result string
  * \param end_index ending position in the result string
  * \return translated string
  */
-static char * iso15434_translate(char result[],
-                                 int start_index, int end_index)
+static char * iso15434_translate_data_qualifier(char result[],
+                                                int start_index,
+                                                int end_index)
 {
   int i;
   char * translated_str = NULL;
@@ -234,7 +235,9 @@ void iso15434_semantics(char result[],
           decode_strcat(iso15434_result, format_code);
         }
         else {
-          translated_str = iso15434_translate(result, *iso15434_data_start, i);
+          translated_str =
+            iso15434_translate_data_qualifier(result,
+                                              *iso15434_data_start, i);
           if (translated_str != NULL) {
             decode_strcat(iso15434_result, translated_str);
             free(translated_str);
