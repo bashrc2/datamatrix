@@ -143,7 +143,15 @@ static char * iso15434_translate_data_qualifier(char result[],
             decode_strcat_char(iso15434_uii, 'D');
           }
         }
-        decode_strcat_char(iso15434_uii, result[i]);
+        if (strcmp(format_code, "05") == 0) {
+          /* format 05, miss the first 4 characters */
+          if (i >= start_index+8) {
+            decode_strcat_char(iso15434_uii, result[i]);
+          }
+        }
+        else {
+          decode_strcat_char(iso15434_uii, result[i]);
+        }
       }
     }
     else {
