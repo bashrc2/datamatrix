@@ -27,11 +27,15 @@
  * \param result string decoded so far
  * \param start_index starting position in the result string
  * \param end_index ending position in the result string
+ * \param iso15434_uii returned unique item identifier
+ * \param format_code format code
  * \return translated string
  */
 static char * iso15434_translate_data_qualifier(char result[],
                                                 int start_index,
-                                                int end_index)
+                                                int end_index,
+                                                char iso15434_uii[],
+                                                char format_code[])
 {
   int i;
   char * translated_str = NULL;
@@ -133,11 +137,19 @@ static char * iso15434_translate_data_qualifier(char result[],
     if (result[start_index+3] == ' ') {
       for (i = start_index+4; i < end_index; i++) {
         decode_strcat_char(translated_str, result[i]);
+        if ((strcmp(format_code, "06") == 0) ||
+            (strcmp(format_code, "12") == 0)) {
+          if (strlen(iso15434_uii) == 0) {
+            decode_strcat_char(iso15434_uii, 'D');
+          }
+        }
+        decode_strcat_char(iso15434_uii, result[i]);
       }
     }
     else {
       for (i = start_index+3; i < end_index; i++) {
         decode_strcat_char(translated_str, result[i]);
+        decode_strcat_char(iso15434_uii, result[i]);
       }
     }
     return translated_str;
@@ -152,15 +164,17 @@ static char * iso15434_translate_data_qualifier(char result[],
  * \param iso15434_result decoded string
  * \param debug set to 1 to enable debugging
  * \param is_iso1543 set to 1 if iso1543 decoding is active
- * \param format_code iso1543 format code
+ * \param format_code returned iso1543 format code
  * \param iso15434_data_start position of the start of data within result string
+ * \param iso15434_uii returned unique item identifier
  */
 void iso15434_semantics(char result[],
                         char iso15434_result[],
                         unsigned char debug,
                         unsigned char * is_iso1543,
                         char format_code[],
-                        int * iso15434_data_start)
+                        int * iso15434_data_start,
+                        char iso15434_uii[])
 {
   int prev_char_value, char_value, i, j;
   int str_len = strlen(result);
@@ -237,7 +251,9 @@ void iso15434_semantics(char result[],
         else {
           translated_str =
             iso15434_translate_data_qualifier(result,
-                                              *iso15434_data_start, i);
+                                              *iso15434_data_start, i,
+                                              iso15434_uii,
+                                              format_code);
           if (translated_str != NULL) {
             decode_strcat(iso15434_result, translated_str);
             free(translated_str);

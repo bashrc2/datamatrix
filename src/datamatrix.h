@@ -754,7 +754,8 @@ void iso15434_semantics(char result[],
                         unsigned char debug,
                         unsigned char * is_iso1543,
                         char format_code[],
-                        int * iso15434_data_start);
+                        int * iso15434_data_start,
+                        char iso15434_uii[]);
 
 /* reader.c */
 
