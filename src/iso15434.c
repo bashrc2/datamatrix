@@ -321,6 +321,7 @@ void iso15434_semantics(char result[],
           if ((strcmp(format_code, "12") != 0) &&
               (strcmp(format_code, "06") != 0) &&
               (strcmp(format_code, "05") != 0)) {
+            /* not in a permitted swim lane */
             *is_iso1543 = 0;
             *iso15434_data_start = -1;
             format_code[0] = 0;
