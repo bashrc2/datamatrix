@@ -55,7 +55,7 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "MANUFACTURER/CAGE: ");
-      decode_strcat(&short_id[0], "18S");
+      decode_strcat(&short_id[0], "17V");
       found = 1;
     }
 
@@ -91,7 +91,7 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "CAGE: ");
-      decode_strcat(&short_id[0], "17V");
+      decode_strcat(&short_id[0], "18S");
       found = 1;
     }
 
