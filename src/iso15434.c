@@ -91,7 +91,7 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "CAGE: ");
-      decode_strcat(&short_id[0], "18S");
+      decode_strcat(&short_id[0], "17V");
       found = 1;
     }
 
@@ -103,7 +103,7 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "PART NUMBER: ");
-      decode_strcat(&short_id[0], "P");
+      decode_strcat(&short_id[0], "1P");
       found = 1;
     }
 
