@@ -758,6 +758,18 @@ void iso15434_semantics(char result[],
                         int * iso15434_data_start,
                         char iso15434_uii[]);
 
+char * iso15434_translate_data_qualifier(char result[],
+                                         int start_index,
+                                         int end_index,
+                                         char iso15434_uii[],
+                                         char format_code[]);
+
+/* data_id.c */
+
+int get_data_identifier(char data_str[],
+                        char id[],
+                        char identifier[], char value[]);
+
 /* reader.c */
 
 int read_datamatrix(unsigned char image_data[],

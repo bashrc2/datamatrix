@@ -386,6 +386,66 @@ void test_condense()
   free_grid(&grid);
 }
 
+void test_iso15434_translate()
+{
+  printf("test_iso15434_translate\n");
+  char format_code[3];
+  char test_data[MAX_DECODE_LENGTH];
+  char iso15434_uii[MAX_DECODE_LENGTH];
+  char * result;
+
+  format_code[0] = 0;
+  test_data[0] = 0;
+  iso15434_uii[0] = 0;
+
+  decode_strcat(&format_code[0], "06");
+  decode_strcat(&test_data[0], "9S12345");
+
+  result = iso15434_translate_data_qualifier(&test_data[0], 0,
+                                             strlen(&test_data[0]),
+                                             &iso15434_uii[0],
+                                             &format_code[0]);
+  if (result != NULL) {
+    assert(strcmp(result, "PACKAGE ID: 12345") == 0);
+    free(result);
+    assert(strcmp(&iso15434_uii[0], "12345") == 0);
+  }
+
+  format_code[0] = 0;
+  test_data[0] = 0;
+  iso15434_uii[0] = 0;
+
+  decode_strcat(&format_code[0], "12");
+  decode_strcat(&test_data[0], "PNO 987654");
+
+  result = iso15434_translate_data_qualifier(&test_data[0], 0,
+                                             strlen(&test_data[0]),
+                                             &iso15434_uii[0],
+                                             &format_code[0]);
+  if (result != NULL) {
+    assert(strcmp(result, "PART NUMBER: 987654") == 0);
+    free(result);
+    assert(strcmp(&iso15434_uii[0], "P987654") == 0);
+  }
+
+  format_code[0] = 0;
+  test_data[0] = 0;
+  iso15434_uii[0] = 0;
+
+  decode_strcat(&format_code[0], "05");
+  decode_strcat(&test_data[0], "8002268435460012427936");
+
+  result = iso15434_translate_data_qualifier(&test_data[0], 0,
+                                             strlen(&test_data[0]),
+                                             &iso15434_uii[0],
+                                             &format_code[0]);
+  if (result != NULL) {
+    assert(strcmp(result, "8002268435460012427936") == 0);
+    free(result);
+    assert(strcmp(&iso15434_uii[0], "268435460012427936") == 0);
+  }
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -393,5 +453,6 @@ void run_all_tests()
   test_gs1_decode();
   test_condense();
   test_rotate();
+  test_iso15434_translate();
   printf("All tests complete\n");
 }

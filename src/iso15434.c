@@ -31,144 +31,199 @@
  * \param format_code format code
  * \return translated string
  */
-static char * iso15434_translate_data_qualifier(char result[],
-                                                int start_index,
-                                                int end_index,
-                                                char iso15434_uii[],
-                                                char format_code[])
+char * iso15434_translate_data_qualifier(char result[],
+                                         int start_index,
+                                         int end_index,
+                                         char iso15434_uii[],
+                                         char format_code[])
 {
-  int i;
+  int i, start_pos=0;
   char * translated_str = NULL;
   unsigned char found = 0;
+  char short_id[4];
 
   if (end_index - start_index < 4) return NULL;
 
-  /* MFR */
-  if ((result[start_index] == 'M') &&
-      (result[start_index+1] == 'F') &&
-      (result[start_index+2] == 'R')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "MANUFACTURER/CAGE: ");
-    found = 1;
-  }
+  short_id[0] = 0;
 
-  /* SPL */
-  if ((result[start_index] == 'S') &&
-      (result[start_index+1] == 'P') &&
-      (result[start_index+2] == 'L')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "SUPPLIER/CAGE: ");
-    found = 1;
-  }
+  if (strcmp(format_code, "12") == 0) {
+    /* MFR */
+    if ((result[start_index] == 'M') &&
+        (result[start_index+1] == 'F') &&
+        (result[start_index+2] == 'R')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "MANUFACTURER/CAGE: ");
+      decode_strcat(&short_id[0], "17V");
+      found = 1;
+    }
 
-  /* SER */
-  if ((result[start_index] == 'S') &&
-      (result[start_index+1] == 'E') &&
-      (result[start_index+2] == 'R')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "SERIAL: ");
-    found = 1;
-  }
+    /* SPL */
+    if ((result[start_index] == 'S') &&
+        (result[start_index+1] == 'P') &&
+        (result[start_index+2] == 'L')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "SUPPLIER/CAGE: ");
+      decode_strcat(&short_id[0], "8S");
+      found = 1;
+    }
 
-  /* CAG */
-  if ((result[start_index] == 'C') &&
-      (result[start_index+1] == 'A') &&
-      (result[start_index+2] == 'G')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "CAGE: ");
-    found = 1;
-  }
+    /* SER */
+    if ((result[start_index] == 'S') &&
+        (result[start_index+1] == 'E') &&
+        (result[start_index+2] == 'R')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "SERIAL: ");
+      decode_strcat(&short_id[0], "S");
+      found = 1;
+    }
 
-  /* PNO */
-  if ((result[start_index] == 'P') &&
-      (result[start_index+1] == 'N') &&
-      (result[start_index+2] == 'O')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "PART NUMBER: ");
-    found = 1;
-  }
+    /* CAG */
+    if ((result[start_index] == 'C') &&
+        (result[start_index+1] == 'A') &&
+        (result[start_index+2] == 'G')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "CAGE: ");
+      decode_strcat(&short_id[0], "18S");
+      found = 1;
+    }
 
-  /* DUN */
-  if ((result[start_index] == 'D') &&
-      (result[start_index+1] == 'U') &&
-      (result[start_index+2] == 'N')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "DISTRIBUTION UNIT NUMBER: ");
-    found = 1;
-  }
+    /* PNO */
+    if ((result[start_index] == 'P') &&
+        (result[start_index+1] == 'N') &&
+        (result[start_index+2] == 'O')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "PART NUMBER: ");
+      decode_strcat(&short_id[0], "P");
+      found = 1;
+    }
 
-  /* UID */
-  if ((result[start_index] == 'U') &&
-      (result[start_index+1] == 'I') &&
-      (result[start_index+2] == 'D')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "UNIQUE ID: ");
-    found = 1;
-  }
+    /* DUN */
+    if ((result[start_index] == 'D') &&
+        (result[start_index+1] == 'U') &&
+        (result[start_index+2] == 'N')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "DISTRIBUTION UNIT NUMBER: ");
+      decode_strcat(&short_id[0], "Q");
+      found = 1;
+    }
 
-  /* USN */
-  if ((result[start_index] == 'U') &&
-      (result[start_index+1] == 'S') &&
-      (result[start_index+2] == 'N')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "UNIQUE SERIAL: ");
-    found = 1;
-  }
+    /* UID */
+    if ((result[start_index] == 'U') &&
+        (result[start_index+1] == 'I') &&
+        (result[start_index+2] == 'D')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "UNIQUE ID: ");
+      decode_strcat(&short_id[0], "37S");
+      found = 1;
+    }
 
-  /* UST */
-  if ((result[start_index] == 'U') &&
-      (result[start_index+1] == 'S') &&
-      (result[start_index+2] == 'T')) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, "UNITS: ");
-    found = 1;
+    /* USN */
+    if ((result[start_index] == 'U') &&
+        (result[start_index+1] == 'S') &&
+        (result[start_index+2] == 'N')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "UNIQUE SERIAL: ");
+      decode_strcat(&short_id[0], "S");
+      found = 1;
+    }
+
+    /* UST */
+    if ((result[start_index] == 'U') &&
+        (result[start_index+1] == 'S') &&
+        (result[start_index+2] == 'T')) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "UNITS: ");
+      decode_strcat(&short_id[0], "3Q");
+      found = 1;
+    }
   }
 
   if (found == 1) {
+    /* position to begin reading at */
     if (result[start_index+3] == ' ') {
-      for (i = start_index+4; i < end_index; i++) {
+      start_pos = start_index+4;
+    }
+    else {
+      start_pos = start_index+3;
+    }
+
+    for (i = start_pos; i < end_index; i++) {
+      decode_strcat_char(translated_str, result[i]);
+
+      if ((i == start_pos) &&
+          (strlen(&short_id[0]) > 0)) {
+        decode_strcat(iso15434_uii, &short_id[0]);
+      }
+      decode_strcat_char(iso15434_uii, result[i]);
+    }
+    return translated_str;
+  }
+  else {
+    /* format code 06  */
+    if (strcmp(format_code, "06") == 0) {
+      char * data_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(data_str != NULL);
+      data_str[0] = 0;
+      for (i = start_pos; i < end_index; i++) {
+        decode_strcat_char(data_str, result[i]);
+      }
+
+      char * id = (char*)malloc(5*sizeof(char));
+      char * id_human_readable = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      char * id_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(id != NULL);
+      assert(id_human_readable != NULL);
+      assert(id_value != NULL);
+
+      if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
+        translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+        assert(translated_str);
+        translated_str[0] = 0;
+        decode_strcat(translated_str, id_human_readable);
+        decode_strcat(translated_str, ": ");
+        decode_strcat(translated_str, id_value);
+        decode_strcat(iso15434_uii, id_value);
+        free(data_str);
+        free(id);
+        free(id_human_readable);
+        free(id_value);
+        return translated_str;
+      }
+
+      free(data_str);
+      free(id);
+      free(id_human_readable);
+      free(id_value);
+    }
+    else if (strcmp(format_code, "05") == 0) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      for (i = start_pos; i < end_index; i++) {
         decode_strcat_char(translated_str, result[i]);
-        if ((strcmp(format_code, "06") == 0) ||
-            (strcmp(format_code, "12") == 0)) {
-          if (strlen(iso15434_uii) == 0) {
-            decode_strcat_char(iso15434_uii, 'D');
-          }
-        }
-        if (strcmp(format_code, "05") == 0) {
-          /* format 05, miss the first 4 characters */
-          if (i >= start_index+8) {
-            decode_strcat_char(iso15434_uii, result[i]);
-          }
-        }
-        else {
+        /* format 05, miss the first 4 characters */
+        if (i >= start_pos+4) {
           decode_strcat_char(iso15434_uii, result[i]);
         }
       }
     }
-    else {
-      for (i = start_index+3; i < end_index; i++) {
-        decode_strcat_char(translated_str, result[i]);
-        decode_strcat_char(iso15434_uii, result[i]);
-      }
-    }
-    return translated_str;
   }
 
   return translated_str;
@@ -245,7 +300,9 @@ void iso15434_semantics(char result[],
       if (debug == 1) {
         printf("ISO 15434\n");
       }
-      decode_strcat(iso15434_result, "STANDARD: ISO15434\n");
+      if (strstr(iso15434_result, "STANDARD: ") == NULL) {
+        decode_strcat(iso15434_result, "STANDARD: ISO15434\n");
+      }
     }
     return;
   }
@@ -261,6 +318,16 @@ void iso15434_semantics(char result[],
           for (j = *iso15434_data_start; j < i; j++) {
             decode_strcat_char(format_code, result[j]);
           }
+          if ((strcmp(format_code, "12") != 0) &&
+              (strcmp(format_code, "06") != 0) &&
+              (strcmp(format_code, "05") != 0)) {
+            *is_iso1543 = 0;
+            *iso15434_data_start = -1;
+            format_code[0] = 0;
+            iso15434_result[0] = 0;
+            return;
+          }
+
           decode_strcat(iso15434_result, "FORMAT: ");
           decode_strcat(iso15434_result, format_code);
         }
