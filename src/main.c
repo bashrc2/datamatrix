@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
   float test_edge_threshold = 0;
   int test_frequency = 0;
   unsigned char verify = 0;
+  unsigned char raw_decode = 0;
   int loop_incr = 2;
   char gs1_url[MAX_DECODE_LENGTH];
   char filename[MAX_DECODE_LENGTH];
@@ -122,6 +123,10 @@ int main(int argc, char* argv[])
     }
     if (strcmp(argv[i],"--resizeheight")==0) {
       resized_image_height = atoi(argv[i+1]);
+    }
+    if (strcmp(argv[i],"--raw")==0) {
+      raw_decode = 1;
+      loop_incr = 1;
     }
     if (strcmp(argv[i],"--csv")==0) {
       csv = 1;
@@ -218,7 +223,7 @@ int main(int argc, char* argv[])
                   verify, csv, json,
                   minimum_grid_dimension,
                   maximum_grid_dimension,
-                  &gs1_url[0],
+                  &gs1_url[0], raw_decode,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

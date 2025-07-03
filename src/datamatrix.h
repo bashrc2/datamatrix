@@ -788,6 +788,7 @@ int read_datamatrix(unsigned char image_data[],
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
                     char gs1_url[],
+                    unsigned char raw_decode,
                     char * decode_result);
 
 /* tests.c */

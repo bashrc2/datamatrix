@@ -38,7 +38,13 @@ sudo make install
 datamatrix -f examples/01.png
 ```
 
-By default any GS1 data will be shown in human readable form. However, you can also specify a [GS1 resolver](https://www.gs1.org/standards/resolver) if you want a digital link to be returned.
+When possible decoded text will appear in a more verbose human readable form. However if you want to know what text the datamatrix directly encodes then you can use the *--raw* option.
+
+``` bash
+datamatrix -f examples/01.png --raw
+```
+
+When decoding GS1 datamatrix symbols you can also specify a [GS1 resolver](https://www.gs1.org/standards/resolver) if you want a digital link to be returned.
 
 ``` bash
 datamatrix -f examples/01.png --resolver https://id.gs1.org

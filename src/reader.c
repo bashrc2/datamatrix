@@ -63,6 +63,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param minimum_grid_dimension minimum grid dimension
  * \param maximum_grid_dimension maximum grid dimension
  * \param gs1_url url for GS1 digital link
+ * \param raw_decode show the raw decode rather than a human readable one
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -82,6 +83,7 @@ int read_datamatrix(unsigned char image_data[],
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
                     char gs1_url[],
+                    unsigned char raw_decode,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -121,7 +123,7 @@ int read_datamatrix(unsigned char image_data[],
   float best_perimeter_x3=0, best_perimeter_y3=0;
 
   /* in verification reports show the raw decode */
-  if (verify == 1) human_readable = 0;
+  if ((verify == 1) || (raw_decode == 1)) human_readable = 0;
 
   decode_result[0] = 0;
 
