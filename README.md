@@ -38,7 +38,7 @@ sudo make install
 datamatrix -f examples/01.png
 ```
 
-When possible decoded text will appear in a more verbose human readable form. However if you want to know what text the datamatrix directly encodes then you can use the *--raw* option.
+When possible, decoded text will appear in a more verbose human readable form. However if you want to know what text the datamatrix directly encodes then you can use the *--raw* option.
 
 ``` bash
 datamatrix -f examples/01.png --raw
