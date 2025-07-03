@@ -88,6 +88,7 @@ int read_datamatrix(unsigned char image_data[],
   int original_image_height = image_height;
   int image_bytesperpixel = image_bitsperpixel/8;
   int try_config, best_config = -1;
+  unsigned char human_readable = 1;
   const float edge_radius = 25;
   const int min_segment_length=20;
   const int segment_join_radius=6;
@@ -118,6 +119,9 @@ int read_datamatrix(unsigned char image_data[],
   float best_perimeter_x1=0, best_perimeter_y1=0;
   float best_perimeter_x2=0, best_perimeter_y2=0;
   float best_perimeter_x3=0, best_perimeter_y3=0;
+
+  /* in verification reports show the raw decode */
+  if (verify == 1) human_readable = 0;
 
   decode_result[0] = 0;
 
@@ -606,7 +610,8 @@ int read_datamatrix(unsigned char image_data[],
                              image_width, image_height, 24, thr_image_data);
             }
             datamatrix_decode(&grid[try_config], debug, gs1_url,
-                              thr_decode_result[try_config]);
+                              thr_decode_result[try_config],
+                              human_readable);
             if (strlen(thr_decode_result[try_config]) > 0) {
               free_grid(&grid[try_config]);
               best_config = try_config;
@@ -635,7 +640,8 @@ int read_datamatrix(unsigned char image_data[],
             /* try again with rotation */
             rotate_grid(&grid[try_config]);
             datamatrix_decode(&grid[try_config], debug,
-                              gs1_url, thr_decode_result[try_config]);
+                              gs1_url, thr_decode_result[try_config],
+                              human_readable);
             if (strlen(thr_decode_result[try_config]) > 0) {
               best_config = try_config;
               best_perimeter_x0 = perimeter_x0;
@@ -715,7 +721,8 @@ int read_datamatrix(unsigned char image_data[],
                           curr_sampling_radius, curr_sampling_pattern,
                           &grid[try_config]);
               datamatrix_decode(&grid[try_config], debug,
-                                gs1_url, thr_decode_result[try_config]);
+                                gs1_url, thr_decode_result[try_config],
+                                human_readable);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 free_grid(&grid[try_config]);
                 best_config = try_config;
@@ -754,7 +761,8 @@ int read_datamatrix(unsigned char image_data[],
               /* try again with rotated grid */
               rotate_grid(&grid[try_config]);
               datamatrix_decode(&grid[try_config], debug,
-                                gs1_url, thr_decode_result[try_config]);
+                                gs1_url, thr_decode_result[try_config],
+                                human_readable);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 best_config = try_config;
                 best_perimeter_x0 = perimeter_x0;
@@ -842,7 +850,8 @@ int read_datamatrix(unsigned char image_data[],
                           curr_sampling_radius, curr_sampling_pattern,
                           &grid[try_config]);
               datamatrix_decode(&grid[try_config], debug,
-                                gs1_url, thr_decode_result[try_config]);
+                                gs1_url, thr_decode_result[try_config],
+                                human_readable);
               if (strlen(thr_decode_result[try_config]) > 0) {
                 best_config = try_config;
                 best_perimeter_x0 = perimeter_x0;

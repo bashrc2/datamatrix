@@ -2115,9 +2115,11 @@ static int translate(struct grid_2d * grid, unsigned char debug)
  * \param debug set to 1 to enable debug mode
  * \param gs1_url url prefix for GS1 digital link
  * \param result returned decoded text
+ * \param human_readable set to 1 if the decode should be human readable
  */
 void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
-                       char gs1_url[], char result[])
+                       char gs1_url[], char result[],
+                       unsigned char human_readable)
 {
   int i, codewords_length, error_correcting_words;
   int corrected_codewords_length, erasures_length;
@@ -2183,21 +2185,22 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                   corrected_codewords_length, result,
                   gs1_result, iso15434_result, iso15434_uii,
                   gs1_url, debug);
-    /* if there is a GS1 formatted decode then return that instead */
-    if (strlen(gs1_result) > 0) {
-      grid->gs1_datamatrix = 1;
-      result[0] = 0;
-      if (strlen(gs1_url) == 0) {
-        decode_strcat(result, "STANDARD: GS1\n");
+    if (human_readable == 1) {
+      /* if there is a GS1 formatted decode then return that instead */
+      if (strlen(gs1_result) > 0) {
+        grid->gs1_datamatrix = 1;
+        result[0] = 0;
+        if (strlen(gs1_url) == 0) {
+          decode_strcat(result, "STANDARD: GS1\n");
+        }
+        decode_strcat(result, gs1_result);
+        if (strlen(gs1_url) == 0) {
+          /* remove the final newline */
+          result[strlen(result)-1] = 0;
+        }
       }
-      decode_strcat(result, gs1_result);
-      if (strlen(gs1_url) == 0) {
-        /* remove the final newline */
-        result[strlen(result)-1] = 0;
-      }
-    }
-    /* if there is an ISO 15434 decode then return that instead */
-    if (strlen(iso15434_result) > 0) {
+      /* if there is an ISO 15434 decode then return that instead */
+      if (strlen(iso15434_result) > 0) {
         grid->iso15434_datamatrix = 1;
         result[0] = 0;
         decode_strcat(result, iso15434_result);
@@ -2209,6 +2212,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
           /* remove the final newline */
           result[strlen(result)-1] = 0;
         }
+      }
     }
     grid->unused_error_correction =
       get_unused_error_correction(codewords_length,

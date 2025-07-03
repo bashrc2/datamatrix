@@ -680,7 +680,8 @@ void show_grid_image(struct grid_2d * grid,
 /* decode.c */
 
 void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
-                       char gs1_url[], char result[]);
+                       char gs1_url[], char result[],
+                       unsigned char human_readable);
 unsigned char condense_data_blocks(struct grid_2d * grid,
                                    unsigned char debug);
 

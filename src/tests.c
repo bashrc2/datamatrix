@@ -80,6 +80,7 @@ static void test_rotate()
 static void test_decode()
 {
   printf("test_decode\n");
+  unsigned char human_readable = 1;
   int dimension_x, dimension_y;
   struct grid_2d grid, grid2;
   char gs1_url[MAX_DECODE_LENGTH];
@@ -104,7 +105,7 @@ static void test_decode()
   dimension_y = 10;
   create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
   show_grid(&grid);
-  datamatrix_decode(&grid, 1, &gs1_url[0], decode_result);
+  datamatrix_decode(&grid, 1, &gs1_url[0], decode_result, human_readable);
   assert(strlen(decode_result) > 0);
   assert(strcmp(decode_result, "123") == 0);
 
@@ -172,7 +173,7 @@ static void test_decode()
 
   create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy2);
   show_grid(&grid2);
-  datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result);
+  datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result, human_readable);
   assert(strlen(decode_result) > 0);
   assert(strcmp(decode_result, "Test") == 0);
 
@@ -183,6 +184,7 @@ static void test_decode()
 static void test_gs1_decode()
 {
   printf("test_gs1_decode\n");
+  int human_readable = 1;
   int dimension_x, dimension_y;
   struct grid_2d grid, grid2;
   char gs1_url[MAX_DECODE_LENGTH];
@@ -218,10 +220,10 @@ static void test_gs1_decode()
   dimension_y = 20;
   create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
   show_grid(&grid);
-  datamatrix_decode(&grid, 1, &gs1_url[0], decode_result);
+  datamatrix_decode(&grid, 1, &gs1_url[0], decode_result, human_readable);
   assert(strlen(decode_result) > 0);
   assert(strcmp(decode_result,
-                "GTIN: 00068780000108\nPACK DATE: 301231\nBATCH/LOT: ABC123") == 0);
+                "STANDARD: GS1\nGTIN: 00068780000108\nPACK DATE: 301231\nBATCH/LOT: ABC123") == 0);
 
   free_grid(&grid);
 
@@ -230,7 +232,7 @@ static void test_gs1_decode()
   decode_strcat(&gs1_url[0], "https://test.domain");
   create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy1);
   show_grid(&grid2);
-  datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result);
+  datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result, human_readable);
   assert(strlen(decode_result) > 0);
   printf("%s\n", decode_result);
   assert(strcmp(decode_result,
