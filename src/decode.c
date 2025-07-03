@@ -2166,6 +2166,9 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     if (strlen(gs1_result) > 0) {
       grid->gs1_datamatrix = 1;
       result[0] = 0;
+      if (strlen(gs1_url) == 0) {
+        decode_strcat(result, "STANDARD: GS1\n");
+      }
       decode_strcat(result, gs1_result);
       if (strlen(gs1_url) == 0) {
         /* remove the final newline */
