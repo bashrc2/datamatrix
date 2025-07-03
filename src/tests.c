@@ -425,7 +425,7 @@ void test_iso15434_translate()
   if (result != NULL) {
     assert(strcmp(result, "PART NUMBER: 987654") == 0);
     free(result);
-    assert(strcmp(&iso15434_uii[0], "P987654") == 0);
+    assert(strcmp(&iso15434_uii[0], "1P987654") == 0);
   }
 
   format_code[0] = 0;
