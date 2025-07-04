@@ -40,11 +40,8 @@ char * iso15434_translate_data_qualifier(char result[],
   int i, start_pos=0;
   char * translated_str = NULL;
   unsigned char found = 0;
-  char short_id[4];
 
   if (end_index - start_index < 4) return NULL;
-
-  short_id[0] = 0;
 
   if ((strcmp(format_code, "12") == 0) ||
       (strcmp(format_code, "DD") == 0)) {
@@ -56,7 +53,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "MANUFACTURER/CAGE: ");
-      decode_strcat(&short_id[0], "17V");
       found = 1;
     }
 
@@ -68,7 +64,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "SUPPLIER/CAGE: ");
-      decode_strcat(&short_id[0], "8S");
       found = 1;
     }
 
@@ -80,7 +75,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "SERIAL: ");
-      decode_strcat(&short_id[0], "S");
       found = 1;
     }
 
@@ -92,7 +86,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "CAGE: ");
-      decode_strcat(&short_id[0], "18S");
       found = 1;
     }
 
@@ -104,7 +97,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "PART NUMBER: ");
-      decode_strcat(&short_id[0], "1P");
       found = 1;
     }
 
@@ -115,7 +107,6 @@ char * iso15434_translate_data_qualifier(char result[],
       translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
       decode_strcat(translated_str, "DISTRIBUTION UNIT NUMBER: ");
-      decode_strcat(&short_id[0], "Q");
       found = 1;
     }
 
@@ -127,7 +118,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "UNIQUE ID: ");
-      decode_strcat(&short_id[0], "37S");
       found = 1;
     }
 
@@ -139,7 +129,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "UNIQUE SERIAL: ");
-      decode_strcat(&short_id[0], "S");
       found = 1;
     }
 
@@ -151,7 +140,6 @@ char * iso15434_translate_data_qualifier(char result[],
       assert(translated_str);
       translated_str[0] = 0;
       decode_strcat(translated_str, "UNITS: ");
-      decode_strcat(&short_id[0], "3Q");
       found = 1;
     }
   }
@@ -168,10 +156,6 @@ char * iso15434_translate_data_qualifier(char result[],
     for (i = start_pos; i < end_index; i++) {
       decode_strcat_char(translated_str, result[i]);
 
-      if ((i == start_pos) &&
-          (strlen(&short_id[0]) > 0)) {
-        decode_strcat(iso15434_uii, &short_id[0]);
-      }
       decode_strcat_char(iso15434_uii, result[i]);
     }
     return translated_str;
