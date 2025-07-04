@@ -45,7 +45,7 @@
 #define MAX_DECODE_LENGTH         1024
 /* max perimeter side length in pixels */
 #define MAX_PERIMETER_SIDE_LENGTH 4096
-#define MIN_GRID_DIMENSION        10
+#define MIN_GRID_DIMENSION        8
 #define MAX_GRID_DIMENSION        144
 #define MAX_CODEWORDS             (MAX_GRID_DIMENSION*MAX_GRID_DIMENSION)
 
@@ -62,7 +62,7 @@
 #endif
 
 #ifndef NO_OF_VALID_RECTANGLES
-#define NO_OF_VALID_RECTANGLES 6
+#define NO_OF_VALID_RECTANGLES (6+13)
 #endif
 
 
