@@ -219,11 +219,7 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
   float timing_perimeter_x2, timing_perimeter_y2;
   float timing_perimeter_x3, timing_perimeter_y3;
   float x0, y0, x1, y1, x2, y2, fraction;
-  int no_of_valid_squares = 24;
-  int IEC16022_valid_squares[] = {
-    10,  12,  14,  16,  18,  20,  22,  24,  26,  32, 36,  40,  44,  48,
-    52,  64,  72,  80,  88,  96, 104, 120, 132, 144
-  };
+  int * valid_squares = get_valid_squares();
 
   get_centroid(perimeter_x0, perimeter_y0,
                perimeter_x1, perimeter_y1,
@@ -231,8 +227,8 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
                perimeter_x3, perimeter_y3,
                &centre_x, &centre_y);
 
-  for (index = 0; index < no_of_valid_squares; index++) {
-    freq = IEC16022_valid_squares[index];
+  for (index = 0; index < NO_OF_VALID_SQUARES; index++) {
+    freq = valid_squares[index];
     if ((freq < minimum_grid_dimension) ||
         (freq > maximum_grid_dimension)) continue;
     pitch = side_length / freq;
@@ -385,15 +381,7 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
   float timing_perimeter_x2, timing_perimeter_y2;
   float timing_perimeter_x3, timing_perimeter_y3;
   float x0, y0, x1, y1, x2, y2, fraction;
-  int no_of_valid_rectangles = 6;
-  int IEC16022_valid_rectangles[] = {
-    8, 18,
-    8, 32,
-    12, 26,
-    12, 36,
-    16, 36,
-    16, 48
-  };
+  int * valid_rectangles = get_valid_rectangles();
 
   get_centroid(perimeter_x0, perimeter_y0,
                perimeter_x1, perimeter_y1,
@@ -401,12 +389,12 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
                perimeter_x3, perimeter_y3,
                &centre_x, &centre_y);
 
-  for (index = 0; index < no_of_valid_rectangles; index++) {
+  for (index = 0; index < NO_OF_VALID_RECTANGLES; index++) {
     /* frequency of the longest side */
-    freq = IEC16022_valid_rectangles[index*2+1];
+    freq = valid_rectangles[index*2+1];
     if ((freq < minimum_grid_dimension) ||
         (freq > maximum_grid_dimension)) continue;
-    freq_shortest = IEC16022_valid_rectangles[index*2];
+    freq_shortest = valid_rectangles[index*2];
     pitch = side_length / freq;
     half_pitch = pitch/2;
     /* make a shrunken perimeter half the pitch smaller */

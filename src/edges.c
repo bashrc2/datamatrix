@@ -1527,24 +1527,16 @@ unsigned char rectangular_joined_line_segments(int aspect_ratio)
 {
   int i, possible_aspect_ratio, min_aspect_ratio, max_aspect_ratio;
   const int aspect_tollerance = 10;
-  const int no_of_valid_rectangles = 6;
-  const int IEC16022_valid_rectangles[] = {
-    8, 18,
-    8, 32,
-    12, 26,
-    12, 36,
-    16, 36,
-    16, 48
-  };
+  int * valid_rectangles = get_valid_rectangles();
 
-  for (i = 0; i < no_of_valid_rectangles; i++) {
+  for (i = 0; i < NO_OF_VALID_RECTANGLES; i++) {
     if (aspect_ratio < 100) {
       possible_aspect_ratio =
-        IEC16022_valid_rectangles[i*2] * 100 / IEC16022_valid_rectangles[i*2+1];
+        valid_rectangles[i*2] * 100 / valid_rectangles[i*2+1];
     }
     else {
       possible_aspect_ratio =
-        IEC16022_valid_rectangles[i*2+1] * 100 / IEC16022_valid_rectangles[i*2];
+        valid_rectangles[i*2+1] * 100 / valid_rectangles[i*2];
     }
     min_aspect_ratio = possible_aspect_ratio - aspect_tollerance;
     max_aspect_ratio = possible_aspect_ratio + aspect_tollerance;

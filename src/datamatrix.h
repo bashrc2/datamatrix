@@ -57,6 +57,14 @@
 #define ABS(a) (((a) < 0) ? -(a) : (a))
 #endif
 
+#ifndef NO_OF_VALID_SQUARES
+#define NO_OF_VALID_SQUARES 24
+#endif
+
+#ifndef NO_OF_VALID_RECTANGLES
+#define NO_OF_VALID_RECTANGLES 6
+#endif
+
 
 struct key_value_pair_int
 {
@@ -770,6 +778,12 @@ char * iso15434_translate_data_qualifier(char result[],
 int get_data_identifier(char data_str[],
                         char id[],
                         char identifier[], char value[]);
+
+/* dimensions.c */
+
+int * get_valid_squares();
+
+int * get_valid_rectangles();
 
 /* reader.c */
 

@@ -699,14 +699,10 @@ int read_datamatrix(unsigned char image_data[],
         /* if timing border frequency detection fails then try to decode using
            all possible grids */
         if (rectangular == 0) {
-          int no_of_valid_squares = 24;
-          int IEC16022_valid_squares[] = {
-            10,  12,  14,  16,  18,  20,  22,  24,  26,  32, 36,  40,  44,  48,
-            52,  64,  72,  80,  88,  96, 104, 120, 132, 144
-          };
-          for (int frequency_index = 0; frequency_index < no_of_valid_squares;
+          int * valid_squares = get_valid_squares();
+          for (int frequency_index = 0; frequency_index < NO_OF_VALID_SQUARES;
                frequency_index++) {
-            most_probable_frequency = IEC16022_valid_squares[frequency_index];
+            most_probable_frequency = valid_squares[frequency_index];
             if ((most_probable_frequency < minimum_grid_dimension) ||
                 (most_probable_frequency > maximum_grid_dimension)) continue;
             /* sample grid cells in different patterns */
@@ -813,27 +809,19 @@ int read_datamatrix(unsigned char image_data[],
         }
         else {
           /* try all rectangles */
-          int no_of_valid_rectangles = 6;
-          int IEC16022_valid_rectangles[] = {
-            8, 18,
-            8, 32,
-            12, 26,
-            12, 36,
-            16, 36,
-            16, 48
-          };
-          for (int frequency_index = 0; frequency_index < no_of_valid_rectangles;
+          int * valid_rectangles = get_valid_rectangles();
+          for (int frequency_index = 0; frequency_index < NO_OF_VALID_RECTANGLES;
                frequency_index++) {
-            most_probable_frequency = IEC16022_valid_rectangles[frequency_index*2];
+            most_probable_frequency = valid_rectangles[frequency_index*2];
 
             if (aspect_ratio_percent < 100) {
-              most_probable_frequency_x = IEC16022_valid_rectangles[frequency_index*2];
-              most_probable_frequency_y = IEC16022_valid_rectangles[frequency_index*2+1];
+              most_probable_frequency_x = valid_rectangles[frequency_index*2];
+              most_probable_frequency_y = valid_rectangles[frequency_index*2+1];
               most_probable_frequency = most_probable_frequency_y;
             }
             else {
-              most_probable_frequency_x = IEC16022_valid_rectangles[frequency_index*2+1];
-              most_probable_frequency_y = IEC16022_valid_rectangles[frequency_index*2];
+              most_probable_frequency_x = valid_rectangles[frequency_index*2+1];
+              most_probable_frequency_y = valid_rectangles[frequency_index*2];
               most_probable_frequency = most_probable_frequency_x;
             }
             if ((most_probable_frequency < minimum_grid_dimension) ||
