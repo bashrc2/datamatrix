@@ -46,7 +46,8 @@ char * iso15434_translate_data_qualifier(char result[],
 
   short_id[0] = 0;
 
-  if (strcmp(format_code, "12") == 0) {
+  if ((strcmp(format_code, "12") == 0) ||
+      (strcmp(format_code, "DD") == 0)) {
     /* MFR */
     if ((result[start_index] == 'M') &&
         (result[start_index+1] == 'F') &&
@@ -319,6 +320,7 @@ void iso15434_semantics(char result[],
             decode_strcat_char(format_code, result[j]);
           }
           if ((strcmp(format_code, "12") != 0) &&
+              (strcmp(format_code, "DD") != 0) &&
               (strcmp(format_code, "06") != 0) &&
               (strcmp(format_code, "05") != 0)) {
             /* not in a permitted swim lane */
