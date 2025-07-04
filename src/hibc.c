@@ -32,7 +32,8 @@
  */
 static char * hibc_translate(char result[],
                              int start_pos,
-                             int end_index)
+                             int end_index,
+                             int index)
 {
   int i;
   char * translated_str = NULL;
@@ -43,6 +44,33 @@ static char * hibc_translate(char result[],
   data_str[0] = 0;
   for (i = start_pos; i < end_index; i++) {
     decode_strcat_char(data_str, result[i]);
+  }
+
+  if (strlen(data_str) >= 6) {
+    /* if this is the first part of the code */
+    if (index == 0) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "LABELER ID: ");
+      for (i = 0; i < 4; i++) {
+        decode_strcat_char(translated_str, data_str[i]);
+      }
+      decode_strcat_char(translated_str, '\n');
+
+      decode_strcat(translated_str, "PRODUCT ID: ");
+      for (i = 4; i < strlen(data_str)-1; i++) {
+        decode_strcat_char(translated_str, data_str[i]);
+      }
+      decode_strcat_char(translated_str, '\n');
+
+      decode_strcat(translated_str, "UNIT OF MEASURE: ");
+      decode_strcat_char(translated_str, data_str[strlen(data_str)-1]);
+      decode_strcat_char(translated_str, '\n');
+
+      free(data_str);
+      return translated_str;
+    }
   }
 
   /* does it have a data identifier? */
@@ -74,41 +102,48 @@ static char * hibc_translate(char result[],
  * \param result Plaintext decode string
  * \param hibc_result decoded string
  * \param debug set to 1 to enable debugging
- * \param is_hibc set to 1 if hibc decoding is active
- * \param hibc_data_start position of the start of data within result string
  */
 void hibc_semantics(char result[],
                     char hibc_result[],
-                    unsigned char debug,
-                    unsigned char * is_hibc,
-                    int * hibc_data_start)
+                    unsigned char debug)
 {
-  int i;
+  int i, index = 0;
   int str_len = strlen(result);
+  unsigned char is_hibc = 0;
+  int hibc_data_start = 0;
+  char * translated_str = NULL;
 
   if (str_len == 0) return;
 
   /* HIBC Supplier Labeling flag */
-  if ((result[0] == '+') && (*is_hibc == 0)) {
-    *is_hibc = 1;
+  if ((result[0] == '+') && (is_hibc == 0)) {
+    is_hibc = 1;
     hibc_result[0] = 0;
-    *hibc_data_start = 1;
+    hibc_data_start = 1;
     if (debug == 1) {
-      printf("HIBC\n");
+      printf("HIBC %s\n", result);
     }
   }
 
-  if (*is_hibc == 0) return;
+  if (is_hibc == 0) return;
 
-  for (i = *hibc_data_start; i < str_len; i++) {
+  for (i = hibc_data_start; i < str_len; i++) {
     if (result[i] == '/') {
-      char * translated_str = hibc_translate(result, *hibc_data_start, i);
+      translated_str = hibc_translate(result, hibc_data_start, i, index);
       if (translated_str != NULL) {
         decode_strcat(hibc_result, translated_str);
         decode_strcat_char(hibc_result, '\n');
         free(translated_str);
+        index++;
       }
-      *hibc_data_start = i+1;
+      hibc_data_start = i+1;
     }
+  }
+
+  translated_str = hibc_translate(result, hibc_data_start, str_len, index);
+  if (translated_str != NULL) {
+    decode_strcat(hibc_result, translated_str);
+    decode_strcat_char(hibc_result, '\n');
+    free(translated_str);
   }
 }

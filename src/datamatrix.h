@@ -778,9 +778,7 @@ char * iso15434_translate_data_qualifier(char result[],
 
 void hibc_semantics(char result[],
                     char hibc_result[],
-                    unsigned char debug,
-                    unsigned char * is_hibc,
-                    int * hibc_data_start);
+                    unsigned char debug);
 
 /* data_id.c */
 

@@ -262,9 +262,6 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                      format_code,
                      iso15434_data_start,
                      iso15434_uii);
-
-  hibc_semantics(result, hibc_result, debug,
-                 is_hibc, hibc_data_start);
 }
 
 /**
@@ -2273,12 +2270,17 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
         }
       }
       /* if there is a HIBC decode then return that instead */
-      if (strlen(hibc_result) > 0) {
-        grid->hibc_datamatrix = 1;
-        result[0] = 0;
-        decode_strcat(result, hibc_result);
-        /* remove the final newline */
-        result[strlen(result)-1] = 0;
+      if (strlen(result) > 0) {
+        if (result[0] == '+') {
+          hibc_semantics(result, hibc_result, debug);
+          if (strlen(hibc_result) > 0) {
+            grid->hibc_datamatrix = 1;
+            result[0] = 0;
+            decode_strcat(result, hibc_result);
+            /* remove the final newline */
+            result[strlen(result)-1] = 0;
+          }
+        }
       }
     }
     grid->unused_error_correction =
