@@ -75,7 +75,10 @@ static void ecc200_decode_next_byte_256(unsigned char * is_structured_append,
                                         unsigned char * is_iso1543,
                                         char format_code[],
                                         int * iso15434_data_start,
-                                        char iso15434_uii[])
+                                        char iso15434_uii[],
+                                        char hibc_result[],
+                                        unsigned char * is_hibc,
+                                        int * hibc_data_start)
 {
   int i, d2, pos_from_start = *position;
   unsigned char d1 = ecc200_unrandomize_255_state(data[*position], pos_from_start++);
@@ -157,7 +160,10 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                                      unsigned char * is_iso1543,
                                      char format_code[],
                                      int * iso15434_data_start,
-                                     char iso15434_uii[])
+                                     char iso15434_uii[],
+                                     char hibc_result[],
+                                     unsigned char * is_hibc,
+                                     int * hibc_data_start)
 {
   int no, first_digit, last_digit;
 
@@ -256,6 +262,9 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                      format_code,
                      iso15434_data_start,
                      iso15434_uii);
+
+  hibc_semantics(result, hibc_result, debug,
+                 is_hibc, hibc_data_start);
 }
 
 /**
@@ -280,7 +289,10 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                                    unsigned char * is_iso1543,
                                    char format_code[],
                                    int * iso15434_data_start,
-                                   char iso15434_uii[])
+                                   char iso15434_uii[],
+                                   char hibc_result[],
+                                   unsigned char * is_hibc,
+                                   int * hibc_data_start)
 {
   int i, a, b, c, packed;
 
@@ -302,7 +314,10 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                              is_iso1543,
                              format_code,
                              iso15434_data_start,
-                             iso15434_uii);
+                             iso15434_uii,
+                             hibc_result,
+                             is_hibc,
+                             hibc_data_start);
     return;
   }
 
@@ -426,7 +441,10 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        unsigned char * is_iso1543,
                                        char format_code[],
                                        int * iso15434_data_start,
-                                       char iso15434_uii[])
+                                       char iso15434_uii[],
+                                       char hibc_result[],
+                                       unsigned char * is_hibc,
+                                       int * hibc_data_start)
 {
   int i;
   char * unpacked = (char*)malloc(4*sizeof(char));
@@ -476,7 +494,10 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                  is_iso1543,
                                  format_code,
                                  iso15434_data_start,
-                                 iso15434_uii);
+                                 iso15434_uii,
+                                 hibc_result,
+                                 is_hibc,
+                                 hibc_data_start);
 
       free(unpacked);
       return;
@@ -507,7 +528,10 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                                    unsigned char * is_iso1543,
                                    char format_code[],
                                    int * iso15434_data_start,
-                                   char iso15434_uii[])
+                                   char iso15434_uii[],
+                                   char hibc_result[],
+                                   unsigned char * is_hibc,
+                                   int * hibc_data_start)
 {
   int i, a, b, packed;
 
@@ -529,7 +553,10 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                              is_iso1543,
                              format_code,
                              iso15434_data_start,
-                             iso15434_uii);
+                             iso15434_uii,
+                             hibc_result,
+                             is_hibc,
+                             hibc_data_start);
     return;
   }
 
@@ -595,6 +622,7 @@ static void ecc200_decode(unsigned char data1[],
                           char result[],
                           char gs1_result[],
                           char iso15434_result[],
+                          char hibc_result[],
                           char iso15434_uii[],
                           char gs1_url[],
                           unsigned char debug)
@@ -614,6 +642,8 @@ static void ecc200_decode(unsigned char data1[],
   unsigned char is_iso1543 = 0;
   char format_code[MAX_DECODE_LENGTH];
   int iso15434_data_start = -1;
+  unsigned char is_hibc = 0;
+  int hibc_data_start = 0;
 
   format_code[0] = 0;
   iso15434_uii[0] = 0;
@@ -641,7 +671,10 @@ static void ecc200_decode(unsigned char data1[],
                                &is_iso1543,
                                &format_code[0],
                                &iso15434_data_start,
-                               iso15434_uii);
+                               iso15434_uii,
+                               hibc_result,
+                               &is_hibc,
+                               &hibc_data_start);
       break;
     case C40:
       if ((debug == 1) && (prev_state != state)) printf("C40 ");
@@ -661,7 +694,10 @@ static void ecc200_decode(unsigned char data1[],
                              &is_iso1543,
                              &format_code[0],
                              &iso15434_data_start,
-                             iso15434_uii);
+                             iso15434_uii,
+                             hibc_result,
+                             &is_hibc,
+                             &hibc_data_start);
       break;
     case TEXT:
       if ((debug == 1) && (prev_state != state)) printf("TXT ");
@@ -681,7 +717,10 @@ static void ecc200_decode(unsigned char data1[],
                              &is_iso1543,
                              &format_code[0],
                              &iso15434_data_start,
-                             iso15434_uii);
+                             iso15434_uii,
+                             hibc_result,
+                             &is_hibc,
+                             &hibc_data_start);
       break;
     case BYTE256:
       if ((debug == 1) && (prev_state != state)) printf("BYT ");
@@ -697,7 +736,10 @@ static void ecc200_decode(unsigned char data1[],
                                   &is_iso1543,
                                   &format_code[0],
                                   &iso15434_data_start,
-                                  iso15434_uii);
+                                  iso15434_uii,
+                                  hibc_result,
+                                  &is_hibc,
+                                  &hibc_data_start);
       break;
     case EDIFACT:
       if ((debug == 1) && (prev_state != state)) printf("EDI ");
@@ -717,7 +759,10 @@ static void ecc200_decode(unsigned char data1[],
                                  &is_iso1543,
                                  &format_code[0],
                                  &iso15434_data_start,
-                                 iso15434_uii);
+                                 iso15434_uii,
+                                 hibc_result,
+                                 &is_hibc,
+                                 &hibc_data_start);
       break;
     case X12:
       if ((debug == 1) && (prev_state != state)) printf("X12 ");
@@ -737,7 +782,10 @@ static void ecc200_decode(unsigned char data1[],
                              &is_iso1543,
                              &format_code[0],
                              &iso15434_data_start,
-                             iso15434_uii);
+                             iso15434_uii,
+                             hibc_result,
+                             &is_hibc,
+                             &hibc_data_start);
       break;
     default: {
       result[0] = 0;
@@ -2127,16 +2175,19 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
   int * erasures = NULL;
   char * gs1_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
   char * iso15434_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+  char * hibc_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
   char * iso15434_uii = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
   int condensed=0;
 
   assert(gs1_result != NULL);
   assert(iso15434_result != NULL);
+  assert(hibc_result != NULL);
   assert(iso15434_uii != NULL);
   result[0] = 0;
   gs1_result[0] = 0;
   iso15434_result[0] = 0;
   iso15434_uii[0] = 0;
+  hibc_result[0] = 0;
 
   int original_dimension_x = grid->dimension_x;
   int original_dimension_y = grid->dimension_y;
@@ -2147,7 +2198,13 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     memset(grid->codeword_pattern[i], 0, grid->dimension_y * sizeof(int));
 
   codewords_length = translate(grid, debug);
-  if (codewords_length == 0) return;
+  if (codewords_length == 0) {
+    free(gs1_result);
+    free(iso15434_result);
+    free(hibc_result);
+    free(iso15434_uii);
+    return;
+  }
 
   /* how many of the codewords are used for parity error correction */
   error_correcting_words =
@@ -2171,6 +2228,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
   grid->unused_error_correction = 0;
   grid->gs1_datamatrix = 0;
   grid->iso15434_datamatrix = 0;
+  grid->hibc_datamatrix = 0;
   grid_no_of_errors = grid->no_of_errors;
   grid_no_of_erasures = grid->no_of_erasures;
   if (reed_solomon(grid->codeword, codewords_length,
@@ -2183,7 +2241,8 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     grid->no_of_erasures = grid_no_of_erasures;
     ecc200_decode(grid->corrected_codewords,
                   corrected_codewords_length, result,
-                  gs1_result, iso15434_result, iso15434_uii,
+                  gs1_result, iso15434_result, hibc_result,
+                  iso15434_uii,
                   gs1_url, debug);
     if (human_readable == 1) {
       /* if there is a GS1 formatted decode then return that instead */
@@ -2213,6 +2272,14 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
           result[strlen(result)-1] = 0;
         }
       }
+      /* if there is a HIBC decode then return that instead */
+      if (strlen(hibc_result) > 0) {
+        grid->hibc_datamatrix = 1;
+        result[0] = 0;
+        decode_strcat(result, hibc_result);
+        /* remove the final newline */
+        result[strlen(result)-1] = 0;
+      }
     }
     grid->unused_error_correction =
       get_unused_error_correction(codewords_length,
@@ -2225,6 +2292,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
   }
   free(gs1_result);
   free(iso15434_result);
+  free(hibc_result);
   free(iso15434_uii);
 
   if (condensed == 1) {

@@ -102,6 +102,7 @@ struct grid_2d {
   /* quality metrics */
   unsigned char gs1_datamatrix;
   unsigned char iso15434_datamatrix;
+  unsigned char hibc_datamatrix;
   unsigned char minimum_reflectance;
   unsigned char minimum_reflectance_grade;
   unsigned char unused_error_correction;
@@ -772,6 +773,14 @@ char * iso15434_translate_data_qualifier(char result[],
                                          int end_index,
                                          char iso15434_uii[],
                                          char format_code[]);
+
+/* hibc.c */
+
+void hibc_semantics(char result[],
+                    char hibc_result[],
+                    unsigned char debug,
+                    unsigned char * is_hibc,
+                    int * hibc_data_start);
 
 /* data_id.c */
 

@@ -215,7 +215,7 @@ char * iso15434_translate_data_qualifier(char result[],
 }
 
 /**
- * \brief state machine for handline ISO 15434 encoding
+ * \brief state machine for handling ISO 15434 encoding
  * \param result Plaintext decode string
  * \param iso15434_result decoded string
  * \param debug set to 1 to enable debugging
