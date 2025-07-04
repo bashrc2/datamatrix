@@ -20,6 +20,12 @@
  *
  *********************************************************************/
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+#include <omp.h>
+#include "png2.h"
 #include "datamatrix.h"
 
 /**
@@ -40,6 +46,111 @@ static unsigned char point_in_quiet_zone(struct grid_2d * grid,
   };
   if (point_in_polygon(x, y, &points[0], 4) != 0) return 1;
   return 0;
+}
+
+static void save_reflectance_histogram(unsigned char image_data[],
+                                       int image_width, int image_height,
+                                       int image_bitsperpixel,
+                                       struct grid_2d * grid,
+                                       int histogram_image_width,
+                                       int histogram_image_height,
+                                       int r, int g, int b,
+                                       char filename[])
+{
+  const int border_percent = 5;
+  int axes_width = 1;
+  int axes_r = 0;
+  int axes_g = 0;
+  int axes_b = 0;
+  int image_bytesperpixel = image_bitsperpixel/8;
+  int x, y, n, bb, reflectance;
+  int border_tx, border_ty, border_bx, border_by;
+  unsigned int max=0;
+  unsigned int histogram[256];
+  unsigned char * histogram_image =
+    (unsigned char*)malloc(histogram_image_width*histogram_image_height*3*
+                           sizeof(unsigned char));
+  assert(histogram_image != NULL);
+
+  /* clear the histogram */
+  memset(&histogram[0], 0, 256*sizeof(unsigned int));
+
+  /* calculate the histogram */
+  for (y = 0; y < image_height; y++) {
+    for (x = 0; x < image_width; x++) {
+      if (point_in_quiet_zone(grid, x, y) == 0) continue;
+      n = (y*image_width + x)*image_bytesperpixel;
+      reflectance = 0;
+      for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
+        reflectance += image_data[n];
+      }
+      reflectance /= image_bytesperpixel;
+      histogram[reflectance]++;
+    }
+  }
+
+  /* find maximum histogram response */
+  for (reflectance = 0; reflectance < 256; reflectance++) {
+    if (histogram[reflectance] > max) max = histogram[reflectance];
+  }
+  max = max*110/100;
+
+  /* clear the image */
+  memset(histogram_image, 255,
+         histogram_image_width*histogram_image_height*3*sizeof(unsigned char));
+
+  /* calculate border inside image */
+  border_tx = histogram_image_width*border_percent/100;
+  border_ty = histogram_image_height*border_percent/100;
+  border_bx = histogram_image_width - 1 - border_tx;
+  border_by = histogram_image_height - 1 - border_ty;
+
+  /* grey background */
+  for (y = border_ty; y < border_by; y++) {
+    for (x = border_tx; x < border_bx; x++) {
+      n = (y*histogram_image_width + x)*image_bytesperpixel;
+      for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
+        histogram_image[n] = 210;
+      }
+    }
+  }
+
+  /* draw the histogram */
+  for (x = border_tx; x <= border_bx; x++) {
+    reflectance = (x - border_tx) * 255 / (border_bx - border_tx);
+    y = border_by - (histogram[reflectance] * (border_by - border_ty) / max);
+    draw_line(histogram_image,
+              histogram_image_width, histogram_image_height, 24,
+              x, y, x, border_by, 1, r, g, b);
+  }
+
+  /* draw axes */
+  draw_line(histogram_image,
+            histogram_image_width, histogram_image_height, 24,
+            border_tx, border_ty, border_tx, border_by,
+            axes_width,
+            axes_r, axes_g, axes_b);
+  draw_line(histogram_image,
+            histogram_image_width, histogram_image_height, 24,
+            border_bx, border_ty, border_bx, border_by,
+            axes_width,
+            axes_r, axes_g, axes_b);
+  draw_line(histogram_image,
+            histogram_image_width, histogram_image_height, 24,
+            border_tx, border_by, border_bx, border_by,
+            axes_width,
+            axes_r, axes_g, axes_b);
+  draw_line(histogram_image,
+            histogram_image_width, histogram_image_height, 24,
+            border_tx, border_ty, border_bx, border_ty,
+            axes_width,
+            axes_r, axes_g, axes_b);
+
+  /* save PNG file */
+  write_png_file(filename,
+                 histogram_image_width, histogram_image_height, 24,
+                 histogram_image);
+  free(histogram_image);
 }
 
 /**
@@ -618,12 +729,14 @@ static void quality_metric_angle_of_distortion(struct grid_2d * grid)
  * \param image_width width of the image
  * \param image_height height of the image
  * \param mage_bitsperpixel Number of bits per pixel
+ * \param histogram_filename optionally save a reflectance histogram
  */
 void calculate_quality_metrics(struct grid_2d * grid,
                                unsigned char image_data[],
                                unsigned char thresholded_image_data[],
                                int image_width, int image_height,
-                               int image_bitsperpixel)
+                               int image_bitsperpixel,
+                               char histogram_filename[])
 {
   calculate_quiet_zone(grid);
   quality_metric_angle_of_distortion(grid);
@@ -687,6 +800,14 @@ void calculate_quality_metrics(struct grid_2d * grid,
   }
   if (grid->fixed_pattern_damage == 0) {
     grid->fixed_pattern_damage_grade = 4;
+  }
+
+  if (strlen(histogram_filename) > 0) {
+    save_reflectance_histogram(image_data,
+                               image_width, image_height,
+                               image_bitsperpixel,
+                               grid, 800, 600, 0,0,0,
+                               histogram_filename);
   }
 }
 

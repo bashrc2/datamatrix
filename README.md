@@ -74,6 +74,12 @@ If you want to calculate quality metrics for symbol verification purposes:
 datamatrix -f examples/01.png -o detection.png -g grid.png --quality
 ```
 
+When showing quality metrics you can also generate a reflectance histogram, for use in a verification document:
+
+``` bash
+datamatrix -f examples/01.png -o detection.png -g grid.png --quality --histogram reflectance.png
+```
+
 Metrics can also be output in *CSV* or *JSON* formats, for easy import into other systems.
 
 ``` bash

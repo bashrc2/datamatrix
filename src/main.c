@@ -55,6 +55,7 @@ int main(int argc, char* argv[])
   char filename[MAX_DECODE_LENGTH];
   char output_filename[MAX_DECODE_LENGTH];
   char grid_filename[MAX_DECODE_LENGTH];
+  char histogram_filename[MAX_DECODE_LENGTH];
 
   /* no filename specified */
   filename[0] = 0;
@@ -62,6 +63,7 @@ int main(int argc, char* argv[])
   /* no output or grid image by default */
   output_filename[0] = 0;
   grid_filename[0] = 0;
+  histogram_filename[0] = 0;
 
   /* no GS1 digital link specified */
   gs1_url[0] = 0;
@@ -95,6 +97,10 @@ int main(int argc, char* argv[])
     if ((strcmp(argv[i],"-o")==0) ||
         (strcmp(argv[i],"--output")==0)) {
       decode_strcat(&output_filename[0], argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--hist")==0) ||
+        (strcmp(argv[i],"--histogram")==0)) {
+      decode_strcat(&histogram_filename[0], argv[i+1]);
     }
     if ((strcmp(argv[i],"-g")==0) ||
         (strcmp(argv[i],"--grid")==0)) {
@@ -224,6 +230,7 @@ int main(int argc, char* argv[])
                   minimum_grid_dimension,
                   maximum_grid_dimension,
                   &gs1_url[0], raw_decode,
+                  &histogram_filename[0],
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {
