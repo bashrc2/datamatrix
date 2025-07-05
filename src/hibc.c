@@ -162,7 +162,14 @@ static char * hibc_secondary_data(char result[], int start_index, int end_index)
       translated_str[0] = 0;
       decode_strcat(translated_str, id_human_readable);
       decode_strcat(translated_str, ": ");
-      decode_strcat(translated_str, id_value);
+      char * date_value = data_id_convert_date(id_human_readable, id_value);
+      if (date_value != NULL) {
+        decode_strcat(translated_str, date_value);
+        free(date_value);
+      }
+      else {
+        decode_strcat(translated_str, id_value);
+      }
       decode_strcat_char(translated_str, '\n');
       free(data_str);
       free(id);

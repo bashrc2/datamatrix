@@ -183,7 +183,14 @@ char * iso15434_translate_data_qualifier(char result[],
         translated_str[0] = 0;
         decode_strcat(translated_str, id_human_readable);
         decode_strcat(translated_str, ": ");
-        decode_strcat(translated_str, id_value);
+        char * date_value = data_id_convert_date(id_human_readable, id_value);
+        if (date_value != NULL) {
+          decode_strcat(translated_str, date_value);
+          free(date_value);
+        }
+        else {
+          decode_strcat(translated_str, id_value);
+        }
         decode_strcat(iso15434_uii, id_value);
         free(data_str);
         free(id);

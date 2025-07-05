@@ -458,7 +458,7 @@ void test_hibc_translate()
   hibc_semantics(&test_data[0], &hibc_result[0], 1);
   printf("%s\n", &hibc_result[0]);
   assert(strcmp(&hibc_result[0],
-                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020\nJULIAN DAY: 015\nLOT NUMBER: 510X3\nMANUFACTURE DATE YYYYMMDD: 20111212\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
+                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020\nJULIAN DAY: 015\nLOT NUMBER: 510X3\nMANUFACTURE DATE YYYYMMDD: 2011-12-12\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
 
   test_data[0] = 0;
   hibc_result[0] = 0;
@@ -466,7 +466,7 @@ void test_hibc_translate()
   hibc_semantics(&test_data[0], &hibc_result[0], 1);
   printf("%s\n", &hibc_result[0]);
   assert(strcmp(&hibc_result[0],
-                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 20111231\nEXPIRATION DATE YYYYMMDD: 20200131\n") == 0);
+                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 2011-12-31\nEXPIRATION DATE YYYYMMDD: 2020-01-31\n") == 0);
 }
 
 void run_all_tests()

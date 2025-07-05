@@ -786,6 +786,8 @@ int get_data_identifier(char data_str[],
                         char id[],
                         char identifier[], char value[]);
 
+char * data_id_convert_date(char * id_human_readable, char * id_value);
+
 /* dimensions.c */
 
 int * get_valid_squares();
