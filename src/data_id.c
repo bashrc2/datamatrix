@@ -729,7 +729,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[0]);
       decode_strcat_char(date_value, id_value[1]);
-      decode_strcat_char(date_value, '-');
+      decode_strcat(date_value, " DAY ");
       /* Julian day */
       decode_strcat_char(date_value, id_value[2]);
       decode_strcat_char(date_value, id_value[3]);
