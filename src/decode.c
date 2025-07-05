@@ -169,8 +169,11 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
 
   unsigned char current_byte = data[*position];
   if (debug == 1) {
-    if ((*position == 0) && (current_byte == 232)) {
-      printf("GS1 ");
+    if (*position == 0) {
+      printf("Initial byte: %d  ", (int)current_byte);
+      if (current_byte == 232) {
+        printf("GS1 ");
+      }
     }
   }
   *position = (*position) + 1;
