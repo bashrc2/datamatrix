@@ -635,6 +635,32 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
   }
 
+  if (strstr(id_human_readable, "YYMMDDHH") != NULL) {
+    if (strlen(id_value) >= 8) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat_char(date_value, '-');
+      /* month */
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat_char(date_value, '-');
+      /* day */
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat_char(date_value, ' ');
+      /* hour */
+      decode_strcat_char(date_value, id_value[6]);
+      decode_strcat_char(date_value, id_value[7]);
+      decode_strcat(date_value, ":00");
+      return date_value;
+    }
+  }
+
   if (strstr(id_human_readable, "YYMMDD") != NULL) {
     if (strlen(id_value) >= 6) {
       char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
@@ -715,6 +741,30 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[4]);
       decode_strcat_char(date_value, id_value[5]);
+      return date_value;
+    }
+  }
+
+  if ((strstr(id_human_readable, "YYJJJHH") != NULL) ||
+      (strstr(id_human_readable, "YYDDDHH") != NULL)) {
+    if (strlen(id_value) >= 7) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat(date_value, " DAY ");
+      /* Julian day */
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat(date_value, " ");
+      /* hour */
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat_char(date_value, id_value[6]);
+      decode_strcat(date_value, ":00");
       return date_value;
     }
   }
