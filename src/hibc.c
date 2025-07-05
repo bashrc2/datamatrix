@@ -202,6 +202,12 @@ static char * hibc_secondary_data_flag(char result[], int start_index, int end_i
   }
   else if (result[start_index+1] == '+') {
     /* $+ */
+    date_offset = 2;
+    decode_strcat(translated_str, "SERIAL: ");
+    for (i = start_index+date_offset; i < end_index; i++) {
+      decode_strcat_char(translated_str, result[i]);
+    }
+    decode_strcat_char(translated_str, '\n');
   }
   else {
     /* $ */
