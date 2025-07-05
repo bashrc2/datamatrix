@@ -54,8 +54,130 @@ static char * hibc_primary_data(char result[], int end_index)
 
 }
 
+static char * hibc_secondary_data_flag(char result[], int start_index, int end_index)
+{
+  int i;
+  char * translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+  assert(translated_str);
+  translated_str[0] = 0;
+
+  if (result[start_index+1] == '$') {
+    /* $$  */
+    if (result[start_index+2] == '+') {
+      if ((result[start_index+3] >= '2') &&
+          (result[start_index+3] <= '7')) {
+        /* $$+2..$$+7 */
+      }
+      else {
+        /* $$+ */
+      }
+    }
+    if ((result[start_index+2] >= '2') &&
+        (result[start_index+2] <= '7')) {
+      /* $$2..$$7 */
+      switch(result[start_index+2]) {
+      case '2': {
+        break;
+      }
+      case '3': {
+        break;
+      }
+      case '4': {
+        break;
+      }
+      case '5': {
+        decode_strcat(translated_str, "EXPIRY: 20");
+        decode_strcat_char(translated_str, result[start_index+3]);
+        decode_strcat_char(translated_str, result[start_index+4]);
+        decode_strcat_char(translated_str, '\n');
+        decode_strcat(translated_str, "JULIAN DAY: ");
+        decode_strcat_char(translated_str, result[start_index+5]);
+        decode_strcat_char(translated_str, result[start_index+6]);
+        decode_strcat_char(translated_str, result[start_index+7]);
+        decode_strcat_char(translated_str, '\n');
+        decode_strcat(translated_str, "LOT NUMBER: ");
+        for (i = start_index+7; i < end_index; i++) {
+          decode_strcat_char(translated_str, result[i]);
+        }
+        decode_strcat_char(translated_str, '\n');
+        break;
+      }
+      case '6': {
+        break;
+      }
+      case '7': {
+        break;
+      }
+      }
+    }
+  }
+  else if (result[start_index+1] == '+') {
+    /* $+ */
+  }
+  else {
+    /* $ */
+    decode_strcat(translated_str, "LOT NUMBER: ");
+    for (i = start_index+1; i < end_index; i++) {
+      decode_strcat_char(translated_str, result[i]);
+    }
+    decode_strcat_char(translated_str, '\n');
+  }
+
+  if (strlen(translated_str) > 0) return translated_str;
+  free(translated_str);
+  return NULL;
+}
+
 static char * hibc_secondary_data(char result[], int start_index, int end_index)
 {
+  int i;
+
+  if (end_index - start_index < 4) return NULL;
+
+  if (result[start_index] == '$') {
+    return hibc_secondary_data_flag(result, start_index, end_index);
+  }
+  else {
+    char * translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+    assert(translated_str);
+    translated_str[0] = 0;
+
+    char * data_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+    assert(data_str != NULL);
+    data_str[0] = 0;
+    for (i = start_index; i < end_index; i++) {
+      decode_strcat_char(data_str, result[i]);
+    }
+
+    char * id = (char*)malloc(5*sizeof(char));
+    char * id_human_readable = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * id_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+    assert(id != NULL);
+    assert(id_human_readable != NULL);
+    assert(id_value != NULL);
+
+    if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
+      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(translated_str);
+      translated_str[0] = 0;
+      decode_strcat(translated_str, id_human_readable);
+      decode_strcat(translated_str, ": ");
+      decode_strcat(translated_str, id_value);
+      decode_strcat_char(translated_str, '\n');
+      free(data_str);
+      free(id);
+      free(id_human_readable);
+      free(id_value);
+      return translated_str;
+    }
+
+    free(data_str);
+    free(id);
+    free(id_human_readable);
+    free(id_value);
+    free(translated_str);
+  }
+
   return NULL;
 }
 

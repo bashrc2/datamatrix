@@ -446,6 +446,29 @@ void test_iso15434_translate()
   }
 }
 
+void test_hibc_translate()
+{
+  printf("test_hibc_translate\n");
+  char test_data[MAX_DECODE_LENGTH];
+  char hibc_result[MAX_DECODE_LENGTH];
+
+  test_data[0] = 0;
+  hibc_result[0] = 0;
+  decode_strcat(&test_data[0], "+A99912345/$$52001510X3/16D20111212/S77DEFG457");
+  hibc_semantics(&test_data[0], &hibc_result[0], 1);
+  printf("%s\n", &hibc_result[0]);
+  assert(strcmp(&hibc_result[0],
+                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020\nJULIAN DAY: 015\nLOT NUMBER: 510X3\nMANUFACTURE DATE YYYYMMDD: 20111212\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
+
+  test_data[0] = 0;
+  hibc_result[0] = 0;
+  decode_strcat(&test_data[0], "+A99912345/$10X3/16D20111231/14D20200131");
+  hibc_semantics(&test_data[0], &hibc_result[0], 1);
+  printf("%s\n", &hibc_result[0]);
+  assert(strcmp(&hibc_result[0],
+                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 20111231\nEXPIRATION DATE YYYYMMDD: 20200131\n") == 0);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -454,5 +477,6 @@ void run_all_tests()
   test_condense();
   test_rotate();
   test_iso15434_translate();
+  test_hibc_translate();
   printf("All tests complete\n");
 }
