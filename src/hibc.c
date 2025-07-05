@@ -86,15 +86,14 @@ static char * hibc_secondary_data_flag(char result[], int start_index, int end_i
         break;
       }
       case '5': {
-        decode_strcat(translated_str, "EXPIRY: 20");
-        decode_strcat_char(translated_str, result[start_index+3]);
-        decode_strcat_char(translated_str, result[start_index+4]);
-        decode_strcat_char(translated_str, '\n');
-        decode_strcat(translated_str, "JULIAN DAY: ");
-        decode_strcat_char(translated_str, result[start_index+5]);
-        decode_strcat_char(translated_str, result[start_index+6]);
-        decode_strcat_char(translated_str, result[start_index+7]);
-        decode_strcat_char(translated_str, '\n');
+        char * date_value = data_id_convert_date("YYJJJ", &result[start_index+3]);
+        if (date_value != NULL) {
+          decode_strcat(translated_str, "EXPIRY: ");
+          decode_strcat(translated_str, date_value);
+          free(date_value);
+          decode_strcat_char(translated_str, '\n');
+        }
+
         decode_strcat(translated_str, "LOT NUMBER: ");
         for (i = start_index+7; i < end_index; i++) {
           decode_strcat_char(translated_str, result[i]);
