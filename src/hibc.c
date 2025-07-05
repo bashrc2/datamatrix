@@ -23,78 +23,40 @@
 
 #include "datamatrix.h"
 
-/**
- * \brief
- * \param result string decoded so far
- * \param start_pos starting position in the result string
- * \param end_index ending position in the result string
- * \return translated string
- */
-static char * hibc_translate(char result[],
-                             int start_pos,
-                             int end_index,
-                             int index)
+static char * hibc_primary_data(char result[], int end_index)
 {
   int i;
-  char * translated_str = NULL;
 
-  /* get the field string */
-  char * data_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  assert(data_str != NULL);
-  data_str[0] = 0;
-  for (i = start_pos; i < end_index; i++) {
-    decode_strcat_char(data_str, result[i]);
+  if (end_index < 8) return NULL;
+
+  char * translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+  assert(translated_str);
+  translated_str[0] = 0;
+
+  /* first 4 characters */
+  decode_strcat(translated_str, "LABELER ID: ");
+  for (i = 1; i <= 4; i++) {
+    decode_strcat_char(translated_str, result[i]);
   }
+  decode_strcat_char(translated_str, '\n');
 
-  if (strlen(data_str) >= 6) {
-    /* if this is the first part of the code */
-    if (index == 0) {
-      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(translated_str);
-      translated_str[0] = 0;
-      decode_strcat(translated_str, "LABELER ID: ");
-      for (i = 0; i < 4; i++) {
-        decode_strcat_char(translated_str, data_str[i]);
-      }
-      decode_strcat_char(translated_str, '\n');
-
-      decode_strcat(translated_str, "PRODUCT ID: ");
-      for (i = 4; i < strlen(data_str)-1; i++) {
-        decode_strcat_char(translated_str, data_str[i]);
-      }
-      decode_strcat_char(translated_str, '\n');
-
-      decode_strcat(translated_str, "UNIT OF MEASURE: ");
-      decode_strcat_char(translated_str, data_str[strlen(data_str)-1]);
-      decode_strcat_char(translated_str, '\n');
-
-      free(data_str);
-      return translated_str;
-    }
+  decode_strcat(translated_str, "PRODUCT ID: ");
+  for (i = 5; i < end_index-1; i++) {
+    decode_strcat_char(translated_str, result[i]);
   }
+  decode_strcat_char(translated_str, '\n');
 
-  /* does it have a data identifier? */
-  char * id = (char*)malloc(5*sizeof(char));
-  char * id_human_readable = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  char * id_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  assert(id != NULL);
-  assert(id_human_readable != NULL);
-  assert(id_value != NULL);
+  decode_strcat(translated_str, "UNIT OF MEASURE: ");
+  decode_strcat_char(translated_str, result[end_index-1]);
+  decode_strcat_char(translated_str, '\n');
 
-  if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
-    translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
-    translated_str[0] = 0;
-    decode_strcat(translated_str, id_human_readable);
-    decode_strcat(translated_str, ": ");
-    decode_strcat(translated_str, id_value);
-  }
-
-  free(data_str);
-  free(id);
-  free(id_human_readable);
-  free(id_value);
   return translated_str;
+
+}
+
+static char * hibc_secondary_data(char result[], int start_index, int end_index)
+{
+  return NULL;
 }
 
 /**
@@ -129,10 +91,14 @@ void hibc_semantics(char result[],
 
   for (i = hibc_data_start; i < str_len; i++) {
     if (result[i] == '/') {
-      translated_str = hibc_translate(result, hibc_data_start, i, index);
+      if (index == 0) {
+        translated_str = hibc_primary_data(result, i);
+      }
+      else {
+        translated_str = hibc_secondary_data(result, hibc_data_start, i);
+      }
       if (translated_str != NULL) {
         decode_strcat(hibc_result, translated_str);
-        decode_strcat_char(hibc_result, '\n');
         free(translated_str);
         index++;
       }
@@ -140,10 +106,14 @@ void hibc_semantics(char result[],
     }
   }
 
-  translated_str = hibc_translate(result, hibc_data_start, str_len, index);
+  if (index == 0) {
+    translated_str = hibc_primary_data(result, str_len);
+  }
+  else {
+    translated_str = hibc_secondary_data(result, hibc_data_start, str_len);
+  }
   if (translated_str != NULL) {
     decode_strcat(hibc_result, translated_str);
-    decode_strcat_char(hibc_result, '\n');
     free(translated_str);
   }
 }
