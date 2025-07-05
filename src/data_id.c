@@ -481,6 +481,72 @@ int get_data_identifier(char data_str[],
  */
 char * data_id_convert_date(char * id_human_readable, char * id_value)
 {
+  if (strstr(id_human_readable, "YYYYMMDDHHMM") != NULL) {
+    if (strlen(id_value) >= 12) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* year */
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat_char(date_value, '-');
+      /* month */
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat_char(date_value, '-');
+      /* day */
+      decode_strcat_char(date_value, id_value[6]);
+      decode_strcat_char(date_value, id_value[7]);
+      decode_strcat_char(date_value, ' ');
+      /* hour */
+      decode_strcat_char(date_value, id_value[8]);
+      decode_strcat_char(date_value, id_value[9]);
+      decode_strcat_char(date_value, ':');
+      /* min */
+      decode_strcat_char(date_value, id_value[10]);
+      decode_strcat_char(date_value, id_value[11]);
+      return date_value;
+    }
+  }
+
+  if (strstr(id_human_readable, "YYYYMMDDYYYYMMDD") != NULL) {
+    if (strlen(id_value) >= 16) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* year */
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat_char(date_value, '-');
+      /* month */
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat_char(date_value, '-');
+      /* day */
+      decode_strcat_char(date_value, id_value[6]);
+      decode_strcat_char(date_value, id_value[7]);
+      decode_strcat(date_value, " - ");
+      /* year */
+      decode_strcat_char(date_value, id_value[8]);
+      decode_strcat_char(date_value, id_value[9]);
+      decode_strcat_char(date_value, id_value[10]);
+      decode_strcat_char(date_value, id_value[11]);
+      decode_strcat_char(date_value, '-');
+      /* month */
+      decode_strcat_char(date_value, id_value[12]);
+      decode_strcat_char(date_value, id_value[13]);
+      decode_strcat_char(date_value, '-');
+      /* day */
+      decode_strcat_char(date_value, id_value[14]);
+      decode_strcat_char(date_value, id_value[15]);
+      return date_value;
+    }
+  }
+
   if (strstr(id_human_readable, "YYYYMMDD") != NULL) {
     if (strlen(id_value) >= 8) {
       char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
@@ -519,6 +585,50 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       decode_strcat_char(date_value, id_value[5]);
       decode_strcat_char(date_value, '-');
       /* month */
+      decode_strcat_char(date_value, id_value[6]);
+      decode_strcat_char(date_value, id_value[7]);
+      return date_value;
+    }
+  }
+
+  if (strstr(id_human_readable, "YYYYWW") != NULL) {
+    if (strlen(id_value) >= 6) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* year */
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat(date_value, " WEEK ");
+      /* week */
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      return date_value;
+    }
+  }
+
+  if (strstr(id_human_readable, "YYWWYYWW") != NULL) {
+    if (strlen(id_value) >= 8) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat(date_value, " WEEK ");
+      /* week */
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat(date_value, " - ");
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat(date_value, " WEEK ");
+      /* week */
       decode_strcat_char(date_value, id_value[6]);
       decode_strcat_char(date_value, id_value[7]);
       return date_value;
@@ -567,7 +677,50 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
   }
 
-  if (strstr(id_human_readable, "YYJJJ") != NULL) {
+  if (strstr(id_human_readable, "DDMMYY") != NULL) {
+    if (strlen(id_value) >= 6) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* day */
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat_char(date_value, '-');
+      /* month */
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat_char(date_value, '-');
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      return date_value;
+    }
+  }
+
+  if (strstr(id_human_readable, "MMDDYY") != NULL) {
+    if (strlen(id_value) >= 6) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* month */
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat_char(date_value, '-');
+      /* day */
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat_char(date_value, '-');
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      return date_value;
+    }
+  }
+
+  if ((strstr(id_human_readable, "YYJJJ") != NULL) ||
+      (strstr(id_human_readable, "YYDDD") != NULL)) {
     if (strlen(id_value) >= 5) {
       char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
       assert(date_value != NULL);
@@ -581,6 +734,40 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       decode_strcat_char(date_value, id_value[2]);
       decode_strcat_char(date_value, id_value[3]);
       decode_strcat_char(date_value, id_value[4]);
+      return date_value;
+    }
+  }
+
+  if (strstr(id_human_readable, "MMYY") != NULL) {
+    if (strlen(id_value) >= 4) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* month */
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat_char(date_value, '-');
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      return date_value;
+    }
+  }
+
+  if (strstr(id_human_readable, "YYWW") != NULL) {
+    if (strlen(id_value) >= 4) {
+      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+      assert(date_value != NULL);
+      date_value[0] = 0;
+      /* year */
+      decode_strcat(date_value, "20");
+      decode_strcat_char(date_value, id_value[0]);
+      decode_strcat_char(date_value, id_value[1]);
+      decode_strcat(date_value, " WEEK ");
+      /* week */
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
       return date_value;
     }
   }
