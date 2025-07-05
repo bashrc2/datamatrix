@@ -458,7 +458,7 @@ void test_hibc_translate()
   hibc_semantics(&test_data[0], &hibc_result[0], 1);
   printf("%s\n", &hibc_result[0]);
   assert(strcmp(&hibc_result[0],
-                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020 DAY 015\nLOT NUMBER: 510X3\nMANUFACTURE DATE YYYYMMDD: 2011-12-12\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
+                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020 DAY 015\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 2011-12-12\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
 
   test_data[0] = 0;
   hibc_result[0] = 0;

@@ -57,7 +57,7 @@ static char * hibc_primary_data(char result[], int end_index)
 static char * hibc_secondary_data_flag(char result[], int start_index, int end_index)
 {
   int i, date_offset;
-  char * date_value;
+  char * date_value = NULL;
   char * translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
   assert(translated_str);
   translated_str[0] = 0;
@@ -68,47 +68,123 @@ static char * hibc_secondary_data_flag(char result[], int start_index, int end_i
       if ((result[start_index+3] >= '2') &&
           (result[start_index+3] <= '7')) {
         /* $$+2..$$+7 */
+        date_offset = 4;
+
+        switch(result[start_index+2]) {
+        case '2': {
+          date_value = data_id_convert_date("MMDDYY", &result[start_index+3]);
+          date_offset = 4+6;
+          break;
+        }
+        case '3': {
+          date_value = data_id_convert_date("YYMMDD", &result[start_index+3]);
+          date_offset = 4+6;
+          break;
+        }
+        case '4': {
+          date_value = data_id_convert_date("YYMMDDHH", &result[start_index+3]);
+          date_offset = 4+8;
+          break;
+        }
+        case '5': {
+          date_value = data_id_convert_date("YYJJJ", &result[start_index+3]);
+          date_offset = 4+5;
+          break;
+        }
+        case '6': {
+          date_value = data_id_convert_date("YYJJJHH", &result[start_index+3]);
+          date_offset = 4+7;
+          break;
+        }
+        case '7': {
+          break;
+        }
+        }
+
+        if (date_value != NULL) {
+          decode_strcat(translated_str, "EXPIRY: ");
+          decode_strcat(translated_str, date_value);
+          free(date_value);
+          decode_strcat_char(translated_str, '\n');
+        }
+
+        decode_strcat(translated_str, "SERIAL: ");
+        for (i = start_index+date_offset; i < end_index; i++) {
+          decode_strcat_char(translated_str, result[i]);
+        }
+        decode_strcat_char(translated_str, '\n');
       }
       else {
         /* $$+ */
+        date_value = data_id_convert_date("MMYY", &result[start_index+3]);
+        date_offset = 3+4;
+        if (date_value != NULL) {
+          decode_strcat(translated_str, "EXPIRY: ");
+          decode_strcat(translated_str, date_value);
+          free(date_value);
+          decode_strcat_char(translated_str, '\n');
+        }
+
+        decode_strcat(translated_str, "SERIAL: ");
+        for (i = start_index+date_offset; i < end_index; i++) {
+          decode_strcat_char(translated_str, result[i]);
+        }
+        decode_strcat_char(translated_str, '\n');
       }
     }
     if ((result[start_index+2] >= '2') &&
         (result[start_index+2] <= '7')) {
       /* $$2..$$7 */
-      date_value = NULL;
       date_offset = 3;
 
       switch(result[start_index+2]) {
       case '2': {
         date_value = data_id_convert_date("MMDDYY", &result[start_index+3]);
-        date_offset = 9;
+        date_offset = 3+6;
         break;
       }
       case '3': {
         date_value = data_id_convert_date("YYMMDD", &result[start_index+3]);
-        date_offset = 9;
+        date_offset = 3+6;
         break;
       }
       case '4': {
         date_value = data_id_convert_date("YYMMDDHH", &result[start_index+3]);
-        date_offset = 11;
+        date_offset = 3+8;
         break;
       }
       case '5': {
         date_value = data_id_convert_date("YYJJJ", &result[start_index+3]);
-        date_offset = 7;
+        date_offset = 3+5;
         break;
       }
       case '6': {
         date_value = data_id_convert_date("YYJJJHH", &result[start_index+3]);
-        date_offset = 10;
+        date_offset = 3+7;
         break;
       }
       case '7': {
         break;
       }
       }
+
+      if (date_value != NULL) {
+        decode_strcat(translated_str, "EXPIRY: ");
+        decode_strcat(translated_str, date_value);
+        free(date_value);
+        decode_strcat_char(translated_str, '\n');
+      }
+
+      decode_strcat(translated_str, "LOT NUMBER: ");
+      for (i = start_index+date_offset; i < end_index; i++) {
+        decode_strcat_char(translated_str, result[i]);
+      }
+      decode_strcat_char(translated_str, '\n');
+    }
+    else {
+      /* $$ */
+      date_value = data_id_convert_date("MMYY", &result[start_index+3]);
+      date_offset = 2+4;
 
       if (date_value != NULL) {
         decode_strcat(translated_str, "EXPIRY: ");
