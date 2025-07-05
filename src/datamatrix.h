@@ -737,6 +737,7 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                unsigned char thresholded_image_data[],
                                int image_width, int image_height,
                                int image_bitsperpixel,
+                               unsigned char histogram_module_centres,
                                char histogram_filename[]);
 
 void show_quality_metrics(struct grid_2d * grid,
@@ -813,6 +814,7 @@ int read_datamatrix(unsigned char image_data[],
                     int maximum_grid_dimension,
                     char gs1_url[],
                     unsigned char raw_decode,
+                    unsigned char histogram_module_centres,
                     char histogram_filename[],
                     char * decode_result);
 

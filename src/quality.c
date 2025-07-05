@@ -48,6 +48,21 @@ static unsigned char point_in_quiet_zone(struct grid_2d * grid,
   return 0;
 }
 
+/**
+ * \brief saves a reflectance histogram
+ * \param image_data original image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param image_bitsperpixel Number of bits per pixel
+ * \param grid grib object
+ * \param histogram_image_width width of the histogram image
+ * \param histogram_image_height height of the histogram image
+ * \param r red
+ * \param g green
+ * \param b blue
+ * \param module_centres Sample only the module centres
+ * \param filename filename for the histogram image
+ */
 static void save_reflectance_histogram(unsigned char image_data[],
                                        int image_width, int image_height,
                                        int image_bitsperpixel,
@@ -55,16 +70,21 @@ static void save_reflectance_histogram(unsigned char image_data[],
                                        int histogram_image_width,
                                        int histogram_image_height,
                                        int r, int g, int b,
+                                       unsigned char module_centres,
                                        char filename[])
 {
   const int border_percent = 5;
+  const int sampling_radius = 2;
+  float xi=0, yi=0, grid_pos_x, grid_pos_y;
+  float horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
+  float vertical_x1, vertical_y1, vertical_x2, vertical_y2;
   int axes_width = 1;
   int axes_r = 0;
   int axes_g = 0;
   int axes_b = 0;
   int image_bytesperpixel = image_bitsperpixel/8;
-  int x, y, n, bb, reflectance;
-  int border_tx, border_ty, border_bx, border_by;
+  int grid_x, grid_y, x, y, n, bb, reflectance, tx, ty, bx, by;
+  int border_tx, border_ty, border_bx, border_by, pixels;
   unsigned int max=0;
   unsigned int histogram[256];
   unsigned char * histogram_image =
@@ -76,16 +96,75 @@ static void save_reflectance_histogram(unsigned char image_data[],
   memset(&histogram[0], 0, 256*sizeof(unsigned int));
 
   /* calculate the histogram */
-  for (y = 0; y < image_height; y++) {
-    for (x = 0; x < image_width; x++) {
-      if (point_in_quiet_zone(grid, x, y) == 0) continue;
-      n = (y*image_width + x)*image_bytesperpixel;
-      reflectance = 0;
-      for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
-        reflectance += image_data[n];
+  if (module_centres == 0) {
+    for (y = 0; y < image_height; y++) {
+      for (x = 0; x < image_width; x++) {
+        if (point_in_quiet_zone(grid, x, y) == 0) continue;
+        n = (y*image_width + x)*image_bytesperpixel;
+        reflectance = 0;
+        for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
+          reflectance += image_data[n];
+        }
+        reflectance /= image_bytesperpixel;
+        histogram[reflectance]++;
       }
-      reflectance /= image_bytesperpixel;
-      histogram[reflectance]++;
+    }
+  }
+  else {
+    /* sample only the module centres */
+    float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
+    float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
+    float horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
+    float horizontal_dy2 = grid->perimeter.y2 - grid->perimeter.y1;
+
+    float vertical_dx1 = grid->perimeter.x1 - grid->perimeter.x0;
+    float vertical_dy1 = grid->perimeter.y1 - grid->perimeter.y0;
+    float vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
+    float vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
+
+    for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+      /* horizontal line */
+      grid_pos_y = grid_y + 0.5f;
+      horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+      horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+      horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+      horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+
+      for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+        /* vertical line */
+        grid_pos_x = grid_x + 0.5f;
+        vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
+        vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
+        vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
+        vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+        intersection(horizontal_x1, horizontal_y1,
+                     horizontal_x2, horizontal_y2,
+                     vertical_x1, vertical_y1,
+                     vertical_x2, vertical_y2,
+                     &xi, &yi);
+        if (xi != PARALLEL_LINES) {
+          if ((xi >= sampling_radius) && (xi <= image_width - 1 - sampling_radius) &&
+              (yi >= sampling_radius) && (yi <= image_height - 1 - sampling_radius)) {
+            tx = (int)xi - sampling_radius;
+            ty = (int)yi - sampling_radius;
+            bx = (int)xi + sampling_radius;
+            by = (int)yi + sampling_radius;
+            pixels = 0;
+            reflectance = 0;
+            for (y = ty; y <= by; y++) {
+              for (x = tx; x <= bx; x++, pixels++) {
+                n = (y * image_width + x)*image_bytesperpixel;
+
+                for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
+                  reflectance += image_data[n];
+                }
+              }
+            }
+            reflectance /= (image_bytesperpixel * pixels);
+            histogram[reflectance]++;
+          }
+        }
+      }
     }
   }
 
@@ -729,6 +808,7 @@ static void quality_metric_angle_of_distortion(struct grid_2d * grid)
  * \param image_width width of the image
  * \param image_height height of the image
  * \param mage_bitsperpixel Number of bits per pixel
+ * \param histogram_module_centres sample only the module centres to produce the histogram
  * \param histogram_filename optionally save a reflectance histogram
  */
 void calculate_quality_metrics(struct grid_2d * grid,
@@ -736,6 +816,7 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                unsigned char thresholded_image_data[],
                                int image_width, int image_height,
                                int image_bitsperpixel,
+                               unsigned char histogram_module_centres,
                                char histogram_filename[])
 {
   calculate_quiet_zone(grid);
@@ -807,6 +888,7 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                image_width, image_height,
                                image_bitsperpixel,
                                grid, 800, 600, 0,0,0,
+                               histogram_module_centres,
                                histogram_filename);
   }
 }

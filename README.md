@@ -74,7 +74,7 @@ If you want to calculate quality metrics for symbol verification purposes:
 datamatrix -f examples/01.png -o detection.png -g grid.png --quality
 ```
 
-When showing quality metrics you can also generate a reflectance histogram, for use in a verification document:
+When showing quality metrics you can also generate a reflectance histogram, for use in a verification document. The option *--modulecentres* may also be used to only sample the module centres when creating the histogram.
 
 ``` bash
 datamatrix -f examples/01.png -o detection.png -g grid.png --quality --histogram reflectance.png

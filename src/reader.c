@@ -64,6 +64,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param maximum_grid_dimension maximum grid dimension
  * \param gs1_url url for GS1 digital link
  * \param raw_decode show the raw decode rather than a human readable one
+ * \param histogram_module_centres sample only module centres when creating histogram
  * \param histogram_filename optionally save a reflectance histogram
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
@@ -85,6 +86,7 @@ int read_datamatrix(unsigned char image_data[],
                     int maximum_grid_dimension,
                     char gs1_url[],
                     unsigned char raw_decode,
+                    unsigned char histogram_module_centres,
                     char histogram_filename[],
                     char * decode_result)
 {
@@ -683,6 +685,7 @@ int read_datamatrix(unsigned char image_data[],
                                       thr_original_thresholded_image_data,
                                       image_width, image_height,
                                       image_bitsperpixel,
+                                      histogram_module_centres,
                                       histogram_filename);
           }
           free_line_segments(&segments[try_config]);
@@ -897,6 +900,7 @@ int read_datamatrix(unsigned char image_data[],
                                       thr_original_thresholded_image_data,
                                       image_width, image_height,
                                       image_bitsperpixel,
+                                      histogram_module_centres,
                                       histogram_filename);
           }
           free_line_segments(&segments[try_config]);
@@ -922,6 +926,7 @@ int read_datamatrix(unsigned char image_data[],
                                   thr_original_thresholded_image_data,
                                   image_width, image_height,
                                   image_bitsperpixel,
+                                  histogram_module_centres,
                                   histogram_filename);
       }
     }

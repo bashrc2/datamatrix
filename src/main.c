@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
   int test_frequency = 0;
   unsigned char verify = 0;
   unsigned char raw_decode = 0;
+  unsigned char histogram_module_centres = 0;
   int loop_incr = 2;
   char gs1_url[MAX_DECODE_LENGTH];
   char filename[MAX_DECODE_LENGTH];
@@ -146,6 +147,13 @@ int main(int argc, char* argv[])
       debug = 1;
       loop_incr = 1;
     }
+    if ((strcmp(argv[i],"--histcentres")==0) ||
+        (strcmp(argv[i],"--histcenters")==0) ||
+        (strcmp(argv[i],"--modulecentres")==0) ||
+        (strcmp(argv[i],"--modulecenters")==0)) {
+      histogram_module_centres = 1;
+      loop_incr = 1;
+    }
     if ((strcmp(argv[i],"--verify")==0) ||
         (strcmp(argv[i],"--quality")==0) ||
         (strcmp(argv[i],"--verification")==0)) {
@@ -230,6 +238,7 @@ int main(int argc, char* argv[])
                   minimum_grid_dimension,
                   maximum_grid_dimension,
                   &gs1_url[0], raw_decode,
+                  histogram_module_centres,
                   &histogram_filename[0],
                   decode_result);
   if (strlen(decode_result) > 0) {
