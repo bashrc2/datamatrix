@@ -67,10 +67,10 @@ char * iso15434_translate_data_qualifier(char result[],
       found = 1;
     }
 
-    /* SER */
+    /* SER / SEQ */
     if ((result[start_index] == 'S') &&
         (result[start_index+1] == 'E') &&
-        (result[start_index+2] == 'R')) {
+        ((result[start_index+2] == 'R') || (result[start_index+2] == 'Q'))) {
       translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
       assert(translated_str);
       translated_str[0] = 0;
