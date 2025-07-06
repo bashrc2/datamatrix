@@ -1008,7 +1008,7 @@ void create_grid(int dimension_x, int dimension_y,
                  int sampling_pattern,
                  struct grid_2d * grid)
 {
-  int grid_x, grid_y, hits, samples;
+  int grid_x, grid_y, hits;
   int occupancy_threshold, damage_threshold;
   float horizontal_dx1, horizontal_dy1, horizontal_dx2, horizontal_dy2, horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
   float vertical_dx1, vertical_dy1, vertical_dx2, vertical_dy2, vertical_x1, vertical_y1, vertical_x2, vertical_y2;
@@ -1028,15 +1028,7 @@ void create_grid(int dimension_x, int dimension_y,
   create_grid_base(dimension_x, dimension_y, grid);
 
   if (sampling_radius < 1) sampling_radius = 1;
-  if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
-    /* solid cell sampling */
-    samples = (sampling_radius*2 + 1) * (sampling_radius*2 + 1);
-  }
-  else {
-    /* ring cell sampling */
-    samples = (sampling_radius*2 + 1) * 4;
-  }
-  occupancy_threshold = samples/4;
+  occupancy_threshold = 0;
   damage_threshold = occupancy_threshold;
 
   horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
