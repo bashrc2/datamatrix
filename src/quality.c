@@ -84,7 +84,7 @@ static void save_reflectance_histogram(unsigned char image_data[],
   int axes_b = 0;
   int image_bytesperpixel = image_bitsperpixel/8;
   int grid_x, grid_y, x, y, n, bb, reflectance, tx, ty, bx, by;
-  int border_tx, border_ty, border_bx, border_by, pixels;
+  int border_tx, border_ty, border_bx, border_by;
   unsigned int max=0;
   unsigned int histogram[256];
   unsigned char * histogram_image =
@@ -149,19 +149,18 @@ static void save_reflectance_histogram(unsigned char image_data[],
             ty = (int)yi - sampling_radius;
             bx = (int)xi + sampling_radius;
             by = (int)yi + sampling_radius;
-            pixels = 0;
-            reflectance = 0;
             for (y = ty; y <= by; y++) {
-              for (x = tx; x <= bx; x++, pixels++) {
+              for (x = tx; x <= bx; x++) {
                 n = (y * image_width + x)*image_bytesperpixel;
 
+                reflectance = 0;
                 for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
                   reflectance += image_data[n];
                 }
+                reflectance /= image_bytesperpixel;
+                histogram[reflectance]++;
               }
             }
-            reflectance /= (image_bytesperpixel * pixels);
-            histogram[reflectance]++;
           }
         }
       }
