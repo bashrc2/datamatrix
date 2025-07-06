@@ -10,7 +10,7 @@
  * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d) and digital links
  * Can generate quality metrics for verification reports
  * Parallelized with [OpenMP](https://www.openmp.org)
- * No dependencies or supply chains!
+ * No dependencies or software supply chains!
 
 ## Build
 
