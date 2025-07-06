@@ -95,8 +95,8 @@ static void save_reflectance_histogram(unsigned char image_data[],
   /* clear the histogram */
   memset(&histogram[0], 0, 256*sizeof(unsigned int));
 
-  /* calculate the histogram */
   if (module_centres == 0) {
+    /* calculate the histogram for all pixels inside the quiet zone perimeter */
     for (y = 0; y < image_height; y++) {
       for (x = 0; x < image_width; x++) {
         if (point_in_quiet_zone(grid, x, y) == 0) continue;
@@ -111,7 +111,7 @@ static void save_reflectance_histogram(unsigned char image_data[],
     }
   }
   else {
-    /* sample only the module centres */
+    /* calculate the histogram by sampling only the module centres */
     float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
     float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
     float horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
