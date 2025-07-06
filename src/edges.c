@@ -208,7 +208,7 @@ static void canny_init(struct canny_params * params, float edge_radius)
   params->lowThreshold = 2.5;
   params->highThreshold = 7.5;
   params->gaussianKernelRadius = 2.0;
-  params->gaussianKernelWidth = 8;
+  params->gaussianKernelWidth = 4;
   params->picSize = 0;
   params->automaticThresholds = 1;
 

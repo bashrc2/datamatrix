@@ -313,7 +313,7 @@ int read_datamatrix(unsigned char image_data[],
       }
 
       segment_edges_within_roi(&segments[try_config], resized_thresholded_width,
-                               resized_thresholded_height, 50);
+                               resized_thresholded_height, 70);
 
       if (debug == 1) {
         show_line_segments(&segments[try_config], thr_resized_image_data,
