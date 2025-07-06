@@ -37,6 +37,7 @@ int main(int argc, char* argv[])
   unsigned int image_height=0;
   unsigned int resized_image_width=800;
   unsigned int resized_image_height=0;
+  int resized_thresholded_width = 150;
   unsigned int image_bitsperpixel=0;
   unsigned char debug = 0;
   unsigned char csv = 0;
@@ -130,6 +131,10 @@ int main(int argc, char* argv[])
     }
     if (strcmp(argv[i],"--resizeheight")==0) {
       resized_image_height = atoi(argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--thresholdedwidth")==0) ||
+        (strcmp(argv[i],"--binwidth")==0)) {
+      resized_thresholded_width = atoi(argv[i+1]);
     }
     if (strcmp(argv[i],"--raw")==0) {
       raw_decode = 1;
@@ -240,6 +245,7 @@ int main(int argc, char* argv[])
                   &gs1_url[0], raw_decode,
                   histogram_module_centres,
                   &histogram_filename[0],
+                  resized_thresholded_width,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

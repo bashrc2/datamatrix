@@ -66,6 +66,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param raw_decode show the raw decode rather than a human readable one
  * \param histogram_module_centres sample only module centres when creating histogram
  * \param histogram_filename optionally save a reflectance histogram
+ * \param resized_thresholded_width width of the smaller binary image for perimeter detection
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -88,6 +89,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char raw_decode,
                     unsigned char histogram_module_centres,
                     char histogram_filename[],
+                    int resized_thresholded_width,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -112,7 +114,6 @@ int read_datamatrix(unsigned char image_data[],
   struct line_segments segments[no_of_configs];
   char * thr_decode_result[no_of_configs];
   char * debug_filename[no_of_configs];
-  int resized_thresholded_width = 320;
   int resized_thresholded_height = image_height * resized_thresholded_width / image_width;
   const int sampling_radius=1;
   const int timing_pattern_sampling_radius = 1;

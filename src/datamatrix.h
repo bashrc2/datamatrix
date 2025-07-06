@@ -816,6 +816,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char raw_decode,
                     unsigned char histogram_module_centres,
                     char histogram_filename[],
+                    int resized_thresholded_width,
                     char * decode_result);
 
 /* tests.c */
