@@ -657,6 +657,7 @@ void rotate_grid(struct grid_2d * grid)
         grid->damage_buffer[grid_x*grid->dimension_x + grid_y];
     }
   }
+  grid->rotated = 1;
 }
 
 /**
@@ -683,6 +684,7 @@ static void orient_grid(struct grid_2d * grid)
   }
   if (right_hits > left_hits) {
     /* mirror */
+    grid->mirrored = 1;
     temp = (unsigned char*)malloc(grid->dimension_x*sizeof(unsigned char));
     if (temp != NULL) {
       /* mirror occupancy */
@@ -714,6 +716,7 @@ static void orient_grid(struct grid_2d * grid)
   }
   if (top_hits > bottom_hits) {
     /* flip */
+    grid->flipped = 1;
     temp = (unsigned char*)malloc(grid->dimension_y*sizeof(unsigned char));
     if (temp != NULL) {
       /* flip occupancy */
@@ -756,6 +759,11 @@ static void create_grid_base(int dimension_x, int dimension_y,
 
   grid->dimension_x = dimension_x;
   grid->dimension_y = dimension_y;
+
+  /* orientation of the occupancy/damage arrays */
+  grid->rotated = 0;
+  grid->mirrored = 0;
+  grid->flipped = 0;
 
   /* percent of fixed pattern damage */
   grid->fixed_pattern_damage = 0;

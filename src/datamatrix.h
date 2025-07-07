@@ -95,6 +95,9 @@ struct grid_2d {
   int no_of_erasures;
   int * erasures;
 
+  /* orientation of occupancy/damage arrays */
+  unsigned char rotated, flipped, mirrored;
+
   /* temporary decoding arrays used during condensation */
   unsigned char ** temp_occupancy;
   unsigned char * temp_damage;
