@@ -225,8 +225,8 @@ static void canny_init(struct canny_params * params, float edge_radius)
   params->xGradient = NULL;
   params->yGradient = NULL;
   params->edge_pixel_index = NULL;
-  params->edge_magnitude   = NULL;
-  params->edges_image       = NULL;
+  params->edge_magnitude = NULL;
+  params->edges_image = NULL;
 
   params->kernel.Size = 0;
   params->kernel.Data = NULL;
