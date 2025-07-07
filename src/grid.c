@@ -1211,18 +1211,41 @@ void show_grid_image(struct grid_2d * grid,
   float cell_width = get_cell_width(grid);
   int cell_radius = (int)(cell_width/3);
 
-  draw_line(image_data, image_width, image_height,
-            image_bitsperpixel,
-            (int)grid->perimeter.x0, (int)grid->perimeter.y0,
-            (int)grid->perimeter.x3, (int)grid->perimeter.y3,
-            1,
-            0, 255, 0);
-  draw_line(image_data, image_width, image_height,
-            image_bitsperpixel,
-            (int)grid->perimeter.x1, (int)grid->perimeter.y1,
-            (int)grid->perimeter.x2, (int)grid->perimeter.y2,
-            1,
-            255, 0, 0);
+  /* show the vertical part of the "L" shape */
+  if (grid->mirrored == 0) {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+              1,
+              0, 255, 0);
+  }
+  else {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+              1,
+              255, 0, 0);
+  }
+
+  /* show the horizontal part of the "L" shape */
+  if (grid->flipped == 0) {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+              1,
+              0, 255, 0);
+  }
+  else {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+              1,
+              0, 255, 0);
+  }
 
   float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
   float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
