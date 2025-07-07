@@ -1226,7 +1226,7 @@ void show_grid_image(struct grid_2d * grid,
               (int)grid->perimeter.x1, (int)grid->perimeter.y1,
               (int)grid->perimeter.x2, (int)grid->perimeter.y2,
               1,
-              255, 0, 0);
+              0, 255, 0);
   }
 
   /* show the horizontal part of the "L" shape */

@@ -2429,7 +2429,6 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
 
 /**
  * \brief shows a perimeter within an image
- * \param segments object containing line segments
  * \param result image to be updated
  * \param width width of the image
  * \param height height of the image
@@ -2443,8 +2442,7 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
  * \param perimeter_x3 fourth perimeter x coord
  * \param perimeter_y3 fourth perimeter y coord
  */
-void show_shape_perimeter(struct line_segments * segments,
-                          unsigned char result[], int width, int height,
+void show_shape_perimeter(unsigned char result[], int width, int height,
                           int result_bitsperpixel,
                           float perimeter_x0, float perimeter_y0,
                           float perimeter_x1, float perimeter_y1,
@@ -2469,6 +2467,92 @@ void show_shape_perimeter(struct line_segments * segments,
             (int)perimeter_x3, (int)perimeter_y3,
             (int)perimeter_x0, (int)perimeter_y0,
             1, r, g, b);
+}
+
+/**
+ * \brief shows an L shaped perimeter within an image
+ * \param grid grid object
+ * \param image_data image to be updated
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param image_bitsperpixel Number of bits per pixel
+ * \param perimeter_x0 first perimeter x coord
+ * \param perimeter_y0 first perimeter y coord
+ * \param perimeter_x1 second perimeter x coord
+ * \param perimeter_y1 second perimeter y coord
+ * \param perimeter_x2 third perimeter x coord
+ * \param perimeter_y2 third perimeter y coord
+ * \param perimeter_x3 fourth perimeter x coord
+ * \param perimeter_y3 fourth perimeter y coord
+ */
+void show_L_shape_perimeter(struct grid_2d * grid,
+                            unsigned char image_data[],
+                            int image_width, int image_height,
+                            int image_bitsperpixel,
+                            float perimeter_x0, float perimeter_y0,
+                            float perimeter_x1, float perimeter_y1,
+                            float perimeter_x2, float perimeter_y2,
+                            float perimeter_x3, float perimeter_y3)
+{
+  /* show the vertical part of the "L" shape */
+  if (grid->mirrored == 0) {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+              1,
+              0, 255, 0);
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+              1,
+              255, 0, 0);
+  }
+  else {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+              1,
+              0, 255, 0);
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+              1,
+              255, 0, 0);
+  }
+
+  /* show the horizontal part of the "L" shape */
+  if (grid->flipped == 0) {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+              1,
+              0, 255, 0);
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+              1,
+              255, 0, 0);
+  }
+  else {
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+              1,
+              0, 255, 0);
+    draw_line(image_data, image_width, image_height,
+              image_bitsperpixel,
+              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+              1,
+              255, 0, 0);
+  }
 }
 
 /**

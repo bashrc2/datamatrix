@@ -333,13 +333,20 @@ void show_peripheral_edges(struct line_segments * segments,
 void show_perimeter(struct line_segments * segments,
                     unsigned char result[], int width, int height,
                     int result_bitsperpixel);
-void show_shape_perimeter(struct line_segments * segments,
-                          unsigned char result[], int width, int height,
+void show_shape_perimeter(unsigned char result[], int width, int height,
                           int result_bitsperpixel,
                           float perimeter_x0, float perimeter_y0,
                           float perimeter_x1, float perimeter_y1,
                           float perimeter_x2, float perimeter_y2,
                           float perimeter_x3, float perimeter_y3);
+void show_L_shape_perimeter(struct grid_2d * grid,
+                            unsigned char image_data[],
+                            int image_width, int image_height,
+                            int image_bitsperpixel,
+                            float perimeter_x0, float perimeter_y0,
+                            float perimeter_x1, float perimeter_y1,
+                            float perimeter_x2, float perimeter_y2,
+                            float perimeter_x3, float perimeter_y3);
 unsigned char rectangular_joined_line_segments(int aspect_ratio);
 
 /* filters.c */

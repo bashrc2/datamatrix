@@ -449,8 +449,7 @@ int read_datamatrix(unsigned char image_data[],
         }
 
         if (debug == 1) {
-          show_shape_perimeter(&segments[try_config],
-                               thr_resized_image_data, resized_thresholded_width, resized_thresholded_height,
+          show_shape_perimeter(thr_resized_image_data, resized_thresholded_width, resized_thresholded_height,
                                image_bitsperpixel,
                                perimeter_x0, perimeter_y0,
                                perimeter_x1, perimeter_y1,
@@ -474,8 +473,7 @@ int read_datamatrix(unsigned char image_data[],
 
         memcpy(thr_image_data, original_image_data, image_width*image_height*image_bytesperpixel);
 
-        show_shape_perimeter(&segments[try_config],
-                             thr_image_data, image_width, image_height,
+        show_shape_perimeter(thr_image_data, image_width, image_height,
                              image_bitsperpixel,
                              perimeter_x0, perimeter_y0,
                              perimeter_x1, perimeter_y1,
@@ -510,8 +508,7 @@ int read_datamatrix(unsigned char image_data[],
                                    120, debug, thr_image_data,
                                    image_bitsperpixel) == 1) {
           if (debug == 1) {
-            show_shape_perimeter(&segments[try_config],
-                                 thr_image_data, image_width, image_height,
+            show_shape_perimeter(thr_image_data, image_width, image_height,
                                  image_bitsperpixel,
                                  perimeter_x0, perimeter_y0,
                                  perimeter_x1, perimeter_y1,
@@ -538,8 +535,7 @@ int read_datamatrix(unsigned char image_data[],
                                      20, debug, thr_image_data,
                                      image_bitsperpixel) == 1) {
           if (debug == 1) {
-            show_shape_perimeter(&segments[try_config],
-                                 thr_image_data, image_width, image_height,
+            show_shape_perimeter(thr_image_data, image_width, image_height,
                                  image_bitsperpixel,
                                  perimeter_x0, perimeter_y0,
                                  perimeter_x1, perimeter_y1,
@@ -948,13 +944,13 @@ int read_datamatrix(unsigned char image_data[],
           (best_perimeter_x0 > -1)) {
         memcpy(image_data, original_image_data,
                image_width*image_height*image_bytesperpixel);
-        show_shape_perimeter(&segments[best_config],
-                             image_data, image_width, image_height,
-                             image_bitsperpixel,
-                             best_perimeter_x0, best_perimeter_y0,
-                             best_perimeter_x1, best_perimeter_y1,
-                             best_perimeter_x2, best_perimeter_y2,
-                             best_perimeter_x3, best_perimeter_y3);
+        show_L_shape_perimeter(&grid[best_config],
+                               image_data, image_width, image_height,
+                               image_bitsperpixel,
+                               best_perimeter_x0, best_perimeter_y0,
+                               best_perimeter_x1, best_perimeter_y1,
+                               best_perimeter_x2, best_perimeter_y2,
+                               best_perimeter_x3, best_perimeter_y3);
         write_png_file(output_filename,
                        image_width, image_height, 24, image_data);
       }
