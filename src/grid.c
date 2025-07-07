@@ -959,7 +959,7 @@ static int cell_sample_ring(unsigned char mono_img[],
                             int image_width, int image_height,
                             int x, int y, int sampling_radius)
 {
-  int sample_x, sample_y, n, hits = 0;
+  int sample_x, sample_y, n1, n2, hits = 0;
   int tx = x - sampling_radius;
   int ty = y - sampling_radius;
   int bx = x + sampling_radius;
@@ -972,14 +972,14 @@ static int cell_sample_ring(unsigned char mono_img[],
   if (by >= image_height-1) by = image_height-1;
 
   /* horizontal sides of the square */
-  for (sample_x = tx; sample_x <= bx; sample_x++) {
-    n = ty*image_width + sample_x;
-    if (mono_img[n] > 0) {
+  n1 = ty*image_width + tx;
+  n2 = by*image_width + tx;
+  for (sample_x = tx; sample_x <= bx; sample_x++, n1++, n2++) {
+    if (mono_img[n1] > 0) {
       hits++;
       return hits;
     }
-    n = by*image_width + sample_x;
-    if (mono_img[n] > 0) {
+    if (mono_img[n2] > 0) {
       hits++;
       return hits;
     }
@@ -987,13 +987,13 @@ static int cell_sample_ring(unsigned char mono_img[],
 
   /* vertical sides of the square */
   for (sample_y = ty; sample_y <= by; sample_y++) {
-    n = sample_y*image_width + tx;
-    if (mono_img[n] > 0) {
+    n1 = sample_y*image_width + tx;
+    if (mono_img[n1] > 0) {
       hits++;
       return hits;
     }
-    n = sample_y*image_width + bx;
-    if (mono_img[n] > 0) {
+    n1 = sample_y*image_width + bx;
+    if (mono_img[n1] > 0) {
       hits++;
       return hits;
     }
