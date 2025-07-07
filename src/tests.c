@@ -222,8 +222,9 @@ static void test_gs1_decode()
   show_grid(&grid);
   datamatrix_decode(&grid, 1, &gs1_url[0], decode_result, human_readable);
   assert(strlen(decode_result) > 0);
+  printf("%s\n", decode_result);
   assert(strcmp(decode_result,
-                "STANDARD: GS1\nGTIN: 00068780000108\nPACK DATE: 301231\nBATCH/LOT: ABC123") == 0);
+                "STANDARD: GS1\nGTIN: 00068780000108\nPACK DATE: 2030-12-31\nBATCH/LOT: ABC123") == 0);
 
   free_grid(&grid);
 

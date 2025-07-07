@@ -48,7 +48,7 @@ void gs1_semantics(char result[],
                    int * application_data_start,
                    int * application_data_end)
 {
-  char * app_id_str, * data_str;
+  char * app_id_str, * data_str, * date_str;
   char app_id_str2[10];
   unsigned char is_digital_link = 0;
 
@@ -546,6 +546,7 @@ void gs1_semantics(char result[],
     /* read data associated with the application identifier */
     *application_data_end = curr_pos + (*application_identifier_length);
     data_str = &result[*application_data_start];
+    date_str = NULL;
 
     if (strlen(data_str) > 0) {
       /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -626,6 +627,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PROD DATE ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PROD DATE: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -633,6 +635,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("DUE DATE ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "DUE DATE: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -640,6 +643,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PACK DATE ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PACK DATE: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -647,6 +651,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("BEST BEFORE ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "BEST BEFORE: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -654,6 +659,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("SELL BY ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "SELL BY: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -661,6 +667,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("EXPIRY ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "EXPIRY: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -1256,7 +1263,13 @@ void gs1_semantics(char result[],
       }
       else {
         /* human readable */
-        decode_strcat(gs1_result, data_str);
+        if (date_str != NULL) {
+          decode_strcat(gs1_result, date_str);
+          free(date_str);
+        }
+        else {
+          decode_strcat(gs1_result, data_str);
+        }
         decode_strcat_char(gs1_result, '\n');
       }
       if (debug == 1) {
