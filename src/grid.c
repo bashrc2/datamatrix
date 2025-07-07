@@ -919,15 +919,20 @@ static int cell_sample_solid(unsigned char mono_img[],
                              int x, int y, int sampling_radius)
 {
   int sample_x, sample_y, n, hits = 0;
+  int min_x = x - sampling_radius;
+  int min_y = y - sampling_radius;
+  int max_x = x + sampling_radius;
+  int max_y = y + sampling_radius;
 
-  for (sample_x = x - sampling_radius;
-       sample_x <= x + sampling_radius; sample_x++) {
-    if ((sample_x < 0) || (sample_x >= image_width)) continue;
-    for (sample_y = y - sampling_radius;
-         sample_y <= y + sampling_radius; sample_y++) {
-      if ((sample_y < 0) || (sample_y >= image_height)) continue;
+  if (min_x < 0) min_x = 0;
+  if (min_y < 0) min_y = 0;
+  if (max_x >= image_width) max_x = image_width-1;
+  if (max_y >= image_height) max_y = image_height-1;
+
+  for (sample_y = min_y; sample_y <= max_y; sample_y++) {
+    n = sample_y*image_width + min_x;
+    for (sample_x = min_x; sample_x <= max_x; sample_x++, n++) {
       /* sample some pixels at this location */
-      n = sample_y*image_width + sample_x;
       if (mono_img[n] > 0) {
         hits++;
         return hits;
