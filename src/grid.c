@@ -72,7 +72,7 @@ static int get_timing_prob_side(unsigned char mono_img[],
   float dy = by - ty;
   int i, x, y, n, expected, prob=0, samples=0;
   int cell_prob, previous_cell_prob=0;
-  int xx, yy;
+  int xx, yy, min_x, min_y, max_x, max_y;
 
   for (i = 0; i < frequency; i++) {
     expected = (i % 2) * 255;
@@ -80,11 +80,18 @@ static int get_timing_prob_side(unsigned char mono_img[],
     y = (int)(ty + ((i+0.5f) * dy / frequency));
     cell_prob = 0;
     /* sample a few pixels around this point */
-    for (yy = y - sampling_radius; yy <= y + sampling_radius; yy++) {
-      if ((yy < 0) || (yy >= height)) continue;
+    min_x = x - sampling_radius;
+    max_x = x + sampling_radius;
+    min_y = y - sampling_radius;
+    max_y = y + sampling_radius;
+    if (min_x < 0) min_x = 0;
+    if (max_x >= width) max_x = width-1;
+    if (min_y < 0) min_y = 0;
+    if (max_y >= height) max_y = height-1;
+
+    for (yy = min_y; yy <= max_y; yy++) {
       n = yy*width;
-      for (xx = x - sampling_radius; xx <= x + sampling_radius; xx++) {
-        if ((xx < 0) || (xx >= width)) continue;
+      for (xx = min_x; xx <= max_x; xx++) {
         if (mono_img[n+xx] == expected) cell_prob++;
         if ((debug == 1) && (frequency == debug_frequency)) {
           image_data[(n+xx)*3] = 0;
