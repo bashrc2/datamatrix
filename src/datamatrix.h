@@ -216,7 +216,6 @@ struct canny_params {
   int    * edges;
   int      no_of_edges;
   unsigned char * edges_image;
-  int     sampling_radius_percent;
   int     image_contrast;
 
   float   contrast_multiplier;
@@ -283,7 +282,7 @@ void correct_background_gradient(unsigned char * img,
 
 void detect_edges(unsigned char img[],
                   int width, int height,
-                  float threshold, float radius,
+                  float threshold,
                   struct canny_params * cannyparams);
 
 void get_line_segments(unsigned char edges_image[], int width, int height,

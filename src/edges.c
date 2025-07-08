@@ -192,9 +192,8 @@ static void canny_init_arrays(struct canny_params * params)
 /**
  * \brief initialise canny edges object
  * \param params object used to store the results of edge detection
- * \param edge_radius canny edge detection radius
  */
-static void canny_init(struct canny_params * params, float edge_radius)
+static void canny_init(struct canny_params * params)
 {
   params->GAUSSIAN_CUT_OFF = 0.005f;
   params->MAGNITUDE_SCALE = 100.0f;
@@ -204,7 +203,6 @@ static void canny_init(struct canny_params * params, float edge_radius)
   params->MAGNITUDE_MAX =
     ((int)(params->MAGNITUDE_SCALE * params->MAGNITUDE_LIMIT));
 
-  params->sampling_radius_percent = edge_radius;
   params->lowThreshold = 2.5;
   params->highThreshold = 7.5;
   params->gaussianKernelRadius = 2.0;
@@ -723,17 +721,17 @@ static void canny_update(unsigned char img[],
  * \param width width of the image
  * \param height height of the image
  * \param threshold canny edge threshold
- * \param radius canny edge radius
+ * \param cannyparams edge detection parameters
  */
 void detect_edges(unsigned char img[],
                   int width, int height,
-                  float threshold, float radius,
+                  float threshold,
                   struct canny_params * cannyparams)
 {
   int i;
 
   /* initialise */
-  canny_init(cannyparams, radius);
+  canny_init(cannyparams);
 
   canny_update(img,width,height,cannyparams);
 

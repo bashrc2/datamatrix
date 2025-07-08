@@ -99,7 +99,6 @@ int read_datamatrix(unsigned char image_data[],
   int image_bytesperpixel = image_bitsperpixel/8;
   int try_config, best_config = -1;
   unsigned char human_readable = 1;
-  const float edge_radius = 25;
   const int min_segment_length=20;
   const int segment_join_radius=6;
 
@@ -289,7 +288,7 @@ int read_datamatrix(unsigned char image_data[],
                      image_bitsperpixel,thr_thresholded);
 
       detect_edges(thr_thresholded,resized_thresholded_width,resized_thresholded_height,
-                   edge_threshold, edge_radius, &cannyparams[try_config]);
+                   edge_threshold, &cannyparams[try_config]);
 
       /* convert the mono image back to colour */
       mono_to_colour(thr_thresholded, resized_thresholded_width, resized_thresholded_height,
