@@ -100,7 +100,7 @@ int read_datamatrix(unsigned char image_data[],
   int try_config, best_config = -1;
   unsigned char human_readable = 1;
   const int min_segment_length=40;
-  const int segment_join_radius=6;
+  const int segment_join_radius=3;
 
   /* the magic numbers */
   const int no_of_configs = 6;
