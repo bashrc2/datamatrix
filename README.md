@@ -32,6 +32,35 @@ And finally install.
 sudo make install
 ```
 
+## Command options
+
+``` bash
+-f --filename [text]          Filename of a PNG file containing the datamatrix image
+--quality                     Show quality metrics for verification reports
+-o --output [image PNG file]  Save an image showing the detected datamatrix
+-g --grid [image PNG file]    Save an image showing the detected grid
+--hist [image PNG file]       Save reflectance histogram
+--histcentres                 Only sample grid cell centres for reflectance histogram
+--mingrid [8..144]            Minimum matrix dimension
+--maxgrid [8..144]            Maximum matrix dimension
+--debug                       Show debugging information
+--csv                         Show quality metrics in CSV format
+--json                        Show quality metrics in JSON format
+--freq [10..144]              Set the matrix dimension
+--erode [0..20]               Set erosion itterations
+--dilate [0..20]              Set dilation itterations
+--meanlight [0..20]           Set mean light threshold
+-e --edgethresh [0..10]       Set the edge detection threshold
+--resolver [url]              GS1 resolver (eg. https://id.gs1.org)
+--sampleradius [pixels]       Radius for sampling each grid cell
+--minsegmentlength [pixels]   Minimum edge segment length for segment joining
+--resizewidth [pixels]        Width of image after resizing from original
+--resizeheight [pixels]       Height of image after resizing from original
+--binwidth [pixels]           Width of the binary image used for perimeter detection
+--raw                         Show the raw decoded text
+--tests                       Run unit tests
+```
+
 ## Example usage
 
 ``` bash
