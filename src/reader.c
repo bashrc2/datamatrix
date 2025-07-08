@@ -67,6 +67,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param histogram_module_centres sample only module centres when creating histogram
  * \param histogram_filename optionally save a reflectance histogram
  * \param resized_thresholded_width width of the smaller binary image for perimeter detection
+ * \param sampling_radius radius of pixels to be checked at each location in the grid
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -90,6 +91,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char histogram_module_centres,
                     char histogram_filename[],
                     int resized_thresholded_width,
+                    int sampling_radius,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -115,8 +117,7 @@ int read_datamatrix(unsigned char image_data[],
   char * thr_decode_result[no_of_configs];
   char * debug_filename[no_of_configs];
   int resized_thresholded_height = image_height * resized_thresholded_width / image_width;
-  const int sampling_radius=1;
-  const int timing_pattern_sampling_radius = 1;
+  int timing_pattern_sampling_radius = sampling_radius;
 
   unsigned char * original_image_data =
     (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
