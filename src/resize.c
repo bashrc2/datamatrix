@@ -75,8 +75,8 @@ int enlarge_image(unsigned char img[], int width, int height,
 
   /* copy the original into the enlarged */
   for (y = ty; y < by; y++) {
-    for (x = tx; x < bx; x++, n0+=bytes_per_pixel) {
-      n1 = (y*enlarged_width + x)*bytes_per_pixel;
+    n1 = (y*enlarged_width + tx)*bytes_per_pixel;
+    for (x = tx; x < bx; x++, n0+=bytes_per_pixel, n1+=bytes_per_pixel) {
       for (c = 0; c < bytes_per_pixel; c++)
         enlarged[n1+c] = img[n0+c];
     }
