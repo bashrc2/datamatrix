@@ -123,7 +123,8 @@ int read_datamatrix(unsigned char image_data[],
   struct line_segments segments[no_of_configs];
   char * thr_decode_result[no_of_configs];
   char * debug_filename[no_of_configs];
-  int resized_thresholded_height = image_height * resized_thresholded_width / image_width;
+  int resized_thresholded_height =
+    image_height * resized_thresholded_width / image_width;
   int timing_pattern_sampling_radius = sampling_radius;
 
   unsigned char * original_image_data =
@@ -146,7 +147,8 @@ int read_datamatrix(unsigned char image_data[],
   }
 
   /* keep a copy of the original image */
-  memcpy(original_image_data, image_data, image_width*image_height*image_bytesperpixel);
+  memcpy(original_image_data, image_data,
+         image_width*image_height*image_bytesperpixel);
 
   if ((test_ml_threshold > 0) ||
       (test_erode > 0) || (test_dilate > 0) ||
@@ -229,7 +231,8 @@ int read_datamatrix(unsigned char image_data[],
                      image_width, image_height, 24, thr_image_data);
     }
     /* keep a copy of the thresholded data for subsequent decoding */
-    memcpy(thr_original_thresholded_image_data, thr_image_data, image_width*image_height*image_bitsperpixel/8);
+    memcpy(thr_original_thresholded_image_data, thr_image_data,
+           image_width*image_height*image_bitsperpixel/8);
 
 
     /* erosion or dilation */
@@ -295,11 +298,13 @@ int read_datamatrix(unsigned char image_data[],
                      resized_thresholded_width,resized_thresholded_height,
                      image_bitsperpixel,thr_thresholded);
 
-      detect_edges(thr_thresholded,resized_thresholded_width,resized_thresholded_height,
+      detect_edges(thr_thresholded,resized_thresholded_width,
+                   resized_thresholded_height,
                    edge_threshold, &cannyparams[try_config]);
 
       /* convert the mono image back to colour */
-      mono_to_colour(thr_thresholded, resized_thresholded_width, resized_thresholded_height,
+      mono_to_colour(thr_thresholded,
+                     resized_thresholded_width, resized_thresholded_height,
                      image_bitsperpixel, thr_resized_image_data);
       if (debug == 1) {
         sprintf(debug_filename[try_config], "debug_%d_05_edges.png", try_config);
@@ -308,7 +313,8 @@ int read_datamatrix(unsigned char image_data[],
       }
 
       get_line_segments(thr_thresholded, resized_thresholded_width,
-                        resized_thresholded_height, &segments[try_config], min_segment_length);
+                        resized_thresholded_height, &segments[try_config],
+                        min_segment_length);
 
       if (debug == 1) {
         show_line_segments(&segments[try_config], thr_resized_image_data,
@@ -383,18 +389,23 @@ int read_datamatrix(unsigned char image_data[],
       /* this must count upwards */
       for (int seg_idx = 0; seg_idx < segments[try_config].no_of_segments; seg_idx++) {
         int segment_index = segments[try_config].joins_sorted[seg_idx];
-        get_peripheral_edges(&segments[try_config], segment_index, resized_thresholded_width, resized_thresholded_height);
+        get_peripheral_edges(&segments[try_config], segment_index,
+                             resized_thresholded_width, resized_thresholded_height);
 
         int quantization_degrees = 5;
-        get_segments_orientation(&segments[try_config], resized_thresholded_width, resized_thresholded_height,
+        get_segments_orientation(&segments[try_config], resized_thresholded_width,
+                                 resized_thresholded_height,
                                  quantization_degrees);
 
-        if (fit_perimeter_to_sides(&segments[try_config], resized_thresholded_width, resized_thresholded_height,
+        if (fit_perimeter_to_sides(&segments[try_config], resized_thresholded_width,
+                                   resized_thresholded_height,
                                    &perimeter_x0, &perimeter_y0,
                                    &perimeter_x1, &perimeter_y1,
                                    &perimeter_x2, &perimeter_y2,
                                    &perimeter_x3, &perimeter_y3) != 0) {
-          show_perimeter(&segments[try_config], thr_resized_image_data, resized_thresholded_width, resized_thresholded_height, image_bitsperpixel);
+          show_perimeter(&segments[try_config], thr_resized_image_data,
+                         resized_thresholded_width, resized_thresholded_height,
+                         image_bitsperpixel);
           continue;
         }
 
@@ -438,7 +449,8 @@ int read_datamatrix(unsigned char image_data[],
                                    &perimeter_x3, &perimeter_y3);
 
         if (debug == 1) {
-          show_peripheral_edges(&segments[try_config], thr_resized_image_data, resized_thresholded_width, resized_thresholded_height,
+          show_peripheral_edges(&segments[try_config], thr_resized_image_data,
+                                resized_thresholded_width, resized_thresholded_height,
                                 image_bitsperpixel);
           sprintf(debug_filename[try_config],
                   "debug_%d_09_peripheral_edges.png", try_config);
@@ -447,7 +459,8 @@ int read_datamatrix(unsigned char image_data[],
                          24, thr_resized_image_data);
         }
         if (debug == 1) {
-          show_perimeter(&segments[try_config], thr_resized_image_data, resized_thresholded_width, resized_thresholded_height,
+          show_perimeter(&segments[try_config], thr_resized_image_data,
+                         resized_thresholded_width, resized_thresholded_height,
                          image_bitsperpixel);
           sprintf(debug_filename[try_config],
                   "debug_%d_10_perimeter.png", try_config);
@@ -457,7 +470,8 @@ int read_datamatrix(unsigned char image_data[],
         }
 
         if (debug == 1) {
-          show_shape_perimeter(thr_resized_image_data, resized_thresholded_width, resized_thresholded_height,
+          show_shape_perimeter(thr_resized_image_data, resized_thresholded_width,
+                               resized_thresholded_height,
                                image_bitsperpixel,
                                perimeter_x0, perimeter_y0,
                                perimeter_x1, perimeter_y1,
@@ -466,7 +480,8 @@ int read_datamatrix(unsigned char image_data[],
           sprintf(debug_filename[try_config],
                   "debug_%d_11_shape_perimeter_small.png", try_config);
           write_png_file(debug_filename[try_config],
-                         resized_thresholded_width, resized_thresholded_height, 24, thr_resized_image_data);
+                         resized_thresholded_width, resized_thresholded_height,
+                         24, thr_resized_image_data);
         }
 
         /* convert back to original image resolution */
@@ -479,7 +494,8 @@ int read_datamatrix(unsigned char image_data[],
         perimeter_x3 = (perimeter_x3 * original_image_width) / resized_thresholded_width;
         perimeter_y3 = (perimeter_y3 * original_image_height) / resized_thresholded_height;
 
-        memcpy(thr_image_data, original_image_data, image_width*image_height*image_bytesperpixel);
+        memcpy(thr_image_data, original_image_data,
+               image_width*image_height*image_bytesperpixel);
 
         show_shape_perimeter(thr_image_data, image_width, image_height,
                              image_bitsperpixel,
@@ -621,7 +637,9 @@ int read_datamatrix(unsigned char image_data[],
             if (debug == 1) {
               mono_to_colour(thr_mono_img, image_width, image_height,
                              image_bitsperpixel, thr_image_data);
-              show_grid_image(&grid[try_config], thr_image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
+              show_grid_image(&grid[try_config], thr_image_data,
+                              image_width, image_height, image_bitsperpixel,
+                              curr_sampling_radius, curr_sampling_pattern);
               show_grid(&grid[try_config]);
               sprintf(debug_filename[try_config],
                       "debug_%d_16_grid_sampling.png", try_config);
@@ -775,7 +793,9 @@ int read_datamatrix(unsigned char image_data[],
                   printf("Frequency: %d\n", most_probable_frequency);
                   mono_to_colour(thr_mono_img, image_width, image_height,
                                  image_bitsperpixel, thr_image_data);
-                  show_grid_image(&grid[try_config], thr_image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
+                  show_grid_image(&grid[try_config], thr_image_data,
+                                  image_width, image_height, image_bitsperpixel,
+                                  curr_sampling_radius, curr_sampling_pattern);
                   sprintf(debug_filename[try_config],
                           "debug_%d_17_grid_sampling.png", try_config);
                   write_png_file(debug_filename[try_config],
@@ -814,7 +834,9 @@ int read_datamatrix(unsigned char image_data[],
                   printf("Frequency: %d\n", most_probable_frequency);
                   mono_to_colour(thr_mono_img, image_width, image_height,
                                  image_bitsperpixel, thr_image_data);
-                  show_grid_image(&grid[try_config], thr_image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
+                  show_grid_image(&grid[try_config], thr_image_data,
+                                  image_width, image_height, image_bitsperpixel,
+                                  curr_sampling_radius, curr_sampling_pattern);
                   sprintf(debug_filename[try_config],
                           "debug_%d_17_grid_sampling.png", try_config);
                   write_png_file(debug_filename[try_config],
@@ -904,7 +926,9 @@ int read_datamatrix(unsigned char image_data[],
                          most_probable_frequency_x, most_probable_frequency_y);
                   mono_to_colour(thr_mono_img, image_width, image_height,
                                  image_bitsperpixel, thr_image_data);
-                  show_grid_image(&grid[try_config], thr_image_data, image_width, image_height, image_bitsperpixel, curr_sampling_radius, curr_sampling_pattern);
+                  show_grid_image(&grid[try_config], thr_image_data,
+                                  image_width, image_height, image_bitsperpixel,
+                                  curr_sampling_radius, curr_sampling_pattern);
                   sprintf(debug_filename[try_config],
                           "debug_%d_17_grid_sampling.png", try_config);
                   write_png_file(debug_filename[try_config],
