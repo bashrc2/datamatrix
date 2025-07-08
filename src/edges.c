@@ -2338,7 +2338,7 @@ void show_L_shape_perimeter(struct grid_2d * grid,
                             float perimeter_x2, float perimeter_y2,
                             float perimeter_x3, float perimeter_y3)
 {
-  /* show the vertical part of the "L" shape */
+  /* show the vertical part of the "L" shape, L1 */
   if (grid->mirrored == 0) {
     draw_line(image_data, image_width, image_height,
               image_bitsperpixel,
@@ -2368,7 +2368,7 @@ void show_L_shape_perimeter(struct grid_2d * grid,
               255, 0, 0);
   }
 
-  /* show the horizontal part of the "L" shape */
+  /* show the horizontal part of the "L" shape, L2 */
   if (grid->flipped == 0) {
     draw_line(image_data, image_width, image_height,
               image_bitsperpixel,
