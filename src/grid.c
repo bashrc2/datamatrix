@@ -1121,6 +1121,22 @@ void create_grid(int dimension_x, int dimension_y,
 }
 
 /**
+ * \brief returns the percent of occupied cells in the grid
+ * \return percent of occupied cells
+ */
+unsigned char get_grid_occupancy_percent(struct grid_2d * grid)
+{
+  int grid_x, grid_y, hits=0;
+
+  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+      if (grid->occupancy[grid_x][grid_y] == 1) hits++;
+    }
+  }
+  return (unsigned char)(hits * 100 / (grid->dimension_x * grid->dimension_y));
+}
+
+/**
  * \brief frees memory for a grid object
  * \param grid grid object
  */

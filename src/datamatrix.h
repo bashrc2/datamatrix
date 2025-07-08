@@ -35,23 +35,25 @@
 #include <omp.h>
 #include <float.h>
 
-#define GPR_MISSING_VALUE         9999
-#define PARALLEL_LINES            -2
-#define UNKNOWN_DISTANCE          999999
-#define NO_LINE_FIT               999998
-#define NO_OFFSET                 999998
-#define PI                        3.1415927
-#define FREQ_DIMENSION            256
-#define MAX_DECODE_LENGTH         1024
+#define GPR_MISSING_VALUE          9999
+#define PARALLEL_LINES             -2
+#define UNKNOWN_DISTANCE           999999
+#define NO_LINE_FIT                999998
+#define NO_OFFSET                  999998
+#define PI                         3.1415927
+#define FREQ_DIMENSION             256
+#define MAX_DECODE_LENGTH          1024
 /* max perimeter side length in pixels */
-#define MAX_PERIMETER_SIDE_LENGTH 4096
-#define MIN_GRID_DIMENSION        8
-#define MAX_GRID_DIMENSION        144
-#define MAX_CODEWORDS             (MAX_GRID_DIMENSION*MAX_GRID_DIMENSION)
+#define MAX_PERIMETER_SIDE_LENGTH  4096
+#define MIN_GRID_DIMENSION         8
+#define MAX_GRID_DIMENSION         144
+#define MAX_CODEWORDS              (MAX_GRID_DIMENSION*MAX_GRID_DIMENSION)
+#define MIN_OCCUPIED_CELLS_PERCENT 40
+#define MAX_OCCUPIED_CELLS_PERCENT 60
 
 /* patterns used when sampling grid cell pixels */
-#define SAMPLING_PATTERN_SOLID    0
-#define SAMPLING_PATTERN_RING     1
+#define SAMPLING_PATTERN_SOLID     0
+#define SAMPLING_PATTERN_RING      1
 
 #ifndef ABS
 #define ABS(a) (((a) < 0) ? -(a) : (a))
@@ -685,6 +687,8 @@ int detect_timing_pattern(unsigned char mono_img[],
                           int debug_frequency);
 
 void rotate_grid(struct grid_2d * grid);
+
+unsigned char get_grid_occupancy_percent(struct grid_2d * grid);
 
 void free_grid(struct grid_2d * grid);
 

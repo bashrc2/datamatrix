@@ -602,6 +602,14 @@ int read_datamatrix(unsigned char image_data[],
                         image_width, image_height,
                         curr_sampling_radius, curr_sampling_pattern,
                         &grid[try_config]);
+            /* check that this looks vaguely like a datamatrix */
+            unsigned char occupied_cells_percent =
+              get_grid_occupancy_percent(&grid[try_config]);
+            if ((occupied_cells_percent < MIN_OCCUPIED_CELLS_PERCENT) ||
+                (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
+              free_grid(&grid[try_config]);
+              break;
+            }
             if (debug == 1) {
               mono_to_colour(thr_mono_img, image_width, image_height,
                              image_bitsperpixel, thr_image_data);
@@ -721,6 +729,14 @@ int read_datamatrix(unsigned char image_data[],
                           image_width, image_height,
                           curr_sampling_radius, curr_sampling_pattern,
                           &grid[try_config]);
+              /* check that this looks vaguely like a datamatrix */
+              unsigned char occupied_cells_percent =
+                get_grid_occupancy_percent(&grid[try_config]);
+              if ((occupied_cells_percent < MIN_OCCUPIED_CELLS_PERCENT) ||
+                  (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
+                free_grid(&grid[try_config]);
+                break;
+              }
               datamatrix_decode(&grid[try_config], debug,
                                 gs1_url, thr_decode_result[try_config],
                                 human_readable);
@@ -842,6 +858,14 @@ int read_datamatrix(unsigned char image_data[],
                           image_width, image_height,
                           curr_sampling_radius, curr_sampling_pattern,
                           &grid[try_config]);
+              /* check that this looks vaguely like a datamatrix */
+              unsigned char occupied_cells_percent =
+                get_grid_occupancy_percent(&grid[try_config]);
+              if ((occupied_cells_percent < MIN_OCCUPIED_CELLS_PERCENT) ||
+                  (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
+                free_grid(&grid[try_config]);
+                break;
+              }
               datamatrix_decode(&grid[try_config], debug,
                                 gs1_url, thr_decode_result[try_config],
                                 human_readable);
