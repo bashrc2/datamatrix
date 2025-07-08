@@ -60,6 +60,9 @@ int main(int argc, char* argv[])
   char output_filename[MAX_DECODE_LENGTH];
   char grid_filename[MAX_DECODE_LENGTH];
   char histogram_filename[MAX_DECODE_LENGTH];
+  float aperture = 0;
+  int light_nm = 670;
+  int light_angle_degrees = 90;
 
   /* no filename specified */
   filename[0] = 0;
@@ -81,6 +84,15 @@ int main(int argc, char* argv[])
     if ((strcmp(argv[i],"-e")==0) ||
         (strcmp(argv[i],"--edgethresh")==0)) {
       test_edge_threshold = atof(argv[i+1]);
+    }
+    if (strcmp(argv[i],"--aperture")==0) {
+      aperture = atof(argv[i+1]);
+    }
+    if (strcmp(argv[i],"--light")==0) {
+      light_nm = atoi(argv[i+1]);
+    }
+    if (strcmp(argv[i],"--angle")==0) {
+      light_angle_degrees = atoi(argv[i+1]);
     }
     if ((strcmp(argv[i],"--freq")==0) ||
         (strcmp(argv[i],"--frequency")==0)) {
@@ -259,6 +271,7 @@ int main(int argc, char* argv[])
                   resized_thresholded_width,
                   sampling_radius,
                   min_segment_length,
+                  aperture, light_nm, light_angle_degrees,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

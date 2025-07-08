@@ -929,8 +929,14 @@ static unsigned char overall_quality_grade(struct grid_2d * grid)
 /**
  * \brief displays human readable quality metrics
  * \param grid grid object
+ * \param aperture Aperture reference number from ISO 15416
+ * \param light_nm Peak light wavelength used in nanometres
+ * \param light_angle_degrees Angle of illumination in degrees
  */
-static void show_quality_metrics_human_readable(struct grid_2d * grid)
+static void show_quality_metrics_human_readable(struct grid_2d * grid,
+                                                float aperture,
+                                                int light_nm,
+                                                int light_angle_degrees)
 {
   unsigned char grade = overall_quality_grade(grid);
   char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -946,6 +952,12 @@ static void show_quality_metrics_human_readable(struct grid_2d * grid)
   else {
     printf("Symbol type: datamatrix\n");
   }
+
+  if (aperture > 0) {
+    printf("Aperture: %.1f\n", aperture);
+  }
+  printf("Light (nm): %d\n", light_nm);
+  printf("Light angle: %d°\n", light_angle_degrees);
   printf("Symbol contrast: %d (%d%%)\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("Axial non-uniformity: %d (%.1f%%)\n",
@@ -975,8 +987,14 @@ static void show_quality_metrics_human_readable(struct grid_2d * grid)
 /**
  * \brief displays quality metrics in CSV format
  * \param grid grid object
+ * \param aperture Aperture reference number from ISO 15416
+ * \param light_nm Peak light wavelength used in nanometres
+ * \param light_angle_degrees Angle of illumination in degrees
  */
-static void show_quality_metrics_csv(struct grid_2d * grid)
+static void show_quality_metrics_csv(struct grid_2d * grid,
+                                     float aperture,
+                                     int light_nm,
+                                     int light_angle_degrees)
 {
   unsigned char grade = overall_quality_grade(grid);
   char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -992,6 +1010,12 @@ static void show_quality_metrics_csv(struct grid_2d * grid)
   else {
     printf("\"datamatrix\", ");
   }
+
+  if (aperture > 0) {
+    printf("\"%.1f\", ", aperture);
+  }
+  printf("%d, ", light_nm);
+  printf("%d, ", light_angle_degrees);
   printf("%d, %d, ",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("%d, \"%.1f\", ",
@@ -1020,8 +1044,14 @@ static void show_quality_metrics_csv(struct grid_2d * grid)
 /**
  * \brief displays quality metrics in json format
  * \param grid grid object
+ * \param aperture Aperture reference number from ISO 15416
+ * \param light_nm Peak light wavelength used in nanometres
+ * \param light_angle_degrees Angle of illumination in degrees
  */
-static void show_quality_metrics_json(struct grid_2d * grid)
+static void show_quality_metrics_json(struct grid_2d * grid,
+                                      float aperture,
+                                      int light_nm,
+                                      int light_angle_degrees)
 {
   unsigned char grade = overall_quality_grade(grid);
   char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -1029,6 +1059,11 @@ static void show_quality_metrics_json(struct grid_2d * grid)
   struct tm tm = *localtime(&t);
 
   printf("{\n");
+  if (aperture > 0) {
+    printf("  \"aperture\": %.1f,\n", aperture);
+  }
+  printf("  \"light_nm\": %d,\n", light_nm);
+  printf("  \"light_angle_degrees\": %d,\n", light_angle_degrees);
   printf("  \"timestamp\": \"%d-%02d-%02d %02d:%02d:%02d\",\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
@@ -1067,18 +1102,27 @@ static void show_quality_metrics_json(struct grid_2d * grid)
 /**
  * \brief displays quality metrics
  * \param grid grid object
+ * \param csv Set to 1 to show in CSV format
+ * \param json Set to 1 to show in JSON format
+ * \param aperture Aperture reference number from ISO 15416
+ * \param light_nm Peak light wavelength used in nanometres
+ * \param light_angle_degrees Angle of illumination in degrees
  */
 void show_quality_metrics(struct grid_2d * grid,
                           unsigned char csv,
-                          unsigned char json)
+                          unsigned char json,
+                          float aperture,
+                          int light_nm,
+                          int light_angle_degrees)
 {
   if (csv == 1) {
-    show_quality_metrics_csv(grid);
+    show_quality_metrics_csv(grid, aperture, light_nm, light_angle_degrees);
     return;
   }
   else if (json == 1) {
-    show_quality_metrics_json(grid);
+    show_quality_metrics_json(grid, aperture, light_nm, light_angle_degrees);
     return;
   }
-  show_quality_metrics_human_readable(grid);
+  show_quality_metrics_human_readable(grid, aperture, light_nm,
+                                      light_angle_degrees);
 }

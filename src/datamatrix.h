@@ -754,7 +754,10 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                char histogram_filename[]);
 
 void show_quality_metrics(struct grid_2d * grid,
-                          unsigned char csv, unsigned char json);
+                          unsigned char csv, unsigned char json,
+                          float aperture,
+                          int light_nm,
+                          int light_angle_degrees);
 
 /* gs1.c */
 
@@ -832,6 +835,9 @@ int read_datamatrix(unsigned char image_data[],
                     int resized_thresholded_width,
                     int sampling_radius,
                     int min_segment_length,
+                    float aperture,
+                    int light_nm,
+                    int light_angle_degrees,
                     char * decode_result);
 
 /* tests.c */

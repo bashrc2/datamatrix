@@ -58,6 +58,9 @@ sudo make install
 --resizeheight [pixels]       Height of image after resizing from original
 --binwidth [pixels]           Width of the binary image used for perimeter detection
 --raw                         Show the raw decoded text
+--aperture [ref]              Aperture reference number from ISO 15416
+--light [nm]                  Peak light wavelength used in nanometres
+--angle [90|45]               Angle of illumination in degrees
 --tests                       Run unit tests
 ```
 

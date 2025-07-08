@@ -69,6 +69,9 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param resized_thresholded_width width of the smaller binary image for perimeter detection
  * \param sampling_radius radius of pixels to be checked at each location in the grid
  * \param min_segment_length minimum edge segment length in pixels
+ * \param aperture Aperture reference number from ISO 15416
+ * \param light_nm Peak light wavelength used in nanometres
+ * \param light_angle_degrees Angle of illumination in degrees
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -94,6 +97,9 @@ int read_datamatrix(unsigned char image_data[],
                     int resized_thresholded_width,
                     int sampling_radius,
                     int min_segment_length,
+                    float aperture,
+                    int light_nm,
+                    int light_angle_degrees,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -982,7 +988,8 @@ int read_datamatrix(unsigned char image_data[],
 
       /* quality metrics */
       if (verify == 1) {
-        show_quality_metrics(&grid[best_config], csv, json);
+        show_quality_metrics(&grid[best_config], csv, json,
+                             aperture, light_nm, light_angle_degrees);
       }
       strcpy(decode_result, thr_decode_result[best_config]);
     }
