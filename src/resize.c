@@ -121,10 +121,10 @@ int resize_image(unsigned char img[], int width, int height,
 
   for (y = resized_height-1; y >= 0; y--) {
     y2 = y * height / resized_height;
-    for (x = resized_width-1; x >= 0; x--) {
+    n2 = (y*resized_width + resized_width-1)*bytes_per_pixel;
+    for (x = resized_width-1; x >= 0; x--,n2-=bytes_per_pixel) {
       x2 = x * width / resized_width;
       n1 = (y2*width + x2)*bytes_per_pixel;
-      n2 = (y*resized_width + x)*bytes_per_pixel;
       /* NOTE: this isn't optimal, but probably good enough */
       for (c = bytes_per_pixel-1; c >= 0; c--)
         if (resized[n2+c] == 0)
