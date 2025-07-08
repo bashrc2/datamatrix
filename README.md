@@ -46,7 +46,7 @@ sudo make install
 --debug                       Show debugging information
 --csv                         Show quality metrics in CSV format
 --json                        Show quality metrics in JSON format
---freq [10..144]              Set the matrix dimension
+--freq [8..144]               Set the matrix dimension
 --erode [0..20]               Set erosion itterations
 --dilate [0..20]              Set dilation itterations
 --meanlight [0..20]           Set mean light threshold
