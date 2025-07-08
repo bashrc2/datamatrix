@@ -210,7 +210,7 @@ static void canny_init(struct canny_params * params, float edge_radius)
   params->gaussianKernelRadius = 2.0;
   params->gaussianKernelWidth = 4;
   params->picSize = 0;
-  params->automaticThresholds = 1;
+  params->automaticThresholds = 0;
 
   params->contrast_multiplier = 0.35f;
   params->lowThresholdOffset = 1.6f;
@@ -348,156 +348,6 @@ static void canny_perform_hysteresis(int width, int height,
       }
     }
   }
-}
-
-/**
- * \brief gets mean dark and light thresholds for canny edge detection
- * \param reflectance histogram
- * \param meanDark returned mean dark threshold
- * \param meanLight returned mean light threshold
- */
-static void canny_get_thresholds(unsigned int histogram[],
-                                 float * meanDark,
-                                 float * meanLight)
-{
-  float minVariance = 999999.0f;
-  float currMeanDark = 0.0f;
-  float currMeanLight = 0.0f;
-  float varianceDark = 0.0f;
-  float varianceLight = 0.0f;
-  float darkHits = 0.0f;
-  float lightHits = 0.0f;
-  float histogramSquaredMagnitude[256] = {0};
-  int h = 0;
-  int bucket = 0;
-  float magnitudeSqr = 0.0f;
-  float variance = 0.0f;
-  float divisor= 0.0f;
-  unsigned int i;
-  int greyLevel;
-  *meanDark = 0;
-  *meanLight = 0;
-
-  /* Calculate squared magnitudes -
-     avoids unneccessary multiplies later on */
-  for(i = 0; i < 256; i++) {
-    histogramSquaredMagnitude[i] =
-      histogram[i] * histogram[i];
-  }
-
-  /* Evaluate all possible thresholds */
-  for(greyLevel = 255; greyLevel >= 0; greyLevel--) {
-    darkHits = 0;
-    lightHits = 0;
-    currMeanDark = 0;
-    currMeanLight = 0;
-    varianceDark = 0;
-    varianceLight = 0;
-
-    bucket = (int)greyLevel;
-
-    for(h = 255; h >= 0; h--) {
-      magnitudeSqr = histogramSquaredMagnitude[h];
-      if (h < bucket) {
-        currMeanDark += h * magnitudeSqr;
-        varianceDark += (bucket - h) * magnitudeSqr;
-        darkHits += magnitudeSqr;
-      }
-      else {
-        currMeanLight += h * magnitudeSqr;
-        varianceLight += (bucket - h) * magnitudeSqr;
-        lightHits += magnitudeSqr;
-      }
-    }
-
-    if (darkHits > 0) {
-      /* Rescale into 0-255 range */
-      divisor = darkHits * 256;
-      currMeanDark = (currMeanDark * 255) / divisor;
-      varianceDark = (varianceDark * 255) / divisor;
-    }
-
-    if (lightHits > 0) {
-      /* Rescale into 0-255 range */
-      divisor = lightHits * 256;
-      currMeanLight = (currMeanLight * 255) / divisor;
-      varianceLight = (varianceLight * 255) / divisor;
-    }
-
-    variance = varianceDark + varianceLight;
-    if (variance < 0) {
-      variance = -variance;
-    }
-
-    if (variance < minVariance) {
-      minVariance = variance;
-      *meanDark = currMeanDark;
-      *meanLight = currMeanLight;
-    }
-
-    if ((int)(variance * 1000) == (int)(minVariance * 1000)) {
-      *meanLight = currMeanLight;
-    }
-  }
-}
-
-/**
- * \brief canny edge detection with automatic threshold calculation
- * \param img mono image
- * \param width width of the image
- * \param height height of the image
- * \param samplingStepSize subsampling step size
- * \param params object used to store the results of edge detection
- */
-static void canny_auto_threshold(unsigned char img[],
-                                 int width, int height,
-                                 int samplingStepSize,
-                                 struct canny_params * params)
-{
-  unsigned int tx =
-    (unsigned int)(width * params->sampling_radius_percent / 100);
-  unsigned int ty =
-    (unsigned int)(height * params->sampling_radius_percent / 100);
-  unsigned int bx = (unsigned int)(width - 1 - tx);
-  unsigned int by = (unsigned int)(height - 1 - ty);
-  unsigned int histogram[256] = {0};
-  float meanDark = 0;
-  float meanLight = 0;
-  float contrast = 0;
-  float fraction = 0;
-  unsigned int n = (ty * (unsigned int)width) + tx;
-  unsigned int vertical_increment =
-    (unsigned int)(width * samplingStepSize);
-  unsigned int x,y,n2;
-  float contrast_mult;
-
-  for (y = ty; y <= by;
-       y += samplingStepSize, n += vertical_increment) {
-    n2 = n;
-
-    for (x = tx; x <= bx; x += samplingStepSize, n2++)
-      histogram[img[n2]]++;
-  }
-
-  canny_get_thresholds(histogram, &meanDark, &meanLight);
-  meanDark /= 255.0f;
-  meanLight /= 255.0f;
-  contrast = meanLight - meanDark;
-
-  params->image_contrast = (int)(contrast*255);
-
-  contrast_mult =
-    (1.0f - (contrast * params->contrast_multiplier));
-  contrast *= contrast_mult;
-
-  fraction = (contrast - 0.048f) / (0.42f - 0.048f);
-
-  params->lowThreshold =
-    params->lowThresholdOffset +
-    (fraction * params->lowThresholdMultiplier);
-  params->highThreshold =
-    params->highhresholdOffset +
-    (fraction * params->highhresholdMultiplier);
 }
 
 /**
@@ -825,10 +675,6 @@ static void canny_update(unsigned char img[],
   int low = 0;
   int high = 0;
   int no_of_edges, pixels,x,y,i;
-
-  if (params->automaticThresholds!=0) {
-    canny_auto_threshold(img, width, height, 2, params);
-  }
 
   params->picSize = width * height;
 
