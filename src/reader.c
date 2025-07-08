@@ -108,6 +108,7 @@ int read_datamatrix(unsigned char image_data[],
   int try_config, best_config = -1;
   unsigned char human_readable = 1;
   const int segment_join_radius=3;
+  const int segment_roi_percent = 70;
 
   /* the magic numbers */
   const int no_of_configs = 6;
@@ -320,7 +321,7 @@ int read_datamatrix(unsigned char image_data[],
       }
 
       segment_edges_within_roi(&segments[try_config], resized_thresholded_width,
-                               resized_thresholded_height, 70);
+                               resized_thresholded_height, segment_roi_percent);
 
       if (debug == 1) {
         show_line_segments(&segments[try_config], thr_resized_image_data,
