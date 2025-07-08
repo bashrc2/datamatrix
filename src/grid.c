@@ -89,14 +89,15 @@ static int get_timing_prob_side(unsigned char mono_img[],
     if (min_y < 0) min_y = 0;
     if (max_y >= height) max_y = height-1;
 
+    /* sample pixels around (x,y) */
     for (yy = min_y; yy <= max_y; yy++) {
-      n = yy*width;
-      for (xx = min_x; xx <= max_x; xx++) {
-        if (mono_img[n+xx] == expected) cell_prob++;
+      n = yy*width + min_x;
+      for (xx = min_x; xx <= max_x; xx++, n++) {
+        if (mono_img[n] == expected) cell_prob++;
         if ((debug == 1) && (frequency == debug_frequency)) {
-          image_data[(n+xx)*3] = 0;
-          image_data[(n+xx)*3+1] = 255;
-          image_data[(n+xx)*3+2] = 0;
+          image_data[n*3] = 0;
+          image_data[n*3+1] = 255;
+          image_data[n*3+2] = 0;
         }
         samples++;
       }
