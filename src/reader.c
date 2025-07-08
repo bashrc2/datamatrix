@@ -68,6 +68,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param histogram_filename optionally save a reflectance histogram
  * \param resized_thresholded_width width of the smaller binary image for perimeter detection
  * \param sampling_radius radius of pixels to be checked at each location in the grid
+ * \param min_segment_length minimum edge segment length in pixels
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -92,6 +93,7 @@ int read_datamatrix(unsigned char image_data[],
                     char histogram_filename[],
                     int resized_thresholded_width,
                     int sampling_radius,
+                    int min_segment_length,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -99,7 +101,6 @@ int read_datamatrix(unsigned char image_data[],
   int image_bytesperpixel = image_bitsperpixel/8;
   int try_config, best_config = -1;
   unsigned char human_readable = 1;
-  const int min_segment_length=40;
   const int segment_join_radius=3;
 
   /* the magic numbers */

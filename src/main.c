@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
   unsigned char histogram_module_centres = 0;
   int loop_incr = 2;
   int sampling_radius = 1;
+  int min_segment_length = 40;
   char gs1_url[MAX_DECODE_LENGTH];
   char filename[MAX_DECODE_LENGTH];
   char output_filename[MAX_DECODE_LENGTH];
@@ -101,6 +102,10 @@ int main(int argc, char* argv[])
         (strcmp(argv[i],"--samplingradius")==0) ||
         (strcmp(argv[i],"--sampleradius")==0)) {
       sampling_radius = atoi(argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--minsegmentlength")==0) ||
+        (strcmp(argv[i],"--minsegment")==0)) {
+      min_segment_length = atoi(argv[i+1]);
     }
     if ((strcmp(argv[i],"-o")==0) ||
         (strcmp(argv[i],"--output")==0)) {
@@ -253,6 +258,7 @@ int main(int argc, char* argv[])
                   &histogram_filename[0],
                   resized_thresholded_width,
                   sampling_radius,
+                  min_segment_length,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

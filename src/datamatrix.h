@@ -831,6 +831,7 @@ int read_datamatrix(unsigned char image_data[],
                     char histogram_filename[],
                     int resized_thresholded_width,
                     int sampling_radius,
+                    int min_segment_length,
                     char * decode_result);
 
 /* tests.c */
