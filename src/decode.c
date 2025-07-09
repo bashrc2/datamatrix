@@ -315,8 +315,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 
   /* pack two data values into three bytes: 1600 * C1 + 40 * c2 + C3 + 1 */
   packed = a * 256 + b;
-  int * c40Values = (int*)malloc(3*sizeof(int));
-  assert(c40Values != NULL);
+  int * c40Values = (int*)safemalloc(3*sizeof(int));
   c40Values[0] = ((packed - 1) / 1600);
   c40Values[1] = ((packed - 1) / 40) % 40;
   c40Values[2] = (packed - 1) % 40;
@@ -432,8 +431,7 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        char iso15434_uii[])
 {
   int i;
-  char * unpacked = (char*)malloc(4*sizeof(char));
-  assert(unpacked != NULL);
+  char * unpacked = (char*)safemalloc(4*sizeof(char));
 
   while (*position < datalength) {
     if (*position + 2 >= datalength)
@@ -542,8 +540,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
 
   /* 3 bytes encoded by 1600 * C1 + 40 * c2 + C3 + 1 */
   packed = a * 256 + b;
-  int * x12Values = (int*)malloc(3*sizeof(int));
-  assert(x12Values != NULL);
+  int * x12Values = (int*)safemalloc(3*sizeof(int));
   x12Values[0] = ((packed - 1) / 1600);
   x12Values[1] = ((packed - 1) / 40) % 40;
   x12Values[2] = (packed - 1) % 40;
@@ -1461,20 +1458,17 @@ static int reed_solomon_correct(int n_err_data,
   int n = 255 - (*error_codeword_count);
   if (n < 0) return -1;
   int data_length = n;
-  int * data = (int*)malloc(n*sizeof(int));
-  assert(data != NULL);
+  int * data = (int*)safemalloc(n*sizeof(int));
   memset(data, 0, n * sizeof(int));
 
   int parity_length = (*error_codeword_count);
-  int * parity = (int*)malloc((*error_codeword_count)*sizeof(int));
-  assert(parity != NULL);
+  int * parity = (int*)safemalloc((*error_codeword_count)*sizeof(int));
   memset(parity, 0, (*error_codeword_count) * sizeof(int));
 
   /* create erasures array */
   int * erasures = NULL;
   if (erasure_index != NULL) {
-    erasures = (int*)malloc(erasure_index_length*sizeof(int));
-    assert(erasures != NULL);
+    erasures = (int*)safemalloc(erasure_index_length*sizeof(int));
     memset(erasures, 0, erasure_index_length * sizeof(int));
   }
 
@@ -1514,8 +1508,7 @@ static int reed_solomon_correct(int n_err_data,
 
     if (n2 < erasure_index_length) {
       if (n2 > 0) {
-        int * new_erasures = (int*)malloc(n2*sizeof(int));
-        assert(new_erasures != NULL);
+        int * new_erasures = (int*)safemalloc(n2*sizeof(int));
         memcpy(new_erasures, erasures, n2 * sizeof(int));
         free(erasures);
         erasures = new_erasures;
@@ -1587,8 +1580,7 @@ static unsigned char reed_solomon(unsigned char codewords[],
   int error_codeword_count;
   unsigned char * rs_codewords;
 
-  rs_codewords = (unsigned char*)malloc(codewords_length*sizeof(unsigned char));
-  assert(rs_codewords != NULL);
+  rs_codewords = (unsigned char*)safemalloc(codewords_length*sizeof(unsigned char));
 
   if (erasures_length == 0) no_of_erasures = 0;
 
@@ -1889,12 +1881,10 @@ static struct key_value_pair_int** generate_translation_table(int no_of_rows, in
 {
   int i, chr, row, col;
   struct key_value_pair_int** translation_table =
-    (struct key_value_pair_int**)malloc(no_of_rows*sizeof(struct key_value_pair_int*));
-  assert(translation_table != NULL);
+    (struct key_value_pair_int**)safemalloc(no_of_rows*sizeof(struct key_value_pair_int*));
   for (i = 0; i < no_of_rows; i++) {
     translation_table[i] =
-      (struct key_value_pair_int*)malloc(no_of_cols*sizeof(struct key_value_pair_int));
-    assert(translation_table[i] != NULL);
+      (struct key_value_pair_int*)safemalloc(no_of_cols*sizeof(struct key_value_pair_int));
     /* clear the table to zero */
     memset(translation_table[i], 0, no_of_cols*sizeof(struct key_value_pair_int));
   }
@@ -2128,16 +2118,12 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
   int corrected_codewords_length, erasures_length;
   int grid_no_of_errors=0, grid_no_of_erasures=0;
   int * erasures = NULL;
-  char * gs1_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  char * iso15434_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  char * hibc_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  char * iso15434_uii = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
+  char * gs1_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+  char * iso15434_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+  char * hibc_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+  char * iso15434_uii = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
   int condensed=0;
 
-  assert(gs1_result != NULL);
-  assert(iso15434_result != NULL);
-  assert(hibc_result != NULL);
-  assert(iso15434_uii != NULL);
   result[0] = 0;
   gs1_result[0] = 0;
   iso15434_result[0] = 0;

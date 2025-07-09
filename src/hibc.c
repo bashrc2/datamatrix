@@ -29,8 +29,7 @@ static char * hibc_primary_data(char result[], int end_index)
 
   if (end_index < 8) return NULL;
 
-  char * translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  assert(translated_str);
+  char * translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
   translated_str[0] = 0;
 
   /* first 4 characters */
@@ -58,8 +57,7 @@ static char * hibc_secondary_data_flag(char result[], int start_index, int end_i
 {
   int i, date_offset;
   char * date_value = NULL;
-  char * translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  assert(translated_str);
+  char * translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
   translated_str[0] = 0;
 
   if (result[start_index+1] == '$') {
@@ -233,27 +231,21 @@ static char * hibc_secondary_data(char result[], int start_index, int end_index)
     return hibc_secondary_data_flag(result, start_index, end_index);
   }
   else {
-    char * translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(translated_str);
+    char * translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
     translated_str[0] = 0;
 
-    char * data_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(data_str != NULL);
+    char * data_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
     data_str[0] = 0;
     for (i = start_index; i < end_index; i++) {
       decode_strcat_char(data_str, result[i]);
     }
 
-    char * id = (char*)malloc(5*sizeof(char));
-    char * id_human_readable = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    char * id_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(id != NULL);
-    assert(id_human_readable != NULL);
-    assert(id_value != NULL);
+    char * id = (char*)safemalloc(5*sizeof(char));
+    char * id_human_readable = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * id_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
 
     if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
-      translated_str = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(translated_str);
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
       decode_strcat(translated_str, id_human_readable);
       decode_strcat(translated_str, ": ");

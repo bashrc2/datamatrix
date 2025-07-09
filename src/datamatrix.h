@@ -666,6 +666,8 @@ int decode_strcat(char * result, char * text);
 
 int decode_strcat_char(char * result, char chr);
 
+void * safemalloc(int n);
+
 /* shrinkgrow.c */
 
 void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,

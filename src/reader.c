@@ -127,8 +127,7 @@ int read_datamatrix(unsigned char image_data[],
   int timing_pattern_sampling_radius = sampling_radius;
 
   unsigned char * original_image_data =
-    (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
-  assert(original_image_data != NULL);
+    (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
 
   float best_perimeter_x0=-1, best_perimeter_y0=0;
   float best_perimeter_x1=0, best_perimeter_y1=0;
@@ -157,12 +156,10 @@ int read_datamatrix(unsigned char image_data[],
 
   /* create threaded decode results */
   for (try_config = 0; try_config < no_of_configs; try_config++) {
-    thr_decode_result[try_config] = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-    assert(thr_decode_result[try_config] != NULL);
+    thr_decode_result[try_config] = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
     /* initialise as empty string */
     thr_decode_result[try_config][0] = 0;
-    debug_filename[try_config] = (char*)malloc(256*sizeof(char));
-    assert(debug_filename[try_config]);
+    debug_filename[try_config] = (char*)safemalloc(256*sizeof(char));
   }
 
   /* try a few different configurations of erosion/dilation, binary threshold
@@ -182,32 +179,24 @@ int read_datamatrix(unsigned char image_data[],
     float edge_threshold = edge_threshold_configs[try_config];
 
     unsigned char * thr_image_data =
-      (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
-    assert(thr_image_data != NULL);
+      (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
     unsigned char * thr_meanlight_image_data =
-      (unsigned char*)malloc(image_width*image_height*sizeof(unsigned char));
-    assert(thr_meanlight_image_data != NULL);
+      (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
     unsigned char * thr_original_thresholded_image_data =
-      (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
-    assert(thr_original_thresholded_image_data != NULL);
+      (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
     unsigned char * thr_mono_img =
-      (unsigned char*)malloc(image_width*image_height*sizeof(unsigned char));
-    assert(thr_mono_img != NULL);
+      (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
     unsigned char * thr_thresholded =
-      (unsigned char*)malloc(resized_thresholded_width *
+      (unsigned char*)safemalloc(resized_thresholded_width *
                              resized_thresholded_height * sizeof(unsigned char));
     unsigned char * thr_thresholded_buffer =
-      (unsigned char*)malloc(resized_thresholded_width *
+      (unsigned char*)safemalloc(resized_thresholded_width *
                              resized_thresholded_height * sizeof(unsigned char));
-    assert(thr_thresholded != NULL);
-    assert(thr_thresholded_buffer != NULL);
     unsigned char * thr_buffer_img =
-      (unsigned char*)malloc(image_width*image_height*sizeof(unsigned char));
-    assert(thr_buffer_img != NULL);
+      (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
     unsigned char * thr_resized_image_data =
-      (unsigned char*)malloc(resized_thresholded_width*resized_thresholded_height*
+      (unsigned char*)safemalloc(resized_thresholded_width*resized_thresholded_height*
                              image_bytesperpixel);
-    assert(thr_resized_image_data != NULL);
 
     /* make an image which will be used by this thread */
     memcpy(thr_image_data, original_image_data,

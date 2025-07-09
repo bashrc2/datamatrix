@@ -51,59 +51,41 @@ void init_line_segments(struct line_segments * segments,
   segments->no_of_segments = 0;
   segments->ignore_periphery = 0;
   segments->members =
-    (int*)malloc(segments->max_members*2*sizeof(int));
-  assert(segments->members != NULL);
+    (int*)safemalloc(segments->max_members*2*sizeof(int));
   segments->no_of_members =
-    (int*)malloc(segments->max_segments*sizeof(int));
-  assert(segments->no_of_members != NULL);
+    (int*)safemalloc(segments->max_segments*sizeof(int));
   segments->joins =
-    (unsigned char*)malloc(segments->max_segments*segments->max_segments*sizeof(unsigned char));
-  assert(segments->joins != NULL);
+    (unsigned char*)safemalloc(segments->max_segments*segments->max_segments*sizeof(unsigned char));
   segments->joins_sorted =
-    (int*)malloc(segments->max_segments*sizeof(int));
-  assert(segments->joins_sorted != NULL);
+    (int*)safemalloc(segments->max_segments*sizeof(int));
   segments->selected =
-    (unsigned char*)malloc(segments->max_segments*sizeof(unsigned char));
-  assert(segments->selected != NULL);
+    (unsigned char*)safemalloc(segments->max_segments*sizeof(unsigned char));
   segments->joined_length =
-    (int*)malloc(segments->max_segments*sizeof(int));
-  assert(segments->joined_length != NULL);
+    (int*)safemalloc(segments->max_segments*sizeof(int));
   segments->minimum_segment_length = 20;
 
-  segments->perimeter_left = (int*)malloc(height*sizeof(int));
-  assert(segments->perimeter_left != NULL);
-  segments->perimeter_right = (int*)malloc(height*sizeof(int));
-  assert(segments->perimeter_right != NULL);
-  segments->perimeter_top = (int*)malloc(width*sizeof(int));
-  assert(segments->perimeter_top != NULL);
-  segments->perimeter_bottom = (int*)malloc(width*sizeof(int));
-  assert(segments->perimeter_bottom != NULL);
-  segments->orientation_histogram = (int*)malloc(360*sizeof(int));
-  assert(segments->orientation_histogram != NULL);
+  segments->perimeter_left = (int*)safemalloc(height*sizeof(int));
+  segments->perimeter_right = (int*)safemalloc(height*sizeof(int));
+  segments->perimeter_top = (int*)safemalloc(width*sizeof(int));
+  segments->perimeter_bottom = (int*)safemalloc(width*sizeof(int));
+  segments->orientation_histogram = (int*)safemalloc(360*sizeof(int));
 
-  segments->orientation_histogram_edges = (int**)malloc(360*sizeof(int*));
-  assert(segments->orientation_histogram_edges != NULL);
+  segments->orientation_histogram_edges = (int**)safemalloc(360*sizeof(int*));
   for (i = 0; i < 360; i++) {
     segments->orientation_histogram_edges[i] =
-      (int*)malloc(MAX_ORIENTATION_EDGES*4*sizeof(int));
-    assert(segments->orientation_histogram_edges[i] != NULL);
+      (int*)safemalloc(MAX_ORIENTATION_EDGES*4*sizeof(int));
   }
 
-  segments->side_edges = (int**)malloc(4*sizeof(int*));
-  assert(segments->side_edges);
+  segments->side_edges = (int**)safemalloc(4*sizeof(int*));
   for (i = 0; i < 4; i++) {
     segments->side_edges[i] =
-      (int*)malloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
-    assert(segments->side_edges[i]);
+      (int*)safemalloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
   }
-  segments->side_edges_count = (int*)malloc(4*sizeof(int));
-  assert(segments->side_edges_count != NULL);
+  segments->side_edges_count = (int*)safemalloc(4*sizeof(int));
   segments->linefit =
-    (int*)malloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
-  assert(segments->linefit != NULL);
+    (int*)safemalloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
   segments->linefit2 =
-    (int*)malloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
-  assert(segments->linefit2 != NULL);
+    (int*)safemalloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
 
   segments->edge_centre_hits = 0;
 }

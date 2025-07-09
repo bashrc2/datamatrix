@@ -483,8 +483,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 {
   if (strstr(id_human_readable, "YYYYMMDDHHMM") != NULL) {
     if (strlen(id_value) >= 12) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat_char(date_value, id_value[0]);
@@ -513,8 +512,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYYYMMDDYYYYMMDD") != NULL) {
     if (strlen(id_value) >= 16) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat_char(date_value, id_value[0]);
@@ -549,8 +547,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYYYMMDD") != NULL) {
     if (strlen(id_value) >= 8) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat_char(date_value, id_value[0]);
@@ -571,8 +568,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYYYDDMM") != NULL) {
     if (strlen(id_value) >= 8) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat_char(date_value, id_value[0]);
@@ -593,8 +589,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYYYWW") != NULL) {
     if (strlen(id_value) >= 6) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat_char(date_value, id_value[0]);
@@ -611,8 +606,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYWWYYWW") != NULL) {
     if (strlen(id_value) >= 8) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat(date_value, "20");
@@ -637,8 +631,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYMMDDHH") != NULL) {
     if (strlen(id_value) >= 8) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat(date_value, "20");
@@ -663,8 +656,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYMMDD") != NULL) {
     if (strlen(id_value) >= 6) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat(date_value, "20");
@@ -684,8 +676,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYDDMM") != NULL) {
     if (strlen(id_value) >= 6) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat(date_value, "20");
@@ -705,8 +696,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "DDMMYY") != NULL) {
     if (strlen(id_value) >= 6) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* day */
       decode_strcat_char(date_value, id_value[0]);
@@ -726,8 +716,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "MMDDYY") != NULL) {
     if (strlen(id_value) >= 6) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* month */
       decode_strcat_char(date_value, id_value[0]);
@@ -748,8 +737,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
   if ((strstr(id_human_readable, "YYJJJHH") != NULL) ||
       (strstr(id_human_readable, "YYDDDHH") != NULL)) {
     if (strlen(id_value) >= 7) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat(date_value, "20");
@@ -772,8 +760,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
   if ((strstr(id_human_readable, "YYJJJ") != NULL) ||
       (strstr(id_human_readable, "YYDDD") != NULL)) {
     if (strlen(id_value) >= 5) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat(date_value, "20");
@@ -790,8 +777,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "MMYY") != NULL) {
     if (strlen(id_value) >= 4) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* month */
       decode_strcat_char(date_value, id_value[0]);
@@ -807,8 +793,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
   if (strstr(id_human_readable, "YYWW") != NULL) {
     if (strlen(id_value) >= 4) {
-      char * date_value = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-      assert(date_value != NULL);
+      char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* year */
       decode_strcat(date_value, "20");

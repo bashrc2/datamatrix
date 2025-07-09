@@ -88,9 +88,8 @@ static void save_reflectance_histogram(unsigned char image_data[],
   unsigned int max=0;
   unsigned int histogram[256];
   unsigned char * histogram_image =
-    (unsigned char*)malloc(histogram_image_width*histogram_image_height*3*
+    (unsigned char*)safemalloc(histogram_image_width*histogram_image_height*3*
                            sizeof(unsigned char));
-  assert(histogram_image != NULL);
 
   /* clear the histogram */
   memset(&histogram[0], 0, 256*sizeof(unsigned int));

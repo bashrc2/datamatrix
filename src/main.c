@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
     }
     /* create an array to store the enlarged image */
     resized_image_data =
-      (unsigned char*)malloc(resized_image_width*resized_image_height*
+      (unsigned char*)safemalloc(resized_image_width*resized_image_height*
                              image_bitsperpixel/8);
     if (resized_image_data == NULL) return -653;
     /* resize the image */
@@ -251,8 +251,7 @@ int main(int argc, char* argv[])
   }
 
 
-  char * decode_result = (char*)malloc(MAX_DECODE_LENGTH*sizeof(char));
-  assert(decode_result != NULL);
+  char * decode_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
   read_datamatrix(image_data, image_width, image_height,
                   image_bitsperpixel, debug,
                   &output_filename[0],

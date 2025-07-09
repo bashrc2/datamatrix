@@ -22,6 +22,16 @@
 
 #include "datamatrix.h"
 
+void * safemalloc(int n)
+{
+	void * ptr = malloc(n);
+	if (!ptr) {
+		fprintf(stderr, "Malloc(%d) failed\n", n);
+		exit(1);
+	}
+	return ptr;
+}
+
 /**
  * \brief a safe version of strcat which avoids buffer overrun
  * \param result the string to be added to

@@ -693,7 +693,7 @@ static void orient_grid(struct grid_2d * grid)
   if (right_hits > left_hits) {
     /* mirror */
     grid->mirrored = 1;
-    temp = (unsigned char*)malloc(grid->dimension_x*sizeof(unsigned char));
+    temp = (unsigned char*)safemalloc(grid->dimension_x*sizeof(unsigned char));
     if (temp != NULL) {
       /* mirror occupancy */
       for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
@@ -725,7 +725,7 @@ static void orient_grid(struct grid_2d * grid)
   if (top_hits > bottom_hits) {
     /* flip */
     grid->flipped = 1;
-    temp = (unsigned char*)malloc(grid->dimension_y*sizeof(unsigned char));
+    temp = (unsigned char*)safemalloc(grid->dimension_y*sizeof(unsigned char));
     if (temp != NULL) {
       /* flip occupancy */
       for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
@@ -780,110 +780,82 @@ static void create_grid_base(int dimension_x, int dimension_y,
   grid->gs1_datamatrix = 0;
 
   /* generate the grid cells and initialise them to zero */
-  grid->occupancy = (unsigned char**)malloc(dimension_x*sizeof(unsigned char*));
-  assert(grid->occupancy != NULL);
+  grid->occupancy = (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
   for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->occupancy[grid_x] = (unsigned char *)malloc(dimension_y*sizeof(unsigned char));
-    assert(grid->occupancy[grid_x] != NULL);
+    grid->occupancy[grid_x] = (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
     memset(grid->occupancy[grid_x], 0, dimension_y * sizeof(unsigned char));
   }
 
   /* generate the grid buffer cells and initialise them to zero */
-  grid->occupancy_buffer = (unsigned char**)malloc(dimension_x*sizeof(unsigned char*));
-  assert(grid->occupancy_buffer != NULL);
+  grid->occupancy_buffer = (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
   for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->occupancy_buffer[grid_x] = (unsigned char *)malloc(dimension_y*sizeof(unsigned char));
-    assert(grid->occupancy_buffer[grid_x] != NULL);
+    grid->occupancy_buffer[grid_x] = (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
     memset(grid->occupancy_buffer[grid_x], 0, dimension_y * sizeof(unsigned char));
   }
 
   /* generate the damaged cells and initialise them to zero */
-  grid->damage = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
-  assert(grid->damage != NULL);
+  grid->damage = (unsigned char*)safemalloc(dimension_x*dimension_x*sizeof(unsigned char));
   memset(grid->damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
 
   /* generate original damaged cells for use when drawing damage in an image */
-  grid->original_damage = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
-  assert(grid->original_damage != NULL);
+  grid->original_damage = (unsigned char*)safemalloc(dimension_x*dimension_x*sizeof(unsigned char));
   memset(grid->original_damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
 
   /* generate the damaged cells buffer and initialise them to zero */
-  grid->damage_buffer = (unsigned char*)malloc(dimension_x*dimension_x*sizeof(unsigned char));
-  assert(grid->damage_buffer != NULL);
+  grid->damage_buffer = (unsigned char*)safemalloc(dimension_x*dimension_x*sizeof(unsigned char));
   memset(grid->damage_buffer, 0, dimension_x*dimension_y * sizeof(unsigned char));
 
   /* erasures */
-  grid->erasures = (int*)malloc(MAX_GRID_DIMENSION*MAX_GRID_DIMENSION*sizeof(int));
-  assert(grid->erasures != NULL);
+  grid->erasures = (int*)safemalloc(MAX_GRID_DIMENSION*MAX_GRID_DIMENSION*sizeof(int));
 
   /* codeword array, cleared to zero */
-  grid->codeword = (unsigned char*)malloc(MAX_CODEWORDS*sizeof(unsigned char));
-  assert(grid->codeword != NULL);
+  grid->codeword = (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
   memset(grid->codeword, 0, MAX_CODEWORDS * sizeof(unsigned char));
 
   /* codeword pattern array, cleared to zero */
-  grid->codeword_pattern = (int**)malloc(dimension_x*sizeof(int*));
-  assert(grid->codeword_pattern != NULL);
+  grid->codeword_pattern = (int**)safemalloc(dimension_x*sizeof(int*));
   for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->codeword_pattern[grid_x] = (int *)malloc(dimension_y*sizeof(int));
-    assert(grid->codeword_pattern[grid_x] != NULL);
+    grid->codeword_pattern[grid_x] = (int *)safemalloc(dimension_y*sizeof(int));
     memset(grid->codeword_pattern[grid_x], 0, dimension_y * sizeof(int));
   }
 
-  grid->corrected_codewords = (unsigned char*)malloc(MAX_CODEWORDS*sizeof(unsigned char));
-  assert(grid->corrected_codewords != NULL);
+  grid->corrected_codewords = (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
   memset(grid->corrected_codewords, 0, MAX_CODEWORDS * sizeof(unsigned char));
 
-  grid->data_bytes = (unsigned char*)malloc(8*sizeof(unsigned char));
-  assert(grid->data_bytes != NULL);
+  grid->data_bytes = (unsigned char*)safemalloc(8*sizeof(unsigned char));
 
-  grid->m_Pp = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->m_Pp != NULL);
+  grid->m_Pp = (int*)safemalloc(max_bits*sizeof(int));
 
   /* index->polynomial form conversion table */
-  grid->m_alpha_to = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->m_alpha_to != NULL);
+  grid->m_alpha_to = (int*)safemalloc(max_bits*sizeof(int));
 
   /* Polynomial->index form conversion table */
-  grid->m_index_of = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->m_index_of != NULL);
+  grid->m_index_of = (int*)safemalloc(max_bits*sizeof(int));
 
   /* Generator polynomial g(x)  index form */
-  grid->m_Gg = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->m_Gg != NULL);
+  grid->m_Gg = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->m_taltab = (unsigned char*)malloc(max_bits*sizeof(unsigned char));
-  assert(grid->m_taltab != NULL);
+  grid->m_taltab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
 
-  grid->m_tal1tab = (unsigned char*)malloc(max_bits*sizeof(unsigned char));
-  assert(grid->m_tal1tab != NULL);
+  grid->m_tal1tab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
 
-  grid->data = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->data != NULL);
+  grid->data = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->lambda = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->lambda != NULL);
+  grid->lambda = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->s = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->s != NULL);
+  grid->s = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->b = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->b != NULL);
+  grid->b = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->t = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->t != NULL);
+  grid->t = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->omega = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->omega != NULL);
+  grid->omega = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->root = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->root != NULL);
+  grid->root = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->reg = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->reg != NULL);
+  grid->reg = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->loc = (int*)malloc(max_bits*sizeof(int));
-  assert(grid->loc != NULL);
+  grid->loc = (int*)safemalloc(max_bits*sizeof(int));
 }
 
 /**
