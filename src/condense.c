@@ -23,6 +23,29 @@
 #include "datamatrix.h"
 
 /**
+ * \brief returns the number of blocks for the given axis dimension
+ * \param grid grid object
+ * \param axis_dimension a grid dimension
+ * \return number of data blocks in the dimension
+ */
+static int grid_data_block_axis(struct grid_2d * grid,
+                                int axis_dimension)
+{
+  int blocks = 1;
+
+  if ((axis_dimension >= 32) && (axis_dimension <= 52)) {
+    blocks = 2;
+  }
+  else if ((axis_dimension >= 64) && (axis_dimension <= 104)) {
+    blocks = 4;
+  }
+  else if (axis_dimension >= 120) {
+    blocks = 6;
+  }
+  return blocks;
+}
+
+/**
  * \brief some larger datamatrix may consist of multiple blocks/regions
  *        with internal timing borders. This returns the number
  *        of readable blocks in both dimensions
@@ -34,201 +57,8 @@ static void grid_data_blocks(struct grid_2d * grid,
                              int * blocks_x,
                              int * blocks_y)
 {
-  /* most grids will only contain a single block */
-  *blocks_x=1;
-  *blocks_y=1;
-
-  if (grid->dimension_x == grid->dimension_y) {
-    /* square */
-    if ((grid->dimension_x >= 32) &&
-        (grid->dimension_x <= 52)) {
-      *blocks_x = 2;
-      *blocks_y = 2;
-    }
-    else if ((grid->dimension_x >= 64) &&
-             (grid->dimension_x <= 104)) {
-      *blocks_x = 4;
-      *blocks_y = 4;
-    }
-    else if (grid->dimension_x >= 120) {
-      *blocks_x = 6;
-      *blocks_y = 6;
-    }
-
-    return;
-  }
-
-  /* rectangular */
-  if ((grid->dimension_x == 32) &&
-      (grid->dimension_y == 8)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 8) &&
-           (grid->dimension_y == 32)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 12) &&
-           (grid->dimension_y == 36)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 16) &&
-           (grid->dimension_y == 36)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 36) &&
-           (grid->dimension_y == 12)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 36) &&
-           (grid->dimension_y == 16)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 48) &&
-           (grid->dimension_y == 16)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 16) &&
-           (grid->dimension_y == 48)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 8) &&
-           (grid->dimension_y == 48)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 48) &&
-           (grid->dimension_y == 8)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 8) &&
-           (grid->dimension_y == 64)) {
-    *blocks_x = 1;
-    *blocks_y = 4;
-  }
-  else if ((grid->dimension_x == 64) &&
-           (grid->dimension_y == 8)) {
-    *blocks_x = 4;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 12) &&
-           (grid->dimension_y == 48)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 48) &&
-           (grid->dimension_y == 12)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 12) &&
-           (grid->dimension_y == 64)) {
-    *blocks_x = 1;
-    *blocks_y = 4;
-  }
-  else if ((grid->dimension_x == 64) &&
-           (grid->dimension_y == 12)) {
-    *blocks_x = 4;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 16) &&
-           (grid->dimension_y == 64)) {
-    *blocks_x = 1;
-    *blocks_y = 4;
-  }
-  else if ((grid->dimension_x == 64) &&
-           (grid->dimension_y == 16)) {
-    *blocks_x = 4;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 24) &&
-           (grid->dimension_y == 32)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 32) &&
-           (grid->dimension_y == 24)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 24) &&
-           (grid->dimension_y == 36)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 36) &&
-           (grid->dimension_y == 24)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 24) &&
-           (grid->dimension_y == 48)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 48) &&
-           (grid->dimension_y == 24)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 24) &&
-           (grid->dimension_y == 64)) {
-    *blocks_x = 1;
-    *blocks_y = 4;
-  }
-  else if ((grid->dimension_x == 64) &&
-           (grid->dimension_y == 24)) {
-    *blocks_x = 4;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 26) &&
-           (grid->dimension_y == 32)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 32) &&
-           (grid->dimension_y == 26)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 26) &&
-           (grid->dimension_y == 40)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 40) &&
-           (grid->dimension_y == 26)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 26) &&
-           (grid->dimension_y == 48)) {
-    *blocks_x = 1;
-    *blocks_y = 2;
-  }
-  else if ((grid->dimension_x == 48) &&
-           (grid->dimension_y == 26)) {
-    *blocks_x = 2;
-    *blocks_y = 1;
-  }
-  else if ((grid->dimension_x == 26) &&
-           (grid->dimension_y == 64)) {
-    *blocks_x = 1;
-    *blocks_y = 4;
-  }
-  else if ((grid->dimension_x == 64) &&
-           (grid->dimension_y == 26)) {
-    *blocks_x = 4;
-    *blocks_y = 1;
-  }
+  *blocks_x = grid_data_block_axis(grid, grid->dimension_x);
+  *blocks_y = grid_data_block_axis(grid, grid->dimension_y);
 }
 
 /**
