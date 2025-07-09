@@ -23,7 +23,8 @@
 #include "datamatrix.h"
 
 /**
- * \brief returns the number of blocks for the given axis dimension
+ * \brief returns the number of data blocks/regions for the given axis
+ *        dimension
  * \param grid grid object
  * \param axis_dimension a grid dimension
  * \return number of data blocks in the dimension
@@ -48,10 +49,10 @@ static int grid_data_block_axis(struct grid_2d * grid,
 /**
  * \brief some larger datamatrix may consist of multiple blocks/regions
  *        with internal timing borders. This returns the number
- *        of readable blocks in both dimensions
+ *        of readable blocks/regions in both dimensions
  * \param grid grid object
- * \param blocks_x number of readable blocks in the x dimension
- * \param blocks_y number of readable blocks in the y dimension
+ * \param blocks_x number of readable data blocks in the x dimension
+ * \param blocks_y number of readable data blocks in the y dimension
  */
 static void grid_data_blocks(struct grid_2d * grid,
                              int * blocks_x,
@@ -62,8 +63,8 @@ static void grid_data_blocks(struct grid_2d * grid,
 }
 
 /**
- * \brief larger datamatrix contain multiple blocks of data.
- *        This condenses them into a single block
+ * \brief larger datamatrix contain multiple data blocks/regions.
+ *        This condenses them into a single data block
  * \param grid grid object
  */
 unsigned char condense_data_blocks(struct grid_2d * grid,
