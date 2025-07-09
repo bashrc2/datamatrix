@@ -29,18 +29,18 @@
  * \param axis_dimension a grid dimension
  * \return number of data blocks in the dimension
  */
-static int grid_data_block_axis(struct grid_2d * grid,
-                                int axis_dimension)
+static int grid_data_blocks_axis(struct grid_2d * grid,
+                                 int axis_dimension)
 {
   int blocks = 1;
 
-  if ((axis_dimension >= 32) && (axis_dimension <= 52)) {
+  if (axis_dimension >= 32) {
     blocks = 2;
   }
-  else if ((axis_dimension >= 64) && (axis_dimension <= 104)) {
+  if (axis_dimension >= 64) {
     blocks = 4;
   }
-  else if (axis_dimension >= 120) {
+  if (axis_dimension >= 120) {
     blocks = 6;
   }
   return blocks;
@@ -58,8 +58,8 @@ static void grid_data_blocks(struct grid_2d * grid,
                              int * blocks_x,
                              int * blocks_y)
 {
-  *blocks_x = grid_data_block_axis(grid, grid->dimension_x);
-  *blocks_y = grid_data_block_axis(grid, grid->dimension_y);
+  *blocks_x = grid_data_blocks_axis(grid, grid->dimension_x);
+  *blocks_y = grid_data_blocks_axis(grid, grid->dimension_y);
 }
 
 /**
