@@ -100,6 +100,8 @@ int read_datamatrix(unsigned char image_data[],
                     float aperture,
                     int light_nm,
                     int light_angle_degrees,
+                    unsigned char is_square,
+                    unsigned char is_rectangle,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -410,11 +412,13 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x1, perimeter_y1,
                                  perimeter_x2, perimeter_y2,
                                  perimeter_x3, perimeter_y3);
-        rectangular = 0;
+        rectangular = is_rectangle;
         if ((aspect_ratio_percent < 90) || (aspect_ratio_percent > 110)) {
+          if (is_square == 1) continue;
           rectangular = rectangular_joined_line_segments(aspect_ratio_percent);
           if (rectangular == 0) continue;
         }
+        else if (is_rectangle == 1) continue;
 
         /* check that the corners are approximately square */
         /* first corner */

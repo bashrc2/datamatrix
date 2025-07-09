@@ -35,11 +35,13 @@ sudo make install
 ## Command options
 
 ``` bash
--f --filename [text]          Filename of a PNG file containing the datamatrix image
+-f --filename [PNG file]      Filename of a PNG file containing the datamatrix image
+--square                      Matrix is expected to be square
+--rectangle                   Matrix is expected to be rectangular
 --quality                     Show quality metrics for verification reports
--o --output [image PNG file]  Save an image showing the detected datamatrix
--g --grid [image PNG file]    Save an image showing the detected grid
---hist [image PNG file]       Save reflectance histogram
+-o --output [PNG file]        Save an image showing the detected datamatrix
+-g --grid [PNG file]          Save an image showing the detected grid
+--hist [PNG file]             Save reflectance histogram
 --histcentres                 Only sample grid cell centres for reflectance histogram
 --mingrid [8..144]            Minimum matrix dimension
 --maxgrid [8..144]            Maximum matrix dimension

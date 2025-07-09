@@ -64,6 +64,10 @@ int main(int argc, char* argv[])
   int light_nm = 670;
   int light_angle_degrees = 90;
 
+  /* only looks for squares or rectangles */
+  unsigned char is_square = 0;
+  unsigned char is_rectangle = 0;
+
   /* no filename specified */
   filename[0] = 0;
 
@@ -175,6 +179,15 @@ int main(int argc, char* argv[])
       debug = 1;
       loop_incr = 1;
     }
+    if (strcmp(argv[i],"--square")==0) {
+      is_square = 1;
+      loop_incr = 1;
+    }
+    if ((strcmp(argv[i],"--rectangle")==0) ||
+        (strcmp(argv[i],"--rectangular")==0)) {
+      is_rectangle = 1;
+      loop_incr = 1;
+    }
     if ((strcmp(argv[i],"--histcentres")==0) ||
         (strcmp(argv[i],"--histcenters")==0) ||
         (strcmp(argv[i],"--modulecentres")==0) ||
@@ -271,6 +284,7 @@ int main(int argc, char* argv[])
                   sampling_radius,
                   min_segment_length,
                   aperture, light_nm, light_angle_degrees,
+                  is_square, is_rectangle,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

@@ -793,6 +793,8 @@ int read_datamatrix(unsigned char image_data[],
                     float aperture,
                     int light_nm,
                     int light_angle_degrees,
+                    unsigned char is_square,
+                    unsigned char is_rectangle,
                     char * decode_result);
 
 /* tests.c */
