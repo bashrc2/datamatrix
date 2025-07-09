@@ -188,15 +188,15 @@ int read_datamatrix(unsigned char image_data[],
       (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
     unsigned char * thr_thresholded =
       (unsigned char*)safemalloc(resized_thresholded_width *
-                             resized_thresholded_height * sizeof(unsigned char));
+                                 resized_thresholded_height * sizeof(unsigned char));
     unsigned char * thr_thresholded_buffer =
       (unsigned char*)safemalloc(resized_thresholded_width *
-                             resized_thresholded_height * sizeof(unsigned char));
+                                 resized_thresholded_height * sizeof(unsigned char));
     unsigned char * thr_buffer_img =
       (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
     unsigned char * thr_resized_image_data =
       (unsigned char*)safemalloc(resized_thresholded_width*resized_thresholded_height*
-                             image_bytesperpixel);
+                                 image_bytesperpixel);
 
     /* make an image which will be used by this thread */
     memcpy(thr_image_data, original_image_data,
