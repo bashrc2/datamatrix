@@ -118,7 +118,6 @@ int read_datamatrix(unsigned char image_data[],
   int dilate_itterations_configs[] = {9, 5, 4, 6, 5, 2};
   float edge_threshold_configs[] = {5, 1, 1, 1, 5, 5};
 
-  struct canny_params cannyparams[no_of_configs];
   struct grid_2d grid[no_of_configs];
   struct line_segments segments[no_of_configs];
   char * thr_decode_result[no_of_configs];
@@ -191,12 +190,19 @@ int read_datamatrix(unsigned char image_data[],
     unsigned char * thr_original_thresholded_image_data =
       (unsigned char*)malloc(image_width*image_height*image_bytesperpixel);
     assert(thr_original_thresholded_image_data != NULL);
-    unsigned char * thr_mono_img = (unsigned char*)malloc(image_width*image_height);
+    unsigned char * thr_mono_img =
+      (unsigned char*)malloc(image_width*image_height*sizeof(unsigned char));
     assert(thr_mono_img != NULL);
     unsigned char * thr_thresholded =
-      (unsigned char*)malloc(resized_thresholded_width*resized_thresholded_height);
+      (unsigned char*)malloc(resized_thresholded_width *
+                             resized_thresholded_height * sizeof(unsigned char));
+    unsigned char * thr_thresholded_buffer =
+      (unsigned char*)malloc(resized_thresholded_width *
+                             resized_thresholded_height * sizeof(unsigned char));
     assert(thr_thresholded != NULL);
-    unsigned char * thr_buffer_img = (unsigned char*)malloc(image_width*image_height);
+    assert(thr_thresholded_buffer != NULL);
+    unsigned char * thr_buffer_img =
+      (unsigned char*)malloc(image_width*image_height*sizeof(unsigned char));
     assert(thr_buffer_img != NULL);
     unsigned char * thr_resized_image_data =
       (unsigned char*)malloc(resized_thresholded_width*resized_thresholded_height*
@@ -275,6 +281,7 @@ int read_datamatrix(unsigned char image_data[],
       free(thr_original_thresholded_image_data);
       free(thr_mono_img);
       free(thr_thresholded);
+      free(thr_thresholded_buffer);
       free(thr_buffer_img);
       free(thr_resized_image_data);
       continue;
@@ -298,9 +305,9 @@ int read_datamatrix(unsigned char image_data[],
                      resized_thresholded_width,resized_thresholded_height,
                      image_bitsperpixel,thr_thresholded);
 
-      detect_edges(thr_thresholded,resized_thresholded_width,
-                   resized_thresholded_height,
-                   edge_threshold, &cannyparams[try_config]);
+      detect_edges_binary(thr_thresholded,resized_thresholded_width,
+                          resized_thresholded_height,
+                          thr_thresholded_buffer);
 
       /* convert the mono image back to colour */
       mono_to_colour(thr_thresholded,

@@ -147,8 +147,6 @@ A set of images will be produced which show the detection process at each stage.
 
 ## References
 
-[Canny edge detection](https://en.wikipedia.org/wiki/Canny_edge_detector)
-
 [Data Matrix](https://en.wikipedia.org/wiki/Data_Matrix)
 
 [Edge linking](https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html)

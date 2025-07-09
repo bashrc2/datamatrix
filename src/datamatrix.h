@@ -179,52 +179,6 @@ struct line_segments {
   int * linefit2;
 };
 
-struct Kernel {
-  unsigned int Size;
-  float * Data;
-};
-
-
-struct canny_params {
-  float    GAUSSIAN_CUT_OFF;
-  float    MAGNITUDE_SCALE;
-  float    MAGNITUDE_LIMIT;
-  float    MAGNITUDE_LIMIT_SQR;
-  int      MAGNITUDE_MAX;
-
-  float    gaussianKernelRadius;
-  float    lowThreshold;
-  float    highThreshold;
-  unsigned int gaussianKernelWidth;
-
-  struct Kernel   kernel;
-  struct Kernel   diffKernel;
-  unsigned int picSize;
-
-  int    * data;
-  int    * magnitude;
-
-  float  * xConv;
-  float  * yConv;
-  float  * xGradient;
-  float  * yGradient;
-
-  int    * edge_pixel_index;
-  float  * edge_magnitude;
-
-  int     automaticThresholds;
-  int    * edges;
-  int      no_of_edges;
-  unsigned char * edges_image;
-  int     image_contrast;
-
-  float   contrast_multiplier;
-  float   lowThresholdOffset;
-  float   lowThresholdMultiplier;
-  float   highhresholdOffset;
-  float   highhresholdMultiplier;
-};
-
 /* threshold.c */
 
 int meanlight_threshold(unsigned char img[], int width, int height,
@@ -280,10 +234,9 @@ void correct_background_gradient(unsigned char * img,
 
 /* edges.c */
 
-void detect_edges(unsigned char img[],
-                  int width, int height,
-                  float threshold,
-                  struct canny_params * cannyparams);
+void detect_edges_binary(unsigned char img[],
+                         int width, int height,
+                         unsigned char buffer[]);
 
 void get_line_segments(unsigned char edges_image[], int width, int height,
                        struct line_segments * segments,
