@@ -129,6 +129,7 @@ int main(int argc, char* argv[])
     }
     if ((strcmp(argv[i],"--hist")==0) ||
         (strcmp(argv[i],"--histogram")==0)) {
+      verify = 1;
       decode_strcat(&histogram_filename[0], argv[i+1]);
     }
     if ((strcmp(argv[i],"-g")==0) ||
@@ -168,10 +169,12 @@ int main(int argc, char* argv[])
       loop_incr = 1;
     }
     if (strcmp(argv[i],"--csv")==0) {
+      verify = 1;
       csv = 1;
       loop_incr = 1;
     }
     if (strcmp(argv[i],"--json")==0) {
+      verify = 1;
       json = 1;
       loop_incr = 1;
     }
