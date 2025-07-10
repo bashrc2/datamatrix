@@ -109,8 +109,7 @@ int read_datamatrix(unsigned char image_data[],
   int image_bytesperpixel = image_bitsperpixel/8;
   int try_config, best_config = -1;
   unsigned char human_readable = 1;
-  const int segment_join_radius=3;
-  const int segment_roi_percent = 70;
+  const int segment_join_radius=6;
 
   /* the magic numbers
    Note that these are doubled sets so that we can also vary the
@@ -179,6 +178,7 @@ int read_datamatrix(unsigned char image_data[],
 #pragma omp parallel for
   for (try_config = 0; try_config < max_config; try_config++) {
     int meanlight_sampling_radius_percent = ml_sampling_radius[try_config];
+    int segment_roi_percent = meanlight_sampling_radius_percent + 20;
     float corner_radians, angle_degrees;
     int curr_sampling_radius;
     int most_probable_frequency=0;
