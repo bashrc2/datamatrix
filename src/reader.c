@@ -128,6 +128,8 @@ int read_datamatrix(unsigned char image_data[],
     image_height * resized_thresholded_width / image_width;
   int timing_pattern_sampling_radius = sampling_radius;
 
+  /* keep the original image data, for parallelization and later visualisations
+   such as showing the detected perimeter */
   unsigned char * original_image_data =
     (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
 
@@ -182,21 +184,27 @@ int read_datamatrix(unsigned char image_data[],
 
     unsigned char * thr_image_data =
       (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
+    /* thresholded/binary image */
     unsigned char * thr_meanlight_image_data =
       (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
-    unsigned char * thr_original_thresholded_image_data =
+    /* the original thresholded/binary image, retained for parallelization */
+    unsigned char * thr_original_meanlight_image_data =
       (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
+    /* full size mono image used for perimeter fitting */
     unsigned char * thr_mono_img =
       (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
-    unsigned char * thr_thresholded =
+    /* small binary image used for perimeter detection */
+    unsigned char * thr_binary_image =
       (unsigned char*)safemalloc(resized_thresholded_width *
                                  resized_thresholded_height * sizeof(unsigned char));
-    unsigned char * thr_thresholded_buffer =
-      (unsigned char*)safemalloc(resized_thresholded_width *
-                                 resized_thresholded_height * sizeof(unsigned char));
+    /* buffer images, full size and small */
     unsigned char * thr_buffer_img =
       (unsigned char*)safemalloc(image_width*image_height*sizeof(unsigned char));
-    unsigned char * thr_resized_image_data =
+    unsigned char * thr_binary_image_buffer =
+      (unsigned char*)safemalloc(resized_thresholded_width *
+                                 resized_thresholded_height * sizeof(unsigned char));
+    /* array used to store edges and edge segments */
+    unsigned char * thr_edges_image_data =
       (unsigned char*)safemalloc(resized_thresholded_width*resized_thresholded_height*
                                  image_bytesperpixel);
 
@@ -228,7 +236,7 @@ int read_datamatrix(unsigned char image_data[],
                      image_width, image_height, 24, thr_image_data);
     }
     /* keep a copy of the thresholded data for subsequent decoding */
-    memcpy(thr_original_thresholded_image_data, thr_image_data,
+    memcpy(thr_original_meanlight_image_data, thr_image_data,
            image_width*image_height*image_bitsperpixel/8);
 
 
@@ -260,28 +268,29 @@ int read_datamatrix(unsigned char image_data[],
       }
     }
 
-    /* resize the image */
+    /* resize the image to something small which will later be used for
+       edge detection and edge segments */
     if (resize_thresholded_image(thr_image_data, image_width, image_height,
                                  image_bitsperpixel,
-                                 thr_resized_image_data,
+                                 thr_edges_image_data,
                                  resized_thresholded_width,
                                  resized_thresholded_height) != 0) {
       printf("Failed to resize thresholded image\n");
       free(thr_image_data);
       free(thr_meanlight_image_data);
-      free(thr_original_thresholded_image_data);
+      free(thr_original_meanlight_image_data);
       free(thr_mono_img);
-      free(thr_thresholded);
-      free(thr_thresholded_buffer);
+      free(thr_binary_image);
+      free(thr_binary_image_buffer);
       free(thr_buffer_img);
-      free(thr_resized_image_data);
+      free(thr_edges_image_data);
       continue;
     }
     if (debug == 1) {
       sprintf(debug_filename[try_config], "debug_%d_04_thresholded.png", try_config);
       write_png_file(debug_filename[try_config],
                      resized_thresholded_width, resized_thresholded_height, 24,
-                     thr_resized_image_data);
+                     thr_edges_image_data);
     }
 
     if (edge_threshold > 0) {
@@ -292,82 +301,82 @@ int read_datamatrix(unsigned char image_data[],
       float perimeter_x2=0, perimeter_y2=0;
       float perimeter_x3=0, perimeter_y3=0;
 
-      colour_to_mono(thr_resized_image_data,
+      colour_to_mono(thr_edges_image_data,
                      resized_thresholded_width,resized_thresholded_height,
-                     image_bitsperpixel,thr_thresholded);
+                     image_bitsperpixel,thr_binary_image);
 
-      detect_edges_binary(thr_thresholded,resized_thresholded_width,
+      detect_edges_binary(thr_binary_image,resized_thresholded_width,
                           resized_thresholded_height,
-                          thr_thresholded_buffer);
+                          thr_binary_image_buffer);
 
       /* convert the mono image back to colour */
-      mono_to_colour(thr_thresholded,
+      mono_to_colour(thr_binary_image,
                      resized_thresholded_width, resized_thresholded_height,
-                     image_bitsperpixel, thr_resized_image_data);
+                     image_bitsperpixel, thr_edges_image_data);
       if (debug == 1) {
         sprintf(debug_filename[try_config], "debug_%d_05_edges.png", try_config);
         write_png_file(debug_filename[try_config], resized_thresholded_width,
-                       resized_thresholded_height, 24, thr_resized_image_data);
+                       resized_thresholded_height, 24, thr_edges_image_data);
       }
 
-      get_line_segments(thr_thresholded, resized_thresholded_width,
+      get_line_segments(thr_binary_image, resized_thresholded_width,
                         resized_thresholded_height, &segments[try_config],
                         min_segment_length);
 
       if (debug == 1) {
-        show_line_segments(&segments[try_config], thr_resized_image_data,
+        show_line_segments(&segments[try_config], thr_edges_image_data,
                            resized_thresholded_width, resized_thresholded_height,
                            image_bitsperpixel);
         sprintf(debug_filename[try_config], "debug_%d_06a_line_segments.png", try_config);
         write_png_file(debug_filename[try_config],
                        resized_thresholded_width, resized_thresholded_height,
-                       24, thr_resized_image_data);
+                       24, thr_edges_image_data);
       }
 
       segment_edges_within_roi(&segments[try_config], resized_thresholded_width,
                                resized_thresholded_height, segment_roi_percent);
 
       if (debug == 1) {
-        show_line_segments(&segments[try_config], thr_resized_image_data,
+        show_line_segments(&segments[try_config], thr_edges_image_data,
                            resized_thresholded_width, resized_thresholded_height,
                            image_bitsperpixel);
         sprintf(debug_filename[try_config],
                 "debug_%d_06b_line_segments_with_roi.png", try_config);
         write_png_file(debug_filename[try_config],
                        resized_thresholded_width, resized_thresholded_height,
-                       24, thr_resized_image_data);
+                       24, thr_edges_image_data);
       }
 
       join_line_segments(&segments[try_config], segment_join_radius);
 
       if (debug == 1) {
-        show_line_segments(&segments[try_config], thr_resized_image_data,
+        show_line_segments(&segments[try_config], thr_edges_image_data,
                            resized_thresholded_width, resized_thresholded_height,
                            image_bitsperpixel);
         sprintf(debug_filename[try_config],
                 "debug_%d_06c_joined_line_segments.png", try_config);
         write_png_file(debug_filename[try_config],
                        resized_thresholded_width, resized_thresholded_height,
-                       24, thr_resized_image_data);
+                       24, thr_edges_image_data);
       }
 
       if (debug == 1) {
-        show_square_line_segments(&segments[try_config], thr_resized_image_data,
+        show_square_line_segments(&segments[try_config], thr_edges_image_data,
                                   resized_thresholded_width,
                                   resized_thresholded_height, image_bitsperpixel);
         sprintf(debug_filename[try_config],
                 "debug_%d_07_square_joined_line_segments.png", try_config);
         write_png_file(debug_filename[try_config],
                        resized_thresholded_width, resized_thresholded_height, 24,
-                       thr_resized_image_data);
-        show_rectangular_line_segments(&segments[try_config], thr_resized_image_data,
+                       thr_edges_image_data);
+        show_rectangular_line_segments(&segments[try_config], thr_edges_image_data,
                                        resized_thresholded_width,
                                        resized_thresholded_height, image_bitsperpixel);
         sprintf(debug_filename[try_config],
                 "debug_%d_08_rectangular_joined_line_segments.png", try_config);
         write_png_file(debug_filename[try_config],
                        resized_thresholded_width, resized_thresholded_height, 24,
-                       thr_resized_image_data);
+                       thr_edges_image_data);
       }
 
       /* check if no line segments found */
@@ -376,11 +385,11 @@ int read_datamatrix(unsigned char image_data[],
         free_line_segments(&segments[try_config]);
         free(thr_image_data);
         free(thr_meanlight_image_data);
-        free(thr_original_thresholded_image_data);
+        free(thr_original_meanlight_image_data);
         free(thr_mono_img);
-        free(thr_thresholded);
+        free(thr_binary_image);
         free(thr_buffer_img);
-        free(thr_resized_image_data);
+        free(thr_edges_image_data);
         continue;
       }
 
@@ -401,7 +410,7 @@ int read_datamatrix(unsigned char image_data[],
                                    &perimeter_x1, &perimeter_y1,
                                    &perimeter_x2, &perimeter_y2,
                                    &perimeter_x3, &perimeter_y3) != 0) {
-          show_perimeter(&segments[try_config], thr_resized_image_data,
+          show_perimeter(&segments[try_config], thr_edges_image_data,
                          resized_thresholded_width, resized_thresholded_height,
                          image_bitsperpixel);
           continue;
@@ -449,28 +458,28 @@ int read_datamatrix(unsigned char image_data[],
                                    &perimeter_x3, &perimeter_y3);
 
         if (debug == 1) {
-          show_peripheral_edges(&segments[try_config], thr_resized_image_data,
+          show_peripheral_edges(&segments[try_config], thr_edges_image_data,
                                 resized_thresholded_width, resized_thresholded_height,
                                 image_bitsperpixel);
           sprintf(debug_filename[try_config],
                   "debug_%d_09_peripheral_edges.png", try_config);
           write_png_file(debug_filename[try_config],
                          resized_thresholded_width, resized_thresholded_height,
-                         24, thr_resized_image_data);
+                         24, thr_edges_image_data);
         }
         if (debug == 1) {
-          show_perimeter(&segments[try_config], thr_resized_image_data,
+          show_perimeter(&segments[try_config], thr_edges_image_data,
                          resized_thresholded_width, resized_thresholded_height,
                          image_bitsperpixel);
           sprintf(debug_filename[try_config],
                   "debug_%d_10_perimeter.png", try_config);
           write_png_file(debug_filename[try_config],
                          resized_thresholded_width, resized_thresholded_height,
-                         24, thr_resized_image_data);
+                         24, thr_edges_image_data);
         }
 
         if (debug == 1) {
-          show_shape_perimeter(thr_resized_image_data, resized_thresholded_width,
+          show_shape_perimeter(thr_edges_image_data, resized_thresholded_width,
                                resized_thresholded_height,
                                image_bitsperpixel,
                                perimeter_x0, perimeter_y0,
@@ -481,7 +490,7 @@ int read_datamatrix(unsigned char image_data[],
                   "debug_%d_11_shape_perimeter_small.png", try_config);
           write_png_file(debug_filename[try_config],
                          resized_thresholded_width, resized_thresholded_height,
-                         24, thr_resized_image_data);
+                         24, thr_edges_image_data);
         }
 
         /* convert back to original image resolution */
@@ -529,11 +538,11 @@ int read_datamatrix(unsigned char image_data[],
 
       /* we have a perimeter, now find the timing border frequency */
       if (perimeter_found == 1) {
-        colour_to_mono(thr_original_thresholded_image_data,
+        colour_to_mono(thr_original_meanlight_image_data,
                        image_width,image_height,image_bitsperpixel,thr_mono_img);
 
         if (debug == 1) {
-          memcpy(thr_image_data, thr_original_thresholded_image_data,
+          memcpy(thr_image_data, thr_original_meanlight_image_data,
                  image_width*image_height*image_bytesperpixel);
         }
 
@@ -560,7 +569,7 @@ int read_datamatrix(unsigned char image_data[],
         }
 
         if (debug == 1) {
-          memcpy(thr_image_data, thr_original_thresholded_image_data,
+          memcpy(thr_image_data, thr_original_meanlight_image_data,
                  image_width*image_height*image_bytesperpixel);
         }
 
@@ -603,7 +612,7 @@ int read_datamatrix(unsigned char image_data[],
                                   0, thr_image_data, 0);
         }
         if ((most_probable_frequency > 0) && (debug == 1)) {
-          memcpy(thr_image_data, thr_original_thresholded_image_data,
+          memcpy(thr_image_data, thr_original_meanlight_image_data,
                  image_width*image_height*(image_bitsperpixel/8));
           detect_timing_pattern(thr_mono_img, image_width, image_height,
                                 minimum_grid_dimension,
@@ -727,7 +736,7 @@ int read_datamatrix(unsigned char image_data[],
           if (verify == 1) {
             calculate_quality_metrics(&grid[try_config],
                                       original_image_data,
-                                      thr_original_thresholded_image_data,
+                                      thr_original_meanlight_image_data,
                                       image_width, image_height,
                                       image_bitsperpixel,
                                       histogram_module_centres,
@@ -736,11 +745,11 @@ int read_datamatrix(unsigned char image_data[],
           free_line_segments(&segments[try_config]);
           free(thr_image_data);
           free(thr_meanlight_image_data);
-          free(thr_original_thresholded_image_data);
+          free(thr_original_meanlight_image_data);
           free(thr_mono_img);
-          free(thr_thresholded);
+          free(thr_binary_image);
           free(thr_buffer_img);
-          free(thr_resized_image_data);
+          free(thr_edges_image_data);
           continue;
         }
 
@@ -964,7 +973,7 @@ int read_datamatrix(unsigned char image_data[],
           if (verify == 1) {
             calculate_quality_metrics(&grid[try_config],
                                       original_image_data,
-                                      thr_original_thresholded_image_data,
+                                      thr_original_meanlight_image_data,
                                       image_width, image_height,
                                       image_bitsperpixel,
                                       histogram_module_centres,
@@ -973,11 +982,11 @@ int read_datamatrix(unsigned char image_data[],
           free_line_segments(&segments[try_config]);
           free(thr_image_data);
           free(thr_meanlight_image_data);
-          free(thr_original_thresholded_image_data);
+          free(thr_original_meanlight_image_data);
           free(thr_mono_img);
-          free(thr_thresholded);
+          free(thr_binary_image);
           free(thr_buffer_img);
-          free(thr_resized_image_data);
+          free(thr_edges_image_data);
           continue;
         }
       }
@@ -990,7 +999,7 @@ int read_datamatrix(unsigned char image_data[],
       if (verify == 1) {
         calculate_quality_metrics(&grid[try_config],
                                   original_image_data,
-                                  thr_original_thresholded_image_data,
+                                  thr_original_meanlight_image_data,
                                   image_width, image_height,
                                   image_bitsperpixel,
                                   histogram_module_centres,
@@ -1000,11 +1009,11 @@ int read_datamatrix(unsigned char image_data[],
 
     free(thr_image_data);
     free(thr_meanlight_image_data);
-    free(thr_original_thresholded_image_data);
+    free(thr_original_meanlight_image_data);
     free(thr_mono_img);
-    free(thr_thresholded);
+    free(thr_binary_image);
     free(thr_buffer_img);
-    free(thr_resized_image_data);
+    free(thr_edges_image_data);
   }
 
   if (best_config > -1) {
