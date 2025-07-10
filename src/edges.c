@@ -125,7 +125,10 @@ void free_line_segments(struct line_segments * segments)
 }
 
 /**
- * \brief extremely simple binary image edge detection
+ * \brief Extremely simple binary image edge detection.
+ *        This compares to the left and above pixels, so the actual edge
+ *        position will be misrepresented slightly. This can be adjusted for
+ *        at a later stage.
  * \param img binary image array
  * \param width width of the image
  * \param height height of the image

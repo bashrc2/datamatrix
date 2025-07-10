@@ -494,6 +494,20 @@ int read_datamatrix(unsigned char image_data[],
         perimeter_x3 = (perimeter_x3 * original_image_width) / resized_thresholded_width;
         perimeter_y3 = (perimeter_y3 * original_image_height) / resized_thresholded_height;
 
+        /* because of the left/above oriented method of edge detection within
+           detect_edges_binary, shift the perimeter right and down by the
+           equivalent of half a pixel */
+        float x_adjust = (original_image_width / resized_thresholded_width) * 0.5f;
+        float y_adjust = (original_image_height / resized_thresholded_height) * 0.5f;
+        perimeter_x0 += x_adjust;
+        perimeter_y0 += y_adjust;
+        perimeter_x1 += x_adjust;
+        perimeter_y1 += y_adjust;
+        perimeter_x2 += x_adjust;
+        perimeter_y2 += y_adjust;
+        perimeter_x3 += x_adjust;
+        perimeter_y3 += y_adjust;
+
         memcpy(thr_image_data, original_image_data,
                image_width*image_height*image_bytesperpixel);
 
