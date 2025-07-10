@@ -112,13 +112,21 @@ int read_datamatrix(unsigned char image_data[],
   const int segment_join_radius=3;
   const int segment_roi_percent = 70;
 
-  /* the magic numbers */
-  const int no_of_configs = 6;
+  /* the magic numbers
+   Note that these are doubled sets so that we can also vary the
+   meanlight sampling radius*/
+  const int no_of_configs = 6*2;
   int max_config = no_of_configs;
-  int ml_threshold_configs[] = {0, 0, 50, 10, 10, 20};
-  int erosion_itterations_configs[] = {1, 0, 1, 0, 0, 0};
-  int dilate_itterations_configs[] = {9, 5, 4, 6, 5, 2};
-  float edge_threshold_configs[] = {5, 1, 1, 1, 5, 5};
+  int ml_threshold_configs[] = {0, 0, 50, 10, 10, 20,
+                                0, 0, 50, 10, 10, 20};
+  int erosion_itterations_configs[] = {1, 0, 1, 0, 0, 0,
+                                       1, 0, 1, 0, 0, 0};
+  int dilate_itterations_configs[] = {9, 5, 4, 6, 5, 2,
+                                      9, 5, 4, 6, 5, 2};
+  float edge_threshold_configs[] = {5, 1, 1, 1, 5, 5,
+                                    5, 1, 1, 1, 5, 5};
+  int ml_sampling_radius[] = {50, 50, 50, 50, 50, 50,
+                              20, 20, 20, 20, 20, 20};
 
   struct grid_2d grid[no_of_configs];
   struct line_segments segments[no_of_configs];
@@ -170,6 +178,7 @@ int read_datamatrix(unsigned char image_data[],
      and edge threshold */
 #pragma omp parallel for
   for (try_config = 0; try_config < max_config; try_config++) {
+    int meanlight_sampling_radius_percent = ml_sampling_radius[try_config];
     float corner_radians, angle_degrees;
     int curr_sampling_radius;
     int most_probable_frequency=0;
@@ -229,6 +238,7 @@ int read_datamatrix(unsigned char image_data[],
     /* convert to meanlight */
     meanlight_threshold(thr_image_data, image_width, image_height,
                         image_bitsperpixel, ml_threshold,
+                        meanlight_sampling_radius_percent,
                         thr_meanlight_image_data);
     if (debug == 1) {
       sprintf(debug_filename[try_config], "debug_%d_02_meanlight.png", try_config);

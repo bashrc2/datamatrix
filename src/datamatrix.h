@@ -183,6 +183,7 @@ struct line_segments {
 
 int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
+                        int sampling_radius_percent,
                         unsigned char thresholded[]);
 
 /* convert.c */

@@ -66,11 +66,13 @@ static unsigned char is_dark_image(unsigned char img_mono[],
  * \param height height of the image
  * \param bitsperpixel Number of bits per pixel
  * \param threshold the threshold to be applied
+ * \param sampling_radius_percent Radius to sample within as a percentage of image width
  * \param thresholded returned thresholded image array
  * \return
  */
 int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
+                        int sampling_radius_percent,
                         unsigned char thresholded[])
 {
   unsigned char * img_mono = thresholded;
@@ -82,7 +84,7 @@ int meanlight_threshold(unsigned char img[], int width, int height,
   colour_to_mono(img, width, height, bitsperpixel, img_mono);
 
   /* get the dark and light peaks */
-  darklight(img_mono, width, height, 1, 50, &dark, &light);
+  darklight(img_mono, width, height, 1, sampling_radius_percent, &dark, &light);
 
   range = light - dark;
   /* initial threshold is half way between light and dark */
