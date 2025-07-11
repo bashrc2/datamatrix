@@ -299,6 +299,7 @@ static void calculate_quiet_zone(struct grid_2d * grid)
 
 /**
  * \brief get the offset of a grid cell from its theoretical centre
+ *        also return cell fill percentage
  * \param thresholded_image_data thresholded (binary) image array
  * \param image_width width of the image
  * \param image_height height of the image
@@ -309,6 +310,7 @@ static void calculate_quiet_zone(struct grid_2d * grid)
  * \param offset_y returned y offset of the cell centre
  * \param elongation returned elongation of the cell
  * \param no_of_pixels returned number of pixels within the cell
+ * \param cell_fill returned percentage of the cell which is filled
  */
 static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
                                          int image_width, int image_height,
