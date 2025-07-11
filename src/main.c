@@ -60,6 +60,7 @@ int main(int argc, char* argv[])
   char output_filename[MAX_DECODE_LENGTH];
   char grid_filename[MAX_DECODE_LENGTH];
   char histogram_filename[MAX_DECODE_LENGTH];
+  char cell_shape_filename[MAX_DECODE_LENGTH];
   float aperture = 0;
   int light_nm = 670;
   int light_angle_degrees = 90;
@@ -75,6 +76,7 @@ int main(int argc, char* argv[])
   output_filename[0] = 0;
   grid_filename[0] = 0;
   histogram_filename[0] = 0;
+  cell_shape_filename[0] = 0;
 
   /* no GS1 digital link specified */
   gs1_url[0] = 0;
@@ -131,6 +133,11 @@ int main(int argc, char* argv[])
         (strcmp(argv[i],"--histogram")==0)) {
       verify = 1;
       decode_strcat(&histogram_filename[0], argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--shape")==0) ||
+        (strcmp(argv[i],"--cellshape")==0)) {
+      verify = 1;
+      decode_strcat(&cell_shape_filename[0], argv[i+1]);
     }
     if ((strcmp(argv[i],"-g")==0) ||
         (strcmp(argv[i],"--grid")==0)) {
@@ -288,6 +295,7 @@ int main(int argc, char* argv[])
                   min_segment_length,
                   aperture, light_nm, light_angle_degrees,
                   is_square, is_rectangle,
+                  cell_shape_filename,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

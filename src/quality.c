@@ -303,6 +303,7 @@ static void calculate_quiet_zone(struct grid_2d * grid)
  * \param thresholded_image_data thresholded (binary) image array
  * \param image_width width of the image
  * \param image_height height of the image
+ * \param image_bytesperpixel Number of bytes per pixel
  * \param x theoretical/ideal x coordinate of the centre of the grid cell
  * \param y theoretical/ideal y coordinate of the centre of the grid cell
  * \param radius radius of the grid cell
@@ -373,6 +374,206 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
 }
 
 /**
+ * \brief updates an image showing cell shape for the given cell
+ * \param thresholded_image_data thresholded (binary) image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param image_bytesperpixel Number of bytes per pixel
+ * \param x theoretical/ideal x coordinate of the centre of the grid cell
+ * \param y theoretical/ideal y coordinate of the centre of the grid cell
+ * \param radius radius of the grid cell
+ * \param cell_shape_image image showing cell shape
+ * \param cell_shape_image_width width of the cell shape image
+ * \param cell_shape_image_height height of the cell shape image
+ * \param cell_shape_bytesperpixel Number of bytes per pixel in cell shape image
+ */
+static void grid_cell_shape_test_cell(unsigned char thresholded_image_data[],
+                                      int image_width, int image_height,
+                                      int image_bytesperpixel,
+                                      int x, int y, int radius,
+                                      unsigned char cell_shape_image[],
+                                      int cell_shape_image_width,
+                                      int cell_shape_image_height,
+                                      int cell_shape_bytesperpixel)
+{
+  int n2, n = (y*image_width + x)*image_bytesperpixel;
+  int half_cell_shape_image_width = cell_shape_image_width/2;
+  int half_cell_shape_image_height = cell_shape_image_height/2;
+  int cell_shape_cx = cell_shape_image_width/2;
+  int cell_shape_cy = cell_shape_image_height/2;
+  int search_x, search_y, xx, yy, b;
+  int cell_shape_x0, cell_shape_y0;
+  int cell_shape_x1, cell_shape_y1;
+
+  if (thresholded_image_data[n] == 0) return;
+
+  for (search_y = y - radius; search_y <= y + radius; search_y++) {
+    if ((search_y < 0) || (search_y >= image_height)) continue;
+    for (search_x = x - radius; search_x <= x + radius; search_x++) {
+      if ((search_x < 0) || (search_x >= image_width)) continue;
+      n = (search_y*image_width + search_x)*image_bytesperpixel;
+      if (thresholded_image_data[n] != 0) {
+        /* top left and bottom right coordinates of the pixel in the cell shape image */
+        cell_shape_x0 =
+          cell_shape_cx + ((search_x - x)*half_cell_shape_image_width/radius);
+        if ((cell_shape_x0 < 0) || (cell_shape_x0 >= cell_shape_image_width)) continue;
+        cell_shape_y0 =
+          cell_shape_cy + ((search_y - y)*half_cell_shape_image_height/radius);
+        if ((cell_shape_y0 < 0) || (cell_shape_y0 >= cell_shape_image_height)) continue;
+        cell_shape_x1 =
+          cell_shape_cx + ((search_x + 1 - x)*half_cell_shape_image_width/radius);
+        if ((cell_shape_x1 < 0) || (cell_shape_x1 >= cell_shape_image_width)) continue;
+        cell_shape_y1 =
+          cell_shape_cy + ((search_y + 1 - y)*half_cell_shape_image_height/radius);
+        if ((cell_shape_y1 < 0) || (cell_shape_y1 >= cell_shape_image_height)) continue;
+
+        /* update the pixel */
+        for (yy = cell_shape_y0; yy < cell_shape_y1; yy++) {
+          for (xx = cell_shape_x0; xx < cell_shape_x1; xx++) {
+            n2 = (yy*cell_shape_image_width + xx)*cell_shape_bytesperpixel;
+            if (cell_shape_image[n2] < 255) {
+              for (b = cell_shape_bytesperpixel-1; b >= 0; b--) {
+                cell_shape_image[n2+b]++;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * \brief creates an image showing the shape of cells win the grid
+ * \param grid grid object
+ * \param thresholded_image_data thresholded (binary) image array
+ * \param image_width width of the image
+ * \param image_height height of the image
+ * \param image_bitsperpixel Number of bits per pixel
+ * \param cell_shape_image_width width of the cell shape image
+ * \param cell_shape_image_height height of the cell shape image
+ * \param cell_shape_bitsperpixel Number of bits per pixel in the cell shape image
+ * \param filename filename to save as
+ */
+static void save_grid_cell_shape(struct grid_2d * grid,
+                                 unsigned char thresholded_image_data[],
+                                 int image_width, int image_height,
+                                 int image_bitsperpixel,
+                                 int cell_shape_image_width,
+                                 int cell_shape_image_height,
+                                 char filename[])
+{
+  const int cell_shape_bitsperpixel = 24;
+  float xi, yi, grid_pos_x, grid_pos_y;
+  float horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
+  float vertical_x1, vertical_y1, vertical_x2, vertical_y2;
+  int i, b, max, grid_x, grid_y;
+  unsigned char value;
+  int image_bytesperpixel = image_bitsperpixel/8;
+  int cell_shape_bytesperpixel = cell_shape_bitsperpixel/8;
+  float elongation = 0;
+  int no_of_pixels = 0;
+  int cell_fill = 0;
+
+  if (strlen(filename) == 0) return;
+
+  /* create the image */
+  unsigned char * cell_shape_image =
+    (unsigned char*)safemalloc(cell_shape_image_width*
+                               cell_shape_image_height*
+                               cell_shape_bytesperpixel*
+                               sizeof(unsigned char));
+
+  /* clear the image */
+  memset(cell_shape_image, 0,
+         cell_shape_image_width*cell_shape_image_height*
+         cell_shape_bytesperpixel*sizeof(unsigned char));
+
+  float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
+  float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
+  float horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
+  float horizontal_dy2 = grid->perimeter.y2 - grid->perimeter.y1;
+
+  float vertical_dx1 = grid->perimeter.x1 - grid->perimeter.x0;
+  float vertical_dy1 = grid->perimeter.y1 - grid->perimeter.y0;
+  float vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
+  float vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
+
+  float cell_width = get_cell_width(grid);
+  int cell_radius = (int)(cell_width/2);
+  if (cell_radius < 1) cell_radius = 1;
+
+  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+    /* horizontal line */
+    grid_pos_y = grid_y + 0.5f;
+    horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+    horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+    horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+    horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+
+    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+      /* vertical line */
+      grid_pos_x = grid_x + 0.5f;
+      vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
+      vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
+      vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
+      vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+      intersection(horizontal_x1, horizontal_y1,
+                   horizontal_x2, horizontal_y2,
+                   vertical_x1, vertical_y1,
+                   vertical_x2, vertical_y2,
+                   &xi, &yi);
+      if (xi != PARALLEL_LINES) {
+        if (((int)xi >= 0) && ((int)yi > 0) &&
+            ((int)xi < image_width) && ((int)yi < image_height)) {
+          int offset_x=0, offset_y=0;
+          grid_nonuniformity_test_cell(thresholded_image_data,
+                                       image_width, image_height,
+                                       image_bytesperpixel,
+                                       (int)xi, (int)yi, cell_radius,
+                                       &offset_x, &offset_y,
+                                       &elongation,
+                                       &no_of_pixels,
+                                       &cell_fill);
+          if (((int)xi-offset_x >= 0) && ((int)yi-offset_y > 0) &&
+              ((int)xi-offset_x < image_width) && ((int)yi-offset_y < image_height)) {
+            grid_cell_shape_test_cell(thresholded_image_data,
+                                      image_width, image_height,
+                                      image_bytesperpixel,
+                                      (int)xi-offset_x, (int)yi-offset_y, cell_radius,
+                                      cell_shape_image,
+                                      cell_shape_image_width,
+                                      cell_shape_image_height,
+                                      cell_shape_bytesperpixel);
+          }
+        }
+      }
+    }
+  }
+
+  /* find the maximum values */
+  max = 1;
+  for (i = cell_shape_image_width*cell_shape_image_height-1; i >= 0; i--) {
+    if (cell_shape_image[i*cell_shape_bytesperpixel] > max) {
+      max = cell_shape_image[i*cell_shape_bytesperpixel];
+    }
+  }
+  max = max * 110 / 100;
+  for (i = cell_shape_image_width*cell_shape_image_height-1; i >= 0; i--) {
+    value = (unsigned char)(255-(cell_shape_image[i*cell_shape_bytesperpixel] * 255 / max));
+    for (b = cell_shape_bytesperpixel-1; b >= 0; b--) {
+      cell_shape_image[i*cell_shape_bytesperpixel+b] = value;
+    }
+  }
+
+  /* save PNG file */
+  write_png_file(filename,
+                 cell_shape_image_width, cell_shape_image_height,
+                 cell_shape_bitsperpixel, cell_shape_image);
+  free(cell_shape_image);
+}
+
+/**
  * \brief calculate grid non-uniformity, elongation, dots per element and cell fill
  * \param grid grid object
  * \param thresholded_image_data binary image
@@ -407,6 +608,7 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
 
   float cell_width = get_cell_width(grid);
   int cell_radius = (int)(cell_width/2);
+  if (cell_radius < 1) cell_radius = 1;
 
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
     /* horizontal line */
@@ -429,21 +631,24 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
                    vertical_x2, vertical_y2,
                    &xi, &yi);
       if (xi != PARALLEL_LINES) {
-        grid_nonuniformity_test_cell(thresholded_image_data,
-                                     image_width, image_height,
-                                     image_bytesperpixel,
-                                     (int)xi, (int)yi, cell_radius,
-                                     &offset_x, &offset_y,
-                                     &cell_elongation,
-                                     &cell_no_of_pixels,
-                                     &cell_fill);
-        if (offset_x != NO_OFFSET) {
-          av_offset_x += abs(offset_x);
-          av_offset_y += abs(offset_y);
-          av_elongation += cell_elongation;
-          av_cell_no_of_pixels += cell_no_of_pixels;
-          total_cell_fill += cell_fill;
-          offset_hits++;
+        if (((int)xi >= 0) && ((int)yi > 0) &&
+            ((int)xi < image_width) && ((int)yi < image_height)) {
+          grid_nonuniformity_test_cell(thresholded_image_data,
+                                       image_width, image_height,
+                                       image_bytesperpixel,
+                                       (int)xi, (int)yi, cell_radius,
+                                       &offset_x, &offset_y,
+                                       &cell_elongation,
+                                       &cell_no_of_pixels,
+                                       &cell_fill);
+          if (offset_x != NO_OFFSET) {
+            av_offset_x += abs(offset_x);
+            av_offset_y += abs(offset_y);
+            av_elongation += cell_elongation;
+            av_cell_no_of_pixels += cell_no_of_pixels;
+            total_cell_fill += cell_fill;
+            offset_hits++;
+          }
         }
       }
     }
@@ -810,6 +1015,7 @@ static void quality_metric_angle_of_distortion(struct grid_2d * grid)
  * \param mage_bitsperpixel Number of bits per pixel
  * \param histogram_module_centres sample only the module centres to produce the histogram
  * \param histogram_filename optionally save a reflectance histogram
+ * \param cell_shape_filename optional cell shape image
  */
 void calculate_quality_metrics(struct grid_2d * grid,
                                unsigned char image_data[],
@@ -817,7 +1023,8 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                int image_width, int image_height,
                                int image_bitsperpixel,
                                unsigned char histogram_module_centres,
-                               char histogram_filename[])
+                               char histogram_filename[],
+                               char cell_shape_filename[])
 {
   calculate_quiet_zone(grid);
   quality_metric_angle_of_distortion(grid);
@@ -891,6 +1098,16 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                histogram_module_centres,
                                histogram_filename);
   }
+
+  int cell_shape_image_width = image_width;
+  int cell_shape_image_height = image_width;
+  save_grid_cell_shape(grid,
+                       thresholded_image_data,
+                       image_width, image_height,
+                       image_bitsperpixel,
+                       cell_shape_image_width,
+                       cell_shape_image_height,
+                       cell_shape_filename);
 }
 
 /**

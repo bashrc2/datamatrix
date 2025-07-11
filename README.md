@@ -42,6 +42,7 @@ sudo make install
 -o --output [PNG file]        Save an image showing the detected datamatrix
 -g --grid [PNG file]          Save an image showing the detected grid
 --hist [PNG file]             Save reflectance histogram
+--shape [PNG file]            Save cell shape variance image
 --histcentres                 Only sample grid cell centres for reflectance histogram
 --mingrid [8..144]            Minimum matrix dimension
 --maxgrid [8..144]            Maximum matrix dimension
@@ -112,6 +113,12 @@ When showing quality metrics you can also generate a reflectance histogram, for 
 
 ``` bash
 datamatrix -f examples/01.png -o detection.png -g grid.png --quality --histogram reflectance.png
+```
+
+The *--shape* option also can be used to save an image showing variations in grid cell shape. This is only really useful for round or dot peen type markings.
+
+``` bash
+datamatrix -f examples/01.png -o detection.png -g grid.png --quality --histogram reflectance.png --shape cell_shape.png
 ```
 
 Metrics can also be output in *CSV* or *JSON* formats, for easy import into other systems.

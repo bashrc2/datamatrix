@@ -1072,21 +1072,24 @@ void create_grid(int dimension_x, int dimension_y,
                    vertical_x2, vertical_y2,
                    &xi, &yi);
       if (xi != PARALLEL_LINES) {
-        if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
-          hits = cell_sample_solid(mono_img,
-                                   image_width, image_height,
-                                   (int)xi, (int)yi, sampling_radius);
-        }
-        else {
-          hits = cell_sample_ring(mono_img,
-                                  image_width, image_height,
-                                  (int)xi, (int)yi, sampling_radius);
-        }
-        if (hits > occupancy_threshold) {
-          grid->occupancy[grid_x][grid_y] = 1;
-        }
-        if ((hits > 0) && (hits <= damage_threshold)) {
-          grid->damage[grid_y*grid->dimension_x + grid_x] = 1;
+        if (((int)xi >= 0) && ((int)yi > 0) &&
+            ((int)xi < image_width) && ((int)yi < image_height)) {
+          if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
+            hits = cell_sample_solid(mono_img,
+                                     image_width, image_height,
+                                     (int)xi, (int)yi, sampling_radius);
+          }
+          else {
+            hits = cell_sample_ring(mono_img,
+                                    image_width, image_height,
+                                    (int)xi, (int)yi, sampling_radius);
+          }
+          if (hits > occupancy_threshold) {
+            grid->occupancy[grid_x][grid_y] = 1;
+          }
+          if ((hits > 0) && (hits <= damage_threshold)) {
+            grid->damage[grid_y*grid->dimension_x + grid_x] = 1;
+          }
         }
       }
     }

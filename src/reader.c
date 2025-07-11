@@ -72,6 +72,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param aperture Aperture reference number from ISO 15416
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
+ * \param cell_shape_filename optional image showing cell shape
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -102,6 +103,7 @@ int read_datamatrix(unsigned char image_data[],
                     int light_angle_degrees,
                     unsigned char is_square,
                     unsigned char is_rectangle,
+                    char cell_shape_filename[],
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -750,7 +752,8 @@ int read_datamatrix(unsigned char image_data[],
                                       image_width, image_height,
                                       image_bitsperpixel,
                                       histogram_module_centres,
-                                      histogram_filename);
+                                      histogram_filename,
+                                      cell_shape_filename);
           }
           free_line_segments(&segments[try_config]);
           free(thr_image_data);
@@ -987,7 +990,8 @@ int read_datamatrix(unsigned char image_data[],
                                       image_width, image_height,
                                       image_bitsperpixel,
                                       histogram_module_centres,
-                                      histogram_filename);
+                                      histogram_filename,
+                                      cell_shape_filename);
           }
           free_line_segments(&segments[try_config]);
           free(thr_image_data);
@@ -1013,7 +1017,8 @@ int read_datamatrix(unsigned char image_data[],
                                   image_width, image_height,
                                   image_bitsperpixel,
                                   histogram_module_centres,
-                                  histogram_filename);
+                                  histogram_filename,
+                                  cell_shape_filename);
       }
     }
 

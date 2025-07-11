@@ -542,6 +542,12 @@ void draw_line(unsigned char img[],
                int line_width,
                int r, int g, int b);
 
+void increment_pixels_along_line(unsigned char img[],
+                                 unsigned int width, unsigned int height,
+                                 int bitsperpixel,
+                                 int tx, int ty, int bx, int by,
+                                 int line_width);
+
 void draw_dot(unsigned char img[],
               unsigned int width, unsigned int height,
               int bitsperpixel,
@@ -707,7 +713,8 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                int image_width, int image_height,
                                int image_bitsperpixel,
                                unsigned char histogram_module_centres,
-                               char histogram_filename[]);
+                               char histogram_filename[],
+                               char cell_shape_filename[]);
 
 void show_quality_metrics(struct grid_2d * grid,
                           unsigned char csv, unsigned char json,
@@ -796,6 +803,7 @@ int read_datamatrix(unsigned char image_data[],
                     int light_angle_degrees,
                     unsigned char is_square,
                     unsigned char is_rectangle,
+                    char cell_shape_filename[],
                     char * decode_result);
 
 /* tests.c */
