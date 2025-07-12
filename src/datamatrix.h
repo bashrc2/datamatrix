@@ -481,25 +481,6 @@ void update_integral_image(unsigned char * img,
 long get_integral(long * integral_image,
                   int tx, int ty, int bx, int by, int img_width);
 
-/* centresurround.c */
-
-void update_centre_surround(unsigned char * img,
-                            int img_width, int img_height,
-                            int bitsperpixel,
-                            long * integral_image,
-                            int patch_width,
-                            int threshold,
-                            unsigned char * output_img,
-                            int output_img_width,
-                            int output_img_height);
-
-void amplify_image(unsigned char * img,
-                   int img_width, int img_height,
-                   int bitsperpixel,
-                   int amplify,
-                   int min_y, int max_y,
-                   unsigned char * output_img);
-
 /* resize.h */
 int enlarge_image(unsigned char img[], int width, int height,
                   int bitsperpixel,
