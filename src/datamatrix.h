@@ -288,7 +288,8 @@ void show_L_shape_perimeter(struct grid_2d * grid,
                             float perimeter_x3, float perimeter_y3);
 unsigned char rectangular_joined_line_segments(int aspect_ratio);
 
-/* resize.h */
+/* resize.c */
+
 int enlarge_image(unsigned char img[], int width, int height,
                   int bitsperpixel,
                   unsigned char enlarged[],
@@ -303,6 +304,7 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
                              int resized_width, int resized_height);
 
 /* draw.c */
+
 void draw_line(unsigned char img[],
                unsigned int width, unsigned int height,
                int bitsperpixel,
@@ -317,6 +319,7 @@ void draw_dot(unsigned char img[],
               int r, int g, int b);
 
 /* geometry.c */
+
 int point_in_polygon(int x, int y, int points[], int no_of_points);
 
 void get_centroid(float perimeter_x0, float perimeter_y0,
