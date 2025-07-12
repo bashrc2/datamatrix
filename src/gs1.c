@@ -54,13 +54,27 @@ void gs1_semantics(char result[],
   char app_id_str2[10];
   unsigned char is_digital_link = 0;
 
+  int data_length = (*application_data_end) - (*application_data_start);
+
   int curr_pos = (int)strlen(result);
   if (curr_pos != (*application_data_end)) {
-    return;
+    if (curr_pos <= 1) return;
+
+    /* if the minimum data length has not yet arrived */
+    if (*application_data_variable > 0) {
+      if (curr_pos < (*application_data_end) - (*application_data_variable)) {
+        return;
+      }
+    }
+
+    /* look for FNC1 on variable data lengths */
+    if (!((*application_data_variable > 0) &&
+          (result[curr_pos-1] == (char)29))) {
+      return;
+    }
   }
 
-  if ((*application_data_end) - (*application_data_start) ==
-      (*application_identifier_length)) {
+  if (data_length == (*application_identifier_length)) {
     /* read application identifier */
     app_id_str = &result[*application_data_start];
     *application_identifier = atoi(app_id_str);
@@ -894,6 +908,8 @@ void gs1_semantics(char result[],
           is_digital_link = 1;
         }
       }
+
+      *application_data_variable = 0;
 
       switch(*application_identifier) {
       case 0: {
