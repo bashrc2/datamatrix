@@ -24,12 +24,12 @@
 
 void * safemalloc(int n)
 {
-	void * ptr = malloc(n);
-	if (!ptr) {
-		fprintf(stderr, "Malloc(%d) failed\n", n);
-		exit(1);
-	}
-	return ptr;
+  void * ptr = malloc(n);
+  if (!ptr) {
+    fprintf(stderr, "Malloc(%d) failed\n", n);
+    exit(1);
+  }
+  return ptr;
 }
 
 /**
