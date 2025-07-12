@@ -542,12 +542,6 @@ void draw_line(unsigned char img[],
                int line_width,
                int r, int g, int b);
 
-void increment_pixels_along_line(unsigned char img[],
-                                 unsigned int width, unsigned int height,
-                                 int bitsperpixel,
-                                 int tx, int ty, int bx, int by,
-                                 int line_width);
-
 void draw_dot(unsigned char img[],
               unsigned int width, unsigned int height,
               int bitsperpixel,
