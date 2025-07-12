@@ -243,6 +243,7 @@ char * iso15434_translate_data_qualifier(char result[],
       unsigned char application_identifier_length = 4;
       for (unsigned char app_id_len = 4; app_id_len >= 2; app_id_len--) {
         application_identifier_length = app_id_len;
+        if (start_pos + application_identifier_length >= strlen(result)) continue;
         if (end_index - start_pos > application_identifier_length) {
           /* get the application identifier */
           char app_id_str[5];
