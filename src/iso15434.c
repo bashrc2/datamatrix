@@ -269,8 +269,18 @@ char * iso15434_translate_data_qualifier(char result[],
             printf("result: %d %s\n", application_identifier, result);
           }
           if (application_identifier != -1) {
+            /* what actual length of data do we have? */
             int data_length = strlen(result) - application_identifier_length;
-            application_data_end = application_data_start + data_length;
+            /* what is the min and max length of data for this application identifier? */
+            int max_data_length = application_data_end - application_data_start;
+            int min_data_length =
+              application_data_end - application_data_start - application_data_variable;
+
+            /* find the end of the data, taking into account variable length */
+            if ((data_length >= min_data_length) && (data_length <= max_data_length)) {
+              application_data_end = application_data_start + data_length;
+            }
+
             gs1_semantics(result, translated_str,
                           NULL, debug,
                           &application_identifier,
