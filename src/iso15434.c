@@ -149,7 +149,7 @@ char * iso15434_translate_data_qualifier(char result[],
     if ((result[start_index] == 'E') &&
         (result[start_index+1] == 'O') &&
         (result[start_index+2] == 'I') &&
-        (result[start_index+2] == 'D')) {
+        (result[start_index+3] == 'D')) {
       translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
       decode_strcat(translated_str, "OPERATOR: ");
