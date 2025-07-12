@@ -63,7 +63,9 @@ void gs1_semantics(char result[],
     app_id_str = &result[*application_data_start];
     *application_identifier = atoi(app_id_str);
 
-    /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
+    /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf
+       https://www.tec-it.com/en/support/knowbase/gs1-application-identifier/Default.aspx
+     */
     switch(*application_identifier) {
     case 0: {
       *application_data_end = curr_pos + 18;
@@ -540,7 +542,182 @@ void gs1_semantics(char result[],
       *application_identifier_length = 3;
       break;
     }
+    case 401: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 3;
+      break;
     }
+    case 402: {
+      *application_data_end = curr_pos + 17;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 403: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 410: {
+      *application_data_end = curr_pos + 13;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 411: {
+      *application_data_end = curr_pos + 13;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 412: {
+      *application_data_end = curr_pos + 13;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 413: {
+      *application_data_end = curr_pos + 13;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 414: {
+      *application_data_end = curr_pos + 13;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 415: {
+      *application_data_end = curr_pos + 13;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 420: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 421: {
+      *application_data_end = curr_pos + 9;
+      *application_identifier_length = 6;
+      break;
+    }
+    case 422: {
+      *application_data_end = curr_pos + 3;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 423: {
+      *application_data_end = curr_pos + 12;
+      *application_identifier_length = 6;
+      break;
+    }
+    case 424: {
+      *application_data_end = curr_pos + 3;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 425: {
+      *application_data_end = curr_pos + 12;
+      *application_identifier_length = 6;
+      break;
+    }
+    case 426: {
+      *application_data_end = curr_pos + 3;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 7001: {
+      *application_data_end = curr_pos + 13;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7002: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7003: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8001: {
+      *application_data_end = curr_pos + 14;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8002: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8003: {
+      *application_data_end = curr_pos + 14 + 16;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8004: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8005: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8006: {
+      *application_data_end = curr_pos + 14 + 2 + 2;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8007: {
+      *application_data_end = curr_pos + 34;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8008: {
+      *application_data_end = curr_pos + 8 + 4;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8010: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8011: {
+      *application_data_end = curr_pos + 12;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8012: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8013: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8017: {
+      *application_data_end = curr_pos + 18;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8018: {
+      *application_data_end = curr_pos + 18;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8020: {
+      *application_data_end = curr_pos + 25;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8110: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      break;
+    }
+   }
   }
   else {
     /* read data associated with the application identifier */
@@ -1249,6 +1426,251 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("ORDER NUMBER ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "ORDER NUMBER: ");
+        }
+        break;
+      }
+      case 401: {
+        if (debug == 1) printf("GINC ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GINC: ");
+        }
+        break;
+      }
+      case 402: {
+        if (debug == 1) printf("GSIN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GSIN: ");
+        }
+        break;
+      }
+      case 403: {
+        if (debug == 1) printf("ROUTE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "ROUTE: ");
+        }
+        break;
+      }
+      case 410: {
+        if (debug == 1) printf("SHIP TO LOC ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO LOC: ");
+        }
+        break;
+      }
+      case 411: {
+        if (debug == 1) printf("BILL TO ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "BILL TO: ");
+        }
+        break;
+      }
+      case 412: {
+        if (debug == 1) printf("PURCHASE FROM ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PURCHASE FROM: ");
+        }
+        break;
+      }
+      case 413: {
+        if (debug == 1) printf("SHIP FOR LOC ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP FOR LOC: ");
+        }
+        break;
+      }
+      case 414: {
+        if (debug == 1) printf("LOCN NO ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "LOCN NO: ");
+        }
+        break;
+      }
+      case 415: {
+        if (debug == 1) printf("PAY TO ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PAY TO: ");
+        }
+        break;
+      }
+      case 420: {
+        if (debug == 1) printf("SHIP TO POST ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO POST: ");
+        }
+        break;
+      }
+      case 421: {
+        if (debug == 1) printf("SHIP TO POST ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO POST: ");
+        }
+        break;
+      }
+      case 422: {
+        if (debug == 1) printf("ORIGIN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "ORIGIN: ");
+        }
+        break;
+      }
+      case 423: {
+        if (debug == 1) printf("COUNTRY – INITIAL PROCESS ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "COUNTRY – INITIAL PROCESS: ");
+        }
+        break;
+      }
+      case 424: {
+        if (debug == 1) printf("COUNTRY – PROCESS ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "COUNTRY – PROCESS: ");
+        }
+        break;
+      }
+      case 425: {
+        if (debug == 1) printf("COUNTRY – DISASSEMBLY ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "COUNTRY – DISASSEMBLY: ");
+        }
+        break;
+      }
+      case 426: {
+        if (debug == 1) printf("COUNTRY – FULL PROCESS ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "COUNTRY – FULL PROCESS: ");
+        }
+        break;
+      }
+      case 7001: {
+        if (debug == 1) printf("NSN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NSN: ");
+        }
+        break;
+      }
+      case 7002: {
+        if (debug == 1) printf("MEAT CUT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "MEAT CUT: ");
+        }
+        break;
+      }
+      case 7003: {
+        if (debug == 1) printf("EXPIRY TIME YYMMDDHHMM ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "EXPIRY TIME YYMMDDHHMM: ");
+        }
+        break;
+      }
+      case 8001: {
+        if (debug == 1) printf("DIMENSIONS ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "DIMENSIONS: ");
+        }
+        break;
+      }
+      case 8002: {
+        if (debug == 1) printf("CMT NO ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "CMT NO: ");
+        }
+        break;
+      }
+      case 8003: {
+        if (debug == 1) printf("GRAI ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GRAI: ");
+        }
+        break;
+      }
+      case 8004: {
+        if (debug == 1) printf("GIAI ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GRAI: ");
+        }
+        break;
+      }
+      case 8005: {
+        if (debug == 1) printf("PRICE PER UNIT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PRICE PER UNIT: ");
+        }
+        break;
+      }
+      case 8006: {
+        if (debug == 1) printf("ITIP ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "ITIP: ");
+        }
+        break;
+      }
+      case 8007: {
+        if (debug == 1) printf("IBAN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "IBAN: ");
+        }
+        break;
+      }
+      case 8008: {
+        if (debug == 1) printf("PROD TIME ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PROD TIME: ");
+        }
+        break;
+      }
+      case 8010: {
+        if (debug == 1) printf("CPID ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "CPID: ");
+        }
+        break;
+      }
+      case 8011: {
+        if (debug == 1) printf("CPID SERIAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "CPID SERIAL: ");
+        }
+        break;
+      }
+      case 8012: {
+        if (debug == 1) printf("VERSION ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "VERSION: ");
+        }
+        break;
+      }
+      case 8013: {
+        if (debug == 1) printf("GMN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GMN: ");
+        }
+        break;
+      }
+      case 8017: {
+        if (debug == 1) printf("GSRN - PROVIDER ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GSRN - PROVIDER: ");
+        }
+        break;
+      }
+      case 8018: {
+        if (debug == 1) printf("GSRN - RECIPIENT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GSRN - RECIPIENT: ");
+        }
+        break;
+      }
+      case 8020: {
+        if (debug == 1) printf("REF NO ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "REF NO: ");
+        }
+        break;
+      }
+      case 8110: {
+        if (debug == 1) printf("COUPON ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "COUPON: ");
         }
         break;
       }
