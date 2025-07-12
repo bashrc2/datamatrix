@@ -209,29 +209,13 @@ void erode(unsigned char img[], int width, int height,
            unsigned char result[]);
 
 
-/* dark and light thresholds */
+/* darklight.c */
 
 void darklight(unsigned char img[],
                int width, int height,
                int sample_step,
                int sampling_radius_percent,
                unsigned char * dark, unsigned char * light);
-
-/* lines.c */
-
-void remove_lines(unsigned char * img,
-                  int width, int height,
-                  int tx1, int ty1, int bx1, int by1,
-                  int tx2, int ty2, int bx2, int by2);
-
-/* gradient.h */
-
-void correct_background_gradient(unsigned char * img,
-                                 int width, int height,
-                                 int x1, int y1,
-                                 int r1, int g1, int b1,
-                                 int x2, int y2,
-                                 int r2, int g2, int b2);
 
 /* edges.c */
 
