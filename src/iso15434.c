@@ -266,8 +266,8 @@ char * iso15434_translate_data_qualifier(char result[],
             printf("result: %d %s\n", application_identifier, result);
           }
           if (application_identifier != -1) {
-            application_data_end =
-              application_data_start + strlen(result) - application_identifier_length;
+            int data_length = strlen(result) - application_identifier_length;
+            application_data_end = application_data_start + data_length;
             gs1_semantics(result, translated_str,
                           NULL, debug,
                           &application_identifier,
