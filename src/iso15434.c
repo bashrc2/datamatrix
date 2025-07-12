@@ -29,13 +29,15 @@
  * \param end_index ending position in the result string
  * \param iso15434_uii returned unique item identifier
  * \param format_code format code
+ * \param debug set to 1 for debugging
  * \return translated string
  */
 char * iso15434_translate_data_qualifier(char result[],
                                          int start_index,
                                          int end_index,
                                          char iso15434_uii[],
-                                         char format_code[])
+                                         char format_code[],
+                                         unsigned char debug)
 {
   int i, start_pos=0;
   char * translated_str = NULL;
@@ -45,6 +47,9 @@ char * iso15434_translate_data_qualifier(char result[],
 
   if ((strcmp(format_code, "12") == 0) ||
       (strcmp(format_code, "DD") == 0)) {
+    if (debug == 1) {
+      printf("Format code %s\n", format_code);
+    }
     /* MFR */
     if ((result[start_index] == 'M') &&
         (result[start_index+1] == 'F') &&
@@ -189,6 +194,9 @@ char * iso15434_translate_data_qualifier(char result[],
   else {
     /* format code 06  */
     if (strcmp(format_code, "06") == 0) {
+      if (debug == 1) {
+        printf("Format code 06\n");
+      }
       char * data_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       data_str[0] = 0;
       for (i = start_pos; i < end_index; i++) {
@@ -226,13 +234,69 @@ char * iso15434_translate_data_qualifier(char result[],
       free(id_value);
     }
     else if (strcmp(format_code, "05") == 0) {
+      if (debug == 1) {
+        printf("Format code 05\n");
+      }
       translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
-      for (i = start_pos; i < end_index; i++) {
-        decode_strcat_char(translated_str, result[i]);
-        /* format 05, miss the first 4 characters */
-        if (i >= start_pos+4) {
-          decode_strcat_char(iso15434_uii, result[i]);
+
+      unsigned char application_identifier_length = 4;
+      for (unsigned char app_id_len = 4; app_id_len >= 2; app_id_len--) {
+        application_identifier_length = app_id_len;
+        if (end_index - start_pos > application_identifier_length) {
+          /* get the application identifier */
+          char app_id_str[5];
+          for (i = start_pos; i < start_pos + application_identifier_length; i++) {
+            app_id_str[i] = result[i];
+          }
+          app_id_str[application_identifier_length] = 0;
+          if (debug == 1) {
+            printf("Application Identifier %s\n", &app_id_str[0]);
+          }
+          int application_identifier = -1;
+          int application_data_start = start_pos;
+          int application_data_end = start_pos + application_identifier_length;
+          gs1_semantics(&app_id_str[0], translated_str,
+                        NULL, debug,
+                        &application_identifier,
+                        &application_identifier_length,
+                        &application_data_start,
+                        &application_data_end);
+          if (debug == 1) {
+            printf("result: %d %s\n", application_identifier, result);
+          }
+          if (application_identifier != -1) {
+            application_data_end =
+              application_data_start + strlen(result) - application_identifier_length;
+            gs1_semantics(result, translated_str,
+                          NULL, debug,
+                          &application_identifier,
+                          &application_identifier_length,
+                          &application_data_start,
+                          &application_data_end);
+            if (debug == 1) {
+              printf("translated_str 1 %d: %s\n", i, translated_str);
+            }
+            if (strlen(translated_str) > 0) {
+              /* remove trailing newline */
+              translated_str[strlen(translated_str)-1] = 0;
+              /* update the UII */
+              for (i = start_pos + application_identifier_length; i < end_index; i++) {
+                decode_strcat_char(iso15434_uii, result[i]);
+              }
+              break;
+            }
+          }
+        }
+      }
+      if (strlen(translated_str) == 0) {
+        application_identifier_length = 4;
+        for (i = start_pos; i < end_index; i++) {
+          decode_strcat_char(translated_str, result[i]);
+          /* format 05, miss the first 4 characters */
+          if (i >= start_pos + application_identifier_length) {
+            decode_strcat_char(iso15434_uii, result[i]);
+          }
         }
       }
     }
@@ -350,7 +414,8 @@ void iso15434_semantics(char result[],
             iso15434_translate_data_qualifier(result,
                                               *iso15434_data_start, i,
                                               iso15434_uii,
-                                              format_code);
+                                              format_code,
+                                              debug);
           if (translated_str != NULL) {
             decode_strcat(iso15434_result, translated_str);
             free(translated_str);

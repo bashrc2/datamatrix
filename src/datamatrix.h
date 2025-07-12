@@ -511,7 +511,8 @@ char * iso15434_translate_data_qualifier(char result[],
                                          int start_index,
                                          int end_index,
                                          char iso15434_uii[],
-                                         char format_code[]);
+                                         char format_code[],
+                                         unsigned char debug);
 
 /* hibc.c */
 

@@ -738,23 +738,25 @@ void gs1_semantics(char result[],
         }
       }
 
-      if (strlen(gs1_url) > 0) {
-        /* build the GS1 digital link */
-        if (strlen(gs1_result) == 0) {
-          if (gs1_url[0] != '.') {
-            decode_strcat(gs1_result, gs1_url);
+      if (gs1_url != NULL) {
+        if (strlen(gs1_url) > 0) {
+          /* build the GS1 digital link */
+          if (strlen(gs1_result) == 0) {
+            if (gs1_url[0] != '.') {
+              decode_strcat(gs1_result, gs1_url);
+            }
           }
+          if (gs1_url[0] != '.') {
+            decode_strcat_char(gs1_result, '/');
+            decode_strcat(gs1_result, &app_id_str2[0]);
+          }
+          else {
+            decode_strcat_char(gs1_result, '(');
+            decode_strcat(gs1_result, &app_id_str2[0]);
+            decode_strcat_char(gs1_result, ')');
+          }
+          is_digital_link = 1;
         }
-        if (gs1_url[0] != '.') {
-          decode_strcat_char(gs1_result, '/');
-          decode_strcat(gs1_result, &app_id_str2[0]);
-        }
-        else {
-          decode_strcat_char(gs1_result, '(');
-          decode_strcat(gs1_result, &app_id_str2[0]);
-          decode_strcat_char(gs1_result, ')');
-        }
-        is_digital_link = 1;
       }
 
       switch(*application_identifier) {
@@ -1676,7 +1678,13 @@ void gs1_semantics(char result[],
       }
       }
 
-      if (strlen(gs1_url) > 0) {
+      unsigned char build_digital_link = 0;
+      if (gs1_url != NULL) {
+        if (strlen(gs1_url) > 0) {
+          build_digital_link = 1;
+        }
+      }
+      if (build_digital_link == 1) {
         /* build the GS1 digital link */
         if (gs1_url[0] != '.') {
           decode_strcat_char(gs1_result, '/');
