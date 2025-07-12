@@ -105,10 +105,10 @@ char * iso15434_translate_data_qualifier(char result[],
       found = 1;
     }
 
-    /* UID */
+    /* UID / UIC */
     if ((result[start_index] == 'U') &&
         (result[start_index+1] == 'I') &&
-        (result[start_index+2] == 'D')) {
+        ((result[start_index+2] == 'D') || (result[start_index+2] == 'C'))) {
       translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
       decode_strcat(translated_str, "UNIQUE ID: ");
@@ -132,6 +132,26 @@ char * iso15434_translate_data_qualifier(char result[],
       translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
       decode_strcat(translated_str, "UNITS: ");
+      found = 1;
+    }
+
+    /* FID */
+    if ((result[start_index] == 'F') &&
+        (result[start_index+1] == 'I') &&
+        (result[start_index+2] == 'D')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "FACILITY: ");
+      found = 1;
+    }
+
+    /* MID */
+    if ((result[start_index] == 'M') &&
+        (result[start_index+1] == 'I') &&
+        (result[start_index+2] == 'D')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "MACHINE: ");
       found = 1;
     }
   }
