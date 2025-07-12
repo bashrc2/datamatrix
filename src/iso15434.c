@@ -257,12 +257,14 @@ char * iso15434_translate_data_qualifier(char result[],
           int application_identifier = -1;
           int application_data_start = start_pos;
           int application_data_end = start_pos + application_identifier_length;
+          unsigned char application_data_variable = 0;
           gs1_semantics(&app_id_str[0], translated_str,
                         NULL, debug,
                         &application_identifier,
                         &application_identifier_length,
                         &application_data_start,
-                        &application_data_end);
+                        &application_data_end,
+                        &application_data_variable);
           if (debug == 1) {
             printf("result: %d %s\n", application_identifier, result);
           }
@@ -274,7 +276,8 @@ char * iso15434_translate_data_qualifier(char result[],
                           &application_identifier,
                           &application_identifier_length,
                           &application_data_start,
-                          &application_data_end);
+                          &application_data_end,
+                          &application_data_variable);
             if (debug == 1) {
               printf("translated_str 1 %d: %s\n", i, translated_str);
             }

@@ -490,7 +490,8 @@ void gs1_semantics(char result[],
                    int * application_identifier,
                    unsigned char * application_identifier_length,
                    int * application_data_start,
-                   int * application_data_end);
+                   int * application_data_end,
+                   unsigned char * application_data_variable);
 
 /* condense.c */
 

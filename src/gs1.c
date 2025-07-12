@@ -38,6 +38,7 @@
  * \param application_identifier_length length of the application identifier string in bytes
  * \param application_data_start position in the result decode string where application data starts
  * \param application_data_end position in the result decode string where application data ends
+ * \param application_data_variable if data is variable length how many characters are variable
  */
 void gs1_semantics(char result[],
                    char gs1_result[],
@@ -46,7 +47,8 @@ void gs1_semantics(char result[],
                    int * application_identifier,
                    unsigned char * application_identifier_length,
                    int * application_data_start,
-                   int * application_data_end)
+                   int * application_data_end,
+                   unsigned char * application_data_variable)
 {
   char * app_id_str, * data_str, * date_str;
   char app_id_str2[10];
@@ -62,6 +64,7 @@ void gs1_semantics(char result[],
     /* read application identifier */
     app_id_str = &result[*application_data_start];
     *application_identifier = atoi(app_id_str);
+    *application_data_variable = 0;
 
     /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf
        https://www.tec-it.com/en/support/knowbase/gs1-application-identifier/Default.aspx
@@ -95,6 +98,7 @@ void gs1_semantics(char result[],
     case 10: {
       *application_data_end = curr_pos + 6;
       *application_identifier_length = 2;
+      *application_data_variable = 20;
       break;
     }
     case 11: {
@@ -140,11 +144,13 @@ void gs1_semantics(char result[],
     case 21: {
       *application_data_end = curr_pos + 20;
       *application_identifier_length = 2;
+      *application_data_variable = 20;
       break;
     }
     case 22: {
       *application_data_end = curr_pos + 20;
       *application_identifier_length = 2;
+      *application_data_variable = 20;
       break;
     }
     case 30: {
@@ -185,6 +191,7 @@ void gs1_semantics(char result[],
     case 37: {
       *application_data_end = curr_pos + 8;
       *application_identifier_length = 2;
+      *application_data_variable = 8;
       break;
     }
     case 41: {
@@ -192,54 +199,124 @@ void gs1_semantics(char result[],
       *application_identifier_length = 3;
       break;
     }
+    case 90: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 2;
+      *application_data_variable = 30;
+      break;
+    }
+    case 91: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 92: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 93: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 94: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 95: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 96: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 97: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 98: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
+    case 99: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 2;
+      *application_data_variable = 90;
+      break;
+    }
     case 235: {
       *application_data_end = curr_pos + 28;
       *application_identifier_length = 3;
+      *application_data_variable = 28;
       break;
     }
     case 240: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 3;
+      *application_data_variable = 30;
       break;
     }
     case 241: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 3;
+      *application_data_variable = 30;
       break;
     }
     case 242: {
       *application_data_end = curr_pos + 6;
       *application_identifier_length = 3;
+      *application_data_variable = 6;
       break;
     }
     case 243: {
       *application_data_end = curr_pos + 20;
       *application_identifier_length = 3;
+      *application_data_variable = 20;
       break;
     }
     case 250: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 3;
+      *application_data_variable = 30;
       break;
     }
     case 251: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 3;
+      *application_data_variable = 30;
       break;
     }
     case 253: {
-      *application_data_end = curr_pos + 13;
+      *application_data_end = curr_pos + 13 + 17;
       *application_identifier_length = 3;
+      *application_data_variable = 17;
       break;
     }
     case 254: {
       *application_data_end = curr_pos + 20;
       *application_identifier_length = 3;
+      *application_data_variable = 20;
       break;
     }
     case 255: {
-      *application_data_end = curr_pos + 13;
+      *application_data_end = curr_pos + 13 + 12;
       *application_identifier_length = 3;
+      *application_data_variable = 12;
       break;
     }
     case 310: {
@@ -510,21 +587,25 @@ void gs1_semantics(char result[],
     case 390: {
       *application_data_end = curr_pos + 15;
       *application_identifier_length = 4;
+      *application_data_variable = 15;
       break;
     }
     case 391: {
-      *application_data_end = curr_pos + 18;
+      *application_data_end = curr_pos + 3 + 15;
       *application_identifier_length = 4;
+      *application_data_variable = 15;
       break;
     }
     case 392: {
       *application_data_end = curr_pos + 15;
       *application_identifier_length = 4;
+      *application_data_variable = 15;
       break;
     }
     case 393: {
-      *application_data_end = curr_pos + 15;
+      *application_data_end = curr_pos + 3 + 15;
       *application_identifier_length = 4;
+      *application_data_variable = 15;
       break;
     }
     case 394: {
@@ -540,11 +621,13 @@ void gs1_semantics(char result[],
     case 400: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 3;
+      *application_data_variable = 30;
       break;
     }
     case 401: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 3;
+      *application_data_variable = 30;
       break;
     }
     case 402: {
@@ -555,6 +638,7 @@ void gs1_semantics(char result[],
     case 403: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 3;
+      *application_data_variable = 30;
       break;
     }
     case 410: {
@@ -590,11 +674,13 @@ void gs1_semantics(char result[],
     case 420: {
       *application_data_end = curr_pos + 20;
       *application_identifier_length = 3;
+      *application_data_variable = 20;
       break;
     }
     case 421: {
-      *application_data_end = curr_pos + 9;
-      *application_identifier_length = 6;
+      *application_data_end = curr_pos + 3 + 9;
+      *application_identifier_length = 3;
+      *application_data_variable = 9;
       break;
     }
     case 422: {
@@ -603,8 +689,9 @@ void gs1_semantics(char result[],
       break;
     }
     case 423: {
-      *application_data_end = curr_pos + 12;
-      *application_identifier_length = 6;
+      *application_data_end = curr_pos + 3 + 12;
+      *application_identifier_length = 3;
+      *application_data_variable = 12;
       break;
     }
     case 424: {
@@ -613,13 +700,50 @@ void gs1_semantics(char result[],
       break;
     }
     case 425: {
-      *application_data_end = curr_pos + 12;
-      *application_identifier_length = 6;
+      *application_data_end = curr_pos + 3 + 12;
+      *application_identifier_length = 3;
+      *application_data_variable = 12;
       break;
     }
     case 426: {
       *application_data_end = curr_pos + 3;
       *application_identifier_length = 3;
+      break;
+    }
+    case 703: {
+      *application_data_end = curr_pos + 3 + 27;
+      *application_identifier_length = 4;
+      *application_data_variable = 27;
+      break;
+    }
+    case 710: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      *application_data_variable = 20;
+      break;
+    }
+    case 711: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      *application_data_variable = 20;
+      break;
+    }
+    case 712: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      *application_data_variable = 20;
+      break;
+    }
+    case 713: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      *application_data_variable = 20;
+      break;
+    }
+    case 714: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      *application_data_variable = 20;
       break;
     }
     case 7001: {
@@ -630,6 +754,7 @@ void gs1_semantics(char result[],
     case 7002: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 4;
+      *application_data_variable = 30;
       break;
     }
     case 7003: {
@@ -645,16 +770,19 @@ void gs1_semantics(char result[],
     case 8002: {
       *application_data_end = curr_pos + 20;
       *application_identifier_length = 4;
+      *application_data_variable = 20;
       break;
     }
     case 8003: {
       *application_data_end = curr_pos + 14 + 16;
       *application_identifier_length = 4;
+      *application_data_variable = 16;
       break;
     }
     case 8004: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 4;
+      *application_data_variable = 30;
       break;
     }
     case 8005: {
@@ -670,31 +798,37 @@ void gs1_semantics(char result[],
     case 8007: {
       *application_data_end = curr_pos + 34;
       *application_identifier_length = 4;
+      *application_data_variable = 34;
       break;
     }
     case 8008: {
       *application_data_end = curr_pos + 8 + 4;
       *application_identifier_length = 4;
+      *application_data_variable = 4;
       break;
     }
     case 8010: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 4;
+      *application_data_variable = 30;
       break;
     }
     case 8011: {
       *application_data_end = curr_pos + 12;
       *application_identifier_length = 4;
+      *application_data_variable = 12;
       break;
     }
     case 8012: {
       *application_data_end = curr_pos + 20;
       *application_identifier_length = 4;
+      *application_data_variable = 20;
       break;
     }
     case 8013: {
       *application_data_end = curr_pos + 30;
       *application_identifier_length = 4;
+      *application_data_variable = 30;
       break;
     }
     case 8017: {
@@ -710,11 +844,13 @@ void gs1_semantics(char result[],
     case 8020: {
       *application_data_end = curr_pos + 25;
       *application_identifier_length = 4;
+      *application_data_variable = 25;
       break;
     }
     case 8110: {
       *application_data_end = curr_pos + 70;
       *application_identifier_length = 4;
+      *application_data_variable = 70;
       break;
     }
    }
@@ -938,6 +1074,76 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("ID ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "ID: ");
+        }
+        break;
+      }
+      case 90: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 91: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 92: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 93: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 94: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 95: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 96: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 97: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 98: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
+        }
+        break;
+      }
+      case 99: {
+        if (debug == 1) printf("INTERNAL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "INTERNAL: ");
         }
         break;
       }
@@ -1540,6 +1746,48 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("COUNTRY – FULL PROCESS ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "COUNTRY – FULL PROCESS: ");
+        }
+        break;
+      }
+      case 703: {
+        if (debug == 1) printf("PROCESSOR # s4 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PROCESSOR # s4: ");
+        }
+        break;
+      }
+      case 710: {
+        if (debug == 1) printf("NHRN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NHRN: ");
+        }
+        break;
+      }
+      case 711: {
+        if (debug == 1) printf("NHRN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NHRN: ");
+        }
+        break;
+      }
+      case 712: {
+        if (debug == 1) printf("NHRN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NHRN: ");
+        }
+        break;
+      }
+      case 713: {
+        if (debug == 1) printf("NHRN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NHRN: ");
+        }
+        break;
+      }
+      case 714: {
+        if (debug == 1) printf("NHRN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NHRN: ");
         }
         break;
       }
