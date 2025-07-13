@@ -1010,13 +1010,47 @@ void gs1_semantics(char result[],
       *application_identifier_length = 4;
       break;
     }
+    case 8019: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 4;
+      *application_data_variable = 10;
+      break;
+    }
     case 8020: {
       *application_data_end = curr_pos + 25;
       *application_identifier_length = 4;
       *application_data_variable = 25;
       break;
     }
+    case 8026: {
+      *application_data_end = curr_pos + 14 + 2 + 2;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8030: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 4;
+      *application_data_variable = 90;
+      break;
+    }
     case 8110: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 8111: {
+      *application_data_end = curr_pos + 4;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 8112: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 8200: {
       *application_data_end = curr_pos + 70;
       *application_identifier_length = 4;
       *application_data_variable = 70;
@@ -2270,6 +2304,13 @@ void gs1_semantics(char result[],
         }
         break;
       }
+      case 8019: {
+        if (debug == 1) printf("SRIN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SRIN: ");
+        }
+        break;
+      }
       case 8020: {
         if (debug == 1) printf("REF NO ");
         if (is_digital_link == 0) {
@@ -2277,10 +2318,45 @@ void gs1_semantics(char result[],
         }
         break;
       }
+      case 8026: {
+        if (debug == 1) printf("ITIP CONTENT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "ITIP CONTENT: ");
+        }
+        break;
+      }
+      case 8030: {
+        if (debug == 1) printf("DIGSIG ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "DIGSIG: ");
+        }
+        break;
+      }
       case 8110: {
         if (debug == 1) printf("COUPON ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "COUPON: ");
+        }
+        break;
+      }
+      case 8111: {
+        if (debug == 1) printf("POINTS ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "POINTS: ");
+        }
+        break;
+      }
+      case 8112: {
+        if (debug == 1) printf("COUPON ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "COUPON: ");
+        }
+        break;
+      }
+      case 8200: {
+        if (debug == 1) printf("PRODUCT URL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PRODUCT URL: ");
         }
         break;
       }
