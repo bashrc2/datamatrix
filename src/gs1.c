@@ -2383,9 +2383,10 @@ void gs1_semantics(char result[],
         break;
       }
       case 4326: {
-        if (debug == 1) printf("REL DATE ");
+        if (debug == 1) printf("REL DATE YYMMDD ");
         if (is_digital_link == 0) {
-          decode_strcat(gs1_result, "REL DATE: ");
+          decode_strcat(gs1_result, "REL DATE YYMMDD: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -2435,6 +2436,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("EXPIRY TIME YYMMDDHHMM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "EXPIRY TIME YYMMDDHHMM: ");
+          date_str = data_id_convert_date("YYMMDDHHMM", data_str);
         }
         break;
       }
@@ -2456,6 +2458,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("FIRST FREEZE DATE YYMMDD ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "FIRST FREEZE DATE YYMMDD: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -2463,6 +2466,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("HARVEST DATE YYMMDD ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "HARVEST DATE YYMMDD: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -2491,6 +2495,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("TEST BY DATE YYMMDD ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "TEST BY DATE YYMMDD: ");
+          date_str = data_id_convert_date("YYMMDD", data_str);
         }
         break;
       }
@@ -2561,6 +2566,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("DOB YYYYMMDD ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "DOB YYYYMMDD: ");
+          date_str = data_id_convert_date("YYYYMMDD", data_str);
         }
         break;
       }
@@ -2568,6 +2574,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("DOB TIME YYYYMMDDHHMM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "DOB TIME YYYYMMDDHHMM: ");
+          date_str = data_id_convert_date("YYYYMMDDHHMM", data_str);
         }
         break;
       }
