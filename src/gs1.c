@@ -760,6 +760,196 @@ void gs1_semantics(char result[],
       *application_data_variable = 20;
       break;
     }
+    case 715: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      *application_data_variable = 20;
+      break;
+    }
+    case 716: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 3;
+      *application_data_variable = 20;
+      break;
+    }
+    case 4300: {
+      *application_data_end = curr_pos + 35;
+      *application_identifier_length = 4;
+      *application_data_variable = 35;
+      break;
+    }
+    case 4301: {
+      *application_data_end = curr_pos + 35;
+      *application_identifier_length = 4;
+      *application_data_variable = 35;
+      break;
+    }
+    case 4302: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4303: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4304: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4305: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4306: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4307: {
+      *application_data_end = curr_pos + 2;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4308: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 4;
+      *application_data_variable = 30;
+      break;
+    }
+    case 4309: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      *application_data_variable = 20;
+      break;
+    }
+    case 4310: {
+      *application_data_end = curr_pos + 35;
+      *application_identifier_length = 4;
+      *application_data_variable = 35;
+      break;
+    }
+    case 4311: {
+      *application_data_end = curr_pos + 35;
+      *application_identifier_length = 4;
+      *application_data_variable = 35;
+      break;
+    }
+    case 4312: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4313: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4314: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4315: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4316: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 4317: {
+      *application_data_end = curr_pos + 2;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4318: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      *application_data_variable = 20;
+      break;
+    }
+    case 4319: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 4;
+      *application_data_variable = 30;
+      break;
+    }
+    case 4320: {
+      *application_data_end = curr_pos + 35;
+      *application_identifier_length = 4;
+      *application_data_variable = 35;
+      break;
+    }
+    case 4321: {
+      *application_data_end = curr_pos + 1;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4322: {
+      *application_data_end = curr_pos + 1;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4323: {
+      *application_data_end = curr_pos + 1;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4324: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4325: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4326: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 4330: {
+      *application_data_end = curr_pos + 6 + 1;
+      *application_identifier_length = 4;
+      *application_data_variable = 1;
+      break;
+    }
+    case 4331: {
+      *application_data_end = curr_pos + 6 + 1;
+      *application_identifier_length = 4;
+      *application_data_variable = 1;
+      break;
+    }
+    case 4332: {
+      *application_data_end = curr_pos + 6 + 1;
+      *application_identifier_length = 4;
+      *application_data_variable = 1;
+      break;
+    }
+    case 4333: {
+      *application_data_end = curr_pos + 6 + 1;
+      *application_identifier_length = 4;
+      *application_data_variable = 1;
+      break;
+    }
     case 7001: {
       *application_data_end = curr_pos + 13;
       *application_identifier_length = 4;
@@ -1993,6 +2183,237 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("NHRN ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "NHRN: ");
+        }
+        break;
+      }
+      case 715: {
+        if (debug == 1) printf("NHRN NDC ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NHRN NDC: ");
+        }
+        break;
+      }
+      case 716: {
+        if (debug == 1) printf("NHRN AIC ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NHRN AIC: ");
+        }
+        break;
+      }
+      case 4300: {
+        if (debug == 1) printf("SHIP TO COMP ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO COMP: ");
+        }
+        break;
+      }
+      case 4301: {
+        if (debug == 1) printf("SHIP TO NAME ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO NAME: ");
+        }
+        break;
+      }
+      case 4302: {
+        if (debug == 1) printf("SHIP TO ADD1 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO ADD1: ");
+        }
+        break;
+      }
+      case 4303: {
+        if (debug == 1) printf("SHIP TO ADD2 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO ADD2: ");
+        }
+        break;
+      }
+      case 4304: {
+        if (debug == 1) printf("SHIP TO SUB ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO SUB: ");
+        }
+        break;
+      }
+      case 4305: {
+        if (debug == 1) printf("SHIP TO LOC ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO LOC: ");
+        }
+        break;
+      }
+      case 4306: {
+        if (debug == 1) printf("SHIP TO REG ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO REG: ");
+        }
+        break;
+      }
+      case 4307: {
+        if (debug == 1) printf("SHIP TO COUNTRY ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO COUNTRY: ");
+        }
+        break;
+      }
+      case 4308: {
+        if (debug == 1) printf("SHIP TO PHONE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO PHONE: ");
+        }
+        break;
+      }
+      case 4309: {
+        if (debug == 1) printf("SHIP TO GEO ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SHIP TO GEO: ");
+        }
+        break;
+      }
+      case 4310: {
+        if (debug == 1) printf("RTN TO COMP ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO COMP: ");
+        }
+        break;
+      }
+      case 4311: {
+        if (debug == 1) printf("RTN TO NAME ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO NAME: ");
+        }
+        break;
+      }
+      case 4312: {
+        if (debug == 1) printf("RTN TO ADD1 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO ADD1: ");
+        }
+        break;
+      }
+      case 4313: {
+        if (debug == 1) printf("RTN TO ADD2 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO ADD2: ");
+        }
+        break;
+      }
+      case 4314: {
+        if (debug == 1) printf("RTN TO SUB ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO SUB: ");
+        }
+        break;
+      }
+      case 4315: {
+        if (debug == 1) printf("RTN TO LOC ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO LOC: ");
+        }
+        break;
+      }
+      case 4316: {
+        if (debug == 1) printf("RTN TO REG ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO REG: ");
+        }
+        break;
+      }
+      case 4317: {
+        if (debug == 1) printf("RTN TO COUNTRY ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO COUNTRY: ");
+        }
+        break;
+      }
+      case 4318: {
+        if (debug == 1) printf("RTN TO POST ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO POST: ");
+        }
+        break;
+      }
+      case 4319: {
+        if (debug == 1) printf("RTN TO PHONE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "RTN TO PHONE: ");
+        }
+        break;
+      }
+      case 4320: {
+        if (debug == 1) printf("SRV DESCRIPTION ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SRV DESCRIPTION: ");
+        }
+        break;
+      }
+      case 4321: {
+        if (debug == 1) printf("DANGEROUS GOODS ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "DANGEROUS GOODS: ");
+        }
+        break;
+      }
+      case 4322: {
+        if (debug == 1) printf("AUTH LEAVE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "AUTH LEAVE: ");
+        }
+        break;
+      }
+      case 4323: {
+        if (debug == 1) printf("SIG REQUIRED ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SIG REQUIRED: ");
+        }
+        break;
+      }
+      case 4324: {
+        if (debug == 1) printf("NBEF DEL DT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NBEF DEL DT: ");
+        }
+        break;
+      }
+      case 4325: {
+        if (debug == 1) printf("NAFT DEL DT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "NAFT DEL DT: ");
+        }
+        break;
+      }
+      case 4326: {
+        if (debug == 1) printf("REL DATE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "REL DATE: ");
+        }
+        break;
+      }
+      case 4330: {
+        if (debug == 1) printf("MAX TEMP F ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "MAX TEMP F: ");
+        }
+        break;
+      }
+      case 4331: {
+        if (debug == 1) printf("MAX TEMP C ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "MAX TEMP C: ");
+        }
+        break;
+      }
+      case 4332: {
+        if (debug == 1) printf("MIN TEMP F ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "MIN TEMP F: ");
+        }
+        break;
+      }
+      case 4333: {
+        if (debug == 1) printf("MIN TEMP C ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "MIN TEMP C: ");
         }
         break;
       }
