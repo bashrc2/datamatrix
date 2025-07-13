@@ -823,6 +823,114 @@ void gs1_semantics(char result[],
       *application_data_variable = 4;
       break;
     }
+    case 7020: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      *application_data_variable = 20;
+      break;
+    }
+    case 7021: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      *application_data_variable = 20;
+      break;
+    }
+    case 7022: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      *application_data_variable = 20;
+      break;
+    }
+    case 7023: {
+      *application_data_end = curr_pos + 30;
+      *application_identifier_length = 4;
+      *application_data_variable = 30;
+      break;
+    }
+    case 7040: {
+      *application_data_end = curr_pos + 1 + 3;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7041: {
+      *application_data_end = curr_pos + 4;
+      *application_identifier_length = 4;
+      *application_data_variable = 4;
+      break;
+    }
+    case 7240: {
+      *application_data_end = curr_pos + 20;
+      *application_identifier_length = 4;
+      *application_data_variable = 20;
+      break;
+    }
+    case 7241: {
+      *application_data_end = curr_pos + 2;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7242: {
+      *application_data_end = curr_pos + 25;
+      *application_identifier_length = 4;
+      *application_data_variable = 25;
+      break;
+    }
+    case 7250: {
+      *application_data_end = curr_pos + 8;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7251: {
+      *application_data_end = curr_pos + 12;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7252: {
+      *application_data_end = curr_pos + 1;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7253: {
+      *application_data_end = curr_pos + 40;
+      *application_identifier_length = 4;
+      *application_data_variable = 40;
+      break;
+    }
+    case 7254: {
+      *application_data_end = curr_pos + 40;
+      *application_identifier_length = 4;
+      *application_data_variable = 40;
+      break;
+    }
+    case 7255: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 4;
+      *application_data_variable = 10;
+      break;
+    }
+    case 7256: {
+      *application_data_end = curr_pos + 90;
+      *application_identifier_length = 4;
+      *application_data_variable = 90;
+      break;
+    }
+    case 7257: {
+      *application_data_end = curr_pos + 70;
+      *application_identifier_length = 4;
+      *application_data_variable = 70;
+      break;
+    }
+    case 7258: {
+      *application_data_end = curr_pos + 1 + 1 + 1;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7259: {
+      *application_data_end = curr_pos + 40;
+      *application_identifier_length = 4;
+      *application_data_variable = 40;
+      break;
+    }
     case 8001: {
       *application_data_end = curr_pos + 14;
       *application_identifier_length = 4;
@@ -1928,6 +2036,139 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("TEST BY DATE YYMMDD ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "TEST BY DATE YYMMDD: ");
+        }
+        break;
+      }
+      case 7020: {
+        if (debug == 1) printf("REFURB LOT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "REFURB LOT: ");
+        }
+        break;
+      }
+      case 7021: {
+        if (debug == 1) printf("FUNC STAT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "FUNC STAT: ");
+        }
+        break;
+      }
+      case 7022: {
+        if (debug == 1) printf("REV STAT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "REV STAT: ");
+        }
+        break;
+      }
+      case 7023: {
+        if (debug == 1) printf("GIAI – ASSEMBLY ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GIAI – ASSEMBLY: ");
+        }
+        break;
+      }
+      case 7040: {
+        if (debug == 1) printf("UIC+EXT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "UIC+EXT: ");
+        }
+        break;
+      }
+      case 7041: {
+        if (debug == 1) printf("UFRGT UNIT TYPE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "UFRGT UNIT TYPE: ");
+        }
+        break;
+      }
+      case 7240: {
+        if (debug == 1) printf("PROTOCOL ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PROTOCOL: ");
+        }
+        break;
+      }
+      case 7241: {
+        if (debug == 1) printf("AIDC MEDIA TYPE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "AIDC MEDIA TYPE: ");
+        }
+        break;
+      }
+      case 7242: {
+        if (debug == 1) printf("VCN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "VCN: ");
+        }
+        break;
+      }
+      case 7250: {
+        if (debug == 1) printf("DOB YYYYMMDD ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "DOB YYYYMMDD: ");
+        }
+        break;
+      }
+      case 7251: {
+        if (debug == 1) printf("DOB TIME YYYYMMDDHHMM ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "DOB TIME YYYYMMDDHHMM: ");
+        }
+        break;
+      }
+      case 7252: {
+        if (debug == 1) printf("BIO SEX ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "BIO SEX: ");
+        }
+        break;
+      }
+      case 7253: {
+        if (debug == 1) printf("FAMILY NAME ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "FAMILY NAME: ");
+        }
+        break;
+      }
+      case 7254: {
+        if (debug == 1) printf("GIVEN NAME ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "GIVEN NAME: ");
+        }
+        break;
+      }
+      case 7255: {
+        if (debug == 1) printf("SUFFIX ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "SUFFIX: ");
+        }
+        break;
+      }
+      case 7256: {
+        if (debug == 1) printf("FULL NAME ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "FULL NAME: ");
+        }
+        break;
+      }
+      case 7257: {
+        if (debug == 1) printf("PERSON ADDR ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PERSON ADDR: ");
+        }
+        break;
+      }
+      case 7258: {
+        if (debug == 1) printf("BIRTH SEQUENCE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "BIRTH SEQUENCE: ");
+        }
+        break;
+      }
+      case 7259: {
+        if (debug == 1) printf("BABY ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "BABY: ");
         }
         break;
       }
