@@ -2687,6 +2687,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PROD TIME ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PROD TIME: ");
+          date_str = data_id_convert_date("YYMMDDHH", data_str);
         }
         break;
       }
