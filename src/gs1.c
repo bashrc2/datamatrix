@@ -776,6 +776,53 @@ void gs1_semantics(char result[],
       *application_identifier_length = 4;
       break;
     }
+    case 7004: {
+      *application_data_end = curr_pos + 4;
+      *application_identifier_length = 4;
+      *application_data_variable = 4;
+      break;
+    }
+    case 7005: {
+      *application_data_end = curr_pos + 12;
+      *application_identifier_length = 4;
+      *application_data_variable = 12;
+      break;
+    }
+    case 7006: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 7007: {
+      *application_data_end = curr_pos + 6 + 6;
+      *application_identifier_length = 4;
+      *application_data_variable = 6;
+      break;
+    }
+    case 7008: {
+      *application_data_end = curr_pos + 3;
+      *application_identifier_length = 4;
+      *application_data_variable = 3;
+      break;
+    }
+    case 7009: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 4;
+      *application_data_variable = 10;
+      break;
+    }
+    case 7010: {
+      *application_data_end = curr_pos + 2;
+      *application_identifier_length = 4;
+      *application_data_variable = 2;
+      break;
+    }
+    case 7011: {
+      *application_data_end = curr_pos + 6 + 4;
+      *application_identifier_length = 4;
+      *application_data_variable = 4;
+      break;
+    }
     case 8001: {
       *application_data_end = curr_pos + 14;
       *application_identifier_length = 4;
@@ -1825,6 +1872,62 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("EXPIRY TIME YYMMDDHHMM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "EXPIRY TIME YYMMDDHHMM: ");
+        }
+        break;
+      }
+      case 7004: {
+        if (debug == 1) printf("ACTIVE POTENCY ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "ACTIVE POTENCY: ");
+        }
+        break;
+      }
+      case 7005: {
+        if (debug == 1) printf("CATCH AREA ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "CATCH AREA: ");
+        }
+        break;
+      }
+      case 7006: {
+        if (debug == 1) printf("FIRST FREEZE DATE YYMMDD ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "FIRST FREEZE DATE YYMMDD: ");
+        }
+        break;
+      }
+      case 7007: {
+        if (debug == 1) printf("HARVEST DATE YYMMDD ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "HARVEST DATE YYMMDD: ");
+        }
+        break;
+      }
+      case 7008: {
+        if (debug == 1) printf("AQUATIC SPECIES ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "AQUATIC SPECIES: ");
+        }
+        break;
+      }
+      case 7009: {
+        if (debug == 1) printf("FISHING GEAR TYPE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "FISHING GEAR TYPE: ");
+        }
+        break;
+      }
+      case 7010: {
+        if (debug == 1) printf("PROD METHOD ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PROD METHOD: ");
+        }
+        break;
+      }
+      case 7011: {
+        if (debug == 1) printf("TEST BY DATE YYMMDD ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "TEST BY DATE YYMMDD: ");
         }
         break;
       }
