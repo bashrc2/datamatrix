@@ -27,6 +27,145 @@
 
 #include "datamatrix.h"
 
+char * iso3166_country_codes[] = {
+  "Jersey", "JEY", "832",
+  "Jordan", "JOR", "400",
+  "Kazakhstan",	"KAZ", "398",
+  "Kenya", "KEN", "404",
+  "Kiribati",	"KIR", "296",
+  "North Korea", "PRK", "408",
+  "South Korea", "KOR", "410",
+  "Kuwait", "KWT", "414",
+  "Kyrgyzstan", "KGZ", "417",
+  "Laos", "LAO", "418",
+  "Latvia", "LVA", "428",
+  "Lebanon", "LBN", "422",
+  "Lesotho", "LSO", "426",
+  "Liberia", "LBR", "430",
+  "Libya", "LBY", "434",
+  "Liechtenstein", "LIE", "438",
+  "Lithuania", "LTU", "440",
+  "Luxembourg", "LUX", "442",
+  "Macau", "MAC", "446",
+  "Madagascar", "MDG", "450",
+  "Malawi", "MWI", "454",
+  "Malaysia", "MYS", "458",
+  "Maldives", "MDV", "462",
+  "Mali", "MLI", "466",
+  "Malta", "MLT", "470",
+  "Marshall Islands", "MHL", "584",
+  "Martinique", "MTQ", "474",
+  "Mauritania", "MRT", "478",
+  "Mauritius", "MUS", "480",
+  "Mayotte", "MYT", "175",
+  "Mexico", "MEX", "484",
+  "Federated States of Micronesia", "FSM", "583",
+  "Moldova", "MDA", "498",
+  "Monaco", "MCO", "492",
+  "Mongolia",	"MNG", "496",
+  "Montenegro", "MNE", "499",
+  "Montserrat", "MSR", "500",
+  "Morocco", "MAR", "504",
+  "Mozambique", "MOZ", "508",
+  "Myanmar", "MMR", "104",
+  "Namibia", "NAM", "516",
+  "Nauru", "NRU", "520",
+  "Nepal", "NPL", "524",
+  "Netherlands", "NLD", "528",
+  "New Caledonia", "NCL", "540",
+  "New Zealand", "NZL", "554",
+  "Nicaragua", "NIC", "558",
+  "Niger", "NER", "562",
+  "Nigeria", "NGA", "566",
+  "Niue", "NIU", "570",
+  "Norfolk Island", "NFK", "574",
+  "North Korea", "MKD", "807",
+  "Northern Mariana Islands", "MNP", "580",
+  "Norway", "NOR", "578",
+  "Oman", "OMN", "512",
+  "Pakistan", "PAK", "586",
+  "Palau", "PLW", "585",
+  "Palestine", "PSE", "275",
+  "Panama",	"PAN", "591",
+  "Papua New Guinea", "PNG", "598",
+  "Paraguay",	"PRY", "600",
+  "Peru", "PER", "604",
+  "Philippines", "PHL", "608",
+  "Pitcairn Islands", "PCN", "612",
+  "Poland", "POL", "616",
+  "Portugal", "PRT", "620",
+  "Puerto Rico", "PRI", "630",
+  "Qatar", "QAT", "634",
+  "Réunion", "REU", "638",
+  "Romania", "ROU", "642",
+  "Russia", "RUS", "643",
+  "Rwanda", "RWA", "646",
+  "Saint Barthélemy", "BLM", "652",
+  "Saint Helena", "SHN", "654",
+  "Saint Kitts and Nevis", "KNA", "659",
+  "Saint Lucia", "LCA", "662",
+  "Collectivity of Saint Martin", "MAF", "663",
+  "Saint Pierre and Miquelon", "SPM", "666",
+  "Saint Vincent and the Grenadines", "VCT", "670",
+  "Samoa", "WSM", "882",
+  "San Marino", "SMR", "674",
+  "São Tomé and Príncipe", "STP", "678",
+  "Saudi Arabia", "SAU", "682",
+  "Senegal", "SEN", "686",
+  "Serbia", "SRB", "688",
+  "Seychelles", "SYC", "690",
+  "Sierra Leone", "SLE", "694",
+  "Singapore", "SGP", "702",
+  "Sint Maarten", "SXM", "534",
+  "Slovakia", "SVK", "703",
+  "Slovenia", "SVN", "705",
+  "Solomon Islands", "SLB", "090",
+  "Somalia", "SOM", "706",
+  "South Africa", "ZAF", "710",
+  "South Georgia and the South Sandwich Islands",	"SGS", "239",
+  "South Sudan", "SSD", "728",
+  "Spain", "ESP",	"724",
+  "Sri Lanka", "LKA", "144",
+  "Sudan", "SDN", "729",
+  "Suriname", "SUR", "740",
+  "Svalbard", "SJM", "744",
+  "Sweden", "SWE", "752",
+  "Switzerland", "CHE", "756",
+  "Syria", "SYR", "760",
+  "Taiwan", "TWN", "158",
+  "Tajikistan", "TJK", "762",
+  "Tanzania", "TZA", "834",
+  "Thailand", "THA", "764",
+  "Timor-Leste", "TLS", "626",
+  "Togo", "TGO", "768",
+  "Tokelau", "TKL", "772",
+  "Tonga", "TON",	"776",
+  "Trinidad and Tobago", "TTO", "780",
+  "Tunisia", "TUN", "788",
+  "Turkey", "TUR", "792",
+  "Turkmenistan", "TKM", "795",
+  "Turks and Caicos Islands", "TCA", "796",
+  "Tuvalu",	"TUV", "798",
+  "Uganda", "UGA", "800",
+  "Ukraine", "UKR", "804",
+  "United Arab Emirates", "ARE", "784",
+  "United Kingdom", "GBR", "826",
+  "United States", "UMI", "581",
+  "United States", "USA", "840",
+  "Uruguay", "URY", "858",
+  "Uzbekistan", "UZB", "860",
+  "Vanuatu", "VUT", "548",
+  "Venezuela", "VEN", "862",
+  "Vietnam", "VNM", "704",
+  "British Virgin Islands", "VGB", "092",
+  "United States Virgin Islands", "VIR", "850",
+  "Wallis and Futuna", "WLF", "876",
+  "Western Sahara", "ESH", "732",
+  "Yemen", "YEM", "887",
+  "Zambia", "ZMB", "894",
+  "Zimbabwe", "ZWE", "716"
+};
+
 char * iso4217_currency_codes[] = {
   "AFGHANISTAN",         "Afghani",               "AFN",       "971",
   "ALBANIA",             "Lek",                   "ALL",       "008",
@@ -297,6 +436,52 @@ char * iso4217_currency_codes[] = {
 };
 
 /**
+ * \brief returns the country for the given code number
+ * \param data_str String to be decoded
+ * \return decoded country string or NULL
+ */
+char * get_country(char data_str[])
+{
+  int i;
+  char data_str_country_code[4];
+
+  int data_len = strlen(data_str);
+  if (data_len < 3) return NULL;
+  for (i = 0; i < 3; i++) {
+    if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
+    data_str_country_code[i] = data_str[i];
+  }
+  data_str_country_code[3] = 0;
+
+  /* is this an iso3166 code? */
+  int no_of_countries =
+    ((int)sizeof(iso3166_country_codes) /
+     (int)sizeof(iso3166_country_codes[0]))/3;
+  int country_index = -1;
+  for (i = 0; i < no_of_countries; i++) {
+    if (strcmp(iso3166_country_codes[i*3 + 2],
+               &data_str_country_code[0]) == 0) {
+      country_index = i;
+      break;
+    }
+  }
+  if (country_index == -1) return NULL;
+
+  char * country_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+  country_str[0] = 0;
+  decode_strcat(country_str, iso3166_country_codes[country_index*3]);
+
+  if (data_len > 3) {
+    decode_strcat_char(country_str, ' ');
+    for (i = 3; i < data_len; i++) {
+      decode_strcat_char(country_str, data_str[i]);
+    }
+  }
+
+  return country_str;
+}
+
+/**
  * \brief returns decoded human readable currency
  * \param application_identifier GS1 application identifier
  * \param data_str String to be decoded
@@ -316,9 +501,11 @@ char * get_currency_value(int application_identifier,
   int data_len = strlen(data_str);
   for (i = 0; i < data_len; i++) {
     if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
+    if (i < 3) {
+      /* get the currency code */
+      data_str_currency_code[i] = data_str[i];
+    }
   }
-  /* get the currency code */
-  for (i = 0; i < 3; i++) data_str_currency_code[i] = data_str[i];
   data_str_currency_code[3] = 0;
 
   /* is this an iso4217 code? */
@@ -411,7 +598,8 @@ void gs1_semantics(char result[],
                    int * application_data_end,
                    unsigned char * application_data_variable)
 {
-  char * app_id_str, * data_str, * date_str, * curr_str, * decimal_str;
+  char * app_id_str, * data_str, * date_str;
+  char * curr_str, * decimal_str, * country_str;
   char app_id_str2[10];
   unsigned char is_digital_link = 0;
 
@@ -814,7 +1002,22 @@ void gs1_semantics(char result[],
       *application_identifier_length = 4;
       break;
     }
-    case 337: {
+    case 3370: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 3371: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 3372: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 3373: {
       *application_data_end = curr_pos + 6;
       *application_identifier_length = 4;
       break;
@@ -959,25 +1162,73 @@ void gs1_semantics(char result[],
       *application_identifier_length = 4;
       break;
     }
-    case 390: {
+    case 3900: {
       *application_data_end = curr_pos + 15;
       *application_identifier_length = 4;
       *application_data_variable = 15;
       break;
     }
-    case 391: {
+    case 3901: {
+      *application_data_end = curr_pos + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3902: {
+      *application_data_end = curr_pos + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3910: {
       *application_data_end = curr_pos + 3 + 15;
       *application_identifier_length = 4;
       *application_data_variable = 15;
       break;
     }
-    case 392: {
+    case 3911: {
+      *application_data_end = curr_pos + 3 + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3912: {
+      *application_data_end = curr_pos + 3 + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3920: {
       *application_data_end = curr_pos + 15;
       *application_identifier_length = 4;
       *application_data_variable = 15;
       break;
     }
-    case 393: {
+    case 3921: {
+      *application_data_end = curr_pos + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3922: {
+      *application_data_end = curr_pos + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3930: {
+      *application_data_end = curr_pos + 3 + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3931: {
+      *application_data_end = curr_pos + 3 + 15;
+      *application_identifier_length = 4;
+      *application_data_variable = 15;
+      break;
+    }
+    case 3932: {
       *application_data_end = curr_pos + 3 + 15;
       *application_identifier_length = 4;
       *application_data_variable = 15;
@@ -988,7 +1239,22 @@ void gs1_semantics(char result[],
       *application_identifier_length = 4;
       break;
     }
-    case 395: {
+    case 3950: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 3951: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 3952: {
+      *application_data_end = curr_pos + 6;
+      *application_identifier_length = 4;
+      break;
+    }
+    case 3953: {
       *application_data_end = curr_pos + 6;
       *application_identifier_length = 4;
       break;
@@ -1616,6 +1882,7 @@ void gs1_semantics(char result[],
     date_str = NULL;
     curr_str = NULL;
     decimal_str = NULL;
+    country_str = NULL;
 
     if (strlen(data_str) > 0) {
       /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -2147,7 +2414,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("KG PER m2 ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "KG PER m2: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2155,7 +2422,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("KG PER m2 ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "KG PER m2: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2163,7 +2430,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("KG PER m2 ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "KG PER m2: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2171,7 +2438,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("KG PER m2 ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "KG PER m2: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2375,7 +2642,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("AMOUNT ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "AMOUNT: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2383,7 +2650,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("AMOUNT ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "AMOUNT: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2391,7 +2658,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("AMOUNT ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "AMOUNT: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2478,7 +2745,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PRICE/UoM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PRICE/UoM: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2486,7 +2753,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PRICE/UoM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PRICE/UoM: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2494,7 +2761,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PRICE/UoM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PRICE/UoM: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2502,7 +2769,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PRICE/UoM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PRICE/UoM: ");
-          curr_str = get_decimal_value(*application_identifier, data_str);
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2587,6 +2854,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("SHIP TO POST ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "SHIP TO POST: ");
+          country_str = get_country(data_str);
         }
         break;
       }
@@ -2622,6 +2890,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("COUNTRY – FULL PROCESS ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "COUNTRY – FULL PROCESS: ");
+          country_str = get_country(data_str);
         }
         break;
       }
@@ -2629,6 +2898,7 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("PROCESSOR # s4 ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PROCESSOR # s4: ");
+          country_str = get_country(data_str);
         }
         break;
       }
@@ -3298,6 +3568,10 @@ void gs1_semantics(char result[],
         else if (decimal_str != NULL) {
           decode_strcat(gs1_result, decimal_str);
           free(decimal_str);
+        }
+        else if (country_str != NULL) {
+          decode_strcat(gs1_result, country_str);
+          free(country_str);
         }
         else {
           decode_strcat(gs1_result, data_str);

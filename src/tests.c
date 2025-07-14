@@ -529,6 +529,24 @@ void test_gs1_decimal()
   free(result3);
 }
 
+void test_gs1_country()
+{
+  printf("test_gs1_country\n");
+  char data_str1[] = "764";
+  char * result1 = get_country(data_str1);
+  assert(result1 != NULL);
+  printf("%s\n", result1);
+  assert(strcmp(result1, "Thailand") == 0);
+  free(result1);
+
+  char data_str2[] = "826ABCD";
+  char * result2 = get_country(data_str2);
+  assert(result2 != NULL);
+  printf("%s\n", result2);
+  assert(strcmp(result2, "United Kingdom ABCD") == 0);
+  free(result2);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -540,5 +558,6 @@ void run_all_tests()
   test_hibc_translate();
   test_gs1_currency();
   test_gs1_decimal();
+  test_gs1_country();
   printf("All tests complete\n");
 }
