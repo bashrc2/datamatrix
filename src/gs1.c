@@ -2143,10 +2143,35 @@ void gs1_semantics(char result[],
         }
         break;
       }
-      case 337: {
+      case 3370: {
         if (debug == 1) printf("KG PER m2 ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "KG PER m2: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3371: {
+        if (debug == 1) printf("KG PER m2 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "KG PER m2: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3372: {
+        if (debug == 1) printf("KG PER m2 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "KG PER m2: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3373: {
+        if (debug == 1) printf("KG PER m2 ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "KG PER m2: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
