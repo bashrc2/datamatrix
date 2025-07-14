@@ -501,6 +501,34 @@ void test_gs1_currency()
   free(result3);
 }
 
+void test_gs1_decimal()
+{
+  printf("test_gs1_decimal\n");
+  int application_identifier = 3920;
+  char data_str1[] = "12345";
+  char * result1 = get_decimal_value(application_identifier, data_str1);
+  assert(result1 != NULL);
+  printf("%s\n", result1);
+  assert(strcmp(result1, "12345.00") == 0);
+  free(result1);
+
+  application_identifier = 3921;
+  char data_str2[] = "1234567";
+  char * result2 = get_decimal_value(application_identifier, data_str2);
+  assert(result2 != NULL);
+  printf("%s\n", result2);
+  assert(strcmp(result2, "123456.70") == 0);
+  free(result2);
+
+  application_identifier = 3922;
+  char data_str3[] = "1234567";
+  char * result3 = get_decimal_value(application_identifier, data_str3);
+  assert(result3 != NULL);
+  printf("%s\n", result3);
+  assert(strcmp(result3, "12345.67") == 0);
+  free(result3);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -511,5 +539,6 @@ void run_all_tests()
   test_iso15434_translate();
   test_hibc_translate();
   test_gs1_currency();
+  test_gs1_decimal();
   printf("All tests complete\n");
 }

@@ -496,6 +496,9 @@ void gs1_semantics(char result[],
 char * get_currency_value(int application_identifier,
                           char data_str[]);
 
+char * get_decimal_value(int application_identifier,
+                         char data_str[]);
+
 /* condense.c */
 
 unsigned char condense_data_blocks(struct grid_2d * grid,

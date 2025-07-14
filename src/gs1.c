@@ -353,6 +353,42 @@ char * get_currency_value(int application_identifier,
 }
 
 /**
+ * \brief returns decoded human readable decimal value
+ * \param application_identifier GS1 application identifier
+ * \param data_str String to be decoded
+ * \return decoded decimal string or NULL
+ */
+char * get_decimal_value(int application_identifier,
+                         char data_str[])
+{
+  int i;
+
+  if (application_identifier < 3900) return NULL;
+  if (strlen(data_str) < 1) return NULL;
+  int decimal_places = application_identifier % 10;
+  if (decimal_places > 3) return NULL;
+  /* check that the data is all numeric */
+  int data_len = strlen(data_str);
+  for (i = 0; i < data_len; i++) {
+    if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
+  }
+
+  char * decimal_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+  decimal_str[0] = 0;
+
+  for (i = 0; i < data_len; i++) {
+    decode_strcat_char(decimal_str, data_str[i]);
+    if (i == data_len - 1 - decimal_places) {
+      decode_strcat_char(decimal_str, '.');
+    }
+  }
+  for (i = 0; i < 2 - decimal_places; i++) {
+    decode_strcat_char(decimal_str, '0');
+  }
+  return decimal_str;
+}
+
+/**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
  * \param result Plaintext decode string
@@ -375,7 +411,7 @@ void gs1_semantics(char result[],
                    int * application_data_end,
                    unsigned char * application_data_variable)
 {
-  char * app_id_str, * data_str, * date_str, * curr_str;
+  char * app_id_str, * data_str, * date_str, * curr_str, * decimal_str;
   char app_id_str2[10];
   unsigned char is_digital_link = 0;
 
@@ -1579,6 +1615,7 @@ void gs1_semantics(char result[],
     data_str = &result[*application_data_start];
     date_str = NULL;
     curr_str = NULL;
+    decimal_str = NULL;
 
     if (strlen(data_str) > 0) {
       /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -2309,10 +2346,27 @@ void gs1_semantics(char result[],
         }
         break;
       }
-      case 390: {
+      case 3900: {
         if (debug == 1) printf("AMOUNT ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "AMOUNT: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3901: {
+        if (debug == 1) printf("AMOUNT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "AMOUNT: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3902: {
+        if (debug == 1) printf("AMOUNT ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "AMOUNT: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2340,10 +2394,27 @@ void gs1_semantics(char result[],
         }
         break;
       }
-      case 392: {
+      case 3920: {
         if (debug == 1) printf("PRICE ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PRICE: ");
+          decimal_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3921: {
+        if (debug == 1) printf("PRICE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PRICE: ");
+          decimal_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3922: {
+        if (debug == 1) printf("PRICE ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PRICE: ");
+          decimal_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -2378,10 +2449,35 @@ void gs1_semantics(char result[],
         }
         break;
       }
-      case 395: {
+      case 3950: {
         if (debug == 1) printf("PRICE/UoM ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "PRICE/UoM: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3951: {
+        if (debug == 1) printf("PRICE/UoM ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PRICE/UoM: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3952: {
+        if (debug == 1) printf("PRICE/UoM ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PRICE/UoM: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
+        }
+        break;
+      }
+      case 3953: {
+        if (debug == 1) printf("PRICE/UoM ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "PRICE/UoM: ");
+          curr_str = get_decimal_value(*application_identifier, data_str);
         }
         break;
       }
@@ -3173,6 +3269,10 @@ void gs1_semantics(char result[],
         else if (curr_str != NULL) {
           decode_strcat(gs1_result, curr_str);
           free(curr_str);
+        }
+        else if (decimal_str != NULL) {
+          decode_strcat(gs1_result, decimal_str);
+          free(decimal_str);
         }
         else {
           decode_strcat(gs1_result, data_str);
