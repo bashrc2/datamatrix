@@ -473,6 +473,34 @@ void test_hibc_translate()
                 "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 2011-12-31\nEXPIRATION DATE YYYYMMDD: 2020-01-31\n") == 0);
 }
 
+void test_gs1_currency()
+{
+  printf("test_gs1_currency\n");
+  int application_identifier = 3910;
+  char data_str1[] = "978123";
+  char * result1 = get_currency_value(application_identifier, data_str1);
+  assert(result1 != NULL);
+  printf("%s\n", result1);
+  assert(strcmp(result1, "123.00 Euro") == 0);
+  free(result1);
+
+  application_identifier = 3911;
+  char data_str2[] = "7101231";
+  char * result2 = get_currency_value(application_identifier, data_str2);
+  assert(result2 != NULL);
+  printf("%s\n", result2);
+  assert(strcmp(result2, "123.10 Rand") == 0);
+  free(result2);
+
+  application_identifier = 3912;
+  char data_str3[] = "71012325";
+  char * result3 = get_currency_value(application_identifier, data_str3);
+  assert(result3 != NULL);
+  printf("%s\n", result3);
+  assert(strcmp(result3, "123.25 Rand") == 0);
+  free(result3);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -482,5 +510,6 @@ void run_all_tests()
   test_rotate();
   test_iso15434_translate();
   test_hibc_translate();
+  test_gs1_currency();
   printf("All tests complete\n");
 }
