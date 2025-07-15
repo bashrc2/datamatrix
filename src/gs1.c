@@ -443,16 +443,18 @@ char * iso4217_currency_codes[] = {
 char * get_issn(char data_str[])
 {
   int i, data_len = strlen(data_str);
-  if (data_len < 9) return NULL;
-  char issn[8];
-  for (i = 0; i < 7; i++) {
-    issn[i] = data_str[i];
-  }
-  issn[7] = 0;
+  if (data_len < 10) return NULL;
   char * issn_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
   issn_str[0] = 0;
   decode_strcat(issn_str, "ISSN: ");
-  decode_strcat(issn_str, issn);
+  for (i = 0; i < 4; i++) {
+    decode_strcat_char(issn_str, data_str[i]);
+  }
+  decode_strcat_char(issn_str, '-');
+  for (i = 4; i < 7; i++) {
+    decode_strcat_char(issn_str, data_str[i]);
+  }
+  decode_strcat_char(issn_str, data_str[9]);
   decode_strcat_char(issn_str, '\n');
   decode_strcat(issn_str, "VARIANT: ");
   decode_strcat_char(issn_str, data_str[7]);

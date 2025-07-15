@@ -575,7 +575,7 @@ void test_gs1_issn()
   char * result1 = get_issn(data_str1);
   assert(result1 != NULL);
   printf("%s\n", result1);
-  assert(strcmp(result1, "ISSN: 1234567\nVARIANT: 05\nCHECK DIGIT: 9") == 0);
+  assert(strcmp(result1, "ISSN: 1234-5679\nVARIANT: 05\nCHECK DIGIT: 9") == 0);
   free(result1);
 }
 
