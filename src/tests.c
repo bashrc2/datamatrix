@@ -224,7 +224,7 @@ static void test_gs1_decode()
   assert(strlen(decode_result) > 0);
   printf("%s\n", decode_result);
   assert(strcmp(decode_result,
-                "STANDARD: GS1\nGTIN: 00068780000108\nPACK DATE: 2030-12-31\nBATCH/LOT: ABC123") == 0);
+                "STANDARD: GS1\nGTIN: 00068780000108\nPACK DATE: 31 Dec 2030\nBATCH/LOT: ABC123") == 0);
 
   free_grid(&grid);
 
@@ -462,7 +462,7 @@ void test_hibc_translate()
   hibc_semantics(&test_data[0], &hibc_result[0], 1);
   printf("%s\n", &hibc_result[0]);
   assert(strcmp(&hibc_result[0],
-                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020 DAY 015\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 2011-12-12\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
+                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020 DAY 015\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 12 Dec 2011\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
 
   test_data[0] = 0;
   hibc_result[0] = 0;
@@ -470,7 +470,7 @@ void test_hibc_translate()
   hibc_semantics(&test_data[0], &hibc_result[0], 1);
   printf("%s\n", &hibc_result[0]);
   assert(strcmp(&hibc_result[0],
-                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 2011-12-31\nEXPIRATION DATE YYYYMMDD: 2020-01-31\n") == 0);
+                "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 31 Dec 2011\nEXPIRATION DATE YYYYMMDD: 31 Jan 2020\n") == 0);
 }
 
 void test_gs1_currency()
@@ -547,6 +547,16 @@ void test_gs1_country()
   free(result2);
 }
 
+void test_date_conversion()
+{
+  printf("test_date_conversion\n");
+  char * id_human_readable1 = "YYYYDDMM";
+  char * id_value1 = "20250407";
+  char * result1 = data_id_convert_date(id_human_readable1, id_value1);
+  assert(result1 != NULL);
+  printf("%s\n", result1);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -559,5 +569,6 @@ void run_all_tests()
   test_gs1_currency();
   test_gs1_decimal();
   test_gs1_country();
+  test_date_conversion();
   printf("All tests complete\n");
 }

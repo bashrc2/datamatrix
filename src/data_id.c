@@ -474,6 +474,27 @@ int get_data_identifier(char data_str[],
 }
 
 /**
+ * \brief returns a text equivalent to a month number
+ * \param month_number Month number as a string
+ * \return month text
+ */
+static char * month_number_to_text(char month_number[])
+{
+  if ((month_number[0] < '0') || (month_number[0] > '9')) return NULL;
+  if ((month_number[1] < '0') || (month_number[1] > '9')) return NULL;
+  char mnth_str[3];
+  mnth_str[0] = month_number[0];
+  mnth_str[1] = month_number[1];
+  mnth_str[2] = 0;
+  int month_no = atoi(&mnth_str[0]);
+  if ((month_no < 1) || (month_no > 12)) return NULL;
+  char * month_text[] = {
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  };
+  return month_text[month_no-1];
+}
+
+/**
  * \brief converts dates into a more human readable style
  * \param id_human_readable data identifier description
  * \param id_value the date string to be converted
@@ -492,8 +513,14 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       decode_strcat_char(date_value, id_value[3]);
       decode_strcat_char(date_value, '-');
       /* month */
-      decode_strcat_char(date_value, id_value[4]);
-      decode_strcat_char(date_value, id_value[5]);
+      char * mnth = month_number_to_text(&id_value[4]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[4]);
+        decode_strcat_char(date_value, id_value[5]);
+      }
       decode_strcat_char(date_value, '-');
       /* day */
       decode_strcat_char(date_value, id_value[6]);
@@ -521,8 +548,14 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       decode_strcat_char(date_value, id_value[3]);
       decode_strcat_char(date_value, '-');
       /* month */
-      decode_strcat_char(date_value, id_value[4]);
-      decode_strcat_char(date_value, id_value[5]);
+      char * mnth = month_number_to_text(&id_value[4]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[4]);
+        decode_strcat_char(date_value, id_value[5]);
+      }
       decode_strcat_char(date_value, '-');
       /* day */
       decode_strcat_char(date_value, id_value[6]);
@@ -549,19 +582,25 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     if (strlen(id_value) >= 8) {
       char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
+      /* day */
+      decode_strcat_char(date_value, id_value[6]);
+      decode_strcat_char(date_value, id_value[7]);
+      decode_strcat_char(date_value, ' ');
+      /* month */
+      char * mnth = month_number_to_text(&id_value[4]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[4]);
+        decode_strcat_char(date_value, id_value[5]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat_char(date_value, id_value[0]);
       decode_strcat_char(date_value, id_value[1]);
       decode_strcat_char(date_value, id_value[2]);
       decode_strcat_char(date_value, id_value[3]);
-      decode_strcat_char(date_value, '-');
-      /* month */
-      decode_strcat_char(date_value, id_value[4]);
-      decode_strcat_char(date_value, id_value[5]);
-      decode_strcat_char(date_value, '-');
-      /* day */
-      decode_strcat_char(date_value, id_value[6]);
-      decode_strcat_char(date_value, id_value[7]);
       return date_value;
     }
   }
@@ -570,19 +609,25 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     if (strlen(id_value) >= 8) {
       char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
+      /* day */
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat_char(date_value, ' ');
+      /* month */
+      char * mnth = month_number_to_text(&id_value[6]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[6]);
+        decode_strcat_char(date_value, id_value[7]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat_char(date_value, id_value[0]);
       decode_strcat_char(date_value, id_value[1]);
       decode_strcat_char(date_value, id_value[2]);
       decode_strcat_char(date_value, id_value[3]);
-      decode_strcat_char(date_value, '-');
-      /* day */
-      decode_strcat_char(date_value, id_value[4]);
-      decode_strcat_char(date_value, id_value[5]);
-      decode_strcat_char(date_value, '-');
-      /* month */
-      decode_strcat_char(date_value, id_value[6]);
-      decode_strcat_char(date_value, id_value[7]);
       return date_value;
     }
   }
@@ -633,18 +678,24 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     if (strlen(id_value) >= 8) {
       char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
+      /* day */
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat_char(date_value, ' ');
+      /* month */
+      char * mnth = month_number_to_text(&id_value[2]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[2]);
+        decode_strcat_char(date_value, id_value[3]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[0]);
       decode_strcat_char(date_value, id_value[1]);
-      decode_strcat_char(date_value, '-');
-      /* month */
-      decode_strcat_char(date_value, id_value[2]);
-      decode_strcat_char(date_value, id_value[3]);
-      decode_strcat_char(date_value, '-');
-      /* day */
-      decode_strcat_char(date_value, id_value[4]);
-      decode_strcat_char(date_value, id_value[5]);
       decode_strcat_char(date_value, ' ');
       /* hour */
       decode_strcat_char(date_value, id_value[6]);
@@ -658,18 +709,24 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     if (strlen(id_value) >= 6) {
       char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
+      /* day */
+      decode_strcat_char(date_value, id_value[4]);
+      decode_strcat_char(date_value, id_value[5]);
+      decode_strcat_char(date_value, ' ');
+      /* month */
+      char * mnth = month_number_to_text(&id_value[2]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[2]);
+        decode_strcat_char(date_value, id_value[3]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[0]);
       decode_strcat_char(date_value, id_value[1]);
-      decode_strcat_char(date_value, '-');
-      /* month */
-      decode_strcat_char(date_value, id_value[2]);
-      decode_strcat_char(date_value, id_value[3]);
-      decode_strcat_char(date_value, '-');
-      /* day */
-      decode_strcat_char(date_value, id_value[4]);
-      decode_strcat_char(date_value, id_value[5]);
       return date_value;
     }
   }
@@ -678,18 +735,24 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     if (strlen(id_value) >= 6) {
       char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
+      /* day */
+      decode_strcat_char(date_value, id_value[2]);
+      decode_strcat_char(date_value, id_value[3]);
+      decode_strcat_char(date_value, ' ');
+      /* month */
+      char * mnth = month_number_to_text(&id_value[4]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[4]);
+        decode_strcat_char(date_value, id_value[5]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[0]);
       decode_strcat_char(date_value, id_value[1]);
-      decode_strcat_char(date_value, '-');
-      /* day */
-      decode_strcat_char(date_value, id_value[2]);
-      decode_strcat_char(date_value, id_value[3]);
-      decode_strcat_char(date_value, '-');
-      /* month */
-      decode_strcat_char(date_value, id_value[4]);
-      decode_strcat_char(date_value, id_value[5]);
       return date_value;
     }
   }
@@ -701,11 +764,17 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       /* day */
       decode_strcat_char(date_value, id_value[0]);
       decode_strcat_char(date_value, id_value[1]);
-      decode_strcat_char(date_value, '-');
+      decode_strcat_char(date_value, ' ');
       /* month */
-      decode_strcat_char(date_value, id_value[2]);
-      decode_strcat_char(date_value, id_value[3]);
-      decode_strcat_char(date_value, '-');
+      char * mnth = month_number_to_text(&id_value[2]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[2]);
+        decode_strcat_char(date_value, id_value[3]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[4]);
@@ -718,14 +787,20 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     if (strlen(id_value) >= 6) {
       char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
-      /* month */
-      decode_strcat_char(date_value, id_value[0]);
-      decode_strcat_char(date_value, id_value[1]);
-      decode_strcat_char(date_value, '-');
       /* day */
       decode_strcat_char(date_value, id_value[2]);
       decode_strcat_char(date_value, id_value[3]);
-      decode_strcat_char(date_value, '-');
+      decode_strcat_char(date_value, ' ');
+      /* month */
+      char * mnth = month_number_to_text(&id_value[0]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[0]);
+        decode_strcat_char(date_value, id_value[1]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[4]);
@@ -780,9 +855,15 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
       char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       date_value[0] = 0;
       /* month */
-      decode_strcat_char(date_value, id_value[0]);
-      decode_strcat_char(date_value, id_value[1]);
-      decode_strcat_char(date_value, '-');
+      char * mnth = month_number_to_text(&id_value[0]);
+      if (mnth != NULL) {
+        decode_strcat(date_value, mnth);
+      }
+      else {
+        decode_strcat_char(date_value, id_value[0]);
+        decode_strcat_char(date_value, id_value[1]);
+      }
+      decode_strcat_char(date_value, ' ');
       /* year */
       decode_strcat(date_value, "20");
       decode_strcat_char(date_value, id_value[2]);
