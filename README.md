@@ -53,7 +53,6 @@ sudo make install
 --erode [0..20]               Set erosion itterations
 --dilate [0..20]              Set dilation itterations
 --meanlight [0..20]           Set mean light threshold
--e --edgethresh [0..10]       Set the edge detection threshold
 --resolver [url]              GS1 resolver (eg. https://id.gs1.org)
 --sampleradius [pixels]       Radius for sampling each grid cell
 --minsegmentlength [pixels]   Minimum edge segment length for segment joining
@@ -147,10 +146,10 @@ If you want to test how well the decoding works with a specific settings:
 ``` bash
 datamatrix -f examples/01.png --debug \
     --erode [value] --dilate [value] \
-    --meanlight [value] --edgethresh [value]
+    --meanlight [value]
 ```
 
-*erode* and *dilate* values are in pixels. *meanlight* is typically in the range 0-20 and *edgethresh* is typically in the range 0-10.
+*erode* and *dilate* values are in pixels. *meanlight* is typically in the range 0-20.
 
 A set of images will be produced which show the detection process at each stage.
 

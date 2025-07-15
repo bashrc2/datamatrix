@@ -47,7 +47,6 @@ int main(int argc, char* argv[])
   int test_ml_threshold = 0;
   int test_erode = 0;
   int test_dilate = 0;
-  float test_edge_threshold = 0;
   int test_frequency = 0;
   unsigned char verify = 0;
   unsigned char raw_decode = 0;
@@ -86,10 +85,6 @@ int main(int argc, char* argv[])
     if ((strcmp(argv[i],"-f")==0) ||
         (strcmp(argv[i],"--filename")==0)) {
       decode_strcat(&filename[0], argv[i+1]);
-    }
-    if ((strcmp(argv[i],"-e")==0) ||
-        (strcmp(argv[i],"--edgethresh")==0)) {
-      test_edge_threshold = atof(argv[i+1]);
     }
     if (strcmp(argv[i],"--aperture")==0) {
       aperture = atof(argv[i+1]);
@@ -282,7 +277,6 @@ int main(int argc, char* argv[])
                   test_ml_threshold,
                   test_erode,
                   test_dilate,
-                  test_edge_threshold,
                   test_frequency,
                   verify, csv, json,
                   minimum_grid_dimension,
