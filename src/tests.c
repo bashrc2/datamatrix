@@ -564,7 +564,7 @@ void test_gs1_coupon()
   char * result1 = get_coupon(data_str1);
   assert(result1 != NULL);
   printf("%s\n", result1);
-  assert(strcmp(result1, "COMPANY: 123456\nCOUPON REF: ABCDEF\nSERIAL: 8765432") == 0);
+  assert(strcmp(result1, "COMPANY/COUPON REF: 123456ABCDEF\nSERIAL: 8765432") == 0);
   free(result1);
 }
 

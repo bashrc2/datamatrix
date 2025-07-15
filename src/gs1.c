@@ -437,27 +437,22 @@ char * iso4217_currency_codes[] = {
 
 /**
  * \brief returns human readable details for a coupon
+ * \param data_str String to be decoded
+ * \return decoded coupon string or NULL
  */
 char * get_coupon(char data_str[])
 {
   int i, data_len = strlen(data_str);
   if (data_len < 12) return NULL;
-  char company[7], coupon_ref[7];
-  for (i = 0; i < 6; i++) {
+  char company[13];
+  for (i = 0; i < 12; i++) {
     company[i] = data_str[i];
   }
-  company[6] = 0;
-  for (i = 6; i < 12; i++) {
-    coupon_ref[i-6] = data_str[i];
-  }
-  coupon_ref[6] = 0;
+  company[12] = 0;
   char * coupon_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
   coupon_str[0] = 0;
-  decode_strcat(coupon_str, "COMPANY: ");
+  decode_strcat(coupon_str, "COMPANY/COUPON REF: ");
   decode_strcat(coupon_str, company);
-  decode_strcat_char(coupon_str, '\n');
-  decode_strcat(coupon_str, "COUPON REF: ");
-  decode_strcat(coupon_str, coupon_ref);
   if (data_len > 12) {
     decode_strcat_char(coupon_str, '\n');
     decode_strcat(coupon_str, "SERIAL: ");
@@ -2273,6 +2268,9 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("GCN ");
         if (is_digital_link == 0) {
           coupon_str = get_coupon(data_str);
+          if (coupon_str == NULL) {
+            decode_strcat(gs1_result, "GCN: ");
+          }
         }
         break;
       }
