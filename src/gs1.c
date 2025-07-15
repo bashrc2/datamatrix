@@ -1938,6 +1938,16 @@ void gs1_semantics(char result[],
       *application_identifier_length = 3;
       break;
     }
+    case 978: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 3;
+      break;
+    }
+    case 979: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 3;
+      break;
+    }
    }
   }
   else {
@@ -3617,6 +3627,20 @@ void gs1_semantics(char result[],
           if (issn_str == NULL) {
             decode_strcat(gs1_result, "ISSN: ");
           }
+        }
+        break;
+      }
+      case 978: {
+        if (debug == 1) printf("ISBN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "ISBN: ");
+        }
+        break;
+      }
+      case 979: {
+        if (debug == 1) printf("ISBN ");
+        if (is_digital_link == 0) {
+          decode_strcat(gs1_result, "ISBN: ");
         }
         break;
       }
