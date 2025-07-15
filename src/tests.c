@@ -557,6 +557,17 @@ void test_date_conversion()
   printf("%s\n", result1);
 }
 
+void test_gs1_coupon()
+{
+  printf("test_gs1_coupon\n");
+  char data_str1[] = "123456ABCDEF8765432";
+  char * result1 = get_coupon(data_str1);
+  assert(result1 != NULL);
+  printf("%s\n", result1);
+  assert(strcmp(result1, "COMPANY: 123456\nCOUPON REF: ABCDEF\nSERIAL: 8765432") == 0);
+  free(result1);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -570,5 +581,6 @@ void run_all_tests()
   test_gs1_decimal();
   test_gs1_country();
   test_date_conversion();
+  test_gs1_coupon();
   printf("All tests complete\n");
 }

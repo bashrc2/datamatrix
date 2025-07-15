@@ -436,6 +436,39 @@ char * iso4217_currency_codes[] = {
 };
 
 /**
+ * \brief returns human readable details for a coupon
+ */
+char * get_coupon(char data_str[])
+{
+  int i, data_len = strlen(data_str);
+  if (data_len < 12) return NULL;
+  char company[7], coupon_ref[7];
+  for (i = 0; i < 6; i++) {
+    company[i] = data_str[i];
+  }
+  company[6] = 0;
+  for (i = 6; i < 12; i++) {
+    coupon_ref[i-6] = data_str[i];
+  }
+  coupon_ref[6] = 0;
+  char * coupon_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+  coupon_str[0] = 0;
+  decode_strcat(coupon_str, "COMPANY: ");
+  decode_strcat(coupon_str, company);
+  decode_strcat_char(coupon_str, '\n');
+  decode_strcat(coupon_str, "COUPON REF: ");
+  decode_strcat(coupon_str, coupon_ref);
+  if (data_len > 12) {
+    decode_strcat_char(coupon_str, '\n');
+    decode_strcat(coupon_str, "SERIAL: ");
+    for (i = 12; i < data_len; i++) {
+      decode_strcat_char(coupon_str, data_str[i]);
+    }
+  }
+  return coupon_str;
+}
+
+/**
  * \brief returns the country for the given code number
  * \param data_str String to be decoded
  * \return decoded country string or NULL
@@ -599,7 +632,7 @@ void gs1_semantics(char result[],
                    unsigned char * application_data_variable)
 {
   char * app_id_str, * data_str, * date_str;
-  char * curr_str, * decimal_str, * country_str;
+  char * curr_str, * decimal_str, * country_str, * coupon_str;
   char app_id_str2[10];
   unsigned char is_digital_link = 0;
 
@@ -1883,6 +1916,7 @@ void gs1_semantics(char result[],
     curr_str = NULL;
     decimal_str = NULL;
     country_str = NULL;
+    coupon_str = NULL;
 
     if (strlen(data_str) > 0) {
       /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -2238,7 +2272,7 @@ void gs1_semantics(char result[],
       case 255: {
         if (debug == 1) printf("GCN ");
         if (is_digital_link == 0) {
-          decode_strcat(gs1_result, "GCN: ");
+          coupon_str = get_coupon(data_str);
         }
         break;
       }
@@ -3572,6 +3606,10 @@ void gs1_semantics(char result[],
         else if (country_str != NULL) {
           decode_strcat(gs1_result, country_str);
           free(country_str);
+        }
+        else if (coupon_str != NULL) {
+          decode_strcat(gs1_result, coupon_str);
+          free(coupon_str);
         }
         else {
           decode_strcat(gs1_result, data_str);
