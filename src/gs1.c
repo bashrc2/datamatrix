@@ -436,6 +436,36 @@ char * iso4217_currency_codes[] = {
 };
 
 /**
+ * \brief returns human readable details for an ISSN
+ * \param data_str String to be decoded
+ * \return decoded ISSN string or NULL
+ */
+char * get_issn(char data_str[])
+{
+  int i, data_len = strlen(data_str);
+  if (data_len < 9) return NULL;
+  char issn[8];
+  for (i = 0; i < 7; i++) {
+    issn[i] = data_str[i];
+  }
+  issn[7] = 0;
+  char * issn_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+  issn_str[0] = 0;
+  decode_strcat(issn_str, "ISSN: ");
+  decode_strcat(issn_str, issn);
+  decode_strcat_char(issn_str, '\n');
+  decode_strcat(issn_str, "VARIANT: ");
+  decode_strcat_char(issn_str, data_str[7]);
+  decode_strcat_char(issn_str, data_str[8]);
+  if (data_len > 9) {
+    decode_strcat_char(issn_str, '\n');
+    decode_strcat(issn_str, "CHECK DIGIT: ");
+    decode_strcat_char(issn_str, data_str[9]);
+  }
+  return issn_str;
+}
+
+/**
  * \brief returns human readable details for a coupon
  * \param data_str String to be decoded
  * \return decoded coupon string or NULL
@@ -627,7 +657,7 @@ void gs1_semantics(char result[],
                    unsigned char * application_data_variable)
 {
   char * app_id_str, * data_str, * date_str;
-  char * curr_str, * decimal_str, * country_str, * coupon_str;
+  char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
   char app_id_str2[10];
   unsigned char is_digital_link = 0;
 
@@ -1901,6 +1931,11 @@ void gs1_semantics(char result[],
       *application_data_variable = 70;
       break;
     }
+    case 977: {
+      *application_data_end = curr_pos + 10;
+      *application_identifier_length = 3;
+      break;
+    }
    }
   }
   else {
@@ -1912,6 +1947,7 @@ void gs1_semantics(char result[],
     decimal_str = NULL;
     country_str = NULL;
     coupon_str = NULL;
+    issn_str = NULL;
 
     if (strlen(data_str) > 0) {
       /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -3572,6 +3608,16 @@ void gs1_semantics(char result[],
         }
         break;
       }
+      case 977: {
+        if (debug == 1) printf("ISSN ");
+        if (is_digital_link == 0) {
+          issn_str = get_issn(data_str);
+          if (issn_str == NULL) {
+            decode_strcat(gs1_result, "ISSN: ");
+          }
+        }
+        break;
+      }
       }
 
       unsigned char build_digital_link = 0;
@@ -3608,6 +3654,10 @@ void gs1_semantics(char result[],
         else if (coupon_str != NULL) {
           decode_strcat(gs1_result, coupon_str);
           free(coupon_str);
+        }
+        else if (issn_str != NULL) {
+          decode_strcat(gs1_result, issn_str);
+          free(issn_str);
         }
         else {
           decode_strcat(gs1_result, data_str);

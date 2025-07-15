@@ -503,6 +503,8 @@ char * get_country(char data_str[]);
 
 char * get_coupon(char data_str[]);
 
+char * get_issn(char data_str[]);
+
 /* condense.c */
 
 unsigned char condense_data_blocks(struct grid_2d * grid,

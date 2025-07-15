@@ -568,6 +568,17 @@ void test_gs1_coupon()
   free(result1);
 }
 
+void test_gs1_issn()
+{
+  printf("test_gs1_issn\n");
+  char data_str1[] = "1234567059";
+  char * result1 = get_issn(data_str1);
+  assert(result1 != NULL);
+  printf("%s\n", result1);
+  assert(strcmp(result1, "ISSN: 1234567\nVARIANT: 05\nCHECK DIGIT: 9") == 0);
+  free(result1);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -582,5 +593,6 @@ void run_all_tests()
   test_gs1_country();
   test_date_conversion();
   test_gs1_coupon();
+  test_gs1_issn();
   printf("All tests complete\n");
 }
