@@ -140,6 +140,16 @@ char * iso15434_translate_data_qualifier(char result[],
       found = 1;
     }
 
+    /* UPC */
+    if ((result[start_index] == 'U') &&
+        (result[start_index+1] == 'P') &&
+        (result[start_index+2] == 'C')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "UNIVERSAL PRODUCT CODE: ");
+      found = 1;
+    }
+
     /* FID */
     if ((result[start_index] == 'F') &&
         (result[start_index+1] == 'I') &&
@@ -147,6 +157,16 @@ char * iso15434_translate_data_qualifier(char result[],
       translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
       decode_strcat(translated_str, "FACILITY: ");
+      found = 1;
+    }
+
+    /* EAN */
+    if ((result[start_index] == 'E') &&
+        (result[start_index+1] == 'A') &&
+        (result[start_index+2] == 'N')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "EUROPEAN ARTICLE NUMBER: ");
       found = 1;
     }
 
