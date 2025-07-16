@@ -582,4 +582,8 @@ int read_datamatrix(unsigned char image_data[],
 
 void run_all_tests();
 
+/* help.c */
+
+void show_help();
+
 #endif

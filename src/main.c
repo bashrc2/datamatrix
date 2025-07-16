@@ -193,6 +193,11 @@ int main(int argc, char* argv[])
       is_rectangle = 1;
       loop_incr = 1;
     }
+    if ((strcmp(argv[i],"-h")==0) ||
+        (strcmp(argv[i],"--help")==0)) {
+      show_help();
+      return 0;
+    }
     if ((strcmp(argv[i],"--histcentres")==0) ||
         (strcmp(argv[i],"--histcenters")==0) ||
         (strcmp(argv[i],"--modulecentres")==0) ||
