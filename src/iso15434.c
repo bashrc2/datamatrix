@@ -120,6 +120,16 @@ char * iso15434_translate_data_qualifier(char result[],
       found = 1;
     }
 
+    /* UDI */
+    if ((result[start_index] == 'U') &&
+        (result[start_index+1] == 'D') &&
+        (result[start_index+2] == 'I')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "DEVICE ID: ");
+      found = 1;
+    }
+
     /* USN */
     if ((result[start_index] == 'U') &&
         (result[start_index+1] == 'S') &&
@@ -188,6 +198,66 @@ char * iso15434_translate_data_qualifier(char result[],
       translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       translated_str[0] = 0;
       decode_strcat(translated_str, "MACHINE: ");
+      found = 1;
+    }
+
+    /* RTI */
+    if ((result[start_index] == 'R') &&
+        (result[start_index+1] == 'T') &&
+        (result[start_index+2] == 'I')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "RETURNABLE TRANSPORT ITEM: ");
+      found = 1;
+    }
+
+    /* RPI */
+    if ((result[start_index] == 'R') &&
+        (result[start_index+1] == 'P') &&
+        (result[start_index+2] == 'I')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "RETURNABLE PACKAGING ITEM: ");
+      found = 1;
+    }
+
+    /* CIN */
+    if ((result[start_index] == 'C') &&
+        (result[start_index+1] == 'I') &&
+        (result[start_index+2] == 'N')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "COMPANY ID: ");
+      found = 1;
+    }
+
+    /* IAC */
+    if ((result[start_index] == 'I') &&
+        (result[start_index+1] == 'A') &&
+        (result[start_index+2] == 'C')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "ISSUING AGENCY: ");
+      found = 1;
+    }
+
+    /* VIN */
+    if ((result[start_index] == 'V') &&
+        (result[start_index+1] == 'I') &&
+        (result[start_index+2] == 'N')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "VEHICLE ID: ");
+      found = 1;
+    }
+
+    /* BTN */
+    if ((result[start_index] == 'B') &&
+        (result[start_index+1] == 'T') &&
+        (result[start_index+2] == 'N')) {
+      translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      translated_str[0] = 0;
+      decode_strcat(translated_str, "VEHICLE BODY: ");
       found = 1;
     }
   }
