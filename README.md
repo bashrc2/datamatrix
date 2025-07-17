@@ -138,6 +138,20 @@ Optionally, if you want debugging information and images for each decoding stage
 datamatrix -f examples/01.png --debug
 ```
 
+## Producing Verification Reports
+
+A verification report in accordance with *GS1 2D Barcode Verification Process Implementation Guideline* may be produced with:
+
+``` bash
+datamatrix -f examples/01.png --report myreport.tex
+```
+
+These reports are in [LaTeX](https://en.wikipedia.org/wiki/LaTeX) format, and you can also set contact details, the report image filenames and a custom header logo as follows:
+
+``` bash
+datamatrix -f examples/01.png --report myreport.tex --address1 "Address line 1" --address2 "Address line 2" --address3 "Address line 3" --phone "123456789" --email "myemail@address" --web "https://mywebsite" --logo mylogo.png -o detection.png --hist histogram.png
+```
+
 ## Testing
 
 Unit tests may be run with:

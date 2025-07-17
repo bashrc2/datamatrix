@@ -1468,15 +1468,17 @@ void save_verification_report(struct grid_2d * grid,
 
   while ((read = getline(&line, &len, fp_template)) != -1) {
     if (strstr(line, "\\newcommand{") != NULL) {
-      /* address */
+      /* address line 1 */
       if (strstr(line, "{\\addressa}") != NULL) {
         fprintf(fp_report, "\\newcommand{\\addressa}{%s}\n", address_line1);
         continue;
       }
+      /* address line 2 */
       if (strstr(line, "{\\addressb}") != NULL) {
         fprintf(fp_report, "\\newcommand{\\addressb}{%s}\n", address_line2);
         continue;
       }
+      /* address line 3 */
       if (strstr(line, "{\\addressc}") != NULL) {
         fprintf(fp_report, "\\newcommand{\\addressc}{%s}\n", address_line3);
         continue;
