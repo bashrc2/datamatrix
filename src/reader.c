@@ -371,22 +371,26 @@ int read_datamatrix(unsigned char image_data[],
     }
 
     if (debug == 1) {
-      show_square_line_segments(&segments[try_config], thr_edges_image_data,
-                                resized_thresholded_width,
-                                resized_thresholded_height, image_bitsperpixel);
-      sprintf(debug_filename[try_config],
-              "debug_%d_07_square_joined_line_segments.png", try_config);
-      write_png_file(debug_filename[try_config],
-                     resized_thresholded_width, resized_thresholded_height, 24,
-                     thr_edges_image_data);
-      show_rectangular_line_segments(&segments[try_config], thr_edges_image_data,
-                                     resized_thresholded_width,
-                                     resized_thresholded_height, image_bitsperpixel);
-      sprintf(debug_filename[try_config],
-              "debug_%d_08_rectangular_joined_line_segments.png", try_config);
-      write_png_file(debug_filename[try_config],
-                     resized_thresholded_width, resized_thresholded_height, 24,
-                     thr_edges_image_data);
+      if (is_rectangle == 0) {
+        show_square_line_segments(&segments[try_config], thr_edges_image_data,
+                                  resized_thresholded_width,
+                                  resized_thresholded_height, image_bitsperpixel);
+        sprintf(debug_filename[try_config],
+                "debug_%d_07_square_joined_line_segments.png", try_config);
+        write_png_file(debug_filename[try_config],
+                       resized_thresholded_width, resized_thresholded_height, 24,
+                       thr_edges_image_data);
+      }
+      if (is_square == 0) {
+        show_rectangular_line_segments(&segments[try_config], thr_edges_image_data,
+                                       resized_thresholded_width,
+                                       resized_thresholded_height, image_bitsperpixel);
+        sprintf(debug_filename[try_config],
+                "debug_%d_08_rectangular_joined_line_segments.png", try_config);
+        write_png_file(debug_filename[try_config],
+                       resized_thresholded_width, resized_thresholded_height, 24,
+                       thr_edges_image_data);
+      }
     }
 
     /* check if no line segments found */
