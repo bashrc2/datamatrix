@@ -476,7 +476,9 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                char cell_shape_filename[]);
 
 void show_quality_metrics(struct grid_2d * grid,
-                          unsigned char csv, unsigned char json,
+                          unsigned char csv,
+                          unsigned char json,
+                          unsigned char yaml,
                           float aperture,
                           int light_nm,
                           int light_angle_degrees);
@@ -561,6 +563,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char verify,
                     unsigned char csv,
                     unsigned char json,
+                    unsigned char yaml,
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
                     char gs1_url[],

@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
   unsigned char debug = 0;
   unsigned char csv = 0;
   unsigned char json = 0;
+  unsigned char yaml = 0;
   int minimum_grid_dimension = MIN_GRID_DIMENSION;
   int maximum_grid_dimension = MAX_GRID_DIMENSION;
   int test_ml_threshold = 0;
@@ -180,6 +181,12 @@ int main(int argc, char* argv[])
       json = 1;
       loop_incr = 1;
     }
+    if ((strcmp(argv[i],"--yaml")==0) ||
+        (strcmp(argv[i],"--yml")==0)) {
+      verify = 1;
+      yaml = 1;
+      loop_incr = 1;
+    }
     if (strcmp(argv[i],"--debug")==0) {
       debug = 1;
       loop_incr = 1;
@@ -283,7 +290,7 @@ int main(int argc, char* argv[])
                   test_erode,
                   test_dilate,
                   test_frequency,
-                  verify, csv, json,
+                  verify, csv, json, yaml,
                   minimum_grid_dimension,
                   maximum_grid_dimension,
                   &gs1_url[0], raw_decode,
@@ -301,7 +308,7 @@ int main(int argc, char* argv[])
       printf("%s\n", decode_result);
     }
     else {
-      if ((csv == 0) && (json == 0)) {
+      if ((csv == 0) && (json == 0) && (yaml == 0)) {
         printf("Decode: PASS (%s)\n", decode_result);
       }
       else if (csv == 1) {
@@ -310,6 +317,11 @@ int main(int argc, char* argv[])
       else if (json == 1) {
         printf("  \"decode\": { \"grade\": \"PASS\", \"text\": \"%s\" }\n", decode_result);
         printf("}\n");
+      }
+      else if (yaml == 1) {
+        printf("\n# Result\n");
+        printf("decode:\n- grade: PASS\n  text: %s\n", decode_result);
+        printf("---\n");
       }
     }
   }

@@ -39,6 +39,7 @@ void show_help()
   printf("--debug                       Show debugging information\n");
   printf("--csv                         Show quality metrics in CSV format\n");
   printf("--json                        Show quality metrics in JSON format\n");
+  printf("--yaml                        Show quality metrics in yaml format\n");
   printf("--freq [8..144]               Set the matrix dimension\n");
   printf("--erode [0..20]               Set erosion itterations\n");
   printf("--dilate [0..20]              Set dilation itterations\n");

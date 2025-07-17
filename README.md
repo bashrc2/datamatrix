@@ -49,6 +49,7 @@ sudo make install
 --debug                       Show debugging information
 --csv                         Show quality metrics in CSV format
 --json                        Show quality metrics in JSON format
+--yaml                        Show quality metrics in yaml format
 --freq [8..144]               Set the matrix dimension
 --erode [0..20]               Set erosion itterations
 --dilate [0..20]              Set dilation itterations
@@ -120,11 +121,12 @@ The *--shape* option also can be used to save an image showing variations in gri
 datamatrix -f examples/01.png -o detection.png -g grid.png --quality --histogram reflectance.png --shape cell_shape.png
 ```
 
-Metrics can also be output in *CSV* or *JSON* formats, for easy import into other systems.
+Metrics can also be output in *CSV*, *JSON* or *yaml* formats, for easy import into other systems.
 
 ``` bash
 datamatrix -f examples/01.png -o detection.png -g grid.png --quality --csv
 datamatrix -f examples/01.png -o detection.png -g grid.png --quality --json
+datamatrix -f examples/01.png -o detection.png -g grid.png --quality --yaml
 ```
 
 Optionally, if you want debugging information and images for each decoding stage:

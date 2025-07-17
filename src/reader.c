@@ -59,6 +59,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param verify set to 1 if symbol quality metrics are to be calculated
  * \param csv set to 1 if symbol quality metrics to be in CSV format
  * \param json set to 1 if symbol quality metrics to be in json format
+ * \param yaml set to 1 if symbol quality metrics to be in yaml format
  * \param minimum_grid_dimension minimum grid dimension
  * \param maximum_grid_dimension maximum grid dimension
  * \param gs1_url url for GS1 digital link
@@ -87,6 +88,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char verify,
                     unsigned char csv,
                     unsigned char json,
+                    unsigned char yaml,
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
                     char gs1_url[],
@@ -1052,7 +1054,7 @@ int read_datamatrix(unsigned char image_data[],
 
       /* quality metrics */
       if (verify == 1) {
-        show_quality_metrics(&grid[best_config], csv, json,
+        show_quality_metrics(&grid[best_config], csv, json, yaml,
                              aperture, light_nm, light_angle_degrees);
       }
       strcpy(decode_result, thr_decode_result[best_config]);

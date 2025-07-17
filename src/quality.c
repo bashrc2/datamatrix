@@ -1318,10 +1318,71 @@ static void show_quality_metrics_json(struct grid_2d * grid,
 }
 
 /**
+ * \brief displays quality metrics in yaml format
+ * \param grid grid object
+ * \param aperture Aperture reference number from ISO 15416
+ * \param light_nm Peak light wavelength used in nanometres
+ * \param light_angle_degrees Angle of illumination in degrees
+ */
+static void show_quality_metrics_yaml(struct grid_2d * grid,
+                                      float aperture,
+                                      int light_nm,
+                                      int light_angle_degrees)
+{
+  unsigned char grade = overall_quality_grade(grid);
+  char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+  time_t t = time(NULL);
+  struct tm tm = *localtime(&t);
+
+  printf("---\n");
+  printf("timestamp: %d-%02d-%02d %02d:%02d:%02d\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+         tm.tm_hour, tm.tm_min, tm.tm_sec);
+  if (grid->gs1_datamatrix == 1) {
+    printf("symbol_type: GS1 datamatrix\n");
+  }
+  else {
+    printf("symbol_type: datamatrix\n");
+  }
+  printf("\n# Illumination\n");
+  if (aperture > 0) {
+    printf("aperture: %.1f\n", aperture);
+  }
+  printf("light_nm: %d\n", light_nm);
+  printf("light_angle_degrees: %d\n\n", light_angle_degrees);
+  printf("# Quality metrics\n");
+  printf("symbol_contrast:\n- grade: %d\n  value: %d\n",
+         (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
+  printf("axial_non_uniformity:\n- grade: %d\n  value: %.1f\n",
+         (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
+  printf("grid_non_uniformity:\n- grade: %d\n- value: %.1f\n",
+         (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
+  printf("modulation:\n- grade: %d\n  value: %d\n",
+         (int)grid->modulation_grade, (int)grid->modulation);
+  printf("unused_error_correction:\n- grade: %d\n  value: %d\n",
+         (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+  printf("clock_track_regularity:\n- grade: %d\n  value: %d\n",
+         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+  printf("fixed_pattern_damage:\n- grade: %d\n  value: %d\n",
+         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+  printf("minimum_reflectance:\n- grade: %d\n  value: %d\n",
+         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
+  printf("overall_symbol_grade:\n- grade: %d.0\n  value: %c\n", (int)grade, grade_letter[grade]);
+  printf("angle_of_distortion: %.1f\n", grid->angle_of_distortion);
+  printf("contrast_uniformity: %d\n", (int)grid->contrast_uniformity);
+  printf("dots_per_element: %d\n", grid->dots_per_element);
+  printf("elongation: %.1f\n", grid->elongation);
+  printf("quiet_zone: %d\n", (int)grid->quiet_zone);
+  printf("distributed_damage: %d\n", (int)grid->distributed_damage);
+  printf("cell_fill: %d\n", (int)grid->cell_fill);
+}
+
+/**
  * \brief displays quality metrics
  * \param grid grid object
  * \param csv Set to 1 to show in CSV format
  * \param json Set to 1 to show in JSON format
+ * \param yaml Set to 1 to show in yaml format
  * \param aperture Aperture reference number from ISO 15416
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
@@ -1329,6 +1390,7 @@ static void show_quality_metrics_json(struct grid_2d * grid,
 void show_quality_metrics(struct grid_2d * grid,
                           unsigned char csv,
                           unsigned char json,
+                          unsigned char yaml,
                           float aperture,
                           int light_nm,
                           int light_angle_degrees)
@@ -1339,6 +1401,10 @@ void show_quality_metrics(struct grid_2d * grid,
   }
   else if (json == 1) {
     show_quality_metrics_json(grid, aperture, light_nm, light_angle_degrees);
+    return;
+  }
+  else if (yaml == 1) {
+    show_quality_metrics_yaml(grid, aperture, light_nm, light_angle_degrees);
     return;
   }
   show_quality_metrics_human_readable(grid, aperture, light_nm,
