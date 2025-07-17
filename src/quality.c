@@ -1280,6 +1280,8 @@ static void show_quality_metrics_json(struct grid_2d * grid,
   printf("  \"timestamp\": \"%d-%02d-%02d %02d:%02d:%02d\",\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
+  printf("  \"issuedate\": \"%d-%02d-%02d\",\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
   if (grid->gs1_datamatrix == 1) {
     printf("  \"symbol_type\": \"GS1 datamatrix\",\n");
   }
@@ -1291,8 +1293,6 @@ static void show_quality_metrics_json(struct grid_2d * grid,
   }
   printf("  \"light_nm\": %d,\n", light_nm);
   printf("  \"light_angle_degrees\": %d,\n", light_angle_degrees);
-  printf("  \"issuedate\": \"%d-%02d-%02d\",\n",
-         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
   printf("  \"symbol_contrast\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("  \"axial_non_uniformity\": { \"grade\": %d, \"value\": %.1f },\n",
