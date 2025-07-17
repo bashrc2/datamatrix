@@ -75,6 +75,13 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param cell_shape_filename optional image showing cell shape
  * \param report_template filename of a template used to produce a verification report
  * \param report_filename filename of the verification report to be saved
+ * \param logo_filename filename of logo to display at top of verification report
+ * \param address_line1 First line of address to display at top of verification report
+ * \param address_line2 Second line of address to display at top of verification report
+ * \param address_line3 Third line of address to display at top of verification report
+ * \param phone Phone number to display at top of verification report
+ * \param email Email address to display at top of verification report
+ * \param website Web URL to display at top of verification report
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -108,6 +115,7 @@ int read_datamatrix(unsigned char image_data[],
                     char cell_shape_filename[],
                     char report_template[],
                     char report_filename[],
+                    char logo_filename[],
                     char address_line1[],
                     char address_line2[],
                     char address_line3[],
@@ -1079,6 +1087,7 @@ int read_datamatrix(unsigned char image_data[],
                                    histogram_filename,
                                    report_template,
                                    report_filename,
+                                   logo_filename,
                                    thr_decode_result[best_config],
                                    aperture,
                                    light_nm,

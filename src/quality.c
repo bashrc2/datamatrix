@@ -1428,6 +1428,7 @@ void show_quality_metrics(struct grid_2d * grid,
  * \param histogram_filename Reflectance histogram image to be shown in the report
  * \param report_template Filename for a TEX template
  * \param report_filename Filename to save the report as
+ * \param logo_filename Filename for logo to display at top of report
  * \param decode_result decoded text
  * \param aperture Aperture reference number from ISO 15416
  * \param light_nm Peak light wavelength used in nanometres
@@ -1444,6 +1445,7 @@ void save_verification_report(struct grid_2d * grid,
                               char histogram_filename[],
                               char report_template[],
                               char report_filename[],
+                              char logo_filename[],
                               char decode_result[],
                               float aperture,
                               int light_nm,
@@ -1676,6 +1678,14 @@ void save_verification_report(struct grid_2d * grid,
       if (strstr(line, "{\\cellfill}") != NULL) {
         fprintf(fp_report, "\\newcommand{\\cellfill}{%d}\n",
                 (int)grid->cell_fill);
+        continue;
+      }
+    }
+    /* logo image at top of report */
+    if (strlen(logo_filename) > 0) {
+      if (strstr(line, "{img/logo_square.png}") != NULL) {
+        fprintf(fp_report, "\\includegraphics[height=2.5cm,clip]{%s}\n",
+                logo_filename);
         continue;
       }
     }

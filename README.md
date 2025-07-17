@@ -45,6 +45,7 @@ sudo make install
 --shape [PNG file]            Save cell shape variance image
 -t --template [TEX file]      Path for verification report template
 -r --report [TEX file]        Filename to save a verification report as
+-l --logo [image file]        Logo image to be shown at top of verification report
 --histcentres                 Only sample grid cell centres for reflectance histogram
 --mingrid [8..144]            Minimum matrix dimension
 --maxgrid [8..144]            Maximum matrix dimension

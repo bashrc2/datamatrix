@@ -63,6 +63,7 @@ int main(int argc, char* argv[])
   char cell_shape_filename[MAX_DECODE_LENGTH];
   char report_template[MAX_DECODE_LENGTH];
   char report_filename[MAX_DECODE_LENGTH];
+  char logo_filename[MAX_DECODE_LENGTH];
   char address_line1[MAX_DECODE_LENGTH];
   char address_line2[MAX_DECODE_LENGTH];
   char address_line3[MAX_DECODE_LENGTH];
@@ -82,6 +83,9 @@ int main(int argc, char* argv[])
 
   /* no verification report filename specified */
   report_filename[0] = 0;
+
+  /* logo which appears on verification report */
+  logo_filename[0] = 0;
 
   /* contact details to appear on verification report */
   address_line1[0] = 0;
@@ -118,6 +122,11 @@ int main(int argc, char* argv[])
       decode_strcat(&report_filename[0], argv[i+1]);
       verify = 1;
       histogram_module_centres = 0;
+    }
+    if ((strcmp(argv[i],"-l")==0) ||
+        (strcmp(argv[i],"--logo")==0)) {
+      logo_filename[0] = 0;
+      decode_strcat(&logo_filename[0], argv[i+1]);
     }
     if ((strcmp(argv[i],"-t")==0) ||
         (strcmp(argv[i],"--template")==0)) {
@@ -383,6 +392,7 @@ int main(int argc, char* argv[])
                   cell_shape_filename,
                   &report_template[0],
                   &report_filename[0],
+                  &logo_filename[0],
                   &address_line1[0],
                   &address_line2[0],
                   &address_line3[0],
