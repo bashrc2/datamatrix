@@ -34,6 +34,8 @@
 #include <time.h>
 #include <omp.h>
 #include <float.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #define GPR_MISSING_VALUE          9999
 #define PARALLEL_LINES             -2
@@ -483,6 +485,22 @@ void show_quality_metrics(struct grid_2d * grid,
                           int light_nm,
                           int light_angle_degrees);
 
+void save_verification_report(struct grid_2d * grid,
+                              char address_line1[],
+                              char address_line2[],
+                              char address_line3[],
+                              char phone[],
+                              char email[],
+                              char website[],
+                              char grid_filename[],
+                              char histogram_filename[],
+                              char report_template[],
+                              char report_filename[],
+                              char decode_result[],
+                              float aperture,
+                              int light_nm,
+                              int light_angle_degrees);
+
 /* gs1.c */
 
 void gs1_semantics(char result[],
@@ -579,6 +597,14 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char is_square,
                     unsigned char is_rectangle,
                     char cell_shape_filename[],
+                    char report_template[],
+                    char report_filename[],
+                    char address_line1[],
+                    char address_line2[],
+                    char address_line3[],
+                    char phone[],
+                    char email[],
+                    char website[],
                     char * decode_result);
 
 /* tests.c */

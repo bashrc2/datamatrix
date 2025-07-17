@@ -73,6 +73,8 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
  * \param cell_shape_filename optional image showing cell shape
+ * \param report_template filename of a template used to produce a verification report
+ * \param report_filename filename of the verification report to be saved
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -104,6 +106,14 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char is_square,
                     unsigned char is_rectangle,
                     char cell_shape_filename[],
+                    char report_template[],
+                    char report_filename[],
+                    char address_line1[],
+                    char address_line2[],
+                    char address_line3[],
+                    char phone[],
+                    char email[],
+                    char website[],
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -1056,6 +1066,24 @@ int read_datamatrix(unsigned char image_data[],
       if (verify == 1) {
         show_quality_metrics(&grid[best_config], csv, json, yaml,
                              aperture, light_nm, light_angle_degrees);
+        if ((strlen(report_template) > 0) &&
+            (strlen(report_filename) > 0)) {
+          save_verification_report(&grid[best_config],
+                                   address_line1,
+                                   address_line2,
+                                   address_line3,
+                                   phone,
+                                   email,
+                                   website,
+                                   output_filename,
+                                   histogram_filename,
+                                   report_template,
+                                   report_filename,
+                                   thr_decode_result[best_config],
+                                   aperture,
+                                   light_nm,
+                                   light_angle_degrees);
+        }
       }
       strcpy(decode_result, thr_decode_result[best_config]);
     }

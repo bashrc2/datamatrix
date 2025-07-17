@@ -62,6 +62,13 @@ int main(int argc, char* argv[])
   char histogram_filename[MAX_DECODE_LENGTH];
   char cell_shape_filename[MAX_DECODE_LENGTH];
   char report_template[MAX_DECODE_LENGTH];
+  char report_filename[MAX_DECODE_LENGTH];
+  char address_line1[MAX_DECODE_LENGTH];
+  char address_line2[MAX_DECODE_LENGTH];
+  char address_line3[MAX_DECODE_LENGTH];
+  char phone[MAX_DECODE_LENGTH];
+  char email[MAX_DECODE_LENGTH];
+  char website[MAX_DECODE_LENGTH];
   float aperture = 0;
   int light_nm = 670;
   int light_angle_degrees = 90;
@@ -72,6 +79,18 @@ int main(int argc, char* argv[])
 
   /* no filename specified */
   filename[0] = 0;
+
+  /* no verification report filename specified */
+  report_filename[0] = 0;
+
+  /* contact details to appear on verification report */
+  address_line1[0] = 0;
+  address_line2[0] = 0;
+  address_line3[0] = 0;
+  phone[0] = 0;
+  email[0] = 0;
+  website[0] = 0;
+  decode_strcat(&website[0], "https://gitlab.com/bashrc2/datamatrix");
 
   /* default verification report template */
   report_template[0] = 0;
@@ -90,12 +109,46 @@ int main(int argc, char* argv[])
     loop_incr = 2;
     if ((strcmp(argv[i],"-f")==0) ||
         (strcmp(argv[i],"--filename")==0)) {
+      filename[0] = 0;
       decode_strcat(&filename[0], argv[i+1]);
+    }
+    if ((strcmp(argv[i],"-r")==0) ||
+        (strcmp(argv[i],"--report")==0)) {
+      report_filename[0] = 0;
+      decode_strcat(&report_filename[0], argv[i+1]);
+      verify = 1;
+      histogram_module_centres = 1;
     }
     if ((strcmp(argv[i],"-t")==0) ||
         (strcmp(argv[i],"--template")==0)) {
       report_template[0] = 0;
       decode_strcat(&report_template[0], argv[i+1]);
+    }
+    if (strcmp(argv[i],"--address1")==0) {
+      address_line1[0] = 0;
+      decode_strcat(&address_line1[0], argv[i+1]);
+    }
+    if (strcmp(argv[i],"--address2")==0) {
+      address_line2[0] = 0;
+      decode_strcat(&address_line2[0], argv[i+1]);
+    }
+    if (strcmp(argv[i],"--address3")==0) {
+      address_line3[0] = 0;
+      decode_strcat(&address_line3[0], argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--phone")==0) ||
+        (strcmp(argv[i],"--tel")==0)) {
+      phone[0] = 0;
+      decode_strcat(&phone[0], argv[i+1]);
+    }
+    if (strcmp(argv[i],"--email")==0) {
+      email[0] = 0;
+      decode_strcat(&email[0], argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--website")==0) ||
+        (strcmp(argv[i],"--web")==0)) {
+      website[0] = 0;
+      decode_strcat(&website[0], argv[i+1]);
     }
     if (strcmp(argv[i],"--aperture")==0) {
       aperture = atof(argv[i+1]);
@@ -246,6 +299,16 @@ int main(int argc, char* argv[])
     return 0;
   }
 
+  /* if a verification report is requested then ensure that an output image is produced */
+  if (report_filename[0] != 0) {
+    if (output_filename[0] == 0) {
+      decode_strcat(&output_filename[0], "report.png");
+    }
+    if (histogram_filename[0] == 0) {
+      decode_strcat(&histogram_filename[0], "report_histogram.png");
+    }
+  }
+
   image_data = read_png_file(&filename[0], &image_width, &image_height, &image_bitsperpixel);
   if (image_data == NULL) {
     printf("Couldn't load image %s\n", &filename[0]);
@@ -318,6 +381,14 @@ int main(int argc, char* argv[])
                   aperture, light_nm, light_angle_degrees,
                   is_square, is_rectangle,
                   cell_shape_filename,
+                  &report_template[0],
+                  &report_filename[0],
+                  &address_line1[0],
+                  &address_line2[0],
+                  &address_line3[0],
+                  &phone[0],
+                  &email[0],
+                  &website[0],
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {
