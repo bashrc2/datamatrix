@@ -174,16 +174,22 @@ int main(int argc, char* argv[])
     if (strcmp(argv[i],"--csv")==0) {
       verify = 1;
       csv = 1;
+      json = 0;
+      yaml = 0;
       loop_incr = 1;
     }
     if (strcmp(argv[i],"--json")==0) {
       verify = 1;
+      csv = 0;
       json = 1;
+      yaml = 0;
       loop_incr = 1;
     }
     if ((strcmp(argv[i],"--yaml")==0) ||
         (strcmp(argv[i],"--yml")==0)) {
       verify = 1;
+      csv = 0;
+      json = 0;
       yaml = 1;
       loop_incr = 1;
     }
