@@ -1662,19 +1662,19 @@ void save_verification_report(struct grid_2d * grid,
       }
       /* quiet zone */
       if (strstr(line, "{\\quietzone}") != NULL) {
-        fprintf(fp_report, "\\newcommand{\\quietzone}{%d \\%%}\n",
+        fprintf(fp_report, "\\newcommand{\\quietzone}{%d}\n",
                 (int)grid->quiet_zone);
         continue;
       }
       /* distributed damage */
       if (strstr(line, "{\\distributeddamage}") != NULL) {
-        fprintf(fp_report, "\\newcommand{\\distributeddamage}{%d \\%%}\n",
+        fprintf(fp_report, "\\newcommand{\\distributeddamage}{%d}\n",
                 (int)grid->distributed_damage);
         continue;
       }
       /* cell fill */
       if (strstr(line, "{\\cellfill}") != NULL) {
-        fprintf(fp_report, "\\newcommand{\\cellfill}{%d \\%%}\n",
+        fprintf(fp_report, "\\newcommand{\\cellfill}{%d}\n",
                 (int)grid->cell_fill);
         continue;
       }
