@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
       report_filename[0] = 0;
       decode_strcat(&report_filename[0], argv[i+1]);
       verify = 1;
-      histogram_module_centres = 1;
+      histogram_module_centres = 0;
     }
     if ((strcmp(argv[i],"-t")==0) ||
         (strcmp(argv[i],"--template")==0)) {
