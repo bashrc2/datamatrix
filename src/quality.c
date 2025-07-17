@@ -1558,8 +1558,14 @@ void save_verification_report(struct grid_2d * grid,
       }
       /* ISO Symbol Grade 0.0 - 4.0 */
       if (strstr(line, "{\\isosymbolgrade}") != NULL) {
-        fprintf(fp_report, "\\newcommand{\\isosymbolgrade}{%d.0 (%c)}\n",
-                (int)grade, grade_letter[grade]);
+        if (grade > 0) {
+          fprintf(fp_report, "\\newcommand{\\isosymbolgrade}{%d.0 PASS}\n",
+                  (int)grade);
+        }
+        else {
+          fprintf(fp_report, "\\newcommand{\\isosymbolgrade}{%d.0 FAIL}\n",
+                  (int)grade);
+        }
         continue;
       }
       /* symbol contrast */
