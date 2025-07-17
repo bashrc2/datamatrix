@@ -1277,11 +1277,6 @@ static void show_quality_metrics_json(struct grid_2d * grid,
   struct tm tm = *localtime(&t);
 
   printf("{\n");
-  if (aperture > 0) {
-    printf("  \"aperture\": %.1f,\n", aperture);
-  }
-  printf("  \"light_nm\": %d,\n", light_nm);
-  printf("  \"light_angle_degrees\": %d,\n", light_angle_degrees);
   printf("  \"timestamp\": \"%d-%02d-%02d %02d:%02d:%02d\",\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
@@ -1291,6 +1286,13 @@ static void show_quality_metrics_json(struct grid_2d * grid,
   else {
     printf("  \"symbol_type\": \"datamatrix\",\n");
   }
+  if (aperture > 0) {
+    printf("  \"aperture\": %.1f,\n", aperture);
+  }
+  printf("  \"light_nm\": %d,\n", light_nm);
+  printf("  \"light_angle_degrees\": %d,\n", light_angle_degrees);
+  printf("  \"issuedate\": \"%d-%02d-%02d\",\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
   printf("  \"symbol_contrast\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->symbol_contrast_grade, (int)grid->symbol_contrast);
   printf("  \"axial_non_uniformity\": { \"grade\": %d, \"value\": %.1f },\n",
@@ -1335,6 +1337,8 @@ static void show_quality_metrics_yaml(struct grid_2d * grid,
   struct tm tm = *localtime(&t);
 
   printf("---\n");
+  printf("issuedate: %d-%02d-%02d\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
   printf("timestamp: %d-%02d-%02d %02d:%02d:%02d\n",
          tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
          tm.tm_hour, tm.tm_min, tm.tm_sec);
