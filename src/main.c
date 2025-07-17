@@ -61,6 +61,7 @@ int main(int argc, char* argv[])
   char grid_filename[MAX_DECODE_LENGTH];
   char histogram_filename[MAX_DECODE_LENGTH];
   char cell_shape_filename[MAX_DECODE_LENGTH];
+  char report_template[MAX_DECODE_LENGTH];
   float aperture = 0;
   int light_nm = 670;
   int light_angle_degrees = 90;
@@ -71,6 +72,10 @@ int main(int argc, char* argv[])
 
   /* no filename specified */
   filename[0] = 0;
+
+  /* default verification report template */
+  report_template[0] = 0;
+  decode_strcat(&report_template[0], "report_template.tex");
 
   /* no output or grid image by default */
   output_filename[0] = 0;
@@ -86,6 +91,11 @@ int main(int argc, char* argv[])
     if ((strcmp(argv[i],"-f")==0) ||
         (strcmp(argv[i],"--filename")==0)) {
       decode_strcat(&filename[0], argv[i+1]);
+    }
+    if ((strcmp(argv[i],"-t")==0) ||
+        (strcmp(argv[i],"--template")==0)) {
+      report_template[0] = 0;
+      decode_strcat(&report_template[0], argv[i+1]);
     }
     if (strcmp(argv[i],"--aperture")==0) {
       aperture = atof(argv[i+1]);

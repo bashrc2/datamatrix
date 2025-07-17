@@ -33,6 +33,7 @@ void show_help()
   printf("-g --grid [PNG file]          Save an image showing the detected grid\n");
   printf("--hist [PNG file]             Save reflectance histogram\n");
   printf("--shape [PNG file]            Save cell shape variance image\n");
+  printf("-t --template [TEX file]      Path for verification report template\n");
   printf("--histcentres                 Only sample grid cell centres for reflectance histogram\n");
   printf("--mingrid [8..144]            Minimum matrix dimension\n");
   printf("--maxgrid [8..144]            Maximum matrix dimension\n");

@@ -43,6 +43,7 @@ sudo make install
 -g --grid [PNG file]          Save an image showing the detected grid
 --hist [PNG file]             Save reflectance histogram
 --shape [PNG file]            Save cell shape variance image
+-t --template [TEX file]      Path for verification report template
 --histcentres                 Only sample grid cell centres for reflectance histogram
 --mingrid [8..144]            Minimum matrix dimension
 --maxgrid [8..144]            Maximum matrix dimension
