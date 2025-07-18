@@ -34,8 +34,6 @@
 #include <time.h>
 #include <omp.h>
 #include <float.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 #define GPR_MISSING_VALUE          9999
 #define PARALLEL_LINES             -2
