@@ -57,3 +57,41 @@ int decode_strcat_char(char * result, char chr)
   result[length] = 0;
   return 0;
 }
+
+/**
+ * \brief simplified implementation of gnu99's getline
+ * \param line to be returned
+ * \param fp file pointer
+ * \return 0 if a line has been read or -1 if at the end of file
+ */
+int getline2(char line[], FILE * fp)
+{
+  int i = 0;
+  char c = '.';
+
+  line[0] = 0;
+
+  if (fp == NULL){
+    return -1;
+  }
+
+  while (c != '\n') {
+    if (i >= MAX_DECODE_LENGTH - 1) {
+      line[i++] = 0;
+      break;
+    }
+    c = getc(fp);
+    if (c == EOF) {
+      line[i] = 0;
+      break;
+    }
+    line[i] = c;
+    i++;
+  }
+
+  if (i > 0) {
+    line[i] = 0;
+  }
+  if (c == EOF) return -1;
+  return 0;
+}

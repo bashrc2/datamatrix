@@ -1454,8 +1454,6 @@ void save_verification_report(struct grid_2d * grid,
 {
   FILE * fp_template, * fp_report;
   char * line = NULL;
-  size_t len = 0;
-  ssize_t read;
   unsigned char grade = overall_quality_grade(grid);
   char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
   time_t t = time(NULL);
@@ -1467,7 +1465,9 @@ void save_verification_report(struct grid_2d * grid,
   fp_report = fopen(report_filename, "w");
   if (fp_report == NULL) return;
 
-  while ((read = getline(&line, &len, fp_template)) != -1) {
+  line = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+
+  while (getline2(line, fp_template) != -1) {
     if (strstr(line, "\\newcommand{") != NULL) {
       /* address line 1 */
       if (strstr(line, "{\\addressa}") != NULL) {
@@ -1720,6 +1720,7 @@ void save_verification_report(struct grid_2d * grid,
     fprintf(fp_report, "%s", line);
   }
 
+  free(line);
   fclose(fp_template);
   fclose(fp_report);
 }

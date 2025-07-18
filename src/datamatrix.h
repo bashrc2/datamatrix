@@ -436,6 +436,8 @@ int decode_strcat_char(char * result, char chr);
 
 void * safemalloc(int n);
 
+int getline2(char line[], FILE * fp);
+
 /* shrinkgrow.c */
 
 void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
