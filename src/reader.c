@@ -458,7 +458,7 @@ int read_datamatrix(unsigned char image_data[],
                                perimeter_x2, perimeter_y2,
                                perimeter_x3, perimeter_y3);
       rectangular = is_rectangle;
-      if ((aspect_ratio_percent < 90) || (aspect_ratio_percent > 110)) {
+      if ((aspect_ratio_percent < 80) || (aspect_ratio_percent > 120)) {
         if (is_square == 1) continue;
         rectangular = rectangular_joined_line_segments(aspect_ratio_percent);
         if (rectangular == 0) continue;
@@ -474,7 +474,9 @@ int read_datamatrix(unsigned char image_data[],
       if (corner_radians > PI)
         corner_radians = (2 * (float)PI) - corner_radians;
       angle_degrees = corner_radians / (float)PI * 180;
-      if ((angle_degrees < 70) || (angle_degrees > 110)) continue;
+      if ((angle_degrees < 70) || (angle_degrees > 110)) {
+        continue;
+      }
 
       /* second corner */
       corner_radians = corner_angle(perimeter_x1, perimeter_y1,
@@ -484,8 +486,9 @@ int read_datamatrix(unsigned char image_data[],
       if (corner_radians > PI)
         corner_radians = (2 * (float)PI) - corner_radians;
       angle_degrees = corner_radians / (float)PI * 180;
-      if ((angle_degrees < 70) || (angle_degrees > 110)) continue;
-
+      if ((angle_degrees < 70) || (angle_degrees > 110)) {
+        continue;
+      }
       /* shrink the perimeter according to the amount of dilation */
       shrinkwrap_shape_perimeter(erosion_itterations, dilate_itterations,
                                  &perimeter_x0, &perimeter_y0,

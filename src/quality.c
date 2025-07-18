@@ -1549,6 +1549,9 @@ void save_verification_report(struct grid_2d * grid,
           else if (decode_result[i] == '_') {
             fprintf(fp_report, "\\_");
           }
+          else if (decode_result[i] == '\\') {
+            fprintf(fp_report, "\\textbackslash");
+          }
           else if (decode_result[i] == '%') {
             fprintf(fp_report, "\\%%");
           }
