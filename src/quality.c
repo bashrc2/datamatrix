@@ -170,7 +170,6 @@ static void save_reflectance_histogram(unsigned char image_data[],
   for (reflectance = 0; reflectance < 256; reflectance++) {
     if (histogram[reflectance] > max) max = histogram[reflectance];
   }
-  max = max*110/100;
 
   /* clear the image */
   memset(histogram_image, 255,
