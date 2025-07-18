@@ -1,4 +1,4 @@
-<img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/logo_square3.png" width="25%" alt="Picture of a datamatrix"/>
+<img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/logo_square3.png" width="25%" alt="Datamatrix under a magnifying glass"/>
 
 *datamatrix* is a commandline utility for reading and verifying Datamatrix direct part markings. Some image processing functions are based on [visionutils](https://codeberg.org/bashrc/visionutils).
 
@@ -158,6 +158,8 @@ These reports are in [LaTeX](https://en.wikipedia.org/wiki/LaTeX) format, and yo
 ``` bash
 datamatrix -f examples/01.png --report myreport.tex --address1 "Address line 1" --address2 "Address line 2" --address3 "Address line 3" --phone "123456789" --email "myemail@address" --web "https://mywebsite" --logo mylogo.png -o detection.png --hist histogram.png
 ```
+
+<img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/report.png" width="50%" alt="Datamatrix verification report"/>
 
 ## Testing
 
