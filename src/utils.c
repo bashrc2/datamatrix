@@ -77,7 +77,8 @@ int getline2(char line[], FILE * fp)
 
   while (c != '\n') {
     if (i >= MAX_DECODE_LENGTH - 1) {
-      line[i++] = 0;
+      /* avoid buffer overrun */
+      line[i] = 0;
       break;
     }
     c = getc(fp);
