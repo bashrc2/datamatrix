@@ -82,6 +82,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param phone Phone number to display at top of verification report
  * \param email Email address to display at top of verification report
  * \param website Web URL to display at top of verification report
+ * \param footer Footer text on verification report
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -122,6 +123,7 @@ int read_datamatrix(unsigned char image_data[],
                     char phone[],
                     char email[],
                     char website[],
+                    char footer[],
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -1091,7 +1093,8 @@ int read_datamatrix(unsigned char image_data[],
                                    thr_decode_result[best_config],
                                    aperture,
                                    light_nm,
-                                   light_angle_degrees);
+                                   light_angle_degrees,
+                                   footer);
         }
       }
       strcpy(decode_result, thr_decode_result[best_config]);

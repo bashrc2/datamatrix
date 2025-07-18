@@ -73,6 +73,7 @@ sudo make install
 --phone [number]              Telephone number on verification report
 --email [address]             Email address on verification report
 --web [url]                   Website url on verification report
+--footer [text]               Footer shown on verification report
 --tests                       Run unit tests
 ```
 

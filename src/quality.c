@@ -1432,6 +1432,7 @@ void show_quality_metrics(struct grid_2d * grid,
  * \param aperture Aperture reference number from ISO 15416
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
+ * \param footer Footer text on verification report
  */
 void save_verification_report(struct grid_2d * grid,
                               char address_line1[],
@@ -1448,7 +1449,8 @@ void save_verification_report(struct grid_2d * grid,
                               char decode_result[],
                               float aperture,
                               int light_nm,
-                              int light_angle_degrees)
+                              int light_angle_degrees,
+                              char footer[])
 {
   FILE * fp_template, * fp_report;
   char * line = NULL;
@@ -1707,6 +1709,13 @@ void save_verification_report(struct grid_2d * grid,
       fprintf(fp_report, "    \\includegraphics[height=6cm]{%s}\n",
               histogram_filename);
       continue;
+    }
+    /* footer text */
+    if (strlen(footer) > 0) {
+      if (strstr(line, "\\fancyfoot") != NULL) {
+        fprintf(fp_report, "\\fancyfoot[C]{%s}\n", footer);
+        continue;
+      }
     }
     fprintf(fp_report, "%s", line);
   }

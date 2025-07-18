@@ -70,6 +70,7 @@ int main(int argc, char* argv[])
   char phone[MAX_DECODE_LENGTH];
   char email[MAX_DECODE_LENGTH];
   char website[MAX_DECODE_LENGTH];
+  char footer[MAX_DECODE_LENGTH];
   float aperture = 0;
   int light_nm = 670;
   int light_angle_degrees = 90;
@@ -86,6 +87,9 @@ int main(int argc, char* argv[])
 
   /* logo which appears on verification report */
   logo_filename[0] = 0;
+
+  /* footer text on verification report */
+  footer[0] = 0;
 
   /* contact details to appear on verification report */
   address_line1[0] = 0;
@@ -132,6 +136,10 @@ int main(int argc, char* argv[])
         (strcmp(argv[i],"--template")==0)) {
       report_template[0] = 0;
       decode_strcat(&report_template[0], argv[i+1]);
+    }
+    if (strcmp(argv[i],"--footer")==0) {
+      footer[0] = 0;
+      decode_strcat(&footer[0], argv[i+1]);
     }
     if (strcmp(argv[i],"--address1")==0) {
       address_line1[0] = 0;
@@ -399,6 +407,7 @@ int main(int argc, char* argv[])
                   &phone[0],
                   &email[0],
                   &website[0],
+                  &footer[0],
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

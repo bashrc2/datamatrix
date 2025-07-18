@@ -500,7 +500,8 @@ void save_verification_report(struct grid_2d * grid,
                               char decode_result[],
                               float aperture,
                               int light_nm,
-                              int light_angle_degrees);
+                              int light_angle_degrees,
+                              char footer[]);
 
 /* gs1.c */
 
@@ -607,6 +608,7 @@ int read_datamatrix(unsigned char image_data[],
                     char phone[],
                     char email[],
                     char website[],
+                    char footer[],
                     char * decode_result);
 
 /* tests.c */

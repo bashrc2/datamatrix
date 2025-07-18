@@ -63,5 +63,6 @@ void show_help()
   printf("--phone [number]              Telephone number on verification report\n");
   printf("--email [address]             Email address on verification report\n");
   printf("--web [url]                   Website url on verification report\n");
+  printf("--footer [text]               Footer shown on verification report\n");
   printf("--tests                       Run unit tests\n");
 }
