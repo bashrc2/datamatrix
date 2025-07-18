@@ -67,6 +67,12 @@ sudo make install
 --aperture [ref]              Aperture reference number from ISO 15416
 --light [nm]                  Peak light wavelength used in nanometres
 --angle [90|45]               Angle of illumination in degrees
+--address1 [text]             First line of address on verification report
+--address2 [text]             Second line of address on verification report
+--address3 [text]             Third line of address on verification report
+--phone [number]              Telephone number on verification report
+--email [address]             Email address on verification report
+--web [url]                   Website url on verification report
 --tests                       Run unit tests
 ```
 

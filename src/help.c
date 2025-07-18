@@ -57,5 +57,11 @@ void show_help()
   printf("--aperture [ref]              Aperture reference number from ISO 15416\n");
   printf("--light [nm]                  Peak light wavelength used in nanometres\n");
   printf("--angle [90|45]               Angle of illumination in degrees\n");
+  printf("--address1 [text]             First line of address on verification report\n");
+  printf("--address2 [text]             Second line of address on verification report\n");
+  printf("--address3 [text]             Third line of address on verification report\n");
+  printf("--phone [number]              Telephone number on verification report\n");
+  printf("--email [address]             Email address on verification report\n");
+  printf("--web [url]                   Website url on verification report\n");
   printf("--tests                       Run unit tests\n");
 }
