@@ -50,20 +50,19 @@ static void darklight_thresholds(unsigned int histogram[],
   float magnitudeSqr = 0.0f;
   float variance = 0.0f;
   float divisor= 0.0f;
-  unsigned int i;
   int greyLevel;
   *meanDark = 0;
   *meanLight = 0;
 
   /* Calculate squared magnitudes -
      avoids unneccessary multiplies later on */
-  for(i = 0; i < 256; i++) {
-    histogramSquaredMagnitude[i] =
-      histogram[i] * histogram[i];
+  for (greyLevel = 255; greyLevel >=0; greyLevel--) {
+    histogramSquaredMagnitude[greyLevel] =
+      histogram[greyLevel] * histogram[greyLevel];
   }
 
   /* Evaluate all possible thresholds */
-  for(greyLevel = 255; greyLevel >= 0; greyLevel--) {
+  for (greyLevel = 255; greyLevel >= 0; greyLevel--) {
     darkHits = 0;
     lightHits = 0;
     currMeanDark = 0;
