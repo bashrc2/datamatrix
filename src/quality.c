@@ -85,6 +85,8 @@ static void save_reflectance_histogram(unsigned char image_data[],
   int image_bytesperpixel = image_bitsperpixel/8;
   int grid_x, grid_y, x, y, n, bb, reflectance, tx, ty, bx, by;
   int border_tx, border_ty, border_bx, border_by;
+  unsigned int mean_reflectance = 0;
+  unsigned int mean_reflectance_hits = 0;
   unsigned int max=0;
   unsigned int histogram[256];
   unsigned char * histogram_image =
@@ -167,8 +169,15 @@ static void save_reflectance_histogram(unsigned char image_data[],
   }
 
   /* find maximum histogram response */
+  max = 1;
   for (reflectance = 0; reflectance < 256; reflectance++) {
-    if (histogram[reflectance] > max) max = histogram[reflectance];
+    if (histogram[reflectance] > 0) {
+      mean_reflectance += histogram[reflectance];
+      mean_reflectance_hits++;
+    }
+  }
+  if (mean_reflectance_hits > 0) {
+    max = (mean_reflectance / mean_reflectance_hits) * 25 / 10;
   }
 
   /* clear the image */
@@ -194,7 +203,9 @@ static void save_reflectance_histogram(unsigned char image_data[],
   /* draw the histogram */
   for (x = border_tx; x <= border_bx; x++) {
     reflectance = (x - border_tx) * 255 / (border_bx - border_tx);
-    y = border_by - (histogram[reflectance] * (border_by - border_ty) / max);
+    reflectance = histogram[reflectance];
+    if (reflectance > max) reflectance = max;
+    y = border_by - (reflectance * (border_by - border_ty) / max);
     draw_line(histogram_image,
               histogram_image_width, histogram_image_height, 24,
               x, y, x, border_by, 1, r, g, b);
