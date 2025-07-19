@@ -30,88 +30,88 @@
  * \brief returns the mean light and mean dark thresholds for the given
  *        reflectance histogram
  * \param histogram reflectance histogram with 256 buckets
- * \param meanDark returned mean dark threshold
- * \param meanLight returned mean light threshold
+ * \param mean_dark returned mean dark threshold
+ * \param mean_light returned mean light threshold
  */
 static void darklight_thresholds(unsigned int histogram[],
-                                 float * meanDark,
-                                 float * meanLight)
+                                 float * mean_dark,
+                                 float * mean_light)
 {
-  float minVariance = 999999.0f;
-  float currMeanDark = 0.0f;
-  float currMeanLight = 0.0f;
-  float varianceDark = 0.0f;
-  float varianceLight = 0.0f;
-  float darkHits = 0.0f;
-  float lightHits = 0.0f;
-  float histogramSquaredMagnitude[256] = {0};
+  float min_variance = 999999.0f;
+  float curr_mean_dark = 0.0f;
+  float curr_mean_light = 0.0f;
+  float variance_dark = 0.0f;
+  float variance_light = 0.0f;
+  float dark_hits = 0.0f;
+  float light_hits = 0.0f;
+  float histogram_sqr_mag[256] = {0};
   int h = 0;
   int bucket = 0;
-  float magnitudeSqr = 0.0f;
+  float sqr_mag = 0.0f;
   float variance = 0.0f;
   float divisor= 0.0f;
-  int greyLevel;
-  *meanDark = 0;
-  *meanLight = 0;
+  int grey_level;
+  *mean_dark = 0;
+  *mean_light = 0;
 
   /* Calculate squared magnitudes -
      avoids unneccessary multiplies later on */
-  for (greyLevel = 255; greyLevel >=0; greyLevel--) {
-    histogramSquaredMagnitude[greyLevel] =
-      histogram[greyLevel] * histogram[greyLevel];
+  for (grey_level = 255; grey_level >=0; grey_level--) {
+    histogram_sqr_mag[grey_level] =
+      histogram[grey_level] * histogram[grey_level];
   }
 
   /* Evaluate all possible thresholds */
-  for (greyLevel = 255; greyLevel >= 0; greyLevel--) {
-    darkHits = 0;
-    lightHits = 0;
-    currMeanDark = 0;
-    currMeanLight = 0;
-    varianceDark = 0;
-    varianceLight = 0;
+  for (grey_level = 255; grey_level >= 0; grey_level--) {
+    dark_hits = 0;
+    light_hits = 0;
+    curr_mean_dark = 0;
+    curr_mean_light = 0;
+    variance_dark = 0;
+    variance_light = 0;
 
-    bucket = (int)greyLevel;
+    bucket = grey_level;
 
     for(h = 255; h >= 0; h--) {
-      magnitudeSqr = histogramSquaredMagnitude[h];
+      sqr_mag = histogram_sqr_mag[h];
       if (h < bucket) {
-        currMeanDark += h * magnitudeSqr;
-        varianceDark += (bucket - h) * magnitudeSqr;
-        darkHits += magnitudeSqr;
+        curr_mean_dark += h * sqr_mag;
+        variance_dark += (bucket - h) * sqr_mag;
+        dark_hits += sqr_mag;
       }
       else {
-        currMeanLight += h * magnitudeSqr;
-        varianceLight += (bucket - h) * magnitudeSqr;
-        lightHits += magnitudeSqr;
+        curr_mean_light += h * sqr_mag;
+        variance_light += (bucket - h) * sqr_mag;
+        light_hits += sqr_mag;
       }
     }
 
-    if (darkHits > 0) {
+    if (dark_hits > 0) {
       /* Rescale into 0-255 range */
-      divisor = darkHits * 256;
-      currMeanDark = (currMeanDark * 255) / divisor;
-      varianceDark = (varianceDark * 255) / divisor;
+      divisor = dark_hits * 256;
+      curr_mean_dark = (curr_mean_dark * 255) / divisor;
+      variance_dark = (variance_dark * 255) / divisor;
     }
 
-    if (lightHits > 0) {
+    if (light_hits > 0) {
       /* Rescale into 0-255 range */
-      divisor = lightHits * 256;
-      currMeanLight = (currMeanLight * 255) / divisor;
-      varianceLight = (varianceLight * 255) / divisor;
+      divisor = light_hits * 256;
+      curr_mean_light = (curr_mean_light * 255) / divisor;
+      variance_light = (variance_light * 255) / divisor;
     }
 
-    variance = varianceDark + varianceLight;
+    variance = variance_dark + variance_light;
     if (variance < 0)
       variance = -variance;
 
-    if (variance < minVariance) {
-      minVariance = variance;
-      *meanDark = currMeanDark;
-      *meanLight = currMeanLight;
+    if (variance < min_variance) {
+      min_variance = variance;
+      *mean_dark = curr_mean_dark;
+      *mean_light = curr_mean_light;
     }
 
-    if ((int)(variance * 1000) == (int)(minVariance * 1000))
-      *meanLight = currMeanLight;
+    if ((int)(variance * 1000) == (int)(min_variance * 1000))
+      *mean_light = curr_mean_light;
   }
 }
 
@@ -142,7 +142,7 @@ void darklight(unsigned char img[],
   unsigned int n = (ty * (unsigned int)width) + tx;
   unsigned int vertical_increment =
     (unsigned int)(width * sample_step);
-  float meanDark=0, meanLight=0;
+  float mean_dark=0, mean_light=0;
 
   for (y = ty; y <= by; y += sample_step, n += vertical_increment) {
     n2 = n;
@@ -151,7 +151,7 @@ void darklight(unsigned char img[],
       histogram[img[n2]]++;
   }
 
-  darklight_thresholds(histogram, &meanDark, &meanLight);
-  *dark = (unsigned char)meanDark;
-  *light = (unsigned char)meanLight;
+  darklight_thresholds(histogram, &mean_dark, &mean_light);
+  *dark = (unsigned char)mean_dark;
+  *light = (unsigned char)mean_light;
 }
