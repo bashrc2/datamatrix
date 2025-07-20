@@ -1026,7 +1026,7 @@ void create_grid(int dimension_x, int dimension_y,
   float horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
   float vertical_dx1, vertical_dy1, vertical_dx2, vertical_dy2;
   float vertical_x1, vertical_y1, vertical_x2, vertical_y2;
-  float xi=0, yi=0, grid_pos_x, grid_pos_y;
+  float xi=0, yi=0, grid_pos_x, grid_pos_y, mult_x, mult_y;
 
   grid->perimeter.x0 = perimeter_x0;
   grid->perimeter.y0 = perimeter_y0;
@@ -1058,18 +1058,20 @@ void create_grid(int dimension_x, int dimension_y,
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
     /* horizontal line */
     grid_pos_y = grid_y + 0.5f;
-    horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
-    horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
-    horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
-    horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+    mult_y = grid_pos_y / grid->dimension_y;
+    horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * mult_y);
+    horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * mult_y);
+    horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * mult_y);
+    horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * mult_y);
 
     for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
       /* vertical line */
       grid_pos_x = grid_x + 0.5f;
-      vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
-      vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
-      vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
-      vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+      mult_x = grid_pos_x / grid->dimension_x;
+      vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * mult_x);
+      vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * mult_x);
+      vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * mult_x);
+      vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * mult_x);
       intersection(horizontal_x1, horizontal_y1,
                    horizontal_x2, horizontal_y2,
                    vertical_x1, vertical_y1,
