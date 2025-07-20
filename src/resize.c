@@ -152,7 +152,7 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
                              unsigned char resized[],
                              int resized_width, int resized_height)
 {
-  int c, x, y, x2, y2, n1, n2;
+  int x, y, x2, y2, n1, n2;
   int bytes_per_pixel = bitsperpixel/8;
 
   if ((resized_width == width) && (resized_height == height)) {
@@ -178,9 +178,7 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
       if (img[n2] == 0) continue;
       x2 = x * resized_width / width;
       n1 = (y2*resized_width + x2)*bytes_per_pixel;
-      for (c = bytes_per_pixel-1; c >= 0; c--) {
-        resized[n1+c] = 255;
-      }
+      memset(&resized[n1], 255, bytes_per_pixel);
     }
   }
   return 0;
