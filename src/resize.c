@@ -172,12 +172,12 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
   memset(resized, '\0', resized_width*resized_height*bytes_per_pixel);
 
   for (y = height-1; y >= 0; y--) {
-    y2 = y * resized_height / height;
+    y2 = (y * resized_height / height) * resized_width;
     n2 = (y*width + width-1)*bytes_per_pixel;
     for (x = width-1; x >= 0; x--, n2-=bytes_per_pixel) {
       if (img[n2] == 0) continue;
       x2 = x * resized_width / width;
-      n1 = (y2*resized_width + x2)*bytes_per_pixel;
+      n1 = (y2 + x2)*bytes_per_pixel;
       memset(&resized[n1], 255, bytes_per_pixel);
     }
   }
