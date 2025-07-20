@@ -47,6 +47,7 @@ void show_help()
   printf("--erode [0..20]               Set erosion itterations\n");
   printf("--dilate [0..20]              Set dilation itterations\n");
   printf("--meanlight [0..20]           Set mean light threshold\n");
+  printf("--darklight [1..10]           Sampling step size when calculating peak dark and light\n");
   printf("--resolver [url]              GS1 resolver (eg. https://id.gs1.org)\n");
   printf("--sampleradius [pixels]       Radius for sampling each grid cell\n");
   printf("--minsegmentlength [pixels]   Minimum edge segment length for segment joining\n");

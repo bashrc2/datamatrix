@@ -57,6 +57,7 @@ sudo make install
 --erode [0..20]               Set erosion itterations
 --dilate [0..20]              Set dilation itterations
 --meanlight [0..20]           Set mean light threshold
+--darklight [1..10]           Sampling step size when calculating peak dark and light
 --resolver [url]              GS1 resolver (eg. https://id.gs1.org)
 --sampleradius [pixels]       Radius for sampling each grid cell
 --minsegmentlength [pixels]   Minimum edge segment length for segment joining

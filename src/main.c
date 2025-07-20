@@ -74,6 +74,7 @@ int main(int argc, char* argv[])
   float aperture = 0;
   int light_nm = 670;
   int light_angle_degrees = 90;
+  int darklight_sampling_step = 1;
 
   /* only looks for squares or rectangles */
   unsigned char is_square = 0;
@@ -191,6 +192,12 @@ int main(int argc, char* argv[])
     if ((strcmp(argv[i],"--ml")==0) ||
         (strcmp(argv[i],"--meanlight")==0)) {
       test_ml_threshold = atoi(argv[i+1]);
+    }
+    if ((strcmp(argv[i],"--dl")==0) ||
+        (strcmp(argv[i],"--darklight")==0)) {
+      darklight_sampling_step = atoi(argv[i+1]);
+      if (darklight_sampling_step < 1) darklight_sampling_step = 1;
+      if (darklight_sampling_step > 10) darklight_sampling_step = 10;
     }
     if ((strcmp(argv[i],"--sample")==0) ||
         (strcmp(argv[i],"--samplingradius")==0) ||
@@ -408,6 +415,7 @@ int main(int argc, char* argv[])
                   &email[0],
                   &website[0],
                   &footer[0],
+                  darklight_sampling_step,
                   decode_result);
   if (strlen(decode_result) > 0) {
     if (verify == 0) {

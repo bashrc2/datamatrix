@@ -83,6 +83,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param email Email address to display at top of verification report
  * \param website Web URL to display at top of verification report
  * \param footer Footer text on verification report
+ * \param darklight_sampling_step Step size for dark/light peaks calculation
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -124,6 +125,7 @@ int read_datamatrix(unsigned char image_data[],
                     char email[],
                     char website[],
                     char footer[],
+                    int darklight_sampling_step,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -262,6 +264,7 @@ int read_datamatrix(unsigned char image_data[],
     meanlight_threshold(thr_image_data, image_width, image_height,
                         image_bitsperpixel, ml_threshold,
                         meanlight_sampling_radius_percent,
+                        darklight_sampling_step,
                         thr_meanlight_image_data);
     if (debug == 1) {
       sprintf(debug_filename[try_config], "debug_%d_02_meanlight.png", try_config);

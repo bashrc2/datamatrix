@@ -184,6 +184,7 @@ struct line_segments {
 int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
                         int sampling_radius_percent,
+                        int sampling_step,
                         unsigned char thresholded[]);
 
 /* convert.c */
@@ -609,6 +610,7 @@ int read_datamatrix(unsigned char image_data[],
                     char email[],
                     char website[],
                     char footer[],
+                    int darklight_sampling_step,
                     char * decode_result);
 
 /* tests.c */
