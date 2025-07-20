@@ -674,15 +674,15 @@ void rotate_grid(struct grid_2d * grid)
  */
 static void orient_grid(struct grid_2d * grid)
 {
-  int n, grid_x, grid_y, left_hits=0, right_hits=0, top_hits=0, bottom_hits=0;
+  int n, n2, grid_x, grid_y, left_hits=0, right_hits=0, top_hits=0, bottom_hits=0;
   unsigned char * temp;
 
   /* keep a copy of the original damage pattern for use when displaying
      damage in an image */
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
     n = grid_y * grid->dimension_x;
-    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-      grid->original_damage[n+grid_x] = grid->damage[n+grid_x];
+    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++) {
+      grid->original_damage[n] = grid->damage[n];
     }
   }
 
@@ -700,18 +700,21 @@ static void orient_grid(struct grid_2d * grid)
         for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
           temp[grid_x] = grid->occupancy[grid_x][grid_y];
         }
-        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-          grid->occupancy[grid_x][grid_y] = temp[grid->dimension_x - 1 - grid_x];
+        n2 = grid->dimension_x - 1;
+        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n2--) {
+          grid->occupancy[grid_x][grid_y] = temp[n2];
         }
       }
       /* mirror damage */
       for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
         n = grid_y * grid->dimension_x;
-        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-          temp[grid_x] = grid->damage[n+grid_x];
+        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++) {
+          temp[grid_x] = grid->damage[n];
         }
-        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-          grid->damage[n+grid_x] = temp[grid->dimension_x - 1 - grid_x];
+        n = grid_y * grid->dimension_x;
+        n2 = grid->dimension_x - 1;
+        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++, n2--) {
+          grid->damage[n] = temp[n2];
         }
       }
       free(temp);
@@ -732,8 +735,9 @@ static void orient_grid(struct grid_2d * grid)
         for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
           temp[grid_y] = grid->occupancy[grid_x][grid_y];
         }
-        for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-          grid->occupancy[grid_x][grid_y] = temp[grid->dimension_y - 1 - grid_y];
+        n2 = grid->dimension_y - 1;
+        for (grid_y = 0; grid_y < grid->dimension_y; grid_y++, n2--) {
+          grid->occupancy[grid_x][grid_y] = temp[n2];
         }
       }
       /* flip damage */
