@@ -597,19 +597,19 @@ static void complete_fixed_pattern(struct grid_2d * grid)
   int timing_border_cells=0;
 
   /* solid border */
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
     if (grid->occupancy[0][grid_y] == 0) damage++;
     grid->occupancy[0][grid_y] = 1;
     fixed_pattern_cells++;
   }
-  for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+  for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
     if (grid->occupancy[grid_x][grid->dimension_y-1] == 0) damage++;
     grid->occupancy[grid_x][grid->dimension_y-1] = 1;
     fixed_pattern_cells++;
   }
 
   /* timing border */
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
     expected = grid_y % 2;
     if (grid->occupancy[grid->dimension_x-1][grid_y] != expected) {
       damage++;
@@ -619,7 +619,7 @@ static void complete_fixed_pattern(struct grid_2d * grid)
     fixed_pattern_cells++;
     timing_border_cells++;
   }
-  for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+  for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
     expected = 1 - (grid_x % 2);
     if (grid->occupancy[grid_x][0] != expected) {
       damage++;
