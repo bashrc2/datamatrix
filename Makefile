@@ -2,10 +2,10 @@ APP=datamatrix
 PREFIX?=/usr/local
 
 all:
-	gcc -Wall -std=c99 -pedantic -O3 -o ${APP} -Isrc src/*.c -lm -fopenmp
+	gcc -Wall -std=c99 -pedantic -Ofast -o ${APP} -Isrc src/*.c -lm -fopenmp -frandom-seed=src/main.c
 
 debug:
-	gcc -Wall -std=c99 -pedantic -g -o ${APP} -Isrc src/*.c -lm -fopenmp
+	gcc -Wall -std=c99 -pedantic -g -o ${APP} -Isrc src/*.c -lm -fopenmp -frandom-seed=src/main.c
 
 clean:
 	rm -f src/*.plist ${APP} *.png
