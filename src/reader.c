@@ -84,6 +84,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param website Web URL to display at top of verification report
  * \param footer Footer text on verification report
  * \param darklight_sampling_step Step size for dark/light peaks calculation
+ * \param max_high_pixels_percent Maximum percentage of high pixels after thresholding
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -126,6 +127,7 @@ int read_datamatrix(unsigned char image_data[],
                     char website[],
                     char footer[],
                     int darklight_sampling_step,
+                    int max_high_pixels_percent,
                     char * decode_result)
 {
   int original_image_width = image_width;
@@ -343,6 +345,22 @@ int read_datamatrix(unsigned char image_data[],
     detect_edges_binary(thr_binary_image,resized_thresholded_width,
                         resized_thresholded_height,
                         thr_binary_image_buffer);
+
+    unsigned char high_pixels =
+      get_percent_high(thr_binary_image_buffer,
+                       resized_thresholded_width, resized_thresholded_height);
+    if ((high_pixels < 5) || (high_pixels > max_high_pixels_percent)) {
+      /* Too many high pixels */
+      free(thr_image_data);
+      free(thr_meanlight_image_data);
+      free(thr_original_meanlight_image_data);
+      free(thr_mono_img);
+      free(thr_binary_image);
+      free(thr_binary_image_buffer);
+      free(thr_buffer_img);
+      free(thr_edges_image_data);
+      continue;
+    }
 
     /* convert the mono image back to colour */
     mono_to_colour(thr_binary_image,

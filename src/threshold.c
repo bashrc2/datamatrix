@@ -135,3 +135,23 @@ int meanlight_threshold(unsigned char img[], int width, int height,
   mono_to_colour(img_mono, width, height, bitsperpixel, img);
   return percent;
 }
+
+/**
+ * \brief returns the percentage of pixels which have been thresholded as high
+ * \param mono_img Mono image
+ * \param image_width Width of the image
+ * \param image_height Height of the image
+ * \return percentage of high pixels
+ */
+unsigned char get_percent_high(unsigned char mono_img[],
+                               int image_width, int image_height)
+{
+  int i, high = 0;
+
+  for (i = image_width*image_height-1; i >= 0; i--) {
+    if (mono_img[i] == 0) {
+      high++;
+    }
+  }
+  return (unsigned char)(high * 100 / (image_width*image_height));
+}

@@ -187,6 +187,9 @@ int meanlight_threshold(unsigned char img[], int width, int height,
                         int sampling_step,
                         unsigned char thresholded[]);
 
+unsigned char get_percent_high(unsigned char mono_img[],
+                               int image_width, int image_height);
+
 /* convert.c */
 
 void mono_to_colour(unsigned char img[], int width, int height,
@@ -611,6 +614,7 @@ int read_datamatrix(unsigned char image_data[],
                     char website[],
                     char footer[],
                     int darklight_sampling_step,
+                    int max_high_pixels_percent,
                     char * decode_result);
 
 /* tests.c */
