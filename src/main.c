@@ -1,8 +1,8 @@
 /*********************************************************************
  * Software License Agreement (GPLv3)
  *
- *  Visionutils - example computer vision functions
- *  Copyright (c) 2011-2015, Bob Mottram
+ *  Datamatrix reader and verifier
+ *  Copyright (c) 2025, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
