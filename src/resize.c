@@ -1,7 +1,7 @@
 /*********************************************************************
  * Software License Agreement (GPLv3)
  *
- *  Visionutils - centre/surround functions
+ *  Visionutils - image resizing functions
  *  Copyright (c) 2013-2015, Bob Mottram
  *  bob@libreserver.org
  *
