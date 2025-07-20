@@ -674,6 +674,18 @@ int read_datamatrix(unsigned char image_data[],
         }
       }
 
+      if (any_decode(&thr_decode_result[0], max_config) == 1) {
+        free_line_segments(&segments[try_config]);
+        free(thr_image_data);
+        free(thr_meanlight_image_data);
+        free(thr_original_meanlight_image_data);
+        free(thr_mono_img);
+        free(thr_binary_image);
+        free(thr_buffer_img);
+        free(thr_edges_image_data);
+        continue;
+      }
+
       /* find the timing border frequency */
       if (test_frequency > 0) {
         most_probable_frequency = test_frequency;
@@ -708,6 +720,18 @@ int read_datamatrix(unsigned char image_data[],
                        image_width, image_height, 24, thr_image_data);
       }
 
+      if (any_decode(&thr_decode_result[0], max_config) == 1) {
+        free_line_segments(&segments[try_config]);
+        free(thr_image_data);
+        free(thr_meanlight_image_data);
+        free(thr_original_meanlight_image_data);
+        free(thr_mono_img);
+        free(thr_binary_image);
+        free(thr_buffer_img);
+        free(thr_edges_image_data);
+        continue;
+      }
+
       if (most_probable_frequency > 0) {
         if (debug == 1) {
           printf("Frequency: %d\n", most_probable_frequency);
@@ -717,6 +741,9 @@ int read_datamatrix(unsigned char image_data[],
         for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
              curr_sampling_pattern <= SAMPLING_PATTERN_RING;
              curr_sampling_pattern++) {
+          if (any_decode(&thr_decode_result[0], max_config) == 1) {
+            break;
+          }
           /* increase the radius for ring sampling */
           if (curr_sampling_pattern == SAMPLING_PATTERN_RING) curr_sampling_radius+=2;
           create_grid(most_probable_frequency, most_probable_frequency,
