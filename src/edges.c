@@ -438,16 +438,18 @@ void show_line_segments(struct line_segments * segments,
  * \param height height of the image
  * \param roi_radius_percent region of interest radius around the centre
  *        of the image as a percentage of image width
+ * \return percentage of the image which contains segments
  */
-void segment_edges_within_roi(struct line_segments * segments,
-                              int width, int height,
-                              int roi_radius_percent)
+unsigned char segment_edges_within_roi(struct line_segments * segments,
+                                       int width, int height,
+                                       int roi_radius_percent)
 {
   int i, j, x, y, dx, dy, index=0, index_adjusted;
   int cx = width/2;
   int cy = height/2;
   int roi_radius_pixels = roi_radius_percent * width / 100;
   int removed_members, removed_total=0;
+  int total = 0;
 
   roi_radius_pixels *= roi_radius_pixels;
   for (i = 0; i < segments->no_of_segments; i++) {
@@ -469,7 +471,9 @@ void segment_edges_within_roi(struct line_segments * segments,
       }
     }
     segments->no_of_members[i] -= removed_members;
+    total += segments->no_of_members[i];
   }
+  return (unsigned char)(total * 100 / (width*height));
 }
 
 /**

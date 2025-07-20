@@ -349,7 +349,8 @@ int read_datamatrix(unsigned char image_data[],
     unsigned char high_pixels =
       get_percent_high(thr_binary_image_buffer,
                        resized_thresholded_width, resized_thresholded_height);
-    if ((high_pixels < 5) || (high_pixels > max_high_pixels_percent)) {
+    if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
+        ((high_pixels < 5) || (high_pixels > max_high_pixels_percent))) {
       /* Too many high pixels */
       free(thr_image_data);
       free(thr_meanlight_image_data);
@@ -386,8 +387,22 @@ int read_datamatrix(unsigned char image_data[],
                      24, thr_edges_image_data);
     }
 
-    segment_edges_within_roi(&segments[try_config], resized_thresholded_width,
-                             resized_thresholded_height, segment_roi_percent);
+    unsigned char segments_percent =
+      segment_edges_within_roi(&segments[try_config], resized_thresholded_width,
+                               resized_thresholded_height, segment_roi_percent);
+    if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
+        (segments_percent < 1)) {
+      /* not enough line segments */
+      free(thr_image_data);
+      free(thr_meanlight_image_data);
+      free(thr_original_meanlight_image_data);
+      free(thr_mono_img);
+      free(thr_binary_image);
+      free(thr_binary_image_buffer);
+      free(thr_buffer_img);
+      free(thr_edges_image_data);
+      continue;
+    }
 
     if (debug == 1) {
       show_line_segments(&segments[try_config], thr_edges_image_data,

@@ -233,9 +233,9 @@ void get_line_segments(unsigned char edges_image[], int width, int height,
 void join_line_segments(struct line_segments * segments,
                         int join_radius);
 
-void segment_edges_within_roi(struct line_segments * segments,
-                              int width, int height,
-                              int roi_radius_percent);
+unsigned char segment_edges_within_roi(struct line_segments * segments,
+                                       int width, int height,
+                                       int roi_radius_percent);
 
 int get_segment_aspect_ratio(struct line_segments * segments,
                              int index);
