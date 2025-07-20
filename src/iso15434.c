@@ -1,7 +1,7 @@
 /*********************************************************************
  * Software License Agreement (GPLv3)
  *
- *  GS1 semantics functions
+ *  ISO 15434 functions
  *  Copyright (c) 2025, Bob Mottram
  *  bob@libreserver.org
  *
