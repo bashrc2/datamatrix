@@ -123,18 +123,18 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
   }
 
   /* solid border */
-  for (grid_y = 0; grid_y < new_dimension_y; grid_y++) {
+  for (grid_y = new_dimension_y-1; grid_y >= 0; grid_y--) {
     new_occupancy[0][grid_y] = 1;
   }
-  for (grid_x = 0; grid_x < new_dimension_x; grid_x++) {
+  for (grid_x = new_dimension_x-1; grid_x >= 0; grid_x--) {
     new_occupancy[grid_x][new_dimension_y-1] = 1;
   }
 
   /* timing border */
-  for (grid_y = 0; grid_y < new_dimension_y; grid_y++) {
+  for (grid_y = new_dimension_y-1; grid_y >= 0; grid_y--) {
     new_occupancy[new_dimension_x-1][grid_y] = grid_y % 2;
   }
-  for (grid_x = 0; grid_x < new_dimension_x; grid_x++) {
+  for (grid_x = new_dimension_x-1; grid_x >= 0; grid_x--) {
     new_occupancy[grid_x][0] = 1 - (grid_x % 2);
   }
 
