@@ -467,6 +467,10 @@ int read_datamatrix(unsigned char image_data[],
 
     /* this must count upwards */
     for (int seg_idx = 0; seg_idx < segments[try_config].no_of_segments; seg_idx++) {
+      if (any_decode(&thr_decode_result[0], max_config) == 1) {
+        break;
+      }
+
       int segment_index = segments[try_config].joins_sorted[seg_idx];
       get_peripheral_edges(&segments[try_config], segment_index,
                            resized_thresholded_width, resized_thresholded_height);
