@@ -1258,26 +1258,28 @@ void show_grid_image(struct grid_2d * grid,
   for (grid_y = -1; grid_y <= grid->dimension_y; grid_y++) {
     /* horizontal line */
     grid_pos_y = grid_y + 0.5f;
+    float mult_y = grid_pos_y / grid->dimension_y;
     float horizontal_x1 =
-      grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+      grid->perimeter.x0 + (horizontal_dx1 * mult_y);
     float horizontal_y1 =
-      grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+      grid->perimeter.y0 + (horizontal_dy1 * mult_y);
     float horizontal_x2 =
-      grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+      grid->perimeter.x1 + (horizontal_dx2 * mult_y);
     float horizontal_y2 =
-      grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+      grid->perimeter.y1 + (horizontal_dy2 * mult_y);
 
     for (grid_x = -1; grid_x <= grid->dimension_x; grid_x++) {
       /* vertical line */
       grid_pos_x = grid_x + 0.5f;
+      float mult_x = grid_pos_x / grid->dimension_x;
       float vertical_x1 =
-        grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
+        grid->perimeter.x0 + (vertical_dx1 * mult_x);
       float vertical_y1 =
-        grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
+        grid->perimeter.y0 + (vertical_dy1 * mult_x);
       float vertical_x2 =
-        grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
+        grid->perimeter.x3 + (vertical_dx2 * mult_x);
       float vertical_y2 =
-        grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+        grid->perimeter.y3 + (vertical_dy2 * mult_x);
       intersection(horizontal_x1, horizontal_y1,
                    horizontal_x2, horizontal_y2,
                    vertical_x1, vertical_y1,
