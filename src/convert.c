@@ -38,12 +38,14 @@ void mono_to_colour(unsigned char img[], int width, int height,
                     int bitsperpixel,
                     unsigned char colour[])
 {
-  int i,ch;
+  int i,idx,ch;
   int bytesperpixel = bitsperpixel/8;
 
-  for (i = 0; i < width*height; i++)
-    for (ch = 0; ch < bytesperpixel; ch++)
-      colour[i*bytesperpixel + ch] = img[i];
+  for (i = 0; i < width*height; i++) {
+    idx = i*bytesperpixel;
+    for (ch = 0; ch < bytesperpixel; ch++, idx++)
+      colour[idx] = img[i];
+  }
 }
 
 /**
@@ -57,13 +59,14 @@ void colour_to_mono(unsigned char img[], int width, int height,
                     int bitsperpixel,
                     unsigned char mono[])
 {
-  int i,ch,v;
+  int i,idx,ch,v;
   int bytesperpixel = bitsperpixel/8;
 
   for (i = 0; i < width*height; i++) {
     v = 0;
-    for (ch = 0; ch < bytesperpixel; ch++) {
-      v += img[i*bytesperpixel + ch];
+    idx = i*bytesperpixel;
+    for (ch = 0; ch < bytesperpixel; ch++, idx++) {
+      v += img[idx];
     }
     mono[i] = v/bytesperpixel;
   }
