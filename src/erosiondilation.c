@@ -87,10 +87,10 @@ void dilate(unsigned char img[], int width, int height,
  * \param itterations number of erosion itterations
  * \param result returned eroded image
  */
-void erode(unsigned char * img, int width, int height,
-           unsigned char * buffer,
+void erode(unsigned char img[], int width, int height,
+           unsigned char buffer[],
            int itterations,
-           unsigned char * result)
+           unsigned char result[])
 {
 	int pixels = width * height;
 
