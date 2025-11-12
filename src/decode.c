@@ -124,7 +124,7 @@ static unsigned char get_unused_error_correction(int no_of_codewords,
   float unused_error_correction;
 
   const int modules_per_codeword = 8;
-  float e2t = ((*no_of_erasures) + (2 * (*no_of_errors))) / modules_per_codeword;
+  float e2t = ((*no_of_erasures) + (2 * (*no_of_errors))) / (float)modules_per_codeword;
   float Ecap = no_of_codewords - error_correction_codewords;
   if (e2t > Ecap) {
     unused_error_correction = 0;
