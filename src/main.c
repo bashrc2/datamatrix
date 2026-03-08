@@ -421,7 +421,7 @@ int main(int argc, char* argv[])
 		/* show the datamatrix */
 		unsigned int S = encode_scale;
 		unsigned int x, y;
-		char * dot_chr = "• ";
+		char * dot_chr = "● ";
 		char * empty_chr = "  ";
 		if (S > 1) {
 			dot_chr = "█";
