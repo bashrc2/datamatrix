@@ -1,6 +1,6 @@
 <img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/logo_square3.png" width="25%" alt="Datamatrix under a magnifying glass"/>
 
-*datamatrix* is a commandline utility for reading and verifying Datamatrix direct part markings. Some image processing functions are based on [visionutils](https://codeberg.org/bashrc/visionutils).
+*datamatrix* is a commandline utility for generating, reading, and verifying Datamatrix direct part markings. Some image processing functions are based on [visionutils](https://codeberg.org/bashrc/visionutils).
 
 ## Key features
 
@@ -83,11 +83,13 @@ sudo make install
 
 ## Example usage
 
+To generate a datamatrix pattern from some text.
+
 ``` bash
 datamatrix -e "ABCDEF"
 ```
 
-Creates a datamatrix from some text.
+When decoding, you typically only need to supply a PNG formatted input image.
 
 ``` bash
 datamatrix -f examples/01.png
