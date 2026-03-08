@@ -66,5 +66,7 @@ void show_help()
   printf("--email [address]             Email address on verification report\n");
   printf("--web [url]                   Website url on verification report\n");
   printf("--footer [text]               Footer shown on verification report\n");
+  printf("--encode [text]               Generate a datamatrix from the given text\n");
+  printf("--scale [text]                Scale of generated datamatrix in range 1-10\n");
   printf("--tests                       Run unit tests\n");
 }
