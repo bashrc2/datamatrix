@@ -76,10 +76,18 @@ sudo make install
 --email [address]             Email address on verification report
 --web [url]                   Website url on verification report
 --footer [text]               Footer shown on verification report
+-e --encode [text]            Generate a datamatrix from the given text
+--scale [text]                Scale of generated datamatrix in range 1-10
 --tests                       Run unit tests
 ```
 
 ## Example usage
+
+``` bash
+datamatrix -e "ABCDEF"
+```
+
+Creates a datamatrix from some text.
 
 ``` bash
 datamatrix -f examples/01.png
