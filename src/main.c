@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Datamatrix reader and verifier
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
