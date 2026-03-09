@@ -79,6 +79,7 @@ sudo make install
 -e --encode [text]            Generate a datamatrix from the given text
 --scale [text]                Scale of generated datamatrix in range 1-10
 -w --width [pixels]           Width for generated datamatrix image
+--coords                      Show dot centre coordinates for generated datamatrix
 --tests                       Run unit tests
 ```
 
@@ -94,6 +95,12 @@ You can also force the generated datamatrix to be square.
 
 ``` bash
 datamatrix -e "user@email.domain" --square
+```
+
+You can output the dot centre coordinates in the range 0-1000.
+
+``` bash
+datamatrix -e "ABCDEF" --coords -w 1000
 ```
 
 Optionally you can output the generated datamatrix pattern in csv format.

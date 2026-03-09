@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
     unsigned int image_bitsperpixel=0;
     unsigned char debug = 0;
     unsigned char csv = 0;
+    unsigned char show_coords = 0;
     unsigned char json = 0;
     unsigned char yaml = 0;
     int minimum_grid_dimension = MIN_GRID_DIMENSION;
@@ -315,6 +316,9 @@ int main(int argc, char* argv[])
             yaml = 0;
             loop_incr = 1;
         }
+        if (strcmp(argv[i],"--coords")==0) {
+            show_coords = 1;
+        }
         if (strcmp(argv[i],"--json")==0) {
             verify = 1;
             csv = 0;
@@ -433,6 +437,8 @@ int main(int argc, char* argv[])
             printf("encoded: '%s' %dx%d\n",
                    &encode_text[0], encode_width, encode_height);
         /* show the datamatrix */
+        encode_image_height =                                       \
+            encode_image_width * encode_height / encode_width;
         if (grid && (output_filename[0] != 0)) {
             int output_filename_length = strlen(&output_filename[0]);
             /* check that the output image filename is long enough */
@@ -451,8 +457,6 @@ int main(int argc, char* argv[])
                 free(grid);
                 return -1;
             }
-            encode_image_height = \
-                encode_image_width * encode_height / encode_width;
             unsigned char * encode_image_data =
                 (unsigned char*)safemalloc(encode_image_width*
                                            encode_image_height*3);
@@ -466,7 +470,7 @@ int main(int argc, char* argv[])
             return 0;
         }
         unsigned int S = encode_scale;
-        unsigned int x, y;
+        unsigned int x, y, x_directional;
         char * dot_chr = "● ";
         char * empty_chr = "  ";
         if (S > 1) {
@@ -478,13 +482,32 @@ int main(int argc, char* argv[])
             dot_chr = "1,";
             empty_chr = "0,";
         }
+        float x_coord, y_coord;
+        unsigned char direction = 0;
+        if (show_coords == 1) S = 1;
         for (y = 0; y < encode_height * S; y++) {
             for (x = 0; x < encode_width * S; x++) {
-                printf("%s",
-                       grid[encode_width *
-                            (y / S) + (x / S)] ? dot_chr : empty_chr);
+                if (show_coords == 0) {
+                    printf("%s",
+                           grid[encode_width *
+                                (y / S) + (x / S)] ? dot_chr : empty_chr);
+                }
+                else {
+                    /* show dot coordinates */
+                    x_directional = x;
+                    if (direction == 1) x_directional = encode_width - 1 - x;
+                    if (grid[encode_width * y + x_directional]) {
+                        x_coord =
+                            x_directional * encode_image_width / (float)encode_width;
+                        y_coord =
+                            y * encode_image_height / (float)encode_height;
+                        printf("%.3f, %.3f,\n", x_coord, y_coord);
+                    }
+                }
             }
-            printf ("\n");
+            if (show_coords == 0) printf("\n");
+            /* change direction for each row */
+            direction = 1 - direction;
         }
 
         if (grid) {
