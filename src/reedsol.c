@@ -307,18 +307,18 @@ int rs_correct(int datalen, byte * data)
     int L;
 
     /* Calculate syndromes.  No errors if all are zero. */
-    if (calc_syndromes (datalen, data, synd))
+    if (calc_syndromes(datalen, data, synd))
         return 0;
 
     /* Find error locator and error evaluator */
-    L = berlekamp_massey (synd, eloc, eval, scratch);
+    L = berlekamp_massey(synd, eloc, eval, scratch);
     if (2 * L > (int)plen)
         return -1;
 
     /* Find roots of error locator */
-    if (!find_errors (datalen, L, eloc, elist))
+    if (!find_errors(datalen, L, eloc, elist))
         return -1;
-    make_corrections (L, datalen, data, elist, eloc, eval);
+    make_corrections(L, datalen, data, elist, eloc, eval);
     return L;
 }
 
