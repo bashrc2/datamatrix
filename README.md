@@ -83,7 +83,7 @@ sudo make install
 --tests                       Run unit tests
 ```
 
-## Example usage
+## Example Encoding
 
 To generate a datamatrix pattern from some text.
 
@@ -114,6 +114,8 @@ You can also export the generated datamatrix as an image.
 ``` bash
 datamatrix -e "ABCDEF" -o test.png -w 256
 ```
+
+## Example Decoding
 
 When decoding, you typically only need to supply a PNG formatted input image.
 
