@@ -294,15 +294,11 @@ int main(int argc, char* argv[])
         if (strcmp(argv[i],"--resizeheight")==0) {
             resized_image_height = atoi(argv[i+1]);
         }
-        if (strcmp(argv[i],"--width")==0) {
+        if ((strcmp(argv[i],"--width")==0) ||
+			((strcmp(argv[i],"-w")==0))) {
             encode_image_width = atoi(argv[i+1]);
             if (encode_image_width < 16) encode_image_width = 16;
             if (encode_image_width > 2000) encode_image_width = 2000;
-        }
-        if (strcmp(argv[i],"--height")==0) {
-            encode_image_height = atoi(argv[i+1]);
-            if (encode_image_height < 16) encode_image_height = 16;
-            if (encode_image_height > 2000) encode_image_height = 2000;
         }
         if ((strcmp(argv[i],"--thresholdedwidth")==0) ||
             (strcmp(argv[i],"--binwidth")==0)) {
@@ -449,6 +445,8 @@ int main(int argc, char* argv[])
                 free(grid);
                 return -1;
             }
+			encode_image_height = \
+				encode_image_width * encode_height / encode_width;
             unsigned char * encode_image_data =
                 (unsigned char*)safemalloc(encode_image_width*
                                            encode_image_height*3);

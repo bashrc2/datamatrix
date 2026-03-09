@@ -59,9 +59,7 @@ static word *mem = NULL;
   (x + a**i)*(x + a**(i+1))*...   [nsym terms]
   For ECC200, offset is 1.
 */
-static word *log,
-    *alog,
-    *rspoly;
+static word *log, *alog, *rspoly;
 
 #ifndef LIB
 #define RS_CORRECT

@@ -78,8 +78,7 @@ sudo make install
 --footer [text]               Footer shown on verification report
 -e --encode [text]            Generate a datamatrix from the given text
 --scale [text]                Scale of generated datamatrix in range 1-10
---width [pixels]              Width for generated datamatrix image
---height [pixels]             Height for generated datamatrix image
+-w --width [pixels]              Width for generated datamatrix image
 --tests                       Run unit tests
 ```
 
@@ -100,7 +99,7 @@ datamatrix -e "ABCDEF" --csv
 You can also export the generated datamatrix as an image.
 
 ``` bash
-datamatrix -e "ABCDEF" -o test.png --width 256 --height 256
+datamatrix -e "ABCDEF" -o test.png -w 256
 ```
 
 When decoding, you typically only need to supply a PNG formatted input image.
