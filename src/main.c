@@ -295,7 +295,7 @@ int main(int argc, char* argv[])
             resized_image_height = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--width")==0) ||
-			((strcmp(argv[i],"-w")==0))) {
+            ((strcmp(argv[i],"-w")==0))) {
             encode_image_width = atoi(argv[i+1]);
             if (encode_image_width < 16) encode_image_width = 16;
             if (encode_image_width > 2000) encode_image_width = 2000;
@@ -419,10 +419,10 @@ int main(int argc, char* argv[])
             }
         }
 
-		/* force square shape? */
-		if (is_square == 1) square = 1;
+        /* force square shape? */
+        if (is_square == 1) square = 1;
 
-		/* csv output has no quiet zone */
+        /* csv output has no quiet zone */
         if (csv == 1) noquiet = 1;
 
         grid = iec16022ecc200(&encode_width, &encode_height,
@@ -451,8 +451,8 @@ int main(int argc, char* argv[])
                 free(grid);
                 return -1;
             }
-			encode_image_height = \
-				encode_image_width * encode_height / encode_width;
+            encode_image_height = \
+                encode_image_width * encode_height / encode_width;
             unsigned char * encode_image_data =
                 (unsigned char*)safemalloc(encode_image_width*
                                            encode_image_height*3);
