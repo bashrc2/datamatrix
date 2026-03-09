@@ -63,9 +63,9 @@ static struct ecc200matrix_s
 /* simple checked response malloc */
 static void * safemalloc(int n)
 {
-    void *p = malloc (n);
+    void *p = malloc(n);
     if (!p)
-        err (1, "Malloc(%d) failed\n", n);
+        err(1, "Malloc(%d) failed\n", n);
     return p;
 }
 

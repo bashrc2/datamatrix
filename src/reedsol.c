@@ -32,6 +32,7 @@
 
 #include <stdio.h>              /* only needed for debug */
 #include <stdlib.h>             /* only needed for malloc/free */
+#include <err.h>
 typedef unsigned char byte;
 typedef unsigned int word;
 static word symsize;            /* in bits */
@@ -197,6 +198,15 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
 
 #endif /*  */
 
+/* simple checked response malloc */
+static void * safemalloc(int n)
+{
+    void *p = malloc(n);
+    if (!p)
+        err(1, "Malloc(%d) failed\n", n);
+    return p;
+}
+
 /*
   allocate_mem() must ensure that memory is allocated as follows
   (units are words):
@@ -215,8 +225,8 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
 */
 static void allocate_mem(void)
 {
-    free (mem);
-    mem = (word *) malloc (sizeof (word) * (2 * fsize + 6 * plen + 5));
+    free(mem);
+    mem = (word *)safemalloc(sizeof (word) * (2 * fsize + 6 * plen + 5));
     log = mem;
     alog = log + fsize + 1;
     rspoly = alog + fsize;
@@ -244,7 +254,7 @@ void rs_init(word gfpoly, word paritylen, word offset)
         symsize++;
     b = 1 << symsize;
     fsize = b - 1;
-    allocate_mem ();
+    allocate_mem();
 
     /* Calculate the log/alog tables */
     p = 1;
