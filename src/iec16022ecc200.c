@@ -17,6 +17,7 @@
 #include <err.h>
 #include "reedsol.h"
 #include "iec16022ecc200.h"
+#include "datamatrix.h"
 
 /* #define DEBUG */
 
@@ -59,15 +60,6 @@ static struct ecc200matrix_s
     {144, 144, 24, 24, 1558, 156, 62}, /* 156*4+155*2 */
     {0} /* terminate */
 };
-
-/* simple checked response malloc */
-static void * safemalloc(int n)
-{
-    void *p = malloc(n);
-    if (!p)
-        err(1, "Malloc(%d) failed\n", n);
-    return p;
-}
 
 /* Annex M placement alorithm low level */
 static void ecc200placementbit(int *array, int NR, int NC, int r, int c, int p,
@@ -762,7 +754,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
            fprintf(stderr, " %c*%d/%d", encchr[e], enc[p][e].s, enc[p][e].t);
            fprintf(stderr, "\n"); */
     }
-    encoding = safemalloc (l + 1);
+    encoding = (char*)safemalloc(l + 1);
     p = 0;
     {
         int cur = E_ASCII; /* starts ASCII */
@@ -892,9 +884,9 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
             int x, y, NC, NR, *places;
             NC = W - 2 * (W / matrix->FW);
             NR = H - 2 * (H / matrix->FH);
-            places = safemalloc (NC * NR * sizeof (int));
-            ecc200placement (places, NR, NC);
-            grid = safemalloc ((W + q + q) * (H + q + q));
+            places = (int*)safemalloc(NC * NR * sizeof (int));
+            ecc200placement(places, NR, NC);
+            grid = (unsigned char*)safemalloc((W + q + q) * (H + q + q));
             memset (grid, 0, (W + q + q) * (H + q + q));
             for (y = 0; y < H; y += matrix->FH) {
                 for (x = 0; x < W; x++)
