@@ -70,5 +70,7 @@ void show_help()
   printf("   --scale [text]              Scale of generated datamatrix in range 1-10\n");
   printf("-w --width [pixels]            Width for generated datamatrix image\n");
   printf("   --coords                    Show dot centre coordinates for generated datamatrix\n");
-  printf("--tests                        Run unit tests\n");
+  printf("   --offsetx [value]           x offset added to dot centre coordinates\n");
+  printf("   --offsety [value]           y offset added to dot centre coordinates\n");
+  printf("   --tests                     Run unit tests\n");
 }

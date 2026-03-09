@@ -99,6 +99,8 @@ int main(int argc, char* argv[])
     int encode_scale = 1;
     int encode_image_width = 512;
     int encode_image_height = 512;
+    float coords_offset_x = 0;
+    float coords_offset_y = 0;
 
     /* no filename specified */
     filename[0] = 0;
@@ -318,6 +320,13 @@ int main(int argc, char* argv[])
         }
         if (strcmp(argv[i],"--coords")==0) {
             show_coords = 1;
+            loop_incr = 1;
+        }
+        if (strcmp(argv[i],"--offsetx")==0) {
+            coords_offset_x = atof(argv[i+1]);
+        }
+        if (strcmp(argv[i],"--offsety")==0) {
+            coords_offset_y = atof(argv[i+1]);
         }
         if (strcmp(argv[i],"--json")==0) {
             verify = 1;
@@ -498,9 +507,13 @@ int main(int argc, char* argv[])
                     if (direction == 1) x_directional = encode_width - 1 - x;
                     if (grid[encode_width * y + x_directional]) {
                         x_coord =
-                            x_directional * encode_image_width / (float)encode_width;
+                            coords_offset_x +
+                            (x_directional * encode_image_width /
+                             (float)encode_width);
                         y_coord =
-                            y * encode_image_height / (float)encode_height;
+                            coords_offset_y +
+                            (y * encode_image_height /
+                             (float)encode_height);
                         printf("%.3f, %.3f,\n", x_coord, y_coord);
                     }
                 }
