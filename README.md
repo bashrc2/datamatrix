@@ -78,7 +78,7 @@ sudo make install
 --footer [text]               Footer shown on verification report
 -e --encode [text]            Generate a datamatrix from the given text
 --scale [text]                Scale of generated datamatrix in range 1-10
--w --width [pixels]              Width for generated datamatrix image
+-w --width [pixels]           Width for generated datamatrix image
 --tests                       Run unit tests
 ```
 
