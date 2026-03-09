@@ -433,9 +433,8 @@ int main(int argc, char* argv[])
 			empty_chr = "0,";
 		}
 		for (y = 0; y < encode_height * S; y++) {
-			for (x = 0; x < (encode_width * S); x++) {
-				printf ("%s", y < encode_height * S &&
-						x < encode_width * S &&
+			for (x = 0; x < encode_width * S; x++) {
+				printf ("%s",
 						grid[encode_width * (y / S) + (x / S)] ? dot_chr : empty_chr);
 			}
 			printf ("\n");
