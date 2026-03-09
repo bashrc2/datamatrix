@@ -96,6 +96,8 @@ int main(int argc, char* argv[])
 		square = 0,
 		noquiet = 0;
 	int encode_scale = 1;
+	int encode_image_width = 512;
+	int encode_image_height = 512;
 
 	/* no filename specified */
 	filename[0] = 0;
@@ -292,6 +294,16 @@ int main(int argc, char* argv[])
 		if (strcmp(argv[i],"--resizeheight")==0) {
 			resized_image_height = atoi(argv[i+1]);
 		}
+		if (strcmp(argv[i],"--width")==0) {
+			encode_image_width = atoi(argv[i+1]);
+			if (encode_image_width < 16) encode_image_width = 16;
+			if (encode_image_width > 2000) encode_image_width = 2000;
+		}
+		if (strcmp(argv[i],"--height")==0) {
+			encode_image_height = atoi(argv[i+1]);
+			if (encode_image_height < 16) encode_image_height = 16;
+			if (encode_image_height > 2000) encode_image_height = 2000;
+		}
 		if ((strcmp(argv[i],"--thresholdedwidth")==0) ||
 			(strcmp(argv[i],"--binwidth")==0)) {
 			resized_thresholded_width = atoi(argv[i+1]);
@@ -419,6 +431,36 @@ int main(int argc, char* argv[])
 			printf("encoded: '%s' %dx%d\n",
 				   &encode_text[0], encode_width, encode_height);
 		/* show the datamatrix */
+		if (grid && (output_filename[0] != 0)) {
+			int output_filename_length = strlen(&output_filename[0]);
+			/* check that the output image filename is long enough */
+			if (output_filename_length < 4) {
+				printf("Output filename too short.\n");
+				free(grid);
+				return -1;
+			}
+
+			/* check that the output image filename is png format */
+			if ((output_filename[output_filename_length-4] != '.') ||
+				(output_filename[output_filename_length-3] != 'p') ||
+				(output_filename[output_filename_length-2] != 'n') ||
+				(output_filename[output_filename_length-1] != 'g')) {
+				printf("Output filename must be png format.\n");
+				free(grid);
+				return -1;
+			}
+			unsigned char * encode_image_data =
+				(unsigned char*)safemalloc(encode_image_width*
+										   encode_image_height*3);
+			encode_image(encode_image_data,
+						 encode_image_width, encode_image_height, 24,
+						 grid, encode_width, encode_height);
+			write_png_file(&output_filename[0],
+						   encode_image_width, encode_image_height, 24,
+						   encode_image_data);
+			free(grid);
+			return 0;
+		}
 		unsigned int S = encode_scale;
 		unsigned int x, y;
 		char * dot_chr = "● ";

@@ -621,6 +621,12 @@ int read_datamatrix(unsigned char image_data[],
 
 void run_all_tests();
 
+/* encode.c */
+
+void encode_image(unsigned char img[], int width, int height,
+				  int bitsperpixel, unsigned char *grid,
+				  unsigned int encode_width, unsigned int encode_height);
+
 /* help.c */
 
 void show_help();
