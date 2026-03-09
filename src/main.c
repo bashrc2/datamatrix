@@ -427,6 +427,11 @@ int main(int argc, char* argv[])
 			dot_chr = "█";
 			empty_chr = " ";
 		}
+		if (csv == 1) {
+			S = 1;
+			dot_chr = "1,";
+			empty_chr = "0,";
+		}
 		for (y = 0; y < encode_height * S; y++) {
 			for (x = 0; x < (encode_width * S); x++) {
 				printf ("%s", y < encode_height * S &&

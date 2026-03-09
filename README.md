@@ -89,6 +89,12 @@ To generate a datamatrix pattern from some text.
 datamatrix -e "ABCDEF"
 ```
 
+Optionally you can output the generated datamatrix pattern in csv format.
+
+``` bash
+datamatrix -e "ABCDEF" --csv
+```
+
 When decoding, you typically only need to supply a PNG formatted input image.
 
 ``` bash
