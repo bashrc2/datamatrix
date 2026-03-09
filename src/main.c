@@ -416,7 +416,7 @@ int main(int argc, char* argv[])
 							  (unsigned char *)&encode_text[0], &len,
 							  &maxlen, &encode_ecclen, square, noquiet);
 		if (debug == 1)
-			printf("debug: '%s' %dx%d\n",
+			printf("encoded: '%s' %dx%d\n",
 				   &encode_text[0], encode_width, encode_height);
 		/* show the datamatrix */
 		unsigned int S = encode_scale;
