@@ -5939,7 +5939,7 @@ namespace lodepng
     std::ofstream file(filename.c_str(), std::ios::out|std::ios::binary);
     file.write(buffer.empty() ? 0 : (char*)&buffer[0], std::streamsize(buffer.size()));
   }
-#endif //LODEPNG_COMPILE_DISK
+#endif /* LODEPNG_COMPILE_DISK */
 
 #ifdef LODEPNG_COMPILE_ZLIB
 #ifdef LODEPNG_COMPILE_DECODER
@@ -5962,7 +5962,7 @@ namespace lodepng
   {
     return decompress(out, in.empty() ? 0 : &in[0], in.size(), settings);
   }
-#endif //LODEPNG_COMPILE_DECODER
+#endif /* LODEPNG_COMPILE_DECODER */
 
 #ifdef LODEPNG_COMPILE_ENCODER
   unsigned compress(std::vector<unsigned char>& out, const unsigned char* in, size_t insize,
@@ -5984,8 +5984,8 @@ namespace lodepng
   {
     return compress(out, in.empty() ? 0 : &in[0], in.size(), settings);
   }
-#endif //LODEPNG_COMPILE_ENCODER
-#endif //LODEPNG_COMPILE_ZLIB
+#endif /* LODEPNG_COMPILE_ENCODER */
+#endif /* LODEPNG_COMPILE_ZLIB */
 
 
 #ifdef LODEPNG_COMPILE_PNG
@@ -6067,8 +6067,8 @@ namespace lodepng
     load_file(buffer, filename);
     return decode(out, w, h, buffer, colortype, bitdepth);
   }
-#endif //LODEPNG_COMPILE_DECODER
-#endif //LODEPNG_COMPILE_DISK
+#endif /* LODEPNG_COMPILE_DECODER */
+#endif /* LODEPNG_COMPILE_DISK */
 
 #ifdef LODEPNG_COMPILE_ENCODER
   unsigned encode(std::vector<unsigned char>& out, const unsigned char* in, unsigned w, unsigned h,
@@ -6134,8 +6134,8 @@ namespace lodepng
     if(lodepng_get_raw_size_lct(w, h, colortype, bitdepth) > in.size()) return 84;
     return encode(filename, in.empty() ? 0 : &in[0], w, h, colortype, bitdepth);
   }
-#endif //LODEPNG_COMPILE_DISK
-#endif //LODEPNG_COMPILE_ENCODER
-#endif //LODEPNG_COMPILE_PNG
-} //namespace lodepng
-#endif /*LODEPNG_COMPILE_CPP*/
+#endif /* LODEPNG_COMPILE_DISK */
+#endif /* LODEPNG_COMPILE_ENCODER */
+#endif /* LODEPNG_COMPILE_PNG */
+} /* namespace lodepng */
+#endif /* LODEPNG_COMPILE_CPP */
