@@ -222,7 +222,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
 	char enc = 'a'; /* start in ASCII encoding mode */
 	int tp = 0,
 		sp = 0;
-	if (strlen (encoding) < sl) {
+	if ((int)strlen(encoding) < sl) {
 		fprintf(stderr, "Encoding string too short\n");
 		return 0;
 	}
