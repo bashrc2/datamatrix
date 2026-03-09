@@ -624,8 +624,8 @@ void run_all_tests();
 /* encode.c */
 
 void encode_image(unsigned char img[], int width, int height,
-				  int bitsperpixel, unsigned char *grid,
-				  unsigned int encode_width, unsigned int encode_height);
+                  int bitsperpixel, unsigned char *grid,
+                  unsigned int encode_width, unsigned int encode_height);
 
 /* help.c */
 

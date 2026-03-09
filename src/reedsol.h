@@ -13,7 +13,7 @@
   Added exact size checking shortcodes on encoding generation for iec16022
 */
 
-/* #define	RS_CONNECT */ /* If correction is needed too */
+/* #define  RS_CONNECT */ /* If correction is needed too */
 
 void rs_init(int poly,int nsym, int index);
 void rs_encode(int len, unsigned char *data,unsigned char*res);

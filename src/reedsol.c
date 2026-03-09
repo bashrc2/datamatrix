@@ -59,139 +59,139 @@ static word *mem = NULL;
   For ECC200, offset is 1.
 */
 static word *log,
-	*alog,
-	*rspoly;
+    *alog,
+    *rspoly;
 
 #ifndef LIB
 #define RS_CORRECT
 #endif
 
-#ifdef	RS_CORRECT
+#ifdef  RS_CORRECT
 static word *synd,
-	*eloc,
-	*eval,
-	*scratch,
-	*elist; /* These for correction only */
+    *eloc,
+    *eval,
+    *scratch,
+    *elist; /* These for correction only */
 
 static int calc_syndromes(int len, byte * data, word * synd)
 {
-	int i, k;
-	word s;
-	word index = off;
-	int ok = 1;
-	for (i = 0; i < (int)plen; i++) {
-		s = 0;
-		for (k = 0; k < len + (int)plen; k++) {
-			if (s)
-				s = alog[(log[s] + index) % fsize];
-			s ^= data[k];
-		}
-		synd[i] = s;
-		if (s)
-			ok = 0;
+    int i, k;
+    word s;
+    word index = off;
+    int ok = 1;
+    for (i = 0; i < (int)plen; i++) {
+        s = 0;
+        for (k = 0; k < len + (int)plen; k++) {
+            if (s)
+                s = alog[(log[s] + index) % fsize];
+            s ^= data[k];
+        }
+        synd[i] = s;
+        if (s)
+            ok = 0;
 
-		/* DEBUG */
-		/* printf("...%d\n", s); */
-		index++;
-	}
-	return ok;
+        /* DEBUG */
+        /* printf("...%d\n", s); */
+        index++;
+    }
+    return ok;
 }
 
 static int berlekamp_massey(word * synd, word * f, word * g, word * work)
 {
-	/* Calculates the error locator and magnitude polynomials
-	   using the Berlekamp-Massey method */
-	int L = 0;
-	int i, m;
-	word e, el;
-	for (i = 0; i <= (int)plen; i++)
-		f[i] = g[i] = 0;
-	f[0] = 1;
-	for (m = 1; m <= (int)plen; m++) {
-		e = synd[m - 1];
-		for (i = 0; i < L; i++)
-			if (f[i] && synd[m - L + i - 1])
-				e ^= alog[(log[f[i]] + log[synd[m - L + i - 1]]) % fsize];
-		if (e) {
-			el = log[e];
-			if (L >= m - L) {
-				for (i = 0; i < m - L; i++)
-					if (g[i])
-						f[i + 2 * L - m] ^= alog[(log[g[i]] + el) % fsize];
-			}
-			else {
-				for (i = 0; i <= L; i++)
-					work[i] = f[i];
-				for (i = L; i >= 0; i--)
-					f[i + m - 2 * L] = f[i];
-				for (i = 0; i < m - 2 * L; i++)
-					f[i] = 0;
-				for (i = 0; i <= m - L; i++)
-					if (g[i])
-						f[i] ^= alog[(log[g[i]] + el) % fsize];
-				for (i = 0; i <= L; i++)
-					g[i] = work[i] ? alog[(log[work[i]] + fsize - el) % fsize] : 0;
-				L = m - L;
-			}
-		}
-	}
+    /* Calculates the error locator and magnitude polynomials
+       using the Berlekamp-Massey method */
+    int L = 0;
+    int i, m;
+    word e, el;
+    for (i = 0; i <= (int)plen; i++)
+        f[i] = g[i] = 0;
+    f[0] = 1;
+    for (m = 1; m <= (int)plen; m++) {
+        e = synd[m - 1];
+        for (i = 0; i < L; i++)
+            if (f[i] && synd[m - L + i - 1])
+                e ^= alog[(log[f[i]] + log[synd[m - L + i - 1]]) % fsize];
+        if (e) {
+            el = log[e];
+            if (L >= m - L) {
+                for (i = 0; i < m - L; i++)
+                    if (g[i])
+                        f[i + 2 * L - m] ^= alog[(log[g[i]] + el) % fsize];
+            }
+            else {
+                for (i = 0; i <= L; i++)
+                    work[i] = f[i];
+                for (i = L; i >= 0; i--)
+                    f[i + m - 2 * L] = f[i];
+                for (i = 0; i < m - 2 * L; i++)
+                    f[i] = 0;
+                for (i = 0; i <= m - L; i++)
+                    if (g[i])
+                        f[i] ^= alog[(log[g[i]] + el) % fsize];
+                for (i = 0; i <= L; i++)
+                    g[i] = work[i] ? alog[(log[work[i]] + fsize - el) % fsize] : 0;
+                L = m - L;
+            }
+        }
+    }
 
-	/* DEBUG */
-	/* printf("L is %d\n", L); */
-	/* printf("Error poly terms..."); */
-	/* for (i = 0; i <= L; i++) printf(" %.2x", f[i]); */
-	/* printf("\n"); */
-	return L;
+    /* DEBUG */
+    /* printf("L is %d\n", L); */
+    /* printf("Error poly terms..."); */
+    /* for (i = 0; i <= L; i++) printf(" %.2x", f[i]); */
+    /* printf("\n"); */
+    return L;
 }
 
 static int find_errors(int len, int numroots, word * eloc, word * elist)
 {
-	int s = 0;
-	int i, k;
-	word e;
-	for (k = 0; k < (int)fsize; k++) {
-		e = 0;
-		for (i = numroots; i >= 0; i--) {
-			if (e)
-				e = alog[(log[e] + k) % fsize];
-			e ^= eloc[i];
-		}
-		if (e == 0) {
-			/* DEBUG */
-			/* printf("error at %d\n", len + plen - 1 - k); */
-			if (len + (int)plen - 1 < k)
-				return 0;
-			elist[s++] = k;
-		}
-	}
-	return (s == numroots);
+    int s = 0;
+    int i, k;
+    word e;
+    for (k = 0; k < (int)fsize; k++) {
+        e = 0;
+        for (i = numroots; i >= 0; i--) {
+            if (e)
+                e = alog[(log[e] + k) % fsize];
+            e ^= eloc[i];
+        }
+        if (e == 0) {
+            /* DEBUG */
+            /* printf("error at %d\n", len + plen - 1 - k); */
+            if (len + (int)plen - 1 < k)
+                return 0;
+            elist[s++] = k;
+        }
+    }
+    return (s == numroots);
 }
 
 static void make_corrections(int numerrs, int len, byte * data, word * elist, word * eloc, word * eval)
 {
-	int i, s;
-	word e, e2, k;
-	for (s = 0; s < numerrs; s++) {
-		e = 0;
-		k = elist[s];
-		for (i = plen - numerrs; i >= 0; i--) {
-			if (e)
-				e = alog[(log[e] + k) % fsize];
-			e ^= eval[i];
-		}
-		e2 = 0;
-		for (i = numerrs - 1 + numerrs % 2; i > 0; i -= 2) {
-			if (e2)
-				e2 = alog[(log[e2] + 2 * k) % fsize];
-			e2 ^= eloc[i];
-		}
-		e = alog[(2 * fsize - log[e] - log[e2] + k * (fsize - off)) % fsize];
-		i = len + plen - 1 - k;
+    int i, s;
+    word e, e2, k;
+    for (s = 0; s < numerrs; s++) {
+        e = 0;
+        k = elist[s];
+        for (i = plen - numerrs; i >= 0; i--) {
+            if (e)
+                e = alog[(log[e] + k) % fsize];
+            e ^= eval[i];
+        }
+        e2 = 0;
+        for (i = numerrs - 1 + numerrs % 2; i > 0; i -= 2) {
+            if (e2)
+                e2 = alog[(log[e2] + 2 * k) % fsize];
+            e2 ^= eloc[i];
+        }
+        e = alog[(2 * fsize - log[e] - log[e2] + k * (fsize - off)) % fsize];
+        i = len + plen - 1 - k;
 
-		/* DEBUG */
-		/* printf("k=%d locn %d correct by %.2x from %d to %d\n", k, i, e, data[i], data[i] ^ e); */
-		data[i] ^= e;
-	}
+        /* DEBUG */
+        /* printf("k=%d locn %d correct by %.2x from %d to %d\n", k, i, e, data[i], data[i] ^ e); */
+        data[i] ^= e;
+    }
 }
 
 
@@ -215,56 +215,56 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
 */
 static void allocate_mem(void)
 {
-	free (mem);
-	mem = (word *) malloc (sizeof (word) * (2 * fsize + 6 * plen + 5));
-	log = mem;
-	alog = log + fsize + 1;
-	rspoly = alog + fsize;
+    free (mem);
+    mem = (word *) malloc (sizeof (word) * (2 * fsize + 6 * plen + 5));
+    log = mem;
+    alog = log + fsize + 1;
+    rspoly = alog + fsize;
 
-#ifdef	RS_CORRECT
-	synd = rspoly + plen + 1;
-	eloc = synd + plen;
-	eval = eloc + plen + 1;
-	scratch = eval + plen + 1;
-	elist = scratch + plen + 1;
+#ifdef  RS_CORRECT
+    synd = rspoly + plen + 1;
+    eloc = synd + plen;
+    eval = eloc + plen + 1;
+    scratch = eval + plen + 1;
+    elist = scratch + plen + 1;
 
 #endif /*  */
 }
 
 void rs_init(word gfpoly, word paritylen, word offset)
 {
-	word b, p;
-	int i, k;
-	plen = paritylen;
-	off = offset; /* Only needed for rs_correct */
+    word b, p;
+    int i, k;
+    plen = paritylen;
+    off = offset; /* Only needed for rs_correct */
 
-	/* Find the top bit, and hence the symbol size */
-	symsize = 0;
-	for (b = gfpoly; b != 1; b >>= 1)
-		symsize++;
-	b = 1 << symsize;
-	fsize = b - 1;
-	allocate_mem ();
+    /* Find the top bit, and hence the symbol size */
+    symsize = 0;
+    for (b = gfpoly; b != 1; b >>= 1)
+        symsize++;
+    b = 1 << symsize;
+    fsize = b - 1;
+    allocate_mem ();
 
-	/* Calculate the log/alog tables */
-	p = 1;
-	for (k = 0; k < (int)fsize; k++) {
-		alog[k] = p;
-		log[p] = k;
-		p <<= 1;
-		if (p & b)
-			p ^= gfpoly;
-	}
+    /* Calculate the log/alog tables */
+    p = 1;
+    for (k = 0; k < (int)fsize; k++) {
+        alog[k] = p;
+        log[p] = k;
+        p <<= 1;
+        if (p & b)
+            p ^= gfpoly;
+    }
 
-	/* Calculate the Reed-Solomon generator polynomial */
-	rspoly[0] = 1;
-	for (i = 1; i <= (int)plen; i++) {
-		rspoly[i] = 0;
-		for (k = i; k > 0; k--)
-			if (rspoly[k - 1])
-				rspoly[k] ^= alog[(log[rspoly[k - 1]] + offset) % fsize];
-		offset++;
-	}
+    /* Calculate the Reed-Solomon generator polynomial */
+    rspoly[0] = 1;
+    for (i = 1; i <= (int)plen; i++) {
+        rspoly[i] = 0;
+        for (k = i; k > 0; k--)
+            if (rspoly[k - 1])
+                rspoly[k] ^= alog[(log[rspoly[k - 1]] + offset) % fsize];
+        offset++;
+    }
 }
 
 
@@ -275,43 +275,43 @@ void rs_init(word gfpoly, word paritylen, word offset)
 */
 void rs_encode(word len, byte * data, byte * res)
 {
-	word m, v;
-	if (!res)
-		res = data + len;
-	int i, k;
-	for (i = 0; i < (int)plen; i++)
-		res[i] = 0;
-	for (i = 0; i < (int)len; i++) {
-		m = res[0] ^ data[i];
-		for (k = 1; k <= (int)plen; k++) {
-			v = (k == (int)plen) ? 0 : res[k];
-			if (m && rspoly[k])
-				v ^= alog[(log[m] + log[rspoly[k]]) % fsize];
-			res[k - 1] = v;
-		}
-	}
+    word m, v;
+    if (!res)
+        res = data + len;
+    int i, k;
+    for (i = 0; i < (int)plen; i++)
+        res[i] = 0;
+    for (i = 0; i < (int)len; i++) {
+        m = res[0] ^ data[i];
+        for (k = 1; k <= (int)plen; k++) {
+            v = (k == (int)plen) ? 0 : res[k];
+            if (m && rspoly[k])
+                v ^= alog[(log[m] + log[rspoly[k]]) % fsize];
+            res[k - 1] = v;
+        }
+    }
 }
 
 
-#ifdef	RS_CORRECT
+#ifdef  RS_CORRECT
 int rs_correct(int datalen, byte * data)
 {
-	int L;
+    int L;
 
-	/* Calculate syndromes.  No errors if all are zero. */
-	if (calc_syndromes (datalen, data, synd))
-		return 0;
+    /* Calculate syndromes.  No errors if all are zero. */
+    if (calc_syndromes (datalen, data, synd))
+        return 0;
 
-	/* Find error locator and error evaluator */
-	L = berlekamp_massey (synd, eloc, eval, scratch);
-	if (2 * L > (int)plen)
-		return -1;
+    /* Find error locator and error evaluator */
+    L = berlekamp_massey (synd, eloc, eval, scratch);
+    if (2 * L > (int)plen)
+        return -1;
 
-	/* Find roots of error locator */
-	if (!find_errors (datalen, L, eloc, elist))
-		return -1;
-	make_corrections (L, datalen, data, elist, eloc, eval);
-	return L;
+    /* Find roots of error locator */
+    if (!find_errors (datalen, L, eloc, elist))
+        return -1;
+    make_corrections (L, datalen, data, elist, eloc, eval);
+    return L;
 }
 
 
