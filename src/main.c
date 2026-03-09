@@ -422,6 +422,9 @@ int main(int argc, char* argv[])
 		/* force square shape? */
 		if (is_square == 1) square = 1;
 
+		/* csv output has no quiet zone */
+        if (csv == 1) noquiet = 1;
+
         grid = iec16022ecc200(&encode_width, &encode_height,
                               &encoding, barcodelen,
                               (unsigned char *)&encode_text[0], &len,
