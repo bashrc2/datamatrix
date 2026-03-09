@@ -193,7 +193,7 @@ static void ecc200(unsigned char *binary, int bytes, int datablock,
                    int rsblock)
 {
     int blocks = (bytes + 2) / datablock, b;
-    rs_init (0x12d, rsblock, 1);
+    rs_init(0x12d, rsblock, 1);
     for (b = 0; b < blocks; b++) {
         unsigned char buf[256],
             ecc[256];
@@ -262,7 +262,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                     out[p++] = 1;
                     out[p++] = 30;
                 }
-                w = strchr (e, c);
+                w = strchr(e, c);
                 if (w)
                     out[p++] = ((w - e) + 3) % 40;
                 else {
@@ -275,12 +275,12 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                         out[p++] = 0;
                         out[p++] = c;
                     } else {
-                        w = strchr (s2, c);
+                        w = strchr(s2, c);
                         if (w) { /* shift 2 */
                             out[p++] = 1;
                             out[p++] = (w - s2);
                         } else {
-                            w = strchr (s3, c);
+                            w = strchr(s3, c);
                             if (w) {
                                 out[p++] = 2;
                                 out[p++] = (w - s3);
@@ -332,7 +332,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                     t[tp++] = 240; /* escape ASCII */
                 enc = 'e';
             }
-            while (sp < sl && tolower (encoding[sp]) == 'e' && p < 4)
+            while (sp < sl && tolower(encoding[sp]) == 'e' && p < 4)
                 out[p++] = s[sp++];
             if (p < 4) {
                 out[p++] = 0x1F; /* escape to ascii */
@@ -367,7 +367,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                     t[tp++] = 0x7C;  /* escape EDIFACT */
                 enc = 'a';
             }
-            if (sl - sp >= 2 && isdigit (s[sp]) && isdigit (s[sp + 1])) {
+            if (sl - sp >= 2 && isdigit(s[sp]) && isdigit (s[sp + 1])) {
                 t[tp++] = (s[sp] - '0') * 10 + s[sp + 1] - '0' + 130;
                 sp += 2;
             } else if (s[sp] > 127) {
@@ -380,7 +380,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
             int l = 0; /* how much to encode */
             if (encoding) {
                 int p;
-                for (p = sp; p < sl && tolower (encoding[p]) == 'b'; p++)
+                for (p = sp; p < sl && tolower(encoding[p]) == 'b'; p++)
                     l++;
             }
             t[tp++] = 231; /* base256 */
@@ -478,7 +478,7 @@ unsigned char switchcost[E_MAX][E_MAX] = {
     {0, 1, 1, 1, 1, 0}, /* From E_BINARY */
 };
 
-char * strdup (const char* s)
+char * strdup(const char* s)
 {
     size_t slen = strlen(s);
     char* result = malloc(slen + 1);
@@ -497,10 +497,10 @@ char * strdup (const char* s)
   if error, null returned
   if exact specified, then assumes shortcuts applicable for exact fit in target
   1. No unlatch to return to ASCII for last encoded byte after C40 or Text
-     or X12
+  or X12
   2. No unlatch to return to ASCII for last 1 or 2 encoded bytes after EDIFACT
   3. Final C40 or text encoding exactly in last 2 bytes can have a shift 0 to
-     pad to make a triple
+  pad to make a triple
   Only use the encoding from an exact request if the len matches the target,
   otherwise free the result and try again with exact=0
 */
@@ -519,7 +519,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
     if (lenp)
         *lenp = 0;
     if (!l)
-        return strdup (""); /* no length */
+        return strdup(""); /* no length */
     if (l > MAXBARCODE)
         return NULL; /* not valid */
     while (p--) {
@@ -528,7 +528,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
         /* consider each encoding from this point */
         /* ASCII */
         sl = tl = 1;
-        if (isdigit (s[p]) && p + 1 < l && isdigit (s[p + 1]))
+        if (isdigit(s[p]) && p + 1 < l && isdigit (s[p + 1]))
             sl = 2; /* double digit */
         else if (s[p] & 0x80)
             tl = 2; /* high shifted */
@@ -552,7 +552,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                 sub += 2;
                 c &= 0x7F;
             }
-            if (c != ' ' && !isdigit (c) && !isupper (c))
+            if (c != ' ' && !isdigit(c) && !isupper(c))
                 sub++; /* shift */
             sub++;
             while (sub >= 3) {
@@ -593,7 +593,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                 sub += 2;
                 c &= 0x7F;
             }
-            if (c != ' ' && !isdigit (c) && !islower (c))
+            if (c != ' ' && !isdigit(c) && !islower(c))
                 sub++; /* shift */
             sub++;
             while (sub >= 3) {
@@ -631,7 +631,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
         do {
             unsigned char c = s[p + sl++];
             if (c != 13 && c != '*' && c != '>' &&
-                c != ' ' && !isdigit (c) && !isupper (c)) {
+                c != ' ' && !isdigit(c) && !isupper(c)) {
                 sl = 0;
                 break;
             }
@@ -759,8 +759,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
     {
         int cur = E_ASCII; /* starts ASCII */
         while (p < l) {
-            int t,
-                m = 0;
+            int t, m = 0;
             int b = 0;
             for (e = 0; e < E_MAX; e++)
                 if (enc[p][e].t &&
@@ -805,7 +804,7 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
     char *encoding = 0;
     unsigned char *grid = 0;
     struct ecc200matrix_s *matrix;
-    memset (binary, 0, sizeof (binary));
+    memset(binary, 0, sizeof (binary));
     if (o.encodingptr)
         encoding = *o.encodingptr;
     if (o.Wptr)
@@ -823,10 +822,10 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
         }
         if (!encoding) {
             int len;
-            char *e = encmake (o.barcodelen, o.barcode, &len, 1);
+            char *e = encmake(o.barcodelen, o.barcode, &len, 1);
             if (e && len != matrix->bytes) { /* try not an exact fit */
                 free (e);
-                e = encmake (o.barcodelen, o.barcode, &len, 0);
+                e = encmake(o.barcodelen, o.barcode, &len, 0);
                 if (len > matrix->bytes) {
                     fprintf(stderr, "Cannot make barcode fit %dx%d\n", W, H);
                     return 0;
@@ -838,8 +837,8 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
         { /* find size */
             if (encoding) { /* find one that fits chosen encoding */
                 for (matrix = ecc200matrix; matrix->W; matrix++)
-                    if (ecc200encode (binary, matrix->bytes, o.barcode,
-                                      o.barcodelen, encoding, 0)
+                    if (ecc200encode(binary, matrix->bytes, o.barcode,
+                                     o.barcodelen, encoding, 0)
                         && (matrix->W == matrix->H ||
                             (!o.square && (!o.Wptr || o.Wptr != o.Hptr))))
                         break;
@@ -847,18 +846,18 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
                 int len;
                 char *e;
                 /* Try exact encoding */
-                e = encmake (o.barcodelen, o.barcode, &len, 1);
+                e = encmake(o.barcodelen, o.barcode, &len, 1);
                 for (matrix = ecc200matrix; matrix->W; matrix++)
-                    if (matrix->bytes == len && (matrix->W == matrix->H ||
-                                                 (!o.square &&
-                                                  (!o.Wptr || o.Wptr != o.Hptr))))
+                    if (matrix->bytes == len &&
+                        (matrix->W == matrix->H ||
+                         (!o.square && (!o.Wptr || o.Wptr != o.Hptr))))
                         break;
                 if (e && !matrix->W) { /* try for non exact fit */
-                    char *e = encmake (o.barcodelen, o.barcode, &len, 0);
+                    char *e = encmake(o.barcodelen, o.barcode, &len, 0);
                     for (matrix = ecc200matrix; matrix->W; matrix++)
-                        if (matrix->bytes >= len && (matrix->W == matrix->H ||
-                                                     (!o.square &&
-                                                      (!o.Wptr || o.Wptr != o.Hptr))))
+                        if (matrix->bytes >= len &&
+                            (matrix->W == matrix->H ||
+                             (!o.square && (!o.Wptr || o.Wptr != o.Hptr))))
                             break;
                     if (e)
                         free (e);
@@ -887,7 +886,7 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
             places = (int*)safemalloc(NC * NR * sizeof (int));
             ecc200placement(places, NR, NC);
             grid = (unsigned char*)safemalloc((W + q + q) * (H + q + q));
-            memset (grid, 0, (W + q + q) * (H + q + q));
+            memset(grid, 0, (W + q + q) * (H + q + q));
             for (y = 0; y < H; y += matrix->FH) {
                 for (x = 0; x < W; x++)
                     grid[(y + q + matrix->FH - 1) * (W + q + q) + q + x] = 1;
