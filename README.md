@@ -90,6 +90,12 @@ To generate a datamatrix pattern from some text.
 datamatrix -e "ABCDEF"
 ```
 
+You can also force the generated datamatrix to be square.
+
+``` bash
+datamatrix -e "user@email.domain" --square
+```
+
 Optionally you can output the generated datamatrix pattern in csv format.
 
 ``` bash
