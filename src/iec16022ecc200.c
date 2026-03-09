@@ -70,7 +70,8 @@ static void * safemalloc(int n)
 }
 
 /* Annex M placement alorithm low level */
-static void ecc200placementbit(int *array, int NR, int NC, int r, int c, int p, char b)
+static void ecc200placementbit(int *array, int NR, int NC, int r, int c, int p,
+							   char b)
 {
 	if (r < 0) {
 		r += NR;
@@ -85,64 +86,65 @@ static void ecc200placementbit(int *array, int NR, int NC, int r, int c, int p, 
 		array[idx] = (p << 3) + b;
 }
 
-static void ecc200placementblock(int *array, int NR, int NC, int r, int c, int p)
+static void ecc200placementblock(int *array, int NR, int NC, int r, int c,
+								 int p)
 {
-	ecc200placementbit (array, NR, NC, r - 2, c - 2, p, 7);
-	ecc200placementbit (array, NR, NC, r - 2, c - 1, p, 6);
-	ecc200placementbit (array, NR, NC, r - 1, c - 2, p, 5);
-	ecc200placementbit (array, NR, NC, r - 1, c - 1, p, 4);
-	ecc200placementbit (array, NR, NC, r - 1, c - 0, p, 3);
-	ecc200placementbit (array, NR, NC, r - 0, c - 2, p, 2);
-	ecc200placementbit (array, NR, NC, r - 0, c - 1, p, 1);
-	ecc200placementbit (array, NR, NC, r - 0, c - 0, p, 0);
+	ecc200placementbit(array, NR, NC, r - 2, c - 2, p, 7);
+	ecc200placementbit(array, NR, NC, r - 2, c - 1, p, 6);
+	ecc200placementbit(array, NR, NC, r - 1, c - 2, p, 5);
+	ecc200placementbit(array, NR, NC, r - 1, c - 1, p, 4);
+	ecc200placementbit(array, NR, NC, r - 1, c - 0, p, 3);
+	ecc200placementbit(array, NR, NC, r - 0, c - 2, p, 2);
+	ecc200placementbit(array, NR, NC, r - 0, c - 1, p, 1);
+	ecc200placementbit(array, NR, NC, r - 0, c - 0, p, 0);
 }
 
 static void ecc200placementcornerA(int *array, int NR, int NC, int p)
 {
-	ecc200placementbit (array, NR, NC, NR - 1, 0, p, 7);
-	ecc200placementbit (array, NR, NC, NR - 1, 1, p, 6);
-	ecc200placementbit (array, NR, NC, NR - 1, 2, p, 5);
-	ecc200placementbit (array, NR, NC, 0, NC - 2, p, 4);
-	ecc200placementbit (array, NR, NC, 0, NC - 1, p, 3);
-	ecc200placementbit (array, NR, NC, 1, NC - 1, p, 2);
-	ecc200placementbit (array, NR, NC, 2, NC - 1, p, 1);
-	ecc200placementbit (array, NR, NC, 3, NC - 1, p, 0);
+	ecc200placementbit(array, NR, NC, NR - 1, 0, p, 7);
+	ecc200placementbit(array, NR, NC, NR - 1, 1, p, 6);
+	ecc200placementbit(array, NR, NC, NR - 1, 2, p, 5);
+	ecc200placementbit(array, NR, NC, 0, NC - 2, p, 4);
+	ecc200placementbit(array, NR, NC, 0, NC - 1, p, 3);
+	ecc200placementbit(array, NR, NC, 1, NC - 1, p, 2);
+	ecc200placementbit(array, NR, NC, 2, NC - 1, p, 1);
+	ecc200placementbit(array, NR, NC, 3, NC - 1, p, 0);
 }
 
 static void ecc200placementcornerB(int *array, int NR, int NC, int p)
 {
-	ecc200placementbit (array, NR, NC, NR - 3, 0, p, 7);
-	ecc200placementbit (array, NR, NC, NR - 2, 0, p, 6);
-	ecc200placementbit (array, NR, NC, NR - 1, 0, p, 5);
-	ecc200placementbit (array, NR, NC, 0, NC - 4, p, 4);
-	ecc200placementbit (array, NR, NC, 0, NC - 3, p, 3);
-	ecc200placementbit (array, NR, NC, 0, NC - 2, p, 2);
-	ecc200placementbit (array, NR, NC, 0, NC - 1, p, 1);
-	ecc200placementbit (array, NR, NC, 1, NC - 1, p, 0);
+	ecc200placementbit(array, NR, NC, NR - 3, 0, p, 7);
+	ecc200placementbit(array, NR, NC, NR - 2, 0, p, 6);
+	ecc200placementbit(array, NR, NC, NR - 1, 0, p, 5);
+	ecc200placementbit(array, NR, NC, 0, NC - 4, p, 4);
+	ecc200placementbit(array, NR, NC, 0, NC - 3, p, 3);
+	ecc200placementbit(array, NR, NC, 0, NC - 2, p, 2);
+	ecc200placementbit(array, NR, NC, 0, NC - 1, p, 1);
+	ecc200placementbit(array, NR, NC, 1, NC - 1, p, 0);
 }
 
 static void ecc200placementcornerC(int *array, int NR, int NC, int p)
 {
-	ecc200placementbit (array, NR, NC, NR - 3, 0, p, 7);
-	ecc200placementbit (array, NR, NC, NR - 2, 0, p, 6);
-	ecc200placementbit (array, NR, NC, NR - 1, 0, p, 5);
-	ecc200placementbit (array, NR, NC, 0, NC - 2, p, 4);
-	ecc200placementbit (array, NR, NC, 0, NC - 1, p, 3);
-	ecc200placementbit (array, NR, NC, 1, NC - 1, p, 2);
-	ecc200placementbit (array, NR, NC, 2, NC - 1, p, 1);
-	ecc200placementbit (array, NR, NC, 3, NC - 1, p, 0);
+	ecc200placementbit(array, NR, NC, NR - 3, 0, p, 7);
+	ecc200placementbit(array, NR, NC, NR - 2, 0, p, 6);
+	ecc200placementbit(array, NR, NC, NR - 1, 0, p, 5);
+	ecc200placementbit(array, NR, NC, 0, NC - 2, p, 4);
+	ecc200placementbit(array, NR, NC, 0, NC - 1, p, 3);
+	ecc200placementbit(array, NR, NC, 1, NC - 1, p, 2);
+	ecc200placementbit(array, NR, NC, 2, NC - 1, p, 1);
+	ecc200placementbit(array, NR, NC, 3, NC - 1, p, 0);
 }
 
 static void ecc200placementcornerD(int *array, int NR, int NC, int p)
 {
-	ecc200placementbit (array, NR, NC, NR - 1, 0, p, 7);
-	ecc200placementbit (array, NR, NC, NR - 1, NC - 1, p, 6);
-	ecc200placementbit (array, NR, NC, 0, NC - 3, p, 5);
-	ecc200placementbit (array, NR, NC, 0, NC - 2, p, 4);
-	ecc200placementbit (array, NR, NC, 0, NC - 1, p, 3);
-	ecc200placementbit (array, NR, NC, 1, NC - 3, p, 2);
-	ecc200placementbit (array, NR, NC, 1, NC - 2, p, 1);
-	ecc200placementbit (array, NR, NC, 1, NC - 1, p, 0);
+	ecc200placementbit(array, NR, NC, NR - 1, 0, p, 7);
+	ecc200placementbit(array, NR, NC, NR - 1, NC - 1, p, 6);
+	ecc200placementbit(array, NR, NC, 0, NC - 3, p, 5);
+	ecc200placementbit(array, NR, NC, 0, NC - 2, p, 4);
+	ecc200placementbit(array, NR, NC, 0, NC - 1, p, 3);
+	ecc200placementbit(array, NR, NC, 1, NC - 3, p, 2);
+	ecc200placementbit(array, NR, NC, 1, NC - 2, p, 1);
+	ecc200placementbit(array, NR, NC, 1, NC - 1, p, 0);
 }
 
 /* Annex M placement alorithm main function */
@@ -195,7 +197,8 @@ static void ecc200placement(int *array, int NR, int NC)
 }
 
 /* calculate and append ecc code, and if necessary interleave */
-static void ecc200(unsigned char *binary, int bytes, int datablock, int rsblock)
+static void ecc200(unsigned char *binary, int bytes, int datablock,
+				   int rsblock)
 {
 	int blocks = (bytes + 2) / datablock, b;
 	rs_init (0x12d, rsblock, 1);
@@ -213,7 +216,8 @@ static void ecc200(unsigned char *binary, int bytes, int datablock, int rsblock)
 	}
 }
 
-/* perform encoding for ecc200, source s len sl, to target t len tl, using optional encoding control string e
+/* perform encoding for ecc200, source s len sl, to target t len tl,
+   using optional encoding control string e
    return 1 if OK, 0 if failed. Does all necessary padding to tl
 */
 char ecc200encode(unsigned char *t, int tl, unsigned char *s,
@@ -228,7 +232,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
 	}
 	/* do the encoding */
 	while (sp < sl && tp < tl) {
-		char newenc = tolower (encoding[sp]);     /* suggest new encoding */
+		char newenc = tolower(encoding[sp]); /* suggest new encoding */
 #ifdef	DEBUG
 		int S = sp;
 		int T = tp;
@@ -258,7 +262,8 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
 				char *w;
 				if (c & 0x80) {
 					if (newenc == 'x') {
-						fprintf(stderr, "Cannot encode char 0x%02X in X12\n", c);
+						fprintf(stderr,
+								"Cannot encode char 0x%02X in X12\n", c);
 						return 0;
 					}
 					c &= 0x7f;
@@ -270,7 +275,8 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
 					out[p++] = ((w - e) + 3) % 40;
 				else {
 					if (newenc == 'x') {
-						fprintf(stderr, "Cannot encode char 0x%02X in X12\n", c);
+						fprintf(stderr,
+								"Cannot encode char 0x%02X in X12\n", c);
 						return 0;
 					}
 					if (c < 32) { /* shift 1 */
@@ -287,7 +293,8 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
 								out[p++] = 2;
 								out[p++] = (w - s3);
 							} else {
-								fprintf(stderr, "Could not encode 0x%02X, should not happen\n", c);
+								fprintf(stderr,
+										"Could not encode 0x%02X, should not happen\n", c);
 								return 0;
 							}
 						}
@@ -394,7 +401,9 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
 			}
 			while (l-- && tp < tl)
 				t[tp++] = s[sp++]; /* + (((tp + 1) * 149) % 255) + 1; */  /* see annex H */
-			while (TP < tp) { /* coding - see annex H - YES this includes the length bytes, believe it or not. */
+			while (TP < tp) {
+				/* coding - see annex H - YES this includes the length bytes,
+				   believe it or not. */
 				t[TP] += (((TP + 1) * 149) % 255) + 1;
 				TP++;
 			}
@@ -495,10 +504,13 @@ char * strdup (const char* s)
   if lenp not null, target len stored
   if error, null returned
   if exact specified, then assumes shortcuts applicable for exact fit in target
-  1. No unlatch to return to ASCII for last encoded byte after C40 or Text or X12
+  1. No unlatch to return to ASCII for last encoded byte after C40 or Text
+     or X12
   2. No unlatch to return to ASCII for last 1 or 2 encoded bytes after EDIFACT
-  3. Final C40 or text encoding exactly in last 2 bytes can have a shift 0 to pad to make a triple
-  Only use the encoding from an exact request if the len matches the target, otherwise free the result and try again with exact=0
+  3. Final C40 or text encoding exactly in last 2 bytes can have a shift 0 to
+     pad to make a triple
+  Only use the encoding from an exact request if the len matches the target,
+  otherwise free the result and try again with exact=0
 */
 static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 {
@@ -506,10 +518,12 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 	int p = l;
 	int e;
 	struct {
-		short s; /* number of bytes of source that can be encoded in a row at this point using this encoding mode */
-		short t; /* number of bytes of target generated encoding from this point to end if already in this encoding mode */
+		short s; /* number of bytes of source that can be encoded in a
+					row at this point using this encoding mode */
+		short t; /* number of bytes of target generated encoding from this
+					point to end if already in this encoding mode */
 	} enc[MAXBARCODE + 1][E_MAX];
-	memset (&enc, 0, sizeof (enc));
+	memset(&enc, 0, sizeof (enc));
 	if (lenp)
 		*lenp = 0;
 	if (!l)
@@ -529,7 +543,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 		bl = 0;
 		if (p + sl < l)
 			for (e = 0; e < E_MAX; e++)
-				if (enc[p + sl][e].t && ((t = enc[p + sl][e].t + switchcost[E_ASCII][e]) < bl || !bl)) {
+				if (enc[p + sl][e].t &&
+					((t = enc[p + sl][e].t + switchcost[E_ASCII][e]) < bl || !bl)) {
 					bl = t;
 					b = e;
 				}
@@ -554,7 +569,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 			}
 		}
 		while (sub && p + sl < l);
-		if (exact && sub == 2 && p + sl == l) { /* special case, can encode last block with shift 0 at end */
+		if (exact && sub == 2 && p + sl == l) {
+			/* special case, can encode last block with shift 0 at end */
 			sub = 0;
 			tl += 2;
 		}
@@ -562,11 +578,13 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 			bl = 0;
 			if (p + sl < l)
 				for (e = 0; e < E_MAX; e++)
-					if (enc[p + sl][e].t && ((t = enc[p + sl][e].t + switchcost[E_C40][e]) < bl || !bl)) {
+					if (enc[p + sl][e].t &&
+						((t = enc[p + sl][e].t + switchcost[E_C40][e]) < bl || !bl)) {
 						bl = t;
 						b = e;
 					}
-			if (exact && enc[p + sl][E_ASCII].t == 1 && 1 <= bl) { /* special case, switch to ASCII for last bytes */
+			if (exact && enc[p + sl][E_ASCII].t == 1 && 1 <= bl) {
+				/* special case, switch to ASCII for last bytes */
 				bl = 1;
 				b = E_ASCII;
 			}
@@ -592,7 +610,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 			}
 		}
 		while (sub && p + sl < l);
-		if (exact && sub == 2 && p + sl == l) { /* special case, can encode last block with shift 0 at end */
+		if (exact && sub == 2 && p + sl == l) {
+			/* special case, can encode last block with shift 0 at end */
 			sub = 0;
 			tl += 2;
 		}
@@ -600,7 +619,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 			bl = 0;
 			if (p + sl < l)
 				for (e = 0; e < E_MAX; e++)
-					if (enc[p + sl][e].t && ((t = enc[p + sl][e].t + switchcost[E_TEXT][e]) < bl || !bl)) {
+					if (enc[p + sl][e].t &&
+						((t = enc[p + sl][e].t + switchcost[E_TEXT][e]) < bl || !bl)) {
 						bl = t;
 						b = e;
 					}
@@ -618,7 +638,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 		sub = tl = sl = 0;
 		do {
 			unsigned char c = s[p + sl++];
-			if (c != 13 && c != '*' && c != '>' && c != ' ' && !isdigit (c) && !isupper (c)) {
+			if (c != 13 && c != '*' && c != '>' &&
+				c != ' ' && !isdigit (c) && !isupper (c)) {
 				sl = 0;
 				break;
 			}
@@ -633,7 +654,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 			bl = 0;
 			if (p + sl < l)
 				for (e = 0; e < E_MAX; e++)
-					if (enc[p + sl][e].t && ((t = enc[p + sl][e].t + switchcost[E_X12][e]) < bl || !bl)) {
+					if (enc[p + sl][e].t &&
+						((t = enc[p + sl][e].t + switchcost[E_X12][e]) < bl || !bl)) {
 						bl = t;
 						b = e;
 					}
@@ -658,7 +680,9 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 					b = E_ASCII;
 			} else
 				for (e = 0; e < E_MAX; e++)
-					if (e != E_EDIFACT && enc[p + 1][e].t && ((t = 2 + enc[p + 1][e].t + switchcost[E_ASCII][e]) < bl || !bl)) { /* E_ASCII as allowed for unlatch */
+					if (e != E_EDIFACT && enc[p + 1][e].t &&
+						((t = 2 + enc[p + 1][e].t + switchcost[E_ASCII][e]) < bl || !bl)) {
+						/* E_ASCII as allowed for unlatch */
 						sl = 1;
 						bl = t;
 						b = e;
@@ -672,7 +696,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 						b = E_ASCII;
 				} else
 					for (e = 0; e < E_MAX; e++)
-						if (e != E_EDIFACT && enc[p + 2][e].t && ((t = 3 + enc[p + 2][e].t + switchcost[E_ASCII][e]) < bl || !bl)) {
+						if (e != E_EDIFACT && enc[p + 2][e].t &&
+							((t = 3 + enc[p + 2][e].t + switchcost[E_ASCII][e]) < bl || !bl)) {
 							/* E_ASCII as allowed for unlatch */
 							sl = 2;
 							bl = t;
@@ -685,7 +710,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 						sl = 3;
 					} else
 						for (e = 0; e < E_MAX; e++)
-							if (e != E_EDIFACT && enc[p + 3][e].t && ((t = 3 + enc[p + 3][e].t + switchcost[E_ASCII][e]) < bl || !bl)) {
+							if (e != E_EDIFACT && enc[p + 3][e].t &&
+								((t = 3 + enc[p + 3][e].t + switchcost[E_ASCII][e]) < bl || !bl)) {
 								/* E_ASCII as allowed for unlatch */
 								sl = 3;
 								bl = t;
@@ -697,13 +723,14 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 							sl = 4;
 						} else {
 							for (e = 0; e < E_MAX; e++)
-								if (enc[p + 4][e].t && ((t = 3 + enc[p + 4][e].t + switchcost[E_EDIFACT][e]) < bl || !bl)) {
+								if (enc[p + 4][e].t &&
+									((t = 3 + enc[p + 4][e].t + switchcost[E_EDIFACT][e]) < bl || !bl)) {
 									sl = 4;
 									bl = t;
 									b = e;
 								}
-							if (exact && enc[p + 4][E_ASCII].t && enc[p + 4][E_ASCII].t <= 2 && (t = 3 + enc[p + 4][E_ASCII].t) <= bl) {
-														
+							if (exact && enc[p + 4][E_ASCII].t &&
+								enc[p + 4][E_ASCII].t <= 2 && (t = 3 + enc[p + 4][E_ASCII].t) <= bl) {
 								/* special case, switch to ASCII for last 1 or two bytes */
 								sl = 4;
 								bl = t;
@@ -722,7 +749,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 		bl = 0;
 		for (e = 0; e < E_MAX; e++)
 			if (enc[p + 1][e].t
-				&& ((t = enc[p + 1][e].t + switchcost[E_BINARY][e] + ((e == E_BINARY && enc[p + 1][e].t == 249) ? 1 : 0)) < bl || !bl)) {
+				&& ((t = enc[p + 1][e].t + switchcost[E_BINARY][e] +
+					 ((e == E_BINARY && enc[p + 1][e].t == 249) ? 1 : 0)) < bl || !bl)) {
 				bl = t;
 				b = e;
 			}
@@ -730,7 +758,9 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 		enc[p][E_BINARY].s = 1;
 		if (bl && b == E_BINARY)
 			enc[p][b].s += enc[p + 1][b].s;
-		/* fprintf(stderr, "%d:", p); for (e = 0; e < E_MAX; e++) fprintf(stderr, " %c*%d/%d", encchr[e], enc[p][e].s, enc[p][e].t); fprintf(stderr, "\n"); */
+		/* fprintf(stderr, "%d:", p); for (e = 0; e < E_MAX; e++)
+		   fprintf(stderr, " %c*%d/%d", encchr[e], enc[p][e].s, enc[p][e].t);
+		   fprintf(stderr, "\n"); */
 	}
 	encoding = safemalloc (l + 1);
 	p = 0;
@@ -741,13 +771,16 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 				m = 0;
 			int b = 0;
 			for (e = 0; e < E_MAX; e++)
-				if (enc[p][e].t && ((t = enc[p][e].t + switchcost[cur][e]) < m || (t == m && e == cur) || !m)) {
+				if (enc[p][e].t &&
+					((t = enc[p][e].t + switchcost[cur][e]) < m ||
+					 (t == m && e == cur) || !m)) {
 					b = e;
 					m = t;
 				}
 			if (exact && cur == E_EDIFACT && enc[p][E_ASCII].t <= 2)
 				b = E_ASCII;
-			if (exact && (cur == E_C40 || cur == E_X12 || cur == E_TEXT) && enc[p][E_ASCII].t <= 1)
+			if (exact && (cur == E_C40 || cur == E_X12 || cur == E_TEXT) &&
+				enc[p][E_ASCII].t <= 1)
 				b = E_ASCII;
 			if (!p && lenp)
 				*lenp = enc[p][b].t + switchcost[cur][b];
@@ -790,7 +823,8 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
 
 	/* encoding */
 	if (W) { /* known size */
-		for (matrix = ecc200matrix; matrix->W && (matrix->W != W || matrix->H != H); matrix++);
+		for (matrix = ecc200matrix;
+			 matrix->W && (matrix->W != W || matrix->H != H); matrix++);
 		if (!matrix->W) {
 			fprintf(stderr, "Invalid size %dx%d\n", W, H);
 			return 0;
@@ -812,8 +846,10 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
 		{ /* find size */
 			if (encoding) { /* find one that fits chosen encoding */
 				for (matrix = ecc200matrix; matrix->W; matrix++)
-					if (ecc200encode (binary, matrix->bytes, o.barcode, o.barcodelen, encoding, 0)
-						&& (matrix->W == matrix->H || (!o.square && (!o.Wptr || o.Wptr != o.Hptr))))
+					if (ecc200encode (binary, matrix->bytes, o.barcode,
+									  o.barcodelen, encoding, 0)
+						&& (matrix->W == matrix->H ||
+							(!o.square && (!o.Wptr || o.Wptr != o.Hptr))))
 						break;
 			} else {
 				int len;
@@ -821,12 +857,16 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
 				/* Try exact encoding */
 				e = encmake (o.barcodelen, o.barcode, &len, 1);
 				for (matrix = ecc200matrix; matrix->W; matrix++)
-					if (matrix->bytes == len && (matrix->W == matrix->H || (!o.square && (!o.Wptr || o.Wptr != o.Hptr))))
+					if (matrix->bytes == len && (matrix->W == matrix->H ||
+												 (!o.square &&
+												  (!o.Wptr || o.Wptr != o.Hptr))))
 						break;
 				if (e && !matrix->W) { /* try for non exact fit */
 					char *e = encmake (o.barcodelen, o.barcode, &len, 0);
 					for (matrix = ecc200matrix; matrix->W; matrix++)
-						if (matrix->bytes >= len && (matrix->W == matrix->H || (!o.square && (!o.Wptr || o.Wptr != o.Hptr))))
+						if (matrix->bytes >= len && (matrix->W == matrix->H ||
+													 (!o.square &&
+													  (!o.Wptr || o.Wptr != o.Hptr))))
 							break;
 					if (e)
 						free (e);
@@ -841,8 +881,10 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
 			H = matrix->H;
 		}
 	int q = (o.noquiet ? 0 : 1);
-	if (!ecc200encode(binary, matrix->bytes, o.barcode, o.barcodelen, encoding, o.lenp))
-		fprintf(stderr, "Barcode too long for %dx%d %s %u bytes\n", W, H, encoding, matrix->bytes);
+	if (!ecc200encode(binary, matrix->bytes, o.barcode, o.barcodelen,
+					  encoding, o.lenp))
+		fprintf(stderr, "Barcode too long for %dx%d %s %u bytes\n",
+				W, H, encoding, matrix->bytes);
 	else {
 		/* ecc code */
 		ecc200(binary, matrix->bytes, matrix->datablock, matrix->rsblock);
@@ -869,8 +911,10 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
 			for (y = 0; y < NR; y++) {
 				for (x = 0; x < NC; x++) {
 					int v = places[y * NC + x];
-					if (v == 1 || (v > 7 && (binary[(v >> 3) - 1] & (1 << (v & 7)))))
-						grid[(1 + y + q + 2 * (y / (matrix->FH - 2))) * (W + q + q) + q + 1 + x + 2 * (x / (matrix->FW - 2))] = 1;
+					if (v == 1 ||
+						(v > 7 && (binary[(v >> 3) - 1] & (1 << (v & 7)))))
+						grid[(1 + y + q + 2 * (y / (matrix->FH - 2))) *
+							 (W + q + q) + q + 1 + x + 2 * (x / (matrix->FW - 2))] = 1;
 				}
 			}
 			free (places);
