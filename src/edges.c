@@ -957,8 +957,6 @@ void get_peripheral_edges(struct line_segments * segments,
 /**
  * \brief assigns edges to a single perimeter side
  * \param segments object containing line segments
- * \param side index of the side (0-3)
- * \param histogram_length length of the orientation histogram
  * \param orientation_quantized2
  * \param orthogonal
  * \param separator_x0 x coordinate of the start of the demarcation line
@@ -967,7 +965,6 @@ void get_peripheral_edges(struct line_segments * segments,
  * \param separator_y1 y coordinate of the end of the demarcation line
  */
 static void assign_edges_to_side(struct line_segments * segments,
-                                 int side, int histogram_length,
                                  int orientation_quantized2,
                                  int orthogonal,
                                  float separator_x0, float separator_y0,
@@ -1050,7 +1047,6 @@ static void assign_edges_to_sides(struct line_segments * segments,
 {
   int orient, orthogonal, opposite, side;
   int no_of_buckets = (int)(360 / quantization_degrees);
-  int histogram_length = no_of_buckets;
   int orientation_quantized2;
   int orientation_quantized_wiggle;
   float separator_x0 = segments->edge_centre_x;
@@ -1084,7 +1080,7 @@ static void assign_edges_to_sides(struct line_segments * segments,
         if (orientation_quantized2 >= no_of_buckets) orientation_quantized2 -= no_of_buckets;
         /* assign edges for each side of the square */
         for (side = 0; side < 4; side++) {
-          assign_edges_to_side(segments, side, histogram_length,
+          assign_edges_to_side(segments,
                                orientation_quantized2,
                                orthogonal,
                                separator_x0, separator_y0,
