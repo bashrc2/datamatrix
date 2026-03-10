@@ -371,7 +371,7 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
     cell_width = max_x - min_x;
     cell_height = max_y - min_y;
     if (cell_height > 0) {
-      *elongation = fabs(1.0f - (cell_width / (float)cell_height));
+      *elongation = ABS(1.0f - (cell_width / (float)cell_height));
     }
 
     /* calculate offset from centre */
@@ -652,8 +652,8 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
                                        &cell_no_of_pixels,
                                        &cell_fill);
           if (offset_x != NO_OFFSET) {
-            av_offset_x += abs(offset_x);
-            av_offset_y += abs(offset_y);
+            av_offset_x += ABS(offset_x);
+            av_offset_y += ABS(offset_y);
             av_elongation += cell_elongation;
             av_cell_no_of_pixels += cell_no_of_pixels;
             total_cell_fill += cell_fill;
@@ -674,8 +674,8 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
     grid->elongation = (av_elongation / offset_hits) * 100;
     grid->dots_per_element = av_cell_no_of_pixels / offset_hits;
 
-    grid_non_uniformity_x = fabs(av_offset_x / (float)offset_hits);
-    grid_non_uniformity_y = fabs(av_offset_y / (float)offset_hits);
+    grid_non_uniformity_x = ABS(av_offset_x / (float)offset_hits);
+    grid_non_uniformity_y = ABS(av_offset_y / (float)offset_hits);
     grid->grid_non_uniformity = (grid_non_uniformity_x + grid_non_uniformity_y) * 100 / cell_width;
     /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
        table 9-5 */
@@ -742,7 +742,7 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
     cell_width_longest = longest_side / grid->dimension_y;
     cell_width_shortest = shortest_side / grid->dimension_x;
   }
-  grid->axial_non_uniformity = fabs(1.0f - (cell_width_shortest/cell_width_longest))*100;
+  grid->axial_non_uniformity = ABS(1.0f - (cell_width_shortest/cell_width_longest))*100;
   /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
      table 9-4 */
   grid->axial_non_uniformity_grade = 0;
@@ -897,7 +897,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
       }
       /* cell modulation
          from GS1 2D Barcode Verification Process Implementation Guideline 9.1.3 */
-      cell_modulation = 2.0f * abs(reflectance - global_threshold) / symbol_contrast;
+      cell_modulation = 2.0f * ABS(reflectance - global_threshold) / symbol_contrast;
       modulation += cell_modulation;
       if (cell_modulation < min_modulation) {
         min_modulation = cell_modulation;

@@ -54,7 +54,7 @@ void draw_line(unsigned char img[],
   int bytes_per_pixel = bitsperpixel/8;
   int half_width = line_width/2;
 
-  if (abs(lineheight) > abs(linewidth)) {
+  if (ABS(lineheight) > ABS(linewidth)) {
     /* vertical orientation */
     if (by < ty) incr = -1;
     for (y = ty; y != by; y+=incr) {
