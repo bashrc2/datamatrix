@@ -98,7 +98,7 @@ void free_line_segments(struct line_segments * segments)
 {
   int i;
 
-  for (i = 0; i < 360; i++) {
+  for (i = 359; i >= 0; i--) {
     free(segments->orientation_histogram_edges[i]);
   }
   free(segments->orientation_histogram_edges);
