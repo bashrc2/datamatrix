@@ -32,18 +32,10 @@
 static int grid_data_blocks_axis(struct grid_2d * grid,
                                  int axis_dimension)
 {
-  int blocks = 1;
-
-  if (axis_dimension >= 32) {
-    blocks = 2;
-  }
-  if (axis_dimension >= 64) {
-    blocks = 4;
-  }
-  if (axis_dimension >= 120) {
-    blocks = 6;
-  }
-  return blocks;
+  if (axis_dimension >= 120) return 6;
+  if (axis_dimension >= 64) return 4;
+  if (axis_dimension >= 32) return 2;
+  return 1;
 }
 
 /**
