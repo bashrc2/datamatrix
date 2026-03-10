@@ -135,7 +135,7 @@ void draw_dot(unsigned char img[],
     dy = y - centre_y;
     for (x = tx; x <= bx; x++) {
       dx = x - centre_x;
-      if (dx*dx + dy*dy > radius_sqr) continue;
+      if (SQUARE_MAG(dx, dy) > radius_sqr) continue;
       n = (y*width + x)*bytesperpixel;
       img[n+2] = b;
       img[n+1] = g;

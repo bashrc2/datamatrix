@@ -462,7 +462,7 @@ unsigned char segment_edges_within_roi(struct line_segments * segments,
       }
       dx = x - cx;
       dy = y - cy;
-      if ((dx*dx) + (dy*dy) > roi_radius_pixels) {
+      if (SQUARE_MAG(dx, dy) > roi_radius_pixels) {
         /* outside of the roi */
         removed_members++;
         removed_total++;
@@ -581,7 +581,7 @@ void join_line_segments(struct line_segments * segments,
         y = segments->members[index2*2+1];
         dx = x - start_x;
         dy = y - start_y;
-        if (dx*dx + dy*dy <= join_radius_sqr) {
+        if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
           /* start points are joined */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
@@ -592,7 +592,7 @@ void join_line_segments(struct line_segments * segments,
         }
         dx = x - end_x;
         dy = y - end_y;
-        if (dx*dx + dy*dy <= join_radius_sqr) {
+        if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
           /* end joined to start */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
@@ -608,7 +608,7 @@ void join_line_segments(struct line_segments * segments,
         index2++;
         dx = x - start_x;
         dy = y - start_y;
-        if (dx*dx + dy*dy <= join_radius_sqr) {
+        if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
           /* start joined to end */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
@@ -619,7 +619,7 @@ void join_line_segments(struct line_segments * segments,
         }
         dx = x - end_x;
         dy = y - end_y;
-        if (dx*dx + dy*dy <= join_radius_sqr) {
+        if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
           /* ends joined */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
@@ -1631,7 +1631,7 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
     y = segments->side_edges[max_side1][edge_idx+1];
     dx = x - (int)xi;
     dy = y - (int)yi;
-    dist = dx*dx + dy*dy;
+    dist = SQUARE_MAG(dx, dy);
     if (dist > max_dist) {
       max_dist = dist;
       x4 = (float)x;
@@ -1654,7 +1654,7 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
     y = segments->side_edges[max_side2][edge_idx+1];
     dx = x - (int)xi;
     dy = y - (int)yi;
-    dist = dx*dx + dy*dy;
+    dist = SQUARE_MAG(dx, dy);
     if (dist > max_dist) {
       max_dist = dist;
       x4 = (float)x;
