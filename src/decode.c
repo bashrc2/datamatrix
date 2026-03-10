@@ -45,8 +45,8 @@ static void locate_erasures(int damage_pattern_x,
   *erasures_length = 0;
 
   if (damage_pattern == NULL) return;
-  for (int y = 0; y < damage_pattern_y; y++) {
-    for (int x = 0; x < damage_pattern_x; x++) {
+  for (int y = damage_pattern_y-1; y >= 0; y--) {
+    for (int x = damage_pattern_x-1; x >= 0; x--) {
       if (damage_pattern[y*damage_pattern_x + x]) {
         erasures[*erasures_length] = codeword_pattern[x][y];
         *erasures_length = (*erasures_length) + 1;
@@ -910,7 +910,7 @@ static unsigned char reed_solomon_decode_init(int symbolBits,
 {
   *m_MM = symbolBits;
   *m_NN = (1 << (*m_MM)) - 1;
-  *m_KK = (*m_NN) - numberParity;	/* Max. Number of data symbols per block */
+  *m_KK = (*m_NN) - numberParity;   /* Max. Number of data symbols per block */
   *m_B0 = B0;
   *m_PRIM = Prim;
 
@@ -1012,7 +1012,7 @@ static unsigned char reed_solomon_decode_init(int symbolBits,
       break;
     }
     default: {
-      return 0;	/* "Either CCSDS must be defined, or m_MM must be set in range 2-16" */
+      return 0; /* "Either CCSDS must be defined, or m_MM must be set in range 2-16" */
     }
     }
   }
@@ -1211,13 +1211,13 @@ static int reed_solomon_decode(int symbolBits,
       for (j = i + 1; j > 0; j--) {
         tmp = m_index_of[lambda[j - 1]];
         if (tmp != m_A0) {
-					tmp2 = u + tmp;
-					while (tmp2 >= m_NN) {
-						tmp2 -= m_NN;
-						tmp2 = (tmp2 >> m_MM) + (tmp2 & m_NN);
-					}
+                    tmp2 = u + tmp;
+                    while (tmp2 >= m_NN) {
+                        tmp2 -= m_NN;
+                        tmp2 = (tmp2 >> m_MM) + (tmp2 & m_NN);
+                    }
 
-					lambda[j] = lambda[j] ^ m_alpha_to[tmp2];
+                    lambda[j] = lambda[j] ^ m_alpha_to[tmp2];
         }
       }
     }
@@ -1246,7 +1246,7 @@ static int reed_solomon_decode(int symbolBits,
         discr_r ^= m_alpha_to[x];
       }
     }
-    discr_r = m_index_of[discr_r];	/* Index form */
+    discr_r = m_index_of[discr_r];  /* Index form */
     if (discr_r == m_A0) {
       /* 2 lines below: B(x) <-- x*B(x) */
       for (ci = m_NN - m_KK - 1; ci >= 0; ci--) b[ci + 1] = b[ci]; /* COPY(&b[1],b,m_NN-m_KK); */
