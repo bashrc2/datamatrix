@@ -127,9 +127,9 @@ void draw_dot(unsigned char img[],
   int by = centre_y + radius;
 
   if (tx < 0) tx = 0;
-  if (bx >= (int)width) bx = width-1;
+  if (bx >= (int)width) bx = (int)width-1;
   if (ty < 0) ty = 0;
-  if (by >= (int)height) by = height-1;
+  if (by >= (int)height) by = (int)height-1;
 
   for (y = ty; y <= by; y++) {
     dy = y - centre_y;
