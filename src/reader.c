@@ -171,10 +171,7 @@ int read_datamatrix(unsigned char image_data[],
   unsigned char * original_image_data =
     (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
 
-  float best_perimeter_x0=-1, best_perimeter_y0=0;
-  float best_perimeter_x1=0, best_perimeter_y1=0;
-  float best_perimeter_x2=0, best_perimeter_y2=0;
-  float best_perimeter_x3=0, best_perimeter_y3=0;
+  float best_perimeter_x0=-1;
 
   /* in verification reports show the raw decode */
   if ((verify == 1) || (raw_decode == 1)) human_readable = 0;
@@ -782,13 +779,6 @@ int read_datamatrix(unsigned char image_data[],
             free_grid(&grid[try_config]);
             best_config = try_config;
             best_perimeter_x0 = perimeter_x0;
-            best_perimeter_y0 = perimeter_y0;
-            best_perimeter_x1 = perimeter_x1;
-            best_perimeter_y1 = perimeter_y1;
-            best_perimeter_x2 = perimeter_x2;
-            best_perimeter_y2 = perimeter_y2;
-            best_perimeter_x3 = perimeter_x3;
-            best_perimeter_y3 = perimeter_y3;
             if (strlen(grid_filename) > 0) {
               /* show the grid */
               memcpy(image_data, original_image_data,
@@ -811,13 +801,6 @@ int read_datamatrix(unsigned char image_data[],
           if (strlen(thr_decode_result[try_config]) > 0) {
             best_config = try_config;
             best_perimeter_x0 = perimeter_x0;
-            best_perimeter_y0 = perimeter_y0;
-            best_perimeter_x1 = perimeter_x1;
-            best_perimeter_y1 = perimeter_y1;
-            best_perimeter_x2 = perimeter_x2;
-            best_perimeter_y2 = perimeter_y2;
-            best_perimeter_x3 = perimeter_x3;
-            best_perimeter_y3 = perimeter_y3;
             if (strlen(grid_filename) > 0) {
               /* show the grid */
               memcpy(image_data, original_image_data,
@@ -900,13 +883,6 @@ int read_datamatrix(unsigned char image_data[],
               free_grid(&grid[try_config]);
               best_config = try_config;
               best_perimeter_x0 = perimeter_x0;
-              best_perimeter_y0 = perimeter_y0;
-              best_perimeter_x1 = perimeter_x1;
-              best_perimeter_y1 = perimeter_y1;
-              best_perimeter_x2 = perimeter_x2;
-              best_perimeter_y2 = perimeter_y2;
-              best_perimeter_x3 = perimeter_x3;
-              best_perimeter_y3 = perimeter_y3;
               if (strlen(grid_filename) > 0) {
                 /* show the grid */
                 memcpy(image_data, original_image_data,
@@ -941,13 +917,6 @@ int read_datamatrix(unsigned char image_data[],
             if (strlen(thr_decode_result[try_config]) > 0) {
               best_config = try_config;
               best_perimeter_x0 = perimeter_x0;
-              best_perimeter_y0 = perimeter_y0;
-              best_perimeter_x1 = perimeter_x1;
-              best_perimeter_y1 = perimeter_y1;
-              best_perimeter_x2 = perimeter_x2;
-              best_perimeter_y2 = perimeter_y2;
-              best_perimeter_x3 = perimeter_x3;
-              best_perimeter_y3 = perimeter_y3;
               if (strlen(grid_filename) > 0) {
                 /* show the grid */
                 memcpy(image_data, original_image_data,
@@ -1032,13 +1001,6 @@ int read_datamatrix(unsigned char image_data[],
             if (strlen(thr_decode_result[try_config]) > 0) {
               best_config = try_config;
               best_perimeter_x0 = perimeter_x0;
-              best_perimeter_y0 = perimeter_y0;
-              best_perimeter_x1 = perimeter_x1;
-              best_perimeter_y1 = perimeter_y1;
-              best_perimeter_x2 = perimeter_x2;
-              best_perimeter_y2 = perimeter_y2;
-              best_perimeter_x3 = perimeter_x3;
-              best_perimeter_y3 = perimeter_y3;
               if (strlen(grid_filename) > 0) {
                 /* show the grid */
                 memcpy(image_data, original_image_data,
@@ -1133,11 +1095,7 @@ int read_datamatrix(unsigned char image_data[],
                image_width*image_height*image_bytesperpixel);
         show_L_shape_perimeter(&grid[best_config],
                                image_data, image_width, image_height,
-                               image_bitsperpixel,
-                               best_perimeter_x0, best_perimeter_y0,
-                               best_perimeter_x1, best_perimeter_y1,
-                               best_perimeter_x2, best_perimeter_y2,
-                               best_perimeter_x3, best_perimeter_y3);
+                               image_bitsperpixel);
         write_png_file(output_filename,
                        image_width, image_height, 24, image_data);
       }

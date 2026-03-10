@@ -285,11 +285,7 @@ void show_shape_perimeter(unsigned char result[], int width, int height,
 void show_L_shape_perimeter(struct grid_2d * grid,
                             unsigned char image_data[],
                             int image_width, int image_height,
-                            int image_bitsperpixel,
-                            float perimeter_x0, float perimeter_y0,
-                            float perimeter_x1, float perimeter_y1,
-                            float perimeter_x2, float perimeter_y2,
-                            float perimeter_x3, float perimeter_y3);
+                            int image_bitsperpixel);
 unsigned char rectangular_joined_line_segments(int aspect_ratio);
 
 /* resize.c */

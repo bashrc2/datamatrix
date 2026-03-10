@@ -1736,23 +1736,11 @@ void show_shape_perimeter(unsigned char result[], int width, int height,
  * \param image_width width of the image
  * \param image_height height of the image
  * \param image_bitsperpixel Number of bits per pixel
- * \param perimeter_x0 first perimeter x coord
- * \param perimeter_y0 first perimeter y coord
- * \param perimeter_x1 second perimeter x coord
- * \param perimeter_y1 second perimeter y coord
- * \param perimeter_x2 third perimeter x coord
- * \param perimeter_y2 third perimeter y coord
- * \param perimeter_x3 fourth perimeter x coord
- * \param perimeter_y3 fourth perimeter y coord
  */
 void show_L_shape_perimeter(struct grid_2d * grid,
                             unsigned char image_data[],
                             int image_width, int image_height,
-                            int image_bitsperpixel,
-                            float perimeter_x0, float perimeter_y0,
-                            float perimeter_x1, float perimeter_y1,
-                            float perimeter_x2, float perimeter_y2,
-                            float perimeter_x3, float perimeter_y3)
+                            int image_bitsperpixel)
 {
   /* show the vertical part of the "L" shape, L1 */
   if (grid->mirrored == 0) {
