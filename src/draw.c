@@ -62,7 +62,7 @@ void draw_line(unsigned char img[],
         continue;
       x = tx + ((y - ty) * linewidth / lineheight);
       for (xx = x - half_width; xx < x - half_width + line_width; xx++) {
-	      if ((xx < 0) || (xx >= (int)width))
+          if ((xx < 0) || (xx >= (int)width))
           continue;
         n = (y * width + xx) * bytes_per_pixel;
         if (bytes_per_pixel == 3) {
@@ -84,7 +84,7 @@ void draw_line(unsigned char img[],
         continue;
       y = ty + ((x - tx) * lineheight / linewidth);
       for (yy = y - half_width; yy < y - half_width + line_width; yy++) {
-	      if ((yy < 0) || (yy >= (int)height))
+          if ((yy < 0) || (yy >= (int)height))
           continue;
         n = (yy * width + x) * bytes_per_pixel;
         if (bytes_per_pixel == 3) {
@@ -127,9 +127,9 @@ void draw_dot(unsigned char img[],
   int by = centre_y + radius;
 
   if (tx < 0) tx = 0;
-  if (bx >= width) bx = width-1;
+  if (bx >= (int)width) bx = width-1;
   if (ty < 0) ty = 0;
-  if (by >= height) by = height-1;
+  if (by >= (int)height) by = height-1;
 
   for (y = ty; y <= by; y++) {
     dy = y - centre_y;
