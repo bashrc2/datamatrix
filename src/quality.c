@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Datamatrix quality metrics
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -204,8 +204,8 @@ static void save_reflectance_histogram(unsigned char image_data[],
   for (x = border_tx; x <= border_bx; x++) {
     reflectance = (x - border_tx) * 255 / (border_bx - border_tx);
     reflectance = histogram[reflectance];
-    if (reflectance > max) reflectance = max;
-    y = border_by - (reflectance * (border_by - border_ty) / max);
+    if (reflectance > (int)max) reflectance = (int)max;
+    y = border_by - (reflectance * (border_by - border_ty) / (int)max);
     draw_line(histogram_image,
               histogram_image_width, histogram_image_height, 24,
               x, y, x, border_by, 1, r, g, b);
