@@ -1719,7 +1719,7 @@ void save_verification_report(struct grid_2d * grid,
       continue;
     }
     /* reflectance histogram image */
-    if (strstr(line, "{img/histogram.png}") != NULL) {
+    if (strstr(line, "{histogram.png}") != NULL) {
       fprintf(fp_report, "    \\includegraphics[height=6cm]{%s}\n",
               histogram_filename);
       continue;
