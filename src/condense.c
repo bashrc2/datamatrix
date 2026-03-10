@@ -25,12 +25,10 @@
 /**
  * \brief returns the number of data blocks/regions for the given axis
  *        dimension
- * \param grid grid object
  * \param axis_dimension a grid dimension
  * \return number of data blocks in the dimension
  */
-static int grid_data_blocks_axis(struct grid_2d * grid,
-                                 int axis_dimension)
+static int grid_data_blocks_axis(int axis_dimension)
 {
   if (axis_dimension >= 120) return 6;
   if (axis_dimension >= 64) return 4;
@@ -43,15 +41,15 @@ static int grid_data_blocks_axis(struct grid_2d * grid,
  *        with internal timing borders. This returns the number
  *        of readable blocks/regions in both dimensions
  * \param grid grid object
- * \param blocks_x number of readable data blocks in the x dimension
- * \param blocks_y number of readable data blocks in the y dimension
+ * \param blocks_x returned number of readable data blocks in the x dimension
+ * \param blocks_y returned number of readable data blocks in the y dimension
  */
 static void grid_data_blocks(struct grid_2d * grid,
                              int * blocks_x,
                              int * blocks_y)
 {
-  *blocks_x = grid_data_blocks_axis(grid, grid->dimension_x);
-  *blocks_y = grid_data_blocks_axis(grid, grid->dimension_y);
+  *blocks_x = grid_data_blocks_axis(grid->dimension_x);
+  *blocks_y = grid_data_blocks_axis(grid->dimension_y);
 }
 
 /**
