@@ -333,11 +333,13 @@ char * iso15434_translate_data_qualifier(char result[],
       unsigned char application_identifier_length = 4;
       for (unsigned char app_id_len = 4; app_id_len >= 2; app_id_len--) {
         application_identifier_length = app_id_len;
-        if (start_pos + application_identifier_length >= strlen(result)) continue;
-        if (end_index - start_pos > application_identifier_length) {
+        if (start_pos + (int)application_identifier_length >=
+            (int)strlen(result)) continue;
+        if (end_index - start_pos > (int)application_identifier_length) {
           /* get the application identifier */
           char app_id_str[5];
-          for (i = start_pos; i < start_pos + application_identifier_length; i++) {
+          for (i = start_pos;
+               i < start_pos + (int)application_identifier_length; i++) {
             app_id_str[i] = result[i];
           }
           app_id_str[application_identifier_length] = 0;
@@ -346,7 +348,8 @@ char * iso15434_translate_data_qualifier(char result[],
           }
           int application_identifier = -1;
           int application_data_start = start_pos;
-          int application_data_end = start_pos + application_identifier_length;
+          int application_data_end =
+              start_pos + (int)application_identifier_length;
           unsigned char application_data_variable = 0;
           gs1_semantics(&app_id_str[0], translated_str,
                         NULL, debug,
