@@ -12,7 +12,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <time.h>
-#include <popt.h>
 #include <stdlib.h>
 #include <err.h>
 #include "reedsol.h"
