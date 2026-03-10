@@ -970,7 +970,7 @@ static void assign_edges_to_side(struct line_segments * segments,
 {
   int i, size, side_index, edge_index, prev_x, prev_y, x, y;
   int index = orientation_quantized2;
-  float dist_to_separator, ix, iy;
+  float dist_to_separator;
 
   /* are there any edges at this histogram orientation? */
   if (segments->orientation_histogram[index] == 0) return;
@@ -987,7 +987,7 @@ static void assign_edges_to_side(struct line_segments * segments,
     dist_to_separator =
       point_dist_from_line(separator_x0, separator_y0,
                            separator_x1, separator_y1,
-                           (float)x, (float)y, &ix, &iy);
+                           (float)x, (float)y);
     if (dist_to_separator == UNKNOWN_DISTANCE) continue;
 
     if (orthogonal == 0) {

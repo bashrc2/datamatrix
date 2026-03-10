@@ -117,15 +117,11 @@ int intersection(float x0, float y0,
  * \param y1 line second point y coordinate
  * \param point_x point x coordinate
  * \param point_y point y coordinate
- * \param line_intersection_x returned perpendicular x intersection point on the line
- * \param line_intersection_y returned perpendicular y intersection point on the line
  * \return distance of the point from the line
  */
 float point_dist_from_line(float x0, float y0,
                            float x1, float y1,
-                           float point_x, float point_y,
-                           float * line_intersection_x,
-                           float * line_intersection_y)
+                           float point_x, float point_y)
 {
   float dx = x1 - x0;
   float dy = y1 - y0;
@@ -158,7 +154,7 @@ int ransac_fit(int edges[], int no_of_edges,
                float *x0, float *y0,
                float *x1, float *y1)
 {
-	int i, max_hits = 0;
+    int i, max_hits = 0;
   float gradient;
   float min_deviation = 999999;
   int best_index0=0;
@@ -173,7 +169,7 @@ int ransac_fit(int edges[], int no_of_edges,
 
   if ((no_of_samples == 0) || (no_of_edge_samples == 0)) return max_hits;
 
-	if (no_of_edges < 10) return max_hits;
+    if (no_of_edges < 10) return max_hits;
 
   if (no_of_edge_samples > no_of_edges) no_of_edge_samples = no_of_edges;
 
@@ -354,7 +350,7 @@ int ransac_fit(int edges[], int no_of_edges,
   }
   else *x0 = NO_LINE_FIT;
 
-	return(linefit_no_of_edges);
+    return(linefit_no_of_edges);
 }
 
 /**
@@ -374,8 +370,8 @@ float corner_angle(float x0, float y0,
   float pt1 = x0 - x1, pt2 = y0 - y1;
   float pt3 = x2 - x1, pt4 = y2 - y1;
   float angle = ((pt1 * pt3) + (pt2 * pt4)) /
-	  (((float)sqrt(SQUARE_MAG(pt1, pt2))) *
-	   ((float)sqrt(SQUARE_MAG(pt3, pt4))));
+      (((float)sqrt(SQUARE_MAG(pt1, pt2))) *
+       ((float)sqrt(SQUARE_MAG(pt3, pt4))));
 
   angle = (float)acos(angle);
   return(angle);

@@ -356,9 +356,7 @@ int intersection(float x0, float y0,
 
 float point_dist_from_line(float x0, float y0,
                            float x1, float y1,
-                           float point_x, float point_y,
-                           float * line_intersection_x,
-                           float * line_intersection_y);
+                           float point_x, float point_y);
 
 int ransac_fit(int edges[], int no_of_edges,
                int linefit[], int max_edges,
