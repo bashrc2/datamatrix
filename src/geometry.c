@@ -129,7 +129,7 @@ float point_dist_from_line(float x0, float y0,
 {
   float dx = x1 - x0;
   float dy = y1 - y0;
-  float line_length = (float)sqrt((dx * dx) + (dy * dy));
+  float line_length = (float)sqrt(SQUARE_MAG(dx, dy));
   float cross = dx*(point_y-y0) - dy*(point_x-x0);
   if (line_length >= 0.001)
     return cross / line_length;
@@ -374,8 +374,8 @@ float corner_angle(float x0, float y0,
   float pt1 = x0 - x1, pt2 = y0 - y1;
   float pt3 = x2 - x1, pt4 = y2 - y1;
   float angle = ((pt1 * pt3) + (pt2 * pt4)) /
-    (((float)sqrt((pt1*pt1) + (pt2*pt2))) *
-     ((float)sqrt((pt3*pt3) + (pt4*pt4))));
+	  (((float)sqrt(SQUARE_MAG(pt1, pt2))) *
+	   ((float)sqrt(SQUARE_MAG(pt3, pt4))));
 
   angle = (float)acos(angle);
   return(angle);
@@ -434,7 +434,7 @@ float get_side_length(int side,
   }
   dx = x1 - x0;
   dy = y1 - y0;
-  return (float)sqrt(dx*dx + dy*dy);
+  return (float)sqrt(SQUARE_MAG(dx, dy));
 }
 
 /**

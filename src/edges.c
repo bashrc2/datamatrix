@@ -26,8 +26,6 @@
 
 #include "datamatrix.h"
 
-#define SQUARE_MAG(a,b) (a*a + b*b)
-
 /* You might need to experiment with this,
    depending upon your image size */
 #define MAX_EDGES 1000000
@@ -1152,7 +1150,7 @@ float get_segments_orientation(struct line_segments * segments,
         /* distance to the previous edge coordinate */
         dx = perimeter[y] - prev_x;
         dy = y - prev_y;
-        dist = (dx * dx) + (dy * dy);
+        dist = SQUARE_MAG(dx, dy);
         angle = 0;
         if (dist > 0.001f) {
           dist = (float)sqrt(dist);
@@ -1225,7 +1223,7 @@ float get_segments_orientation(struct line_segments * segments,
         /* distance to the previous edge coordinate */
         dx = x - prev_x;
         dy = perimeter[x] - prev_y;
-        dist = (dx * dx) + (dy * dy);
+        dist = SQUARE_MAG(dx, dy);
         angle = 0;
         if (dist > 0.001f) {
           dist = (float)sqrt(dist);
@@ -1825,19 +1823,19 @@ int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
 
   dx = perimeter_x1 - perimeter_x0;
   dy = perimeter_y1 - perimeter_y0;
-  dist0 = (float)sqrt(dx*dx + dy*dy);
+  dist0 = (float)sqrt(SQUARE_MAG(dx, dy));
   max_dist = dist0;
   min_dist = dist0;
 
   dx = perimeter_x2 - perimeter_x1;
   dy = perimeter_y2 - perimeter_y1;
-  dist1 = (float)sqrt(dx*dx + dy*dy);
+  dist1 = (float)sqrt(SQUARE_MAG(dx, dy));
   if (dist1 > max_dist) max_dist = dist1;
   if (dist1 < min_dist) min_dist = dist1;
 
   dx = perimeter_x3 - perimeter_x2;
   dy = perimeter_y3 - perimeter_y2;
-  dist2 = (float)sqrt(dx*dx + dy*dy);
+  dist2 = (float)sqrt(SQUARE_MAG(dx, dy));
   if (dist2 > max_dist) max_dist = dist2;
   if (dist2 < min_dist) min_dist = dist2;
 

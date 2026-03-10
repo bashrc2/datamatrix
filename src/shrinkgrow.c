@@ -51,28 +51,28 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
 
   dx = *perimeter_x0 - cx;
   dy = *perimeter_y0 - cy;
-  dist = (float)sqrt(dx*dx + dy*dy);
+  dist = (float)sqrt(SQUARE_MAG(dx, dy));
   fraction = (dist - dilation)/dist;
   *perimeter_x0 = cx + (dx * fraction);
   *perimeter_y0 = cy + (dy * fraction);
 
   dx = *perimeter_x1 - cx;
   dy = *perimeter_y1 - cy;
-  dist = (float)sqrt(dx*dx + dy*dy);
+  dist = (float)sqrt(SQUARE_MAG(dx, dy));
   fraction = (dist - dilation)/dist;
   *perimeter_x1 = cx + (dx * fraction);
   *perimeter_y1 = cy + (dy * fraction);
 
   dx = *perimeter_x2 - cx;
   dy = *perimeter_y2 - cy;
-  dist = (float)sqrt(dx*dx + dy*dy);
+  dist = (float)sqrt(SQUARE_MAG(dx, dy));
   fraction = (dist - dilation)/dist;
   *perimeter_x2 = cx + (dx * fraction);
   *perimeter_y2 = cy + (dy * fraction);
 
   dx = *perimeter_x3 - cx;
   dy = *perimeter_y3 - cy;
-  dist = (float)sqrt(dx*dx + dy*dy);
+  dist = (float)sqrt(SQUARE_MAG(dx, dy));
   fraction = (dist - dilation)/dist;
   *perimeter_x3 = cx + (dx * fraction);
   *perimeter_y3 = cy + (dy * fraction);
@@ -152,7 +152,7 @@ static unsigned char search_line_points(unsigned char mono_img[],
   int x, y, n, retval;
   int search_dx = end_x - start_x;
   int search_dy = end_y - start_y;
-  int d, dist = (int)sqrt(search_dx*search_dx + search_dy*search_dy);
+  int d, dist = (int)sqrt(SQUARE_MAG(search_dx, search_dy));
   int line_tx, line_ty, line_bx, line_by;
 
   *pos_x = -1;

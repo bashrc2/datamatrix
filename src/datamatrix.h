@@ -67,6 +67,10 @@
 #define NO_OF_VALID_RECTANGLES (6+13)
 #endif
 
+#ifndef SQUARE_MAG
+#define SQUARE_MAG(a,b) (a*a + b*b)
+#endif
+
 
 struct key_value_pair_int
 {

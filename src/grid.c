@@ -267,7 +267,7 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
       }
       dx = vertex_x - centre_x;
       dy = vertex_y - centre_y;
-      fraction = half_pitch / (float)sqrt(dx*dx + dy*dy);
+      fraction = half_pitch / (float)sqrt(SQUARE_MAG(dx, dy));
       switch(side) {
       case 0: {
         timing_perimeter_x0 = vertex_x - (dx*fraction);
@@ -431,7 +431,7 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
       }
       dx = vertex_x - centre_x;
       dy = vertex_y - centre_y;
-      fraction = half_pitch / (float)sqrt(dx*dx + dy*dy);
+      fraction = half_pitch / (float)sqrt(SQUARE_MAG(dx, dy));
       switch(side) {
       case 0: {
         timing_perimeter_x0 = vertex_x - (dx*fraction);
