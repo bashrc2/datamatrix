@@ -62,20 +62,13 @@ static unsigned char ecc200_unrandomize_255_state(unsigned char value, int idx)
   return (unsigned char)((tmp >= 0) ? tmp : tmp + 256);
 }
 
-static void ecc200_decode_next_byte_256(unsigned char * is_structured_append,
-                                        unsigned char is_gs1_encodation,
+static void ecc200_decode_next_byte_256(unsigned char is_gs1_encodation,
                                         unsigned char data[],
                                         int datalength,
                                         int * position,
                                         int * state,
-                                        int * shift,
                                         char result[],
-                                        char gs1_result[],
-                                        char iso15434_result[],
-                                        unsigned char * is_iso1543,
-                                        char format_code[],
-                                        int * iso15434_data_start,
-                                        char iso15434_uii[])
+                                        char gs1_result[])
 {
   int i, d2, pos_from_start = *position;
   unsigned char d1 = ecc200_unrandomize_255_state(data[*position], pos_from_start++);
@@ -697,19 +690,12 @@ static void ecc200_decode(unsigned char data1[],
       break;
     case BYTE256:
       if ((debug == 1) && (prev_state != state)) printf("BYT ");
-      ecc200_decode_next_byte_256(&is_structured_append,
-                                  is_gs1_encodation,
+      ecc200_decode_next_byte_256(is_gs1_encodation,
                                   data,
                                   datalength,
                                   &position,
                                   &state,
-                                  &shift,
-                                  result, gs1_result,
-                                  iso15434_result,
-                                  &is_iso1543,
-                                  &format_code[0],
-                                  &iso15434_data_start,
-                                  iso15434_uii);
+                                  result, gs1_result);
       break;
     case EDIFACT:
       if ((debug == 1) && (prev_state != state)) printf("EDI ");

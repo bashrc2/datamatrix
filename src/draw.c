@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Visionutils - example computer vision functions
- *  Copyright (c) 2011-2018, Bob Mottram
+ *  Copyright (c) 2011-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This code is based on Visionutils by Bob Mottram which was
