@@ -40,7 +40,7 @@ void mono_to_colour(unsigned char img[], int width, int height,
 {
   int bytesperpixel = bitsperpixel/8;
   int idx = width*height - 1;
-  int ch = bytesperpixel;
+  int ch = bytesperpixel - 1;
 
   for (int i = width*height*bytesperpixel - 1; i >= 0; i--, ch--) {
       colour[i] = img[idx];
@@ -64,15 +64,15 @@ void colour_to_mono(unsigned char img[], int width, int height,
 {
   int bytesperpixel = bitsperpixel/8;
   int idx = width*height - 1;
-  int ch = bytesperpixel;
+  int ch = bytesperpixel - 1;
   int sum = 0;
 
+  /* with each itteration we are typically only adding and comparing to zero */
   for (int i = width*height*bytesperpixel - 1; i >= 0; i--, ch--) {
       sum += img[i];
       if (ch == 0) {
           ch = bytesperpixel;
-          idx--;
-          mono[idx] = sum / bytesperpixel;
+          mono[idx--] = sum / bytesperpixel;
           sum = 0;
       }
   }
