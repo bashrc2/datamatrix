@@ -62,15 +62,18 @@ void colour_to_mono(unsigned char img[], int width, int height,
                     int bitsperpixel,
                     unsigned char mono[])
 {
-  int i,idx,ch,v;
   int bytesperpixel = bitsperpixel/8;
+  int idx = width*height - 1;
+  int ch = bytesperpixel;
+  int sum = 0;
 
-  for (i = width*height - 1; i >= 0; i--) {
-    v = 0;
-    idx = i*bytesperpixel;
-    for (ch = 0; ch < bytesperpixel; ch++, idx++) {
-      v += img[idx];
-    }
-    mono[i] = v/bytesperpixel;
+  for (int i = width*height*bytesperpixel - 1; i >= 0; i--, ch--) {
+      sum += img[i];
+      if (ch == 0) {
+          ch = bytesperpixel;
+          idx--;
+          mono[idx] = sum / bytesperpixel;
+          sum = 0;
+      }
   }
 }
