@@ -73,7 +73,6 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \brief encode text into a datamatrix as text or an image
  * \param text the text to be encoded
  * \param encode_scale Scaling factor for text datamatrix output
- * \param encode_eccstr ECC encoding type
  * \param is_square 1 if the datamatrix should be square
  * \param csv 1 if output should be in CSV format
  * \param show_coords 1 if the output should be a list of dot coordinates
@@ -86,7 +85,6 @@ static int encode_datamatrix_to_image(char * image_filename,
  */
 int encode_datamatrix_to_text(char * text,
                               int encode_scale,
-                              char * encode_eccstr,
                               unsigned char is_square,
                               unsigned char csv,
                               unsigned char show_coords,
@@ -96,11 +94,10 @@ int encode_datamatrix_to_text(char * text,
                               int encode_image_width,
                               unsigned char debug)
 {
-    char *encoding = NULL;
+    char * encoding = NULL;
     int barcodelen = 0;
     unsigned char *grid = 0;
     unsigned int encode_width = 0, encode_height = 0;
-    int encode_ecc = 0;
     unsigned int len = 0,
         maxlen = 0,
         encode_ecclen = 0,
@@ -108,54 +105,6 @@ int encode_datamatrix_to_text(char * text,
         noquiet = 0;
 
     barcodelen = strlen(text);
-    if (encode_eccstr[0] != 0) encode_ecc = atoi(&encode_eccstr[0]);
-    if (encode_width & 1) { /* odd size */
-        if (encode_width != encode_height ||
-            encode_width < 9 || encode_width > 49) {
-            printf("Invalid size %dx%d\n", encode_width, encode_height);
-            return -1;
-        }
-        if (encode_eccstr[0] == 0) {
-            if (encode_width >= 17)
-                encode_ecc = 140;
-            else if (encode_width >= 13)
-                encode_ecc = 100;
-            else if (encode_width >= 11)
-                encode_ecc = 80;
-            else
-                encode_ecc = 0;
-        }
-        if ((encode_ecc && encode_ecc != 50 &&
-             encode_ecc != 80 && encode_ecc != 100 &&
-             encode_ecc != 140) ||
-            (encode_ecc == 50 && encode_width < 11) ||
-            (encode_ecc == 80 && encode_width < 13) ||
-            (encode_ecc == 100 && encode_width < 13) ||
-            (encode_ecc == 140 && encode_width < 17)) {
-            printf("ECC%03d invalid for %dx%d\n",
-                   encode_ecc, encode_width, encode_height);
-            return -1;
-        }               
-    } else if (encode_width) { /* even size */
-        if (encode_width < encode_height) {
-            int t = encode_width;
-            encode_width = encode_height;
-            encode_height = t;
-        }
-        if (encode_eccstr[0] == 0) encode_ecc = 200;
-        if (encode_ecc != 200) {
-            printf("ECC%03d invalid for %dx%d\n",
-                   encode_ecc, encode_width, encode_height);
-            return -1;
-        }
-    }
-    else { /* auto size */
-        if (encode_eccstr[0] == 0)  {
-            /* default is even sizes only unless explicit ecc set to force
-               odd sizes */
-            encode_ecc = 200;
-        }
-    }
 
     /* force square shape? */
     if (is_square == 1) square = 1;

@@ -636,7 +636,6 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 
 int encode_datamatrix_to_text(char * text,
                               int encode_scale,
-                              char * encode_eccstr,
                               unsigned char is_square,
                               unsigned char csv,
                               unsigned char show_coords,

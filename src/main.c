@@ -84,7 +84,6 @@ int main(int argc, char* argv[])
     unsigned char is_rectangle = 0;
 
     /* encoding parameters */
-    char encode_eccstr[MAX_DECODE_LENGTH];
     char encode_text[MAX_DECODE_LENGTH];
     int encode_scale = 1;
     int encode_image_width = 512;
@@ -108,9 +107,6 @@ int main(int argc, char* argv[])
 
     /* text to be encoded as a datamatrix */
     encode_text[0] = 0;
-
-    /* encoding ecc 000/050/080/100/140/200 */
-    encode_eccstr[0] = 0;
 
     /* contact details to appear on verification report */
     address_line1[0] = 0;
@@ -188,10 +184,6 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--tel")==0)) {
             phone[0] = 0;
             decode_strcat(&phone[0], argv[i+1]);
-        }
-        if (strcmp(argv[i],"--ecc")==0) {
-            encode_eccstr[0] = 0;
-            decode_strcat(&encode_eccstr[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--encode")==0) ||
             (strcmp(argv[i],"-e")==0)) {
@@ -390,7 +382,6 @@ int main(int argc, char* argv[])
     if (encode_text[0] != 0) {
         return encode_datamatrix_to_text(&encode_text[0],
                                          encode_scale,
-                                         &encode_eccstr[0],
                                          is_square,
                                          csv,
                                          show_coords,
