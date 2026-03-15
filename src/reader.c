@@ -169,7 +169,8 @@ int read_datamatrix(unsigned char image_data[],
     /* keep the original image data, for parallelization and later visualisations
        such as showing the detected perimeter */
     unsigned char * original_image_data =
-        (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
+        (unsigned char*)safemalloc(image_width * image_height *
+                                   image_bytesperpixel);
 
     float best_perimeter_x0=-1;
 
@@ -225,9 +226,11 @@ int read_datamatrix(unsigned char image_data[],
         unsigned char * thr_meanlight_image_data =
             (unsigned char*)safemalloc(image_width * image_height *
                                        sizeof(unsigned char));
-        /* the original thresholded/binary image, retained for parallelization */
+        /* the original thresholded/binary image, retained for
+           parallelization */
         unsigned char * thr_original_meanlight_image_data =
-            (unsigned char*)safemalloc(image_width*image_height*image_bytesperpixel);
+            (unsigned char*)safemalloc(image_width * image_height *
+                                       image_bytesperpixel);
         /* full size mono image used for perimeter fitting */
         unsigned char * thr_mono_img =
             (unsigned char*)safemalloc(image_width * image_height *
@@ -288,7 +291,8 @@ int read_datamatrix(unsigned char image_data[],
         if ((erosion_itterations > 0) || (dilate_itterations > 0)) {
             /* make a mono image with one byte per pixel */
             colour_to_mono(thr_image_data,
-                           image_width,image_height,image_bitsperpixel,thr_mono_img);
+                           image_width,image_height,image_bitsperpixel,
+                           thr_mono_img);
             /* apply morphology to the mono image */
             if (erosion_itterations > 0) {
                 erode(thr_mono_img, image_width, image_height,
@@ -335,7 +339,8 @@ int read_datamatrix(unsigned char image_data[],
             sprintf(debug_filename[try_config],
                     "debug_%d_04_thresholded.png", try_config);
             write_png_file(debug_filename[try_config],
-                           resized_thresholded_width, resized_thresholded_height, 24,
+                           resized_thresholded_width,
+                           resized_thresholded_height, 24,
                            thr_edges_image_data);
         }
 
@@ -356,7 +361,8 @@ int read_datamatrix(unsigned char image_data[],
 
         unsigned char high_pixels =
             get_percent_high(thr_binary_image_buffer,
-                             resized_thresholded_width, resized_thresholded_height);
+                             resized_thresholded_width,
+                             resized_thresholded_height);
         if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
             ((high_pixels < 5) || (high_pixels > max_high_pixels_percent))) {
             /* Too many high pixels */
@@ -376,9 +382,12 @@ int read_datamatrix(unsigned char image_data[],
                        resized_thresholded_width, resized_thresholded_height,
                        image_bitsperpixel, thr_edges_image_data);
         if (debug == 1) {
-            sprintf(debug_filename[try_config], "debug_%d_05_edges.png", try_config);
-            write_png_file(debug_filename[try_config], resized_thresholded_width,
-                           resized_thresholded_height, 24, thr_edges_image_data);
+            sprintf(debug_filename[try_config], "debug_%d_05_edges.png",
+                    try_config);
+            write_png_file(debug_filename[try_config],
+                           resized_thresholded_width,
+                           resized_thresholded_height, 24,
+                           thr_edges_image_data);
         }
 
         get_line_segments(thr_binary_image, resized_thresholded_width,
@@ -387,12 +396,14 @@ int read_datamatrix(unsigned char image_data[],
 
         if (debug == 1) {
             show_line_segments(&segments[try_config], thr_edges_image_data,
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                image_bitsperpixel);
             sprintf(debug_filename[try_config],
                     "debug_%d_06a_line_segments.png", try_config);
             write_png_file(debug_filename[try_config],
-                           resized_thresholded_width, resized_thresholded_height,
+                           resized_thresholded_width,
+                           resized_thresholded_height,
                            24, thr_edges_image_data);
         }
 
@@ -417,12 +428,14 @@ int read_datamatrix(unsigned char image_data[],
 
         if (debug == 1) {
             show_line_segments(&segments[try_config], thr_edges_image_data,
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                image_bitsperpixel);
             sprintf(debug_filename[try_config],
                     "debug_%d_06b_line_segments_with_roi.png", try_config);
             write_png_file(debug_filename[try_config],
-                           resized_thresholded_width, resized_thresholded_height,
+                           resized_thresholded_width,
+                           resized_thresholded_height,
                            24, thr_edges_image_data);
         }
 
@@ -430,25 +443,30 @@ int read_datamatrix(unsigned char image_data[],
 
         if (debug == 1) {
             show_line_segments(&segments[try_config], thr_edges_image_data,
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                image_bitsperpixel);
             sprintf(debug_filename[try_config],
                     "debug_%d_06c_joined_line_segments.png", try_config);
             write_png_file(debug_filename[try_config],
-                           resized_thresholded_width, resized_thresholded_height,
+                           resized_thresholded_width,
+                           resized_thresholded_height,
                            24, thr_edges_image_data);
         }
 
         if (debug == 1) {
             if (is_rectangle == 0) {
-                show_square_line_segments(&segments[try_config], thr_edges_image_data,
+                show_square_line_segments(&segments[try_config],
+                                          thr_edges_image_data,
                                           resized_thresholded_width,
                                           resized_thresholded_height,
                                           image_bitsperpixel);
                 sprintf(debug_filename[try_config],
-                        "debug_%d_07_square_joined_line_segments.png", try_config);
+                        "debug_%d_07_square_joined_line_segments.png",
+                        try_config);
                 write_png_file(debug_filename[try_config],
-                               resized_thresholded_width, resized_thresholded_height, 24,
+                               resized_thresholded_width,
+                               resized_thresholded_height, 24,
                                thr_edges_image_data);
             }
             if (is_square == 0) {
@@ -461,7 +479,8 @@ int read_datamatrix(unsigned char image_data[],
                         "debug_%d_08_rectangular_joined_line_segments.png",
                         try_config);
                 write_png_file(debug_filename[try_config],
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                24, thr_edges_image_data);
             }
         }
@@ -506,7 +525,8 @@ int read_datamatrix(unsigned char image_data[],
                                        &perimeter_x2, &perimeter_y2,
                                        &perimeter_x3, &perimeter_y3) != 0) {
                 show_perimeter(&segments[try_config], thr_edges_image_data,
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                image_bitsperpixel);
                 continue;
             }
@@ -519,7 +539,8 @@ int read_datamatrix(unsigned char image_data[],
             rectangular = is_rectangle;
             if ((aspect_ratio_percent < 80) || (aspect_ratio_percent > 120)) {
                 if (is_square == 1) continue;
-                rectangular = rectangular_joined_line_segments(aspect_ratio_percent);
+                rectangular =
+                    rectangular_joined_line_segments(aspect_ratio_percent);
                 if (rectangular == 0) continue;
             }
             else if (is_rectangle == 1) continue;
@@ -556,29 +577,34 @@ int read_datamatrix(unsigned char image_data[],
                                        &perimeter_x3, &perimeter_y3);
 
             if (debug == 1) {
-                show_peripheral_edges(&segments[try_config], thr_edges_image_data,
+                show_peripheral_edges(&segments[try_config],
+                                      thr_edges_image_data,
                                       resized_thresholded_width,
                                       resized_thresholded_height,
                                       image_bitsperpixel);
                 sprintf(debug_filename[try_config],
                         "debug_%d_09_peripheral_edges.png", try_config);
                 write_png_file(debug_filename[try_config],
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                24, thr_edges_image_data);
             }
             if (debug == 1) {
                 show_perimeter(&segments[try_config], thr_edges_image_data,
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                image_bitsperpixel);
                 sprintf(debug_filename[try_config],
                         "debug_%d_10_perimeter.png", try_config);
                 write_png_file(debug_filename[try_config],
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                24, thr_edges_image_data);
             }
 
             if (debug == 1) {
-                show_shape_perimeter(thr_edges_image_data, resized_thresholded_width,
+                show_shape_perimeter(thr_edges_image_data,
+                                     resized_thresholded_width,
                                      resized_thresholded_height,
                                      image_bitsperpixel,
                                      perimeter_x0, perimeter_y0,
@@ -588,31 +614,40 @@ int read_datamatrix(unsigned char image_data[],
                 sprintf(debug_filename[try_config],
                         "debug_%d_11_shape_perimeter_small.png", try_config);
                 write_png_file(debug_filename[try_config],
-                               resized_thresholded_width, resized_thresholded_height,
+                               resized_thresholded_width,
+                               resized_thresholded_height,
                                24, thr_edges_image_data);
             }
 
             /* convert back to original image resolution */
             perimeter_x0 =
-                (perimeter_x0 * original_image_width) / resized_thresholded_width;
+                (perimeter_x0 * original_image_width) /
+                resized_thresholded_width;
             perimeter_y0 =
-                (perimeter_y0 * original_image_height) / resized_thresholded_height;
+                (perimeter_y0 * original_image_height) /
+                resized_thresholded_height;
             perimeter_x1 =
-                (perimeter_x1 * original_image_width) / resized_thresholded_width;
+                (perimeter_x1 * original_image_width) /
+                resized_thresholded_width;
             perimeter_y1 =
-                (perimeter_y1 * original_image_height) / resized_thresholded_height;
+                (perimeter_y1 * original_image_height) /
+                resized_thresholded_height;
             perimeter_x2 =
-                (perimeter_x2 * original_image_width) / resized_thresholded_width;
+                (perimeter_x2 * original_image_width) /
+                resized_thresholded_width;
             perimeter_y2 =
-                (perimeter_y2 * original_image_height) / resized_thresholded_height;
+                (perimeter_y2 * original_image_height) /
+                resized_thresholded_height;
             perimeter_x3 =
-                (perimeter_x3 * original_image_width) / resized_thresholded_width;
+                (perimeter_x3 * original_image_width) /
+                resized_thresholded_width;
             perimeter_y3 =
-                (perimeter_y3 * original_image_height) / resized_thresholded_height;
+                (perimeter_y3 * original_image_height) /
+                resized_thresholded_height;
 
-            /* because of the left/above oriented method of edge detection within
-               detect_edges_binary, shift the perimeter right and down by the
-               equivalent of half a pixel */
+            /* because of the left/above oriented method of edge detection
+               within detect_edges_binary, shift the perimeter right and down
+               by the equivalent of half a pixel */
             float x_adjust =
                 (original_image_width / resized_thresholded_width) * 0.5f;
             float y_adjust =
@@ -648,7 +683,8 @@ int read_datamatrix(unsigned char image_data[],
         /* we have a perimeter, now find the timing border frequency */
         if (perimeter_found == 1) {
             colour_to_mono(thr_original_meanlight_image_data,
-                           image_width,image_height,image_bitsperpixel,thr_mono_img);
+                           image_width,image_height,image_bitsperpixel,
+                           thr_mono_img);
 
             if (debug == 1) {
                 memcpy(thr_image_data, thr_original_meanlight_image_data,
@@ -664,16 +700,19 @@ int read_datamatrix(unsigned char image_data[],
                                        150, debug, thr_image_data,
                                        image_bitsperpixel) == 1) {
                 if (debug == 1) {
-                    show_shape_perimeter(thr_image_data, image_width, image_height,
+                    show_shape_perimeter(thr_image_data, image_width,
+                                         image_height,
                                          image_bitsperpixel,
                                          perimeter_x0, perimeter_y0,
                                          perimeter_x1, perimeter_y1,
                                          perimeter_x2, perimeter_y2,
                                          perimeter_x3, perimeter_y3);
                     sprintf(debug_filename[try_config],
-                            "debug_%d_13_expand_perimeter_sides.png", try_config);
+                            "debug_%d_13_expand_perimeter_sides.png",
+                            try_config);
                     write_png_file(debug_filename[try_config],
-                                   image_width, image_height, 24, thr_image_data);
+                                   image_width, image_height, 24,
+                                   thr_image_data);
                 }
             }
 
@@ -683,7 +722,8 @@ int read_datamatrix(unsigned char image_data[],
             }
 
             /* contract the perimeter */
-            if (contract_perimeter_sides(thr_mono_img, image_width, image_height,
+            if (contract_perimeter_sides(thr_mono_img,
+                                         image_width, image_height,
                                          &perimeter_x0, &perimeter_y0,
                                          &perimeter_x1, &perimeter_y1,
                                          &perimeter_x2, &perimeter_y2,
@@ -691,16 +731,19 @@ int read_datamatrix(unsigned char image_data[],
                                          20, debug, thr_image_data,
                                          image_bitsperpixel) == 1) {
                 if (debug == 1) {
-                    show_shape_perimeter(thr_image_data, image_width, image_height,
+                    show_shape_perimeter(thr_image_data,
+                                         image_width, image_height,
                                          image_bitsperpixel,
                                          perimeter_x0, perimeter_y0,
                                          perimeter_x1, perimeter_y1,
                                          perimeter_x2, perimeter_y2,
                                          perimeter_x3, perimeter_y3);
                     sprintf(debug_filename[try_config],
-                            "debug_%d_14_contract_perimeter_sides.png", try_config);
+                            "debug_%d_14_contract_perimeter_sides.png",
+                            try_config);
                     write_png_file(debug_filename[try_config],
-                                   image_width, image_height, 24, thr_image_data);
+                                   image_width, image_height, 24,
+                                   thr_image_data);
                 }
             }
 
@@ -722,7 +765,8 @@ int read_datamatrix(unsigned char image_data[],
             }
             else {
                 most_probable_frequency =
-                    detect_timing_pattern(thr_mono_img, image_width, image_height,
+                    detect_timing_pattern(thr_mono_img,
+                                          image_width, image_height,
                                           minimum_grid_dimension,
                                           maximum_grid_dimension,
                                           perimeter_x0, perimeter_y0,
@@ -775,8 +819,11 @@ int read_datamatrix(unsigned char image_data[],
                         break;
                     }
                     /* increase the radius for ring sampling */
-                    if (curr_sampling_pattern == SAMPLING_PATTERN_RING) curr_sampling_radius+=2;
-                    create_grid(most_probable_frequency, most_probable_frequency,
+                    if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
+                        curr_sampling_radius+=2;
+                    }
+                    create_grid(most_probable_frequency,
+                                most_probable_frequency,
                                 perimeter_x0, perimeter_y0,
                                 perimeter_x1, perimeter_y1,
                                 perimeter_x2, perimeter_y2,
@@ -797,13 +844,16 @@ int read_datamatrix(unsigned char image_data[],
                         mono_to_colour(thr_mono_img, image_width, image_height,
                                        image_bitsperpixel, thr_image_data);
                         show_grid_image(&grid[try_config], thr_image_data,
-                                        image_width, image_height, image_bitsperpixel,
-                                        curr_sampling_radius, curr_sampling_pattern);
+                                        image_width, image_height,
+                                        image_bitsperpixel,
+                                        curr_sampling_radius,
+                                        curr_sampling_pattern);
                         show_grid(&grid[try_config]);
                         sprintf(debug_filename[try_config],
                                 "debug_%d_16_grid_sampling.png", try_config);
                         write_png_file(debug_filename[try_config],
-                                       image_width, image_height, 24, thr_image_data);
+                                       image_width, image_height, 24,
+                                       thr_image_data);
                     }
                     datamatrix_decode(&grid[try_config], debug, gs1_url,
                                       thr_decode_result[try_config],
@@ -815,14 +865,16 @@ int read_datamatrix(unsigned char image_data[],
                         if (strlen(grid_filename) > 0) {
                             /* show the grid */
                             memcpy(image_data, original_image_data,
-                                   image_width*image_height*image_bytesperpixel);
+                                   image_width * image_height *
+                                   image_bytesperpixel);
                             show_grid_image(&grid[try_config],
                                             image_data,
                                             image_width, image_height,
                                             image_bitsperpixel,
                                             0, SAMPLING_PATTERN_SOLID);
                             write_png_file(grid_filename,
-                                           image_width, image_height, 24, image_data);
+                                           image_width, image_height, 24,
+                                           image_data);
                         }
                         break;
                     }
@@ -837,14 +889,16 @@ int read_datamatrix(unsigned char image_data[],
                         if (strlen(grid_filename) > 0) {
                             /* show the grid */
                             memcpy(image_data, original_image_data,
-                                   image_width*image_height*image_bytesperpixel);
+                                   image_width * image_height *
+                                   image_bytesperpixel);
                             show_grid_image(&grid[try_config],
                                             image_data,
                                             image_width, image_height,
                                             image_bitsperpixel,
                                             0, SAMPLING_PATTERN_SOLID);
                             write_png_file(grid_filename,
-                                           image_width, image_height, 24, image_data);
+                                           image_width, image_height, 24,
+                                           image_data);
                         }
                         free_grid(&grid[try_config]);
                         break;
@@ -891,15 +945,19 @@ int read_datamatrix(unsigned char image_data[],
                          curr_sampling_pattern <= SAMPLING_PATTERN_RING;
                          curr_sampling_pattern++) {
                         /* increase the radius for ring sampling */
-                        if (curr_sampling_pattern == SAMPLING_PATTERN_RING) curr_sampling_radius+=2;
-                        create_grid(most_probable_frequency, most_probable_frequency,
+                        if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
+                            curr_sampling_radius+=2;
+                        }
+                        create_grid(most_probable_frequency,
+                                    most_probable_frequency,
                                     perimeter_x0, perimeter_y0,
                                     perimeter_x1, perimeter_y1,
                                     perimeter_x2, perimeter_y2,
                                     perimeter_x3, perimeter_y3,
                                     thr_mono_img,
                                     image_width, image_height,
-                                    curr_sampling_radius, curr_sampling_pattern,
+                                    curr_sampling_radius,
+                                    curr_sampling_pattern,
                                     &grid[try_config]);
                         /* check that this looks vaguely like a datamatrix */
                         unsigned char occupied_cells_percent =
@@ -919,26 +977,35 @@ int read_datamatrix(unsigned char image_data[],
                             if (strlen(grid_filename) > 0) {
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
-                                       image_width*image_height*image_bytesperpixel);
+                                       image_width * image_height *
+                                       image_bytesperpixel);
                                 show_grid_image(&grid[try_config],
                                                 image_data,
                                                 image_width, image_height,
                                                 image_bitsperpixel,
                                                 0, SAMPLING_PATTERN_SOLID);
                                 write_png_file(grid_filename,
-                                               image_width, image_height, 24, image_data);
+                                               image_width, image_height, 24,
+                                               image_data);
                             }
                             if (debug == 1) {
-                                printf("Frequency: %d\n", most_probable_frequency);
-                                mono_to_colour(thr_mono_img, image_width, image_height,
-                                               image_bitsperpixel, thr_image_data);
+                                printf("Frequency: %d\n",
+                                       most_probable_frequency);
+                                mono_to_colour(thr_mono_img,
+                                               image_width, image_height,
+                                               image_bitsperpixel,
+                                               thr_image_data);
                                 show_grid_image(&grid[try_config], thr_image_data,
-                                                image_width, image_height, image_bitsperpixel,
-                                                curr_sampling_radius, curr_sampling_pattern);
+                                                image_width, image_height,
+                                                image_bitsperpixel,
+                                                curr_sampling_radius,
+                                                curr_sampling_pattern);
                                 sprintf(debug_filename[try_config],
-                                        "debug_%d_17_grid_sampling.png", try_config);
+                                        "debug_%d_17_grid_sampling.png",
+                                        try_config);
                                 write_png_file(debug_filename[try_config],
-                                               image_width, image_height, 24, thr_image_data);
+                                               image_width, image_height, 24,
+                                               thr_image_data);
                             }
                             break;
                         }
@@ -953,26 +1020,36 @@ int read_datamatrix(unsigned char image_data[],
                             if (strlen(grid_filename) > 0) {
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
-                                       image_width*image_height*image_bytesperpixel);
+                                       image_width * image_height *
+                                       image_bytesperpixel);
                                 show_grid_image(&grid[try_config],
                                                 image_data,
                                                 image_width, image_height,
                                                 image_bitsperpixel,
                                                 0, SAMPLING_PATTERN_SOLID);
                                 write_png_file(grid_filename,
-                                               image_width, image_height, 24, image_data);
+                                               image_width, image_height, 24,
+                                               image_data);
                             }
                             if (debug == 1) {
-                                printf("Frequency: %d\n", most_probable_frequency);
-                                mono_to_colour(thr_mono_img, image_width, image_height,
-                                               image_bitsperpixel, thr_image_data);
-                                show_grid_image(&grid[try_config], thr_image_data,
-                                                image_width, image_height, image_bitsperpixel,
-                                                curr_sampling_radius, curr_sampling_pattern);
+                                printf("Frequency: %d\n",
+                                       most_probable_frequency);
+                                mono_to_colour(thr_mono_img,
+                                               image_width, image_height,
+                                               image_bitsperpixel,
+                                               thr_image_data);
+                                show_grid_image(&grid[try_config],
+                                                thr_image_data,
+                                                image_width, image_height,
+                                                image_bitsperpixel,
+                                                curr_sampling_radius,
+                                                curr_sampling_pattern);
                                 sprintf(debug_filename[try_config],
-                                        "debug_%d_17_grid_sampling.png", try_config);
+                                        "debug_%d_17_grid_sampling.png",
+                                        try_config);
                                 write_png_file(debug_filename[try_config],
-                                               image_width, image_height, 24, thr_image_data);
+                                               image_width, image_height,
+                                               24, thr_image_data);
                             }
                             free_grid(&grid[try_config]);
                             break;
@@ -988,19 +1065,26 @@ int read_datamatrix(unsigned char image_data[],
             else {
                 /* try all rectangles */
                 int * valid_rectangles = get_valid_rectangles();
-                for (int frequency_index = 0; frequency_index < NO_OF_VALID_RECTANGLES;
+                for (int frequency_index = 0;
+                     frequency_index < NO_OF_VALID_RECTANGLES;
                      frequency_index++) {
-                    most_probable_frequency = valid_rectangles[frequency_index*2];
+                    most_probable_frequency =
+                        valid_rectangles[frequency_index*2];
 
                     if (aspect_ratio_percent < 100) {
-                        most_probable_frequency_x = valid_rectangles[frequency_index*2];
-                        most_probable_frequency_y = valid_rectangles[frequency_index*2+1];
+                        most_probable_frequency_x =
+                            valid_rectangles[frequency_index*2];
+                        most_probable_frequency_y =
+                            valid_rectangles[frequency_index*2+1];
                         most_probable_frequency = most_probable_frequency_y;
                     }
                     else {
-                        most_probable_frequency_x = valid_rectangles[frequency_index*2+1];
-                        most_probable_frequency_y = valid_rectangles[frequency_index*2];
-                        most_probable_frequency = most_probable_frequency_x;
+                        most_probable_frequency_x =
+                            valid_rectangles[frequency_index*2+1];
+                        most_probable_frequency_y =
+                            valid_rectangles[frequency_index*2];
+                        most_probable_frequency =
+                            most_probable_frequency_x;
                     }
                     if ((most_probable_frequency < minimum_grid_dimension) ||
                         (most_probable_frequency > maximum_grid_dimension)) continue;
@@ -1013,14 +1097,16 @@ int read_datamatrix(unsigned char image_data[],
                         if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
                             curr_sampling_radius+=2;
                         }
-                        create_grid(most_probable_frequency_x, most_probable_frequency_y,
+                        create_grid(most_probable_frequency_x,
+                                    most_probable_frequency_y,
                                     perimeter_x0, perimeter_y0,
                                     perimeter_x1, perimeter_y1,
                                     perimeter_x2, perimeter_y2,
                                     perimeter_x3, perimeter_y3,
                                     thr_mono_img,
                                     image_width, image_height,
-                                    curr_sampling_radius, curr_sampling_pattern,
+                                    curr_sampling_radius,
+                                    curr_sampling_pattern,
                                     &grid[try_config]);
                         /* check that this looks vaguely like a datamatrix */
                         unsigned char occupied_cells_percent =
@@ -1031,7 +1117,8 @@ int read_datamatrix(unsigned char image_data[],
                             break;
                         }
                         datamatrix_decode(&grid[try_config], debug,
-                                          gs1_url, thr_decode_result[try_config],
+                                          gs1_url,
+                                          thr_decode_result[try_config],
                                           human_readable);
                         if (strlen(thr_decode_result[try_config]) > 0) {
                             best_config = try_config;
@@ -1039,27 +1126,37 @@ int read_datamatrix(unsigned char image_data[],
                             if (strlen(grid_filename) > 0) {
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
-                                       image_width*image_height*image_bytesperpixel);
+                                       image_width * image_height *
+                                       image_bytesperpixel);
                                 show_grid_image(&grid[try_config],
                                                 image_data,
                                                 image_width, image_height,
                                                 image_bitsperpixel,
                                                 0, SAMPLING_PATTERN_SOLID);
                                 write_png_file(grid_filename,
-                                               image_width, image_height, 24, image_data);
+                                               image_width, image_height, 24,
+                                               image_data);
                             }
                             if (debug == 1) {
                                 printf("Frequency: %dx%d\n",
-                                       most_probable_frequency_x, most_probable_frequency_y);
-                                mono_to_colour(thr_mono_img, image_width, image_height,
-                                               image_bitsperpixel, thr_image_data);
-                                show_grid_image(&grid[try_config], thr_image_data,
-                                                image_width, image_height, image_bitsperpixel,
-                                                curr_sampling_radius, curr_sampling_pattern);
+                                       most_probable_frequency_x,
+                                       most_probable_frequency_y);
+                                mono_to_colour(thr_mono_img,
+                                               image_width, image_height,
+                                               image_bitsperpixel,
+                                               thr_image_data);
+                                show_grid_image(&grid[try_config],
+                                                thr_image_data,
+                                                image_width, image_height,
+                                                image_bitsperpixel,
+                                                curr_sampling_radius,
+                                                curr_sampling_pattern);
                                 sprintf(debug_filename[try_config],
-                                        "debug_%d_17_grid_sampling.png", try_config);
+                                        "debug_%d_17_grid_sampling.png",
+                                        try_config);
                                 write_png_file(debug_filename[try_config],
-                                               image_width, image_height, 24, thr_image_data);
+                                               image_width, image_height,
+                                               24, thr_image_data);
                             }
                             free_grid(&grid[try_config]);
                             break;
