@@ -59,6 +59,8 @@ int main(int argc, char* argv[])
     int min_segment_length = 40;
     char gs1_url[MAX_DECODE_LENGTH];
     char filename[MAX_DECODE_LENGTH];
+    char decode_from_text[MAX_DECODE_STRING_LENGTH];
+    char decode_from_text2[MAX_DECODE_STRING_LENGTH];
     char output_filename[MAX_DECODE_LENGTH];
     char grid_filename[MAX_DECODE_LENGTH];
     char histogram_filename[MAX_DECODE_LENGTH];
@@ -105,6 +107,9 @@ int main(int argc, char* argv[])
     /* no filename specified */
     filename[0] = 0;
 
+    /* string used for decoding a datamatrix represented as text */
+    decode_from_text[0] = 0;
+
     /* no verification report filename specified */
     report_filename[0] = 0;
 
@@ -148,6 +153,15 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--filename")==0)) {
             filename[0] = 0;
             decode_strcat(&filename[0], argv[i+1]);
+        }
+        if ((strcmp(argv[i],"--txt")==0) ||
+            (strcmp(argv[i],"--fromtext")==0)) {
+            decode_from_text[0] = 0;
+            if (strlen(argv[i+1]) >= MAX_DECODE_STRING_LENGTH) {
+                printf("String too long\n");
+                return -1;
+            }
+            strcpy(&decode_from_text[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"-r")==0) ||
             (strcmp(argv[i],"--report")==0)) {
@@ -380,6 +394,146 @@ int main(int argc, char* argv[])
         }
     }
 
+    if (decode_from_text[0] != 0) {
+        /* replace instances of "●" with "O" */
+        char * dot_text = "●";
+        int dot_text_len = (int)strlen(dot_text);
+        int j, ctr = 0;
+        for (i = 0; i < (int)strlen(decode_from_text); i++) {
+            if (i <= (int)strlen(decode_from_text) - dot_text_len) {
+                for (j = 0; j < dot_text_len; j++) {
+                    if (decode_from_text[i+j] != dot_text[j]) break;
+                }
+                if (j != dot_text_len) {
+                    decode_from_text2[ctr++] = decode_from_text[i];
+                }
+                else {
+                    decode_from_text2[ctr++] = 'O';
+                    i += dot_text_len-1;
+                }
+            }
+            else {
+                decode_from_text2[ctr++] = decode_from_text[i];
+            }
+        }
+        decode_from_text2[ctr] = 0;
+        if (debug == 1) {
+            printf("decode_from_text2\n%s\n", &decode_from_text2[0]);
+        }
+
+        /* decode datamatrix from a text string */
+        int dimension_x = 0;
+        int dimension_y = 0;
+        int left_margin = 0;
+        int start_i = 0;
+        int decode_step = 0;
+        /* get the X dimension */
+        for (i = 0; i < (int)strlen(decode_from_text2); i++) {          
+            if ((decode_from_text2[i] == '\n') ||
+                (decode_from_text2[i] == '\r')) {
+                if (dimension_x > 0) {
+                    decode_step = (i - start_i) / dimension_x;
+                    break;
+                }
+                dimension_x = 0;
+            }
+            if (decode_from_text2[i] != ' ') {
+                if (i == 0) {
+                    if (dimension_x == 0) start_i = i;
+                    dimension_x += 2;
+                }
+                else {
+                    if (decode_from_text2[i-1] == ' ') {
+                        if (dimension_x == 0) start_i = i;
+                        dimension_x += 2;
+                        if (left_margin == 0) left_margin = i;
+                    }
+                }
+            }
+        }
+        if (debug == 1) {
+            printf("decode_step: %d\n", decode_step);
+        }
+        if (decode_step == 0) {
+            return -1;
+        }
+        /* get the Y dimension */
+        int dot_ctr = 0;
+        for (i = 0; i < (int)strlen(&decode_from_text2[0]); i++) {
+            if ((decode_from_text2[i] == '\n') ||
+                (decode_from_text2[i] == '\r') ||
+                (i == (int)strlen(&decode_from_text2[0])-1)) {
+                if (dot_ctr > 0) {
+                    dimension_y++;
+                    dot_ctr = 0;
+                }
+            }
+            else {
+                if (decode_from_text2[i] != ' ') dot_ctr++;
+            }
+        }
+        if (debug == 1) {
+            printf("dimension_x: %d\ndimension_y: %d\n",
+                   dimension_x, dimension_y);
+        }
+        /* make an occupancy grid */
+        unsigned char * occupancy =
+            (unsigned char*)safemalloc(dimension_x * dimension_y *
+                                       sizeof(unsigned char));
+        assert(occupancy != NULL);
+        /* populate the occupancy array */
+        memset(occupancy, 0,
+               dimension_x * dimension_y * sizeof(unsigned char));
+
+        start_i = -1;
+        int x_pos, y_pos=0;
+        for (i = 0; i < (int)strlen(&decode_from_text2[0]); i++) {
+            if ((decode_from_text2[i] == '\n') ||
+                (decode_from_text2[i] == '\r')) {
+                start_i = -1;
+                continue;
+            }
+            if (decode_from_text2[i] != ' ') {
+                if (start_i == -1) {
+                    start_i = i;
+                    x_pos = 0;
+                    for (j = i; j < i + (decode_step * dimension_x);
+                         j+=decode_step, x_pos++) {
+                        if (decode_from_text2[j] == ' ') {
+                            occupancy[(y_pos * dimension_x) + x_pos] = 0;
+                        }
+                        else {
+                            occupancy[(y_pos * dimension_x) + x_pos] = 1;
+                        }
+                    }
+                    y_pos++;
+                }
+            }
+        }
+
+        struct grid_2d grid;
+        /* string for the decode result */
+        char * decode_result = (char*)safemalloc(MAX_DECODE_LENGTH *
+                                                 sizeof(char));
+        assert(decode_result != NULL);
+        unsigned char human_readable = 1;
+        decode_result[0] = 0;
+        /* decode */
+        create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy);
+        datamatrix_decode(&grid, debug, &gs1_url[0], decode_result,
+                          human_readable);
+        if (decode_result[0] == 0) {
+            printf("Could not decode\n");
+            free(decode_result);
+            free(occupancy);
+            return -1;
+        }
+        printf("%s\n", decode_result);
+        free(decode_result);
+        free(occupancy);
+        return 0;
+    }
+    
     if (encode_text[0] != 0) {
         /* encode some text */
         barcodelen = strlen(&encode_text[0]);

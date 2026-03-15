@@ -43,6 +43,7 @@
 #define PI                         3.1415927
 #define FREQ_DIMENSION             256
 #define MAX_DECODE_LENGTH          1024
+#define MAX_DECODE_STRING_LENGTH   20000
 /* max perimeter side length in pixels */
 #define MAX_PERIMETER_SIDE_LENGTH  4096
 #define MIN_GRID_DIMENSION         8
