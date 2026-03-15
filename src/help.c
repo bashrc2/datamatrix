@@ -67,6 +67,7 @@ void show_help()
   printf("   --web [url]                 Website url on verification report\n");
   printf("   --footer [text]             Footer shown on verification report\n");
   printf("-e --encode [text]             Generate a datamatrix from the given text\n");
+  printf("   --txt [text]                Decode a text string containing a datamatrix\n");
   printf("   --scale [text]              Scale of generated datamatrix in range 1-10\n");
   printf("-w --width [pixels]            Width for generated datamatrix image\n");
   printf("   --coords                    Show dot centre coordinates for generated datamatrix\n");

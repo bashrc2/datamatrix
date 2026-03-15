@@ -77,6 +77,7 @@ sudo make install
 --web [url]                   Website url on verification report
 --footer [text]               Footer shown on verification report
 -e --encode [text]            Generate a datamatrix from the given text
+--txt [text]                  Decode a text string containing a datamatrix
 --scale [text]                Scale of generated datamatrix in range 1-10
 -w --width [pixels]           Width for generated datamatrix image
 --coords                      Show dot centre coordinates for generated datamatrix
