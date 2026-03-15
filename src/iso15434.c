@@ -294,7 +294,8 @@ char * iso15434_translate_data_qualifier(char result[],
       }
 
       char * id = (char*)safemalloc(5*sizeof(char));
-      char * id_human_readable = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+      char * id_human_readable =
+          (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
       char * id_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
 
       if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
@@ -367,10 +368,12 @@ char * iso15434_translate_data_qualifier(char result[],
             /* what is the min and max length of data for this application identifier? */
             int max_data_length = application_data_end - application_data_start;
             int min_data_length =
-              application_data_end - application_data_start - application_data_variable;
+                application_data_end - application_data_start -
+                application_data_variable;
 
             /* find the end of the data, taking into account variable length */
-            if ((data_length >= min_data_length) && (data_length <= max_data_length)) {
+            if ((data_length >= min_data_length) &&
+                (data_length <= max_data_length)) {
               application_data_end = application_data_start + data_length;
             }
 
@@ -388,7 +391,8 @@ char * iso15434_translate_data_qualifier(char result[],
               /* remove trailing newline */
               translated_str[strlen(translated_str)-1] = 0;
               /* update the UII */
-              for (i = start_pos + application_identifier_length; i < end_index; i++) {
+              for (i = start_pos + application_identifier_length;
+                   i < end_index; i++) {
                 decode_strcat_char(iso15434_uii, result[i]);
               }
               break;

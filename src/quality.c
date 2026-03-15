@@ -126,26 +126,44 @@ static void save_reflectance_histogram(unsigned char image_data[],
     for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
       /* horizontal line */
       grid_pos_y = grid_y + 0.5f;
-      horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
-      horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
-      horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
-      horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+      horizontal_x1 =
+          grid->perimeter.x0 +
+          (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+      horizontal_y1 =
+          grid->perimeter.y0 +
+          (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+      horizontal_x2 =
+          grid->perimeter.x1 +
+          (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+      horizontal_y2 =
+          grid->perimeter.y1 +
+          (horizontal_dy2 * grid_pos_y / grid->dimension_y);
 
       for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
         /* vertical line */
         grid_pos_x = grid_x + 0.5f;
-        vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
-        vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
-        vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
-        vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+        vertical_x1 =
+            grid->perimeter.x0 +
+            (vertical_dx1 * grid_pos_x / grid->dimension_x);
+        vertical_y1 =
+            grid->perimeter.y0 +
+            (vertical_dy1 * grid_pos_x / grid->dimension_x);
+        vertical_x2 =
+            grid->perimeter.x3 +
+            (vertical_dx2 * grid_pos_x / grid->dimension_x);
+        vertical_y2 =
+            grid->perimeter.y3 +
+            (vertical_dy2 * grid_pos_x / grid->dimension_x);
         intersection(horizontal_x1, horizontal_y1,
                      horizontal_x2, horizontal_y2,
                      vertical_x1, vertical_y1,
                      vertical_x2, vertical_y2,
                      &xi, &yi);
         if (xi != PARALLEL_LINES) {
-          if ((xi >= sampling_radius) && (xi <= image_width - 1 - sampling_radius) &&
-              (yi >= sampling_radius) && (yi <= image_height - 1 - sampling_radius)) {
+          if ((xi >= sampling_radius) &&
+              (xi <= image_width - 1 - sampling_radius) &&
+              (yi >= sampling_radius) &&
+              (yi <= image_height - 1 - sampling_radius)) {
             tx = (int)xi - sampling_radius;
             ty = (int)yi - sampling_radius;
             bx = (int)xi + sampling_radius;
@@ -426,16 +444,22 @@ static void grid_cell_shape_test_cell(unsigned char thresholded_image_data[],
         /* top left and bottom right coordinates of the pixel in the cell shape image */
         cell_shape_x0 =
           cell_shape_cx + ((search_x - x)*half_cell_shape_image_width/radius);
-        if ((cell_shape_x0 < 0) || (cell_shape_x0 >= cell_shape_image_width)) continue;
+        if ((cell_shape_x0 < 0) ||
+            (cell_shape_x0 >= cell_shape_image_width)) continue;
         cell_shape_y0 =
           cell_shape_cy + ((search_y - y)*half_cell_shape_image_height/radius);
-        if ((cell_shape_y0 < 0) || (cell_shape_y0 >= cell_shape_image_height)) continue;
+        if ((cell_shape_y0 < 0) ||
+            (cell_shape_y0 >= cell_shape_image_height)) continue;
         cell_shape_x1 =
-          cell_shape_cx + ((search_x + 1 - x)*half_cell_shape_image_width/radius);
-        if ((cell_shape_x1 < 0) || (cell_shape_x1 >= cell_shape_image_width)) continue;
+          cell_shape_cx +
+            ((search_x + 1 - x)*half_cell_shape_image_width/radius);
+        if ((cell_shape_x1 < 0) ||
+            (cell_shape_x1 >= cell_shape_image_width)) continue;
         cell_shape_y1 =
-          cell_shape_cy + ((search_y + 1 - y)*half_cell_shape_image_height/radius);
-        if ((cell_shape_y1 < 0) || (cell_shape_y1 >= cell_shape_image_height)) continue;
+          cell_shape_cy +
+            ((search_y + 1 - y)*half_cell_shape_image_height/radius);
+        if ((cell_shape_y1 < 0) ||
+            (cell_shape_y1 >= cell_shape_image_height)) continue;
 
         /* update the pixel */
         for (yy = cell_shape_y0; yy < cell_shape_y1; yy++) {
@@ -516,18 +540,34 @@ static void save_grid_cell_shape(struct grid_2d * grid,
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
     /* horizontal line */
     grid_pos_y = grid_y + 0.5f;
-    horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
-    horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
-    horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
-    horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+    horizontal_x1 =
+        grid->perimeter.x0 +
+        (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+    horizontal_y1 =
+        grid->perimeter.y0 +
+        (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+    horizontal_x2 =
+        grid->perimeter.x1 +
+        (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+    horizontal_y2 =
+        grid->perimeter.y1 +
+        (horizontal_dy2 * grid_pos_y / grid->dimension_y);
 
     for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
       /* vertical line */
       grid_pos_x = grid_x + 0.5f;
-      vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
-      vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
-      vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
-      vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+      vertical_x1 =
+          grid->perimeter.x0 +
+          (vertical_dx1 * grid_pos_x / grid->dimension_x);
+      vertical_y1 =
+          grid->perimeter.y0 +
+          (vertical_dy1 * grid_pos_x / grid->dimension_x);
+      vertical_x2 =
+          grid->perimeter.x3 +
+          (vertical_dx2 * grid_pos_x / grid->dimension_x);
+      vertical_y2 =
+          grid->perimeter.y3 +
+          (vertical_dy2 * grid_pos_x / grid->dimension_x);
       intersection(horizontal_x1, horizontal_y1,
                    horizontal_x2, horizontal_y2,
                    vertical_x1, vertical_y1,
@@ -546,11 +586,13 @@ static void save_grid_cell_shape(struct grid_2d * grid,
                                        &no_of_pixels,
                                        &cell_fill);
           if (((int)xi-offset_x >= 0) && ((int)yi-offset_y > 0) &&
-              ((int)xi-offset_x < image_width) && ((int)yi-offset_y < image_height)) {
+              ((int)xi-offset_x < image_width) &&
+              ((int)yi-offset_y < image_height)) {
             grid_cell_shape_test_cell(thresholded_image_data,
                                       image_width, image_height,
                                       image_bytesperpixel,
-                                      (int)xi-offset_x, (int)yi-offset_y, cell_radius,
+                                      (int)xi-offset_x,
+                                      (int)yi-offset_y, cell_radius,
                                       cell_shape_image,
                                       cell_shape_image_width,
                                       cell_shape_image_height,
@@ -570,7 +612,10 @@ static void save_grid_cell_shape(struct grid_2d * grid,
   }
   max = max * 110 / 100;
   for (i = cell_shape_image_width*cell_shape_image_height-1; i >= 0; i--) {
-    value = (unsigned char)(255-(cell_shape_image[i*cell_shape_bytesperpixel] * 255 / max));
+    value =
+        (unsigned char)(255 -
+                        (cell_shape_image[i * cell_shape_bytesperpixel] *
+                         255 / max));
     for (b = cell_shape_bytesperpixel-1; b >= 0; b--) {
       cell_shape_image[i*cell_shape_bytesperpixel+b] = value;
     }
@@ -623,18 +668,34 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
   for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
     /* horizontal line */
     grid_pos_y = grid_y + 0.5f;
-    horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * grid_pos_y / grid->dimension_y);
-    horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * grid_pos_y / grid->dimension_y);
-    horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * grid_pos_y / grid->dimension_y);
-    horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+    horizontal_x1 =
+        grid->perimeter.x0 +
+        (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+    horizontal_y1 =
+        grid->perimeter.y0 +
+        (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+    horizontal_x2 =
+        grid->perimeter.x1 +
+        (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+    horizontal_y2 =
+        grid->perimeter.y1 +
+        (horizontal_dy2 * grid_pos_y / grid->dimension_y);
 
     for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
       /* vertical line */
       grid_pos_x = grid_x + 0.5f;
-      vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * grid_pos_x / grid->dimension_x);
-      vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * grid_pos_x / grid->dimension_x);
-      vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * grid_pos_x / grid->dimension_x);
-      vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * grid_pos_x / grid->dimension_x);
+      vertical_x1 =
+          grid->perimeter.x0 +
+          (vertical_dx1 * grid_pos_x / grid->dimension_x);
+      vertical_y1 =
+          grid->perimeter.y0 +
+          (vertical_dy1 * grid_pos_x / grid->dimension_x);
+      vertical_x2 =
+          grid->perimeter.x3 +
+          (vertical_dx2 * grid_pos_x / grid->dimension_x);
+      vertical_y2 =
+          grid->perimeter.y3 +
+          (vertical_dy2 * grid_pos_x / grid->dimension_x);
       intersection(horizontal_x1, horizontal_y1,
                    horizontal_x2, horizontal_y2,
                    vertical_x1, vertical_y1,
@@ -676,9 +737,10 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
 
     grid_non_uniformity_x = ABS(av_offset_x / (float)offset_hits);
     grid_non_uniformity_y = ABS(av_offset_y / (float)offset_hits);
-    grid->grid_non_uniformity = (grid_non_uniformity_x + grid_non_uniformity_y) * 100 / cell_width;
-    /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
-       table 9-5 */
+    grid->grid_non_uniformity =
+        (grid_non_uniformity_x + grid_non_uniformity_y) * 100 / cell_width;
+    /* calculate grade as per GS1 2D Barcode Verification Process
+       Implementation Guideline table 9-5 */
     if (grid->grid_non_uniformity <= 75) {
       grid->grid_non_uniformity_grade = 1;
     }
@@ -742,9 +804,10 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
     cell_width_longest = longest_side / grid->dimension_y;
     cell_width_shortest = shortest_side / grid->dimension_x;
   }
-  grid->axial_non_uniformity = ABS(1.0f - (cell_width_shortest/cell_width_longest))*100;
-  /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
-     table 9-4 */
+  grid->axial_non_uniformity =
+      ABS(1.0f - (cell_width_shortest/cell_width_longest))*100;
+  /* calculate grade as per GS1 2D Barcode Verification Process
+     Implementation Guideline table 9-4 */
   grid->axial_non_uniformity_grade = 0;
   if (grid->axial_non_uniformity <= 12) {
     grid->axial_non_uniformity_grade = 1;
@@ -821,7 +884,8 @@ static void quality_metric_modulation(struct grid_2d * grid,
 {
   int image_bytesperpixel = image_bitsperpixel/8;
   /* symbol contrast converted back to a pixel value */
-  float symbol_contrast = grid->symbol_contrast * 255 * image_bytesperpixel / 100.0f;
+  float symbol_contrast =
+      grid->symbol_contrast * 255 * image_bytesperpixel / 100.0f;
   int hits, reflectance, global_threshold;
   float modulation, cell_modulation, min_modulation=1;
   int min_x=image_width,min_y=image_height,max_x=0,max_y=0;
@@ -868,7 +932,8 @@ static void quality_metric_modulation(struct grid_2d * grid,
   /* calculate occupancy of the quiet zone */
   grid->quiet_zone = 0;
   if (quiet_zone_pixels > 0) {
-    grid->quiet_zone = (unsigned char)(100-(quiet_zone_occupancy * 100 / quiet_zone_pixels));
+    grid->quiet_zone =
+        (unsigned char)(100-(quiet_zone_occupancy * 100 / quiet_zone_pixels));
   }
 
   /* average occupied cell reflectance */
@@ -881,7 +946,8 @@ static void quality_metric_modulation(struct grid_2d * grid,
   }
 
   /* calculate global threshold, half way between occupied and empty reflectance */
-  global_threshold = empty_reflectance + ((occupied_reflectance - empty_reflectance)/2);
+  global_threshold =
+      empty_reflectance + ((occupied_reflectance - empty_reflectance)/2);
 
   /* calculate the average of all cell modulation */
   modulation = 0;
@@ -896,8 +962,10 @@ static void quality_metric_modulation(struct grid_2d * grid,
         reflectance += image_data[n+b];
       }
       /* cell modulation
-         from GS1 2D Barcode Verification Process Implementation Guideline 9.1.3 */
-      cell_modulation = 2.0f * ABS(reflectance - global_threshold) / symbol_contrast;
+         from GS1 2D Barcode Verification Process Implementation
+         Guideline 9.1.3 */
+      cell_modulation =
+          2.0f * ABS(reflectance - global_threshold) / symbol_contrast;
       modulation += cell_modulation;
       if (cell_modulation < min_modulation) {
         min_modulation = cell_modulation;
@@ -911,8 +979,8 @@ static void quality_metric_modulation(struct grid_2d * grid,
   grid->modulation = (unsigned char)(modulation * 100);
   /* contrast uniformity is the minimum cell modulation */
   grid->contrast_uniformity = (unsigned char)(min_modulation * 100);
-  /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
-     table 9-2 */
+  /* calculate grade as per GS1 2D Barcode Verification Process
+     Implementation Guideline table 9-2 */
   grid->modulation_grade = 0;
   if (grid->modulation >= 20) {
     grid->modulation_grade = 1;
@@ -969,7 +1037,8 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
   }
 
   /* minimum reflectance grade */
-  grid->minimum_reflectance = (unsigned char)(min_reflectance*100/(255*image_bytesperpixel));
+  grid->minimum_reflectance =
+      (unsigned char)(min_reflectance*100/(255*image_bytesperpixel));
   grid->minimum_reflectance_grade = 0;
   if (grid->minimum_reflectance < 50) {
     /* below half the maximum reflectance */
@@ -977,9 +1046,11 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
   }
 
   /* symbol contrast as a percentage */
-  grid->symbol_contrast = (unsigned char)((max_reflectance - min_reflectance) * 100 / (255*image_bytesperpixel));
-  /* calculate grade as per GS1 2D Barcode Verification Process Implementation Guideline
-     table 9-1 */
+  grid->symbol_contrast =
+      (unsigned char)((max_reflectance - min_reflectance) * 100 /
+                      (255*image_bytesperpixel));
+  /* calculate grade as per GS1 2D Barcode Verification Process
+     Implementation Guideline table 9-1 */
   grid->symbol_contrast_grade = 0;
   if (grid->symbol_contrast >= 20) {
     grid->symbol_contrast_grade = 1;
@@ -1192,16 +1263,22 @@ static void show_quality_metrics_human_readable(struct grid_2d * grid,
          (int)grid->axial_non_uniformity_grade, grid->axial_non_uniformity);
   printf("Grid non-uniformity: %d (%.1f%%)\n",
          (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
-  printf("Modulation: %d (%d%%)\n", (int)grid->modulation_grade, (int)grid->modulation);
+  printf("Modulation: %d (%d%%)\n",
+         (int)grid->modulation_grade, (int)grid->modulation);
   printf("Unused error correction: %d (%d%%)\n",
-         (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+         (int)grid->unused_error_correction_grade,
+         (int)grid->unused_error_correction);
   printf("Clock track regularity: %d (%d%%)\n",
-         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+         (int)grid->clock_track_regularity_grade,
+         (int)grid->clock_track_regularity);
   printf("Fixed pattern damage: %d (%d%%)\n",
-         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+         (int)grid->fixed_pattern_damage_grade,
+         (int)grid->fixed_pattern_damage);
   printf("Minimum reflectance: %d (%d%%)\n",
-         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
-  printf("Overall symbol grade: %d.0 (%c)\n\n", (int)grade, grade_letter[grade]);
+         (int)grid->minimum_reflectance_grade,
+         (int)grid->minimum_reflectance);
+  printf("Overall symbol grade: %d.0 (%c)\n\n",
+         (int)grade, grade_letter[grade]);
   printf("Matrix size: %dx%d\n", grid->dimension_x, grid->dimension_y);
   printf("Angle of distortion: %.1f°\n", grid->angle_of_distortion);
   printf("Contrast uniformity: %d%%\n", (int)grid->contrast_uniformity);
@@ -1252,13 +1329,17 @@ static void show_quality_metrics_csv(struct grid_2d * grid,
          (int)grid->grid_non_uniformity_grade, grid->grid_non_uniformity);
   printf("%d, %d, ", (int)grid->modulation_grade, (int)grid->modulation);
   printf("%d, %d, ",
-         (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+         (int)grid->unused_error_correction_grade,
+         (int)grid->unused_error_correction);
   printf("%d, %d, ",
-         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+         (int)grid->clock_track_regularity_grade,
+         (int)grid->clock_track_regularity);
   printf("%d, %d, ",
-         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+         (int)grid->fixed_pattern_damage_grade,
+         (int)grid->fixed_pattern_damage);
   printf("%d, %d, ",
-         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
+         (int)grid->minimum_reflectance_grade,
+         (int)grid->minimum_reflectance);
   printf("%d.0, \"%c\", ", (int)grade, grade_letter[grade]);
   printf("\"%.1f\", ", grid->angle_of_distortion);
   printf("%d, ", (int)grid->contrast_uniformity);
@@ -1312,14 +1393,19 @@ static void show_quality_metrics_json(struct grid_2d * grid,
   printf("  \"modulation\": { \"grade\": %d, \"value\": %d },\n",
          (int)grid->modulation_grade, (int)grid->modulation);
   printf("  \"unused_error_correction\": { \"grade\": %d, \"value\": %d },\n",
-         (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+         (int)grid->unused_error_correction_grade,
+         (int)grid->unused_error_correction);
   printf("  \"clock_track_regularity\": { \"grade\": %d, \"value\": %d },\n",
-         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+         (int)grid->clock_track_regularity_grade,
+         (int)grid->clock_track_regularity);
   printf("  \"fixed_pattern_damage\": { \"grade\": %d, \"value\": %d },\n",
-         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+         (int)grid->fixed_pattern_damage_grade,
+         (int)grid->fixed_pattern_damage);
   printf("  \"minimum_reflectance\": { \"grade\": %d, \"value\": %d },\n",
-         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
-  printf("  \"overall_symbol_grade\": { \"grade\": %d.0, \"value\": \"%c\" },\n", (int)grade, grade_letter[grade]);
+         (int)grid->minimum_reflectance_grade,
+         (int)grid->minimum_reflectance);
+  printf("  \"overall_symbol_grade\": { \"grade\": %d.0, \"value\": \"%c\" },\n",
+         (int)grade, grade_letter[grade]);
   printf("  \"angle_of_distortion\": %.1f,\n", grid->angle_of_distortion);
   printf("  \"contrast_uniformity\": %d,\n", (int)grid->contrast_uniformity);
   printf("  \"dots_per_element\": %d,\n", grid->dots_per_element);
@@ -1374,14 +1460,19 @@ static void show_quality_metrics_yaml(struct grid_2d * grid,
   printf("modulation:\n- grade: %d\n  value: %d\n",
          (int)grid->modulation_grade, (int)grid->modulation);
   printf("unused_error_correction:\n- grade: %d\n  value: %d\n",
-         (int)grid->unused_error_correction_grade, (int)grid->unused_error_correction);
+         (int)grid->unused_error_correction_grade,
+         (int)grid->unused_error_correction);
   printf("clock_track_regularity:\n- grade: %d\n  value: %d\n",
-         (int)grid->clock_track_regularity_grade, (int)grid->clock_track_regularity);
+         (int)grid->clock_track_regularity_grade,
+         (int)grid->clock_track_regularity);
   printf("fixed_pattern_damage:\n- grade: %d\n  value: %d\n",
-         (int)grid->fixed_pattern_damage_grade, (int)grid->fixed_pattern_damage);
+         (int)grid->fixed_pattern_damage_grade,
+         (int)grid->fixed_pattern_damage);
   printf("minimum_reflectance:\n- grade: %d\n  value: %d\n",
-         (int)grid->minimum_reflectance_grade, (int)grid->minimum_reflectance);
-  printf("overall_symbol_grade:\n- grade: %d.0\n  value: %c\n", (int)grade, grade_letter[grade]);
+         (int)grid->minimum_reflectance_grade,
+         (int)grid->minimum_reflectance);
+  printf("overall_symbol_grade:\n- grade: %d.0\n  value: %c\n",
+         (int)grade, grade_letter[grade]);
   printf("angle_of_distortion: %.1f\n", grid->angle_of_distortion);
   printf("contrast_uniformity: %d\n", (int)grid->contrast_uniformity);
   printf("dots_per_element: %d\n", grid->dots_per_element);

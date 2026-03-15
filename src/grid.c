@@ -372,10 +372,14 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
                                              int width, int height,
                                              int minimum_grid_dimension,
                                              int maximum_grid_dimension,
-                                             float perimeter_x0, float perimeter_y0,
-                                             float perimeter_x1, float perimeter_y1,
-                                             float perimeter_x2, float perimeter_y2,
-                                             float perimeter_x3, float perimeter_y3,
+                                             float perimeter_x0,
+                                             float perimeter_y0,
+                                             float perimeter_x1,
+                                             float perimeter_y1,
+                                             float perimeter_x2,
+                                             float perimeter_y2,
+                                             float perimeter_x3,
+                                             float perimeter_y3,
                                              int threshold, float side_length,
                                              int sampling_radius,
                                              unsigned char debug,
@@ -383,7 +387,8 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
                                              int debug_frequency)
 {
   float pitch, half_pitch, centre_x, centre_y, vertex_x, vertex_y, dx, dy;
-  int side, corner, index, freq, freq_shortest, prob, max_prob=0, probable_frequency=-1;
+  int side, corner, index, freq, freq_shortest, prob, max_prob=0;
+  int probable_frequency=-1;
   float timing_perimeter_x0, timing_perimeter_y0;
   float timing_perimeter_x1, timing_perimeter_y1;
   float timing_perimeter_x2, timing_perimeter_y2;
@@ -631,7 +636,8 @@ static void complete_fixed_pattern(struct grid_2d * grid)
   }
 
   /* QUALITY METRIC: fixed pattern damage as a percentage */
-  grid->fixed_pattern_damage = (unsigned char)(damage * 100 / fixed_pattern_cells);
+  grid->fixed_pattern_damage =
+      (unsigned char)(damage * 100 / fixed_pattern_cells);
   /* QUALITY METRIC: clock track regularity as a percentage */
   grid->clock_track_regularity =
     (unsigned char)(timing_border_damage*100/timing_border_cells);
@@ -786,44 +792,59 @@ static void create_grid_base(int dimension_x, int dimension_y,
   /* generate the grid cells and initialise them to zero */
   grid->occupancy = (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
   for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->occupancy[grid_x] = (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
+    grid->occupancy[grid_x] =
+        (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
     memset(grid->occupancy[grid_x], 0, dimension_y * sizeof(unsigned char));
   }
 
   /* generate the grid buffer cells and initialise them to zero */
-  grid->occupancy_buffer = (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
+  grid->occupancy_buffer =
+      (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
   for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->occupancy_buffer[grid_x] = (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
-    memset(grid->occupancy_buffer[grid_x], 0, dimension_y * sizeof(unsigned char));
+    grid->occupancy_buffer[grid_x] =
+        (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
+    memset(grid->occupancy_buffer[grid_x], 0,
+           dimension_y * sizeof(unsigned char));
   }
 
   /* generate the damaged cells and initialise them to zero */
-  grid->damage = (unsigned char*)safemalloc(dimension_x*dimension_x*sizeof(unsigned char));
+  grid->damage = (unsigned char*)safemalloc(dimension_x * dimension_x *
+                                            sizeof(unsigned char));
   memset(grid->damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
 
   /* generate original damaged cells for use when drawing damage in an image */
-  grid->original_damage = (unsigned char*)safemalloc(dimension_x*dimension_x*sizeof(unsigned char));
-  memset(grid->original_damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
+  grid->original_damage = (unsigned char*)safemalloc(dimension_x *
+                                                     dimension_x *
+                                                     sizeof(unsigned char));
+  memset(grid->original_damage, 0,
+         dimension_x*dimension_y * sizeof(unsigned char));
 
   /* generate the damaged cells buffer and initialise them to zero */
-  grid->damage_buffer = (unsigned char*)safemalloc(dimension_x*dimension_x*sizeof(unsigned char));
-  memset(grid->damage_buffer, 0, dimension_x*dimension_y * sizeof(unsigned char));
+  grid->damage_buffer = (unsigned char*)safemalloc(dimension_x *
+                                                   dimension_x *
+                                                   sizeof(unsigned char));
+  memset(grid->damage_buffer, 0,
+         dimension_x*dimension_y * sizeof(unsigned char));
 
   /* erasures */
-  grid->erasures = (int*)safemalloc(MAX_GRID_DIMENSION*MAX_GRID_DIMENSION*sizeof(int));
+  grid->erasures = (int*)safemalloc(MAX_GRID_DIMENSION *
+                                    MAX_GRID_DIMENSION * sizeof(int));
 
   /* codeword array, cleared to zero */
-  grid->codeword = (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
+  grid->codeword = (unsigned char*)safemalloc(MAX_CODEWORDS *
+                                              sizeof(unsigned char));
   memset(grid->codeword, 0, MAX_CODEWORDS * sizeof(unsigned char));
 
   /* codeword pattern array, cleared to zero */
   grid->codeword_pattern = (int**)safemalloc(dimension_x*sizeof(int*));
   for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->codeword_pattern[grid_x] = (int *)safemalloc(dimension_y*sizeof(int));
+    grid->codeword_pattern[grid_x] =
+        (int *)safemalloc(dimension_y*sizeof(int));
     memset(grid->codeword_pattern[grid_x], 0, dimension_y * sizeof(int));
   }
 
-  grid->corrected_codewords = (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
+  grid->corrected_codewords =
+      (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
   memset(grid->corrected_codewords, 0, MAX_CODEWORDS * sizeof(unsigned char));
 
   grid->data_bytes = (unsigned char*)safemalloc(8*sizeof(unsigned char));

@@ -398,7 +398,8 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    /* if a verification report is requested then ensure that an output image is produced */
+    /* if a verification report is requested then ensure that an output image
+       is produced */
     if (report_filename[0] != 0) {
         if (output_filename[0] == 0) {
             decode_strcat(&output_filename[0], "report.png");
@@ -408,7 +409,8 @@ int main(int argc, char* argv[])
         }
     }
 
-    image_data = read_png_file(&filename[0], &image_width, &image_height, &image_bitsperpixel);
+    image_data = read_png_file(&filename[0], &image_width, &image_height,
+                               &image_bitsperpixel);
     if (image_data == NULL) {
         printf("Couldn't load image %s\n", &filename[0]);
         return 0;
@@ -453,7 +455,8 @@ int main(int argc, char* argv[])
         resized_image_data = NULL;
 
         if (debug == 1) {
-            write_png_file("debug_01_resize.png", image_width, image_height, 24, image_data);
+            write_png_file("debug_01_resize.png", image_width, image_height,
+                           24, image_data);
             printf("Resized resolution: %dx%d\n", image_width, image_height);
         }
     }
@@ -505,7 +508,8 @@ int main(int argc, char* argv[])
                 printf("\"PASS\", \"%s\",\n", decode_result);
             }
             else if (json == 1) {
-                printf("  \"decode\": { \"grade\": \"PASS\", \"text\": \"%s\" }\n", decode_result);
+                printf("  \"decode\": { \"grade\": \"PASS\", \"text\": \"%s\" }\n",
+                       decode_result);
                 printf("}\n");
             }
             else if (yaml == 1) {

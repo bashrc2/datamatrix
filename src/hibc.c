@@ -53,7 +53,8 @@ static char * hibc_primary_data(char result[], int end_index)
 
 }
 
-static char * hibc_secondary_data_flag(char result[], int start_index, int end_index)
+static char * hibc_secondary_data_flag(char result[], int start_index,
+                                       int end_index)
 {
   int i, date_offset;
   char * date_value = NULL;
@@ -221,7 +222,8 @@ static char * hibc_secondary_data_flag(char result[], int start_index, int end_i
   return NULL;
 }
 
-static char * hibc_secondary_data(char result[], int start_index, int end_index)
+static char * hibc_secondary_data(char result[], int start_index,
+                                  int end_index)
 {
   int i;
 
@@ -241,7 +243,8 @@ static char * hibc_secondary_data(char result[], int start_index, int end_index)
     }
 
     char * id = (char*)safemalloc(5*sizeof(char));
-    char * id_human_readable = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * id_human_readable =
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
     char * id_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
 
     if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
