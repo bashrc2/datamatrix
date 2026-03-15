@@ -31,6 +31,16 @@
 #include "datamatrix.h"
 #include "iec16022ecc200.h"
 
+/**
+ * \brief encode the datamatrix grid as an image
+ * \param image_filename image filename
+ * \param grid grid containing the datamatrix
+ * \param encode_width width of the grid
+ * \param encode_height height of the grid
+ * \param encode_image_width width of the datamatrix image
+ * \param encode_image_height height of the datamatrix image
+ * \returns 0 on success, -1 otherwise
+ */
 static int encode_datamatrix_to_image(char * image_filename,
                                       unsigned char * grid,
                                       unsigned int encode_width,
