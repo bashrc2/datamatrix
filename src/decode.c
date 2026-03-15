@@ -71,7 +71,8 @@ static void ecc200_decode_next_byte_256(unsigned char is_gs1_encodation,
                                         char gs1_result[])
 {
   int i, d2, pos_from_start = *position;
-  unsigned char d1 = ecc200_unrandomize_255_state(data[*position], pos_from_start++);
+  unsigned char d1 =
+      ecc200_unrandomize_255_state(data[*position], pos_from_start++);
   int length = 0;
   char decoded_char;
 
@@ -94,7 +95,9 @@ static void ecc200_decode_next_byte_256(unsigned char is_gs1_encodation,
       printf("An ECC200 decoding error occurred in ecc200_decode_next_byte_256\n");
     }
     else {
-      decoded_char = (char)(ecc200_unrandomize_255_state(data[*position], pos_from_start++));
+      decoded_char =
+          (char)(ecc200_unrandomize_255_state(data[*position],
+                                              pos_from_start++));
       decode_strcat_char(result, decoded_char);
       if (is_gs1_encodation == 1) {
         decode_strcat_char(gs1_result, decoded_char);
@@ -452,7 +455,9 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
         return;
       }
       else {
-        decode_strcat_char(result, (char)(unpacked[i] ^ (((unpacked[i] & 0x20) ^ 0x20) << 1)));
+        decode_strcat_char(result,
+                           (char)(unpacked[i] ^
+                                  (((unpacked[i] & 0x20) ^ 0x20) << 1)));
       }
     }
 
@@ -1492,7 +1497,8 @@ static int reed_solomon_correct(int n_err_data,
     n2 = 0;
     for (i = 0; i < erasure_index_length; i++) {
       damaged_codeword_index = erasure_index[i];
-      damaged_codeword_index = rs_codewords_length - 1 - damaged_codeword_index;
+      damaged_codeword_index =
+          rs_codewords_length - 1 - damaged_codeword_index;
 
       found = 0;
       j = 0;
@@ -1580,7 +1586,8 @@ static unsigned char reed_solomon(unsigned char codewords[],
   int error_codeword_count;
   unsigned char * rs_codewords;
 
-  rs_codewords = (unsigned char*)safemalloc(codewords_length*sizeof(unsigned char));
+  rs_codewords =
+      (unsigned char*)safemalloc(codewords_length*sizeof(unsigned char));
 
   if (erasures_length == 0) no_of_erasures = 0;
 
@@ -1877,7 +1884,8 @@ static void show_translation_table(struct key_value_pair_int** translation_table
  * \param no_of_cols number of columns in the table
  * \return translation table array
  */
-static struct key_value_pair_int** generate_translation_table(int no_of_rows, int no_of_cols)
+static struct key_value_pair_int** generate_translation_table(int no_of_rows,
+                                                              int no_of_cols)
 {
   int i, chr, row, col;
   struct key_value_pair_int** translation_table =
@@ -2047,7 +2055,8 @@ static int translate(struct grid_2d * grid, unsigned char debug)
   int dim_x = grid->dimension_y - 2;
   int dim_y = grid->dimension_x - 2;
 
-  struct key_value_pair_int ** translation_table = generate_translation_table(dim_x, dim_y);
+  struct key_value_pair_int ** translation_table =
+      generate_translation_table(dim_x, dim_y);
   if (translation_table != NULL) {
     if (debug == 1) {
       show_translation_table(translation_table, dim_x, dim_y);

@@ -53,7 +53,9 @@ void init_line_segments(struct line_segments * segments,
   segments->no_of_members =
     (int*)safemalloc(segments->max_segments*sizeof(int));
   segments->joins =
-    (unsigned char*)safemalloc(segments->max_segments*segments->max_segments*sizeof(unsigned char));
+    (unsigned char*)safemalloc(segments->max_segments *
+                               segments->max_segments *
+                               sizeof(unsigned char));
   segments->joins_sorted =
     (int*)safemalloc(segments->max_segments*sizeof(int));
   segments->selected =
@@ -819,7 +821,8 @@ unsigned char rectangular_joined_line_segments(int aspect_ratio)
  * \param result_bitsperpixel Number of bits per pixel
  */
 void show_rectangular_line_segments(struct line_segments * segments,
-                                    unsigned char result[], int width, int height,
+                                    unsigned char result[],
+                                    int width, int height,
                                     int result_bitsperpixel)
 {
   int i,j,index=0,x,y,n,aspect_ratio;
@@ -873,19 +876,23 @@ static void update_peripheral(struct line_segments * segments,
     segments->edge_centre_hits++;
 
     /* left */
-    if ((segments->perimeter_left[y] == 0) || (x < segments->perimeter_left[y]))
+    if ((segments->perimeter_left[y] == 0) ||
+        (x < segments->perimeter_left[y]))
       segments->perimeter_left[y] = x;
 
     /* right */
-    if ((segments->perimeter_right[y] == 0) || (x > segments->perimeter_right[y]))
+    if ((segments->perimeter_right[y] == 0) ||
+        (x > segments->perimeter_right[y]))
       segments->perimeter_right[y] = x;
 
     /* top */
-    if ((segments->perimeter_top[x] == 0) || (y < segments->perimeter_top[x]))
+    if ((segments->perimeter_top[x] == 0) ||
+        (y < segments->perimeter_top[x]))
       segments->perimeter_top[x] = y;
 
     /* bottom */
-    if ((segments->perimeter_bottom[x] == 0) || (y > segments->perimeter_bottom[x]))
+    if ((segments->perimeter_bottom[x] == 0) ||
+        (y > segments->perimeter_bottom[x]))
       segments->perimeter_bottom[x] = y;
   }
 }
@@ -1062,20 +1069,27 @@ static void assign_edges_to_sides(struct line_segments * segments,
 
     /* calculate the separator line */
     separator_x1 =
-      segments->edge_centre_x - (100 * (float)sin(orientation_radians + (orthogonal * (PI * 0.5f))));
+      segments->edge_centre_x -
+        (100 * (float)sin(orientation_radians + (orthogonal * (PI * 0.5f))));
     separator_y1 =
-      segments->edge_centre_y - (100 * (float)cos(orientation_radians + (orthogonal * (PI * 0.5f))));
+      segments->edge_centre_y -
+        (100 * (float)cos(orientation_radians + (orthogonal * (PI * 0.5f))));
 
     /* two opposite sides */
-    for (opposite = 0; opposite <= 1; opposite++, orient += (no_of_buckets / 2)) {
+    for (opposite = 0; opposite <= 1;
+         opposite++, orient += (no_of_buckets / 2)) {
       /* try a few orientations in the vicinity */
       for (orientation_quantized_wiggle = orient - 1;
            orientation_quantized_wiggle <= orient + 1;
            orientation_quantized_wiggle++) {
         /* check that the orientation is in range */
         orientation_quantized2 = orientation_quantized_wiggle;
-        if (orientation_quantized2 < 0) orientation_quantized2 += no_of_buckets;
-        if (orientation_quantized2 >= no_of_buckets) orientation_quantized2 -= no_of_buckets;
+        if (orientation_quantized2 < 0) {
+            orientation_quantized2 += no_of_buckets;
+        }
+        if (orientation_quantized2 >= no_of_buckets) {
+            orientation_quantized2 -= no_of_buckets;
+        }
         /* assign edges for each side of the square */
         for (side = 0; side < 4; side++) {
           assign_edges_to_side(segments,
@@ -1162,12 +1176,15 @@ float get_segments_orientation(struct line_segments * segments,
         /* update the histogram */
         bucket = (int)(angle_degrees / quantization_degrees);
         if ((bucket >= 0) && (bucket < no_of_buckets)) {
-          if (segments->orientation_histogram[bucket] < MAX_ORIENTATION_EDGES-1) {
+          if (segments->orientation_histogram[bucket] <
+              MAX_ORIENTATION_EDGES-1) {
             /* store the edge */
             edge_index = segments->orientation_histogram[bucket]*4;
             segments->orientation_histogram_edges[bucket][edge_index] = prev_x;
-            segments->orientation_histogram_edges[bucket][edge_index+1] = prev_y;
-            segments->orientation_histogram_edges[bucket][edge_index+2] = perimeter[y];
+            segments->orientation_histogram_edges[bucket][edge_index+1] =
+                prev_y;
+            segments->orientation_histogram_edges[bucket][edge_index+2] =
+                perimeter[y];
             segments->orientation_histogram_edges[bucket][edge_index+3] = y;
             /* update the histogram */
             segments->orientation_histogram[bucket]++;
@@ -1176,10 +1193,14 @@ float get_segments_orientation(struct line_segments * segments,
             opposite_bucket = (bucket + (no_of_buckets/2)) % no_of_buckets;
             /* store the edge */
             edge_index = segments->orientation_histogram[opposite_bucket]*4;
-            segments->orientation_histogram_edges[opposite_bucket][edge_index] = perimeter[y];
-            segments->orientation_histogram_edges[opposite_bucket][edge_index+1] = y;
-            segments->orientation_histogram_edges[opposite_bucket][edge_index+2] = prev_x;
-            segments->orientation_histogram_edges[opposite_bucket][edge_index+3] = prev_y;
+            segments->orientation_histogram_edges[opposite_bucket][edge_index] =
+                perimeter[y];
+            segments->orientation_histogram_edges[opposite_bucket][edge_index+1] =
+                y;
+            segments->orientation_histogram_edges[opposite_bucket][edge_index+2] =
+                prev_x;
+            segments->orientation_histogram_edges[opposite_bucket][edge_index+3] =
+                prev_y;
             /* update the histogram */
             segments->orientation_histogram[opposite_bucket]++;
           }
@@ -1235,13 +1256,16 @@ float get_segments_orientation(struct line_segments * segments,
         /* update the histogram */
         bucket = (int)(angle_degrees / quantization_degrees);
         if ((bucket >= 0) && (bucket < no_of_buckets)) {
-          if (segments->orientation_histogram[bucket] < MAX_ORIENTATION_EDGES-1) {
+          if (segments->orientation_histogram[bucket] <
+              MAX_ORIENTATION_EDGES-1) {
             /* store the edge */
             edge_index = segments->orientation_histogram[bucket]*4;
             segments->orientation_histogram_edges[bucket][edge_index] = prev_x;
-            segments->orientation_histogram_edges[bucket][edge_index+1] = prev_y;
+            segments->orientation_histogram_edges[bucket][edge_index+1] =
+                prev_y;
             segments->orientation_histogram_edges[bucket][edge_index+2] = x;
-            segments->orientation_histogram_edges[bucket][edge_index+3] = perimeter[x];
+            segments->orientation_histogram_edges[bucket][edge_index+3] =
+                perimeter[x];
             /* update the histogram */
             segments->orientation_histogram[bucket]++;
 
@@ -1250,9 +1274,12 @@ float get_segments_orientation(struct line_segments * segments,
             /* store the edge */
             edge_index = segments->orientation_histogram[opposite_bucket]*4;
             segments->orientation_histogram_edges[opposite_bucket][edge_index] = x;
-            segments->orientation_histogram_edges[opposite_bucket][edge_index+1] = perimeter[x];
-            segments->orientation_histogram_edges[opposite_bucket][edge_index+2] = prev_x;
-            segments->orientation_histogram_edges[opposite_bucket][edge_index+3] = prev_y;
+            segments->orientation_histogram_edges[opposite_bucket][edge_index+1] =
+                perimeter[x];
+            segments->orientation_histogram_edges[opposite_bucket][edge_index+2] =
+                prev_x;
+            segments->orientation_histogram_edges[opposite_bucket][edge_index+3] =
+                prev_y;
             /* update the histogram */
             segments->orientation_histogram[opposite_bucket]++;
           }
@@ -1434,10 +1461,14 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
                                                 int width, int height,
                                                 float max_deviation,
                                                 int centre_x, int centre_y,
-                                                float * perimeter_x0, float * perimeter_y0,
-                                                float * perimeter_x1, float * perimeter_y1,
-                                                float * perimeter_x2, float * perimeter_y2,
-                                                float * perimeter_x3, float * perimeter_y3)
+                                                float * perimeter_x0,
+                                                float * perimeter_y0,
+                                                float * perimeter_x1,
+                                                float * perimeter_y1,
+                                                float * perimeter_x2,
+                                                float * perimeter_y2,
+                                                float * perimeter_x3,
+                                                float * perimeter_y3)
 {
   int side, side2, no_of_samples, no_of_edge_samples, fit_edges;
   float x0=0, y0=0, x1=0, y1=0;
@@ -1526,14 +1557,18 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
  */
 unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                      int width, int height,
-                                     float * perimeter_x0, float * perimeter_y0,
-                                     float * perimeter_x1, float * perimeter_y1,
-                                     float * perimeter_x2, float * perimeter_y2,
-                                     float * perimeter_x3, float * perimeter_y3)
+                                     float * perimeter_x0,
+                                     float * perimeter_y0,
+                                     float * perimeter_x1,
+                                     float * perimeter_y1,
+                                     float * perimeter_x2,
+                                     float * perimeter_y2,
+                                     float * perimeter_x3,
+                                     float * perimeter_y3)
 {
   int side, no_of_edges, max_edges=0, max_edges2=0, max_side1=-1, max_side2=-1;
-  int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy, dist, max_dist;
-  int no_of_samples, no_of_edge_samples, edge_idx;
+  int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy;
+  int no_of_samples, no_of_edge_samples, edge_idx, dist, max_dist;
   unsigned char enough_edges = 1;
   float max_deviation=5;
   float x0, y0, x1, y1, cx, cy, dx2, dy2;
@@ -1572,7 +1607,8 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
   }
   if (enough_edges == 1) {
     return fit_perimeter_to_all_sides(segments, width, height, max_deviation,
-                                      segments->edge_centre_x, segments->edge_centre_y,
+                                      segments->edge_centre_x,
+                                      segments->edge_centre_y,
                                       perimeter_x0, perimeter_y0,
                                       perimeter_x1, perimeter_y1,
                                       perimeter_x2, perimeter_y2,
