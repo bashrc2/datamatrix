@@ -478,17 +478,22 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
     direction_x = mid_point_x - cx;
     direction_y = mid_point_y - cy;
     /* left contracted inwards further */
-    direction_contracted_left_x = left_mid_point_x - (direction_x*min_extension_percent/100);
-    direction_contracted_left_y = left_mid_point_y - (direction_y*min_extension_percent/100);
+    direction_contracted_left_x =
+        left_mid_point_x - (direction_x*min_extension_percent/100);
+    direction_contracted_left_y =
+        left_mid_point_y - (direction_y*min_extension_percent/100);
     /* right contracted inwards further */
-    direction_contracted_right_x = right_mid_point_x - (direction_x*min_extension_percent/100);
-    direction_contracted_right_y = right_mid_point_y - (direction_y*min_extension_percent/100);
+    direction_contracted_right_x =
+        right_mid_point_x - (direction_x*min_extension_percent/100);
+    direction_contracted_right_y =
+        right_mid_point_y - (direction_y*min_extension_percent/100);
     /* left travel to be searched */
     left_x = -1;
     search_line_points(mono_img, width, height,
                        image_data, image_bytesperpixel, debug,
                        (int)left_mid_point_x, (int)left_mid_point_y,
-                       (int)direction_contracted_left_x, (int)direction_contracted_left_y,
+                       (int)direction_contracted_left_x,
+                       (int)direction_contracted_left_y,
                        (int)(dx/4), (int)(dy/4), 1, &left_x, &left_y);
 
     /* right travel to be searched */
@@ -496,7 +501,8 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
     search_line_points(mono_img, width, height,
                        image_data, image_bytesperpixel, debug,
                        (int)right_mid_point_x, (int)right_mid_point_y,
-                       (int)direction_contracted_right_x, (int)direction_contracted_right_y,
+                       (int)direction_contracted_right_x,
+                       (int)direction_contracted_right_y,
                        (int)(dx/4), (int)(dy/4), 1, &right_x, &right_y);
     if ((left_x == -1) && (right_x == -1)) continue;
     contracted = 1;
