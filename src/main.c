@@ -154,6 +154,7 @@ int main(int argc, char* argv[])
             decode_strcat(&filename[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--txt")==0) ||
+            (strcmp(argv[i],"--fromstring")==0) ||
             (strcmp(argv[i],"--fromtext")==0)) {
             decode_from_text[0] = 0;
             if (strlen(argv[i+1]) >= MAX_DECODE_STRING_LENGTH) {
