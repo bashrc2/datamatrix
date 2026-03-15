@@ -2,6 +2,7 @@
 #define PNG2_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "lodepng.h"
 
 static unsigned char * read_png_file(char * filename,
