@@ -37,11 +37,15 @@
 /**
  * \brief encode text into a datamatrix as text or an image
  * \param text the text to be encoded
+ * \param encode_scale Scaling factor for text datamatrix output
  * \param encode_eccstr ECC encoding type
  * \param is_square 1 if the datamatrix should be square
  * \param csv 1 if output should be in CSV format
  * \param show_coords 1 if the output should be a list of dot coordinates
+ * \param coords_offset_x X offset added to dot coordinates
+ * \param coords_offset_y Y offset added to dot coordinates
  * \param image_filename filename to save datamatrix image to
+ * \param encode_image_width Width of the datamatrix image
  * \param debug 1 to show debug, 0 otherwise
  * \returns 0 on success, -1 otherwise
  */
