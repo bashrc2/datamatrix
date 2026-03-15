@@ -626,6 +626,12 @@ void encode_image(unsigned char img[], int width, int height,
                   int bitsperpixel, unsigned char *grid,
                   unsigned int encode_width, unsigned int encode_height);
 
+/* decode_text.c */
+
+int decode_datamatrix_from_text(char * datamatrix_text,
+								char * gs1_url,
+								unsigned char debug);
+
 /* help.c */
 
 void show_help();
