@@ -34,6 +34,44 @@
 #include "datamatrix.h"
 #include "iec16022ecc200.h"
 
+static int encode_datamatrix_to_image(char * image_filename,
+                                      unsigned char * grid,
+                                      unsigned int encode_width,
+                                      unsigned int encode_height,
+                                      int encode_image_width,
+                                      int encode_image_height)
+{
+    int image_filename_length = strlen(image_filename);
+    /* check that the output image filename is long enough */
+    if (image_filename_length < 4) {
+        printf("Output filename too short.\n");
+        free(grid);
+        return -1;
+    }
+
+    /* check that the output image filename is png format */
+    if ((image_filename[image_filename_length-4] != '.') ||
+        (image_filename[image_filename_length-3] != 'p') ||
+        (image_filename[image_filename_length-2] != 'n') ||
+        (image_filename[image_filename_length-1] != 'g')) {
+        printf("Output filename must be png format.\n");
+        free(grid);
+        return -1;
+    }
+    unsigned char * encode_image_data =
+        (unsigned char*)safemalloc(encode_image_width*
+                                   encode_image_height*3);
+    encode_image(encode_image_data,
+                 encode_image_width, encode_image_height, 24,
+                 grid, encode_width, encode_height);
+    write_png_file(image_filename,
+                   encode_image_width, encode_image_height, 24,
+                   encode_image_data);
+
+    free(grid);
+    return 0;
+}
+
 /**
  * \brief encode text into a datamatrix as text or an image
  * \param text the text to be encoded
@@ -140,35 +178,12 @@ int encode_datamatrix_to_text(char * text,
         encode_image_width * encode_height / encode_width;
 
     if (grid && (image_filename[0] != 0)) {
-        /* encode as an image */
-        int image_filename_length = strlen(image_filename);
-        /* check that the output image filename is long enough */
-        if (image_filename_length < 4) {
-            printf("Output filename too short.\n");
-            free(grid);
-            return -1;
-        }
-
-        /* check that the output image filename is png format */
-        if ((image_filename[image_filename_length-4] != '.') ||
-            (image_filename[image_filename_length-3] != 'p') ||
-            (image_filename[image_filename_length-2] != 'n') ||
-            (image_filename[image_filename_length-1] != 'g')) {
-            printf("Output filename must be png format.\n");
-            free(grid);
-            return -1;
-        }
-        unsigned char * encode_image_data =
-            (unsigned char*)safemalloc(encode_image_width*
-                                       encode_image_height*3);
-        encode_image(encode_image_data,
-                     encode_image_width, encode_image_height, 24,
-                     grid, encode_width, encode_height);
-        write_png_file(image_filename,
-                       encode_image_width, encode_image_height, 24,
-                       encode_image_data);
-        free(grid);
-        return 0;
+        return encode_datamatrix_to_image(image_filename,
+                                          grid,
+                                          encode_width,
+                                          encode_height,
+                                          encode_image_width,
+                                          encode_image_height);
     }
 
     /* encode as text */
