@@ -27,7 +27,6 @@
 
 #include "png2.h"
 #include "datamatrix.h"
-#include "iec16022ecc200.h"
 
 int main(int argc, char* argv[])
 {
@@ -85,21 +84,10 @@ int main(int argc, char* argv[])
     unsigned char is_rectangle = 0;
 
     /* encoding parameters */
-    char *encoding = NULL;
     char encode_eccstr[MAX_DECODE_LENGTH];
-    int barcodelen = 0;
     char encode_text[MAX_DECODE_LENGTH];
-    unsigned char *grid = 0;
-    unsigned int encode_width = 0, encode_height = 0;
-    int encode_ecc = 0;
-    unsigned int len = 0,
-        maxlen = 0,
-        encode_ecclen = 0,
-        square = 0,
-        noquiet = 0;
     int encode_scale = 1;
     int encode_image_width = 512;
-    int encode_image_height = 512;
     float coords_offset_x = 0;
     float coords_offset_y = 0;
 
@@ -400,153 +388,17 @@ int main(int argc, char* argv[])
     }
 
     if (encode_text[0] != 0) {
-        /* encode some text */
-        barcodelen = strlen(&encode_text[0]);
-        if (encode_eccstr[0] != 0) encode_ecc = atoi(&encode_eccstr[0]);
-        if (encode_width & 1) { /* odd size */
-            if (encode_width != encode_height ||
-                encode_width < 9 || encode_width > 49) {
-                printf("Invalid size %dx%d\n", encode_width, encode_height);
-                return -1;
-            }
-            if (encode_eccstr[0] == 0) {
-                if (encode_width >= 17)
-                    encode_ecc = 140;
-                else if (encode_width >= 13)
-                    encode_ecc = 100;
-                else if (encode_width >= 11)
-                    encode_ecc = 80;
-                else
-                    encode_ecc = 0;
-            }
-            if ((encode_ecc && encode_ecc != 50 &&
-                 encode_ecc != 80 && encode_ecc != 100 &&
-                 encode_ecc != 140) ||
-                (encode_ecc == 50 && encode_width < 11) ||
-                (encode_ecc == 80 && encode_width < 13) ||
-                (encode_ecc == 100 && encode_width < 13) ||
-                (encode_ecc == 140 && encode_width < 17)) {
-                printf("ECC%03d invalid for %dx%d\n",
-                       encode_ecc, encode_width, encode_height);
-                return -1;
-            }               
-        } else if (encode_width) { /* even size */
-            if (encode_width < encode_height) {
-                int t = encode_width;
-                encode_width = encode_height;
-                encode_height = t;
-            }
-            if (encode_eccstr[0] == 0) encode_ecc = 200;
-            if (encode_ecc != 200) {
-                printf("ECC%03d invalid for %dx%d\n",
-                       encode_ecc, encode_width, encode_height);
-                return -1;
-            }
-        }
-        else { /* auto size */
-            if (encode_eccstr[0] == 0)  {
-                /* default is even sizes only unless explicit ecc set to force
-                   odd sizes */
-                encode_ecc = 200;
-            }
-        }
-
-        /* force square shape? */
-        if (is_square == 1) square = 1;
-
-        /* csv output has no quiet zone */
-        if (csv == 1) noquiet = 1;
-
-        grid = iec16022ecc200(&encode_width, &encode_height,
-                              &encoding, barcodelen,
-                              (unsigned char *)&encode_text[0], &len,
-                              &maxlen, &encode_ecclen, square, noquiet);
-        if (debug == 1)
-            printf("encoded: '%s' %dx%d\n",
-                   &encode_text[0], encode_width, encode_height);
-        /* show the datamatrix */
-        encode_image_height =                                       \
-            encode_image_width * encode_height / encode_width;
-        if (grid && (output_filename[0] != 0)) {
-            int output_filename_length = strlen(&output_filename[0]);
-            /* check that the output image filename is long enough */
-            if (output_filename_length < 4) {
-                printf("Output filename too short.\n");
-                free(grid);
-                return -1;
-            }
-
-            /* check that the output image filename is png format */
-            if ((output_filename[output_filename_length-4] != '.') ||
-                (output_filename[output_filename_length-3] != 'p') ||
-                (output_filename[output_filename_length-2] != 'n') ||
-                (output_filename[output_filename_length-1] != 'g')) {
-                printf("Output filename must be png format.\n");
-                free(grid);
-                return -1;
-            }
-            unsigned char * encode_image_data =
-                (unsigned char*)safemalloc(encode_image_width*
-                                           encode_image_height*3);
-            encode_image(encode_image_data,
-                         encode_image_width, encode_image_height, 24,
-                         grid, encode_width, encode_height);
-            write_png_file(&output_filename[0],
-                           encode_image_width, encode_image_height, 24,
-                           encode_image_data);
-            free(grid);
-            return 0;
-        }
-        unsigned int S = encode_scale;
-        unsigned int x, y, x_directional;
-        char * dot_chr = "● ";
-        char * empty_chr = "  ";
-        if (S > 1) {
-            dot_chr = "█";
-            empty_chr = " ";
-        }
-        if (csv == 1) {
-            S = 1;
-            dot_chr = "1,";
-            empty_chr = "0,";
-        }
-        float x_coord, y_coord;
-        unsigned char direction = 0;
-        if (show_coords == 1) S = 1;
-        for (y = 0; y < encode_height * S; y++) {
-            for (x = 0; x < encode_width * S; x++) {
-                if (show_coords == 0) {
-                    printf("%s",
-                           grid[encode_width *
-                                (y / S) + (x / S)] ? dot_chr : empty_chr);
-                }
-                else {
-                    /* show dot coordinates */
-                    x_directional = x;
-                    if (direction == 1) x_directional = encode_width - 1 - x;
-                    if (grid[encode_width * y + x_directional]) {
-                        x_coord =
-                            coords_offset_x +
-                            (x_directional * encode_image_width /
-                             (float)encode_width);
-                        y_coord =
-                            coords_offset_y +
-                            (y * encode_image_height /
-                             (float)encode_height);
-                        printf("%.3f, %.3f,\n", x_coord, y_coord);
-                    }
-                }
-            }
-            if (show_coords == 0) printf("\n");
-            /* change direction for each row */
-            direction = 1 - direction;
-        }
-
-        if (grid) {
-            free(grid);
-            return 0;
-        }
-        return -1;
+        return encode_datamatrix_to_text(&encode_text[0],
+                                         encode_scale,
+                                         &encode_eccstr[0],
+                                         is_square,
+                                         csv,
+                                         show_coords,
+                                         coords_offset_x,
+                                         coords_offset_y,
+                                         &output_filename[0],
+                                         encode_image_width,
+                                         debug);
     }
     
     /* was a file specified */

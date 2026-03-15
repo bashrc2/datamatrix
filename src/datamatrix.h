@@ -629,8 +629,22 @@ void encode_image(unsigned char img[], int width, int height,
 /* decode_text.c */
 
 int decode_datamatrix_from_text(char * datamatrix_text,
-								char * gs1_url,
-								unsigned char debug);
+                                char * gs1_url,
+                                unsigned char debug);
+
+/* encode_text.c */
+
+int encode_datamatrix_to_text(char * text,
+                              int encode_scale,
+                              char * encode_eccstr,
+                              unsigned char is_square,
+                              unsigned char csv,
+                              unsigned char show_coords,
+                              float coords_offset_x,
+                              float coords_offset_y,
+                              char * image_filename,
+                              int encode_image_width,
+                              unsigned char debug);
 
 /* help.c */
 
