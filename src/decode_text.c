@@ -209,7 +209,7 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 		if (datamatrix_unicode_to_ascii(datamatrix_text,
 										dot_text,
 										&datamatrix_ascii[0],
-										debug)) break;
+										debug) == 1) break;
 	}
 
     get_text_datamatrix_dimensions(&datamatrix_ascii[0],
