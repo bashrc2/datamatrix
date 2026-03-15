@@ -26,10 +26,7 @@
  *********************************************************************/
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include <time.h>
-
 #include "png2.h"
 #include "datamatrix.h"
 #include "iec16022ecc200.h"
