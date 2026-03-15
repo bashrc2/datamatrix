@@ -120,6 +120,12 @@ datamatrix -e "ABCDEF" -o test.png -w 256
 
 ## Example Decoding
 
+It's possible to decode a datamatrix contained within a text string, as generated with the *-e* option above.
+
+``` bash
+datamatrix --txt "datamatrix text goes here"
+```
+
 When decoding, you typically only need to supply a PNG formatted input image.
 
 ``` bash
