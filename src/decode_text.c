@@ -34,14 +34,15 @@
  * \param datamatrix_text string containing the datamatrix
  * \param dot_text string containing the unicode dot representation
  * \param result string containing ascii datamatrix
+ * \returns 1 if replacements were made
  */
-static void datamatrix_unicode_to_ascii(char * datamatrix_text,
-                                        char * dot_text,
-                                        char * result,
-                                        unsigned char debug)
+static int datamatrix_unicode_to_ascii(char * datamatrix_text,
+									   char * dot_text,
+									   char * result,
+									   unsigned char debug)
 {
     int dot_text_len = (int)strlen(dot_text);
-    int i, j, ctr = 0;
+    int i, j, ctr = 0, found = 0;
     for (i = 0; i < (int)strlen(datamatrix_text); i++) {
         if (i <= (int)strlen(datamatrix_text) - dot_text_len) {
             for (j = 0; j < dot_text_len; j++) {
@@ -51,6 +52,7 @@ static void datamatrix_unicode_to_ascii(char * datamatrix_text,
                 result[ctr++] = datamatrix_text[i];
             }
             else {
+				found = 1;
                 result[ctr++] = 'O';
                 i += dot_text_len-1;
             }
@@ -63,6 +65,7 @@ static void datamatrix_unicode_to_ascii(char * datamatrix_text,
     if (debug == 1) {
         printf("datamatrix_unicode_to_ascii\n%s\n", result);
     }
+	return found;
 }
 
 /**
@@ -195,13 +198,19 @@ int decode_datamatrix_from_text(char * datamatrix_text,
                                 unsigned char debug)
 {
     char datamatrix_ascii[MAX_DECODE_STRING_LENGTH];
-    char * dot_text = "●";
-    int dimension_x=0, dimension_y=0, decode_step=0;
+	char * dot_strings[] = {
+		"●", "⦁", "•", "⚫"
+	};
+	int no_of_dot_strings = 4;	
+    int i, dimension_x=0, dimension_y=0, decode_step=0;
 
-    datamatrix_unicode_to_ascii(datamatrix_text,
-                                dot_text,
-                                &datamatrix_ascii[0],
-                                debug);
+	for (i = 0; i < no_of_dot_strings; i++) {
+		char * dot_text = dot_strings[i];
+		if (datamatrix_unicode_to_ascii(datamatrix_text,
+										dot_text,
+										&datamatrix_ascii[0],
+										debug)) break;
+	}
 
     get_text_datamatrix_dimensions(&datamatrix_ascii[0],
                                    debug,
