@@ -36,10 +36,12 @@
  * \param dot_x x coordinate of the centre of the dot
  * \param dot_y y coordinate of the centre of the dot
  * \param dot_radius radius of the dot
+ * \param square_modules draw with square shaped modules
  */
 static void encode_image_dot(unsigned char img[], int width, int height,
                              int bytes_per_pixel,
-                             int dot_x, int dot_y, int dot_radius)
+                             int dot_x, int dot_y, int dot_radius,
+                             unsigned char square_modules)
 {
     int tx = dot_x - dot_radius;
     int bx = dot_x + dot_radius;
@@ -57,7 +59,8 @@ static void encode_image_dot(unsigned char img[], int width, int height,
         dy = y - dot_y;
         for (x = tx; x < bx; x++) {
             dx = x - dot_x;
-            if (SQUARE_MAG(dx, dy) > dot_radius_sqr) continue;
+            if ((square_modules == 0) &&
+                (SQUARE_MAG(dx, dy) > dot_radius_sqr)) continue;
 
             idx = (y*width + x) * bytes_per_pixel;
             for (c = bytes_per_pixel-1; c >= 0; c--, idx++) img[idx] = 0;
@@ -73,10 +76,12 @@ static void encode_image_dot(unsigned char img[], int width, int height,
  * \param bitsperpixel Number of bits per pixel
  * \param encode_width width of the datamatrix grid
  * \param encode_height height of the datamatrix grid
+ * \param square_modules draw with square shaped modules
  */
 void encode_image(unsigned char img[], int width, int height,
                   int bitsperpixel, unsigned char *grid,
-                  unsigned int encode_width, unsigned int encode_height)
+                  unsigned int encode_width, unsigned int encode_height,
+                  unsigned char square_modules)
 {
     unsigned int x, y;
     int bytes_per_pixel = bitsperpixel/8;
@@ -84,6 +89,10 @@ void encode_image(unsigned char img[], int width, int height,
     int half_cell_width = width / ((int)encode_width * 2);
     int half_cell_height = height / ((int)encode_height * 2);
     int dot_radius = half_cell_width * 8 / 10;
+
+    if (square_modules != 0) {
+        dot_radius = half_cell_width + 1;
+    }
 
     /* clear the image */
     memset(img, 255, width*height*bytes_per_pixel*sizeof(unsigned char));
@@ -95,7 +104,7 @@ void encode_image(unsigned char img[], int width, int height,
             if (!grid[encode_width * y + x]) continue;
             dot_x = ((int)x * width / (int)encode_width) + half_cell_width;
             encode_image_dot(img, width, height, bytes_per_pixel,
-                             dot_x, dot_y, dot_radius);
+                             dot_x, dot_y, dot_radius, square_modules);
         }
     }
 }

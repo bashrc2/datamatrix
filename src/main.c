@@ -93,6 +93,7 @@ int main(int argc, char* argv[])
     unsigned char empty_char_specified = 0;
     char dot_char[4];
     char empty_char[4];
+    unsigned char square_modules = 0;
 
     /* representations for dot and space for encoded datamatrix */
     sprintf(&dot_char[0], "●");
@@ -323,6 +324,10 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--binwidth")==0)) {
             resized_thresholded_width = atoi(argv[i+1]);
         }
+        if (strcmp(argv[i],"--squaremodules")==0) {
+            square_modules = 1;
+            loop_incr = 1;
+        }
         if (strcmp(argv[i],"--raw")==0) {
             raw_decode = 1;
             loop_incr = 1;
@@ -421,6 +426,7 @@ int main(int argc, char* argv[])
                                          encode_image_width,
                                          &dot_char[0],
                                          &empty_char[0],
+                                         square_modules,
                                          debug);
     }
     

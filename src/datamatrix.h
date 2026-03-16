@@ -624,7 +624,8 @@ void run_all_tests();
 
 void encode_image(unsigned char img[], int width, int height,
                   int bitsperpixel, unsigned char *grid,
-                  unsigned int encode_width, unsigned int encode_height);
+                  unsigned int encode_width, unsigned int encode_height,
+                  unsigned char square_modules);
 
 /* decode_text.c */
 
@@ -647,6 +648,7 @@ int encode_datamatrix_to_text(char * text,
                               int encode_image_width,
                               char * dot_char,
                               char * empty_char,
+                              unsigned char square_modules,
                               unsigned char debug);
 
 /* help.c */

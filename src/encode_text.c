@@ -39,6 +39,7 @@
  * \param encode_height height of the grid
  * \param encode_image_width width of the datamatrix image
  * \param encode_image_height height of the datamatrix image
+ * \param square_modules draw with square shaped modules
  * \returns 0 on success, -1 otherwise
  */
 static int encode_datamatrix_to_image(char * image_filename,
@@ -46,7 +47,8 @@ static int encode_datamatrix_to_image(char * image_filename,
                                       unsigned int encode_width,
                                       unsigned int encode_height,
                                       int encode_image_width,
-                                      int encode_image_height)
+                                      int encode_image_height,
+                                      unsigned char square_modules)
 {
     int image_filename_length = strlen(image_filename);
     /* check that the output image filename is long enough */
@@ -70,7 +72,8 @@ static int encode_datamatrix_to_image(char * image_filename,
                                    encode_image_height*3);
     encode_image(encode_image_data,
                  encode_image_width, encode_image_height, 24,
-                 grid, encode_width, encode_height);
+                 grid, encode_width, encode_height,
+                 square_modules);
     write_png_file(image_filename,
                    encode_image_width, encode_image_height, 24,
                    encode_image_data);
@@ -92,6 +95,7 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \param encode_image_width Width of the datamatrix image
  * \param dot_char character or string representing a dot
  * \param empty_char character or string representing a space
+ * \param square_modules draw with square shaped modules
  * \param debug 1 to show debug, 0 otherwise
  * \returns 0 on success, -1 otherwise
  */
@@ -104,8 +108,9 @@ int encode_datamatrix_to_text(char * text,
                               float coords_offset_y,
                               char * image_filename,
                               int encode_image_width,
-							  char * dot_char,
-							  char * empty_char,
+                              char * dot_char,
+                              char * empty_char,
+                              unsigned char square_modules,
                               unsigned char debug)
 {
     char * encoding = NULL;
@@ -143,13 +148,14 @@ int encode_datamatrix_to_text(char * text,
                                           encode_width,
                                           encode_height,
                                           encode_image_width,
-                                          encode_image_height);
+                                          encode_image_height,
+                                          square_modules);
     }
 
     /* encode as text */
     unsigned int S = encode_scale;
     unsigned int x, y, x_directional;
-	char dot_chr[5];
+    char dot_chr[5];
     char empty_chr[5];
     sprintf(&dot_chr[0], "%s%s", dot_char, empty_char);
     sprintf(&empty_chr[0], "%s%s", empty_char, empty_char);
