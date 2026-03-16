@@ -155,9 +155,17 @@ int encode_datamatrix_to_text(char * text,
     /* encode as text */
     unsigned int S = encode_scale;
     unsigned int x, y, x_directional;
-    char dot_chr[5];
-    char empty_chr[5];
-    sprintf(&dot_chr[0], "%s%s", dot_char, empty_char);
+    char dot_chr[8];
+    char empty_chr[8];
+    if (square_modules == 0) {
+        /* round */
+        sprintf(&dot_chr[0], "%s%s", dot_char, empty_char);
+    }
+    else {
+        /* square */
+        sprintf(&dot_chr[0], "%s%s", dot_char, dot_char);
+        S = 1;
+    }
     sprintf(&empty_chr[0], "%s%s", empty_char, empty_char);
     if (S > 1) {
         sprintf(&dot_chr[0], "█");

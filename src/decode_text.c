@@ -208,9 +208,9 @@ int decode_datamatrix_from_text(char * datamatrix_text,
     char datamatrix_ascii[MAX_DECODE_STRING_LENGTH];
     char empty_char[5];
     char * dot_strings[] = {
-        "●", "⦁", "•", "⚫"
+        "●", "█", "⦁", "•", "⚫"
     };
-    int no_of_dot_strings = 4;  
+    int no_of_dot_strings = 5;
     int i, dimension_x=0, dimension_y=0, decode_step=0;
 
     sprintf(&empty_char[0], " ");

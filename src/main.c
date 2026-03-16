@@ -415,6 +415,11 @@ int main(int argc, char* argv[])
     }
 
     if (encode_text[0] != 0) {
+        if ((square_modules != 0) &&
+            (dot_char_specified == 0)) {
+            /* show with square modules */
+            sprintf(&dot_char[0], "█");
+        }
         return encode_datamatrix_to_text(&encode_text[0],
                                          encode_scale,
                                          is_square,
