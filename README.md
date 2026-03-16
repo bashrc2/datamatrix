@@ -127,7 +127,7 @@ Optionally you can output the generated datamatrix pattern in csv format.
 datamatrix -e "ABCDEF" --csv
 ```
 
-You can also export the generated datamatrix as an image.
+You can also export the generated datamatrix as an image in PNG or SVG format.
 
 ``` bash
 datamatrix -e "ABCDEF" -o test.png -w 256

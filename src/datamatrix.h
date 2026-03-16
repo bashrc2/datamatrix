@@ -627,6 +627,11 @@ void encode_image(unsigned char img[], int width, int height,
                   unsigned int encode_width, unsigned int encode_height,
                   unsigned char square_modules);
 
+void encode_svg(char * image_filename, int width, int height,
+                unsigned char *grid,
+                unsigned int encode_width, unsigned int encode_height,
+                unsigned char square_modules);
+
 /* decode_text.c */
 
 int decode_datamatrix_from_text(char * datamatrix_text,

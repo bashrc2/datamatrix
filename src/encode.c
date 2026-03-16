@@ -108,3 +108,57 @@ void encode_image(unsigned char img[], int width, int height,
         }
     }
 }
+
+/**
+ * \brief returns an SVG image from the given datamatrix grid
+ * \param image_filename filename of the svg image to be saved
+ * \param width width of the image
+ * \param height height of the image
+ * \param encode_width width of the datamatrix grid
+ * \param encode_height height of the datamatrix grid
+ * \param square_modules draw with square shaped modules
+ */
+void encode_svg(char * image_filename, int width, int height,
+                unsigned char *grid,
+                unsigned int encode_width, unsigned int encode_height,
+                unsigned char square_modules)
+{
+    unsigned int x, y;
+    int dot_x, dot_y;
+    int half_cell_width = width / ((int)encode_width * 2);
+    int half_cell_height = height / ((int)encode_height * 2);
+    int dot_radius = half_cell_width * 8 / 10;
+    FILE * fp_image;
+
+    if (square_modules != 0) {
+        dot_radius = half_cell_width + 1;
+    }
+
+    fp_image = fopen(image_filename, "w");
+    if (fp_image == NULL) return;
+    fprintf(fp_image,
+            "<svg height=\"%d\" width=\"%d\" xmlns=\"http://www.w3.org/2000/svg\">\n",
+            width, height);
+
+    /* draw dots */
+    for (y = 0; y < encode_height; y++) {
+        dot_y = ((int)y * height / (int)encode_height) + half_cell_height;
+        for (x = 0; x < encode_width; x++) {
+            if (!grid[encode_width * y + x]) continue;
+            dot_x = ((int)x * width / (int)encode_width) + half_cell_width;
+            if (square_modules == 0) {
+                fprintf(fp_image,
+                        "<circle r=\"%d\" cx=\"%d\" cy=\"%d\" fill=\"black\" />\n",
+                        dot_radius, dot_x, dot_y);
+            }
+            else {
+                fprintf(fp_image,
+                        "<rect width=\"%d\" height=\"%d\" x=\"%d\" y=\"%d\" rx=\"0\" ry=\"0\" fill=\"black\" />\n",
+                        dot_radius*2, dot_radius*2,
+                        dot_x - dot_radius, dot_y - dot_radius);
+            }
+        }
+    }
+    fprintf(fp_image, "</svg>\n");
+    fclose(fp_image);
+}
