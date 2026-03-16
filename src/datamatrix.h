@@ -630,6 +630,8 @@ void encode_image(unsigned char img[], int width, int height,
 
 int decode_datamatrix_from_text(char * datamatrix_text,
                                 char * gs1_url,
+                                char * custom_dot_char,
+                                char * custom_empty_char,
                                 unsigned char debug);
 
 /* encode_text.c */

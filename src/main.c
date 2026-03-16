@@ -89,6 +89,8 @@ int main(int argc, char* argv[])
     int encode_image_width = 512;
     float coords_offset_x = 0;
     float coords_offset_y = 0;
+    unsigned char dot_char_specified = 0;
+    unsigned char empty_char_specified = 0;
     char dot_char[4];
     char empty_char[4];
 
@@ -199,6 +201,7 @@ int main(int argc, char* argv[])
         if (strcmp(argv[i],"--dot")==0) {
             if (strlen(argv[i+1]) <= 3) {
                 sprintf(&dot_char[0], "%s", argv[i+1]);
+                dot_char_specified = 1;
             }
         }
         if ((strcmp(argv[i],"--empty")==0) ||
@@ -206,6 +209,7 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--space")==0)) {
             if (strlen(argv[i+1]) <= 3) {
                 sprintf(&empty_char[0], "%s", argv[i+1]);
+                empty_char_specified = 1;
             }
         }
         if (strcmp(argv[i],"--scale")==0) {
@@ -393,8 +397,16 @@ int main(int argc, char* argv[])
     }
 
     if (decode_from_text[0] != 0) {
+        if ((dot_char_specified == 1) ||
+            (empty_char_specified == 1)) {
+            return decode_datamatrix_from_text(&decode_from_text[0],
+                                               &gs1_url[0],
+                                               &dot_char[0], &empty_char[0],
+                                               debug);
+        }
         return decode_datamatrix_from_text(&decode_from_text[0],
-                                           &gs1_url[0], debug);
+                                           &gs1_url[0],
+                                           "", "", debug);
     }
 
     if (encode_text[0] != 0) {
