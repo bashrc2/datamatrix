@@ -37,9 +37,9 @@
  * \returns 1 if replacements were made
  */
 static int datamatrix_unicode_to_ascii(char * datamatrix_text,
-									   char * dot_text,
-									   char * result,
-									   unsigned char debug)
+                                       char * dot_text,
+                                       char * result,
+                                       unsigned char debug)
 {
     int dot_text_len = (int)strlen(dot_text);
     int i, j, ctr = 0, found = 0;
@@ -52,7 +52,7 @@ static int datamatrix_unicode_to_ascii(char * datamatrix_text,
                 result[ctr++] = datamatrix_text[i];
             }
             else {
-				found = 1;
+                found = 1;
                 result[ctr++] = 'O';
                 i += dot_text_len-1;
             }
@@ -65,7 +65,7 @@ static int datamatrix_unicode_to_ascii(char * datamatrix_text,
     if (debug == 1) {
         printf("datamatrix_unicode_to_ascii\n%s\n", result);
     }
-	return found;
+    return found;
 }
 
 /**
@@ -75,12 +75,14 @@ static int datamatrix_unicode_to_ascii(char * datamatrix_text,
  * \param dimension_x returned X dimension
  * \param dimension_y returned Y dimension
  * \param decode_step returned step between adjacent cells in the X dimension
+ * \param empty_char character used to represent empty space
  */
 static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
                                            unsigned char debug,
                                            int * dimension_x,
                                            int * dimension_y,
-                                           int * decode_step)
+                                           int * decode_step,
+                                           char empty_char)
 {
     int i, start_i = 0;
 
@@ -98,13 +100,13 @@ static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
             }
             *dimension_x = 0;
         }
-        if (datamatrix_ascii[i] != ' ') {
+        if (datamatrix_ascii[i] != empty_char) {
             if (i == 0) {
                 if (*dimension_x == 0) start_i = i;
                 *dimension_x += 2;
             }
             else {
-                if (datamatrix_ascii[i-1] == ' ') {
+                if (datamatrix_ascii[i-1] == empty_char) {
                     if (*dimension_x == 0) start_i = i;
                     *dimension_x += 2;
                 }
@@ -130,7 +132,7 @@ static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
             }
         }
         else {
-            if (datamatrix_ascii[i] != ' ') dot_ctr++;
+            if (datamatrix_ascii[i] != empty_char) dot_ctr++;
         }
     }
     if (debug == 1) {
@@ -146,12 +148,14 @@ static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
  * \param dimension_y Y dimension of the datamatrix
  * \param decode_step step between adjacent cells in the X dimension
  * \param datamatrix_ascii string containing the datamatrix
+ * \param empty_char character used to represent empty space
  */
 static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
                                                int dimension_x,
                                                int dimension_y,
                                                int decode_step,
-                                               char * datamatrix_ascii)
+                                               char * datamatrix_ascii,
+                                               char empty_char)
 {
     int i, j, start_i = -1;
     int x_pos, y_pos=0;
@@ -167,13 +171,13 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
             start_i = -1;
             continue;
         }
-        if (datamatrix_ascii[i] != ' ') {
+        if (datamatrix_ascii[i] != empty_char) {
             if (start_i == -1) {
                 start_i = i;
                 x_pos = 0;
                 for (j = i; j < i + (decode_step * dimension_x);
                      j += decode_step, x_pos++) {
-                    if (datamatrix_ascii[j] == ' ') {
+                    if (datamatrix_ascii[j] == empty_char) {
                         occupancy[(y_pos * dimension_x) + x_pos] = 0;
                     }
                     else {
@@ -198,25 +202,27 @@ int decode_datamatrix_from_text(char * datamatrix_text,
                                 unsigned char debug)
 {
     char datamatrix_ascii[MAX_DECODE_STRING_LENGTH];
-	char * dot_strings[] = {
-		"●", "⦁", "•", "⚫"
-	};
-	int no_of_dot_strings = 4;	
+    char empty_char = ' ';
+    char * dot_strings[] = {
+        "●", "⦁", "•", "⚫"
+    };
+    int no_of_dot_strings = 4;  
     int i, dimension_x=0, dimension_y=0, decode_step=0;
 
-	for (i = 0; i < no_of_dot_strings; i++) {
-		char * dot_text = dot_strings[i];
-		if (datamatrix_unicode_to_ascii(datamatrix_text,
-										dot_text,
-										&datamatrix_ascii[0],
-										debug) == 1) break;
-	}
+    for (i = 0; i < no_of_dot_strings; i++) {
+        char * dot_text = dot_strings[i];
+        if (datamatrix_unicode_to_ascii(datamatrix_text,
+                                        dot_text,
+                                        &datamatrix_ascii[0],
+                                        debug) == 1) break;
+    }
 
     get_text_datamatrix_dimensions(&datamatrix_ascii[0],
                                    debug,
                                    &dimension_x,
                                    &dimension_y,
-                                   &decode_step);
+                                   &decode_step,
+                                   empty_char);
     if ((dimension_x == 0) || (dimension_y == 0) ||
         (decode_step == 0)) return -1;
 
@@ -229,7 +235,8 @@ int decode_datamatrix_from_text(char * datamatrix_text,
     text_datamatrix_populate_occupancy(occupancy,
                                        dimension_x, dimension_y,
                                        decode_step,
-                                       &datamatrix_ascii[0]);
+                                       &datamatrix_ascii[0],
+                                       empty_char);
 
     /* decode the result */
     struct grid_2d grid;
