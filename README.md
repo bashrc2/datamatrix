@@ -78,6 +78,7 @@ sudo make install
 --footer [text]               Footer shown on verification report
 -e --encode [text]            Generate a datamatrix from the given text
 --txt [text]                  Decode a text string containing a datamatrix
+--squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
 --space [character]           Custom space character when generating a datamatrix
 --scale [text]                Scale of generated datamatrix in range 1-10
@@ -100,6 +101,12 @@ You can also specify how dots and spaces appear.
 
 ``` bash
 datamatrix -e "ABCDEF" --dot "●" --space " "
+```
+
+And show square modules rather than round.
+
+``` bash
+datamatrix -e "ABCDEF" --squaremodules
 ```
 
 The datamatrix can be forced to square dimensions.
