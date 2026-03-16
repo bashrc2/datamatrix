@@ -78,6 +78,8 @@ sudo make install
 --footer [text]               Footer shown on verification report
 -e --encode [text]            Generate a datamatrix from the given text
 --txt [text]                  Decode a text string containing a datamatrix
+--dot [character]             Custom dot character when generating a datamatrix
+--space [character]           Custom space character when generating a datamatrix
 --scale [text]                Scale of generated datamatrix in range 1-10
 -w --width [pixels]           Width for generated datamatrix image
 --coords                      Show dot centre coordinates for generated datamatrix
@@ -94,7 +96,13 @@ To generate a datamatrix pattern from some text.
 datamatrix -e "ABCDEF"
 ```
 
-You can also force the generated datamatrix to be square.
+You can also specify how dots and spaces appear.
+
+``` bash
+datamatrix -e "ABCDEF" --dot "●" --space " "
+```
+
+The datamatrix can be forced to square dimensions.
 
 ``` bash
 datamatrix -e "user@email.domain" --square

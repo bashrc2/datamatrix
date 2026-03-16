@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Help functions
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -68,6 +68,8 @@ void show_help()
   printf("   --footer [text]             Footer shown on verification report\n");
   printf("-e --encode [text]             Generate a datamatrix from the given text\n");
   printf("   --txt [text]                Decode a text string containing a datamatrix\n");
+  printf("   --dot [character]           Custom dot character when generating a datamatrix\n");
+  printf("   --space [character]         Custom space character when generating a datamatrix\n");
   printf("   --scale [text]              Scale of generated datamatrix in range 1-10\n");
   printf("-w --width [pixels]            Width for generated datamatrix image\n");
   printf("   --coords                    Show dot centre coordinates for generated datamatrix\n");
