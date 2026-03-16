@@ -36,8 +36,8 @@ sudo make install
 
 ``` bash
 -f --filename [PNG file]      Filename of a PNG file containing the datamatrix image
---square                      Matrix is expected to be square
---rectangle                   Matrix is expected to be rectangular
+--square                      Matrix aspect ratio is expected to be square
+--rectangle                   Matrix aspect ratio is expected to be rectangular
 --quality                     Show quality metrics for verification reports
 -o --output [PNG file]        Save an image showing the detected datamatrix
 -g --grid [PNG file]          Save an image showing the detected grid
