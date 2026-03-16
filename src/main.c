@@ -89,6 +89,12 @@ int main(int argc, char* argv[])
     int encode_image_width = 512;
     float coords_offset_x = 0;
     float coords_offset_y = 0;
+    char dot_char[4];
+    char empty_char[4];
+
+    /* representations for dot and space for encoded datamatrix */
+    sprintf(&dot_char[0], "●");
+    sprintf(&empty_char[0], " ");
 
     /* no filename specified */
     filename[0] = 0;
@@ -189,6 +195,18 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"-e")==0)) {
             encode_text[0] = 0;
             decode_strcat(&encode_text[0], argv[i+1]);
+        }
+        if (strcmp(argv[i],"--dot")==0) {
+            if (strlen(argv[i+1]) <= 3) {
+                sprintf(&dot_char[0], "%s", argv[i+1]);
+            }
+        }
+        if ((strcmp(argv[i],"--empty")==0) ||
+            (strcmp(argv[i],"--void")==0) ||
+            (strcmp(argv[i],"--space")==0)) {
+            if (strlen(argv[i+1]) <= 3) {
+                sprintf(&empty_char[0], "%s", argv[i+1]);
+            }
         }
         if (strcmp(argv[i],"--scale")==0) {
             encode_scale = atoi(argv[i+1]);
@@ -389,6 +407,8 @@ int main(int argc, char* argv[])
                                          coords_offset_y,
                                          &output_filename[0],
                                          encode_image_width,
+                                         &dot_char[0],
+                                         &empty_char[0],
                                          debug);
     }
     

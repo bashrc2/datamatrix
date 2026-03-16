@@ -90,6 +90,8 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \param coords_offset_y Y offset added to dot coordinates
  * \param image_filename filename to save datamatrix image to
  * \param encode_image_width Width of the datamatrix image
+ * \param dot_char character or string representing a dot
+ * \param empty_char character or string representing a space
  * \param debug 1 to show debug, 0 otherwise
  * \returns 0 on success, -1 otherwise
  */
@@ -102,6 +104,8 @@ int encode_datamatrix_to_text(char * text,
                               float coords_offset_y,
                               char * image_filename,
                               int encode_image_width,
+							  char * dot_char,
+							  char * empty_char,
                               unsigned char debug)
 {
     char * encoding = NULL;
@@ -145,16 +149,18 @@ int encode_datamatrix_to_text(char * text,
     /* encode as text */
     unsigned int S = encode_scale;
     unsigned int x, y, x_directional;
-    char * dot_chr = "● ";
-    char * empty_chr = "  ";
+	char dot_chr[5];
+    char empty_chr[5];
+    sprintf(&dot_chr[0], "%s%s", dot_char, empty_char);
+    sprintf(&empty_chr[0], "%s%s", empty_char, empty_char);
     if (S > 1) {
-        dot_chr = "█";
-        empty_chr = " ";
+        sprintf(&dot_chr[0], "█");
+        sprintf(&empty_chr[0], "%s", empty_char);
     }
     if (csv == 1) {
         S = 1;
-        dot_chr = "1,";
-        empty_chr = "0,";
+        sprintf(&dot_chr[0], "1,");
+        sprintf(&empty_chr[0], "0,");
     }
     float x_coord, y_coord;
     unsigned char direction = 0;

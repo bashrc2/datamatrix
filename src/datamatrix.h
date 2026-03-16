@@ -643,6 +643,8 @@ int encode_datamatrix_to_text(char * text,
                               float coords_offset_y,
                               char * image_filename,
                               int encode_image_width,
+                              char * dot_char,
+                              char * empty_char,
                               unsigned char debug);
 
 /* help.c */
