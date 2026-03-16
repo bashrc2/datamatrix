@@ -263,3 +263,5 @@ A set of images will be produced which show the detection process at each stage.
 [Reed–Solomon error correction](https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction)
 
 [The Health Industry Supplier Labeling Standard for Patient Safety & Unique Device Identification (UDI)](https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf)
+
+<img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/noai.gif" width="5%" alt="No AI Allowed"/>
