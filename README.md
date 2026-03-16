@@ -4,6 +4,7 @@
 
 ## Key features
 
+ * Generates datamatrix codes in text and image formats
  * Reads PNG files (recommended at least 800 pixels across) using *lodepng*
  * Outputs the plain text encoded by the datamatrix pattern
  * Implemented in pure C99
