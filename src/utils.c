@@ -22,6 +22,11 @@
 
 #include "datamatrix.h"
 
+/**
+ * \brief safe memory allocation
+ * \param n number of bytes to allocate
+ * \returns void pointer to allocated memory
+ */
 void * safemalloc(int n)
 {
   void * ptr = malloc(n);
