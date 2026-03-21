@@ -941,7 +941,7 @@ int read_datamatrix(unsigned char image_data[],
                         (most_probable_frequency > maximum_grid_dimension)) continue;
                     /* calculate the length of one of the sides of the perimeter */
                     float perimeter_side_dx = perimeter_x1 - perimeter_x0;
-                    float perimeter_side_dy = perimeter_x1 - perimeter_x0;
+                    float perimeter_side_dy = perimeter_y1 - perimeter_y0;
                     float perimeter_side_length =
                         (float)sqrt(SQUARE_MAG(perimeter_side_dx,
                                                perimeter_side_dy));
@@ -1109,7 +1109,7 @@ int read_datamatrix(unsigned char image_data[],
 
                     /* calculate the length of one of the sides of the perimeter */
                     float perimeter_side_dx = perimeter_x1 - perimeter_x0;
-                    float perimeter_side_dy = perimeter_x1 - perimeter_x0;
+                    float perimeter_side_dy = perimeter_y1 - perimeter_y0;
                     float perimeter_side_length =
                         (float)sqrt(SQUARE_MAG(perimeter_side_dx,
                                                perimeter_side_dy));
