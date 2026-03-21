@@ -939,6 +939,15 @@ int read_datamatrix(unsigned char image_data[],
                     most_probable_frequency = valid_squares[frequency_index];
                     if ((most_probable_frequency < minimum_grid_dimension) ||
                         (most_probable_frequency > maximum_grid_dimension)) continue;
+                    /* calculate the length of one of the sides of the perimeter */
+                    float perimeter_side_dx = perimeter_x1 - perimeter_x0;
+                    float perimeter_side_dy = perimeter_x1 - perimeter_x0;
+                    float perimeter_side_length =
+                        (float)sqrt(SQUARE_MAG(perimeter_side_dx,
+                                               perimeter_side_dy));
+                    /* the current cell size */
+                    float curr_cell_size =
+                        perimeter_side_length / most_probable_frequency;
                     /* sample grid cells in different patterns */
                     curr_sampling_radius = sampling_radius;
                     for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
@@ -947,6 +956,15 @@ int read_datamatrix(unsigned char image_data[],
                         /* increase the radius for ring sampling */
                         if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
                             curr_sampling_radius+=2;
+                        }
+                        /* is the cell size smaller than the sampling radius? */
+                        if (curr_cell_size < curr_sampling_radius*2) {
+                            if (debug == 1) {
+                                printf("Square cell size too small %.2f %d\n",
+                                       curr_cell_size,
+                                       curr_sampling_radius*2);
+                            }
+                            continue;
                         }
                         create_grid(most_probable_frequency,
                                     most_probable_frequency,
@@ -1088,6 +1106,17 @@ int read_datamatrix(unsigned char image_data[],
                     }
                     if ((most_probable_frequency < minimum_grid_dimension) ||
                         (most_probable_frequency > maximum_grid_dimension)) continue;
+
+                    /* calculate the length of one of the sides of the perimeter */
+                    float perimeter_side_dx = perimeter_x1 - perimeter_x0;
+                    float perimeter_side_dy = perimeter_x1 - perimeter_x0;
+                    float perimeter_side_length =
+                        (float)sqrt(SQUARE_MAG(perimeter_side_dx,
+                                               perimeter_side_dy));
+                    /* the current cell size */
+                    float curr_cell_size =
+                        perimeter_side_length / most_probable_frequency_x;
+
                     /* sample grid cells in different patterns */
                     curr_sampling_radius = sampling_radius;
                     for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
@@ -1096,6 +1125,15 @@ int read_datamatrix(unsigned char image_data[],
                         /* increase the radius for ring sampling */
                         if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
                             curr_sampling_radius+=2;
+                        }
+                        /* is the cell size smaller than the sampling radius? */
+                        if (curr_cell_size < curr_sampling_radius*2) {
+                            if (debug == 1) {
+                                printf("Rectangle cell size too small %.2f %d\n",
+                                       curr_cell_size,
+                                       curr_sampling_radius*2);
+                            }
+                            continue;
                         }
                         create_grid(most_probable_frequency_x,
                                     most_probable_frequency_y,
