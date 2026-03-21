@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Shrink or grow a perimeter
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -80,7 +80,7 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
 
 /**
  * \brief does at least one edge exist along a given line?
- * \param mono_img mono image
+ * \param mono_edges_img mono image containing edges
  * \param width width of the image
  * \param height height of the image
  * \param tx start x coordinate of the line to be checked for edges
@@ -89,7 +89,7 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
  * \param by end y coordinate of the line to be checked for edges
  * \return 1 is an edge exists on the line, 0 otherwise
  */
-static unsigned char line_has_edges(unsigned char mono_img[],
+static unsigned char line_has_edges(unsigned char mono_edges_img[],
                                     int width, int height,
                                     int tx, int ty, int bx, int by)
 {
@@ -103,7 +103,7 @@ static unsigned char line_has_edges(unsigned char mono_img[],
     while ((x != bx) && (x >= 0) && (x < width)) {
       y = ty + ((x - tx)*dy/dx);
       n = (y*width) + x;
-      if (mono_img[n] != 0) return 1;
+      if (mono_edges_img[n] != 0) return 1;
       if (dx > 0) x++; else x--;
     }
   }
@@ -113,7 +113,7 @@ static unsigned char line_has_edges(unsigned char mono_img[],
     while ((y != by) && (y >= 0) && (y < height)) {
       x = tx + ((y - ty)*dx/dy);
       n = (y*width) + x;
-      if (mono_img[n] != 0) return 1;
+      if (mono_edges_img[n] != 0) return 1;
       if (dy > 0) y++; else y--;
     }
   }
