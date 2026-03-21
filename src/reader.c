@@ -957,7 +957,8 @@ int read_datamatrix(unsigned char image_data[],
                         if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
                             curr_sampling_radius+=2;
                         }
-                        /* is the cell size smaller than the sampling radius? */
+                        /* is the cell size smaller than the sampling
+                           diameter? */
                         if (curr_cell_size < curr_sampling_radius*2) {
                             if (debug == 1) {
                                 printf("Square cell size too small %.2f %d\n",
@@ -1126,7 +1127,8 @@ int read_datamatrix(unsigned char image_data[],
                         if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
                             curr_sampling_radius+=2;
                         }
-                        /* is the cell size smaller than the sampling radius? */
+                        /* is the cell size smaller than the sampling
+                           diameter? */
                         if (curr_cell_size < curr_sampling_radius*2) {
                             if (debug == 1) {
                                 printf("Rectangle cell size too small %.2f %d\n",
