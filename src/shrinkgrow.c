@@ -377,6 +377,7 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
   float prev_tx, prev_ty, prev_bx, prev_by;
   float next_tx, next_ty, next_bx, next_by;
   float dx, dy, cx=0, cy=0, mid_point_x, mid_point_y;
+  int dx_quarter, dy_quarter;
   float left_mid_point_x, left_mid_point_y;
   float right_mid_point_x, right_mid_point_y;
   float direction_x, direction_y;
@@ -492,13 +493,15 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
     direction_contracted_right_y =
         right_mid_point_y - (direction_y*min_extension_percent/100);
     /* left travel to be searched */
+    dx_quarter = (int)(dx / 4);
+    dy_quarter = (int)(dy / 4);
     left_x = -1;
     search_line_points(mono_img, width, height,
                        image_data, image_bytesperpixel, debug,
                        (int)left_mid_point_x, (int)left_mid_point_y,
                        (int)direction_contracted_left_x,
                        (int)direction_contracted_left_y,
-                       (int)(dx/4), (int)(dy/4), 1, &left_x, &left_y);
+                       dx_quarter, dy_quarter, 1, &left_x, &left_y);
 
     /* right travel to be searched */
     right_x = -1;
@@ -507,7 +510,7 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
                        (int)right_mid_point_x, (int)right_mid_point_y,
                        (int)direction_contracted_right_x,
                        (int)direction_contracted_right_y,
-                       (int)(dx/4), (int)(dy/4), 1, &right_x, &right_y);
+                       dx_quarter, dy_quarter, 1, &right_x, &right_y);
     if ((left_x == -1) && (right_x == -1)) continue;
     contracted = 1;
     if (left_x == -1) {
