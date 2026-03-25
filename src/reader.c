@@ -942,8 +942,7 @@ int read_datamatrix(unsigned char image_data[],
                     float perimeter_side_dx = perimeter_x1 - perimeter_x0;
                     float perimeter_side_dy = perimeter_y1 - perimeter_y0;
                     float perimeter_side_length =
-                        (float)sqrt(SQUARE_MAG(perimeter_side_dx,
-                                               perimeter_side_dy));
+                        HYPOT(perimeter_side_dx, perimeter_side_dy);
                     /* the current cell size */
                     float curr_cell_size =
                         perimeter_side_length / most_probable_frequency;
@@ -1111,8 +1110,7 @@ int read_datamatrix(unsigned char image_data[],
                     float perimeter_side_dx = perimeter_x1 - perimeter_x0;
                     float perimeter_side_dy = perimeter_y1 - perimeter_y0;
                     float perimeter_side_length =
-                        (float)sqrt(SQUARE_MAG(perimeter_side_dx,
-                                               perimeter_side_dy));
+                        HYPOT(perimeter_side_dx, perimeter_side_dy);
                     /* the current cell size */
                     float curr_cell_size =
                         perimeter_side_length / most_probable_frequency_x;

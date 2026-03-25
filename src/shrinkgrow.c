@@ -51,28 +51,28 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
 
   dx = *perimeter_x0 - cx;
   dy = *perimeter_y0 - cy;
-  dist = (float)sqrt(SQUARE_MAG(dx, dy));
+  dist = HYPOT(dx, dy);
   fraction = (dist - dilation)/dist;
   *perimeter_x0 = cx + (dx * fraction);
   *perimeter_y0 = cy + (dy * fraction);
 
   dx = *perimeter_x1 - cx;
   dy = *perimeter_y1 - cy;
-  dist = (float)sqrt(SQUARE_MAG(dx, dy));
+  dist = HYPOT(dx, dy);
   fraction = (dist - dilation)/dist;
   *perimeter_x1 = cx + (dx * fraction);
   *perimeter_y1 = cy + (dy * fraction);
 
   dx = *perimeter_x2 - cx;
   dy = *perimeter_y2 - cy;
-  dist = (float)sqrt(SQUARE_MAG(dx, dy));
+  dist = HYPOT(dx, dy);
   fraction = (dist - dilation)/dist;
   *perimeter_x2 = cx + (dx * fraction);
   *perimeter_y2 = cy + (dy * fraction);
 
   dx = *perimeter_x3 - cx;
   dy = *perimeter_y3 - cy;
-  dist = (float)sqrt(SQUARE_MAG(dx, dy));
+  dist = HYPOT(dx, dy);
   fraction = (dist - dilation)/dist;
   *perimeter_x3 = cx + (dx * fraction);
   *perimeter_y3 = cy + (dy * fraction);

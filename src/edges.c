@@ -1859,19 +1859,19 @@ int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
 
   dx = perimeter_x1 - perimeter_x0;
   dy = perimeter_y1 - perimeter_y0;
-  dist0 = (float)sqrt(SQUARE_MAG(dx, dy));
+  dist0 = HYPOT(dx, dy);
   max_dist = dist0;
   min_dist = dist0;
 
   dx = perimeter_x2 - perimeter_x1;
   dy = perimeter_y2 - perimeter_y1;
-  dist1 = (float)sqrt(SQUARE_MAG(dx, dy));
+  dist1 = HYPOT(dx, dy);
   if (dist1 > max_dist) max_dist = dist1;
   if (dist1 < min_dist) min_dist = dist1;
 
   dx = perimeter_x3 - perimeter_x2;
   dy = perimeter_y3 - perimeter_y2;
-  dist2 = (float)sqrt(SQUARE_MAG(dx, dy));
+  dist2 = HYPOT(dx, dy);
   if (dist2 > max_dist) max_dist = dist2;
   if (dist2 < min_dist) min_dist = dist2;
 

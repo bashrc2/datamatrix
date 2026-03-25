@@ -73,6 +73,10 @@
 #define SQUARE_MAG(a,b) (a*a + b*b)
 #endif
 
+#ifndef HYPOT
+#define HYPOT(a,b) ((float)sqrt(SQUARE_MAG((a), (b))))
+#endif
+
 
 struct key_value_pair_int
 {
