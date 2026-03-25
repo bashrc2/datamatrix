@@ -31,11 +31,6 @@
 
 #include <string.h> /*for size_t*/
 
-#ifdef __cplusplus
-#include <vector>
-#include <string>
-#endif /*__cplusplus*/
-
 #define LODEPNG_VERSION_STRING "20141130"
 
 /*
