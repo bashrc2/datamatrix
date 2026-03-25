@@ -369,8 +369,8 @@ float corner_angle(float x0, float y0,
 {
     float pt1 = x0 - x1, pt2 = y0 - y1;
     float pt3 = x2 - x1, pt4 = y2 - y1;
-    float angle = ((pt1 * pt3) + (pt2 * pt4)) /
-        ((HYPOT(pt1, pt2)) * (HYPOT(pt3, pt4)));
+    float angle =
+        ((pt1 * pt3) + (pt2 * pt4)) / (HYPOT(pt1, pt2) * HYPOT(pt3, pt4));
 
     angle = (float)acos(angle);
     return(angle);
