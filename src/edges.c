@@ -1568,7 +1568,7 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
 {
   int side, no_of_edges, max_edges=0, max_edges2=0, max_side1=-1, max_side2=-1;
   int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy;
-  int no_of_samples, no_of_edge_samples, edge_idx, dist, max_dist;
+  int no_of_samples, no_of_edge_samples, edge_idx, dist_sqr, max_dist_sqr;
   unsigned char enough_edges = 1;
   float max_deviation=5;
   float x0, y0, x1, y1, cx, cy, dx2, dy2;
@@ -1660,16 +1660,16 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
   *perimeter_y0 = yi;
 
   /* find the outermost edge on the first side */
-  max_dist = 0;
+  max_dist_sqr = 0;
   for (edge_index = 0; edge_index < first_fit_edges; edge_index++) {
     edge_idx = segments->linefit[edge_index];
     x = segments->side_edges[max_side1][edge_idx];
     y = segments->side_edges[max_side1][edge_idx+1];
     dx = x - (int)xi;
     dy = y - (int)yi;
-    dist = SQUARE_MAG(dx, dy);
-    if (dist > max_dist) {
-      max_dist = dist;
+    dist_sqr = SQUARE_MAG(dx, dy);
+    if (dist_sqr > max_dist_sqr) {
+      max_dist_sqr = dist_sqr;
       x4 = (float)x;
       y4 = (float)y;
     }
@@ -1683,16 +1683,16 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
   *perimeter_y1 = yi_outer;
 
   /* find the outermost edge on the second side */
-  max_dist = 0;
+  max_dist_sqr = 0;
   for (edge_index = 0; edge_index < second_fit_edges; edge_index++) {
     edge_idx = segments->linefit2[edge_index];
     x = segments->side_edges[max_side2][edge_idx];
     y = segments->side_edges[max_side2][edge_idx+1];
     dx = x - (int)xi;
     dy = y - (int)yi;
-    dist = SQUARE_MAG(dx, dy);
-    if (dist > max_dist) {
-      max_dist = dist;
+    dist_sqr = SQUARE_MAG(dx, dy);
+    if (dist_sqr > max_dist_sqr) {
+      max_dist_sqr = dist_sqr;
       x4 = (float)x;
       y4 = (float)y;
     }
