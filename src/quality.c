@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <omp.h>
-#include "png2.h"
 #include "datamatrix.h"
 
 /**

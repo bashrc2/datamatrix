@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "png2.h"
 #include "datamatrix.h"
 
 int main(int argc, char* argv[])

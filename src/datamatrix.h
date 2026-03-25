@@ -34,6 +34,7 @@
 #include <time.h>
 #include <omp.h>
 #include <float.h>
+#include "lodepng.h"
 
 #define GPR_MISSING_VALUE          9999
 #define PARALLEL_LINES             -2
@@ -655,6 +656,18 @@ int encode_datamatrix_to_text(char * text,
                               char * empty_char,
                               unsigned char square_modules,
                               unsigned char debug);
+
+/* png2.c */
+
+unsigned char * read_png_file(char * filename,
+							  unsigned int * width,
+							  unsigned int * height,
+							  unsigned int * bitsperpixel);
+
+int write_png_file(char* filename,
+				   unsigned int width, unsigned int height,
+				   unsigned int bitsperpixel,
+				   unsigned char *buffer);
 
 /* help.c */
 
