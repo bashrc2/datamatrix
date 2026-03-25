@@ -660,14 +660,14 @@ int encode_datamatrix_to_text(char * text,
 /* png2.c */
 
 unsigned char * read_png_file(char * filename,
-							  unsigned int * width,
-							  unsigned int * height,
-							  unsigned int * bitsperpixel);
+                              unsigned int * width,
+                              unsigned int * height,
+                              unsigned int * bitsperpixel);
 
 int write_png_file(char* filename,
-				   unsigned int width, unsigned int height,
-				   unsigned int bitsperpixel,
-				   unsigned char *buffer);
+                   unsigned int width, unsigned int height,
+                   unsigned int bitsperpixel,
+                   unsigned char *buffer);
 
 /* help.c */
 
