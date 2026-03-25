@@ -255,10 +255,10 @@ float get_segments_orientation(struct line_segments * segments,
 
 unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                      int width, int height,
-                                     float *perimeter_x0, float *perimeter_y0,
-                                     float *perimeter_x1, float *perimeter_y1,
-                                     float *perimeter_x2, float *perimeter_y2,
-                                     float *perimeter_x3, float *perimeter_y3);
+                                     float * perimeter_x0, float * perimeter_y0,
+                                     float * perimeter_x1, float * perimeter_y1,
+                                     float * perimeter_x2, float * perimeter_y2,
+                                     float * perimeter_x3, float * perimeter_y3);
 
 int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
                            float perimeter_x1, float perimeter_y1,
@@ -624,12 +624,12 @@ void run_all_tests();
 /* encode.c */
 
 void encode_image(unsigned char img[], int width, int height,
-                  int bitsperpixel, unsigned char *grid,
+                  int bitsperpixel, unsigned char * grid,
                   unsigned int encode_width, unsigned int encode_height,
                   unsigned char square_modules);
 
 void encode_svg(char * image_filename, int width, int height,
-                unsigned char *grid,
+                unsigned char * grid,
                 unsigned int encode_width, unsigned int encode_height,
                 unsigned char square_modules);
 
@@ -667,7 +667,7 @@ unsigned char * read_png_file(char * filename,
 int write_png_file(char* filename,
                    unsigned int width, unsigned int height,
                    unsigned int bitsperpixel,
-                   unsigned char *buffer);
+                   unsigned char * buffer);
 
 /* help.c */
 

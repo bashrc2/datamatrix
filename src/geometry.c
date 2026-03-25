@@ -151,8 +151,8 @@ int ransac_fit(int edges[], int no_of_edges,
                float max_deviation,
                int no_of_samples,
                int no_of_edge_samples,
-               float *x0, float *y0,
-               float *x1, float *y1)
+               float * x0, float * y0,
+               float * x1, float * y1)
 {
     int i, max_hits = 0;
     float gradient;
