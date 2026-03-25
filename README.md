@@ -7,7 +7,7 @@
  * Generates datamatrix codes in text and image formats
  * Reads PNG files (recommended at least 800 pixels across) using [lodepng](https://lodev.org/lodepng)
  * Outputs the plain text encoded by the datamatrix pattern
- * Implemented in pure C99
+ * Implemented in pure [C99](https://en.wikipedia.org/wiki/C99)
  * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d) and digital links
  * Can generate quality metrics for verification reports
  * Parallelized with [OpenMP](https://www.openmp.org)
