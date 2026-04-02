@@ -140,6 +140,11 @@ int main(int argc, char* argv[])
 
     for (i = 1; i < argc; i += loop_incr) {
         loop_incr = 2;
+        if ((strcmp(argv[i],"--version")==0) ||
+            (strcmp(argv[i],"-v")==0)) {
+            printf("%s\n", DATAMATRIX_VERSION_STRING);
+            return 0;
+        }
         if ((strcmp(argv[i],"-f")==0) ||
             (strcmp(argv[i],"--filename")==0)) {
             filename[0] = 0;

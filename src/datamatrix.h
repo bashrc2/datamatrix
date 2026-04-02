@@ -36,6 +36,8 @@
 #include <float.h>
 #include "lodepng.h"
 
+#define DATAMATRIX_VERSION_STRING  "v1.0.0"
+
 #define GPR_MISSING_VALUE          9999
 #define PARALLEL_LINES             -2
 #define UNKNOWN_DISTANCE           999999
