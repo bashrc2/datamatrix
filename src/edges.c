@@ -558,8 +558,7 @@ void join_line_segments(struct line_segments * segments,
   int max_length, max_length_index, ctr;
 
   /* clear the joins matrix */
-  memset(segments->joins, 0,
-         segments->max_segments * segments->max_segments *
+  memset(segments->joins, 0, segments->max_segments * segments->max_segments *
          sizeof(unsigned char));
 
   /* populate the joins matrix, starting from the closest
@@ -567,18 +566,24 @@ void join_line_segments(struct line_segments * segments,
   for (radius = 1; radius <= join_radius; radius++) {
     join_radius_sqr = radius*radius;
     index = 0;
+	/* for each line segment */
     for (i = 0; i < segments->no_of_segments; i++) {
       if (segments->no_of_members[i] == 0) continue;
+	  /* start of the line segment */
       start_x = segments->members[index*2];
       start_y = segments->members[index*2+1];
       length = segments->no_of_members[i]-1;
       index += length;
+	  /* end of the line segment */
       end_x = segments->members[index*2];
       end_y = segments->members[index*2+1];
       index2 = index+1;
       index++;
+	  /* line segments other than this one */
       for (j = i+1; j < segments->no_of_segments-1; j++) {
         if (segments->no_of_members[j] == 0) continue;
+		/* compare start of the second line segment to the start
+		   of the first */
         x = segments->members[index2*2];
         y = segments->members[index2*2+1];
         dx = x - start_x;
@@ -592,6 +597,8 @@ void join_line_segments(struct line_segments * segments,
             segments->joins[join_index] = (unsigned char)1;
           }
         }
+		/* compare start of the second line segment to the end
+		   of the first */
         dx = x - end_x;
         dy = y - end_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
@@ -605,6 +612,8 @@ void join_line_segments(struct line_segments * segments,
         }
         length = segments->no_of_members[j]-1;
         index2 += length;
+		/* compare end of the second line segment to the start
+		   of the first */
         x = segments->members[index2*2];
         y = segments->members[index2*2+1];
         index2++;
@@ -619,6 +628,8 @@ void join_line_segments(struct line_segments * segments,
             segments->joins[join_index] = (unsigned char)2;
           }
         }
+		/* compare end of the second line segment to the end
+		   of the first */
         dx = x - end_x;
         dy = y - end_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
