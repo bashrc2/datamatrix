@@ -918,8 +918,6 @@ void get_peripheral_edges(struct line_segments * segments,
   int min_x=-1, min_y=-1;
   int max_x=-1, max_y=-1;
   int dx, dy;
-  int prev_index=index, start_index=index;
-  int next_index=index, end_index=index;
 
   /* clear perimeter arrays */
   memset(segments->perimeter_left, 0, height*sizeof(int));
@@ -942,22 +940,13 @@ void get_peripheral_edges(struct line_segments * segments,
   /* perimeter edges for the current segment */
   update_peripheral(segments, index);
 
-  /* perimeter edges for the previous joined segments */
-  while (prev_index != -1) {
-    start_index = prev_index;
-    prev_index = get_joined_segment_start(segments, start_index);
-    if ((prev_index != start_index) && (prev_index != -1)) {
-      update_peripheral(segments, prev_index);
-    }
-  }
-
-  /* perimeter edges for the next joined segments */
-  while (next_index != -1) {
-    end_index = next_index;
-    next_index = get_joined_segment_end(segments, end_index);
-    if ((next_index != end_index) && (next_index != -1)) {
-      update_peripheral(segments, next_index);
-    }
+  /* add edges for other joined segments */
+  for (int i = 0; i < segments->max_segments; i++) {
+	  if (i == index) continue;
+	  int idx = i*segments->max_segments + index;
+	  if (segments->joins[idx] != JOIN_NONE) {
+		  update_peripheral(segments, i);
+	  }
   }
 
   /* calculate the centre of edges */
