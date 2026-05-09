@@ -477,40 +477,6 @@ unsigned char segment_edges_within_roi(struct line_segments * segments,
 }
 
 /**
- * \brief returns the index of the start of a sequence of segments
- * \param segments object containing line segments
- * \param index of the line segment
- * \return start line segment index
- */
-static int get_joined_segment_start(struct line_segments * segments,
-                                    int index)
-{
-  for (int j = 0; j < index; j++) {
-    if (segments->joins[(j*segments->max_segments)+index] != JOIN_NONE) {
-      return j;
-    }
-  }
-  return -1;
-}
-
-/**
- * \brief returns the index of the end of a sequence of segments
- * \param segments object containing line segments
- * \param index of the line segment
- * \return end line segment index
- */
-static int get_joined_segment_end(struct line_segments * segments,
-                                  int index)
-{
-  for (int j = index+1; j < segments->no_of_segments; j++) {
-    if (segments->joins[(j*segments->max_segments)+index] != JOIN_NONE) {
-      return j;
-    }
-  }
-  return -1;
-}
-
-/**
  * \brief gets the total joined length of a given segment
  * \param segments object containing line segments
  * \param index of the line segment
@@ -520,22 +486,14 @@ static int get_joined_segment_length(struct line_segments * segments,
                                      int index)
 {
   int total_length=segments->no_of_members[index];
-  int prev_index=index, start_index=index;
-  int next_index=index, end_index=index;
 
-  while (prev_index != -1) {
-    start_index = prev_index;
-    prev_index = get_joined_segment_start(segments, start_index);
-    if ((prev_index != start_index) && (prev_index != -1)) {
-      total_length += segments->no_of_members[prev_index];
-    }
-  }
-  while (next_index != -1) {
-    end_index = next_index;
-    next_index = get_joined_segment_end(segments, end_index);
-    if ((next_index != end_index) && (next_index != -1)) {
-      total_length += segments->no_of_members[next_index];
-    }
+  /* add lengths of other joined edge segments */
+  for (int i = 0; i < segments->max_segments; i++) {
+	  if (i == index) continue;
+	  int idx = i*segments->max_segments + index;
+	  if (segments->joins[idx] != JOIN_NONE) {
+		  total_length += segments->no_of_members[i];
+	  }
   }
   return total_length;
 }
@@ -722,27 +680,18 @@ int get_segment_aspect_ratio(struct line_segments * segments,
   int min_x=-1, min_y=-1;
   int max_x=-1, max_y=-1;
   int dx, dy;
-  int prev_index=index, start_index=index;
-  int next_index=index, end_index=index;
 
   get_segment_bounding_box(segments, index,
                            &min_x, &min_y, &max_x, &max_y);
 
-  while (prev_index != -1) {
-    start_index = prev_index;
-    prev_index = get_joined_segment_start(segments, start_index);
-    if ((prev_index != start_index) && (prev_index != -1)) {
-      get_segment_bounding_box(segments, prev_index,
-                               &min_x, &min_y, &max_x, &max_y);
-    }
-  }
-  while (next_index != -1) {
-    end_index = next_index;
-    next_index = get_joined_segment_end(segments, end_index);
-    if ((next_index != end_index) && (next_index != -1)) {
-      get_segment_bounding_box(segments, next_index,
-                               &min_x, &min_y, &max_x, &max_y);
-    }
+  /* update bounding box for other joined edge segments */
+  for (int i = 0; i < segments->max_segments; i++) {
+	  if (i == index) continue;
+	  int idx = i*segments->max_segments + index;
+	  if (segments->joins[idx] != JOIN_NONE) {
+		  get_segment_bounding_box(segments, i,
+								   &min_x, &min_y, &max_x, &max_y);
+	  }
   }
   dx = max_x - min_x;
   dy = max_y - min_y;
