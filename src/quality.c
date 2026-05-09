@@ -264,8 +264,7 @@ static void save_reflectance_histogram(unsigned char image_data[],
  * \param y y coordinate to test
  * \return 1 if the given point is inside the perimeter
  */
-static unsigned char point_in_perimeter(struct grid_2d * grid,
-                                        int x, int y)
+static unsigned char point_in_perimeter(struct grid_2d * grid, int x, int y)
 {
   int points[4*2] = {
     (int)grid->perimeter.x0, (int)grid->perimeter.y0,
@@ -440,7 +439,8 @@ static void grid_cell_shape_test_cell(unsigned char thresholded_image_data[],
       if ((search_x < 0) || (search_x >= image_width)) continue;
       n = (search_y*image_width + search_x)*image_bytesperpixel;
       if (thresholded_image_data[n] != 0) {
-        /* top left and bottom right coordinates of the pixel in the cell shape image */
+        /* top left and bottom right coordinates of the pixel in the cell
+		   shape image */
         cell_shape_x0 =
           cell_shape_cx + ((search_x - x)*half_cell_shape_image_width/radius);
         if ((cell_shape_x0 < 0) ||
