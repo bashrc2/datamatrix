@@ -127,6 +127,7 @@ int read_datamatrix(unsigned char image_data[],
                     char footer[],
                     int darklight_sampling_step,
                     int max_high_pixels_percent,
+					int segment_join_radius,
                     char * decode_result)
 {
     int original_image_width = image_width;
@@ -134,7 +135,6 @@ int read_datamatrix(unsigned char image_data[],
     int image_bytesperpixel = image_bitsperpixel/8;
     int try_config, best_config = -1;
     unsigned char human_readable = 1;
-    const int segment_join_radius=6;
 
     /* the magic numbers
        Note that these are doubled sets so that we can also vary the

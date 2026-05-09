@@ -77,6 +77,7 @@ int main(int argc, char* argv[])
     int light_angle_degrees = 90;
     int darklight_sampling_step = 1;
     int max_high_pixels_percent = 13;
+	int segment_join_radius = 6;
 
     /* only looks for squares or rectangles */
     unsigned char is_square = 0;
@@ -230,6 +231,10 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--web")==0)) {
             website[0] = 0;
             decode_strcat(&website[0], argv[i+1]);
+        }
+        if ((strcmp(argv[i],"--seglink")==0) ||
+			(strcmp(argv[i],"--segjoin")==0)) {
+            segment_join_radius = atoi(argv[i+1]);
         }
         if (strcmp(argv[i],"--aperture")==0) {
             aperture = atof(argv[i+1]);
@@ -542,6 +547,7 @@ int main(int argc, char* argv[])
                     &footer[0],
                     darklight_sampling_step,
                     max_high_pixels_percent,
+					segment_join_radius,
                     decode_result);
     if (strlen(decode_result) > 0) {
         if (verify == 0) {

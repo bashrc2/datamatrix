@@ -87,6 +87,7 @@ sudo make install
 --coords                      Show dot centre coordinates for generated datamatrix
 --offsetx [value]             x offset added to dot centre coordinates
 --offsety [value]             y offset added to dot centre coordinates
+--seglink [value]             Pixel radius used to link edge segments
 --tests                       Run unit tests
 ```
 

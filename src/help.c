@@ -76,5 +76,6 @@ void show_help()
   printf("   --coords                    Show dot centre coordinates for generated datamatrix\n");
   printf("   --offsetx [value]           x offset added to dot centre coordinates\n");
   printf("   --offsety [value]           y offset added to dot centre coordinates\n");
+  printf("   --seglink [value]           Pixel radius used to link edge segments\n");
   printf("   --tests                     Run unit tests\n");
 }
