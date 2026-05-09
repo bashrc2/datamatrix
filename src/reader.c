@@ -452,9 +452,7 @@ int read_datamatrix(unsigned char image_data[],
                            resized_thresholded_width,
                            resized_thresholded_height,
                            24, thr_edges_image_data);
-        }
 
-        if (debug == 1) {
             if (is_rectangle == 0) {
                 show_square_line_segments(&segments[try_config],
                                           thr_edges_image_data,
