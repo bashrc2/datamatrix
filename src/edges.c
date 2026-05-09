@@ -485,9 +485,7 @@ unsigned char segment_edges_within_roi(struct line_segments * segments,
 static int get_joined_segment_start(struct line_segments * segments,
                                     int index)
 {
-  int j;
-
-  for (j = 0; j < index; j++) {
+  for (int j = 0; j < index; j++) {
     if (segments->joins[(j*segments->max_segments)+index] != JOIN_NONE) {
       return j;
     }
@@ -504,9 +502,7 @@ static int get_joined_segment_start(struct line_segments * segments,
 static int get_joined_segment_end(struct line_segments * segments,
                                   int index)
 {
-  int j;
-
-  for (j = index+1; j < segments->no_of_segments; j++) {
+  for (int j = index+1; j < segments->no_of_segments; j++) {
     if (segments->joins[(j*segments->max_segments)+index] != JOIN_NONE) {
       return j;
     }
