@@ -35,7 +35,7 @@ sudo make install
 
 ## Command options
 
-``` bash
+``` text
 -f --filename [PNG file]      Filename of a PNG file containing the datamatrix image
 --square                      Matrix aspect ratio is expected to be square
 --rectangle                   Matrix aspect ratio is expected to be rectangular
