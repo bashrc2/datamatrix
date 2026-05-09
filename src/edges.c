@@ -652,7 +652,7 @@ void join_line_segments(struct line_segments * segments,
   }
 
   /* clear the sorted joins matrix */
-  memset(segments->joins_sorted, JOIN_NONE,
+  memset(segments->joins_sorted, 0,
          segments->max_segments * sizeof(int));
   memset(segments->selected, 0,
          segments->max_segments * sizeof(unsigned char));
