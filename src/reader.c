@@ -84,6 +84,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param footer Footer text on verification report
  * \param darklight_sampling_step Step size for dark/light peaks calculation
  * \param max_high_pixels_percent Maximum percentage of high pixels after thresholding
+ * \param segment_join_radius Edge segment linking radius in pixels
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
