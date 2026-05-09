@@ -235,6 +235,9 @@ int main(int argc, char* argv[])
         if ((strcmp(argv[i],"--seglink")==0) ||
 			(strcmp(argv[i],"--segjoin")==0)) {
             segment_join_radius = atoi(argv[i+1]);
+			if ((segment_join_radius < 2) || (segment_join_radius > 20)) {
+				segment_join_radius = 6;
+			}
         }
         if (strcmp(argv[i],"--aperture")==0) {
             aperture = atof(argv[i+1]);
