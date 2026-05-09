@@ -589,7 +589,7 @@ void join_line_segments(struct line_segments * segments,
         dx = x - start_x;
         dy = y - start_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
-          /* start points are joined */
+          /* two start points are joined */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
             segments->joins[join_index] = (unsigned char)1;
@@ -602,7 +602,7 @@ void join_line_segments(struct line_segments * segments,
         dx = x - end_x;
         dy = y - end_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
-          /* end joined to start */
+          /* end of the first line segment joined to start of the second */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
             segments->joins[join_index] = (unsigned char)2;
@@ -620,7 +620,7 @@ void join_line_segments(struct line_segments * segments,
         dx = x - start_x;
         dy = y - start_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
-          /* start joined to end */
+          /* start of the first line segment joined to end of the second */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
             segments->joins[join_index] = (unsigned char)3;
@@ -633,7 +633,7 @@ void join_line_segments(struct line_segments * segments,
         dx = x - end_x;
         dy = y - end_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
-          /* ends joined */
+          /* both ends joined */
           join_index = (j*segments->max_segments) + i;
           if (segments->joins[join_index] == 0) {
             segments->joins[join_index] = (unsigned char)4;
