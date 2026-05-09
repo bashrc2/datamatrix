@@ -79,6 +79,10 @@
 #define HYPOT(a,b) ((float)sqrt(SQUARE_MAG((a), (b))))
 #endif
 
+enum edge_segment_join_types {
+	JOIN_NONE, JOIN_START_TO_START, JOIN_START_TO_END,
+	JOIN_END_TO_START, JOIN_END_TO_END
+};
 
 struct key_value_pair_int
 {
