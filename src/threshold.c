@@ -45,7 +45,8 @@ static unsigned char is_dark_image(unsigned char img_mono[],
   int dark2 = (int)dark;
   int light2 = (int)light;
 
-  for (i = (width*height) - 1; i >= 0 ; i--) {
+  /* we don't need to test every pixel for dark or light */
+  for (i = (width*height) - 1; i >= 0 ; i-=2) {
     diff_dark = (int)img_mono[i] - dark2;
     diff_light = (int)img_mono[i] - light2;
     if (diff_dark*diff_dark < diff_light*diff_light) {
