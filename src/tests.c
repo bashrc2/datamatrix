@@ -579,6 +579,28 @@ void test_gs1_issn()
   free(result1);
 }
 
+int test_multiply_abs()
+{
+    clock_t begin, end;
+    double time_spent;
+    int v = 1;
+
+    /* is multiply or abs faster? */
+    begin = clock();
+    for (int i = 0; i < 1000000000; i++) v = SQUARE(30);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("\nmultiply %lf\n", time_spent);
+
+    begin = clock();
+    for (int i = 0; i < 1000000000; i++) v = ABS(-30);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("abs %lf\n", time_spent);
+
+    return v;
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -594,5 +616,6 @@ void run_all_tests()
   test_date_conversion();
   test_gs1_coupon();
   test_gs1_issn();
+  test_multiply_abs();
   printf("All tests complete\n");
 }
