@@ -80,8 +80,8 @@
 #endif
 
 enum edge_segment_join_types {
-	JOIN_NONE, JOIN_START_TO_START, JOIN_START_TO_END,
-	JOIN_END_TO_START, JOIN_END_TO_END
+    JOIN_NONE, JOIN_START_TO_START, JOIN_START_TO_END,
+    JOIN_END_TO_START, JOIN_END_TO_END
 };
 
 struct key_value_pair_int
@@ -625,7 +625,7 @@ int read_datamatrix(unsigned char image_data[],
                     char footer[],
                     int darklight_sampling_step,
                     int max_high_pixels_percent,
-					int segment_join_radius,
+                    int segment_join_radius,
                     char * decode_result);
 
 /* tests.c */

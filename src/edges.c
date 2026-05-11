@@ -489,11 +489,11 @@ static int get_joined_segment_length(struct line_segments * segments,
 
   /* add lengths of other joined edge segments */
   for (int i = 0; i < segments->max_segments; i++) {
-	  if (i == index) continue;
-	  int idx = i*segments->max_segments + index;
-	  if (segments->joins[idx] != JOIN_NONE) {
-		  total_length += segments->no_of_members[i];
-	  }
+      if (i == index) continue;
+      int idx = i*segments->max_segments + index;
+      if (segments->joins[idx] != JOIN_NONE) {
+          total_length += segments->no_of_members[i];
+      }
   }
   return total_length;
 }
@@ -513,7 +513,7 @@ void join_line_segments(struct line_segments * segments,
 
   /* clear the joins matrix */
   memset(segments->joins, JOIN_NONE,
-		 segments->max_segments * segments->max_segments *
+         segments->max_segments * segments->max_segments *
          sizeof(unsigned char));
 
   /* populate the joins matrix, starting from the closest
@@ -521,24 +521,24 @@ void join_line_segments(struct line_segments * segments,
   for (radius = 1; radius <= join_radius; radius++) {
     join_radius_sqr = radius*radius;
     index = 0;
-	/* for each line segment */
+    /* for each line segment */
     for (i = 0; i < segments->no_of_segments; i++) {
       if (segments->no_of_members[i] == 0) continue;
-	  /* start of the line segment */
+      /* start of the line segment */
       start_x = segments->members[index*2];
       start_y = segments->members[index*2+1];
       length = segments->no_of_members[i]-1;
       index += length;
-	  /* end of the line segment */
+      /* end of the line segment */
       end_x = segments->members[index*2];
       end_y = segments->members[index*2+1];
       index2 = index+1;
       index++;
-	  /* line segments other than this one */
+      /* line segments other than this one */
       for (j = i+1; j < segments->no_of_segments; j++) {
         if (segments->no_of_members[j] == 0) continue;
-		/* compare start of the second line segment to the start
-		   of the first */
+        /* compare start of the second line segment to the start
+           of the first */
         x = segments->members[index2*2];
         y = segments->members[index2*2+1];
         dx = x - start_x;
@@ -552,8 +552,8 @@ void join_line_segments(struct line_segments * segments,
             segments->joins[join_index] = (unsigned char)JOIN_START_TO_START;
           }
         }
-		/* compare start of the second line segment to the end
-		   of the first */
+        /* compare start of the second line segment to the end
+           of the first */
         dx = x - end_x;
         dy = y - end_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
@@ -567,8 +567,8 @@ void join_line_segments(struct line_segments * segments,
         }
         length = segments->no_of_members[j]-1;
         index2 += length;
-		/* compare end of the second line segment to the start
-		   of the first */
+        /* compare end of the second line segment to the start
+           of the first */
         x = segments->members[index2*2];
         y = segments->members[index2*2+1];
         index2++;
@@ -583,8 +583,8 @@ void join_line_segments(struct line_segments * segments,
             segments->joins[join_index] = (unsigned char)JOIN_START_TO_END;
           }
         }
-		/* compare end of the second line segment to the end
-		   of the first */
+        /* compare end of the second line segment to the end
+           of the first */
         dx = x - end_x;
         dy = y - end_y;
         if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
@@ -686,12 +686,12 @@ int get_segment_aspect_ratio(struct line_segments * segments,
 
   /* update bounding box for other joined edge segments */
   for (int i = 0; i < segments->max_segments; i++) {
-	  if (i == index) continue;
-	  int idx = i*segments->max_segments + index;
-	  if (segments->joins[idx] != JOIN_NONE) {
-		  get_segment_bounding_box(segments, i,
-								   &min_x, &min_y, &max_x, &max_y);
-	  }
+      if (i == index) continue;
+      int idx = i*segments->max_segments + index;
+      if (segments->joins[idx] != JOIN_NONE) {
+          get_segment_bounding_box(segments, i,
+                                   &min_x, &min_y, &max_x, &max_y);
+      }
   }
   dx = max_x - min_x;
   dy = max_y - min_y;
@@ -891,11 +891,11 @@ void get_peripheral_edges(struct line_segments * segments,
 
   /* add edges for other joined segments */
   for (int i = 0; i < segments->max_segments; i++) {
-	  if (i == index) continue;
-	  int idx = i*segments->max_segments + index;
-	  if (segments->joins[idx] != JOIN_NONE) {
-		  update_peripheral(segments, i);
-	  }
+      if (i == index) continue;
+      int idx = i*segments->max_segments + index;
+      if (segments->joins[idx] != JOIN_NONE) {
+          update_peripheral(segments, i);
+      }
   }
 
   /* calculate the centre of edges */

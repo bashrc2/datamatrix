@@ -128,7 +128,7 @@ int read_datamatrix(unsigned char image_data[],
                     char footer[],
                     int darklight_sampling_step,
                     int max_high_pixels_percent,
-					int segment_join_radius,
+                    int segment_join_radius,
                     char * decode_result)
 {
     int original_image_width = image_width;

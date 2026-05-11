@@ -45,9 +45,9 @@ static int datamatrix_unicode_to_ascii(char * datamatrix_text,
     int i, j, ctr = 0, found = 0;
     for (i = 0; i < (int)strlen(datamatrix_text); i++) {
         if (i > (int)strlen(datamatrix_text) - dot_text_len) {
-			result[ctr++] = datamatrix_text[i];
-			continue;
-		}
+            result[ctr++] = datamatrix_text[i];
+            continue;
+        }
 
         for (j = 0; j < dot_text_len; j++) {
             if (datamatrix_text[i+j] != dot_text[j]) break;

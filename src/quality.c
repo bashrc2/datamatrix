@@ -440,7 +440,7 @@ static void grid_cell_shape_test_cell(unsigned char thresholded_image_data[],
       n = (search_y*image_width + search_x)*image_bytesperpixel;
       if (thresholded_image_data[n] != 0) {
         /* top left and bottom right coordinates of the pixel in the cell
-		   shape image */
+           shape image */
         cell_shape_x0 =
           cell_shape_cx + ((search_x - x)*half_cell_shape_image_width/radius);
         if ((cell_shape_x0 < 0) ||
