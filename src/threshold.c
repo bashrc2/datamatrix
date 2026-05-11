@@ -52,7 +52,7 @@ static unsigned char is_dark_image(unsigned char img_mono[],
     /* distance to the histogram peak of light pixels */
     diff_light = (int)img_mono[i] - light2;
     /* which is closest? */
-    if (diff_dark*diff_dark < diff_light*diff_light) {
+    if (SQUARE(diff_dark) < SQUARE(diff_light)) {
       dark_pixels++;
     }
     else {

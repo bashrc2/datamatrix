@@ -71,8 +71,12 @@
 #define NO_OF_VALID_RECTANGLES (6+13)
 #endif
 
+#ifndef SQUARE
+#define SQUARE(a) (a*a)
+#endif
+
 #ifndef SQUARE_MAG
-#define SQUARE_MAG(a,b) (a*a + b*b)
+#define SQUARE_MAG(a,b) ((SQUARE(a)) + (SQUARE(b)))
 #endif
 
 #ifndef HYPOT
