@@ -224,7 +224,7 @@ static void test_gs1_decode()
   assert(strlen(decode_result) > 0);
   printf("%s\n", decode_result);
   assert(strcmp(decode_result,
-                "STANDARD: GS1\nGTIN: 00068780000108\nPACK DATE: 31 Dec 2030\nBATCH/LOT: ABC123") == 0);
+                "STANDARD: GS1\nGTIN: 00068780000108\nCOUNTRY: GS1 US, Code 006\nPACK DATE: 31 Dec 2030\nBATCH/LOT: ABC123") == 0);
 
   free_grid(&grid);
 
@@ -554,7 +554,7 @@ void test_gs1_company_prefix()
   char * result1 = get_gs1_company_prefix(data_str1);
   assert(result1 != NULL);
   printf("%s\n", result1);
-  assert(strcmp(result1, "GS1 US 0002") == 0);
+  assert(strcmp(result1, "GS1 US, Code 0002") == 0);
   free(result1);
 
   char data_str2[] = "622";
@@ -568,7 +568,7 @@ void test_gs1_company_prefix()
   char * result3 = get_gs1_company_prefix(data_str3);
   assert(result3 != NULL);
   printf("%s\n", result3);
-  assert(strcmp(result3, "GS1 Norway 705") == 0);
+  assert(strcmp(result3, "GS1 Norway, Code 705") == 0);
   free(result3);
 }
 

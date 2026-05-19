@@ -820,7 +820,7 @@ char * get_gs1_company_prefix(char data_str[])
   decode_strcat(company_prefix_str, gs1_company_prefix[company_prefix_index*3+2]);
 
   if (code_range == 1) {
-    decode_strcat_char(company_prefix_str, ' ');
+    decode_strcat(company_prefix_str, ", Code ");
     for (i = 0; i < data_len; i++) {
       decode_strcat_char(company_prefix_str, data_str[i]);
     }
