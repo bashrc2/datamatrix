@@ -35,7 +35,7 @@ unsigned char * read_png_file(char * filename,
     unsigned w, h;
     error = lodepng_decode24_file(&image, &w, &h, filename);
     if (error) printf("read_png_file: error %u: %s\n", error,
-                      lodepng_error_text(error));
+                          lodepng_error_text(error));
 
     *width = w;
     *height = h;

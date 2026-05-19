@@ -29,12 +29,12 @@
  */
 void * safemalloc(int n)
 {
-  void * ptr = malloc(n);
-  if (!ptr) {
-    fprintf(stderr, "Malloc(%d) failed\n", n);
-    exit(1);
-  }
-  return ptr;
+    void * ptr = malloc(n);
+    if (!ptr) {
+        fprintf(stderr, "Malloc(%d) failed\n", n);
+        exit(1);
+    }
+    return ptr;
 }
 
 /**
@@ -43,10 +43,10 @@ void * safemalloc(int n)
  * \param text the string to be added */
 int decode_strcat(char * result, char * text)
 {
-  if (strlen(result) + strlen(text) + sizeof(char) >= MAX_DECODE_LENGTH)
-    return -1;
-  strcat(result, text);
-  return 0;
+    if (strlen(result) + strlen(text) + sizeof(char) >= MAX_DECODE_LENGTH)
+        return -1;
+    strcat(result, text);
+    return 0;
 }
 
 /**
@@ -55,12 +55,12 @@ int decode_strcat(char * result, char * text)
  * \param chr the character to be added */
 int decode_strcat_char(char * result, char chr)
 {
-  int length = strlen(result);
-  if (length + (2*sizeof(char)) >= MAX_DECODE_LENGTH)
-    return -1;
-  result[length++] = chr;
-  result[length] = 0;
-  return 0;
+    int length = strlen(result);
+    if (length + (2*sizeof(char)) >= MAX_DECODE_LENGTH)
+        return -1;
+    result[length++] = chr;
+    result[length] = 0;
+    return 0;
 }
 
 /**
@@ -71,33 +71,33 @@ int decode_strcat_char(char * result, char chr)
  */
 int getline2(char line[], FILE * fp)
 {
-  int i = 0;
-  char c = '.';
+    int i = 0;
+    char c = '.';
 
-  line[0] = 0;
+    line[0] = 0;
 
-  if (fp == NULL){
-    return -1;
-  }
-
-  while (c != '\n') {
-    if (i >= MAX_DECODE_LENGTH - 1) {
-      /* avoid buffer overrun */
-      line[i] = 0;
-      break;
+    if (fp == NULL) {
+        return -1;
     }
-    c = getc(fp);
-    if (c == EOF) {
-      line[i] = 0;
-      break;
-    }
-    line[i] = c;
-    i++;
-  }
 
-  if (i > 0) {
-    line[i] = 0;
-  }
-  if (c == EOF) return -1;
-  return 0;
+    while (c != '\n') {
+        if (i >= MAX_DECODE_LENGTH - 1) {
+            /* avoid buffer overrun */
+            line[i] = 0;
+            break;
+        }
+        c = getc(fp);
+        if (c == EOF) {
+            line[i] = 0;
+            break;
+        }
+        line[i] = c;
+        i++;
+    }
+
+    if (i > 0) {
+        line[i] = 0;
+    }
+    if (c == EOF) return -1;
+    return 0;
 }

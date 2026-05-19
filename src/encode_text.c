@@ -59,9 +59,9 @@ static int encode_datamatrix_to_image(char * image_filename,
 
     /* check that the output image filename is png format */
     if ((image_filename[image_filename_length-4] == '.') &&
-        (image_filename[image_filename_length-3] == 'p') &&
-        (image_filename[image_filename_length-2] == 'n') &&
-        (image_filename[image_filename_length-1] == 'g')) {
+            (image_filename[image_filename_length-3] == 'p') &&
+            (image_filename[image_filename_length-2] == 'n') &&
+            (image_filename[image_filename_length-1] == 'g')) {
         unsigned char * encode_image_data =
             (unsigned char*)safemalloc(encode_image_width*
                                        encode_image_height*3);
@@ -129,10 +129,10 @@ int encode_datamatrix_to_text(char * text,
     unsigned char *grid = 0;
     unsigned int encode_width = 0, encode_height = 0;
     unsigned int len = 0,
-        maxlen = 0,
-        encode_ecclen = 0,
-        square = 0,
-        noquiet = 0;
+                 maxlen = 0,
+                 encode_ecclen = 0,
+                 square = 0,
+                 noquiet = 0;
 
     barcodelen = strlen(text);
 
@@ -151,7 +151,7 @@ int encode_datamatrix_to_text(char * text,
                text, encode_width, encode_height);
     /* show the datamatrix */
     int encode_image_height = \
-        encode_image_width * encode_height / encode_width;
+                              encode_image_width * encode_height / encode_width;
 
     if (grid && (image_filename[0] != 0)) {
         return encode_datamatrix_to_image(image_filename,
@@ -195,7 +195,7 @@ int encode_datamatrix_to_text(char * text,
             if (show_coords == 0) {
                 printf("%s",
                        grid[encode_width *
-                            (y / S) + (x / S)] ? dot_chr : empty_chr);
+                                         (y / S) + (x / S)] ? dot_chr : empty_chr);
             }
             else {
                 /* show dot coordinates */

@@ -90,113 +90,113 @@ enum edge_segment_join_types {
 
 struct key_value_pair_int
 {
-  int Key;
-  int Value;
+    int Key;
+    int Value;
 };
 
 struct perimeter_points {
-  float x0, y0;
-  float x1, y1;
-  float x2, y2;
-  float x3, y3;
+    float x0, y0;
+    float x1, y1;
+    float x2, y2;
+    float x3, y3;
 };
 
 struct grid_2d {
-  struct perimeter_points perimeter;
-  struct perimeter_points quiet_zone_perimeter;
-  unsigned char ** occupancy;
-  unsigned char ** occupancy_buffer;
-  unsigned char * damage;
-  unsigned char * original_damage;
-  unsigned char * damage_buffer;
-  int ** codeword_pattern;
-  unsigned char * codeword;
-  unsigned char * corrected_codewords;
-  int dimension_x, dimension_y;
-  int no_of_errors;
-  int no_of_erasures;
-  int * erasures;
+    struct perimeter_points perimeter;
+    struct perimeter_points quiet_zone_perimeter;
+    unsigned char ** occupancy;
+    unsigned char ** occupancy_buffer;
+    unsigned char * damage;
+    unsigned char * original_damage;
+    unsigned char * damage_buffer;
+    int ** codeword_pattern;
+    unsigned char * codeword;
+    unsigned char * corrected_codewords;
+    int dimension_x, dimension_y;
+    int no_of_errors;
+    int no_of_erasures;
+    int * erasures;
 
-  /* orientation of occupancy/damage arrays */
-  unsigned char rotated, flipped, mirrored;
+    /* orientation of occupancy/damage arrays */
+    unsigned char rotated, flipped, mirrored;
 
-  /* temporary decoding arrays used during condensation */
-  unsigned char ** temp_occupancy;
-  unsigned char * temp_damage;
+    /* temporary decoding arrays used during condensation */
+    unsigned char ** temp_occupancy;
+    unsigned char * temp_damage;
 
-  /* quality metrics */
-  unsigned char gs1_datamatrix;
-  unsigned char iso15434_datamatrix;
-  unsigned char hibc_datamatrix;
-  unsigned char minimum_reflectance;
-  unsigned char minimum_reflectance_grade;
-  unsigned char unused_error_correction;
-  unsigned char unused_error_correction_grade;
-  unsigned char cell_fill;
-  unsigned char distributed_damage;
-  unsigned char fixed_pattern_damage;
-  unsigned char fixed_pattern_damage_grade;
-  unsigned char clock_track_regularity;
-  unsigned char clock_track_regularity_grade;
-  float angle_of_distortion;
-  unsigned char symbol_contrast;
-  unsigned char symbol_contrast_grade;
-  float axial_non_uniformity;
-  unsigned char axial_non_uniformity_grade;
-  float grid_non_uniformity;
-  unsigned char grid_non_uniformity_grade;
-  unsigned char modulation;
-  unsigned char modulation_grade;
-  unsigned char contrast_uniformity;
-  float elongation;
-  int dots_per_element;
-  unsigned char quiet_zone;
+    /* quality metrics */
+    unsigned char gs1_datamatrix;
+    unsigned char iso15434_datamatrix;
+    unsigned char hibc_datamatrix;
+    unsigned char minimum_reflectance;
+    unsigned char minimum_reflectance_grade;
+    unsigned char unused_error_correction;
+    unsigned char unused_error_correction_grade;
+    unsigned char cell_fill;
+    unsigned char distributed_damage;
+    unsigned char fixed_pattern_damage;
+    unsigned char fixed_pattern_damage_grade;
+    unsigned char clock_track_regularity;
+    unsigned char clock_track_regularity_grade;
+    float angle_of_distortion;
+    unsigned char symbol_contrast;
+    unsigned char symbol_contrast_grade;
+    float axial_non_uniformity;
+    unsigned char axial_non_uniformity_grade;
+    float grid_non_uniformity;
+    unsigned char grid_non_uniformity_grade;
+    unsigned char modulation;
+    unsigned char modulation_grade;
+    unsigned char contrast_uniformity;
+    float elongation;
+    int dots_per_element;
+    unsigned char quiet_zone;
 
-  /* decoding arrays */
-  unsigned char* data_bytes;
-  int * m_Pp;
-  int * m_alpha_to;
-  int * m_index_of;
-  int * m_Gg;
-  unsigned char * m_taltab;
-  unsigned char * m_tal1tab;
-  int * data;
-  int * lambda;
-  int * s;
-  int * b;
-  int * t;
-  int * omega;
-  int * root;
-  int * reg;
-  int * loc;
+    /* decoding arrays */
+    unsigned char* data_bytes;
+    int * m_Pp;
+    int * m_alpha_to;
+    int * m_index_of;
+    int * m_Gg;
+    unsigned char * m_taltab;
+    unsigned char * m_tal1tab;
+    int * data;
+    int * lambda;
+    int * s;
+    int * b;
+    int * t;
+    int * omega;
+    int * root;
+    int * reg;
+    int * loc;
 };
 
 struct line_segments {
-  int image_border;
-  int ignore_periphery;
-  int max_members;
-  int * members;
-  int * no_of_members;
-  int max_segments;
-  int minimum_segment_length;
-  int no_of_segments;
-  unsigned char * joins;
-  int * joined_length;
-  int * joins_sorted;
-  unsigned char * selected;
-  int * perimeter_left;
-  int * perimeter_right;
-  int * perimeter_top;
-  int * perimeter_bottom;
-  int * orientation_histogram;
-  int ** orientation_histogram_edges;
-  int ** side_edges;
-  int * side_edges_count;
-  int edge_centre_x;
-  int edge_centre_y;
-  int edge_centre_hits;
-  int * linefit;
-  int * linefit2;
+    int image_border;
+    int ignore_periphery;
+    int max_members;
+    int * members;
+    int * no_of_members;
+    int max_segments;
+    int minimum_segment_length;
+    int no_of_segments;
+    unsigned char * joins;
+    int * joined_length;
+    int * joins_sorted;
+    unsigned char * selected;
+    int * perimeter_left;
+    int * perimeter_right;
+    int * perimeter_top;
+    int * perimeter_bottom;
+    int * orientation_histogram;
+    int ** orientation_histogram_edges;
+    int ** side_edges;
+    int * side_edges_count;
+    int edge_centre_x;
+    int edge_centre_y;
+    int edge_centre_hits;
+    int * linefit;
+    int * linefit2;
 };
 
 /* threshold.c */
@@ -565,11 +565,11 @@ void iso15434_semantics(char result[],
                         char iso15434_uii[]);
 
 char * iso15434_translate_data_qualifier(char result[],
-                                         int start_index,
-                                         int end_index,
-                                         char iso15434_uii[],
-                                         char format_code[],
-                                         unsigned char debug);
+        int start_index,
+        int end_index,
+        char iso15434_uii[],
+        char format_code[],
+        unsigned char debug);
 
 /* hibc.c */
 

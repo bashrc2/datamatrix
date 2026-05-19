@@ -78,11 +78,11 @@ static int datamatrix_unicode_to_ascii(char * datamatrix_text,
  * \param empty_char character used to represent empty space
  */
 static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
-                                           unsigned char debug,
-                                           int * dimension_x,
-                                           int * dimension_y,
-                                           int * decode_step,
-                                           char * empty_char)
+        unsigned char debug,
+        int * dimension_x,
+        int * dimension_y,
+        int * decode_step,
+        char * empty_char)
 {
     int i, start_i = 0;
 
@@ -91,9 +91,9 @@ static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
     *dimension_y = 0;
 
     /* get the X dimension */
-    for (i = 0; i < (int)strlen(datamatrix_ascii); i++) {          
+    for (i = 0; i < (int)strlen(datamatrix_ascii); i++) {
         if ((datamatrix_ascii[i] == '\n') ||
-            (datamatrix_ascii[i] == '\r')) {
+                (datamatrix_ascii[i] == '\r')) {
             if (*dimension_x > 0) {
                 *decode_step = (i - start_i) / *dimension_x;
                 break;
@@ -124,8 +124,8 @@ static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
     int dot_ctr = 0;
     for (i = 0; i < (int)strlen(datamatrix_ascii); i++) {
         if ((datamatrix_ascii[i] == '\n') ||
-            (datamatrix_ascii[i] == '\r') ||
-            (i == (int)strlen(datamatrix_ascii)-1)) {
+                (datamatrix_ascii[i] == '\r') ||
+                (i == (int)strlen(datamatrix_ascii)-1)) {
             if (dot_ctr > 0) {
                 *dimension_y = *dimension_y + 1;
                 dot_ctr = 0;
@@ -151,11 +151,11 @@ static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
  * \param empty_char character or string used to represent empty space
  */
 static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
-                                               int dimension_x,
-                                               int dimension_y,
-                                               int decode_step,
-                                               char * datamatrix_ascii,
-                                               char * empty_char)
+        int dimension_x,
+        int dimension_y,
+        int decode_step,
+        char * datamatrix_ascii,
+        char * empty_char)
 {
     int i, j, start_i = -1;
     int x_pos, y_pos=0;
@@ -166,7 +166,7 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
     /* for each line of the datamatrix string */
     for (i = 0; i < (int)strlen(datamatrix_ascii); i++) {
         if ((datamatrix_ascii[i] == '\n') ||
-            (datamatrix_ascii[i] == '\r')) {
+                (datamatrix_ascii[i] == '\r')) {
             start_i = -1;
             continue;
         }
@@ -175,7 +175,7 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
                 start_i = i;
                 x_pos = 0;
                 for (j = i; j < i + (decode_step * dimension_x);
-                     j += decode_step, x_pos++) {
+                        j += decode_step, x_pos++) {
                     if (datamatrix_ascii[j] == empty_char[0]) {
                         occupancy[(y_pos * dimension_x) + x_pos] = 0;
                     }
@@ -196,7 +196,7 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
  * \param custom_dot_char character or string representing a dot
  * \param custom_empty_char character or string representing a space
  * \param debug set to 1 for debug mode, 0 otherwise
- * \returns 0 on success, -1 otherwise 
+ * \returns 0 on success, -1 otherwise
  */
 int decode_datamatrix_from_text(char * datamatrix_text,
                                 char * gs1_url,
@@ -214,12 +214,12 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 
     sprintf(&empty_char[0], " ");
     if ((strlen(custom_empty_char) > 0) &&
-        (strlen(custom_empty_char) <= 3)) {
+            (strlen(custom_empty_char) <= 3)) {
         sprintf(&empty_char[0], "%s", custom_empty_char);
     }
 
     if ((strlen(custom_dot_char) > 0) &&
-        (strlen(custom_dot_char) <= 3)) {
+            (strlen(custom_dot_char) <= 3)) {
         /* using custom dot character */
         datamatrix_unicode_to_ascii(datamatrix_text,
                                     custom_dot_char,
@@ -243,7 +243,7 @@ int decode_datamatrix_from_text(char * datamatrix_text,
                                    &decode_step,
                                    &empty_char[0]);
     if ((dimension_x == 0) || (dimension_y == 0) ||
-        (decode_step == 0)) return -1;
+            (decode_step == 0)) return -1;
 
     /* make an occupancy grid */
     unsigned char * occupancy =

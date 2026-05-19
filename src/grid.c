@@ -30,15 +30,15 @@
  */
 float get_cell_width(struct grid_2d * grid)
 {
-  float longest_side =
-    get_longest_side(grid->perimeter.x0, grid->perimeter.y0,
-                     grid->perimeter.x1, grid->perimeter.y1,
-                     grid->perimeter.x2, grid->perimeter.y2,
-                     grid->perimeter.x3, grid->perimeter.y3);
-  if (grid->dimension_x > grid->dimension_y) {
-    return longest_side / grid->dimension_x;
-  }
-  return longest_side / grid->dimension_y;
+    float longest_side =
+        get_longest_side(grid->perimeter.x0, grid->perimeter.y0,
+                         grid->perimeter.x1, grid->perimeter.y1,
+                         grid->perimeter.x2, grid->perimeter.y2,
+                         grid->perimeter.x3, grid->perimeter.y3);
+    if (grid->dimension_x > grid->dimension_y) {
+        return longest_side / grid->dimension_x;
+    }
+    return longest_side / grid->dimension_y;
 }
 
 /**
@@ -68,46 +68,46 @@ static int get_timing_prob_side(unsigned char mono_img[],
                                 unsigned char image_data[],
                                 int debug_frequency)
 {
-  float dx = bx - tx;
-  float dy = by - ty;
-  int i, x, y, n, expected, prob=0, samples=0;
-  int cell_prob, previous_cell_prob=0;
-  int xx, yy, min_x, min_y, max_x, max_y;
+    float dx = bx - tx;
+    float dy = by - ty;
+    int i, x, y, n, expected, prob=0, samples=0;
+    int cell_prob, previous_cell_prob=0;
+    int xx, yy, min_x, min_y, max_x, max_y;
 
-  for (i = 0; i < frequency; i++) {
-    expected = (i % 2) * 255;
-    x = (int)(tx + ((i+0.5f) * dx / frequency));
-    y = (int)(ty + ((i+0.5f) * dy / frequency));
-    cell_prob = 0;
-    /* sample a few pixels around this point */
-    min_x = x - sampling_radius;
-    max_x = x + sampling_radius;
-    min_y = y - sampling_radius;
-    max_y = y + sampling_radius;
-    if (min_x < 0) min_x = 0;
-    if (max_x >= width) max_x = width-1;
-    if (min_y < 0) min_y = 0;
-    if (max_y >= height) max_y = height-1;
+    for (i = 0; i < frequency; i++) {
+        expected = (i % 2) * 255;
+        x = (int)(tx + ((i+0.5f) * dx / frequency));
+        y = (int)(ty + ((i+0.5f) * dy / frequency));
+        cell_prob = 0;
+        /* sample a few pixels around this point */
+        min_x = x - sampling_radius;
+        max_x = x + sampling_radius;
+        min_y = y - sampling_radius;
+        max_y = y + sampling_radius;
+        if (min_x < 0) min_x = 0;
+        if (max_x >= width) max_x = width-1;
+        if (min_y < 0) min_y = 0;
+        if (max_y >= height) max_y = height-1;
 
-    /* sample pixels around (x,y) */
-    for (yy = min_y; yy <= max_y; yy++) {
-      n = yy*width + min_x;
-      for (xx = min_x; xx <= max_x; xx++, n++) {
-        if (mono_img[n] == expected) cell_prob++;
-        if ((debug == 1) && (frequency == debug_frequency)) {
-          image_data[n*3] = 0;
-          image_data[n*3+1] = 255;
-          image_data[n*3+2] = 0;
+        /* sample pixels around (x,y) */
+        for (yy = min_y; yy <= max_y; yy++) {
+            n = yy*width + min_x;
+            for (xx = min_x; xx <= max_x; xx++, n++) {
+                if (mono_img[n] == expected) cell_prob++;
+                if ((debug == 1) && (frequency == debug_frequency)) {
+                    image_data[n*3] = 0;
+                    image_data[n*3+1] = 255;
+                    image_data[n*3+2] = 0;
+                }
+                samples++;
+            }
         }
-        samples++;
-      }
+        prob += cell_prob*previous_cell_prob;
+        previous_cell_prob = cell_prob;
     }
-    prob += cell_prob*previous_cell_prob;
-    previous_cell_prob = cell_prob;
-  }
 
-  if (samples == 0) return 0;
-  return (int)(prob * 5000 / (samples*frequency));
+    if (samples == 0) return 0;
+    return (int)(prob * 5000 / (samples*frequency));
 }
 
 /**
@@ -147,40 +147,40 @@ static int get_timing_prob(unsigned char mono_img[],
                            unsigned char image_data[],
                            int debug_frequency)
 {
-  int frequency1 = frequency;
-  int frequency2 = frequency;
+    int frequency1 = frequency;
+    int frequency2 = frequency;
 
-  if (frequency_shortest < frequency) {
-    /* rectangular shape */
-    float dx1 = corner_x - prev_corner_x;
-    float dy1 = corner_y - prev_corner_y;
-    float dist1_sqr = dx1*dx1 + dy1*dy1;
-    float dx2 = corner_x - next_corner_x;
-    float dy2 = corner_y - next_corner_y;
-    float dist2_sqr = dx2*dx2 + dy2*dy2;
-    if (dist1_sqr > dist2_sqr) {
-      frequency1 = frequency;
-      frequency2 = frequency_shortest;
+    if (frequency_shortest < frequency) {
+        /* rectangular shape */
+        float dx1 = corner_x - prev_corner_x;
+        float dy1 = corner_y - prev_corner_y;
+        float dist1_sqr = dx1*dx1 + dy1*dy1;
+        float dx2 = corner_x - next_corner_x;
+        float dy2 = corner_y - next_corner_y;
+        float dist2_sqr = dx2*dx2 + dy2*dy2;
+        if (dist1_sqr > dist2_sqr) {
+            frequency1 = frequency;
+            frequency2 = frequency_shortest;
+        }
+        else {
+            frequency1 = frequency_shortest;
+            frequency2 = frequency;
+        }
     }
-    else {
-      frequency1 = frequency_shortest;
-      frequency2 = frequency;
-    }
-  }
 
-  int prob = get_timing_prob_side(mono_img, width, height,
-                                  corner_x, corner_y,
-                                  prev_corner_x, prev_corner_y,
-                                  frequency1, sampling_radius,
-                                  debug, image_data,
-                                  debug_frequency);
-  prob += get_timing_prob_side(mono_img, width, height,
-                               corner_x, corner_y,
-                               next_corner_x, next_corner_y,
-                               frequency2, sampling_radius,
-                               debug, image_data,
-                               debug_frequency);
-  return prob;
+    int prob = get_timing_prob_side(mono_img, width, height,
+                                    corner_x, corner_y,
+                                    prev_corner_x, prev_corner_y,
+                                    frequency1, sampling_radius,
+                                    debug, image_data,
+                                    debug_frequency);
+    prob += get_timing_prob_side(mono_img, width, height,
+                                 corner_x, corner_y,
+                                 next_corner_x, next_corner_y,
+                                 frequency2, sampling_radius,
+                                 debug, image_data,
+                                 debug_frequency);
+    return prob;
 }
 
 /**
@@ -220,129 +220,129 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
                                         unsigned char image_data[],
                                         int debug_frequency)
 {
-  float pitch, half_pitch, centre_x, centre_y, vertex_x, vertex_y, dx, dy;
-  int side, corner, index, freq, prob, max_prob=0, probable_frequency=-1;
-  float timing_perimeter_x0, timing_perimeter_y0;
-  float timing_perimeter_x1, timing_perimeter_y1;
-  float timing_perimeter_x2, timing_perimeter_y2;
-  float timing_perimeter_x3, timing_perimeter_y3;
-  float x0, y0, x1, y1, x2, y2, fraction;
-  int * valid_squares = get_valid_squares();
+    float pitch, half_pitch, centre_x, centre_y, vertex_x, vertex_y, dx, dy;
+    int side, corner, index, freq, prob, max_prob=0, probable_frequency=-1;
+    float timing_perimeter_x0, timing_perimeter_y0;
+    float timing_perimeter_x1, timing_perimeter_y1;
+    float timing_perimeter_x2, timing_perimeter_y2;
+    float timing_perimeter_x3, timing_perimeter_y3;
+    float x0, y0, x1, y1, x2, y2, fraction;
+    int * valid_squares = get_valid_squares();
 
-  get_centroid(perimeter_x0, perimeter_y0,
-               perimeter_x1, perimeter_y1,
-               perimeter_x2, perimeter_y2,
-               perimeter_x3, perimeter_y3,
-               &centre_x, &centre_y);
+    get_centroid(perimeter_x0, perimeter_y0,
+                 perimeter_x1, perimeter_y1,
+                 perimeter_x2, perimeter_y2,
+                 perimeter_x3, perimeter_y3,
+                 &centre_x, &centre_y);
 
-  for (index = 0; index < NO_OF_VALID_SQUARES; index++) {
-    freq = valid_squares[index];
-    if ((freq < minimum_grid_dimension) ||
-        (freq > maximum_grid_dimension)) continue;
-    pitch = side_length / freq;
-    half_pitch = pitch/2;
-    /* make a shrunken perimeter half the pitch smaller */
-    for (side = 0; side < 4; side++) {
-      switch(side) {
-      case 0: {
-        vertex_x = perimeter_x0;
-        vertex_y = perimeter_y0;
-        break;
-      }
-      case 1: {
-        vertex_x = perimeter_x1;
-        vertex_y = perimeter_y1;
-        break;
-      }
-      case 2: {
-        vertex_x = perimeter_x2;
-        vertex_y = perimeter_y2;
-        break;
-      }
-      case 3: {
-        vertex_x = perimeter_x3;
-        vertex_y = perimeter_y3;
-        break;
-      }
-      }
-      dx = vertex_x - centre_x;
-      dy = vertex_y - centre_y;
-      fraction = half_pitch / HYPOT(dx, dy);
-      switch(side) {
-      case 0: {
-        timing_perimeter_x0 = vertex_x - (dx*fraction);
-        timing_perimeter_y0 = vertex_y - (dy*fraction);
-        break;
-      }
-      case 1: {
-        timing_perimeter_x1 = vertex_x - (dx*fraction);
-        timing_perimeter_y1 = vertex_y - (dy*fraction);
-        break;
-      }
-      case 2: {
-        timing_perimeter_x2 = vertex_x - (dx*fraction);
-        timing_perimeter_y2 = vertex_y - (dy*fraction);
-        break;
-      }
-      case 3: {
-        timing_perimeter_x3 = vertex_x - (dx*fraction);
-        timing_perimeter_y3 = vertex_y - (dy*fraction);
-        break;
-      }
-      }
+    for (index = 0; index < NO_OF_VALID_SQUARES; index++) {
+        freq = valid_squares[index];
+        if ((freq < minimum_grid_dimension) ||
+                (freq > maximum_grid_dimension)) continue;
+        pitch = side_length / freq;
+        half_pitch = pitch/2;
+        /* make a shrunken perimeter half the pitch smaller */
+        for (side = 0; side < 4; side++) {
+            switch(side) {
+            case 0: {
+                vertex_x = perimeter_x0;
+                vertex_y = perimeter_y0;
+                break;
+            }
+            case 1: {
+                vertex_x = perimeter_x1;
+                vertex_y = perimeter_y1;
+                break;
+            }
+            case 2: {
+                vertex_x = perimeter_x2;
+                vertex_y = perimeter_y2;
+                break;
+            }
+            case 3: {
+                vertex_x = perimeter_x3;
+                vertex_y = perimeter_y3;
+                break;
+            }
+            }
+            dx = vertex_x - centre_x;
+            dy = vertex_y - centre_y;
+            fraction = half_pitch / HYPOT(dx, dy);
+            switch(side) {
+            case 0: {
+                timing_perimeter_x0 = vertex_x - (dx*fraction);
+                timing_perimeter_y0 = vertex_y - (dy*fraction);
+                break;
+            }
+            case 1: {
+                timing_perimeter_x1 = vertex_x - (dx*fraction);
+                timing_perimeter_y1 = vertex_y - (dy*fraction);
+                break;
+            }
+            case 2: {
+                timing_perimeter_x2 = vertex_x - (dx*fraction);
+                timing_perimeter_y2 = vertex_y - (dy*fraction);
+                break;
+            }
+            case 3: {
+                timing_perimeter_x3 = vertex_x - (dx*fraction);
+                timing_perimeter_y3 = vertex_y - (dy*fraction);
+                break;
+            }
+            }
+        }
+        /* test each corner for a timing pattern */
+        for (corner = 0; corner < 4; corner++) {
+            switch(corner) {
+            case 0: {
+                x0 = timing_perimeter_x3;
+                y0 = timing_perimeter_y3;
+                x1 = timing_perimeter_x0;
+                y1 = timing_perimeter_y0;
+                x2 = timing_perimeter_x1;
+                y2 = timing_perimeter_y1;
+                break;
+            }
+            case 1: {
+                x0 = timing_perimeter_x0;
+                y0 = timing_perimeter_y0;
+                x1 = timing_perimeter_x1;
+                y1 = timing_perimeter_y1;
+                x2 = timing_perimeter_x2;
+                y2 = timing_perimeter_y2;
+                break;
+            }
+            case 2: {
+                x0 = timing_perimeter_x1;
+                y0 = timing_perimeter_y1;
+                x1 = timing_perimeter_x2;
+                y1 = timing_perimeter_y2;
+                x2 = timing_perimeter_x3;
+                y2 = timing_perimeter_y3;
+                break;
+            }
+            case 3: {
+                x0 = timing_perimeter_x2;
+                y0 = timing_perimeter_y2;
+                x1 = timing_perimeter_x3;
+                y1 = timing_perimeter_y3;
+                x2 = timing_perimeter_x0;
+                y2 = timing_perimeter_y0;
+                break;
+            }
+            }
+            prob = get_timing_prob(mono_img, width, height,
+                                   x1, y1, x0, y0, x2, y2,
+                                   freq, freq, sampling_radius,
+                                   debug, image_data,
+                                   debug_frequency);
+            if ((prob > threshold) && (prob > max_prob)) {
+                max_prob = prob;
+                probable_frequency = freq;
+            }
+        }
     }
-    /* test each corner for a timing pattern */
-    for (corner = 0; corner < 4; corner++) {
-      switch(corner) {
-      case 0: {
-        x0 = timing_perimeter_x3;
-        y0 = timing_perimeter_y3;
-        x1 = timing_perimeter_x0;
-        y1 = timing_perimeter_y0;
-        x2 = timing_perimeter_x1;
-        y2 = timing_perimeter_y1;
-        break;
-      }
-      case 1: {
-        x0 = timing_perimeter_x0;
-        y0 = timing_perimeter_y0;
-        x1 = timing_perimeter_x1;
-        y1 = timing_perimeter_y1;
-        x2 = timing_perimeter_x2;
-        y2 = timing_perimeter_y2;
-        break;
-      }
-      case 2: {
-        x0 = timing_perimeter_x1;
-        y0 = timing_perimeter_y1;
-        x1 = timing_perimeter_x2;
-        y1 = timing_perimeter_y2;
-        x2 = timing_perimeter_x3;
-        y2 = timing_perimeter_y3;
-        break;
-      }
-      case 3: {
-        x0 = timing_perimeter_x2;
-        y0 = timing_perimeter_y2;
-        x1 = timing_perimeter_x3;
-        y1 = timing_perimeter_y3;
-        x2 = timing_perimeter_x0;
-        y2 = timing_perimeter_y0;
-        break;
-      }
-      }
-      prob = get_timing_prob(mono_img, width, height,
-                             x1, y1, x0, y0, x2, y2,
-                             freq, freq, sampling_radius,
-                             debug, image_data,
-                             debug_frequency);
-      if ((prob > threshold) && (prob > max_prob)) {
-        max_prob = prob;
-        probable_frequency = freq;
-      }
-    }
-  }
-  return probable_frequency;
+    return probable_frequency;
 }
 
 /**
@@ -369,149 +369,149 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
  * \return the most likely timing border frequency
  */
 static int detect_timing_pattern_rectangular(unsigned char mono_img[],
-                                             int width, int height,
-                                             int minimum_grid_dimension,
-                                             int maximum_grid_dimension,
-                                             float perimeter_x0,
-                                             float perimeter_y0,
-                                             float perimeter_x1,
-                                             float perimeter_y1,
-                                             float perimeter_x2,
-                                             float perimeter_y2,
-                                             float perimeter_x3,
-                                             float perimeter_y3,
-                                             int threshold, float side_length,
-                                             int sampling_radius,
-                                             unsigned char debug,
-                                             unsigned char image_data[],
-                                             int debug_frequency)
+        int width, int height,
+        int minimum_grid_dimension,
+        int maximum_grid_dimension,
+        float perimeter_x0,
+        float perimeter_y0,
+        float perimeter_x1,
+        float perimeter_y1,
+        float perimeter_x2,
+        float perimeter_y2,
+        float perimeter_x3,
+        float perimeter_y3,
+        int threshold, float side_length,
+        int sampling_radius,
+        unsigned char debug,
+        unsigned char image_data[],
+        int debug_frequency)
 {
-  float pitch, half_pitch, centre_x, centre_y, vertex_x, vertex_y, dx, dy;
-  int side, corner, index, freq, freq_shortest, prob, max_prob=0;
-  int probable_frequency=-1;
-  float timing_perimeter_x0, timing_perimeter_y0;
-  float timing_perimeter_x1, timing_perimeter_y1;
-  float timing_perimeter_x2, timing_perimeter_y2;
-  float timing_perimeter_x3, timing_perimeter_y3;
-  float x0, y0, x1, y1, x2, y2, fraction;
-  int * valid_rectangles = get_valid_rectangles();
+    float pitch, half_pitch, centre_x, centre_y, vertex_x, vertex_y, dx, dy;
+    int side, corner, index, freq, freq_shortest, prob, max_prob=0;
+    int probable_frequency=-1;
+    float timing_perimeter_x0, timing_perimeter_y0;
+    float timing_perimeter_x1, timing_perimeter_y1;
+    float timing_perimeter_x2, timing_perimeter_y2;
+    float timing_perimeter_x3, timing_perimeter_y3;
+    float x0, y0, x1, y1, x2, y2, fraction;
+    int * valid_rectangles = get_valid_rectangles();
 
-  get_centroid(perimeter_x0, perimeter_y0,
-               perimeter_x1, perimeter_y1,
-               perimeter_x2, perimeter_y2,
-               perimeter_x3, perimeter_y3,
-               &centre_x, &centre_y);
+    get_centroid(perimeter_x0, perimeter_y0,
+                 perimeter_x1, perimeter_y1,
+                 perimeter_x2, perimeter_y2,
+                 perimeter_x3, perimeter_y3,
+                 &centre_x, &centre_y);
 
-  for (index = 0; index < NO_OF_VALID_RECTANGLES; index++) {
-    /* frequency of the longest side */
-    freq = valid_rectangles[index*2+1];
-    if ((freq < minimum_grid_dimension) ||
-        (freq > maximum_grid_dimension)) continue;
-    freq_shortest = valid_rectangles[index*2];
-    pitch = side_length / freq;
-    half_pitch = pitch/2;
-    /* make a shrunken perimeter half the pitch smaller */
-    for (side = 0; side < 4; side++) {
-      switch(side) {
-      case 0: {
-        vertex_x = perimeter_x0;
-        vertex_y = perimeter_y0;
-        break;
-      }
-      case 1: {
-        vertex_x = perimeter_x1;
-        vertex_y = perimeter_y1;
-        break;
-      }
-      case 2: {
-        vertex_x = perimeter_x2;
-        vertex_y = perimeter_y2;
-        break;
-      }
-      case 3: {
-        vertex_x = perimeter_x3;
-        vertex_y = perimeter_y3;
-        break;
-      }
-      }
-      dx = vertex_x - centre_x;
-      dy = vertex_y - centre_y;
-      fraction = half_pitch / HYPOT(dx, dy);
-      switch(side) {
-      case 0: {
-        timing_perimeter_x0 = vertex_x - (dx*fraction);
-        timing_perimeter_y0 = vertex_y - (dy*fraction);
-        break;
-      }
-      case 1: {
-        timing_perimeter_x1 = vertex_x - (dx*fraction);
-        timing_perimeter_y1 = vertex_y - (dy*fraction);
-        break;
-      }
-      case 2: {
-        timing_perimeter_x2 = vertex_x - (dx*fraction);
-        timing_perimeter_y2 = vertex_y - (dy*fraction);
-        break;
-      }
-      case 3: {
-        timing_perimeter_x3 = vertex_x - (dx*fraction);
-        timing_perimeter_y3 = vertex_y - (dy*fraction);
-        break;
-      }
-      }
+    for (index = 0; index < NO_OF_VALID_RECTANGLES; index++) {
+        /* frequency of the longest side */
+        freq = valid_rectangles[index*2+1];
+        if ((freq < minimum_grid_dimension) ||
+                (freq > maximum_grid_dimension)) continue;
+        freq_shortest = valid_rectangles[index*2];
+        pitch = side_length / freq;
+        half_pitch = pitch/2;
+        /* make a shrunken perimeter half the pitch smaller */
+        for (side = 0; side < 4; side++) {
+            switch(side) {
+            case 0: {
+                vertex_x = perimeter_x0;
+                vertex_y = perimeter_y0;
+                break;
+            }
+            case 1: {
+                vertex_x = perimeter_x1;
+                vertex_y = perimeter_y1;
+                break;
+            }
+            case 2: {
+                vertex_x = perimeter_x2;
+                vertex_y = perimeter_y2;
+                break;
+            }
+            case 3: {
+                vertex_x = perimeter_x3;
+                vertex_y = perimeter_y3;
+                break;
+            }
+            }
+            dx = vertex_x - centre_x;
+            dy = vertex_y - centre_y;
+            fraction = half_pitch / HYPOT(dx, dy);
+            switch(side) {
+            case 0: {
+                timing_perimeter_x0 = vertex_x - (dx*fraction);
+                timing_perimeter_y0 = vertex_y - (dy*fraction);
+                break;
+            }
+            case 1: {
+                timing_perimeter_x1 = vertex_x - (dx*fraction);
+                timing_perimeter_y1 = vertex_y - (dy*fraction);
+                break;
+            }
+            case 2: {
+                timing_perimeter_x2 = vertex_x - (dx*fraction);
+                timing_perimeter_y2 = vertex_y - (dy*fraction);
+                break;
+            }
+            case 3: {
+                timing_perimeter_x3 = vertex_x - (dx*fraction);
+                timing_perimeter_y3 = vertex_y - (dy*fraction);
+                break;
+            }
+            }
+        }
+        /* test each corner for a timing pattern */
+        for (corner = 0; corner < 4; corner++) {
+            switch(corner) {
+            case 0: {
+                x0 = timing_perimeter_x3;
+                y0 = timing_perimeter_y3;
+                x1 = timing_perimeter_x0;
+                y1 = timing_perimeter_y0;
+                x2 = timing_perimeter_x1;
+                y2 = timing_perimeter_y1;
+                break;
+            }
+            case 1: {
+                x0 = timing_perimeter_x0;
+                y0 = timing_perimeter_y0;
+                x1 = timing_perimeter_x1;
+                y1 = timing_perimeter_y1;
+                x2 = timing_perimeter_x2;
+                y2 = timing_perimeter_y2;
+                break;
+            }
+            case 2: {
+                x0 = timing_perimeter_x1;
+                y0 = timing_perimeter_y1;
+                x1 = timing_perimeter_x2;
+                y1 = timing_perimeter_y2;
+                x2 = timing_perimeter_x3;
+                y2 = timing_perimeter_y3;
+                break;
+            }
+            case 3: {
+                x0 = timing_perimeter_x2;
+                y0 = timing_perimeter_y2;
+                x1 = timing_perimeter_x3;
+                y1 = timing_perimeter_y3;
+                x2 = timing_perimeter_x0;
+                y2 = timing_perimeter_y0;
+                break;
+            }
+            }
+            prob = get_timing_prob(mono_img, width, height,
+                                   x1, y1, x0, y0, x2, y2,
+                                   freq, freq_shortest, sampling_radius,
+                                   debug, image_data,
+                                   debug_frequency);
+            if ((prob > threshold) && (prob > max_prob)) {
+                max_prob = prob;
+                probable_frequency = freq;
+            }
+        }
     }
-    /* test each corner for a timing pattern */
-    for (corner = 0; corner < 4; corner++) {
-      switch(corner) {
-      case 0: {
-        x0 = timing_perimeter_x3;
-        y0 = timing_perimeter_y3;
-        x1 = timing_perimeter_x0;
-        y1 = timing_perimeter_y0;
-        x2 = timing_perimeter_x1;
-        y2 = timing_perimeter_y1;
-        break;
-      }
-      case 1: {
-        x0 = timing_perimeter_x0;
-        y0 = timing_perimeter_y0;
-        x1 = timing_perimeter_x1;
-        y1 = timing_perimeter_y1;
-        x2 = timing_perimeter_x2;
-        y2 = timing_perimeter_y2;
-        break;
-      }
-      case 2: {
-        x0 = timing_perimeter_x1;
-        y0 = timing_perimeter_y1;
-        x1 = timing_perimeter_x2;
-        y1 = timing_perimeter_y2;
-        x2 = timing_perimeter_x3;
-        y2 = timing_perimeter_y3;
-        break;
-      }
-      case 3: {
-        x0 = timing_perimeter_x2;
-        y0 = timing_perimeter_y2;
-        x1 = timing_perimeter_x3;
-        y1 = timing_perimeter_y3;
-        x2 = timing_perimeter_x0;
-        y2 = timing_perimeter_y0;
-        break;
-      }
-      }
-      prob = get_timing_prob(mono_img, width, height,
-                             x1, y1, x0, y0, x2, y2,
-                             freq, freq_shortest, sampling_radius,
-                             debug, image_data,
-                             debug_frequency);
-      if ((prob > threshold) && (prob > max_prob)) {
-        max_prob = prob;
-        probable_frequency = freq;
-      }
-    }
-  }
-  return probable_frequency;
+    return probable_frequency;
 }
 
 /**
@@ -548,46 +548,46 @@ int detect_timing_pattern(unsigned char mono_img[],
                           unsigned char image_data[],
                           int debug_frequency)
 {
-  int threshold = 0;
-  float longest_side = get_longest_side(perimeter_x0, perimeter_y0,
-                                        perimeter_x1, perimeter_y1,
-                                        perimeter_x2, perimeter_y2,
-                                        perimeter_x3, perimeter_y3);
-  float shortest_side = get_longest_side(perimeter_x0, perimeter_y0,
-                                         perimeter_x1, perimeter_y1,
-                                         perimeter_x2, perimeter_y2,
-                                         perimeter_x3, perimeter_y3);
-  if (longest_side < 1) return -1;
-  float aspect_ratio = shortest_side * 100 / longest_side;
-  if ((aspect_ratio > 90) && (aspect_ratio < 110)) {
-    /* square */
-    return detect_timing_pattern_square(mono_img, width, height,
-                                        minimum_grid_dimension,
-                                        maximum_grid_dimension,
-                                        perimeter_x0, perimeter_y0,
-                                        perimeter_x1, perimeter_y1,
-                                        perimeter_x2, perimeter_y2,
-                                        perimeter_x3, perimeter_y3,
-                                        threshold, longest_side,
-                                        sampling_radius,
-                                        debug, image_data,
-                                        debug_frequency);
-  }
-  else {
-    /* rectangle */
-    return detect_timing_pattern_rectangular(mono_img, width, height,
-                                             minimum_grid_dimension,
-                                             maximum_grid_dimension,
-                                             perimeter_x0, perimeter_y0,
-                                             perimeter_x1, perimeter_y1,
-                                             perimeter_x2, perimeter_y2,
-                                             perimeter_x3, perimeter_y3,
-                                             threshold, longest_side,
-                                             sampling_radius,
-                                             debug, image_data,
-                                             debug_frequency);
-  }
-  return -1;
+    int threshold = 0;
+    float longest_side = get_longest_side(perimeter_x0, perimeter_y0,
+                                          perimeter_x1, perimeter_y1,
+                                          perimeter_x2, perimeter_y2,
+                                          perimeter_x3, perimeter_y3);
+    float shortest_side = get_longest_side(perimeter_x0, perimeter_y0,
+                                           perimeter_x1, perimeter_y1,
+                                           perimeter_x2, perimeter_y2,
+                                           perimeter_x3, perimeter_y3);
+    if (longest_side < 1) return -1;
+    float aspect_ratio = shortest_side * 100 / longest_side;
+    if ((aspect_ratio > 90) && (aspect_ratio < 110)) {
+        /* square */
+        return detect_timing_pattern_square(mono_img, width, height,
+                                            minimum_grid_dimension,
+                                            maximum_grid_dimension,
+                                            perimeter_x0, perimeter_y0,
+                                            perimeter_x1, perimeter_y1,
+                                            perimeter_x2, perimeter_y2,
+                                            perimeter_x3, perimeter_y3,
+                                            threshold, longest_side,
+                                            sampling_radius,
+                                            debug, image_data,
+                                            debug_frequency);
+    }
+    else {
+        /* rectangle */
+        return detect_timing_pattern_rectangular(mono_img, width, height,
+                minimum_grid_dimension,
+                maximum_grid_dimension,
+                perimeter_x0, perimeter_y0,
+                perimeter_x1, perimeter_y1,
+                perimeter_x2, perimeter_y2,
+                perimeter_x3, perimeter_y3,
+                threshold, longest_side,
+                sampling_radius,
+                debug, image_data,
+                debug_frequency);
+    }
+    return -1;
 }
 
 /**
@@ -596,51 +596,51 @@ int detect_timing_pattern(unsigned char mono_img[],
  */
 static void complete_fixed_pattern(struct grid_2d * grid)
 {
-  int grid_x, grid_y, expected;
-  int damage=0, timing_border_damage=0;
-  int fixed_pattern_cells=0;
-  int timing_border_cells=0;
+    int grid_x, grid_y, expected;
+    int damage=0, timing_border_damage=0;
+    int fixed_pattern_cells=0;
+    int timing_border_cells=0;
 
-  /* solid border */
-  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
-    if (grid->occupancy[0][grid_y] == 0) damage++;
-    grid->occupancy[0][grid_y] = 1;
-    fixed_pattern_cells++;
-  }
-  for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
-    if (grid->occupancy[grid_x][grid->dimension_y-1] == 0) damage++;
-    grid->occupancy[grid_x][grid->dimension_y-1] = 1;
-    fixed_pattern_cells++;
-  }
-
-  /* timing border */
-  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
-    expected = grid_y % 2;
-    if (grid->occupancy[grid->dimension_x-1][grid_y] != expected) {
-      damage++;
-      timing_border_damage++;
+    /* solid border */
+    for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
+        if (grid->occupancy[0][grid_y] == 0) damage++;
+        grid->occupancy[0][grid_y] = 1;
+        fixed_pattern_cells++;
     }
-    grid->occupancy[grid->dimension_x-1][grid_y] = expected;
-    fixed_pattern_cells++;
-    timing_border_cells++;
-  }
-  for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
-    expected = 1 - (grid_x % 2);
-    if (grid->occupancy[grid_x][0] != expected) {
-      damage++;
-      timing_border_damage++;
+    for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
+        if (grid->occupancy[grid_x][grid->dimension_y-1] == 0) damage++;
+        grid->occupancy[grid_x][grid->dimension_y-1] = 1;
+        fixed_pattern_cells++;
     }
-    grid->occupancy[grid_x][0] = expected;
-    fixed_pattern_cells++;
-    timing_border_cells++;
-  }
 
-  /* QUALITY METRIC: fixed pattern damage as a percentage */
-  grid->fixed_pattern_damage =
-      (unsigned char)(damage * 100 / fixed_pattern_cells);
-  /* QUALITY METRIC: clock track regularity as a percentage */
-  grid->clock_track_regularity =
-    (unsigned char)(timing_border_damage*100/timing_border_cells);
+    /* timing border */
+    for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
+        expected = grid_y % 2;
+        if (grid->occupancy[grid->dimension_x-1][grid_y] != expected) {
+            damage++;
+            timing_border_damage++;
+        }
+        grid->occupancy[grid->dimension_x-1][grid_y] = expected;
+        fixed_pattern_cells++;
+        timing_border_cells++;
+    }
+    for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
+        expected = 1 - (grid_x % 2);
+        if (grid->occupancy[grid_x][0] != expected) {
+            damage++;
+            timing_border_damage++;
+        }
+        grid->occupancy[grid_x][0] = expected;
+        fixed_pattern_cells++;
+        timing_border_cells++;
+    }
+
+    /* QUALITY METRIC: fixed pattern damage as a percentage */
+    grid->fixed_pattern_damage =
+        (unsigned char)(damage * 100 / fixed_pattern_cells);
+    /* QUALITY METRIC: clock track regularity as a percentage */
+    grid->clock_track_regularity =
+        (unsigned char)(timing_border_damage*100/timing_border_cells);
 }
 
 /**
@@ -650,28 +650,28 @@ static void complete_fixed_pattern(struct grid_2d * grid)
  */
 void rotate_grid(struct grid_2d * grid)
 {
-  int grid_x, grid_y, grid_y2;
+    int grid_x, grid_y, grid_y2;
 
-  if ((grid->dimension_x != grid->dimension_y)) return;
+    if ((grid->dimension_x != grid->dimension_y)) return;
 
-  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
-    grid_y2 = grid->dimension_y-1-grid_y;
-    for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
-      grid->occupancy_buffer[grid_x][grid_y] = grid->occupancy[grid_x][grid_y2];
-      grid->damage_buffer[grid_y*grid->dimension_x + grid_x] =
-        grid->damage[grid_y2*grid->dimension_x + grid_x];
+    for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
+        grid_y2 = grid->dimension_y-1-grid_y;
+        for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
+            grid->occupancy_buffer[grid_x][grid_y] = grid->occupancy[grid_x][grid_y2];
+            grid->damage_buffer[grid_y*grid->dimension_x + grid_x] =
+                grid->damage[grid_y2*grid->dimension_x + grid_x];
+        }
     }
-  }
 
-  for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
-    grid_y2 = grid->dimension_y-1-grid_y;
-    for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
-      grid->occupancy[grid_x][grid_y2] = grid->occupancy_buffer[grid_y][grid_x];
-      grid->damage[grid_y2*grid->dimension_x + grid_x] =
-        grid->damage_buffer[grid_x*grid->dimension_x + grid_y];
+    for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
+        grid_y2 = grid->dimension_y-1-grid_y;
+        for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
+            grid->occupancy[grid_x][grid_y2] = grid->occupancy_buffer[grid_y][grid_x];
+            grid->damage[grid_y2*grid->dimension_x + grid_x] =
+                grid->damage_buffer[grid_x*grid->dimension_x + grid_y];
+        }
     }
-  }
-  grid->rotated = 1;
+    grid->rotated = 1;
 }
 
 /**
@@ -680,86 +680,86 @@ void rotate_grid(struct grid_2d * grid)
  */
 static void orient_grid(struct grid_2d * grid)
 {
-  int n, n2, grid_x, grid_y, left_hits=0, right_hits=0, top_hits=0, bottom_hits=0;
-  unsigned char * temp;
+    int n, n2, grid_x, grid_y, left_hits=0, right_hits=0, top_hits=0, bottom_hits=0;
+    unsigned char * temp;
 
-  /* keep a copy of the original damage pattern for use when displaying
-     damage in an image */
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-    n = grid_y * grid->dimension_x;
-    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++) {
-      grid->original_damage[n] = grid->damage[n];
-    }
-  }
-
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-    if (grid->occupancy[0][grid_y]) left_hits++;
-    if (grid->occupancy[grid->dimension_x-1][grid_y]) right_hits++;
-  }
-  if (right_hits > left_hits) {
-    /* mirror */
-    grid->mirrored = 1;
-    temp = (unsigned char*)safemalloc(grid->dimension_x*sizeof(unsigned char));
-    if (temp != NULL) {
-      /* mirror occupancy */
-      for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-          temp[grid_x] = grid->occupancy[grid_x][grid_y];
-        }
-        n2 = grid->dimension_x - 1;
-        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n2--) {
-          grid->occupancy[grid_x][grid_y] = temp[n2];
-        }
-      }
-      /* mirror damage */
-      for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+    /* keep a copy of the original damage pattern for use when displaying
+       damage in an image */
+    for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
         n = grid_y * grid->dimension_x;
         for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++) {
-          temp[grid_x] = grid->damage[n];
+            grid->original_damage[n] = grid->damage[n];
         }
-        n = grid_y * grid->dimension_x;
-        n2 = grid->dimension_x - 1;
-        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++, n2--) {
-          grid->damage[n] = temp[n2];
-        }
-      }
-      free(temp);
     }
-  }
 
-  for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-    if (grid->occupancy[grid_x][0]) top_hits++;
-    if (grid->occupancy[grid_x][grid->dimension_y-1]) bottom_hits++;
-  }
-  if (top_hits > bottom_hits) {
-    /* flip */
-    grid->flipped = 1;
-    temp = (unsigned char*)safemalloc(grid->dimension_y*sizeof(unsigned char));
-    if (temp != NULL) {
-      /* flip occupancy */
-      for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-        for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-          temp[grid_y] = grid->occupancy[grid_x][grid_y];
-        }
-        n2 = grid->dimension_y - 1;
-        for (grid_y = 0; grid_y < grid->dimension_y; grid_y++, n2--) {
-          grid->occupancy[grid_x][grid_y] = temp[n2];
-        }
-      }
-      /* flip damage */
-      for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-        for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-          n = grid_y*grid->dimension_x + grid_x;
-          temp[grid_y] = grid->damage[n];
-        }
-        for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-          n = grid_y*grid->dimension_x + grid_x;
-          grid->damage[n] = temp[grid->dimension_y - 1 - grid_y];
-        }
-      }
-      free(temp);
+    for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+        if (grid->occupancy[0][grid_y]) left_hits++;
+        if (grid->occupancy[grid->dimension_x-1][grid_y]) right_hits++;
     }
-  }
+    if (right_hits > left_hits) {
+        /* mirror */
+        grid->mirrored = 1;
+        temp = (unsigned char*)safemalloc(grid->dimension_x*sizeof(unsigned char));
+        if (temp != NULL) {
+            /* mirror occupancy */
+            for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+                for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+                    temp[grid_x] = grid->occupancy[grid_x][grid_y];
+                }
+                n2 = grid->dimension_x - 1;
+                for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n2--) {
+                    grid->occupancy[grid_x][grid_y] = temp[n2];
+                }
+            }
+            /* mirror damage */
+            for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+                n = grid_y * grid->dimension_x;
+                for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++) {
+                    temp[grid_x] = grid->damage[n];
+                }
+                n = grid_y * grid->dimension_x;
+                n2 = grid->dimension_x - 1;
+                for (grid_x = 0; grid_x < grid->dimension_x; grid_x++, n++, n2--) {
+                    grid->damage[n] = temp[n2];
+                }
+            }
+            free(temp);
+        }
+    }
+
+    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+        if (grid->occupancy[grid_x][0]) top_hits++;
+        if (grid->occupancy[grid_x][grid->dimension_y-1]) bottom_hits++;
+    }
+    if (top_hits > bottom_hits) {
+        /* flip */
+        grid->flipped = 1;
+        temp = (unsigned char*)safemalloc(grid->dimension_y*sizeof(unsigned char));
+        if (temp != NULL) {
+            /* flip occupancy */
+            for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+                for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+                    temp[grid_y] = grid->occupancy[grid_x][grid_y];
+                }
+                n2 = grid->dimension_y - 1;
+                for (grid_y = 0; grid_y < grid->dimension_y; grid_y++, n2--) {
+                    grid->occupancy[grid_x][grid_y] = temp[n2];
+                }
+            }
+            /* flip damage */
+            for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+                for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+                    n = grid_y*grid->dimension_x + grid_x;
+                    temp[grid_y] = grid->damage[n];
+                }
+                for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+                    n = grid_y*grid->dimension_x + grid_x;
+                    grid->damage[n] = temp[grid->dimension_y - 1 - grid_y];
+                }
+            }
+            free(temp);
+        }
+    }
 }
 
 /**
@@ -771,116 +771,116 @@ static void orient_grid(struct grid_2d * grid)
 static void create_grid_base(int dimension_x, int dimension_y,
                              struct grid_2d * grid)
 {
-  /* m_NN */
-  const int max_bits = 256;
-  int grid_x;
+    /* m_NN */
+    const int max_bits = 256;
+    int grid_x;
 
-  grid->dimension_x = dimension_x;
-  grid->dimension_y = dimension_y;
+    grid->dimension_x = dimension_x;
+    grid->dimension_y = dimension_y;
 
-  /* orientation of the occupancy/damage arrays */
-  grid->rotated = 0;
-  grid->mirrored = 0;
-  grid->flipped = 0;
+    /* orientation of the occupancy/damage arrays */
+    grid->rotated = 0;
+    grid->mirrored = 0;
+    grid->flipped = 0;
 
-  /* percent of fixed pattern damage */
-  grid->fixed_pattern_damage = 0;
+    /* percent of fixed pattern damage */
+    grid->fixed_pattern_damage = 0;
 
-  /* not a GS1 datamatrix */
-  grid->gs1_datamatrix = 0;
+    /* not a GS1 datamatrix */
+    grid->gs1_datamatrix = 0;
 
-  /* generate the grid cells and initialise them to zero */
-  grid->occupancy = (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
-  for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->occupancy[grid_x] =
-        (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
-    memset(grid->occupancy[grid_x], 0, dimension_y * sizeof(unsigned char));
-  }
+    /* generate the grid cells and initialise them to zero */
+    grid->occupancy = (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
+    for (grid_x = 0; grid_x < dimension_x; grid_x++) {
+        grid->occupancy[grid_x] =
+            (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
+        memset(grid->occupancy[grid_x], 0, dimension_y * sizeof(unsigned char));
+    }
 
-  /* generate the grid buffer cells and initialise them to zero */
-  grid->occupancy_buffer =
-      (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
-  for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->occupancy_buffer[grid_x] =
-        (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
-    memset(grid->occupancy_buffer[grid_x], 0,
-           dimension_y * sizeof(unsigned char));
-  }
+    /* generate the grid buffer cells and initialise them to zero */
+    grid->occupancy_buffer =
+        (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
+    for (grid_x = 0; grid_x < dimension_x; grid_x++) {
+        grid->occupancy_buffer[grid_x] =
+            (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
+        memset(grid->occupancy_buffer[grid_x], 0,
+               dimension_y * sizeof(unsigned char));
+    }
 
-  /* generate the damaged cells and initialise them to zero */
-  grid->damage = (unsigned char*)safemalloc(dimension_x * dimension_x *
-                                            sizeof(unsigned char));
-  memset(grid->damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
+    /* generate the damaged cells and initialise them to zero */
+    grid->damage = (unsigned char*)safemalloc(dimension_x * dimension_x *
+                   sizeof(unsigned char));
+    memset(grid->damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
 
-  /* generate original damaged cells for use when drawing damage in an image */
-  grid->original_damage = (unsigned char*)safemalloc(dimension_x *
-                                                     dimension_x *
-                                                     sizeof(unsigned char));
-  memset(grid->original_damage, 0,
-         dimension_x*dimension_y * sizeof(unsigned char));
+    /* generate original damaged cells for use when drawing damage in an image */
+    grid->original_damage = (unsigned char*)safemalloc(dimension_x *
+                            dimension_x *
+                            sizeof(unsigned char));
+    memset(grid->original_damage, 0,
+           dimension_x*dimension_y * sizeof(unsigned char));
 
-  /* generate the damaged cells buffer and initialise them to zero */
-  grid->damage_buffer = (unsigned char*)safemalloc(dimension_x *
-                                                   dimension_x *
-                                                   sizeof(unsigned char));
-  memset(grid->damage_buffer, 0,
-         dimension_x*dimension_y * sizeof(unsigned char));
+    /* generate the damaged cells buffer and initialise them to zero */
+    grid->damage_buffer = (unsigned char*)safemalloc(dimension_x *
+                          dimension_x *
+                          sizeof(unsigned char));
+    memset(grid->damage_buffer, 0,
+           dimension_x*dimension_y * sizeof(unsigned char));
 
-  /* erasures */
-  grid->erasures = (int*)safemalloc(MAX_GRID_DIMENSION *
-                                    MAX_GRID_DIMENSION * sizeof(int));
+    /* erasures */
+    grid->erasures = (int*)safemalloc(MAX_GRID_DIMENSION *
+                                      MAX_GRID_DIMENSION * sizeof(int));
 
-  /* codeword array, cleared to zero */
-  grid->codeword = (unsigned char*)safemalloc(MAX_CODEWORDS *
-                                              sizeof(unsigned char));
-  memset(grid->codeword, 0, MAX_CODEWORDS * sizeof(unsigned char));
+    /* codeword array, cleared to zero */
+    grid->codeword = (unsigned char*)safemalloc(MAX_CODEWORDS *
+                     sizeof(unsigned char));
+    memset(grid->codeword, 0, MAX_CODEWORDS * sizeof(unsigned char));
 
-  /* codeword pattern array, cleared to zero */
-  grid->codeword_pattern = (int**)safemalloc(dimension_x*sizeof(int*));
-  for (grid_x = 0; grid_x < dimension_x; grid_x++) {
-    grid->codeword_pattern[grid_x] =
-        (int *)safemalloc(dimension_y*sizeof(int));
-    memset(grid->codeword_pattern[grid_x], 0, dimension_y * sizeof(int));
-  }
+    /* codeword pattern array, cleared to zero */
+    grid->codeword_pattern = (int**)safemalloc(dimension_x*sizeof(int*));
+    for (grid_x = 0; grid_x < dimension_x; grid_x++) {
+        grid->codeword_pattern[grid_x] =
+            (int *)safemalloc(dimension_y*sizeof(int));
+        memset(grid->codeword_pattern[grid_x], 0, dimension_y * sizeof(int));
+    }
 
-  grid->corrected_codewords =
-      (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
-  memset(grid->corrected_codewords, 0, MAX_CODEWORDS * sizeof(unsigned char));
+    grid->corrected_codewords =
+        (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
+    memset(grid->corrected_codewords, 0, MAX_CODEWORDS * sizeof(unsigned char));
 
-  grid->data_bytes = (unsigned char*)safemalloc(8*sizeof(unsigned char));
+    grid->data_bytes = (unsigned char*)safemalloc(8*sizeof(unsigned char));
 
-  grid->m_Pp = (int*)safemalloc(max_bits*sizeof(int));
+    grid->m_Pp = (int*)safemalloc(max_bits*sizeof(int));
 
-  /* index->polynomial form conversion table */
-  grid->m_alpha_to = (int*)safemalloc(max_bits*sizeof(int));
+    /* index->polynomial form conversion table */
+    grid->m_alpha_to = (int*)safemalloc(max_bits*sizeof(int));
 
-  /* Polynomial->index form conversion table */
-  grid->m_index_of = (int*)safemalloc(max_bits*sizeof(int));
+    /* Polynomial->index form conversion table */
+    grid->m_index_of = (int*)safemalloc(max_bits*sizeof(int));
 
-  /* Generator polynomial g(x)  index form */
-  grid->m_Gg = (int*)safemalloc(max_bits*sizeof(int));
+    /* Generator polynomial g(x)  index form */
+    grid->m_Gg = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->m_taltab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
+    grid->m_taltab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
 
-  grid->m_tal1tab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
+    grid->m_tal1tab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
 
-  grid->data = (int*)safemalloc(max_bits*sizeof(int));
+    grid->data = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->lambda = (int*)safemalloc(max_bits*sizeof(int));
+    grid->lambda = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->s = (int*)safemalloc(max_bits*sizeof(int));
+    grid->s = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->b = (int*)safemalloc(max_bits*sizeof(int));
+    grid->b = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->t = (int*)safemalloc(max_bits*sizeof(int));
+    grid->t = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->omega = (int*)safemalloc(max_bits*sizeof(int));
+    grid->omega = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->root = (int*)safemalloc(max_bits*sizeof(int));
+    grid->root = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->reg = (int*)safemalloc(max_bits*sizeof(int));
+    grid->reg = (int*)safemalloc(max_bits*sizeof(int));
 
-  grid->loc = (int*)safemalloc(max_bits*sizeof(int));
+    grid->loc = (int*)safemalloc(max_bits*sizeof(int));
 }
 
 /**
@@ -895,17 +895,17 @@ void create_grid_from_pattern(int dimension_x, int dimension_y,
                               struct grid_2d * grid,
                               unsigned char occupancy[])
 {
-  int grid_x, grid_y;
+    int grid_x, grid_y;
 
-  create_grid_base(dimension_x, dimension_y, grid);
+    create_grid_base(dimension_x, dimension_y, grid);
 
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-      grid->occupancy[grid_x][grid_y] = occupancy[grid_y*dimension_x + grid_x];
+    for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+            grid->occupancy[grid_x][grid_y] = occupancy[grid_y*dimension_x + grid_x];
+        }
     }
-  }
-  orient_grid(grid);
-  complete_fixed_pattern(grid);
+    orient_grid(grid);
+    complete_fixed_pattern(grid);
 }
 
 /**
@@ -923,28 +923,28 @@ static int cell_sample_solid(unsigned char mono_img[],
                              int image_width, int image_height,
                              int x, int y, int sampling_radius)
 {
-  int sample_x, sample_y, n, hits = 0;
-  int min_x = x - sampling_radius;
-  int min_y = y - sampling_radius;
-  int max_x = x + sampling_radius;
-  int max_y = y + sampling_radius;
+    int sample_x, sample_y, n, hits = 0;
+    int min_x = x - sampling_radius;
+    int min_y = y - sampling_radius;
+    int max_x = x + sampling_radius;
+    int max_y = y + sampling_radius;
 
-  if (min_x < 0) min_x = 0;
-  if (min_y < 0) min_y = 0;
-  if (max_x >= image_width) max_x = image_width-1;
-  if (max_y >= image_height) max_y = image_height-1;
+    if (min_x < 0) min_x = 0;
+    if (min_y < 0) min_y = 0;
+    if (max_x >= image_width) max_x = image_width-1;
+    if (max_y >= image_height) max_y = image_height-1;
 
-  for (sample_y = min_y; sample_y <= max_y; sample_y++) {
-    n = sample_y*image_width + min_x;
-    for (sample_x = min_x; sample_x <= max_x; sample_x++, n++) {
-      /* sample some pixels at this location */
-      if (mono_img[n] > 0) {
-        hits++;
-        return hits;
-      }
+    for (sample_y = min_y; sample_y <= max_y; sample_y++) {
+        n = sample_y*image_width + min_x;
+        for (sample_x = min_x; sample_x <= max_x; sample_x++, n++) {
+            /* sample some pixels at this location */
+            if (mono_img[n] > 0) {
+                hits++;
+                return hits;
+            }
+        }
     }
-  }
-  return hits;
+    return hits;
 }
 
 /**
@@ -964,47 +964,47 @@ static int cell_sample_ring(unsigned char mono_img[],
                             int image_width, int image_height,
                             int x, int y, int sampling_radius)
 {
-  int sample_x, sample_y, n1, n2, hits = 0;
-  int tx = x - sampling_radius;
-  int ty = y - sampling_radius;
-  int bx = x + sampling_radius;
-  int by = y + sampling_radius;
+    int sample_x, sample_y, n1, n2, hits = 0;
+    int tx = x - sampling_radius;
+    int ty = y - sampling_radius;
+    int bx = x + sampling_radius;
+    int by = y + sampling_radius;
 
-  /* for computational efficiency we actually sample a square shape */
-  if (tx < 0) tx = 0;
-  if (ty < 0) ty = 0;
-  if (bx >= image_width-1) bx = image_width-1;
-  if (by >= image_height-1) by = image_height-1;
+    /* for computational efficiency we actually sample a square shape */
+    if (tx < 0) tx = 0;
+    if (ty < 0) ty = 0;
+    if (bx >= image_width-1) bx = image_width-1;
+    if (by >= image_height-1) by = image_height-1;
 
-  /* horizontal sides of the square */
-  n1 = ty*image_width + tx;
-  n2 = by*image_width + tx;
-  for (sample_x = tx; sample_x <= bx; sample_x++, n1++, n2++) {
-    if (mono_img[n1] > 0) {
-      hits++;
-      return hits;
+    /* horizontal sides of the square */
+    n1 = ty*image_width + tx;
+    n2 = by*image_width + tx;
+    for (sample_x = tx; sample_x <= bx; sample_x++, n1++, n2++) {
+        if (mono_img[n1] > 0) {
+            hits++;
+            return hits;
+        }
+        if (mono_img[n2] > 0) {
+            hits++;
+            return hits;
+        }
     }
-    if (mono_img[n2] > 0) {
-      hits++;
-      return hits;
-    }
-  }
 
-  /* vertical sides of the square */
-  for (sample_y = ty; sample_y <= by; sample_y++) {
-    n1 = sample_y*image_width + tx;
-    if (mono_img[n1] > 0) {
-      hits++;
-      return hits;
+    /* vertical sides of the square */
+    for (sample_y = ty; sample_y <= by; sample_y++) {
+        n1 = sample_y*image_width + tx;
+        if (mono_img[n1] > 0) {
+            hits++;
+            return hits;
+        }
+        n1 = sample_y*image_width + bx;
+        if (mono_img[n1] > 0) {
+            hits++;
+            return hits;
+        }
     }
-    n1 = sample_y*image_width + bx;
-    if (mono_img[n1] > 0) {
-      hits++;
-      return hits;
-    }
-  }
 
-  return hits;
+    return hits;
 }
 
 /**
@@ -1041,88 +1041,88 @@ void create_grid(int dimension_x, int dimension_y,
                  int sampling_pattern,
                  struct grid_2d * grid)
 {
-  int grid_x, grid_y, hits;
-  int occupancy_threshold, damage_threshold;
-  float horizontal_dx1, horizontal_dy1, horizontal_dx2, horizontal_dy2;
-  float horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
-  float vertical_dx1, vertical_dy1, vertical_dx2, vertical_dy2;
-  float vertical_x1, vertical_y1, vertical_x2, vertical_y2;
-  float xi=0, yi=0, grid_pos_x, grid_pos_y, mult_x, mult_y;
+    int grid_x, grid_y, hits;
+    int occupancy_threshold, damage_threshold;
+    float horizontal_dx1, horizontal_dy1, horizontal_dx2, horizontal_dy2;
+    float horizontal_x1, horizontal_y1, horizontal_x2, horizontal_y2;
+    float vertical_dx1, vertical_dy1, vertical_dx2, vertical_dy2;
+    float vertical_x1, vertical_y1, vertical_x2, vertical_y2;
+    float xi=0, yi=0, grid_pos_x, grid_pos_y, mult_x, mult_y;
 
-  grid->perimeter.x0 = perimeter_x0;
-  grid->perimeter.y0 = perimeter_y0;
-  grid->perimeter.x1 = perimeter_x1;
-  grid->perimeter.y1 = perimeter_y1;
-  grid->perimeter.x2 = perimeter_x2;
-  grid->perimeter.y2 = perimeter_y2;
-  grid->perimeter.x3 = perimeter_x3;
-  grid->perimeter.y3 = perimeter_y3;
-  grid->dimension_x = dimension_x;
-  grid->dimension_y = dimension_y;
+    grid->perimeter.x0 = perimeter_x0;
+    grid->perimeter.y0 = perimeter_y0;
+    grid->perimeter.x1 = perimeter_x1;
+    grid->perimeter.y1 = perimeter_y1;
+    grid->perimeter.x2 = perimeter_x2;
+    grid->perimeter.y2 = perimeter_y2;
+    grid->perimeter.x3 = perimeter_x3;
+    grid->perimeter.y3 = perimeter_y3;
+    grid->dimension_x = dimension_x;
+    grid->dimension_y = dimension_y;
 
-  create_grid_base(dimension_x, dimension_y, grid);
+    create_grid_base(dimension_x, dimension_y, grid);
 
-  if (sampling_radius < 1) sampling_radius = 1;
-  occupancy_threshold = 0;
-  damage_threshold = occupancy_threshold;
+    if (sampling_radius < 1) sampling_radius = 1;
+    occupancy_threshold = 0;
+    damage_threshold = occupancy_threshold;
 
-  horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
-  horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
-  horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
-  horizontal_dy2 = grid->perimeter.y2 - grid->perimeter.y1;
+    horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
+    horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
+    horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
+    horizontal_dy2 = grid->perimeter.y2 - grid->perimeter.y1;
 
-  vertical_dx1 = grid->perimeter.x1 - grid->perimeter.x0;
-  vertical_dy1 = grid->perimeter.y1 - grid->perimeter.y0;
-  vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
-  vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
+    vertical_dx1 = grid->perimeter.x1 - grid->perimeter.x0;
+    vertical_dy1 = grid->perimeter.y1 - grid->perimeter.y0;
+    vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
+    vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
 
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-    /* horizontal line */
-    grid_pos_y = grid_y + 0.5f;
-    mult_y = grid_pos_y / grid->dimension_y;
-    horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * mult_y);
-    horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * mult_y);
-    horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * mult_y);
-    horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * mult_y);
+    for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+        /* horizontal line */
+        grid_pos_y = grid_y + 0.5f;
+        mult_y = grid_pos_y / grid->dimension_y;
+        horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * mult_y);
+        horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * mult_y);
+        horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * mult_y);
+        horizontal_y2 = grid->perimeter.y1 + (horizontal_dy2 * mult_y);
 
-    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-      /* vertical line */
-      grid_pos_x = grid_x + 0.5f;
-      mult_x = grid_pos_x / grid->dimension_x;
-      vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * mult_x);
-      vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * mult_x);
-      vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * mult_x);
-      vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * mult_x);
-      intersection(horizontal_x1, horizontal_y1,
-                   horizontal_x2, horizontal_y2,
-                   vertical_x1, vertical_y1,
-                   vertical_x2, vertical_y2,
-                   &xi, &yi);
-      if (xi != PARALLEL_LINES) {
-        if (((int)xi >= 0) && ((int)yi > 0) &&
-            ((int)xi < image_width) && ((int)yi < image_height)) {
-          if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
-            hits = cell_sample_solid(mono_img,
-                                     image_width, image_height,
-                                     (int)xi, (int)yi, sampling_radius);
-          }
-          else {
-            hits = cell_sample_ring(mono_img,
-                                    image_width, image_height,
-                                    (int)xi, (int)yi, sampling_radius);
-          }
-          if (hits > occupancy_threshold) {
-            grid->occupancy[grid_x][grid_y] = 1;
-          }
-          if ((hits > 0) && (hits <= damage_threshold)) {
-            grid->damage[grid_y*grid->dimension_x + grid_x] = 1;
-          }
+        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+            /* vertical line */
+            grid_pos_x = grid_x + 0.5f;
+            mult_x = grid_pos_x / grid->dimension_x;
+            vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * mult_x);
+            vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * mult_x);
+            vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * mult_x);
+            vertical_y2 = grid->perimeter.y3 + (vertical_dy2 * mult_x);
+            intersection(horizontal_x1, horizontal_y1,
+                         horizontal_x2, horizontal_y2,
+                         vertical_x1, vertical_y1,
+                         vertical_x2, vertical_y2,
+                         &xi, &yi);
+            if (xi != PARALLEL_LINES) {
+                if (((int)xi >= 0) && ((int)yi > 0) &&
+                        ((int)xi < image_width) && ((int)yi < image_height)) {
+                    if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
+                        hits = cell_sample_solid(mono_img,
+                                                 image_width, image_height,
+                                                 (int)xi, (int)yi, sampling_radius);
+                    }
+                    else {
+                        hits = cell_sample_ring(mono_img,
+                                                image_width, image_height,
+                                                (int)xi, (int)yi, sampling_radius);
+                    }
+                    if (hits > occupancy_threshold) {
+                        grid->occupancy[grid_x][grid_y] = 1;
+                    }
+                    if ((hits > 0) && (hits <= damage_threshold)) {
+                        grid->damage[grid_y*grid->dimension_x + grid_x] = 1;
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  orient_grid(grid);
-  complete_fixed_pattern(grid);
+    orient_grid(grid);
+    complete_fixed_pattern(grid);
 }
 
 /**
@@ -1131,14 +1131,14 @@ void create_grid(int dimension_x, int dimension_y,
  */
 unsigned char get_grid_occupancy_percent(struct grid_2d * grid)
 {
-  int grid_x, grid_y, hits=0;
+    int grid_x, grid_y, hits=0;
 
-  for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
-    for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-      if (grid->occupancy[grid_x][grid_y] == 1) hits++;
+    for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+            if (grid->occupancy[grid_x][grid_y] == 1) hits++;
+        }
     }
-  }
-  return (unsigned char)(hits * 100 / (grid->dimension_x * grid->dimension_y));
+    return (unsigned char)(hits * 100 / (grid->dimension_x * grid->dimension_y));
 }
 
 /**
@@ -1147,37 +1147,37 @@ unsigned char get_grid_occupancy_percent(struct grid_2d * grid)
  */
 void free_grid(struct grid_2d * grid)
 {
-  int x;
+    int x;
 
-  /* free the grid cells */
-  for (x = 0; x < grid->dimension_x; x++) {
-    free(grid->occupancy[x]);
-    free(grid->occupancy_buffer[x]);
-    free(grid->codeword_pattern[x]);
-  }
-  free(grid->occupancy);
-  free(grid->original_damage);
-  free(grid->damage);
-  free(grid->damage_buffer);
-  free(grid->erasures);
-  free(grid->codeword);
-  free(grid->codeword_pattern);
-  free(grid->corrected_codewords);
-  free(grid->data_bytes);
-  free(grid->m_Pp);
-  free(grid->m_index_of);
-  free(grid->m_Gg);
-  free(grid->m_taltab);
-  free(grid->m_tal1tab);
-  free(grid->data);
-  free(grid->lambda);
-  free(grid->s);
-  free(grid->b);
-  free(grid->t);
-  free(grid->omega);
-  free(grid->root);
-  free(grid->reg);
-  free(grid->loc);
+    /* free the grid cells */
+    for (x = 0; x < grid->dimension_x; x++) {
+        free(grid->occupancy[x]);
+        free(grid->occupancy_buffer[x]);
+        free(grid->codeword_pattern[x]);
+    }
+    free(grid->occupancy);
+    free(grid->original_damage);
+    free(grid->damage);
+    free(grid->damage_buffer);
+    free(grid->erasures);
+    free(grid->codeword);
+    free(grid->codeword_pattern);
+    free(grid->corrected_codewords);
+    free(grid->data_bytes);
+    free(grid->m_Pp);
+    free(grid->m_index_of);
+    free(grid->m_Gg);
+    free(grid->m_taltab);
+    free(grid->m_tal1tab);
+    free(grid->data);
+    free(grid->lambda);
+    free(grid->s);
+    free(grid->b);
+    free(grid->t);
+    free(grid->omega);
+    free(grid->root);
+    free(grid->reg);
+    free(grid->loc);
 }
 
 /**
@@ -1186,27 +1186,27 @@ void free_grid(struct grid_2d * grid)
  */
 void show_grid(struct grid_2d * grid)
 {
-  int n, x, y;
+    int n, x, y;
 
-  printf("\n");
-  for (y = 0; y < grid->dimension_y; y++) {
-    n = y*grid->dimension_x;
-    for (x = 0; x < grid->dimension_x; x++) {
-      if (grid->damage[n+x] > 0) {
-        printf("x");
-      }
-      else {
-        if (grid->occupancy[x][y] == 0) {
-          printf(" ");
+    printf("\n");
+    for (y = 0; y < grid->dimension_y; y++) {
+        n = y*grid->dimension_x;
+        for (x = 0; x < grid->dimension_x; x++) {
+            if (grid->damage[n+x] > 0) {
+                printf("x");
+            }
+            else {
+                if (grid->occupancy[x][y] == 0) {
+                    printf(" ");
+                }
+                else {
+                    printf("o");
+                }
+            }
         }
-        else {
-          printf("o");
-        }
-      }
+        printf("\n");
     }
     printf("\n");
-  }
-  printf("\n");
 }
 
 /**
@@ -1225,167 +1225,167 @@ void show_grid_image(struct grid_2d * grid,
                      int image_bitsperpixel,
                      int sampling_radius, int sampling_pattern)
 {
-  int image_bytesperpixel = image_bitsperpixel/8;
-  const int cross_radius = sampling_radius;
-  int grid_x, grid_y, r, g, b, n;
-  float grid_pos_x, grid_pos_y, xi=0, yi=0;
-  float cell_width = get_cell_width(grid);
-  int cell_radius = (int)(cell_width/3);
+    int image_bytesperpixel = image_bitsperpixel/8;
+    const int cross_radius = sampling_radius;
+    int grid_x, grid_y, r, g, b, n;
+    float grid_pos_x, grid_pos_y, xi=0, yi=0;
+    float cell_width = get_cell_width(grid);
+    int cell_radius = (int)(cell_width/3);
 
-  /* show the vertical part of the "L" shape, L1 */
-  if (grid->mirrored == 0) {
-    draw_line(image_data, image_width, image_height,
-              image_bitsperpixel,
-              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
-              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
-              1,
-              0, 255, 0);
-  }
-  else {
-    draw_line(image_data, image_width, image_height,
-              image_bitsperpixel,
-              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
-              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
-              1,
-              0, 255, 0);
-  }
-
-  /* show the horizontal part of the "L" shape, L2 */
-  if (grid->flipped == 0) {
-    draw_line(image_data, image_width, image_height,
-              image_bitsperpixel,
-              (int)grid->perimeter.x3, (int)grid->perimeter.y3,
-              (int)grid->perimeter.x2, (int)grid->perimeter.y2,
-              1,
-              0, 255, 0);
-  }
-  else {
-    draw_line(image_data, image_width, image_height,
-              image_bitsperpixel,
-              (int)grid->perimeter.x0, (int)grid->perimeter.y0,
-              (int)grid->perimeter.x1, (int)grid->perimeter.y1,
-              1,
-              0, 255, 0);
-  }
-
-  float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
-  float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
-  float horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
-  float horizontal_dy2 = grid->perimeter.y2 - grid->perimeter.y1;
-
-  float vertical_dx1 = grid->perimeter.x1 - grid->perimeter.x0;
-  float vertical_dy1 = grid->perimeter.y1 - grid->perimeter.y0;
-  float vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
-  float vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
-
-  for (grid_y = -1; grid_y <= grid->dimension_y; grid_y++) {
-    /* horizontal line */
-    grid_pos_y = grid_y + 0.5f;
-    float mult_y = grid_pos_y / grid->dimension_y;
-    float horizontal_x1 =
-      grid->perimeter.x0 + (horizontal_dx1 * mult_y);
-    float horizontal_y1 =
-      grid->perimeter.y0 + (horizontal_dy1 * mult_y);
-    float horizontal_x2 =
-      grid->perimeter.x1 + (horizontal_dx2 * mult_y);
-    float horizontal_y2 =
-      grid->perimeter.y1 + (horizontal_dy2 * mult_y);
-
-    for (grid_x = -1; grid_x <= grid->dimension_x; grid_x++) {
-      /* vertical line */
-      grid_pos_x = grid_x + 0.5f;
-      float mult_x = grid_pos_x / grid->dimension_x;
-      float vertical_x1 =
-        grid->perimeter.x0 + (vertical_dx1 * mult_x);
-      float vertical_y1 =
-        grid->perimeter.y0 + (vertical_dy1 * mult_x);
-      float vertical_x2 =
-        grid->perimeter.x3 + (vertical_dx2 * mult_x);
-      float vertical_y2 =
-        grid->perimeter.y3 + (vertical_dy2 * mult_x);
-      intersection(horizontal_x1, horizontal_y1,
-                   horizontal_x2, horizontal_y2,
-                   vertical_x1, vertical_y1,
-                   vertical_x2, vertical_y2,
-                   &xi, &yi);
-      if (xi != PARALLEL_LINES) {
-        /* dot */
-        if (((int)yi >= 0) && ((int)yi < image_height) &&
-            ((int)xi >= 0) && ((int)xi < image_width)) {
-          n = (((int)yi * image_width) + (int)xi) * image_bytesperpixel;
-          if ((grid_x > -1) && (grid_x < grid->dimension_x) &&
-              (grid_y > -1) && (grid_y < grid->dimension_y)) {
-            if (grid->original_damage[grid_y*grid->dimension_x + grid_x] == 0) {
-              /* valid cell */
-              r = (int)image_data[n+2] - 30;
-              g = (int)image_data[n+1] + 30;
-              b = (int)image_data[n] - 30;
-            }
-            else {
-              /* damaged cell */
-              r = (int)image_data[n+1] + 30;
-              g = (int)image_data[n+2] - 30;
-              b = (int)image_data[n] - 30;
-            }
-          }
-          else {
-            /* quiet zone */
-            r = (int)image_data[n+1] - 30;
-            g = (int)image_data[n+2] - 30;
-            b = (int)image_data[n] + 30;
-          }
-          if (r < 0) r = 0;
-          if (r > 255) r = 255;
-          if (g < 0) g = 0;
-          if (g > 255) g = 255;
-          if (b < 0) b = 0;
-          if (b > 255) b = 255;
-          draw_dot(image_data, image_width, image_height,
-                   image_bitsperpixel,
-                   (int)xi, (int)yi, cell_radius, r, g, b);
-        }
-
-        if ((cross_radius > 0) &&
-            ((grid_x > -1) && (grid_x < grid->dimension_x) &&
-             (grid_y > -1) && (grid_y < grid->dimension_y))) {
-          if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
-            /* solid sampling */
-            draw_line(image_data, image_width, image_height,
-                      image_bitsperpixel,
-                      (int)xi-cross_radius, (int)yi,
-                      (int)xi+cross_radius, (int)yi,
-                      1, 0, 255, 0);
-            draw_line(image_data, image_width, image_height,
-                      image_bitsperpixel,
-                      (int)xi, (int)yi-cross_radius,
-                      (int)xi, (int)yi+cross_radius,
-                      1, 0, 255, 0);
-          }
-          else {
-            /* ring sampling */
-            draw_line(image_data, image_width, image_height,
-                      image_bitsperpixel,
-                      (int)xi-cross_radius, (int)yi-cross_radius,
-                      (int)xi+cross_radius, (int)yi-cross_radius,
-                      1, 0, 255, 0);
-            draw_line(image_data, image_width, image_height,
-                      image_bitsperpixel,
-                      (int)xi-cross_radius, (int)yi+cross_radius,
-                      (int)xi+cross_radius, (int)yi+cross_radius,
-                      1, 0, 255, 0);
-            draw_line(image_data, image_width, image_height,
-                      image_bitsperpixel,
-                      (int)xi-cross_radius, (int)yi-cross_radius,
-                      (int)xi-cross_radius, (int)yi+cross_radius,
-                      1, 0, 255, 0);
-            draw_line(image_data, image_width, image_height,
-                      image_bitsperpixel,
-                      (int)xi+cross_radius, (int)yi-cross_radius,
-                      (int)xi+cross_radius, (int)yi+cross_radius,
-                      1, 0, 255, 0);
-          }
-        }
-      }
+    /* show the vertical part of the "L" shape, L1 */
+    if (grid->mirrored == 0) {
+        draw_line(image_data, image_width, image_height,
+                  image_bitsperpixel,
+                  (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+                  (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+                  1,
+                  0, 255, 0);
     }
-  }
+    else {
+        draw_line(image_data, image_width, image_height,
+                  image_bitsperpixel,
+                  (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+                  (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+                  1,
+                  0, 255, 0);
+    }
+
+    /* show the horizontal part of the "L" shape, L2 */
+    if (grid->flipped == 0) {
+        draw_line(image_data, image_width, image_height,
+                  image_bitsperpixel,
+                  (int)grid->perimeter.x3, (int)grid->perimeter.y3,
+                  (int)grid->perimeter.x2, (int)grid->perimeter.y2,
+                  1,
+                  0, 255, 0);
+    }
+    else {
+        draw_line(image_data, image_width, image_height,
+                  image_bitsperpixel,
+                  (int)grid->perimeter.x0, (int)grid->perimeter.y0,
+                  (int)grid->perimeter.x1, (int)grid->perimeter.y1,
+                  1,
+                  0, 255, 0);
+    }
+
+    float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
+    float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
+    float horizontal_dx2 = grid->perimeter.x2 - grid->perimeter.x1;
+    float horizontal_dy2 = grid->perimeter.y2 - grid->perimeter.y1;
+
+    float vertical_dx1 = grid->perimeter.x1 - grid->perimeter.x0;
+    float vertical_dy1 = grid->perimeter.y1 - grid->perimeter.y0;
+    float vertical_dx2 = grid->perimeter.x2 - grid->perimeter.x3;
+    float vertical_dy2 = grid->perimeter.y2 - grid->perimeter.y3;
+
+    for (grid_y = -1; grid_y <= grid->dimension_y; grid_y++) {
+        /* horizontal line */
+        grid_pos_y = grid_y + 0.5f;
+        float mult_y = grid_pos_y / grid->dimension_y;
+        float horizontal_x1 =
+            grid->perimeter.x0 + (horizontal_dx1 * mult_y);
+        float horizontal_y1 =
+            grid->perimeter.y0 + (horizontal_dy1 * mult_y);
+        float horizontal_x2 =
+            grid->perimeter.x1 + (horizontal_dx2 * mult_y);
+        float horizontal_y2 =
+            grid->perimeter.y1 + (horizontal_dy2 * mult_y);
+
+        for (grid_x = -1; grid_x <= grid->dimension_x; grid_x++) {
+            /* vertical line */
+            grid_pos_x = grid_x + 0.5f;
+            float mult_x = grid_pos_x / grid->dimension_x;
+            float vertical_x1 =
+                grid->perimeter.x0 + (vertical_dx1 * mult_x);
+            float vertical_y1 =
+                grid->perimeter.y0 + (vertical_dy1 * mult_x);
+            float vertical_x2 =
+                grid->perimeter.x3 + (vertical_dx2 * mult_x);
+            float vertical_y2 =
+                grid->perimeter.y3 + (vertical_dy2 * mult_x);
+            intersection(horizontal_x1, horizontal_y1,
+                         horizontal_x2, horizontal_y2,
+                         vertical_x1, vertical_y1,
+                         vertical_x2, vertical_y2,
+                         &xi, &yi);
+            if (xi != PARALLEL_LINES) {
+                /* dot */
+                if (((int)yi >= 0) && ((int)yi < image_height) &&
+                        ((int)xi >= 0) && ((int)xi < image_width)) {
+                    n = (((int)yi * image_width) + (int)xi) * image_bytesperpixel;
+                    if ((grid_x > -1) && (grid_x < grid->dimension_x) &&
+                            (grid_y > -1) && (grid_y < grid->dimension_y)) {
+                        if (grid->original_damage[grid_y*grid->dimension_x + grid_x] == 0) {
+                            /* valid cell */
+                            r = (int)image_data[n+2] - 30;
+                            g = (int)image_data[n+1] + 30;
+                            b = (int)image_data[n] - 30;
+                        }
+                        else {
+                            /* damaged cell */
+                            r = (int)image_data[n+1] + 30;
+                            g = (int)image_data[n+2] - 30;
+                            b = (int)image_data[n] - 30;
+                        }
+                    }
+                    else {
+                        /* quiet zone */
+                        r = (int)image_data[n+1] - 30;
+                        g = (int)image_data[n+2] - 30;
+                        b = (int)image_data[n] + 30;
+                    }
+                    if (r < 0) r = 0;
+                    if (r > 255) r = 255;
+                    if (g < 0) g = 0;
+                    if (g > 255) g = 255;
+                    if (b < 0) b = 0;
+                    if (b > 255) b = 255;
+                    draw_dot(image_data, image_width, image_height,
+                             image_bitsperpixel,
+                             (int)xi, (int)yi, cell_radius, r, g, b);
+                }
+
+                if ((cross_radius > 0) &&
+                        ((grid_x > -1) && (grid_x < grid->dimension_x) &&
+                         (grid_y > -1) && (grid_y < grid->dimension_y))) {
+                    if (sampling_pattern == SAMPLING_PATTERN_SOLID) {
+                        /* solid sampling */
+                        draw_line(image_data, image_width, image_height,
+                                  image_bitsperpixel,
+                                  (int)xi-cross_radius, (int)yi,
+                                  (int)xi+cross_radius, (int)yi,
+                                  1, 0, 255, 0);
+                        draw_line(image_data, image_width, image_height,
+                                  image_bitsperpixel,
+                                  (int)xi, (int)yi-cross_radius,
+                                  (int)xi, (int)yi+cross_radius,
+                                  1, 0, 255, 0);
+                    }
+                    else {
+                        /* ring sampling */
+                        draw_line(image_data, image_width, image_height,
+                                  image_bitsperpixel,
+                                  (int)xi-cross_radius, (int)yi-cross_radius,
+                                  (int)xi+cross_radius, (int)yi-cross_radius,
+                                  1, 0, 255, 0);
+                        draw_line(image_data, image_width, image_height,
+                                  image_bitsperpixel,
+                                  (int)xi-cross_radius, (int)yi+cross_radius,
+                                  (int)xi+cross_radius, (int)yi+cross_radius,
+                                  1, 0, 255, 0);
+                        draw_line(image_data, image_width, image_height,
+                                  image_bitsperpixel,
+                                  (int)xi-cross_radius, (int)yi-cross_radius,
+                                  (int)xi-cross_radius, (int)yi+cross_radius,
+                                  1, 0, 255, 0);
+                        draw_line(image_data, image_width, image_height,
+                                  image_bitsperpixel,
+                                  (int)xi+cross_radius, (int)yi-cross_radius,
+                                  (int)xi+cross_radius, (int)yi+cross_radius,
+                                  1, 0, 255, 0);
+                    }
+                }
+            }
+        }
+    }
 }

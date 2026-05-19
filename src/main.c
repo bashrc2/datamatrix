@@ -142,18 +142,18 @@ int main(int argc, char* argv[])
     for (i = 1; i < argc; i += loop_incr) {
         loop_incr = 2;
         if ((strcmp(argv[i],"--version")==0) ||
-            (strcmp(argv[i],"-v")==0)) {
+                (strcmp(argv[i],"-v")==0)) {
             printf("%s\n", DATAMATRIX_VERSION_STRING);
             return 0;
         }
         if ((strcmp(argv[i],"-f")==0) ||
-            (strcmp(argv[i],"--filename")==0)) {
+                (strcmp(argv[i],"--filename")==0)) {
             filename[0] = 0;
             decode_strcat(&filename[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--txt")==0) ||
-            (strcmp(argv[i],"--fromstring")==0) ||
-            (strcmp(argv[i],"--fromtext")==0)) {
+                (strcmp(argv[i],"--fromstring")==0) ||
+                (strcmp(argv[i],"--fromtext")==0)) {
             decode_from_text[0] = 0;
             if (strlen(argv[i+1]) >= MAX_DECODE_STRING_LENGTH) {
                 printf("String too long\n");
@@ -162,19 +162,19 @@ int main(int argc, char* argv[])
             strcpy(&decode_from_text[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"-r")==0) ||
-            (strcmp(argv[i],"--report")==0)) {
+                (strcmp(argv[i],"--report")==0)) {
             report_filename[0] = 0;
             decode_strcat(&report_filename[0], argv[i+1]);
             verify = 1;
             histogram_module_centres = 0;
         }
         if ((strcmp(argv[i],"-l")==0) ||
-            (strcmp(argv[i],"--logo")==0)) {
+                (strcmp(argv[i],"--logo")==0)) {
             logo_filename[0] = 0;
             decode_strcat(&logo_filename[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"-t")==0) ||
-            (strcmp(argv[i],"--template")==0)) {
+                (strcmp(argv[i],"--template")==0)) {
             report_template[0] = 0;
             decode_strcat(&report_template[0], argv[i+1]);
         }
@@ -195,12 +195,12 @@ int main(int argc, char* argv[])
             decode_strcat(&address_line3[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--phone")==0) ||
-            (strcmp(argv[i],"--tel")==0)) {
+                (strcmp(argv[i],"--tel")==0)) {
             phone[0] = 0;
             decode_strcat(&phone[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--encode")==0) ||
-            (strcmp(argv[i],"-e")==0)) {
+                (strcmp(argv[i],"-e")==0)) {
             encode_text[0] = 0;
             decode_strcat(&encode_text[0], argv[i+1]);
         }
@@ -211,8 +211,8 @@ int main(int argc, char* argv[])
             }
         }
         if ((strcmp(argv[i],"--empty")==0) ||
-            (strcmp(argv[i],"--void")==0) ||
-            (strcmp(argv[i],"--space")==0)) {
+                (strcmp(argv[i],"--void")==0) ||
+                (strcmp(argv[i],"--space")==0)) {
             if (strlen(argv[i+1]) <= 3) {
                 sprintf(&empty_char[0], "%s", argv[i+1]);
                 empty_char_specified = 1;
@@ -228,12 +228,12 @@ int main(int argc, char* argv[])
             decode_strcat(&email[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--website")==0) ||
-            (strcmp(argv[i],"--web")==0)) {
+                (strcmp(argv[i],"--web")==0)) {
             website[0] = 0;
             decode_strcat(&website[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--seglink")==0) ||
-            (strcmp(argv[i],"--segjoin")==0)) {
+                (strcmp(argv[i],"--segjoin")==0)) {
             segment_join_radius = atoi(argv[i+1]);
             if ((segment_join_radius < 2) || (segment_join_radius > 20)) {
                 segment_join_radius = 6;
@@ -249,23 +249,23 @@ int main(int argc, char* argv[])
             light_angle_degrees = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--freq")==0) ||
-            (strcmp(argv[i],"--frequency")==0)) {
+                (strcmp(argv[i],"--frequency")==0)) {
             test_frequency = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--erode")==0) ||
-            (strcmp(argv[i],"--erosion")==0)) {
+                (strcmp(argv[i],"--erosion")==0)) {
             test_erode = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--dilate")==0) ||
-            (strcmp(argv[i],"--dilation")==0)) {
+                (strcmp(argv[i],"--dilation")==0)) {
             test_dilate = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--ml")==0) ||
-            (strcmp(argv[i],"--meanlight")==0)) {
+                (strcmp(argv[i],"--meanlight")==0)) {
             test_ml_threshold = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--dl")==0) ||
-            (strcmp(argv[i],"--darklight")==0)) {
+                (strcmp(argv[i],"--darklight")==0)) {
             darklight_sampling_step = atoi(argv[i+1]);
             if (darklight_sampling_step < 1) darklight_sampling_step = 1;
             if (darklight_sampling_step > 10) darklight_sampling_step = 10;
@@ -276,36 +276,36 @@ int main(int argc, char* argv[])
             if (max_high_pixels_percent > 90) max_high_pixels_percent = 90;
         }
         if ((strcmp(argv[i],"--sample")==0) ||
-            (strcmp(argv[i],"--samplingradius")==0) ||
-            (strcmp(argv[i],"--sampleradius")==0)) {
+                (strcmp(argv[i],"--samplingradius")==0) ||
+                (strcmp(argv[i],"--sampleradius")==0)) {
             sampling_radius = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--minsegmentlength")==0) ||
-            (strcmp(argv[i],"--minsegment")==0)) {
+                (strcmp(argv[i],"--minsegment")==0)) {
             min_segment_length = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"-o")==0) ||
-            (strcmp(argv[i],"--output")==0)) {
+                (strcmp(argv[i],"--output")==0)) {
             decode_strcat(&output_filename[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--hist")==0) ||
-            (strcmp(argv[i],"--histogram")==0)) {
+                (strcmp(argv[i],"--histogram")==0)) {
             verify = 1;
             decode_strcat(&histogram_filename[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--shape")==0) ||
-            (strcmp(argv[i],"--cellshape")==0)) {
+                (strcmp(argv[i],"--cellshape")==0)) {
             verify = 1;
             decode_strcat(&cell_shape_filename[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"-g")==0) ||
-            (strcmp(argv[i],"--grid")==0)) {
+                (strcmp(argv[i],"--grid")==0)) {
             decode_strcat(&grid_filename[0], argv[i+1]);
         }
         if ((strcmp(argv[i],"--url")==0) ||
-            (strcmp(argv[i],"--resolver")==0) ||
-            (strcmp(argv[i],"--gs1link")==0) ||
-            (strcmp(argv[i],"--link")==0)) {
+                (strcmp(argv[i],"--resolver")==0) ||
+                (strcmp(argv[i],"--gs1link")==0) ||
+                (strcmp(argv[i],"--link")==0)) {
             decode_strcat(&gs1_url[0], argv[i+1]);
         }
         if (strcmp(argv[i],"--mingrid")==0) {
@@ -327,13 +327,13 @@ int main(int argc, char* argv[])
             resized_image_height = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--width")==0) ||
-            ((strcmp(argv[i],"-w")==0))) {
+                ((strcmp(argv[i],"-w")==0))) {
             encode_image_width = atoi(argv[i+1]);
             if (encode_image_width < 16) encode_image_width = 16;
             if (encode_image_width > 2000) encode_image_width = 2000;
         }
         if ((strcmp(argv[i],"--thresholdedwidth")==0) ||
-            (strcmp(argv[i],"--binwidth")==0)) {
+                (strcmp(argv[i],"--binwidth")==0)) {
             resized_thresholded_width = atoi(argv[i+1]);
         }
         if (strcmp(argv[i],"--squaremodules")==0) {
@@ -369,7 +369,7 @@ int main(int argc, char* argv[])
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"--yaml")==0) ||
-            (strcmp(argv[i],"--yml")==0)) {
+                (strcmp(argv[i],"--yml")==0)) {
             verify = 1;
             csv = 0;
             json = 0;
@@ -385,25 +385,25 @@ int main(int argc, char* argv[])
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"--rectangle")==0) ||
-            (strcmp(argv[i],"--rectangular")==0)) {
+                (strcmp(argv[i],"--rectangular")==0)) {
             is_rectangle = 1;
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"-h")==0) ||
-            (strcmp(argv[i],"--help")==0)) {
+                (strcmp(argv[i],"--help")==0)) {
             show_help();
             return 0;
         }
         if ((strcmp(argv[i],"--histcentres")==0) ||
-            (strcmp(argv[i],"--histcenters")==0) ||
-            (strcmp(argv[i],"--modulecentres")==0) ||
-            (strcmp(argv[i],"--modulecenters")==0)) {
+                (strcmp(argv[i],"--histcenters")==0) ||
+                (strcmp(argv[i],"--modulecentres")==0) ||
+                (strcmp(argv[i],"--modulecenters")==0)) {
             histogram_module_centres = 1;
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"--verify")==0) ||
-            (strcmp(argv[i],"--quality")==0) ||
-            (strcmp(argv[i],"--verification")==0)) {
+                (strcmp(argv[i],"--quality")==0) ||
+                (strcmp(argv[i],"--verification")==0)) {
             verify = 1;
             loop_incr = 1;
         }
@@ -415,7 +415,7 @@ int main(int argc, char* argv[])
 
     if (decode_from_text[0] != 0) {
         if ((dot_char_specified == 1) ||
-            (empty_char_specified == 1)) {
+                (empty_char_specified == 1)) {
             return decode_datamatrix_from_text(&decode_from_text[0],
                                                &gs1_url[0],
                                                &dot_char[0], &empty_char[0],
@@ -428,7 +428,7 @@ int main(int argc, char* argv[])
 
     if (encode_text[0] != 0) {
         if ((square_modules != 0) &&
-            (dot_char_specified == 0)) {
+                (dot_char_specified == 0)) {
             /* show with square modules */
             sprintf(&dot_char[0], "█");
         }
@@ -446,7 +446,7 @@ int main(int argc, char* argv[])
                                          square_modules,
                                          debug);
     }
-    
+
     /* was a file specified */
     if (strlen(&filename[0]) == 0) {
         printf("No image file specified\n");

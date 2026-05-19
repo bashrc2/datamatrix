@@ -60,7 +60,7 @@ static void encode_image_dot(unsigned char img[], int width, int height,
         for (x = tx; x < bx; x++) {
             dx = x - dot_x;
             if ((square_modules == 0) &&
-                (SQUARE_MAG(dx, dy) > dot_radius_sqr)) continue;
+                    (SQUARE_MAG(dx, dy) > dot_radius_sqr)) continue;
 
             idx = (y*width + x) * bytes_per_pixel;
             for (c = bytes_per_pixel-1; c >= 0; c--, idx++) img[idx] = 0;

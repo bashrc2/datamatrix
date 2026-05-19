@@ -152,7 +152,8 @@ int read_datamatrix(unsigned char image_data[],
     };
     int dilate_itterations_configs[] = {
         9, 5, 4, 6, 5, 2,
-        9, 5, 4, 6, 5, 2};
+        9, 5, 4, 6, 5, 2
+    };
     int ml_sampling_radius[] = {
         50, 50, 50, 50, 50, 50,
         20, 20, 20, 20, 20, 20
@@ -189,7 +190,7 @@ int read_datamatrix(unsigned char image_data[],
            image_width*image_height*image_bytesperpixel);
 
     if ((test_ml_threshold > 0) ||
-        (test_erode > 0) || (test_dilate > 0)) {
+            (test_erode > 0) || (test_dilate > 0)) {
         max_config = 1;
     }
 
@@ -204,7 +205,7 @@ int read_datamatrix(unsigned char image_data[],
 
     /* try a few different configurations of erosion/dilation, binary threshold
        and edge threshold */
-#pragma omp parallel for
+    #pragma omp parallel for
     for (try_config = 0; try_config < max_config; try_config++) {
         int meanlight_sampling_radius_percent = ml_sampling_radius[try_config];
         int segment_roi_percent = meanlight_sampling_radius_percent + 20;
@@ -259,7 +260,7 @@ int read_datamatrix(unsigned char image_data[],
                image_width*image_height*image_bytesperpixel);
 
         if ((test_ml_threshold > 0) ||
-            (test_erode > 0) || (test_dilate > 0)) {
+                (test_erode > 0) || (test_dilate > 0)) {
             /* if we are only trying one combination of settings */
             test_specific_config_settings = 1;
             ml_threshold = test_ml_threshold;
@@ -364,7 +365,7 @@ int read_datamatrix(unsigned char image_data[],
                              resized_thresholded_width,
                              resized_thresholded_height);
         if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
-            ((high_pixels < 5) || (high_pixels > max_high_pixels_percent))) {
+                ((high_pixels < 5) || (high_pixels > max_high_pixels_percent))) {
             /* Too many high pixels */
             free(thr_image_data);
             free(thr_meanlight_image_data);
@@ -413,7 +414,7 @@ int read_datamatrix(unsigned char image_data[],
                                      resized_thresholded_height,
                                      segment_roi_percent);
         if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
-            (segments_percent < 1)) {
+                (segments_percent < 1)) {
             /* not enough line segments */
             free(thr_image_data);
             free(thr_meanlight_image_data);
@@ -485,7 +486,7 @@ int read_datamatrix(unsigned char image_data[],
 
         /* check if no line segments found */
         if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
-            (segments[try_config].no_of_segments == 0)) {
+                (segments[try_config].no_of_segments == 0)) {
             free_line_segments(&segments[try_config]);
             free(thr_image_data);
             free(thr_meanlight_image_data);
@@ -499,7 +500,7 @@ int read_datamatrix(unsigned char image_data[],
 
         /* this must count upwards */
         for (int seg_idx = 0;
-             seg_idx < segments[try_config].no_of_segments; seg_idx++) {
+                seg_idx < segments[try_config].no_of_segments; seg_idx++) {
             if (any_decode(&thr_decode_result[0], max_config) == 1) {
                 break;
             }
@@ -811,8 +812,8 @@ int read_datamatrix(unsigned char image_data[],
                 /* sample grid cells in different patterns */
                 curr_sampling_radius = sampling_radius;
                 for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
-                     curr_sampling_pattern <= SAMPLING_PATTERN_RING;
-                     curr_sampling_pattern++) {
+                        curr_sampling_pattern <= SAMPLING_PATTERN_RING;
+                        curr_sampling_pattern++) {
                     if (any_decode(&thr_decode_result[0], max_config) == 1) {
                         break;
                     }
@@ -834,7 +835,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char occupied_cells_percent =
                         get_grid_occupancy_percent(&grid[try_config]);
                     if ((occupied_cells_percent < MIN_OCCUPIED_CELLS_PERCENT) ||
-                        (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
+                            (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
                         free_grid(&grid[try_config]);
                         break;
                     }
@@ -906,7 +907,7 @@ int read_datamatrix(unsigned char image_data[],
             }
 
             if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
-                (test_specific_config_settings == 1)) {
+                    (test_specific_config_settings == 1)) {
                 if (verify == 1) {
                     calculate_quality_metrics(&grid[try_config],
                                               original_image_data,
@@ -933,10 +934,10 @@ int read_datamatrix(unsigned char image_data[],
             if (rectangular == 0) {
                 int * valid_squares = get_valid_squares();
                 for (int frequency_index = 0; frequency_index < NO_OF_VALID_SQUARES;
-                     frequency_index++) {
+                        frequency_index++) {
                     most_probable_frequency = valid_squares[frequency_index];
                     if ((most_probable_frequency < minimum_grid_dimension) ||
-                        (most_probable_frequency > maximum_grid_dimension)) continue;
+                            (most_probable_frequency > maximum_grid_dimension)) continue;
                     /* calculate the length of one of the sides of the perimeter */
                     float perimeter_side_dx = perimeter_x1 - perimeter_x0;
                     float perimeter_side_dy = perimeter_y1 - perimeter_y0;
@@ -948,8 +949,8 @@ int read_datamatrix(unsigned char image_data[],
                     /* sample grid cells in different patterns */
                     curr_sampling_radius = sampling_radius;
                     for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
-                         curr_sampling_pattern <= SAMPLING_PATTERN_RING;
-                         curr_sampling_pattern++) {
+                            curr_sampling_pattern <= SAMPLING_PATTERN_RING;
+                            curr_sampling_pattern++) {
                         /* increase the radius for ring sampling */
                         if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
                             curr_sampling_radius+=2;
@@ -979,7 +980,7 @@ int read_datamatrix(unsigned char image_data[],
                         unsigned char occupied_cells_percent =
                             get_grid_occupancy_percent(&grid[try_config]);
                         if ((occupied_cells_percent < MIN_OCCUPIED_CELLS_PERCENT) ||
-                            (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
+                                (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
                             free_grid(&grid[try_config]);
                             break;
                         }
@@ -1082,8 +1083,8 @@ int read_datamatrix(unsigned char image_data[],
                 /* try all rectangles */
                 int * valid_rectangles = get_valid_rectangles();
                 for (int frequency_index = 0;
-                     frequency_index < NO_OF_VALID_RECTANGLES;
-                     frequency_index++) {
+                        frequency_index < NO_OF_VALID_RECTANGLES;
+                        frequency_index++) {
                     most_probable_frequency =
                         valid_rectangles[frequency_index*2];
 
@@ -1103,7 +1104,7 @@ int read_datamatrix(unsigned char image_data[],
                             most_probable_frequency_x;
                     }
                     if ((most_probable_frequency < minimum_grid_dimension) ||
-                        (most_probable_frequency > maximum_grid_dimension)) continue;
+                            (most_probable_frequency > maximum_grid_dimension)) continue;
 
                     /* calculate the length of one of the sides of the perimeter */
                     float perimeter_side_dx = perimeter_x1 - perimeter_x0;
@@ -1117,8 +1118,8 @@ int read_datamatrix(unsigned char image_data[],
                     /* sample grid cells in different patterns */
                     curr_sampling_radius = sampling_radius;
                     for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
-                         curr_sampling_pattern <= SAMPLING_PATTERN_RING;
-                         curr_sampling_pattern++) {
+                            curr_sampling_pattern <= SAMPLING_PATTERN_RING;
+                            curr_sampling_pattern++) {
                         /* increase the radius for ring sampling */
                         if (curr_sampling_pattern == SAMPLING_PATTERN_RING) {
                             curr_sampling_radius+=2;
@@ -1148,7 +1149,7 @@ int read_datamatrix(unsigned char image_data[],
                         unsigned char occupied_cells_percent =
                             get_grid_occupancy_percent(&grid[try_config]);
                         if ((occupied_cells_percent < MIN_OCCUPIED_CELLS_PERCENT) ||
-                            (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
+                                (occupied_cells_percent > MAX_OCCUPIED_CELLS_PERCENT)) {
                             free_grid(&grid[try_config]);
                             break;
                         }
@@ -1258,7 +1259,7 @@ int read_datamatrix(unsigned char image_data[],
         if (strlen(thr_decode_result[best_config]) > 0) {
             /* -o option: output image showing perimeter */
             if ((strlen(output_filename) > 0) &&
-                (best_perimeter_x0 > -1)) {
+                    (best_perimeter_x0 > -1)) {
                 memcpy(image_data, original_image_data,
                        image_width*image_height*image_bytesperpixel);
                 show_L_shape_perimeter(&grid[best_config],
@@ -1273,7 +1274,7 @@ int read_datamatrix(unsigned char image_data[],
                 show_quality_metrics(&grid[best_config], csv, json, yaml,
                                      aperture, light_nm, light_angle_degrees);
                 if ((strlen(report_template) > 0) &&
-                    (strlen(report_filename) > 0)) {
+                        (strlen(report_filename) > 0)) {
                     save_verification_report(&grid[best_config],
                                              address_line1,
                                              address_line2,

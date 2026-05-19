@@ -40,27 +40,27 @@ static unsigned char is_dark_image(unsigned char img_mono[],
                                    unsigned char dark,
                                    unsigned char light)
 {
-  int dark_pixels=0, light_pixels=0;
-  int i, diff_dark, diff_light;
-  int dark2 = (int)dark;
-  int light2 = (int)light;
+    int dark_pixels=0, light_pixels=0;
+    int i, diff_dark, diff_light;
+    int dark2 = (int)dark;
+    int light2 = (int)light;
 
-  /* we don't need to test every pixel for dark or light */
-  for (i = (width*height) - 1; i >= 0 ; i-=4) {
-    /* distance to the histogram peak of dark pixels */
-    diff_dark = (int)img_mono[i] - dark2;
-    /* distance to the histogram peak of light pixels */
-    diff_light = (int)img_mono[i] - light2;
-    /* which is closest? */
-    if (SQUARE(diff_dark) < SQUARE(diff_light)) {
-      dark_pixels++;
+    /* we don't need to test every pixel for dark or light */
+    for (i = (width*height) - 1; i >= 0 ; i-=4) {
+        /* distance to the histogram peak of dark pixels */
+        diff_dark = (int)img_mono[i] - dark2;
+        /* distance to the histogram peak of light pixels */
+        diff_light = (int)img_mono[i] - light2;
+        /* which is closest? */
+        if (SQUARE(diff_dark) < SQUARE(diff_light)) {
+            dark_pixels++;
+        }
+        else {
+            light_pixels++;
+        }
     }
-    else {
-      light_pixels++;
-    }
-  }
-  if (dark_pixels > light_pixels) return 0;
-  return 1;
+    if (dark_pixels > light_pixels) return 0;
+    return 1;
 }
 
 /**
@@ -81,59 +81,59 @@ int meanlight_threshold(unsigned char img[], int width, int height,
                         int sampling_step,
                         unsigned char thresholded[])
 {
-  unsigned char * img_mono = thresholded;
-  unsigned char dark=0,light=0,range;
-  unsigned int percent_active=0;
-  unsigned char thresh, is_dark;
-  int i, percent;
+    unsigned char * img_mono = thresholded;
+    unsigned char dark=0,light=0,range;
+    unsigned int percent_active=0;
+    unsigned char thresh, is_dark;
+    int i, percent;
 
-  colour_to_mono(img, width, height, bitsperpixel, img_mono);
+    colour_to_mono(img, width, height, bitsperpixel, img_mono);
 
-  /* get the dark and light peaks */
-  darklight(img_mono, width, height, sampling_step,
-            sampling_radius_percent, &dark, &light);
+    /* get the dark and light peaks */
+    darklight(img_mono, width, height, sampling_step,
+              sampling_radius_percent, &dark, &light);
 
-  range = light - dark;
-  /* initial threshold is half way between light and dark */
-  thresh = (unsigned char)(dark + (range / 2));
-  /* adapt the threshold to the dynamic range */
-  threshold = threshold * (int)range / 100;
-  /* is the image mostly light or mostly dark? */
-  is_dark = is_dark_image(img_mono, width, height, dark, light);
-  if (is_dark) {
-    /* Image is mostly light, count the dark pixels */
-    if ((int)dark + threshold > 255)
-      thresh = (unsigned char)255;
-    else
-      thresh = (unsigned char)((int)dark + threshold);
-  }
-  else {
-    /* Image is mostly dark, count the light pixels */
-    if ((int)light - threshold < 0)
-      thresh = (unsigned char)0;
-    else
-      thresh = (unsigned char)((int)light - threshold);
-  }
-
-  for (i = (width*height) - 1; i >= 0 ; i--) {
-    if (((!is_dark) && (img_mono[i] >= thresh)) ||
-        ((is_dark) && (img_mono[i] < thresh))) {
-      thresholded[i] = 255;
-      percent_active++;
+    range = light - dark;
+    /* initial threshold is half way between light and dark */
+    thresh = (unsigned char)(dark + (range / 2));
+    /* adapt the threshold to the dynamic range */
+    threshold = threshold * (int)range / 100;
+    /* is the image mostly light or mostly dark? */
+    is_dark = is_dark_image(img_mono, width, height, dark, light);
+    if (is_dark) {
+        /* Image is mostly light, count the dark pixels */
+        if ((int)dark + threshold > 255)
+            thresh = (unsigned char)255;
+        else
+            thresh = (unsigned char)((int)dark + threshold);
     }
     else {
-      thresholded[i] = 0;
+        /* Image is mostly dark, count the light pixels */
+        if ((int)light - threshold < 0)
+            thresh = (unsigned char)0;
+        else
+            thresh = (unsigned char)((int)light - threshold);
     }
-  }
 
-  percent = (int)(percent_active*100/(width*height));
-  if (percent > 30) {
-    /* invert the thresholded image */
-    for (i = (width*height) - 1; i >= 0 ; i--) thresholded[i] = 255 - thresholded[i];
-    percent = 100 - percent;
-  }
-  mono_to_colour(img_mono, width, height, bitsperpixel, img);
-  return percent;
+    for (i = (width*height) - 1; i >= 0 ; i--) {
+        if (((!is_dark) && (img_mono[i] >= thresh)) ||
+                ((is_dark) && (img_mono[i] < thresh))) {
+            thresholded[i] = 255;
+            percent_active++;
+        }
+        else {
+            thresholded[i] = 0;
+        }
+    }
+
+    percent = (int)(percent_active*100/(width*height));
+    if (percent > 30) {
+        /* invert the thresholded image */
+        for (i = (width*height) - 1; i >= 0 ; i--) thresholded[i] = 255 - thresholded[i];
+        percent = 100 - percent;
+    }
+    mono_to_colour(img_mono, width, height, bitsperpixel, img);
+    return percent;
 }
 
 /**
@@ -146,12 +146,12 @@ int meanlight_threshold(unsigned char img[], int width, int height,
 unsigned char get_percent_high(unsigned char mono_img[],
                                int image_width, int image_height)
 {
-  int i, high = 0;
+    int i, high = 0;
 
-  for (i = image_width*image_height-1; i >= 0; i--) {
-    if (mono_img[i] == 0) {
-      high++;
+    for (i = image_width*image_height-1; i >= 0; i--) {
+        if (mono_img[i] == 0) {
+            high++;
+        }
     }
-  }
-  return (unsigned char)(high * 100 / (image_width*image_height));
+    return (unsigned char)(high * 100 / (image_width*image_height));
 }

@@ -24,32 +24,32 @@
 #include "datamatrix.h"
 
 int valid_squares[] = {
-  10,  12,  14,  16,  18,  20,  22,  24,  26,  32, 36,  40,  44,  48,
-  52,  64,  72,  80,  88,  96, 104, 120, 132, 144
+    10,  12,  14,  16,  18,  20,  22,  24,  26,  32, 36,  40,  44,  48,
+    52,  64,  72,  80,  88,  96, 104, 120, 132, 144
 };
 
 int valid_rectangles[] = {
-  /* IEC16022 dimensions */
-  8, 18,
-  8, 32,
-  12, 26,
-  12, 36,
-  16, 36,
-  16, 48,
-  /* Extended rectangular set (DMRE) */
-  8, 48,
-  8, 64,
-  12, 48,
-  12, 64,
-  16, 64,
-  24, 32,
-  24, 36,
-  24, 48,
-  24, 64,
-  26, 32,
-  26, 40,
-  26, 48,
-  26, 64
+    /* IEC16022 dimensions */
+    8, 18,
+    8, 32,
+    12, 26,
+    12, 36,
+    16, 36,
+    16, 48,
+    /* Extended rectangular set (DMRE) */
+    8, 48,
+    8, 64,
+    12, 48,
+    12, 64,
+    16, 64,
+    24, 32,
+    24, 36,
+    24, 48,
+    24, 64,
+    26, 32,
+    26, 40,
+    26, 48,
+    26, 64
 };
 
 /**
@@ -58,7 +58,7 @@ int valid_rectangles[] = {
  */
 int * get_valid_squares()
 {
-  return valid_squares;
+    return valid_squares;
 }
 
 /**
@@ -67,5 +67,5 @@ int * get_valid_squares()
  */
 int * get_valid_rectangles()
 {
-  return valid_rectangles;
+    return valid_rectangles;
 }

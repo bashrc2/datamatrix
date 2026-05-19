@@ -67,10 +67,10 @@ static word *log, *alog, *rspoly;
 
 #ifdef  RS_CORRECT
 static word *synd,
-    *eloc,
-    *eval,
-    *scratch,
-    *elist; /* These for correction only */
+       *eloc,
+       *eval,
+       *scratch,
+       *elist; /* These for correction only */
 
 static int calc_syndromes(int len, byte * data, word * synd)
 {

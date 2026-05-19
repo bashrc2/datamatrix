@@ -91,11 +91,39 @@ int intersection(float x0, float y0,
         *yi = (a2 * c1 - a1 * c2) * det_inv;
 
         /* is the intersection inside the line or outside it? */
-        if (x0 < x1) { tx = x0; bx = x1; } else { tx = x1; bx = x0; }
-        if (y0 < y1) { ty = y0; by = y1; } else { ty = y1; by = y0; }
+        if (x0 < x1) {
+            tx = x0;
+            bx = x1;
+        }
+        else {
+            tx = x1;
+            bx = x0;
+        }
+        if (y0 < y1) {
+            ty = y0;
+            by = y1;
+        }
+        else {
+            ty = y1;
+            by = y0;
+        }
         if ((*xi >= tx) && (*xi <= bx) && (*yi >= ty) && (*yi <= by)) {
-            if (x2 < x3) { tx = x2; bx = x3; } else { tx = x3; bx = x2; }
-            if (y2 < y3) { ty = y2; by = y3; } else { ty = y3; by = y2; }
+            if (x2 < x3) {
+                tx = x2;
+                bx = x3;
+            }
+            else {
+                tx = x3;
+                bx = x2;
+            }
+            if (y2 < y3) {
+                ty = y2;
+                by = y3;
+            }
+            else {
+                ty = y3;
+                by = y2;
+            }
             if ((*xi >= tx) && (*xi <= bx) && (*yi >= ty) && (*yi <= by)) {
                 inside_line = 0;
             }
@@ -238,7 +266,7 @@ int ransac_fit(int edges[], int no_of_edges,
             else {
                 /* select the minimum deviation */
                 if ((hits == max_hits) &&
-                    (deviation_sum < min_deviation)) {
+                        (deviation_sum < min_deviation)) {
                     best_index0 = index0;
                     best_index1 = index1;
                     min_deviation = deviation_sum;
@@ -296,7 +324,7 @@ int ransac_fit(int edges[], int no_of_edges,
 
             /* store edge index within tolerance */
             if ((deviation < max_deviation) &&
-                (linefit_no_of_edges < max_edges)) {
+                    (linefit_no_of_edges < max_edges)) {
                 linefit[linefit_no_of_edges] = edge_sample * 2;
                 linefit_no_of_edges++;
                 /* average edge position */
@@ -531,8 +559,8 @@ int point_in_polygon(int x, int y, int points[], int no_of_points)
 
     for(i = 0, j = no_of_points - 1; i < no_of_points; j = i++) {
         if (((points[i*2+1] >= y) != (points[j*2+1] >= y)) &&
-            (x <= (points[j*2] - points[i*2]) * (y - points[i*2+1]) /
-             (points[j*2+1] - points[i*2+1]) + points[i*2]))
+                (x <= (points[j*2] - points[i*2]) * (y - points[i*2+1]) /
+                 (points[j*2+1] - points[i*2+1]) + points[i*2]))
             c = 1 - c;
     }
 

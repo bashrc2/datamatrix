@@ -40,42 +40,42 @@ void dilate(unsigned char img[], int width, int height,
             int itterations,
             unsigned char result[])
 {
-  int pixels = width * height;
+    int pixels = width * height;
 
-  memcpy(buffer, img, pixels);
+    memcpy(buffer, img, pixels);
 
-  int n;
-  unsigned char value;
-  int min = width + 1;
-  int max = pixels - width - 1;
-  for (int itt = 0; itt < itterations; itt++) {
-    for (int i = min; i < max; i++) {
-      value = buffer[i];
-      if (buffer[i - 1] > value) value = buffer[i - 1];
-      if (buffer[i + 1] > value) value = buffer[i + 1];
+    int n;
+    unsigned char value;
+    int min = width + 1;
+    int max = pixels - width - 1;
+    for (int itt = 0; itt < itterations; itt++) {
+        for (int i = min; i < max; i++) {
+            value = buffer[i];
+            if (buffer[i - 1] > value) value = buffer[i - 1];
+            if (buffer[i + 1] > value) value = buffer[i + 1];
 
-      /* above */
-      n = i - width - 1;
-      if (buffer[n] > value) value = buffer[n];
-      n++;
-      if (buffer[n] > value) value = buffer[n];
-      n++;
-      if (buffer[n] > value) value = buffer[n];
+            /* above */
+            n = i - width - 1;
+            if (buffer[n] > value) value = buffer[n];
+            n++;
+            if (buffer[n] > value) value = buffer[n];
+            n++;
+            if (buffer[n] > value) value = buffer[n];
 
-      /* below */
-      n = i + width - 1;
-      if (buffer[n] > value) value = buffer[n];
-      n++;
-      if (buffer[n] > value) value = buffer[n];
-      n++;
-      if (buffer[n] > value) value = buffer[n];
+            /* below */
+            n = i + width - 1;
+            if (buffer[n] > value) value = buffer[n];
+            n++;
+            if (buffer[n] > value) value = buffer[n];
+            n++;
+            if (buffer[n] > value) value = buffer[n];
 
-      result[i] = value;
+            result[i] = value;
+        }
+
+        if (itt < itterations - 1)
+            memcpy(buffer, result, pixels);
     }
-
-    if (itt < itterations - 1)
-      memcpy(buffer, result, pixels);
-  }
 }
 
 /**
@@ -92,42 +92,42 @@ void erode(unsigned char img[], int width, int height,
            int itterations,
            unsigned char result[])
 {
-	int pixels = width * height;
+    int pixels = width * height;
 
-  memcpy(buffer, img, pixels);
+    memcpy(buffer, img, pixels);
 
-  int n;
-  unsigned char value;
-  int min = width + 1;
-  int max = pixels - width - 1;
-  for (int itt = 0; itt < itterations; itt++) {
-    for (int i = min; i < max; i++) {
-      value = buffer[i];
+    int n;
+    unsigned char value;
+    int min = width + 1;
+    int max = pixels - width - 1;
+    for (int itt = 0; itt < itterations; itt++) {
+        for (int i = min; i < max; i++) {
+            value = buffer[i];
 
-      if (buffer[i - 1] < value) value = buffer[i - 1];
-      if (buffer[i + 1] < value) value = buffer[i + 1];
+            if (buffer[i - 1] < value) value = buffer[i - 1];
+            if (buffer[i + 1] < value) value = buffer[i + 1];
 
-      /* above */
-      n = i - width - 1;
-      if (buffer[n] < value) value = buffer[n];
-      n++;
-      if (buffer[n] < value) value = buffer[n];
-      n++;
-      if (buffer[n] < value) value = buffer[n];
+            /* above */
+            n = i - width - 1;
+            if (buffer[n] < value) value = buffer[n];
+            n++;
+            if (buffer[n] < value) value = buffer[n];
+            n++;
+            if (buffer[n] < value) value = buffer[n];
 
-      /* below */
-      n = i + width - 1;
-      if (buffer[n] < value) value = buffer[n];
-      n++;
-      if (buffer[n] < value) value = buffer[n];
-      n++;
-      if (buffer[n] < value) value = buffer[n];
+            /* below */
+            n = i + width - 1;
+            if (buffer[n] < value) value = buffer[n];
+            n++;
+            if (buffer[n] < value) value = buffer[n];
+            n++;
+            if (buffer[n] < value) value = buffer[n];
 
-      result[i] = value;
+            result[i] = value;
+        }
+
+        if (itt < itterations - 1) {
+            memcpy(buffer, result, pixels);
+        }
     }
-
-    if (itt < itterations - 1) {
-      memcpy(buffer, result, pixels);
-    }
-  }
 }

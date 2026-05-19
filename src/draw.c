@@ -48,56 +48,56 @@ void draw_line(unsigned char img[],
                int line_width,
                int r, int g, int b)
 {
-  int linewidth = bx - tx;
-  int lineheight = by - ty;
-  int x, y, n, xx, yy, incr=1;
-  int bytes_per_pixel = bitsperpixel/8;
-  int half_width = line_width/2;
+    int linewidth = bx - tx;
+    int lineheight = by - ty;
+    int x, y, n, xx, yy, incr=1;
+    int bytes_per_pixel = bitsperpixel/8;
+    int half_width = line_width/2;
 
-  if (ABS(lineheight) > ABS(linewidth)) {
-    /* vertical orientation */
-    if (by < ty) incr = -1;
-    for (y = ty; y != by; y+=incr) {
-      if ((y < 0) || (y >= (int)height))
-        continue;
-      x = tx + ((y - ty) * linewidth / lineheight);
-      for (xx = x - half_width; xx < x - half_width + line_width; xx++) {
-          if ((xx < 0) || (xx >= (int)width))
-          continue;
-        n = (y * width + xx) * bytes_per_pixel;
-        if (bytes_per_pixel == 3) {
-          img[n] = b;
-          img[n+1] = g;
-          img[n+2] = r;
+    if (ABS(lineheight) > ABS(linewidth)) {
+        /* vertical orientation */
+        if (by < ty) incr = -1;
+        for (y = ty; y != by; y+=incr) {
+            if ((y < 0) || (y >= (int)height))
+                continue;
+            x = tx + ((y - ty) * linewidth / lineheight);
+            for (xx = x - half_width; xx < x - half_width + line_width; xx++) {
+                if ((xx < 0) || (xx >= (int)width))
+                    continue;
+                n = (y * width + xx) * bytes_per_pixel;
+                if (bytes_per_pixel == 3) {
+                    img[n] = b;
+                    img[n+1] = g;
+                    img[n+2] = r;
+                }
+                else {
+                    img[n] = r;
+                }
+            }
         }
-        else {
-          img[n] = r;
-        }
-      }
     }
-  }
-  else {
-    /* horizontal orientation */
-    if (bx < tx) incr = -1;
-    for (x = tx; x != bx; x+=incr) {
-      if ((x < 0) || (x >= (int)width))
-        continue;
-      y = ty + ((x - tx) * lineheight / linewidth);
-      for (yy = y - half_width; yy < y - half_width + line_width; yy++) {
-          if ((yy < 0) || (yy >= (int)height))
-          continue;
-        n = (yy * width + x) * bytes_per_pixel;
-        if (bytes_per_pixel == 3) {
-          img[n] = b;
-          img[n+1] = g;
-          img[n+2] = r;
+    else {
+        /* horizontal orientation */
+        if (bx < tx) incr = -1;
+        for (x = tx; x != bx; x+=incr) {
+            if ((x < 0) || (x >= (int)width))
+                continue;
+            y = ty + ((x - tx) * lineheight / linewidth);
+            for (yy = y - half_width; yy < y - half_width + line_width; yy++) {
+                if ((yy < 0) || (yy >= (int)height))
+                    continue;
+                n = (yy * width + x) * bytes_per_pixel;
+                if (bytes_per_pixel == 3) {
+                    img[n] = b;
+                    img[n+1] = g;
+                    img[n+2] = r;
+                }
+                else {
+                    img[n] = r;
+                }
+            }
         }
-        else {
-          img[n] = r;
-        }
-      }
     }
-  }
 }
 
 /**
@@ -119,27 +119,27 @@ void draw_dot(unsigned char img[],
               int centre_x, int centre_y, int radius,
               int r, int g, int b)
 {
-  int bytesperpixel = bitsperpixel/8;
-  int x, y, n, dx ,dy, radius_sqr = radius*radius;
-  int tx = centre_x - radius;
-  int ty = centre_y - radius;
-  int bx = centre_x + radius;
-  int by = centre_y + radius;
+    int bytesperpixel = bitsperpixel/8;
+    int x, y, n, dx,dy, radius_sqr = radius*radius;
+    int tx = centre_x - radius;
+    int ty = centre_y - radius;
+    int bx = centre_x + radius;
+    int by = centre_y + radius;
 
-  if (tx < 0) tx = 0;
-  if (bx >= (int)width) bx = (int)width-1;
-  if (ty < 0) ty = 0;
-  if (by >= (int)height) by = (int)height-1;
+    if (tx < 0) tx = 0;
+    if (bx >= (int)width) bx = (int)width-1;
+    if (ty < 0) ty = 0;
+    if (by >= (int)height) by = (int)height-1;
 
-  for (y = ty; y <= by; y++) {
-    dy = y - centre_y;
-    for (x = tx; x <= bx; x++) {
-      dx = x - centre_x;
-      if (SQUARE_MAG(dx, dy) > radius_sqr) continue;
-      n = (y*width + x)*bytesperpixel;
-      img[n+2] = b;
-      img[n+1] = g;
-      img[n] = r;
+    for (y = ty; y <= by; y++) {
+        dy = y - centre_y;
+        for (x = tx; x <= bx; x++) {
+            dx = x - centre_x;
+            if (SQUARE_MAG(dx, dy) > radius_sqr) continue;
+            n = (y*width + x)*bytesperpixel;
+            img[n+2] = b;
+            img[n+1] = g;
+            img[n] = r;
+        }
     }
-  }
 }
