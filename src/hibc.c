@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  HIBC semantics
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -278,7 +278,15 @@ static char * hibc_secondary_data(char result[], int start_index,
         free(date_value);
       }
       else {
-        decode_strcat(translated_str, id_value);
+        char * company_prefix =
+            data_id_convert_company_prefix(id_human_readable, id_value);
+        if (company_prefix != NULL) {
+          decode_strcat(translated_str, company_prefix);
+          free(company_prefix);
+        }
+        else {
+          decode_strcat(translated_str, id_value);
+        }
       }
       decode_strcat_char(translated_str, '\n');
       free(data_str);

@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  datamatrix
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -582,6 +582,8 @@ int get_data_identifier(char data_str[],
                         char identifier[], char value[]);
 
 char * data_id_convert_date(char * id_human_readable, char * id_value);
+
+char * data_id_convert_company_prefix(char * id_human_readable, char * id_value);
 
 /* dimensions.c */
 

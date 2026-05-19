@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  ISO 15434 functions
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -309,7 +309,15 @@ char * iso15434_translate_data_qualifier(char result[],
           free(date_value);
         }
         else {
-          decode_strcat(translated_str, id_value);
+          char * company_prefix =
+              data_id_convert_company_prefix(id_human_readable, id_value);
+          if (company_prefix != NULL) {
+            decode_strcat(translated_str, company_prefix);
+            free(company_prefix);
+          }
+          else {
+            decode_strcat(translated_str, id_value);
+          }
         }
         decode_strcat(iso15434_uii, id_value);
         free(data_str);

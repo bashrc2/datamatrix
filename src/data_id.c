@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Data Identifier functions
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -494,6 +494,26 @@ static char * month_number_to_text(char month_number[])
   return month_text[month_no-1];
 }
 
+/**
+ * \brief converts GS1 Company Prefix values into a more human readable style
+ * \param id_human_readable data identifier description
+ * \param id_value the date code string to be converted
+ * \return human readable Company Prefix, or NULL
+ */
+char * data_id_convert_company_prefix(char * id_human_readable, char * id_value)
+{
+  if (strstr(id_human_readable, "GS1 COMPANY PREFIX") == NULL) return NULL;
+  if (strlen(id_value) < 2) return NULL;
+  char * company_prefix = get_gs1_company_prefix(id_value);
+  if (company_prefix == NULL) return NULL;
+  char * company_prefix_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+  company_prefix_value[0] = 0;
+  decode_strcat(company_prefix_value, "GS1 Company Prefix: ");
+  decode_strcat(company_prefix_value, company_prefix);
+  free(company_prefix);
+  return company_prefix_value;
+}
+  
 /**
  * \brief converts dates into a more human readable style
  * \param id_human_readable data identifier description
