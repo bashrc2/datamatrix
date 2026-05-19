@@ -27,6 +27,152 @@
 
 #include "datamatrix.h"
 
+/* https://en.wikipedia.org/wiki/List_of_GS1_country_codes */
+char * gs1_company_prefix[] = {
+    "0000000", "", "Used to issue Restricted Ciruculation Numbers within a company",
+    "0000001", "0000099", "Unused to avoid collision with GTIN-8",
+    "00001", "00009", "GS1 US",
+    "0001", "0009", "GS1 US",
+    "001", "019", "GS1 US",
+    "020", "029", "Used to issue Restricted Circulation Numbers within a geographic region (MO defined)",
+    "030", "039", "GS1 US",
+    "040", "049", "Used to issue GS1 Restricted Circulation Numbers within a company",
+    "050", "059", "GS1 US reserved for future use",
+    "060", "139", "GS1 US",
+    "200", "299", "Used to issue GS1 Restricted Circulation Numbers within a geographic region (MO defined)",
+    "300", "379", "GS1 France",
+    "380", "", "GS1 Bulgaria",
+    "383", "", "GS1 Slovenija",
+    "385", "", "GS1 Croatia",
+    "387", "", "GS1 BIH (Bosnia-Herzegovina)",
+    "389", "", "GS1 Montenegro",
+    "400", "440", "GS1 Germany",
+    "450", "459", "GS1 Japan",
+    "490", "499", "GS1 Japan",
+    "460", "469", "GS1 Russia",
+    "470", "", "GS1 Kyrgyzstan",
+    "471", "", "GS1 Chinese Taipei",
+    "474", "", "GS1 Estonia",
+    "475", "", "GS1 Latvia",
+    "476", "", "GS1 Azerbaijan",
+    "477", "", "GS1 Lithuania",
+    "478", "", "GS1 Uzbekistan",
+    "479", "", "GS1 Sri Lanka",
+    "480", "", "GS1 Philippines",
+    "481", "", "GS1 Belarus",
+    "482", "", "GS1 Ukraine",
+    "483", "", "GS1 Turkmenistan",
+    "484", "", "GS1 Moldova",
+    "485", "", "GS1 Armenia",
+    "486", "", "GS1 Georgia",
+    "487", "", "GS1 Kazakstan",
+    "488", "", "GS1 Tajikistan",
+    "489", "", "GS1 Hong Kong, China",
+    "500", "509", "GS1 UK",
+    "520", "521", "GS1 Association Greece",
+    "528", "", "GS1 Lebanon",
+    "529", "", "GS1 Cyprus",
+    "530", "", "GS1 Albania",
+    "531", "", "GS1 Macedonia",
+    "535", "", "GS1 Malta",
+    "539", "", "GS1 Ireland",
+    "540", "549", "GS1 Belgium & Luxembourg",
+    "560", "", "GS1 Portugal",
+    "569", "", "GS1 Iceland",
+    "570", "579", "GS1 Denmark",
+    "590", "", "GS1 Poland",
+    "594", "", "GS1 Romania",
+    "599", "", "GS1 Hungary",
+    "600", "601", "GS1 South Africa",
+    "603", "", "GS1 Ghana",
+    "604", "", "GS1 Senegal",
+    "605", "", "Managed by GS1 Global Office for future MO",
+    "606", "", "Managed by GS1 Global Office for future MO",
+    "607", "", "Managed by GS1 Global Office for future MO",
+    "608", "", "GS1 Bahrain",
+    "609", "", "GS1 Mauritius",
+    "610", "", "Managed by GS1 Global Office for future MO",
+    "611", "", "GS1 Morocco",
+    "613", "", "GS1 Algeria",
+    "614", "", "Managed by GS1 Global Office for future MO",
+    "615", "", "GS1 Nigeria",
+    "616", "", "GS1 Kenya",
+    "617", "", "GS1 Cameroon",
+    "618", "", "GS1 Côte d'Ivoire",
+    "619", "", "GS1 Tunisia",
+    "620", "", "GS1 Tanzania",
+    "621", "", "GS1 Syria",
+    "622", "", "GS1 Egypt",
+    "623", "", "GS1 Brunei",
+    "624", "", "GS1 Libya",
+    "625", "", "GS1 Jordan",
+    "626", "", "GS1 Iran",
+    "627", "", "GS1 Kuwait",
+    "628", "", "GS1 Saudi Arabia",
+    "629", "", "GS1 Emirates",
+    "630", "", "GS1 Qatar",
+    "640", "649", "GS1 Finland",
+    "690", "699", "GS1 China",
+    "700", "709", "GS1 Norway",
+    "729", "", "GS1 Israel",
+    "730", "739", "GS1 Sweden",
+    "740", "", "GS1 Guatemala",
+    "741", "", "GS1 El Salvador",
+    "742", "", "GS1 Honduras",
+    "743", "", "GS1 Nicaragua",
+    "744", "", "GS1 Costa Rica",
+    "745", "", "GS1 Panama",
+    "746", "", "GS1 Republica Dominicana",
+    "750", "", "GS1 Mexico",
+    "754", "755", "GS1 Canada",
+    "758", "", "Managed by GS1 Global Office for future MO",
+    "759", "", "GS1 Venezuela",
+    "760", "769", "GS1 Schweiz, Suisse, Svizzera",
+    "770", "771", "GS1 Colombia",
+    "773", "", "GS1 Uruguay",
+    "775", "", "GS1 Peru",
+    "777", "", "GS1 Bolivia",
+    "778", "779", "GS1 Argentina",
+    "780", "", "GS1 Chile",
+    "784", "", "GS1 Paraguay",
+    "786", "", "GS1 Ecuador",
+    "789", "790", "GS1 Brasil",
+    "800", "839", "GS1 Italy",
+    "840", "849", "GS1 Spain",
+    "850", "", "GS1 Cuba",
+    "858", "", "GS1 Slovakia",
+    "859", "", "GS1 Czech",
+    "860", "", "GS1 Serbia",
+    "865", "", "GS1 Mongolia",
+    "867", "", "GS1 North Korea",
+    "868", "869", "GS1 Turkey",
+    "870", "879", "GS1 Netherlands",
+    "880", "", "GS1 South Korea",
+    "883", "", "GS1 Myanmar",
+    "884", "", "GS1 Cambodia",
+    "885", "", "GS1 Thailand",
+    "888", "", "GS1 Singapore",
+    "890", "", "GS1 India",
+    "893", "", "GS1 Vietnam",
+    "894", "", "Managed by GS1 Global Office for future MO",
+    "896", "", "GS1 Pakistan",
+    "899", "", "GS1 Indonesia",
+    "900", "919", "GS1 Austria",
+    "930", "939", "GS1 Australia",
+    "940", "949", "GS1 New Zealand",
+    "950", "", "GS1 Global Office",
+    "951", "", "Global Office - General Manager Number, see Note 2",
+    "952", "", "Used for demonstrations and examples of the GS1 system"
+    "955", "", "GS1 Malaysia",
+    "958", "", "GS1 Macau, China",
+    "960", "969", "Global Office - GTIN-8, see note 3",
+    "977", "", "Serial publications (ISSN)",
+    "978", "979", "Bookland (ISBN)",
+    "980", "", "Refund receipts",
+    "981", "984", "GS1 coupon identification for common currency areas",
+    "99", "", "GS1 coupon identification"
+};
+
 /* https://en.wikipedia.org/wiki/ISO_3166-1_numeric
    Used for "T3783 target market country codes" */
 char * iso3166_country_codes[] = {
@@ -133,7 +279,7 @@ char * iso3166_country_codes[] = {
   "Japan", "", "392",
   "Jersey", "JEY", "832",
   "Jordan", "JOR", "400",
-  "Kazakhstan",	"KAZ", "398",
+  "Kazakhstan", "KAZ", "398",
   "Kenya", "KEN", "404",
   "Kiribati", "KIR", "296",
   "North Korea", "PRK", "408",
@@ -165,7 +311,7 @@ char * iso3166_country_codes[] = {
   "Federated States of Micronesia", "FSM", "583",
   "Moldova", "MDA", "498",
   "Monaco", "MCO", "492",
-  "Mongolia",	"MNG", "496",
+  "Mongolia",   "MNG", "496",
   "Montenegro", "MNE", "499",
   "Montserrat", "MSR", "500",
   "Morocco", "MAR", "504",
@@ -191,7 +337,7 @@ char * iso3166_country_codes[] = {
   "Palestine", "PSE", "275",
   "Panama", "PAN", "591",
   "Papua New Guinea", "PNG", "598",
-  "Paraguay",	"PRY", "600",
+  "Paraguay",   "PRY", "600",
   "Peru", "PER", "604",
   "Philippines", "PHL", "608",
   "Pitcairn Islands", "PCN", "612",
@@ -275,7 +421,7 @@ char * iso4217_currency_codes[] = {
   "ALGERIA",             "Algerian Dinar",        "DZD",       "012",
   "AMERICAN SAMOA",      "US Dollar",             "USD",       "840",
   "ANDORRA",             "Euro",                  "EUR",       "978",
-  "ANGOLA", 	           "Kwanza",                "AOA",       "973",
+  "ANGOLA",                "Kwanza",                "AOA",       "973",
   "ANGUILLA",            "East Caribbean Dollar", "XCD",       "951",
   "ANTIGUA AND BARBUDA", "East Caribbean Dollar", "XCD",       "951",
   "ARGENTINA",           "Argentine Peso",        "ARS",       "032",
@@ -599,8 +745,64 @@ char * get_coupon(char data_str[])
 }
 
 /**
+ * \brief returns the GS1 Company Prefix for the given code number
+ * \param data_str String containing a code number to be decoded
+ * \return decoded Company Prefix or NULL
+ */
+char * get_gs1_company_prefix(char data_str[])
+{
+  int i;
+  char data_str_code[16];
+  unsigned char code_range = 0;
+
+  int data_len = strlen(data_str);
+  if ((data_len < 2) || (data_len > 15)) return NULL;
+  for (i = 0; i < data_len; i++) {
+    if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
+    data_str_code[i] = data_str[i];
+  }
+  data_str_code[i] = 0;
+
+  /* is this a GS1 company prefix? */
+  int no_of_company_prefixes =
+    ((int)sizeof(gs1_company_prefix) /
+     (int)sizeof(gs1_company_prefix[0]))/3;
+  int company_prefix_index = -1;
+  int test_code = atoi(data_str_code);
+  for (i = 0; i < no_of_company_prefixes; i++) {
+    if ((int)strlen(gs1_company_prefix[i*3]) != data_len) continue;
+    int min_code = atoi(gs1_company_prefix[i*3]);
+    int max_code = min_code;
+    code_range = 0;
+    if (strlen(gs1_company_prefix[i*3 + 1]) > 0) {
+        max_code = atoi(gs1_company_prefix[i*3 + 1]);
+        code_range = 1;
+    }
+    if ((test_code >= min_code) && (test_code <= max_code)) {
+      company_prefix_index = i;
+      break;
+    }
+  }
+  if (company_prefix_index == -1) return NULL;
+
+  char * company_prefix_str =
+      (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+  company_prefix_str[0] = 0;
+  decode_strcat(company_prefix_str, gs1_company_prefix[company_prefix_index*3+2]);
+
+  if (code_range == 1) {
+    decode_strcat_char(company_prefix_str, ' ');
+    for (i = 0; i < data_len; i++) {
+      decode_strcat_char(company_prefix_str, data_str[i]);
+    }
+  }
+
+  return company_prefix_str;
+}
+
+/**
  * \brief returns the country for the given code number
- * \param data_str String to be decoded
+ * \param data_str String containing a code number to be decoded
  * \return decoded country string or NULL
  */
 char * get_country(char data_str[])

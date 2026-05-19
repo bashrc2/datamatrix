@@ -547,6 +547,31 @@ void test_gs1_country()
   free(result2);
 }
 
+void test_gs1_company_prefix()
+{
+  printf("test_gs1_company_prefix\n");
+  char data_str1[] = "0002";
+  char * result1 = get_gs1_company_prefix(data_str1);
+  assert(result1 != NULL);
+  printf("%s\n", result1);
+  assert(strcmp(result1, "GS1 US 0002") == 0);
+  free(result1);
+
+  char data_str2[] = "622";
+  char * result2 = get_gs1_company_prefix(data_str2);
+  assert(result2 != NULL);
+  printf("%s\n", result2);
+  assert(strcmp(result2, "GS1 Egypt") == 0);
+  free(result2);
+
+  char data_str3[] = "705";
+  char * result3 = get_gs1_company_prefix(data_str3);
+  assert(result3 != NULL);
+  printf("%s\n", result3);
+  assert(strcmp(result3, "GS1 Norway 705") == 0);
+  free(result3);
+}
+
 void test_date_conversion()
 {
   printf("test_date_conversion\n");
@@ -613,6 +638,7 @@ void run_all_tests()
   test_gs1_currency();
   test_gs1_decimal();
   test_gs1_country();
+  test_gs1_company_prefix();
   test_date_conversion();
   test_gs1_coupon();
   test_gs1_issn();

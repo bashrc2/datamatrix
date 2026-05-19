@@ -541,6 +541,8 @@ char * get_decimal_value(int application_identifier,
 
 char * get_country(char data_str[]);
 
+char * get_gs1_company_prefix(char data_str[]);
+
 char * get_coupon(char data_str[]);
 
 char * get_issn(char data_str[]);
