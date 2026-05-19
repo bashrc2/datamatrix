@@ -27,7 +27,8 @@
 
 #include "datamatrix.h"
 
-/* https://en.wikipedia.org/wiki/ISO_3166-1_numeric */
+/* https://en.wikipedia.org/wiki/ISO_3166-1_numeric
+   Used for "T3783 target market country codes" */
 char * iso3166_country_codes[] = {
   "Afghanistan", "", "004",
   "Albania", "", "008",
