@@ -994,6 +994,7 @@ void gs1_semantics(char result[],
 {
   char * app_id_str, * data_str, * date_str;
   char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
+  char * company_prefix_str;
   char app_id_str2[10];
   unsigned char is_digital_link = 0;
 
@@ -2294,6 +2295,7 @@ void gs1_semantics(char result[],
     country_str = NULL;
     coupon_str = NULL;
     issn_str = NULL;
+    company_prefix_str = NULL;
 
     if (strlen(data_str) > 0) {
       /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -2343,6 +2345,22 @@ void gs1_semantics(char result[],
         if (debug == 1) printf("GTIN ");
         if (is_digital_link == 0) {
           decode_strcat(gs1_result, "GTIN: ");
+          if ((int)strlen(data_str) > 4) {            
+            char company_prefix_code[4];
+            if (data_str[0] == '0') {
+              company_prefix_code[0] = data_str[1];
+              company_prefix_code[1] = data_str[2];
+              company_prefix_code[2] = data_str[3];
+              company_prefix_code[3] = 0;
+            }
+            else {
+              company_prefix_code[0] = data_str[0];
+              company_prefix_code[1] = data_str[1];
+              company_prefix_code[2] = data_str[2];
+              company_prefix_code[3] = 0;
+            }
+            company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+          }
         }
         break;
       }
@@ -4018,6 +4036,13 @@ void gs1_semantics(char result[],
         else if (issn_str != NULL) {
           decode_strcat(gs1_result, issn_str);
           free(issn_str);
+        }
+        else if (company_prefix_str != NULL) {
+          decode_strcat(gs1_result, data_str);
+          decode_strcat_char(gs1_result, '\n');
+          decode_strcat(gs1_result, "COUNTRY: ");
+          decode_strcat(gs1_result, company_prefix_str);
+          free(company_prefix_str);
         }
         else {
           decode_strcat(gs1_result, data_str);
