@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Unit tests
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -626,6 +626,33 @@ int test_multiply_abs()
     return v;
 }
 
+void test_gtin_check_digit()
+{
+    char gtin13_1[] = "890613400002";
+    assert(strlen(gtin13_1) == 12);
+    int check_digit = get_gtin_check_digit(gtin13_1);
+    printf("\nGTIN-13: %s check digit %d\n", gtin13_1, check_digit);
+    assert(check_digit == 7);
+
+    char gtin13_2[] = "520123400000";
+    assert(strlen(gtin13_2) == 12);
+    check_digit = get_gtin_check_digit(gtin13_2);
+    printf("GTIN-13: %s check digit %d\n", gtin13_2, check_digit);
+    assert(check_digit == 1);
+
+    char gtin13_3[] = "407007196707";
+    assert(strlen(gtin13_3) == 12);
+    check_digit = get_gtin_check_digit(gtin13_3);
+    printf("GTIN-13: %s check digit %d\n", gtin13_3, check_digit);
+    assert(check_digit == 2);
+
+    char gtin13_4[] = "841056400625";
+    assert(strlen(gtin13_4) == 12);
+    check_digit = get_gtin_check_digit(gtin13_4);
+    printf("GTIN-13: %s check digit %d\n", gtin13_4, check_digit);
+    assert(check_digit == 7);
+}
+
 void run_all_tests()
 {
   test_strcat();
@@ -643,5 +670,6 @@ void run_all_tests()
   test_gs1_coupon();
   test_gs1_issn();
   test_multiply_abs();
+  test_gtin_check_digit();
   printf("All tests complete\n");
 }

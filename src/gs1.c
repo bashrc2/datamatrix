@@ -685,6 +685,35 @@ char * iso4217_currency_codes[] = {
 };
 
 /**
+ * \brief returns a check digit for the given GTIN
+ * \param gtin GTIN code number as a string
+ * \return check digit in the range 0-9
+ */
+int get_gtin_check_digit(char gtin[]) {
+    int i, even_sum = 0, odd_sum = 0;
+    char num_str[2];
+
+    num_str[1] = 0;
+    for (i = 0; i < (int)strlen(gtin); i++) {
+        if ((gtin[i] < '0') || (gtin[i] > '9')) return -1;
+        num_str[0] = gtin[i];
+        int num = atoi(num_str);
+        if (i % 2 == 0) {
+            /* even */
+            even_sum += num;
+        }
+        else {
+            /* odd */
+            odd_sum += num;
+        }
+    }
+    int total = (odd_sum*3) + even_sum;
+    int remainder = total % 10;
+    if (remainder == 0) return 0;
+    return 10 - remainder;
+}
+
+/**
  * \brief returns human readable details for an ISSN
  * \param data_str String to be decoded
  * \return decoded ISSN string or NULL
