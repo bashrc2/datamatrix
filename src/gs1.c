@@ -693,9 +693,9 @@ char * iso4217_currency_codes[] = {
 int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit) {
     int i, even_sum = 0, odd_sum = 0;
     char num_str[2];
-	int gtin_len = (int)strlen(gtin);
+    int gtin_len = (int)strlen(gtin);
 
-	if (includes_check_digit != 0) gtin_len--;
+    if (includes_check_digit != 0) gtin_len--;
 
     num_str[1] = 0;
     for (i = 0; i < gtin_len; i++) {
@@ -999,6 +999,7 @@ void gs1_semantics(char result[],
     char * app_id_str, * data_str, * date_str;
     char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
     char * company_prefix_str;
+    unsigned char gtin_check_digit_passed = -1;
     char app_id_str2[10];
     unsigned char is_digital_link = 0;
 
@@ -2300,6 +2301,7 @@ void gs1_semantics(char result[],
         coupon_str = NULL;
         issn_str = NULL;
         company_prefix_str = NULL;
+        gtin_check_digit_passed = -1;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -2360,6 +2362,20 @@ void gs1_semantics(char result[],
                         company_prefix_code[2] = data_str[gtin_start_index+2];
                         company_prefix_code[3] = 0;
                         company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gtin_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gtin_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gtin_check_digit_passed = 1;
+                                }
+                            }
+                        }
                     }
                 }
                 break;
@@ -4048,6 +4064,14 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, data_str);
                 }
                 decode_strcat_char(gs1_result, '\n');
+
+                /* show the status of a GTIN check digit */
+                if (gtin_check_digit_passed == 0) {
+                    decode_strcat(gs1_result, "GTIN CHECK DIGIT: FAIL\n");
+                }
+                else if (gtin_check_digit_passed == 1) {
+                    decode_strcat(gs1_result, "GTIN CHECK DIGIT: PASS\n");
+                }
             }
             if (debug == 1) {
                 printf("| (%d)%s | ", *application_identifier, &result[*application_data_start]);
