@@ -523,7 +523,7 @@ void save_verification_report(struct grid_2d * grid,
 
 /* gs1.c */
 
-int get_gtin_check_digit(char gtin[]);
+int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit);
 
 void gs1_semantics(char result[],
                    char gs1_result[],

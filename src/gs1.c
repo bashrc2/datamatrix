@@ -687,14 +687,18 @@ char * iso4217_currency_codes[] = {
 /**
  * \brief returns a check digit for the given GTIN
  * \param gtin GTIN code number as a string
+ * \param includes_check_digit Non zero if the given GTIN includes the check digit at the end
  * \return check digit in the range 0-9
  */
-int get_gtin_check_digit(char gtin[]) {
+int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit) {
     int i, even_sum = 0, odd_sum = 0;
     char num_str[2];
+	int gtin_len = (int)strlen(gtin);
+
+	if (includes_check_digit != 0) gtin_len--;
 
     num_str[1] = 0;
-    for (i = 0; i < (int)strlen(gtin); i++) {
+    for (i = 0; i < gtin_len; i++) {
         if ((gtin[i] < '0') || (gtin[i] > '9')) return -1;
         num_str[0] = gtin[i];
         int num = atoi(num_str);

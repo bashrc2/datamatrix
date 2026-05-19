@@ -630,25 +630,25 @@ void test_gtin_check_digit()
 {
     char gtin13_1[] = "890613400002";
     assert(strlen(gtin13_1) == 12);
-    int check_digit = get_gtin_check_digit(gtin13_1);
+    int check_digit = get_gtin_check_digit(gtin13_1, 0);
     printf("\nGTIN-13: %s check digit %d\n", gtin13_1, check_digit);
     assert(check_digit == 7);
 
     char gtin13_2[] = "520123400000";
     assert(strlen(gtin13_2) == 12);
-    check_digit = get_gtin_check_digit(gtin13_2);
+    check_digit = get_gtin_check_digit(gtin13_2, 0);
     printf("GTIN-13: %s check digit %d\n", gtin13_2, check_digit);
     assert(check_digit == 1);
 
     char gtin13_3[] = "407007196707";
     assert(strlen(gtin13_3) == 12);
-    check_digit = get_gtin_check_digit(gtin13_3);
+    check_digit = get_gtin_check_digit(gtin13_3, 0);
     printf("GTIN-13: %s check digit %d\n", gtin13_3, check_digit);
     assert(check_digit == 2);
 
     char gtin13_4[] = "841056400625";
     assert(strlen(gtin13_4) == 12);
-    check_digit = get_gtin_check_digit(gtin13_4);
+    check_digit = get_gtin_check_digit(gtin13_4, 0);
     printf("GTIN-13: %s check digit %d\n", gtin13_4, check_digit);
     assert(check_digit == 7);
 }
