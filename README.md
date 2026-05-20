@@ -249,8 +249,9 @@ A set of images will be produced which show the detection process at each stage.
 
 ## References
 
-[An Introduction to the Serial Shipping
-Container Code (SSCC)](https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:494e625b-e1d8-4bbd-a1be-5918879cfc3d/An-Introduction-to-the-Serial-Shipping-Container-Code-SSCC.pdf)
+[An Introduction to the Global Shipment Identification Number](https://edi.gs1si.org/cashedi/doc/gsin_intro.pdf)
+
+[An Introduction to the Serial Shipping Container Code (SSCC)](https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:494e625b-e1d8-4bbd-a1be-5918879cfc3d/An-Introduction-to-the-Serial-Shipping-Container-Code-SSCC.pdf)
 
 [Data Matrix](https://en.wikipedia.org/wiki/Data_Matrix)
 
