@@ -1002,6 +1002,7 @@ void gs1_semantics(char result[],
     unsigned char gtin_check_digit_passed = -1;
     unsigned char gsin_check_digit_passed = -1;
     unsigned char sscc_check_digit_passed = -1;
+    unsigned char grai_check_digit_passed = -1;
     char sscc_package_type = ' ';
     char app_id_str2[10];
     unsigned char is_digital_link = 0;
@@ -2308,6 +2309,7 @@ void gs1_semantics(char result[],
         gsin_check_digit_passed = -1;
         sscc_check_digit_passed = -1;
         sscc_package_type = ' ';
+        grai_check_digit_passed = -1;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -3960,6 +3962,34 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("GRAI ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GRAI: ");
+                    if ((int)strlen(data_str) > 5) {
+                        char company_prefix_code[4];
+                        /* first digit is always zero */
+                        int grai_start_index = 1;
+                        if (data_str[1] == '0') {
+                            grai_start_index = 2;
+                        }
+                        company_prefix_code[0] = data_str[grai_start_index];
+                        company_prefix_code[1] = data_str[grai_start_index+1];
+                        company_prefix_code[2] = data_str[grai_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        /* TODO handle optional serial component */
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[grai_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                grai_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    grai_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -3967,6 +3997,19 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("GIAI ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GRAI: ");
+                    if ((int)strlen(data_str) > 5) {
+                        char company_prefix_code[4];
+                        /* first digit is always zero */
+                        int grai_start_index = 0;
+                        if (data_str[1] == '0') {
+                            grai_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[grai_start_index];
+                        company_prefix_code[1] = data_str[grai_start_index+1];
+                        company_prefix_code[2] = data_str[grai_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                    }
                 }
                 break;
             }
@@ -4188,6 +4231,14 @@ void gs1_semantics(char result[],
                 }
                 else if (gsin_check_digit_passed == 1) {
                     decode_strcat(gs1_result, "GSIN CHECK DIGIT: PASS\n");
+                }
+
+                /* show the status of a GRAI check digit */
+                if (grai_check_digit_passed == 0) {
+                    decode_strcat(gs1_result, "GRAI CHECK DIGIT: FAIL\n");
+                }
+                else if (grai_check_digit_passed == 1) {
+                    decode_strcat(gs1_result, "GRAI CHECK DIGIT: PASS\n");
                 }
 
                 /* show the status of a SSCC check digit */

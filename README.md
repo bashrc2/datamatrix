@@ -249,6 +249,8 @@ A set of images will be produced which show the detection process at each stage.
 
 ## References
 
+[AIDC Healthcare Implementation Guideline](https://www.gs1.org/docs/healthcare/GS1_Healthcare_Implementation_Guideline.pdf)
+
 [An Introduction to the Global Shipment Identification Number (GSIN)](https://edi.gs1si.org/cashedi/doc/gsin_intro.pdf)
 
 [An Introduction to the Serial Shipping Container Code (SSCC)](https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:494e625b-e1d8-4bbd-a1be-5918879cfc3d/An-Introduction-to-the-Serial-Shipping-Container-Code-SSCC.pdf)
@@ -258,6 +260,8 @@ A set of images will be produced which show the detection process at each stage.
 [Edge linking](https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html)
 
 [European Medicines Verification System (EMVS): European Pack Coding Guidelines](https://www.medicinesforeurope.com/docs/European%20Pack%20Coding%20Guideline%20V4_0.pdf)
+
+[GRAI Corrections & Clarifications](https://ref.gs1.org/standards/genspecs/gscn/2021/GSCN_21-118_GRAI.pdf)
 
 [GS1 General Specifications](https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications)
 
