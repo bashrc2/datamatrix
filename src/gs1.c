@@ -1000,6 +1000,7 @@ void gs1_semantics(char result[],
     char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
     char * company_prefix_str;
     unsigned char gtin_check_digit_passed = -1;
+    unsigned char gsin_check_digit_passed = -1;
     unsigned char sscc_check_digit_passed = -1;
     char sscc_package_type = ' ';
     char app_id_str2[10];
@@ -2304,6 +2305,7 @@ void gs1_semantics(char result[],
         issn_str = NULL;
         company_prefix_str = NULL;
         gtin_check_digit_passed = -1;
+        gsin_check_digit_passed = -1;
         sscc_check_digit_passed = -1;
         sscc_package_type = ' ';
 
@@ -3339,9 +3341,9 @@ void gs1_semantics(char result[],
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
-                                gtin_check_digit_passed = 0;
+                                gsin_check_digit_passed = 0;
                                 if (atoi(last_str) == check_digit) {
-                                    gtin_check_digit_passed = 1;
+                                    gsin_check_digit_passed = 1;
                                 }
                             }
                         }
@@ -4178,6 +4180,14 @@ void gs1_semantics(char result[],
                 }
                 else if (gtin_check_digit_passed == 1) {
                     decode_strcat(gs1_result, "GTIN CHECK DIGIT: PASS\n");
+                }
+
+                /* show the status of a GSIN check digit */
+                if (gsin_check_digit_passed == 0) {
+                    decode_strcat(gs1_result, "GSIN CHECK DIGIT: FAIL\n");
+                }
+                else if (gsin_check_digit_passed == 1) {
+                    decode_strcat(gs1_result, "GSIN CHECK DIGIT: PASS\n");
                 }
 
                 /* show the status of a SSCC check digit */
