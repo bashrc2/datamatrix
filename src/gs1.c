@@ -1001,6 +1001,7 @@ void gs1_semantics(char result[],
     char * company_prefix_str;
     unsigned char gtin_check_digit_passed = -1;
     unsigned char sscc_check_digit_passed = -1;
+    char sscc_package_type = ' ';
     char app_id_str2[10];
     unsigned char is_digital_link = 0;
 
@@ -2304,6 +2305,7 @@ void gs1_semantics(char result[],
         company_prefix_str = NULL;
         gtin_check_digit_passed = -1;
         sscc_check_digit_passed = -1;
+        sscc_package_type = ' ';
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -2349,7 +2351,9 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "SSCC: ");
                     if ((int)strlen(data_str) > 5) {
                         char company_prefix_code[4];
+                        /* first digit is extension digit */
                         int sscc_start_index = 1;
+                        sscc_package_type = data_str[0];
                         if (data_str[1] == '0') {
                             sscc_start_index = 2;
                         }
@@ -4118,6 +4122,17 @@ void gs1_semantics(char result[],
                 }
                 else if (sscc_check_digit_passed == 1) {
                     decode_strcat(gs1_result, "SSCC CHECK DIGIT: PASS\n");
+                }
+                /* show the SSCC extension digit */
+                if (sscc_package_type != ' ') {
+                    if (sscc_package_type == '0') {
+                        decode_strcat(gs1_result, "SSCC EXTENSION DIGIT: 0 (CARTON)\n");
+                    }
+                    else {
+                        decode_strcat(gs1_result, "SSCC EXTENSION DIGIT: ");
+                        decode_strcat_char(gs1_result, sscc_package_type);
+                        decode_strcat(gs1_result, "\n");
+                    }
                 }
             }
             if (debug == 1) {
