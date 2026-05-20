@@ -244,7 +244,7 @@ static void test_gs1_decode()
     free(decode_result);
 }
 
-void test_strcat()
+static void test_strcat()
 {
     printf("test_strcat\n");
     char initial_string[32];
@@ -259,7 +259,7 @@ void test_strcat()
     assert(strcmp(initial_string, "First string second string abc") == 0);
 }
 
-void test_condense()
+static void test_condense()
 {
     printf("test_condense\n");
     int dimension_x, dimension_y, grid_x, grid_y;
@@ -387,7 +387,7 @@ void test_condense()
     free_grid(&grid);
 }
 
-void test_iso15434_translate()
+static void test_iso15434_translate()
 {
     printf("test_iso15434_translate\n");
     char format_code[3];
@@ -450,7 +450,7 @@ void test_iso15434_translate()
     assert(strcmp(&iso15434_uii[0], "268435460012427936") == 0);
 }
 
-void test_hibc_translate()
+static void test_hibc_translate()
 {
     printf("test_hibc_translate\n");
     char test_data[MAX_DECODE_LENGTH];
@@ -473,7 +473,7 @@ void test_hibc_translate()
                   "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 31 Dec 2011\nEXPIRATION DATE YYYYMMDD: 31 Jan 2020\n") == 0);
 }
 
-void test_gs1_currency()
+static void test_gs1_currency()
 {
     printf("test_gs1_currency\n");
     int application_identifier = 3910;
@@ -501,7 +501,7 @@ void test_gs1_currency()
     free(result3);
 }
 
-void test_gs1_decimal()
+static void test_gs1_decimal()
 {
     printf("test_gs1_decimal\n");
     int application_identifier = 3920;
@@ -529,7 +529,7 @@ void test_gs1_decimal()
     free(result3);
 }
 
-void test_gs1_country()
+static void test_gs1_country()
 {
     printf("test_gs1_country\n");
     char data_str1[] = "764";
@@ -547,7 +547,7 @@ void test_gs1_country()
     free(result2);
 }
 
-void test_gs1_company_prefix()
+static void test_gs1_company_prefix()
 {
     printf("test_gs1_company_prefix\n");
     char data_str1[] = "0002";
@@ -572,7 +572,7 @@ void test_gs1_company_prefix()
     free(result3);
 }
 
-void test_date_conversion()
+static void test_date_conversion()
 {
     printf("test_date_conversion\n");
     char * id_human_readable1 = "YYYYDDMM";
@@ -582,7 +582,7 @@ void test_date_conversion()
     printf("%s\n", result1);
 }
 
-void test_gs1_coupon()
+static void test_gs1_coupon()
 {
     printf("test_gs1_coupon\n");
     char data_str1[] = "123456ABCDEF8765432";
@@ -593,7 +593,7 @@ void test_gs1_coupon()
     free(result1);
 }
 
-void test_gs1_issn()
+static void test_gs1_issn()
 {
     printf("test_gs1_issn\n");
     char data_str1[] = "1234567059";
@@ -604,7 +604,7 @@ void test_gs1_issn()
     free(result1);
 }
 
-int test_multiply_abs()
+static int test_multiply_abs()
 {
     clock_t begin, end;
     double time_spent;
@@ -626,7 +626,7 @@ int test_multiply_abs()
     return v;
 }
 
-void test_gtin_check_digit()
+static void test_gtin_check_digit()
 {
     char gtin13_1[] = "890613400002";
     assert(strlen(gtin13_1) == 12);
@@ -653,6 +653,21 @@ void test_gtin_check_digit()
     assert(check_digit == 7);
 }
 
+static void test_sscc_check_digit()
+{
+    char sscc_1[] = "0718908562723189";
+    assert(strlen(sscc_1) == 16);
+    int check_digit = get_gtin_check_digit(sscc_1, 0);
+    printf("\nSSCC: %s check digit %d\n", sscc_1, check_digit);
+    assert(check_digit == 6);
+
+    char sscc_2[] = "5060292004000079";
+    assert(strlen(sscc_2) == 16);
+    check_digit = get_gtin_check_digit(sscc_2, 0);
+    printf("SSCC: %s check digit %d\n", sscc_2, check_digit);
+    assert(check_digit == 2);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -671,5 +686,6 @@ void run_all_tests()
     test_gs1_issn();
     test_multiply_abs();
     test_gtin_check_digit();
+    test_sscc_check_digit();
     printf("All tests complete\n");
 }
