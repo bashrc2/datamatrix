@@ -445,7 +445,7 @@ static void test_iso15434_translate()
              &format_code[0],
              debug);
     assert(result != NULL);
-    assert(strcmp(result, "CMT NO: 268435460012427936") == 0);
+    assert(strcmp(result, "MOBILE TEL NO: 268435460012427936") == 0);
     free(result);
     assert(strcmp(&iso15434_uii[0], "268435460012427936") == 0);
 }

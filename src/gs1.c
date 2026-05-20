@@ -1006,6 +1006,9 @@ void gs1_semantics(char result[],
     char sscc_package_type = ' ';
     char app_id_str2[10];
     unsigned char is_digital_link = 0;
+    int roll_width_mm = -1;
+    int roll_diameter_mm = -1;
+    int roll_length_metres = -1;
 
     int data_length = (*application_data_end) - (*application_data_start);
 
@@ -2310,6 +2313,9 @@ void gs1_semantics(char result[],
         sscc_check_digit_passed = -1;
         sscc_package_type = ' ';
         grai_check_digit_passed = -1;
+        roll_width_mm = -1;
+        roll_diameter_mm = -1;
+        roll_length_metres = -1;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -3948,7 +3954,36 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("DIMENSIONS ");
                 if (is_digital_link == 0) {
                     /* GS1 General Specifications section 3.9.1 */
-                    decode_strcat(gs1_result, "DIMENSIONS: ");
+                    if ((int)strlen(data_str) == 14) {
+                        char roll_width_mm_str[5];
+                        roll_width_mm_str[0] = data_str[0];
+                        roll_width_mm_str[1] = data_str[1];
+                        roll_width_mm_str[2] = data_str[2];
+                        roll_width_mm_str[3] = data_str[3];
+                        roll_width_mm_str[3] = 0;
+                        roll_width_mm = atoi(roll_width_mm_str);
+
+                        char roll_length_m_str[6];
+                        roll_length_m_str[0] = data_str[4];
+                        roll_length_m_str[1] = data_str[5];
+                        roll_length_m_str[2] = data_str[6];
+                        roll_length_m_str[3] = data_str[7];
+                        roll_length_m_str[4] = data_str[8];
+                        roll_length_m_str[5] = 0;
+                        roll_length_metres = atoi(roll_length_m_str);
+
+                        char roll_diameter_mm_str[4];
+                        roll_diameter_mm_str[0] = data_str[9];
+                        roll_diameter_mm_str[1] = data_str[10];
+                        roll_diameter_mm_str[2] = data_str[11];
+                        roll_diameter_mm_str[3] = 0;
+                        roll_diameter_mm = atoi(roll_diameter_mm_str);
+                    }
+                    if ((roll_width_mm == -1) ||
+                        (roll_length_metres == -1) ||
+                        (roll_diameter_mm == -1)) {
+                        decode_strcat(gs1_result, "DIMENSIONS: ");
+                    }
                 }
                 break;
             }
@@ -4215,6 +4250,21 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "COUNTRY: ");
                     decode_strcat(gs1_result, company_prefix_str);
                     free(company_prefix_str);
+                }
+                else if ((roll_width_mm != -1) &&
+                         (roll_length_metres != -1) &&
+                         (roll_diameter_mm != -1)) {
+                    decode_strcat(gs1_result, "DIMENSIONS OF ROLL: ");
+                    char roll_dimensions[32];
+                    sprintf(&roll_dimensions[0], "width %dmm, ",
+                            roll_width_mm);
+                    decode_strcat(gs1_result, &roll_dimensions[0]);
+                    sprintf(&roll_dimensions[0], "length %dm, ",
+                            roll_length_metres);
+                    decode_strcat(gs1_result, &roll_dimensions[0]);
+                    sprintf(&roll_dimensions[0], "diameter %dmm",
+                            roll_diameter_mm);
+                    decode_strcat(gs1_result, &roll_dimensions[0]);
                 }
                 else {
                     decode_strcat(gs1_result, data_str);
