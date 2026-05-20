@@ -3947,6 +3947,7 @@ void gs1_semantics(char result[],
             case 8001: {
                 if (debug == 1) printf("DIMENSIONS ");
                 if (is_digital_link == 0) {
+                    /* GS1 General Specifications section 3.9.1 */
                     decode_strcat(gs1_result, "DIMENSIONS: ");
                 }
                 break;
@@ -3954,6 +3955,7 @@ void gs1_semantics(char result[],
             case 8002: {
                 if (debug == 1) printf("MOBILE TEL NO ");
                 if (is_digital_link == 0) {
+                    /* GS1 General Specifications section 3.9.2 */
                     decode_strcat(gs1_result, "MOBILE TEL NO: ");
                 }
                 break;
@@ -3961,6 +3963,7 @@ void gs1_semantics(char result[],
             case 8003: {
                 if (debug == 1) printf("GRAI ");
                 if (is_digital_link == 0) {
+                    /* GS1 General Specifications section 3.9.3 */
                     decode_strcat(gs1_result, "GRAI: ");
                     if ((int)strlen(data_str) > 5) {
                         char company_prefix_code[4];
@@ -3996,6 +3999,7 @@ void gs1_semantics(char result[],
             case 8004: {
                 if (debug == 1) printf("GIAI ");
                 if (is_digital_link == 0) {
+                    /* GS1 General Specifications section 3.9.4 */
                     decode_strcat(gs1_result, "GRAI: ");
                     if ((int)strlen(data_str) > 5) {
                         char company_prefix_code[4];
