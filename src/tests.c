@@ -224,7 +224,7 @@ static void test_gs1_decode()
     assert(strlen(decode_result) > 0);
     printf("%s\n", decode_result);
     assert(strcmp(decode_result,
-                  "STANDARD: GS1\nGTIN: 00068780000108\nCOUNTRY: GS1 US, Code 006\nGTIN CHECK DIGIT: PASS\nPACK DATE: 31 Dec 2030\nBATCH/LOT: ABC123") == 0);
+                  "STANDARD: GS1\nGTIN-13: 00068780000108\nCOUNTRY: GS1 US, Code 006\nGTIN CHECK DIGIT: PASS\nPACK DATE: 31 Dec 2030\nBATCH/LOT: ABC123") == 0);
 
     free_grid(&grid);
 

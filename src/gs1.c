@@ -2350,7 +2350,7 @@ void gs1_semantics(char result[],
             case 1: {
                 if (debug == 1) printf("GTIN ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GTIN: ");
+                    decode_strcat(gs1_result, "GTIN");
                     if ((int)strlen(data_str) > 4) {
                         char company_prefix_code[4];
                         int gtin_start_index = 0;
@@ -2362,6 +2362,15 @@ void gs1_semantics(char result[],
                         company_prefix_code[2] = data_str[gtin_start_index+2];
                         company_prefix_code[3] = 0;
                         company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        /* get the length of the GTIN */
+                        int gtin_length = (int)strlen(&data_str[gtin_start_index]);
+                        if ((gtin_length == 8) || (gtin_length == 12) ||
+                                (gtin_length == 13) || (gtin_length == 14)) {
+                            char gtin_type_str[4];
+                            sprintf(&gtin_type_str[0], "-%d", gtin_length);
+                            decode_strcat(gs1_result, &gtin_type_str[0]);
+                        }
+
                         int check_digit =
                             get_gtin_check_digit(&data_str[gtin_start_index], 1);
                         if (check_digit != -1) {
@@ -2377,6 +2386,7 @@ void gs1_semantics(char result[],
                             }
                         }
                     }
+                    decode_strcat(gs1_result, ": ");
                 }
                 break;
             }
