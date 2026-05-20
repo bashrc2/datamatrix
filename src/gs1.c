@@ -2433,7 +2433,43 @@ void gs1_semantics(char result[],
             case 3: {
                 if (debug == 1) printf("MTO GTIN ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "MTO GTIN: ");
+                    decode_strcat(gs1_result, "MTO GTIN");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gtin_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gtin_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gtin_start_index];
+                        company_prefix_code[1] = data_str[gtin_start_index+1];
+                        company_prefix_code[2] = data_str[gtin_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        /* get the length of the MTO GTIN */
+                        int gtin_length = (int)strlen(&data_str[gtin_start_index]);
+                        if ((gtin_length == 8) || (gtin_length == 12) ||
+                                (gtin_length == 13) || (gtin_length == 14)) {
+                            char gtin_type_str[4];
+                            sprintf(&gtin_type_str[0], "-%d", gtin_length);
+                            decode_strcat(gs1_result, &gtin_type_str[0]);
+                        }
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gtin_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gtin_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gtin_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
+                    decode_strcat(gs1_result, ": ");
                 }
                 break;
             }
