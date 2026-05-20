@@ -257,6 +257,8 @@ A set of images will be produced which show the detection process at each stage.
 
 [Edge linking](https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html)
 
+[European Medicines Verification System (EMVS): European Pack Coding Guidelines](https://www.medicinesforeurope.com/docs/European%20Pack%20Coding%20Guideline%20V4_0.pdf)
+
 [GS1 General Specifications](https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications)
 
 [GS1 2D Barcode Verification Process Implementation Guideline](https://www.gs1.org/docs/barcodes/2D_Barcode_Verification_Process_Implementation_Guideline.pdf)
