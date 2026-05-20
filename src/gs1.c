@@ -3952,9 +3952,9 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8002: {
-                if (debug == 1) printf("CMT NO ");
+                if (debug == 1) printf("MOBILE TEL NO ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "CMT NO: ");
+                    decode_strcat(gs1_result, "MOBILE TEL NO: ");
                 }
                 break;
             }
