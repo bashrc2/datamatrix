@@ -3460,30 +3460,30 @@ void gs1_semantics(char result[],
                 break;
             }
             case 710: {
-                if (debug == 1) printf("NHRN ");
+                if (debug == 1) printf("NHRN GERMANY IFA ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN: ");
+                    decode_strcat(gs1_result, "NHRN GERMANY IFA: ");
                 }
                 break;
             }
             case 711: {
-                if (debug == 1) printf("NHRN ");
+                if (debug == 1) printf("NHRN FRANCE CIP ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN: ");
+                    decode_strcat(gs1_result, "NHRN FRANCE CIP: ");
                 }
                 break;
             }
             case 712: {
-                if (debug == 1) printf("NHRN ");
+                if (debug == 1) printf("NHRN SPAIN NATIONAL CODE ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN: ");
+                    decode_strcat(gs1_result, "NHRN SPAIN NATIONAL CODE: ");
                 }
                 break;
             }
             case 713: {
-                if (debug == 1) printf("NHRN ");
+                if (debug == 1) printf("NHRN BRASIL DRN ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN: ");
+                    decode_strcat(gs1_result, "NHRN BRASIL DRN: ");
                 }
                 break;
             }
