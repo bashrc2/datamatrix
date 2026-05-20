@@ -3960,7 +3960,7 @@ void gs1_semantics(char result[],
                         roll_width_mm_str[1] = data_str[1];
                         roll_width_mm_str[2] = data_str[2];
                         roll_width_mm_str[3] = data_str[3];
-                        roll_width_mm_str[3] = 0;
+                        roll_width_mm_str[4] = 0;
                         roll_width_mm = atoi(roll_width_mm_str);
 
                         char roll_length_m_str[6];
