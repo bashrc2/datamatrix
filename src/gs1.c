@@ -1009,6 +1009,7 @@ void gs1_semantics(char result[],
     int roll_width_mm = -1;
     int roll_diameter_mm = -1;
     int roll_length_metres = -1;
+    float latitude = UNKNOWN_VALUE, longitude = UNKNOWN_VALUE;
 
     int data_length = (*application_data_end) - (*application_data_start);
 
@@ -3967,6 +3968,8 @@ void gs1_semantics(char result[],
         roll_width_mm = -1;
         roll_diameter_mm = -1;
         roll_length_metres = -1;
+        latitude = UNKNOWN_VALUE;
+        longitude = UNKNOWN_VALUE;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -7758,7 +7761,37 @@ void gs1_semantics(char result[],
             case 4309: {
                 if (debug == 1) printf("SHIP TO GEO ");
                 if (is_digital_link == 0) {
+                    /* See section 7.14 of GS1 General Specifications */
                     decode_strcat(gs1_result, "SHIP TO GEO: ");
+                    if ((int)strlen(data_str) == 20) {
+                        char latlon_str[11];
+                        int dec_ctr = 0;
+                        /* first ten characters are latitude */
+                        for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
+                            if ((data_str[dec_ctr] < '0') ||
+                                (data_str[dec_ctr] > '9')) continue;
+                            latlon_str[dec_ctr] = data_str[dec_ctr];
+                        }
+                        latlon_str[dec_ctr] = 0;
+                        if ((int)strlen(latlon_str) > 0) {
+                            latitude = (atof(latlon_str) / 10000000.0f) - 90.0f;
+
+                            /* second ten characters are longitude */
+                            dec_ctr = 0;
+                            for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
+                                if ((data_str[dec_ctr] < '0') ||
+                                    (data_str[dec_ctr] > '9')) continue;
+                                latlon_str[dec_ctr] = data_str[dec_ctr + 10];
+                            }
+                            latlon_str[dec_ctr] = 0;
+                            if ((int)strlen(latlon_str) > 0) {
+                                longitude =
+                                    (float)fmod((double)((atof(latlon_str) /
+                                                          10000000.0f) + 180.0f), 360.0) -
+                                    180.0f;
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -8574,6 +8607,15 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "COUNTRY: ");
                     decode_strcat(gs1_result, company_prefix_str);
                     free(company_prefix_str);
+                }
+                else if ((latitude != UNKNOWN_VALUE) &&
+                         (longitude != UNKNOWN_VALUE)) {
+                    decode_strcat(gs1_result, data_str);
+                    char * geo_str =
+                        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+                    sprintf(geo_str, "LAT %.4f LON %.4f", latitude, longitude);
+                    decode_strcat(gs1_result, geo_str);
+                    free(geo_str);
                 }
                 else if ((roll_width_mm != -1) &&
                          (roll_length_metres != -1) &&

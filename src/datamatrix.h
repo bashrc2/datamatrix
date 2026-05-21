@@ -41,6 +41,7 @@
 #define GPR_MISSING_VALUE          9999
 #define PARALLEL_LINES             -2
 #define UNKNOWN_DISTANCE           999999
+#define UNKNOWN_VALUE              9999
 #define NO_LINE_FIT                999998
 #define NO_OFFSET                  999998
 #define PI                         3.1415927
