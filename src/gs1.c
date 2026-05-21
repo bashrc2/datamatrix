@@ -1031,6 +1031,8 @@ void gs1_semantics(char result[],
     int roll_width_mm = -1;
     int roll_diameter_mm = -1;
     int roll_length_metres = -1;
+    int roll_no_of_splices = -1;
+    int roll_winding_direction = -1;
     float temperature = UNKNOWN_VALUE;
     float latitude = UNKNOWN_VALUE, longitude = UNKNOWN_VALUE;
 
@@ -3997,6 +3999,8 @@ void gs1_semantics(char result[],
         roll_width_mm = -1;
         roll_diameter_mm = -1;
         roll_length_metres = -1;
+        roll_no_of_splices = -1;
+        roll_winding_direction = -1;
         latitude = UNKNOWN_VALUE;
         longitude = UNKNOWN_VALUE;
         authority_to_leave = -1;
@@ -8402,10 +8406,22 @@ void gs1_semantics(char result[],
                         roll_diameter_mm_str[2] = data_str[11];
                         roll_diameter_mm_str[3] = 0;
                         roll_diameter_mm = atoi(roll_diameter_mm_str);
+
+                        char roll_winding_direction_str[2];
+                        roll_winding_direction_str[0] = data_str[12];
+                        roll_winding_direction_str[1] = 0;
+                        roll_winding_direction = atoi(&roll_winding_direction_str[0]);
+
+                        char roll_no_of_splices_str[2];
+                        roll_no_of_splices_str[0] = data_str[13];
+                        roll_no_of_splices_str[1] = 0;
+                        roll_no_of_splices = atoi(&roll_no_of_splices_str[0]);
                     }
                     if ((roll_width_mm == -1) ||
                         (roll_length_metres == -1) ||
-                        (roll_diameter_mm == -1)) {
+                        (roll_diameter_mm == -1) ||
+                        (roll_no_of_splices == -1) ||
+                        (roll_winding_direction == -1)) {
                         decode_strcat(gs1_result, "DIMENSIONS: ");
                     }
                 }
@@ -8884,18 +8900,37 @@ void gs1_semantics(char result[],
                 }
                 else if ((roll_width_mm != -1) &&
                          (roll_length_metres != -1) &&
-                         (roll_diameter_mm != -1)) {
+                         (roll_diameter_mm != -1) &&
+                         (roll_winding_direction != -1) &&
+                         (roll_no_of_splices != -1)) {
                     decode_strcat(gs1_result, "DIMENSIONS OF ROLL: ");
                     char roll_dimensions[32];
-                    sprintf(&roll_dimensions[0], "width %dmm, ",
+                    sprintf(&roll_dimensions[0], "WIDTH %dmm, ",
                             roll_width_mm);
                     decode_strcat(gs1_result, &roll_dimensions[0]);
-                    sprintf(&roll_dimensions[0], "length %dm, ",
+                    sprintf(&roll_dimensions[0], "LENGTH %dm, ",
                             roll_length_metres);
                     decode_strcat(gs1_result, &roll_dimensions[0]);
-                    sprintf(&roll_dimensions[0], "diameter %dmm",
+                    sprintf(&roll_dimensions[0], "DIAM %dmm\n",
                             roll_diameter_mm);
                     decode_strcat(gs1_result, &roll_dimensions[0]);
+                    if (roll_winding_direction == 0) {
+                        decode_strcat(gs1_result, "WINDING DIRECTION: FACE OUT\n");
+                    }
+                    else if (roll_winding_direction == 1) {
+                        decode_strcat(gs1_result, "WINDING DIRECTION: FACE IN\n");
+                    }
+                    else {
+                        decode_strcat(gs1_result, "WINDING DIRECTION: UNDEFINED\n");
+                    }
+                    if (roll_no_of_splices != 9) {
+                        sprintf(&roll_dimensions[0], "SPLICES: %d",
+                                roll_no_of_splices);
+                        decode_strcat(gs1_result, &roll_dimensions[0]);
+                    }
+                    else {
+                        decode_strcat(gs1_result, "SPLICES: UNKNOWN");
+                    }
                 }
                 else if (birth_sequence[0] != 0) {
                     decode_strcat(gs1_result, data_str);
