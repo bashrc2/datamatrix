@@ -3216,6 +3216,26 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3940: {
+            *application_data_end = curr_pos + 4;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3941: {
+            *application_data_end = curr_pos + 4;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3942: {
+            *application_data_end = curr_pos + 4;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3943: {
+            *application_data_end = curr_pos + 4;
+            *application_identifier_length = 4;
+            break;
+        }
         case 3950: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
@@ -7388,6 +7408,37 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PRCNT OFF ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PRCNT OFF: ");
+                }
+                break;
+            }
+            case 3940: {
+                if (debug == 1) printf("PRCNT OFF ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PRCNT OFF: ");
+                }
+                break;
+            }
+            case 3941: {
+                if (debug == 1) printf("PRCNT OFF ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PRCNT OFF: ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3942: {
+                if (debug == 1) printf("PRCNT OFF ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PRCNT OFF: ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3943: {
+                if (debug == 1) printf("PRCNT OFF ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PRCNT OFF: ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
