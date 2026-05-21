@@ -998,7 +998,7 @@ void gs1_semantics(char result[],
 {
     char * app_id_str, * data_str, * date_str;
     char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
-    char * company_prefix_str;
+    char * company_prefix_str, * processor_country_str;
     unsigned char gtin_check_digit_passed = -1;
     unsigned char gsin_check_digit_passed = -1;
     unsigned char sscc_check_digit_passed = -1;
@@ -2071,6 +2071,66 @@ void gs1_semantics(char result[],
             *application_data_variable = 30;
             break;
         }
+        case 7030: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7031: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7032: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7033: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7034: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7035: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7036: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7037: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7038: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
+        case 7039: {
+            *application_data_end = curr_pos + 3 + 27;
+            *application_identifier_length = 3;
+            *application_data_variable = 27;
+            break;
+        }
         case 7040: {
             *application_data_end = curr_pos + 1 + 3;
             *application_identifier_length = 4;
@@ -2305,6 +2365,7 @@ void gs1_semantics(char result[],
         curr_str = NULL;
         decimal_str = NULL;
         country_str = NULL;
+        processor_country_str = NULL;
         coupon_str = NULL;
         issn_str = NULL;
         company_prefix_str = NULL;
@@ -3855,6 +3916,136 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 7030: {
+                if (debug == 1) printf("PROCESSOR # 0 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 0: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7031: {
+                if (debug == 1) printf("PROCESSOR # 1 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 1: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7032: {
+                if (debug == 1) printf("PROCESSOR # 2 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 2: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7033: {
+                if (debug == 1) printf("PROCESSOR # 3 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 3: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7034: {
+                if (debug == 1) printf("PROCESSOR # 4 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 4: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7035: {
+                if (debug == 1) printf("PROCESSOR # 5 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 5: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7036: {
+                if (debug == 1) printf("PROCESSOR # 6 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 6: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7037: {
+                if (debug == 1) printf("PROCESSOR # 7 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 7: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7038: {
+                if (debug == 1) printf("PROCESSOR # 8 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 8: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
+            case 7039: {
+                if (debug == 1) printf("PROCESSOR # 9 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROCESSOR # 9: ");
+                    char processor_country_code[4];
+                    processor_country_code[0] = data_str[0];
+                    processor_country_code[1] = data_str[1];
+                    processor_country_code[2] = data_str[2];
+                    processor_country_code[3] = 0;
+                    processor_country_str = get_country(&processor_country_code[0]);
+                }
+                break;
+            }
             case 7040: {
                 if (debug == 1) printf("UIC+EXT ");
                 if (is_digital_link == 0) {
@@ -4247,6 +4438,12 @@ void gs1_semantics(char result[],
                 else if (country_str != NULL) {
                     decode_strcat(gs1_result, country_str);
                     free(country_str);
+                }
+                else if (processor_country_str != NULL) {
+                    decode_strcat(gs1_result, processor_country_str);
+                    free(processor_country_str);
+                    decode_strcat_char(gs1_result, ' ');
+                    decode_strcat(gs1_result, &data_str[3]);
                 }
                 else if (coupon_str != NULL) {
                     decode_strcat(gs1_result, coupon_str);
