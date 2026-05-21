@@ -1019,7 +1019,7 @@ void gs1_semantics(char result[],
                    int * application_data_end,
                    unsigned char * application_data_variable)
 {
-    char * app_id_str, * data_str, * date_str;
+    char * app_id_str, * data_str, * date_str, * end_date_str;
     char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
     char * company_prefix_str, * processor_country_str;
     unsigned char gtin_check_digit_passed = -1;
@@ -3979,6 +3979,7 @@ void gs1_semantics(char result[],
         *application_data_end = curr_pos + (*application_identifier_length);
         data_str = &result[*application_data_start];
         date_str = NULL;
+        end_date_str = NULL;
         curr_str = NULL;
         decimal_str = NULL;
         country_str = NULL;
@@ -8031,6 +8032,9 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "HARVEST DATE: ");
                     date_str = data_id_convert_date("YYMMDD", data_str);
+                    if ((date_str != NULL) && ((int)strlen(data_str) == 12)) {
+                        end_date_str = data_id_convert_date("YYMMDD", &data_str[6]);
+                    }
                 }
                 break;
             }
@@ -8613,6 +8617,12 @@ void gs1_semantics(char result[],
                 if (date_str != NULL) {
                     decode_strcat(gs1_result, date_str);
                     free(date_str);
+                    if (end_date_str != NULL) {
+                        /* date span */
+                        decode_strcat(gs1_result, " - ");
+                        decode_strcat(gs1_result, end_date_str);
+                        free(end_date_str);
+                    }
                 }
                 else if (curr_str != NULL) {
                     decode_strcat(gs1_result, curr_str);
