@@ -1040,6 +1040,7 @@ void gs1_semantics(char result[],
     int authority_to_leave = -1;
     int signature_required = -1;
     int aidc_media_type = -1;
+    int bio_sex = -1;
     if (curr_pos != (*application_data_end)) {
         if (curr_pos <= 1) return;
 
@@ -4005,6 +4006,7 @@ void gs1_semantics(char result[],
         birth_sequence[0] = 0;
         itip_piece_number_str[0] = 0;
         itip_total_count_str[0] = 0;
+        bio_sex = -1;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -8308,6 +8310,11 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("BIO SEX ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "BIO SEX: ");
+                    if ((int)strlen(data_str) == 1) {
+                        if ((data_str[0] >= '0') && (data_str[0] <= '9')) {
+                            bio_sex = atoi(data_str);
+                        }
+                    }
                 }
                 break;
             }
@@ -8920,6 +8927,25 @@ void gs1_semantics(char result[],
                     decode_strcat_char(gs1_result, '\n');
                     decode_strcat(gs1_result, "TOTAL COUNT: ");
                     decode_strcat(gs1_result, &itip_total_count_str[0]);
+                }
+                else if (bio_sex != -1) {
+                    switch(bio_sex) {
+                    case 1: {
+                        decode_strcat(gs1_result, "MALE");
+                        break;
+                    }
+                    case 2: {
+                        decode_strcat(gs1_result, "FEMALE");
+                        break;
+                    }
+                    case 9: {
+                        decode_strcat(gs1_result, "NOT APPLICABLE");
+                        break;
+                    }
+                    }
+                    if ((bio_sex != 1) && (bio_sex != 2) && (bio_sex != 9)) {
+                        decode_strcat(gs1_result, "NOT KNOWN");
+                    }
                 }
                 else {
                     decode_strcat(gs1_result, data_str);
