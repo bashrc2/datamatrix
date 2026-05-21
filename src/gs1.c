@@ -948,7 +948,7 @@ char * get_decimal_value(int application_identifier,
 {
     int i;
 
-    if (application_identifier < 3900) return NULL;
+    if (application_identifier < 3100) return NULL;
     if (strlen(data_str) < 1) return NULL;
     int decimal_places = application_identifier % 10;
     if (decimal_places > 3) return NULL;
