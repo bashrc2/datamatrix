@@ -1019,6 +1019,7 @@ void gs1_semantics(char result[],
     char * company_prefix_str, * processor_country_str;
     unsigned char gtin_check_digit_passed = -1;
     unsigned char gsin_check_digit_passed = -1;
+    unsigned char gsrn_check_digit_passed = -1;
     unsigned char sscc_check_digit_passed = -1;
     unsigned char grai_check_digit_passed = -1;
     char sscc_package_type = ' ';
@@ -3988,6 +3989,7 @@ void gs1_semantics(char result[],
         company_prefix_str = NULL;
         gtin_check_digit_passed = -1;
         gsin_check_digit_passed = -1;
+        gsrn_check_digit_passed = -1;
         sscc_check_digit_passed = -1;
         sscc_package_type = ' ';
         grai_check_digit_passed = -1;
@@ -8555,6 +8557,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("GSRN - PROVIDER ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GSRN - PROVIDER: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gsrn_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gsrn_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gsrn_start_index];
+                        company_prefix_code[1] = data_str[gsrn_start_index+1];
+                        company_prefix_code[2] = data_str[gsrn_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gsrn_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gsrn_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gsrn_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -8562,6 +8591,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("GSRN - RECIPIENT ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GSRN - RECIPIENT: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gsrn_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gsrn_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gsrn_start_index];
+                        company_prefix_code[1] = data_str[gsrn_start_index+1];
+                        company_prefix_code[2] = data_str[gsrn_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gsrn_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gsrn_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gsrn_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -8857,6 +8913,14 @@ void gs1_semantics(char result[],
                 }
                 else if (gsin_check_digit_passed == 1) {
                     decode_strcat(gs1_result, "GSIN CHECK DIGIT: PASS\n");
+                }
+
+                /* show the status of a GSRN check digit */
+                if (gsrn_check_digit_passed == 0) {
+                    decode_strcat(gs1_result, "GSRN CHECK DIGIT: FAIL\n");
+                }
+                else if (gsrn_check_digit_passed == 1) {
+                    decode_strcat(gs1_result, "GSRN CHECK DIGIT: PASS\n");
                 }
 
                 /* show the status of a GRAI check digit */
