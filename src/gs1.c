@@ -1023,6 +1023,7 @@ void gs1_semantics(char result[],
     unsigned char grai_check_digit_passed = -1;
     char sscc_package_type = ' ';
     char app_id_str2[10];
+    char birth_sequence[2];
     unsigned char is_digital_link = 0;
     int roll_width_mm = -1;
     int roll_diameter_mm = -1;
@@ -3997,6 +3998,7 @@ void gs1_semantics(char result[],
         signature_required = -1;
         aidc_media_type = -1;
         temperature = UNKNOWN_VALUE;
+        birth_sequence[0] = 0;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -8342,6 +8344,13 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("BIRTH SEQUENCE ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "BIRTH SEQUENCE: ");
+                    if ((int)strlen(data_str) == 3) {
+                        if ((data_str[0] >= '0') && (data_str[0] <= '9') &&
+                            (data_str[2] >= '0') && (data_str[2] <= '9')) {
+                            birth_sequence[0] = data_str[0];
+                            birth_sequence[1] = data_str[2];
+                        }
+                    }
                 }
                 break;
             }
@@ -8766,6 +8775,27 @@ void gs1_semantics(char result[],
                     sprintf(&roll_dimensions[0], "diameter %dmm",
                             roll_diameter_mm);
                     decode_strcat(gs1_result, &roll_dimensions[0]);
+                }
+                else if (birth_sequence[0] != 0) {
+                    decode_strcat(gs1_result, data_str);
+                    if ((birth_sequence[0] == 1) && (birth_sequence[1] == 1)) {
+                        decode_strcat(gs1_result, "ONE BABY");
+                    }
+                    else if ((birth_sequence[0] == 1) && (birth_sequence[1] == 2)) {
+                        decode_strcat(gs1_result, "TWIN ONE");
+                    }
+                    else if ((birth_sequence[0] == 2) && (birth_sequence[1] == 2)) {
+                        decode_strcat(gs1_result, "TWIN TWO");
+                    }
+                    else if ((birth_sequence[0] == 1) && (birth_sequence[1] == 3)) {
+                        decode_strcat(gs1_result, "TRIPLET ONE");
+                    }
+                    else if ((birth_sequence[0] == 2) && (birth_sequence[1] == 3)) {
+                        decode_strcat(gs1_result, "TRIPLET TWO");
+                    }
+                    else if ((birth_sequence[0] == 3) && (birth_sequence[1] == 3)) {
+                        decode_strcat(gs1_result, "TRIPLET THREE");
+                    }
                 }
                 else {
                     decode_strcat(gs1_result, data_str);
