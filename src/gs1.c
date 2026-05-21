@@ -2149,6 +2149,16 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3374: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3375: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 340: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
@@ -5723,7 +5733,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("KG PER m2 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "KG PER m2: ");
-                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -5744,6 +5753,22 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3373: {
+                if (debug == 1) printf("KG PER m2 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "KG PER m2: ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3374: {
+                if (debug == 1) printf("KG PER m2 ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "KG PER m2: ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3375: {
                 if (debug == 1) printf("KG PER m2 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "KG PER m2: ");
