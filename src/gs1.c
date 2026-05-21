@@ -8639,6 +8639,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("ITIP CONTENT ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "ITIP CONTENT: ");
+                    if ((int)strlen(data_str) > 5) {
+                        char company_prefix_code[4];
+                        /* first digit is always zero */
+                        int itip_start_index = 0;
+                        if (data_str[1] == '0') {
+                            itip_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[itip_start_index];
+                        company_prefix_code[1] = data_str[itip_start_index+1];
+                        company_prefix_code[2] = data_str[itip_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                    }
+                    if ((int)strlen(data_str) == 18) {
+                        if ((data_str[14] >= '0') && (data_str[14] <= '9') &&
+                            (data_str[15] >= '0') && (data_str[15] <= '9')) {
+                            itip_piece_number_str[0] = data_str[14];
+                            itip_piece_number_str[1] = data_str[15];
+                            itip_piece_number_str[2] = 0;
+                        }
+                        if ((data_str[16] >= '0') && (data_str[16] <= '9') &&
+                            (data_str[17] >= '0') && (data_str[17] <= '9')) {
+                            itip_total_count_str[0] = data_str[16];
+                            itip_total_count_str[1] = data_str[17];
+                            itip_total_count_str[2] = 0;
+                        }
+                    }
                 }
                 break;
             }
