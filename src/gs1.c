@@ -7769,7 +7769,7 @@ void gs1_semantics(char result[],
                         /* first ten characters are latitude */
                         for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
                             if ((data_str[dec_ctr] < '0') ||
-                                (data_str[dec_ctr] > '9')) continue;
+                                (data_str[dec_ctr] > '9')) break;
                             latlon_str[dec_ctr] = data_str[dec_ctr];
                         }
                         latlon_str[dec_ctr] = 0;
@@ -7780,7 +7780,7 @@ void gs1_semantics(char result[],
                             dec_ctr = 0;
                             for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
                                 if ((data_str[dec_ctr] < '0') ||
-                                    (data_str[dec_ctr] > '9')) continue;
+                                    (data_str[dec_ctr] > '9')) break;
                                 latlon_str[dec_ctr] = data_str[dec_ctr + 10];
                             }
                             latlon_str[dec_ctr] = 0;
