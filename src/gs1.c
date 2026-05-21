@@ -1364,7 +1364,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3120: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3121: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3122: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3123: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3124: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3125: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 313: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3130: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3131: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3132: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3133: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3134: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3135: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1374,7 +1434,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3140: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3141: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3142: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3143: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3144: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3145: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 315: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3150: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3151: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3152: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3153: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3154: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3155: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1384,7 +1504,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3160: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3161: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3162: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3163: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3164: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3165: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 320: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3200: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3201: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3202: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3203: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3204: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3205: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1394,7 +1574,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3210: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3211: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3212: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3213: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3214: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3215: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 322: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3220: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3221: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3222: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3223: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3224: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3225: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1404,7 +1644,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3230: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3231: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3232: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3233: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3234: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3235: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 324: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3240: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3241: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3242: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3243: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3244: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3245: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1414,7 +1714,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3250: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3251: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3252: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3253: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3254: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3255: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 326: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3260: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3261: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3262: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3263: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3264: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3265: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1424,12 +1784,102 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3270: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3271: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3272: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3273: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3274: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3275: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 328: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
         }
+        case 3280: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3281: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3282: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3283: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3284: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3285: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 329: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3290: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3291: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3292: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3293: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3294: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3295: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1544,12 +1994,102 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3500: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3501: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3502: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3503: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3504: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3505: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 351: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
         }
+        case 3510: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3511: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3512: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3513: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3514: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3515: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 352: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3520: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3521: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3522: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3523: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3524: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3525: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1574,7 +2114,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3560: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3561: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3562: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3563: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3564: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3565: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 357: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3570: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3571: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3572: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3573: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3574: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3575: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1584,7 +2184,67 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3600: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3601: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3602: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3603: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3604: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3605: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 361: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3610: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3611: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3612: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3613: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3614: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3615: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -1604,12 +2264,102 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3640: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3641: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3642: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3643: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3644: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3645: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 365: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
         }
+        case 3650: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3651: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3652: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3653: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3654: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3655: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 366: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3660: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3661: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3662: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3663: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3664: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3665: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
             break;
@@ -3039,10 +3789,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3120: {
+                if (debug == 1) printf("WIDTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (m): ");
+                }
+                break;
+            }
+            case 3121: {
+                if (debug == 1) printf("WIDTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3122: {
+                if (debug == 1) printf("WIDTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3123: {
+                if (debug == 1) printf("WIDTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3124: {
+                if (debug == 1) printf("WIDTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3125: {
+                if (debug == 1) printf("WIDTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 313: {
                 if (debug == 1) printf("HEIGHT (m) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "HEIGHT (m): ");
+                }
+                break;
+            }
+            case 3130: {
+                if (debug == 1) printf("HEIGHT (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (m): ");
+                }
+                break;
+            }
+            case 3131: {
+                if (debug == 1) printf("HEIGHT (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3132: {
+                if (debug == 1) printf("HEIGHT (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3133: {
+                if (debug == 1) printf("HEIGHT (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3134: {
+                if (debug == 1) printf("HEIGHT (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3135: {
+                if (debug == 1) printf("HEIGHT (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3053,10 +3897,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3140: {
+                if (debug == 1) printf("AREA (m2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (m2): ");
+                }
+                break;
+            }
+            case 3141: {
+                if (debug == 1) printf("AREA (m2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (m2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3142: {
+                if (debug == 1) printf("AREA (m2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (m2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3143: {
+                if (debug == 1) printf("AREA (m2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (m2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3144: {
+                if (debug == 1) printf("AREA (m2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (m2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3145: {
+                if (debug == 1) printf("AREA (m2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (m2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 315: {
                 if (debug == 1) printf("NET VOLUME (l) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "NET VOLUME (l): ");
+                }
+                break;
+            }
+            case 3150: {
+                if (debug == 1) printf("NET VOLUME (l) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (l): ");
+                }
+                break;
+            }
+            case 3151: {
+                if (debug == 1) printf("NET VOLUME (l) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (l): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3152: {
+                if (debug == 1) printf("NET VOLUME (l) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (l): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3153: {
+                if (debug == 1) printf("NET VOLUME (l) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (l): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3154: {
+                if (debug == 1) printf("NET VOLUME (l) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (l): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3155: {
+                if (debug == 1) printf("NET VOLUME (l) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (l): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3067,10 +4005,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3160: {
+                if (debug == 1) printf("NET VOLUME (m3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
+                }
+                break;
+            }
+            case 3161: {
+                if (debug == 1) printf("NET VOLUME (m3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3162: {
+                if (debug == 1) printf("NET VOLUME (m3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3163: {
+                if (debug == 1) printf("NET VOLUME (m3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3164: {
+                if (debug == 1) printf("NET VOLUME (m3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3165: {
+                if (debug == 1) printf("NET VOLUME (m3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 320: {
                 if (debug == 1) printf("NET WEIGHT (lb) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "NET WEIGHT (lb): ");
+                }
+                break;
+            }
+            case 3200: {
+                if (debug == 1) printf("NET WEIGHT (lb) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
+                }
+                break;
+            }
+            case 3201: {
+                if (debug == 1) printf("NET WEIGHT (lb) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3202: {
+                if (debug == 1) printf("NET WEIGHT (lb) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3203: {
+                if (debug == 1) printf("NET WEIGHT (lb) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3204: {
+                if (debug == 1) printf("NET WEIGHT (lb) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3205: {
+                if (debug == 1) printf("NET WEIGHT (lb) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3081,10 +4113,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3210: {
+                if (debug == 1) printf("LENGTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (in): ");
+                }
+                break;
+            }
+            case 3211: {
+                if (debug == 1) printf("LENGTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3212: {
+                if (debug == 1) printf("LENGTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3213: {
+                if (debug == 1) printf("LENGTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3214: {
+                if (debug == 1) printf("LENGTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3215: {
+                if (debug == 1) printf("LENGTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 322: {
                 if (debug == 1) printf("LENGTH (ft) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "LENGTH (ft): ");
+                }
+                break;
+            }
+            case 3220: {
+                if (debug == 1) printf("LENGTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (ft): ");
+                }
+                break;
+            }
+            case 3221: {
+                if (debug == 1) printf("LENGTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3222: {
+                if (debug == 1) printf("LENGTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3223: {
+                if (debug == 1) printf("LENGTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3224: {
+                if (debug == 1) printf("LENGTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3225: {
+                if (debug == 1) printf("LENGTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3095,10 +4221,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3230: {
+                if (debug == 1) printf("LENGTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (yd): ");
+                }
+                break;
+            }
+            case 3231: {
+                if (debug == 1) printf("LENGTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3232: {
+                if (debug == 1) printf("LENGTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3233: {
+                if (debug == 1) printf("LENGTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3234: {
+                if (debug == 1) printf("LENGTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3235: {
+                if (debug == 1) printf("LENGTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 324: {
                 if (debug == 1) printf("WIDTH (in) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "WIDTH (in): ");
+                }
+                break;
+            }
+            case 3240: {
+                if (debug == 1) printf("WIDTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (in): ");
+                }
+                break;
+            }
+            case 3241: {
+                if (debug == 1) printf("WIDTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3242: {
+                if (debug == 1) printf("WIDTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3243: {
+                if (debug == 1) printf("WIDTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3244: {
+                if (debug == 1) printf("WIDTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3245: {
+                if (debug == 1) printf("WIDTH (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3109,10 +4329,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3250: {
+                if (debug == 1) printf("WIDTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (ft): ");
+                }
+                break;
+            }
+            case 3251: {
+                if (debug == 1) printf("WIDTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3252: {
+                if (debug == 1) printf("WIDTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3253: {
+                if (debug == 1) printf("WIDTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3254: {
+                if (debug == 1) printf("WIDTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3255: {
+                if (debug == 1) printf("WIDTH (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 326: {
                 if (debug == 1) printf("WIDTH (yd) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "WIDTH (yd): ");
+                }
+                break;
+            }
+            case 3260: {
+                if (debug == 1) printf("WIDTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (yd): ");
+                }
+                break;
+            }
+            case 3261: {
+                if (debug == 1) printf("WIDTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3262: {
+                if (debug == 1) printf("WIDTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3263: {
+                if (debug == 1) printf("WIDTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3264: {
+                if (debug == 1) printf("WIDTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3265: {
+                if (debug == 1) printf("WIDTH (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "WIDTH (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3123,6 +4437,53 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3270: {
+                if (debug == 1) printf("HEIGHT (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (in): ");
+                }
+                break;
+            }
+            case 3271: {
+                if (debug == 1) printf("HEIGHT (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3272: {
+                if (debug == 1) printf("HEIGHT (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3273: {
+                if (debug == 1) printf("HEIGHT (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3274: {
+                if (debug == 1) printf("HEIGHT (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3275: {
+                if (debug == 1) printf("HEIGHT (in) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (in): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 328: {
                 if (debug == 1) printf("HEIGHT (ft) ");
                 if (is_digital_link == 0) {
@@ -3130,10 +4491,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3280: {
+                if (debug == 1) printf("HEIGHT (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (ft): ");
+                }
+                break;
+            }
+            case 3281: {
+                if (debug == 1) printf("HEIGHT (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3282: {
+                if (debug == 1) printf("HEIGHT (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3283: {
+                if (debug == 1) printf("HEIGHT (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3284: {
+                if (debug == 1) printf("HEIGHT (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3285: {
+                if (debug == 1) printf("HEIGHT (ft) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (ft): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 329: {
                 if (debug == 1) printf("HEIGHT (yd) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "HEIGHT (yd): ");
+                }
+                break;
+            }
+            case 3290: {
+                if (debug == 1) printf("HEIGHT (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (yd): ");
+                }
+                break;
+            }
+            case 3291: {
+                if (debug == 1) printf("HEIGHT (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3292: {
+                if (debug == 1) printf("HEIGHT (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3293: {
+                if (debug == 1) printf("HEIGHT (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3294: {
+                if (debug == 1) printf("HEIGHT (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3295: {
+                if (debug == 1) printf("HEIGHT (yd) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HEIGHT (yd): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3295,6 +4750,53 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3500: {
+                if (debug == 1) printf("AREA (in2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (in2): ");
+                }
+                break;
+            }
+            case 3501: {
+                if (debug == 1) printf("AREA (in2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (in2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3502: {
+                if (debug == 1) printf("AREA (in2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (in2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3503: {
+                if (debug == 1) printf("AREA (in2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (in2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3504: {
+                if (debug == 1) printf("AREA (in2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (in2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3505: {
+                if (debug == 1) printf("AREA (in2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (in2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 351: {
                 if (debug == 1) printf("AREA (ft2) ");
                 if (is_digital_link == 0) {
@@ -3302,10 +4804,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3510: {
+                if (debug == 1) printf("AREA (ft2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (ft2): ");
+                }
+                break;
+            }
+            case 3511: {
+                if (debug == 1) printf("AREA (ft2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (ft2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3512: {
+                if (debug == 1) printf("AREA (ft2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (ft2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3513: {
+                if (debug == 1) printf("AREA (ft2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (ft2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3514: {
+                if (debug == 1) printf("AREA (ft2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (ft2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3515: {
+                if (debug == 1) printf("AREA (ft2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (ft2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 352: {
                 if (debug == 1) printf("AREA (yd2) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "AREA (yd2): ");
+                }
+                break;
+            }
+            case 3520: {
+                if (debug == 1) printf("AREA (yd2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (yd2): ");
+                }
+                break;
+            }
+            case 3521: {
+                if (debug == 1) printf("AREA (yd2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (yd2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3522: {
+                if (debug == 1) printf("AREA (yd2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (yd2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3523: {
+                if (debug == 1) printf("AREA (yd2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (yd2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3524: {
+                if (debug == 1) printf("AREA (yd2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (yd2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3525: {
+                if (debug == 1) printf("AREA (yd2) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "AREA (yd2): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3337,10 +4933,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3560: {
+                if (debug == 1) printf("NET WEIGHT (tr oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
+                }
+                break;
+            }
+            case 3561: {
+                if (debug == 1) printf("NET WEIGHT (tr oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3562: {
+                if (debug == 1) printf("NET WEIGHT (tr oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3563: {
+                if (debug == 1) printf("NET WEIGHT (tr oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3564: {
+                if (debug == 1) printf("NET WEIGHT (tr oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3565: {
+                if (debug == 1) printf("NET WEIGHT (tr oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 357: {
                 if (debug == 1) printf("NET VOLUME (oz) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "NET VOLUME (oz): ");
+                }
+                break;
+            }
+            case 3570: {
+                if (debug == 1) printf("NET VOLUME (oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
+                }
+                break;
+            }
+            case 3571: {
+                if (debug == 1) printf("NET VOLUME (oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3572: {
+                if (debug == 1) printf("NET VOLUME (oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3573: {
+                if (debug == 1) printf("NET VOLUME (oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3574: {
+                if (debug == 1) printf("NET VOLUME (oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3575: {
+                if (debug == 1) printf("NET VOLUME (oz) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3351,10 +5041,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3600: {
+                if (debug == 1) printf("NET VOLUME (qt US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
+                }
+                break;
+            }
+            case 3601: {
+                if (debug == 1) printf("NET VOLUME (qt US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3602: {
+                if (debug == 1) printf("NET VOLUME (qt US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3603: {
+                if (debug == 1) printf("NET VOLUME (qt US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3604: {
+                if (debug == 1) printf("NET VOLUME (qt US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3605: {
+                if (debug == 1) printf("NET VOLUME (qt US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 361: {
                 if (debug == 1) printf("NET VOLUME (gal US) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "NET VOLUME (gal US): ");
+                }
+                break;
+            }
+            case 3610: {
+                if (debug == 1) printf("NET VOLUME (gal US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
+                }
+                break;
+            }
+            case 3611: {
+                if (debug == 1) printf("NET VOLUME (gal US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3612: {
+                if (debug == 1) printf("NET VOLUME (gal US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3613: {
+                if (debug == 1) printf("NET VOLUME (gal US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3614: {
+                if (debug == 1) printf("NET VOLUME (gal US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3615: {
+                if (debug == 1) printf("NET VOLUME (gal US) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
@@ -3379,6 +5163,53 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3640: {
+                if (debug == 1) printf("VOLUME (in3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (in3): ");
+                }
+                break;
+            }
+            case 3641: {
+                if (debug == 1) printf("VOLUME (in3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (in3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3642: {
+                if (debug == 1) printf("VOLUME (in3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (in3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3643: {
+                if (debug == 1) printf("VOLUME (in3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (in3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3644: {
+                if (debug == 1) printf("VOLUME (in3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (in3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3645: {
+                if (debug == 1) printf("VOLUME (in3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (in3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 365: {
                 if (debug == 1) printf("VOLUME (ft3) ");
                 if (is_digital_link == 0) {
@@ -3386,10 +5217,104 @@ void gs1_semantics(char result[],
                 }
                 break;
             }
+            case 3650: {
+                if (debug == 1) printf("VOLUME (ft3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (ft3): ");
+                }
+                break;
+            }
+            case 3651: {
+                if (debug == 1) printf("VOLUME (ft3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (ft3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3652: {
+                if (debug == 1) printf("VOLUME (ft3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (ft3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3653: {
+                if (debug == 1) printf("VOLUME (ft3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (ft3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3654: {
+                if (debug == 1) printf("VOLUME (ft3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (ft3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3655: {
+                if (debug == 1) printf("VOLUME (ft3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (ft3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
             case 366: {
                 if (debug == 1) printf("VOLUME (yd3) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "VOLUME (yd3): ");
+                }
+                break;
+            }
+            case 3660: {
+                if (debug == 1) printf("VOLUME (yd3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (yd3): ");
+                }
+                break;
+            }
+            case 3661: {
+                if (debug == 1) printf("VOLUME (yd3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (yd3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3662: {
+                if (debug == 1) printf("VOLUME (yd3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (yd3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3663: {
+                if (debug == 1) printf("VOLUME (yd3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (yd3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3664: {
+                if (debug == 1) printf("VOLUME (yd3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (yd3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3665: {
+                if (debug == 1) printf("VOLUME (yd3) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "VOLUME (yd3): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
