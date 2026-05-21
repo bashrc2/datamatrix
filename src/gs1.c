@@ -8383,39 +8383,49 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     /* GS1 General Specifications section 3.9.1 */
                     if ((int)strlen(data_str) == 14) {
-                        char roll_width_mm_str[5];
-                        roll_width_mm_str[0] = data_str[0];
-                        roll_width_mm_str[1] = data_str[1];
-                        roll_width_mm_str[2] = data_str[2];
-                        roll_width_mm_str[3] = data_str[3];
-                        roll_width_mm_str[4] = 0;
-                        roll_width_mm = atoi(roll_width_mm_str);
+                        unsigned char all_numbers = 1;
+                        for (int dim_ctr = 0; dim_ctr < 14; dim_ctr++) {
+                            if ((data_str[dim_ctr] < '0') ||
+                                (data_str[dim_ctr] > '9')) {
+                                all_numbers = 0;
+                                break;
+                            }
+                        }
+                        if (all_numbers == 1) {
+                            char roll_width_mm_str[5];
+                            roll_width_mm_str[0] = data_str[0];
+                            roll_width_mm_str[1] = data_str[1];
+                            roll_width_mm_str[2] = data_str[2];
+                            roll_width_mm_str[3] = data_str[3];
+                            roll_width_mm_str[4] = 0;
+                            roll_width_mm = atoi(roll_width_mm_str);
 
-                        char roll_length_m_str[6];
-                        roll_length_m_str[0] = data_str[4];
-                        roll_length_m_str[1] = data_str[5];
-                        roll_length_m_str[2] = data_str[6];
-                        roll_length_m_str[3] = data_str[7];
-                        roll_length_m_str[4] = data_str[8];
-                        roll_length_m_str[5] = 0;
-                        roll_length_metres = atoi(roll_length_m_str);
+                            char roll_length_m_str[6];
+                            roll_length_m_str[0] = data_str[4];
+                            roll_length_m_str[1] = data_str[5];
+                            roll_length_m_str[2] = data_str[6];
+                            roll_length_m_str[3] = data_str[7];
+                            roll_length_m_str[4] = data_str[8];
+                            roll_length_m_str[5] = 0;
+                            roll_length_metres = atoi(roll_length_m_str);
 
-                        char roll_diameter_mm_str[4];
-                        roll_diameter_mm_str[0] = data_str[9];
-                        roll_diameter_mm_str[1] = data_str[10];
-                        roll_diameter_mm_str[2] = data_str[11];
-                        roll_diameter_mm_str[3] = 0;
-                        roll_diameter_mm = atoi(roll_diameter_mm_str);
+                            char roll_diameter_mm_str[4];
+                            roll_diameter_mm_str[0] = data_str[9];
+                            roll_diameter_mm_str[1] = data_str[10];
+                            roll_diameter_mm_str[2] = data_str[11];
+                            roll_diameter_mm_str[3] = 0;
+                            roll_diameter_mm = atoi(roll_diameter_mm_str);
 
-                        char roll_winding_direction_str[2];
-                        roll_winding_direction_str[0] = data_str[12];
-                        roll_winding_direction_str[1] = 0;
-                        roll_winding_direction = atoi(&roll_winding_direction_str[0]);
+                            char roll_winding_direction_str[2];
+                            roll_winding_direction_str[0] = data_str[12];
+                            roll_winding_direction_str[1] = 0;
+                            roll_winding_direction = atoi(&roll_winding_direction_str[0]);
 
-                        char roll_no_of_splices_str[2];
-                        roll_no_of_splices_str[0] = data_str[13];
-                        roll_no_of_splices_str[1] = 0;
-                        roll_no_of_splices = atoi(&roll_no_of_splices_str[0]);
+                            char roll_no_of_splices_str[2];
+                            roll_no_of_splices_str[0] = data_str[13];
+                            roll_no_of_splices_str[1] = 0;
+                            roll_no_of_splices = atoi(&roll_no_of_splices_str[0]);
+                        }
                     }
                     if ((roll_width_mm == -1) ||
                         (roll_length_metres == -1) ||
