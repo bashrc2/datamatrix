@@ -7773,7 +7773,7 @@ void gs1_semantics(char result[],
                             latlon_str[dec_ctr] = data_str[dec_ctr];
                         }
                         latlon_str[dec_ctr] = 0;
-                        if ((int)strlen(latlon_str) > 0) {
+                        if ((int)strlen(latlon_str) == 10) {
                             latitude = (atof(latlon_str) / 10000000.0f) - 90.0f;
 
                             /* second ten characters are longitude */
@@ -7784,7 +7784,7 @@ void gs1_semantics(char result[],
                                 latlon_str[dec_ctr] = data_str[dec_ctr + 10];
                             }
                             latlon_str[dec_ctr] = 0;
-                            if ((int)strlen(latlon_str) > 0) {
+                            if ((int)strlen(latlon_str) == 10) {
                                 longitude =
                                     (float)fmod((double)((atof(latlon_str) /
                                                           10000000.0f) + 180.0f), 360.0) -
