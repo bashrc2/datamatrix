@@ -1294,6 +1294,36 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3100: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3101: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3102: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3103: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3104: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3105: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 311: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
@@ -2868,6 +2898,53 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("NET WEIGHT (kg) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "NET WEIGHT (kg): ");
+                }
+                break;
+            }
+            case 3100: {
+                if (debug == 1) printf("NET WEIGHT (kg) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
+                }
+                break;
+            }
+            case 3101: {
+                if (debug == 1) printf("NET WEIGHT (kg) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3102: {
+                if (debug == 1) printf("NET WEIGHT (kg) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3103: {
+                if (debug == 1) printf("NET WEIGHT (kg) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3104: {
+                if (debug == 1) printf("NET WEIGHT (kg) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3105: {
+                if (debug == 1) printf("NET WEIGHT (kg) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
