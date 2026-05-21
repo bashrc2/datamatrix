@@ -2072,63 +2072,63 @@ void gs1_semantics(char result[],
             break;
         }
         case 7030: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7031: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7032: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7033: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7034: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7035: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7036: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7037: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7038: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7039: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 3;
-            *application_data_variable = 27;
+            *application_data_end = curr_pos + 4 + 30;
+            *application_identifier_length = 4;
+            *application_data_variable = 30;
             break;
         }
         case 7040: {
