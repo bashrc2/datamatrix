@@ -7913,6 +7913,7 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("NAFT DEL DT ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "NAFT DEL DT: ");
+                    date_str = data_id_convert_date("YYMMDDHHMM", data_str);
                 }
                 break;
             }
