@@ -1024,6 +1024,8 @@ void gs1_semantics(char result[],
     char sscc_package_type = ' ';
     char app_id_str2[10];
     char birth_sequence[2];
+    char itip_piece_number_str[3];
+    char itip_total_count_str[3];
     unsigned char is_digital_link = 0;
     int roll_width_mm = -1;
     int roll_diameter_mm = -1;
@@ -3999,6 +4001,8 @@ void gs1_semantics(char result[],
         aidc_media_type = -1;
         temperature = UNKNOWN_VALUE;
         birth_sequence[0] = 0;
+        itip_piece_number_str[0] = 0;
+        itip_total_count_str[0] = 0;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -8474,6 +8478,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("ITIP ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "ITIP: ");
+                    if ((int)strlen(data_str) > 5) {
+                        char company_prefix_code[4];
+                        /* first digit is always zero */
+                        int itip_start_index = 0;
+                        if (data_str[1] == '0') {
+                            itip_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[itip_start_index];
+                        company_prefix_code[1] = data_str[itip_start_index+1];
+                        company_prefix_code[2] = data_str[itip_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                    }
+                    if ((int)strlen(data_str) == 18) {
+                        if ((data_str[14] >= '0') && (data_str[14] <= '9') &&
+                            (data_str[15] >= '0') && (data_str[15] <= '9')) {
+                            itip_piece_number_str[0] = data_str[14];
+                            itip_piece_number_str[1] = data_str[15];
+                            itip_piece_number_str[2] = 0;
+                        }
+                        if ((data_str[16] >= '0') && (data_str[16] <= '9') &&
+                            (data_str[17] >= '0') && (data_str[17] <= '9')) {
+                            itip_total_count_str[0] = data_str[16];
+                            itip_total_count_str[1] = data_str[17];
+                            itip_total_count_str[2] = 0;
+                        }
+                    }
                 }
                 break;
             }
@@ -8796,6 +8827,16 @@ void gs1_semantics(char result[],
                     else if ((birth_sequence[0] == 3) && (birth_sequence[1] == 3)) {
                         decode_strcat(gs1_result, "TRIPLET THREE");
                     }
+                }
+                else if ((itip_piece_number_str[0] != 0) &&
+                         (itip_total_count_str[0] != 0)) {
+                    decode_strcat(gs1_result, data_str);
+                    decode_strcat_char(gs1_result, '\n');
+                    decode_strcat(gs1_result, "PIECE NUM: ");
+                    decode_strcat(gs1_result, &itip_piece_number_str[0]);
+                    decode_strcat_char(gs1_result, '\n');
+                    decode_strcat(gs1_result, "TOTAL COUNT: ");
+                    decode_strcat(gs1_result, &itip_total_count_str[0]);
                 }
                 else {
                     decode_strcat(gs1_result, data_str);
