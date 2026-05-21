@@ -1329,6 +1329,36 @@ void gs1_semantics(char result[],
             *application_identifier_length = 4;
             break;
         }
+        case 3110: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3111: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3112: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3113: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3114: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
+        case 3115: {
+            *application_data_end = curr_pos + 6;
+            *application_identifier_length = 4;
+            break;
+        }
         case 312: {
             *application_data_end = curr_pos + 6;
             *application_identifier_length = 4;
@@ -2952,6 +2982,53 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("LENGTH (m) ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "LENGTH (m): ");
+                }
+                break;
+            }
+            case 3110: {
+                if (debug == 1) printf("LENGTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (m): ");
+                }
+                break;
+            }
+            case 3111: {
+                if (debug == 1) printf("LENGTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3112: {
+                if (debug == 1) printf("LENGTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3113: {
+                if (debug == 1) printf("LENGTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3114: {
+                if (debug == 1) printf("LENGTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
+                }
+                break;
+            }
+            case 3115: {
+                if (debug == 1) printf("LENGTH (m) ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "LENGTH (m): ");
+                    decimal_str = get_decimal_value(*application_identifier, data_str);
                 }
                 break;
             }
