@@ -8063,7 +8063,12 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("TEST BY DATE ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "TEST BY DATE: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
+                    if ((int)strlen(data_str) == 6) {
+                        date_str = data_id_convert_date("YYMMDD", data_str);
+                    }
+                    else if ((int)strlen(data_str) == 10) {
+                        date_str = data_id_convert_date("YYMMDDHHMM", data_str);
+                    }
                 }
                 break;
             }
