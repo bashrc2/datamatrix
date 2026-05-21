@@ -718,6 +718,29 @@ int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit) {
 }
 
 /**
+ * \brief returns a temperature with two decimal places
+ * \param data_str String to be decoded
+ * \return temperature value
+ */
+float get_temperature(char data_str[])
+{
+    int i, ctr=0, data_len = strlen(data_str);
+    char * temp_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    for (i = 0; i < data_len; i++) {
+        if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            free(temp_str);
+            return UNKNOWN_VALUE;
+        }
+        if (i == data_len - 2) temp_str[ctr++] = '.';
+        temp_str[ctr++] = data_str[i];
+    }
+    temp_str[ctr] = 0;
+    float temperature = atof(&temp_str[0]);
+    free(temp_str);
+    return temperature;
+}
+
+/**
  * \brief returns human readable details for an ISSN
  * \param data_str String to be decoded
  * \return decoded ISSN string or NULL
@@ -1009,6 +1032,7 @@ void gs1_semantics(char result[],
     int roll_width_mm = -1;
     int roll_diameter_mm = -1;
     int roll_length_metres = -1;
+    float temperature = UNKNOWN_VALUE;
     float latitude = UNKNOWN_VALUE, longitude = UNKNOWN_VALUE;
 
     int data_length = (*application_data_end) - (*application_data_start);
@@ -3974,6 +3998,7 @@ void gs1_semantics(char result[],
         longitude = UNKNOWN_VALUE;
         authority_to_leave = -1;
         signature_required = -1;
+        temperature = UNKNOWN_VALUE;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -7929,6 +7954,7 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("MAX TEMP F ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "MAX TEMP F: ");
+                    temperature = get_temperature(data_str);
                 }
                 break;
             }
@@ -7936,6 +7962,7 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("MAX TEMP C ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "MAX TEMP C: ");
+                    temperature = get_temperature(data_str);
                 }
                 break;
             }
@@ -7943,6 +7970,7 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("MIN TEMP F ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "MIN TEMP F: ");
+                    temperature = get_temperature(data_str);
                 }
                 break;
             }
@@ -7950,6 +7978,7 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("MIN TEMP C ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "MIN TEMP C: ");
+                    temperature = get_temperature(data_str);
                 }
                 break;
             }
@@ -8617,6 +8646,14 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "COUNTRY: ");
                     decode_strcat(gs1_result, company_prefix_str);
                     free(company_prefix_str);
+                }
+                else if (temperature != UNKNOWN_VALUE) {
+                    decode_strcat(gs1_result, data_str);
+                    char * temp_str =
+                        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+                    sprintf(temp_str, "%.2f", temperature);
+                    decode_strcat(gs1_result, temp_str);
+                    free(temp_str);
                 }
                 else if ((latitude != UNKNOWN_VALUE) &&
                          (longitude != UNKNOWN_VALUE)) {
