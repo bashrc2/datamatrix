@@ -1014,6 +1014,7 @@ void gs1_semantics(char result[],
     int data_length = (*application_data_end) - (*application_data_start);
 
     int curr_pos = (int)strlen(result);
+    int authority_to_leave = -1;
     if (curr_pos != (*application_data_end)) {
         if (curr_pos <= 1) return;
 
@@ -3970,6 +3971,7 @@ void gs1_semantics(char result[],
         roll_length_metres = -1;
         latitude = UNKNOWN_VALUE;
         longitude = UNKNOWN_VALUE;
+        authority_to_leave = -1;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -7883,6 +7885,8 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("AUTH LEAVE ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "AUTH LEAVE: ");
+                    authority_to_leave = 0;
+                    if (data_str[0] == '1') authority_to_leave = 1;
                 }
                 break;
             }
@@ -8616,6 +8620,15 @@ void gs1_semantics(char result[],
                     sprintf(geo_str, "LAT %.4f LON %.4f", latitude, longitude);
                     decode_strcat(gs1_result, geo_str);
                     free(geo_str);
+                }
+                else if (authority_to_leave != -1) {
+                    decode_strcat(gs1_result, data_str);
+                    if (authority_to_leave == 0) {
+                        decode_strcat(gs1_result, "NO");
+                    }
+                    else {
+                        decode_strcat(gs1_result, "YES");
+                    }
                 }
                 else if ((roll_width_mm != -1) &&
                          (roll_length_metres != -1) &&
