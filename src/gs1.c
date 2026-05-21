@@ -2819,7 +2819,7 @@ void gs1_semantics(char result[],
             case 253: {
                 if (debug == 1) printf("GDTI ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GDTT: ");
+                    decode_strcat(gs1_result, "GDTI: ");
                 }
                 break;
             }
