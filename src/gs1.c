@@ -131,7 +131,7 @@ char * gs1_company_prefix[] = {
     "780", "", "GS1 Chile",
     "784", "", "GS1 Paraguay",
     "786", "", "GS1 Ecuador",
-    "789", "790", "GS1 Brasil",
+    "789", "790", "GS1 Brazil",
     "800", "839", "GS1 Italy",
     "840", "849", "GS1 Spain",
     "850", "", "GS1 Cuba",
