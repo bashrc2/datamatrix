@@ -1015,6 +1015,7 @@ void gs1_semantics(char result[],
 
     int curr_pos = (int)strlen(result);
     int authority_to_leave = -1;
+    int signature_required = -1;
     if (curr_pos != (*application_data_end)) {
         if (curr_pos <= 1) return;
 
@@ -3972,6 +3973,7 @@ void gs1_semantics(char result[],
         latitude = UNKNOWN_VALUE;
         longitude = UNKNOWN_VALUE;
         authority_to_leave = -1;
+        signature_required = -1;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -7894,6 +7896,8 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("SIG REQUIRED ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "SIG REQUIRED: ");
+                    signature_required = 0;
+                    if (data_str[0] == '1') signature_required = 1;
                 }
                 break;
             }
@@ -8624,6 +8628,15 @@ void gs1_semantics(char result[],
                 else if (authority_to_leave != -1) {
                     decode_strcat(gs1_result, data_str);
                     if (authority_to_leave == 0) {
+                        decode_strcat(gs1_result, "NO");
+                    }
+                    else {
+                        decode_strcat(gs1_result, "YES");
+                    }
+                }
+                else if (signature_required != -1) {
+                    decode_strcat(gs1_result, data_str);
+                    if (signature_required == 0) {
                         decode_strcat(gs1_result, "NO");
                     }
                     else {
