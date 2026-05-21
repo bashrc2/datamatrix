@@ -7693,30 +7693,30 @@ void gs1_semantics(char result[],
                 break;
             }
             case 713: {
-                if (debug == 1) printf("NHRN BRASIL DRN ");
+                if (debug == 1) printf("NHRN BRASIL ANVISA ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN BRASIL DRN: ");
+                    decode_strcat(gs1_result, "NHRN BRASIL ANVISA: ");
                 }
                 break;
             }
             case 714: {
-                if (debug == 1) printf("NHRN ");
+                if (debug == 1) printf("NHRN PORTUGAL INFARMED");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN: ");
+                    decode_strcat(gs1_result, "NHRN PORTUGAL INFARMED: ");
                 }
                 break;
             }
             case 715: {
-                if (debug == 1) printf("NHRN NDC ");
+                if (debug == 1) printf("NHRN US FDA ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN NDC: ");
+                    decode_strcat(gs1_result, "NHRN US FDA: ");
                 }
                 break;
             }
             case 716: {
-                if (debug == 1) printf("NHRN AIC ");
+                if (debug == 1) printf("NHRN ITALY AIFA ");
                 if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN AIC: ");
+                    decode_strcat(gs1_result, "NHRN ITALY AIFA: ");
                 }
                 break;
             }
