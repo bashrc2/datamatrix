@@ -3840,6 +3840,18 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("GIAI – ASSEMBLY ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GIAI – ASSEMBLY: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gtin_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gtin_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gtin_start_index];
+                        company_prefix_code[1] = data_str[gtin_start_index+1];
+                        company_prefix_code[2] = data_str[gtin_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                    }
                 }
                 break;
             }
@@ -4035,7 +4047,7 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("GIAI ");
                 if (is_digital_link == 0) {
                     /* GS1 General Specifications section 3.9.4 */
-                    decode_strcat(gs1_result, "GRAI: ");
+                    decode_strcat(gs1_result, "GIAI: ");
                     if ((int)strlen(data_str) > 5) {
                         char company_prefix_code[4];
                         /* first digit is always zero */
