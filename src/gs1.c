@@ -1022,6 +1022,7 @@ void gs1_semantics(char result[],
     unsigned char gsrn_check_digit_passed = -1;
     unsigned char sscc_check_digit_passed = -1;
     unsigned char grai_check_digit_passed = -1;
+    unsigned char gln_check_digit_passed = -1;
     char sscc_package_type = ' ';
     char app_id_str2[10];
     char birth_sequence[2];
@@ -3339,6 +3340,16 @@ void gs1_semantics(char result[],
             *application_identifier_length = 3;
             break;
         }
+        case 416: {
+            *application_data_end = curr_pos + 13;
+            *application_identifier_length = 3;
+            break;
+        }
+        case 417: {
+            *application_data_end = curr_pos + 13;
+            *application_identifier_length = 3;
+            break;
+        }
         case 420: {
             *application_data_end = curr_pos + 20;
             *application_identifier_length = 3;
@@ -3996,6 +4007,7 @@ void gs1_semantics(char result[],
         sscc_check_digit_passed = -1;
         sscc_package_type = ' ';
         grai_check_digit_passed = -1;
+        gln_check_digit_passed = -1;
         roll_width_mm = -1;
         roll_diameter_mm = -1;
         roll_length_metres = -1;
@@ -7590,6 +7602,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("SHIP TO LOC ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "SHIP TO LOC: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -7597,6 +7636,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("BILL TO ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "BILL TO: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -7604,6 +7670,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PURCHASE FROM ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PURCHASE FROM: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -7611,6 +7704,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("SHIP FOR LOC ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "SHIP FOR LOC: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -7618,6 +7738,33 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("LOCN NO ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "LOCN NO: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -7625,6 +7772,101 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PAY TO ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PAY TO: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            case 416: {
+                if (debug == 1) printf("PROD/SERV LOC ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PROD/SERV LOC: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            case 417: {
+                if (debug == 1) printf("PARTY ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "PARTY: ");
+                    if ((int)strlen(data_str) > 4) {
+                        char company_prefix_code[4];
+                        int gln_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gln_start_index = 1;
+                        }
+                        company_prefix_code[0] = data_str[gln_start_index];
+                        company_prefix_code[1] = data_str[gln_start_index+1];
+                        company_prefix_code[2] = data_str[gln_start_index+2];
+                        company_prefix_code[3] = 0;
+                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+
+                        int check_digit =
+                            get_gtin_check_digit(&data_str[gln_start_index], 1);
+                        if (check_digit != -1) {
+                            char last_char = data_str[(int)strlen(data_str)-1];
+                            char last_str[2];
+                            last_str[0] = last_char;
+                            last_str[1] = 0;
+                            if ((last_char >= '0') && (last_char <= '9')) {
+                                gln_check_digit_passed = 0;
+                                if (atoi(last_str) == check_digit) {
+                                    gln_check_digit_passed = 1;
+                                }
+                            }
+                        }
+                    }
                 }
                 break;
             }
@@ -9019,6 +9261,14 @@ void gs1_semantics(char result[],
                 }
                 else if (gsrn_check_digit_passed == 1) {
                     decode_strcat(gs1_result, "GSRN CHECK DIGIT: PASS\n");
+                }
+
+                /* show the status of a GLN check digit */
+                if (gln_check_digit_passed == 0) {
+                    decode_strcat(gs1_result, "GLN CHECK DIGIT: FAIL\n");
+                }
+                else if (gln_check_digit_passed == 1) {
+                    decode_strcat(gs1_result, "GLN CHECK DIGIT: PASS\n");
                 }
 
                 /* show the status of a GRAI check digit */
