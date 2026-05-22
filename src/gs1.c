@@ -1030,6 +1030,7 @@ void gs1_semantics(char result[],
                    int * application_data_end,
                    unsigned char * application_data_variable)
 {
+    char last_str[2];
     char company_prefix_code[4];
     char processor_country_code[4];
     char * app_id_str, * data_str, * date_str, * end_date_str;
@@ -4098,7 +4099,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[sscc_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -4137,7 +4137,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gtin_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -4184,7 +4183,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gtin_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7574,7 +7572,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gsin_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7612,7 +7609,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7643,7 +7639,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7674,7 +7669,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7705,7 +7699,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7736,7 +7729,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7767,7 +7759,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7798,7 +7789,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -7829,7 +7819,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -8666,7 +8655,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[grai_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -8805,7 +8793,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gsrn_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
@@ -8836,7 +8823,6 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gsrn_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            char last_str[2];
                             last_str[0] = last_char;
                             last_str[1] = 0;
                             if ((last_char >= '0') && (last_char <= '9')) {
