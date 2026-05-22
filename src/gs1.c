@@ -1031,6 +1031,7 @@ void gs1_semantics(char result[],
                    unsigned char * application_data_variable)
 {
     char company_prefix_code[4];
+    char processor_country_code[4];
     char * app_id_str, * data_str, * date_str, * end_date_str;
     char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
     char * company_prefix_str, * processor_country_str;
@@ -8338,7 +8339,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 0 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 0: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8351,7 +8351,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 1 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 1: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8364,7 +8363,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 2 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 2: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8377,7 +8375,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 3 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 3: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8390,7 +8387,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 4 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 4: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8403,7 +8399,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 5 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 5: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8416,7 +8411,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 6 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 6: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8429,7 +8423,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 7 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 7: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8442,7 +8435,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 8 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 8: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
@@ -8455,7 +8447,6 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("PROCESSOR # 9 ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROCESSOR # 9: ");
-                    char processor_country_code[4];
                     processor_country_code[0] = data_str[0];
                     processor_country_code[1] = data_str[1];
                     processor_country_code[2] = data_str[2];
