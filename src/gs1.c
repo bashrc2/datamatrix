@@ -852,6 +852,22 @@ char * get_gs1_company_prefix(char data_str[])
 }
 
 /**
+ * \brief returns the company prefix
+ * \param company_prefix_code GS1 company prefix code number
+ * \param start_index Start index of the data
+ * \param data_str String containing data
+ */
+static char * get_company_prefix_str(char company_prefix_code[],
+                                     int start_index, char data_str[])
+{
+    company_prefix_code[0] = data_str[start_index];
+    company_prefix_code[1] = data_str[start_index+1];
+    company_prefix_code[2] = data_str[start_index+2];
+    company_prefix_code[3] = 0;
+    return get_gs1_company_prefix(company_prefix_code);
+}
+
+/**
  * \brief returns the country for the given code number
  * \param data_str String containing a code number to be decoded
  * \return decoded country string or NULL
@@ -4074,11 +4090,9 @@ void gs1_semantics(char result[],
                         if (data_str[1] == '0') {
                             sscc_start_index = 2;
                         }
-                        company_prefix_code[0] = data_str[sscc_start_index];
-                        company_prefix_code[1] = data_str[sscc_start_index+1];
-                        company_prefix_code[2] = data_str[sscc_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   sscc_start_index, data_str);
                         int check_digit =
                             get_gtin_check_digit(&data_str[sscc_start_index], 1);
                         if (check_digit != -1) {
@@ -4106,11 +4120,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gtin_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gtin_start_index];
-                        company_prefix_code[1] = data_str[gtin_start_index+1];
-                        company_prefix_code[2] = data_str[gtin_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gtin_start_index, data_str);
                         /* get the length of the GTIN */
                         int gtin_length = (int)strlen(&data_str[gtin_start_index]);
                         if ((gtin_length == 8) || (gtin_length == 12) ||
@@ -4155,11 +4167,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gtin_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gtin_start_index];
-                        company_prefix_code[1] = data_str[gtin_start_index+1];
-                        company_prefix_code[2] = data_str[gtin_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gtin_start_index, data_str);
                         /* get the length of the MTO GTIN */
                         int gtin_length = (int)strlen(&data_str[gtin_start_index]);
                         if ((gtin_length == 8) || (gtin_length == 12) ||
@@ -4469,11 +4479,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gdti_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gdti_start_index];
-                        company_prefix_code[1] = data_str[gdti_start_index+1];
-                        company_prefix_code[2] = data_str[gdti_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gdti_start_index, data_str);
                     }
                 }
                 break;
@@ -4497,11 +4505,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gcn_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gcn_start_index];
-                        company_prefix_code[1] = data_str[gcn_start_index+1];
-                        company_prefix_code[2] = data_str[gcn_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gcn_start_index, data_str);
                     }
                 }
                 break;
@@ -7542,11 +7548,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             ginc_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[ginc_start_index];
-                        company_prefix_code[1] = data_str[ginc_start_index+1];
-                        company_prefix_code[2] = data_str[ginc_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   ginc_start_index, data_str);
                     }
                 }
                 break;
@@ -7561,11 +7565,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gsin_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gsin_start_index];
-                        company_prefix_code[1] = data_str[gsin_start_index+1];
-                        company_prefix_code[2] = data_str[gsin_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gsin_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gsin_start_index], 1);
@@ -7601,11 +7603,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -7634,11 +7634,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -7667,11 +7665,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -7700,11 +7696,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -7733,11 +7727,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -7766,11 +7758,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -7799,11 +7789,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -7832,11 +7820,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gln_start_index];
-                        company_prefix_code[1] = data_str[gln_start_index+1];
-                        company_prefix_code[2] = data_str[gln_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gln_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
@@ -8341,11 +8327,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             giai_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[giai_start_index];
-                        company_prefix_code[1] = data_str[giai_start_index+1];
-                        company_prefix_code[2] = data_str[giai_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   giai_start_index, data_str);
                     }
                 }
                 break;
@@ -8683,11 +8667,9 @@ void gs1_semantics(char result[],
                         if (data_str[1] == '0') {
                             grai_start_index = 2;
                         }
-                        company_prefix_code[0] = data_str[grai_start_index];
-                        company_prefix_code[1] = data_str[grai_start_index+1];
-                        company_prefix_code[2] = data_str[grai_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   grai_start_index, data_str);
                         /* TODO handle optional serial component */
                         int check_digit =
                             get_gtin_check_digit(&data_str[grai_start_index], 1);
@@ -8718,11 +8700,9 @@ void gs1_semantics(char result[],
                         if (data_str[1] == '0') {
                             grai_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[grai_start_index];
-                        company_prefix_code[1] = data_str[grai_start_index+1];
-                        company_prefix_code[2] = data_str[grai_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   grai_start_index, data_str);
                     }
                 }
                 break;
@@ -8744,11 +8724,9 @@ void gs1_semantics(char result[],
                         if (data_str[1] == '0') {
                             itip_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[itip_start_index];
-                        company_prefix_code[1] = data_str[itip_start_index+1];
-                        company_prefix_code[2] = data_str[itip_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   itip_start_index, data_str);
                     }
                     if ((int)strlen(data_str) == 18) {
                         if ((data_str[14] >= '0') && (data_str[14] <= '9') &&
@@ -8812,11 +8790,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gmn_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gmn_start_index];
-                        company_prefix_code[1] = data_str[gmn_start_index+1];
-                        company_prefix_code[2] = data_str[gmn_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gmn_start_index, data_str);
                     }
                 }
                 break;
@@ -8830,11 +8806,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gsrn_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gsrn_start_index];
-                        company_prefix_code[1] = data_str[gsrn_start_index+1];
-                        company_prefix_code[2] = data_str[gsrn_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gsrn_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gsrn_start_index], 1);
@@ -8863,11 +8837,9 @@ void gs1_semantics(char result[],
                         if (data_str[0] == '0') {
                             gsrn_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[gsrn_start_index];
-                        company_prefix_code[1] = data_str[gsrn_start_index+1];
-                        company_prefix_code[2] = data_str[gsrn_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gsrn_start_index, data_str);
 
                         int check_digit =
                             get_gtin_check_digit(&data_str[gsrn_start_index], 1);
@@ -8911,11 +8883,9 @@ void gs1_semantics(char result[],
                         if (data_str[1] == '0') {
                             itip_start_index = 1;
                         }
-                        company_prefix_code[0] = data_str[itip_start_index];
-                        company_prefix_code[1] = data_str[itip_start_index+1];
-                        company_prefix_code[2] = data_str[itip_start_index+2];
-                        company_prefix_code[3] = 0;
-                        company_prefix_str = get_gs1_company_prefix(company_prefix_code);
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   itip_start_index, data_str);
                     }
                     if ((int)strlen(data_str) == 18) {
                         if ((data_str[14] >= '0') && (data_str[14] <= '9') &&
