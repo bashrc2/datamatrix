@@ -1241,6 +1241,7 @@ char * get_coupon(char data_str[])
 char * get_package_type(char package_code[])
 {
     int i;
+    if ((int)strlen(package_code) > 3) return NULL;
     int no_of_package_types =
         ((int)sizeof(package_type_code) /
          (int)sizeof(package_type_code[0]))/2;
