@@ -9155,7 +9155,6 @@ void gs1_semantics(char result[],
                          (roll_diameter_mm != -1) &&
                          (roll_winding_direction != -1) &&
                          (roll_no_of_splices != -1)) {
-                    decode_strcat(gs1_result, "DIMENSIONS OF ROLL: ");
                     char roll_dimensions[32];
                     sprintf(&roll_dimensions[0], "WIDTH %dmm, ",
                             roll_width_mm);
