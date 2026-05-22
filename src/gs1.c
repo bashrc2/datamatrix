@@ -8836,7 +8836,7 @@ void gs1_semantics(char result[],
                         company_prefix_code[2] = data_str[gmn_start_index+2];
                         company_prefix_code[3] = 0;
                         company_prefix_str = get_gs1_company_prefix(company_prefix_code);
-					}
+                    }
                 }
                 break;
             }
