@@ -1014,6 +1014,7 @@ void gs1_semantics(char result[],
                    int * application_data_end,
                    unsigned char * application_data_variable)
 {
+    char company_prefix_code[4];
     char * app_id_str, * data_str, * date_str, * end_date_str;
     char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
     char * company_prefix_str, * processor_country_str;
@@ -4067,7 +4068,6 @@ void gs1_semantics(char result[],
                     /* see https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:494e625b-e1d8-4bbd-a1be-5918879cfc3d/An-Introduction-to-the-Serial-Shipping-Container-Code-SSCC.pdf */
                     decode_strcat(gs1_result, "SSCC: ");
                     if ((int)strlen(data_str) > 5) {
-                        char company_prefix_code[4];
                         /* first digit is extension digit */
                         int sscc_start_index = 1;
                         sscc_package_type = data_str[0];
@@ -4102,7 +4102,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GTIN");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gtin_start_index = 0;
                         if (data_str[0] == '0') {
                             gtin_start_index = 1;
@@ -4152,7 +4151,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "MTO GTIN");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gtin_start_index = 0;
                         if (data_str[0] == '0') {
                             gtin_start_index = 1;
@@ -4467,7 +4465,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GDTI: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gdti_start_index = 0;
                         if (data_str[0] == '0') {
                             gdti_start_index = 1;
@@ -4496,7 +4493,6 @@ void gs1_semantics(char result[],
                         decode_strcat(gs1_result, "GCN: ");
                     }
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gcn_start_index = 0;
                         if (data_str[0] == '0') {
                             gcn_start_index = 1;
@@ -7542,7 +7538,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GINC: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int ginc_start_index = 0;
                         if (data_str[0] == '0') {
                             ginc_start_index = 1;
@@ -7562,7 +7557,6 @@ void gs1_semantics(char result[],
                     /* see https://edi.gs1si.org/cashedi/doc/gsin_intro.pdf */
                     decode_strcat(gs1_result, "GSIN: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gsin_start_index = 0;
                         if (data_str[0] == '0') {
                             gsin_start_index = 1;
@@ -7603,7 +7597,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "SHIP TO LOC: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -7637,7 +7630,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "BILL TO: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -7671,7 +7663,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PURCHASE FROM: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -7705,7 +7696,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "SHIP FOR LOC: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -7739,7 +7729,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "LOCN NO: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -7773,7 +7762,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PAY TO: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -7807,7 +7795,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PROD/SERV LOC: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -7841,7 +7828,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "PARTY: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gln_start_index = 0;
                         if (data_str[0] == '0') {
                             gln_start_index = 1;
@@ -8351,7 +8337,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GIAI – ASSEMBLY: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int giai_start_index = 0;
                         if (data_str[0] == '0') {
                             giai_start_index = 1;
@@ -8693,7 +8678,6 @@ void gs1_semantics(char result[],
                     /* GS1 General Specifications section 3.9.3 */
                     decode_strcat(gs1_result, "GRAI: ");
                     if ((int)strlen(data_str) > 5) {
-                        char company_prefix_code[4];
                         /* first digit is always zero */
                         int grai_start_index = 1;
                         if (data_str[1] == '0') {
@@ -8729,7 +8713,6 @@ void gs1_semantics(char result[],
                     /* GS1 General Specifications section 3.9.4 */
                     decode_strcat(gs1_result, "GIAI: ");
                     if ((int)strlen(data_str) > 5) {
-                        char company_prefix_code[4];
                         /* first digit is always zero */
                         int grai_start_index = 0;
                         if (data_str[1] == '0') {
@@ -8756,7 +8739,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "ITIP: ");
                     if ((int)strlen(data_str) > 5) {
-                        char company_prefix_code[4];
                         /* first digit is always zero */
                         int itip_start_index = 0;
                         if (data_str[1] == '0') {
@@ -8826,7 +8808,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GMN: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gmn_start_index = 0;
                         if (data_str[0] == '0') {
                             gmn_start_index = 1;
@@ -8845,7 +8826,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GSRN - PROVIDER: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gsrn_start_index = 0;
                         if (data_str[0] == '0') {
                             gsrn_start_index = 1;
@@ -8879,7 +8859,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GSRN - RECIPIENT: ");
                     if ((int)strlen(data_str) > 4) {
-                        char company_prefix_code[4];
                         int gsrn_start_index = 0;
                         if (data_str[0] == '0') {
                             gsrn_start_index = 1;
@@ -8927,7 +8906,6 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "ITIP CONTENT: ");
                     if ((int)strlen(data_str) > 5) {
-                        char company_prefix_code[4];
                         /* first digit is always zero */
                         int itip_start_index = 0;
                         if (data_str[1] == '0') {
