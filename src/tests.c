@@ -668,6 +668,13 @@ static void test_sscc_check_digit()
     assert(check_digit == 2);
 }
 
+static void test_package_type()
+{
+    char * package_code1 = "1W";
+    char * description = get_package_type(package_code1);
+    assert(strstr(description, "Drum, wooden") == 0);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -687,5 +694,6 @@ void run_all_tests()
     test_multiply_abs();
     test_gtin_check_digit();
     test_sscc_check_digit();
+    test_package_type();
     printf("All tests complete\n");
 }

@@ -524,6 +524,8 @@ void save_verification_report(struct grid_2d * grid,
 
 /* gs1.c */
 
+char * get_package_type(char package_code[]);
+
 int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit);
 
 void gs1_semantics(char result[],
