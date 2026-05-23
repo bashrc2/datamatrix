@@ -22,6 +22,11 @@
 
 #include "datamatrix.h"
 
+#define APP_ID(end_len, id_len, variable_len) \
+    *application_data_end = curr_pos + (end_len); \
+    *application_identifier_length = (id_len); \
+    *application_data_variable = (variable_len);
+
 /**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
@@ -107,2918 +112,2239 @@ void gs1_semantics(char result[],
          */
         switch(*application_identifier) {
         case 0: {
-            *application_data_end = curr_pos + 18;
-            *application_identifier_length = 2;
+            APP_ID(18, 2, 0);
             break;
         }
         case 1: {
-            *application_data_end = curr_pos + 14;
-            *application_identifier_length = 2;
+            APP_ID(14, 2, 0);
             break;
         }
         case 2: {
-            *application_data_end = curr_pos + 14;
-            *application_identifier_length = 2;
+            APP_ID(14, 2, 0);
             break;
         }
         case 3: {
-            *application_data_end = curr_pos + 14;
-            *application_identifier_length = 2;
+            APP_ID(14, 2, 0);
             break;
         }
         case 4: {
-            *application_data_end = curr_pos + 16;
-            *application_identifier_length = 2;
+            APP_ID(16, 2, 0);
             break;
         }
         case 10: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
-            *application_data_variable = 20;
+            APP_ID(6, 2, 20);
             break;
         }
         case 11: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 12: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 13: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 15: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 16: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 17: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 18: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 19: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 2;
+            APP_ID(6, 2, 0);
             break;
         }
         case 21: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 2;
-            *application_data_variable = 20;
+            APP_ID(20, 2, 20);
             break;
         }
         case 22: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 2;
-            *application_data_variable = 20;
+            APP_ID(20, 2, 20);
             break;
         }
         case 30: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 31: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 32: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 33: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 34: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 35: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 36: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 37: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 2;
-            *application_data_variable = 8;
+            APP_ID(8, 2, 8);
             break;
         }
         case 41: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 3;
+            APP_ID(8, 3, 0);
             break;
         }
         case 90: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 2;
-            *application_data_variable = 30;
+            APP_ID(30, 2, 30);
             break;
         }
         case 91: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 92: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 93: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 94: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 95: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 96: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 97: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 98: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 99: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 2;
-            *application_data_variable = 90;
+            APP_ID(90, 2, 90);
             break;
         }
         case 235: {
-            *application_data_end = curr_pos + 28;
-            *application_identifier_length = 3;
-            *application_data_variable = 28;
+            APP_ID(28, 3, 28);
             break;
         }
         case 240: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 3;
-            *application_data_variable = 30;
+            APP_ID(30, 3, 30);
             break;
         }
         case 241: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 3;
-            *application_data_variable = 30;
+            APP_ID(30, 3, 30);
             break;
         }
         case 242: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 3;
-            *application_data_variable = 6;
+            APP_ID(6, 3, 6);
             break;
         }
         case 243: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 250: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 3;
-            *application_data_variable = 30;
+            APP_ID(30, 3, 30);
             break;
         }
         case 251: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 3;
-            *application_data_variable = 30;
+            APP_ID(30, 3, 30);
             break;
         }
         case 253: {
-            *application_data_end = curr_pos + 13 + 17;
-            *application_identifier_length = 3;
-            *application_data_variable = 17;
+            APP_ID(13 + 17, 3, 17);
             break;
         }
         case 254: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 255: {
-            *application_data_end = curr_pos + 13 + 12;
-            *application_identifier_length = 3;
-            *application_data_variable = 12;
+            APP_ID(13 + 12, 3, 12);
             break;
         }
         case 310: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3100: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3101: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3102: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3103: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3104: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3105: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 311: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3110: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3111: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3112: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3113: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3114: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3115: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 312: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3120: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3121: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3122: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3123: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3124: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3125: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 313: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3130: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3131: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3132: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3133: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3134: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3135: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 314: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3140: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3141: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3142: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3143: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3144: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3145: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 315: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3150: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3151: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3152: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3153: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3154: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3155: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 316: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3160: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3161: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3162: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3163: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3164: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3165: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 320: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3200: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3201: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3202: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3203: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3204: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3205: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 321: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3210: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3211: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3212: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3213: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3214: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3215: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 322: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3220: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3221: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3222: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3223: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3224: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3225: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 323: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3230: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3231: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3232: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3233: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3234: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3235: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 324: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3240: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3241: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3242: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3243: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3244: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3245: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 325: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3250: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3251: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3252: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3253: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3254: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3255: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 326: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3260: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3261: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3262: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3263: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3264: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3265: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 327: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3270: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3271: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3272: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3273: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3274: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3275: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 328: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3280: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3281: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3282: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3283: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3284: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3285: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 329: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3290: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3291: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3292: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3293: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3294: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3295: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 330: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3300: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3301: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3302: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3303: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3304: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3305: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 331: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3310: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3311: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3312: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3313: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3314: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3315: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 332: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3320: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3321: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3322: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3323: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3324: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3325: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 333: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3330: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3331: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3332: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3333: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3334: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3335: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 334: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3340: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3341: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3342: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3343: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3344: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3345: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 335: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3350: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3351: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3352: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3353: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3354: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3355: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 336: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3360: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3361: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3362: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3363: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3364: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3365: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3370: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3371: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3372: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3373: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3374: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3375: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 340: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3400: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3401: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3402: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3403: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3404: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3405: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 341: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3410: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3411: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3412: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3413: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3414: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3415: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 342: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3420: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3421: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3422: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3423: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3424: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3425: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 343: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3430: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3431: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3432: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3433: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3434: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3435: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 344: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3440: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3441: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3442: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3443: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3444: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3445: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 345: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3450: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3451: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3452: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3453: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3454: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3455: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 346: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3460: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3461: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3462: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3463: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3464: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3465: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 347: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3470: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3471: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3472: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3473: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3474: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3475: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 348: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3480: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3481: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3482: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3483: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3484: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3485: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 349: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3490: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3491: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3492: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3493: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3494: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3495: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 350: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3500: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3501: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3502: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3503: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3504: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3505: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 351: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3510: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3511: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3512: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3513: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3514: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3515: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 352: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3520: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3521: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3522: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3523: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3524: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3525: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 353: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3530: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3531: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3532: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3533: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3534: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3535: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 354: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3540: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3541: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3542: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3543: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3544: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3545: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 355: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3550: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3551: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3552: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3553: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3554: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3555: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 356: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3560: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3561: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3562: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3563: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3564: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3565: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 357: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3570: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3571: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3572: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3573: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3574: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3575: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 360: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3600: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3601: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3602: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3603: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3604: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3605: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 361: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3610: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3611: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3612: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3613: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3614: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3615: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 362: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3620: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3621: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3622: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3623: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3624: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3625: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 363: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3630: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3631: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3632: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3633: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3634: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3635: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 364: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3640: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3641: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3642: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3643: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3644: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3645: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 365: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3650: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3651: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3652: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3653: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3654: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3655: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 366: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3660: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3661: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3662: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3663: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3664: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3665: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 367: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3670: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3671: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3672: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3673: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3674: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3675: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 368: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3680: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3681: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3682: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3683: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3684: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3685: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 369: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3690: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3691: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3692: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3693: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3694: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3695: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3900: {
-            *application_data_end = curr_pos + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(15, 4, 15);
             break;
         }
         case 3901: {
-            *application_data_end = curr_pos + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(15, 4, 15);
             break;
         }
         case 3902: {
-            *application_data_end = curr_pos + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(15, 4, 15);
             break;
         }
         case 3910: {
-            *application_data_end = curr_pos + 3 + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(3 + 15, 4, 15);
             break;
         }
         case 3911: {
-            *application_data_end = curr_pos + 3 + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(3 + 15, 4, 15);
             break;
         }
         case 3912: {
-            *application_data_end = curr_pos + 3 + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(3 + 15, 4, 15);
             break;
         }
         case 3920: {
-            *application_data_end = curr_pos + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(15, 4, 15);
             break;
         }
         case 3921: {
-            *application_data_end = curr_pos + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(15, 4, 15);
             break;
         }
         case 3922: {
-            *application_data_end = curr_pos + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(15, 4, 15);
             break;
         }
         case 3930: {
-            *application_data_end = curr_pos + 3 + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(3 + 15, 4, 15);
             break;
         }
         case 3931: {
-            *application_data_end = curr_pos + 3 + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(3 + 15, 4, 15);
             break;
         }
         case 3932: {
-            *application_data_end = curr_pos + 3 + 15;
-            *application_identifier_length = 4;
-            *application_data_variable = 15;
+            APP_ID(3 + 15, 4, 15);
             break;
         }
         case 394: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
+            APP_ID(4, 4, 0);
             break;
         }
         case 3940: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
+            APP_ID(4, 4, 0);
             break;
         }
         case 3941: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
+            APP_ID(4, 4, 0);
             break;
         }
         case 3942: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
+            APP_ID(4, 4, 0);
             break;
         }
         case 3943: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
+            APP_ID(4, 4, 0);
             break;
         }
         case 3950: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3951: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3952: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 3953: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 400: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 3;
-            *application_data_variable = 30;
+            APP_ID(30, 3, 30);
             break;
         }
         case 401: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 3;
-            *application_data_variable = 30;
+            APP_ID(30, 3, 30);
             break;
         }
         case 402: {
-            *application_data_end = curr_pos + 17;
-            *application_identifier_length = 3;
+            APP_ID(17, 3, 0);
             break;
         }
         case 403: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 3;
-            *application_data_variable = 30;
+            APP_ID(30, 3, 30);
             break;
         }
         case 410: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 411: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 412: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 413: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 414: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 415: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 416: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 417: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 3;
+            APP_ID(13, 3, 0);
             break;
         }
         case 420: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 421: {
-            *application_data_end = curr_pos + 3 + 9;
-            *application_identifier_length = 3;
-            *application_data_variable = 9;
+            APP_ID(3 + 9, 3, 9);
             break;
         }
         case 422: {
-            *application_data_end = curr_pos + 3;
-            *application_identifier_length = 3;
+            APP_ID(3, 3, 0);
             break;
         }
         case 423: {
-            *application_data_end = curr_pos + 3 + 12;
-            *application_identifier_length = 3;
-            *application_data_variable = 12;
+            APP_ID(3 + 12, 3, 12);
             break;
         }
         case 424: {
-            *application_data_end = curr_pos + 3;
-            *application_identifier_length = 3;
+            APP_ID(3, 3, 0);
             break;
         }
         case 425: {
-            *application_data_end = curr_pos + 3 + 12;
-            *application_identifier_length = 3;
-            *application_data_variable = 12;
+            APP_ID(3 + 12, 3, 12);
             break;
         }
         case 426: {
-            *application_data_end = curr_pos + 3;
-            *application_identifier_length = 3;
+            APP_ID(3, 3, 0);
             break;
         }
         case 703: {
-            *application_data_end = curr_pos + 3 + 27;
-            *application_identifier_length = 4;
-            *application_data_variable = 27;
+            APP_ID(3 + 27, 4, 27);
             break;
         }
         case 710: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 711: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 712: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 713: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 714: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 715: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 716: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 3;
-            *application_data_variable = 20;
+            APP_ID(20, 3, 20);
             break;
         }
         case 4300: {
-            *application_data_end = curr_pos + 35;
-            *application_identifier_length = 4;
-            *application_data_variable = 35;
+            APP_ID(35, 4, 35);
             break;
         }
         case 4301: {
-            *application_data_end = curr_pos + 35;
-            *application_identifier_length = 4;
-            *application_data_variable = 35;
+            APP_ID(35, 4, 35);
             break;
         }
         case 4302: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4303: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4304: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4305: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4306: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4307: {
-            *application_data_end = curr_pos + 2;
-            *application_identifier_length = 4;
+            APP_ID(2, 4, 0);
             break;
         }
         case 4308: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(30, 4, 30);
             break;
         }
         case 4309: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 4310: {
-            *application_data_end = curr_pos + 35;
-            *application_identifier_length = 4;
-            *application_data_variable = 35;
+            APP_ID(35, 4, 35);
             break;
         }
         case 4311: {
-            *application_data_end = curr_pos + 35;
-            *application_identifier_length = 4;
-            *application_data_variable = 35;
+            APP_ID(35, 4, 35);
             break;
         }
         case 4312: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4313: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4314: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4315: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4316: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 4317: {
-            *application_data_end = curr_pos + 2;
-            *application_identifier_length = 4;
+            APP_ID(2, 4, 0);
             break;
         }
         case 4318: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 4319: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(30, 4, 30);
             break;
         }
         case 4320: {
-            *application_data_end = curr_pos + 35;
-            *application_identifier_length = 4;
-            *application_data_variable = 35;
+            APP_ID(35, 4, 35);
             break;
         }
         case 4321: {
-            *application_data_end = curr_pos + 1;
-            *application_identifier_length = 4;
+            APP_ID(1, 4, 0);
             break;
         }
         case 4322: {
-            *application_data_end = curr_pos + 1;
-            *application_identifier_length = 4;
+            APP_ID(1, 4, 0);
             break;
         }
         case 4323: {
-            *application_data_end = curr_pos + 1;
-            *application_identifier_length = 4;
+            APP_ID(1, 4, 0);
             break;
         }
         case 4324: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 4;
+            APP_ID(10, 4, 0);
             break;
         }
         case 4325: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 4;
+            APP_ID(10, 4, 0);
             break;
         }
         case 4326: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 4330: {
-            *application_data_end = curr_pos + 6 + 1;
-            *application_identifier_length = 4;
-            *application_data_variable = 1;
+            APP_ID(6 + 1, 4, 1);
             break;
         }
         case 4331: {
-            *application_data_end = curr_pos + 6 + 1;
-            *application_identifier_length = 4;
-            *application_data_variable = 1;
+            APP_ID(6 + 1, 4, 1);
             break;
         }
         case 4332: {
-            *application_data_end = curr_pos + 6 + 1;
-            *application_identifier_length = 4;
-            *application_data_variable = 1;
+            APP_ID(6 + 1, 4, 1);
             break;
         }
         case 4333: {
-            *application_data_end = curr_pos + 6 + 1;
-            *application_identifier_length = 4;
-            *application_data_variable = 1;
+            APP_ID(6 + 1, 4, 1);
             break;
         }
         case 7001: {
-            *application_data_end = curr_pos + 13;
-            *application_identifier_length = 4;
+            APP_ID(13, 4, 0);
             break;
         }
         case 7002: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(30, 4, 30);
             break;
         }
         case 7003: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 4;
+            APP_ID(10, 4, 0);
             break;
         }
         case 7004: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
-            *application_data_variable = 4;
+            APP_ID(4, 4, 4);
             break;
         }
         case 7005: {
-            *application_data_end = curr_pos + 12;
-            *application_identifier_length = 4;
-            *application_data_variable = 12;
+            APP_ID(12, 4, 12);
             break;
         }
         case 7006: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 7007: {
-            *application_data_end = curr_pos + 6 + 6;
-            *application_identifier_length = 4;
-            *application_data_variable = 6;
+            APP_ID(6 + 6, 4, 6);
             break;
         }
         case 7008: {
-            *application_data_end = curr_pos + 3;
-            *application_identifier_length = 4;
-            *application_data_variable = 3;
+            APP_ID(3, 4, 3);
             break;
         }
         case 7009: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 4;
-            *application_data_variable = 10;
+            APP_ID(10, 4, 10);
             break;
         }
         case 7010: {
-            *application_data_end = curr_pos + 2;
-            *application_identifier_length = 4;
-            *application_data_variable = 2;
+            APP_ID(2, 4, 2);
             break;
         }
         case 7011: {
-            *application_data_end = curr_pos + 6 + 4;
-            *application_identifier_length = 4;
-            *application_data_variable = 4;
+            APP_ID(6 + 4, 4, 4);
             break;
         }
         case 7020: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 7021: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 7022: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 7023: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(30, 4, 30);
             break;
         }
         case 7030: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7031: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7032: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7033: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7034: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7035: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7036: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7037: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7038: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7039: {
-            *application_data_end = curr_pos + 4 + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(4 + 30, 4, 30);
             break;
         }
         case 7040: {
-            *application_data_end = curr_pos + 1 + 3;
-            *application_identifier_length = 4;
+            APP_ID(1 + 3, 4, 0);
             break;
         }
         case 7041: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
-            *application_data_variable = 4;
+            APP_ID(4, 4, 4);
             break;
         }
         case 7240: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 7241: {
-            *application_data_end = curr_pos + 2;
-            *application_identifier_length = 4;
+            APP_ID(2, 4, 0);
             break;
         }
         case 7242: {
-            *application_data_end = curr_pos + 25;
-            *application_identifier_length = 4;
-            *application_data_variable = 25;
+            APP_ID(25, 4, 25);
             break;
         }
         case 7250: {
-            *application_data_end = curr_pos + 8;
-            *application_identifier_length = 4;
+            APP_ID(8, 4, 0);
             break;
         }
         case 7251: {
-            *application_data_end = curr_pos + 12;
-            *application_identifier_length = 4;
+            APP_ID(12, 4, 0);
             break;
         }
         case 7252: {
-            *application_data_end = curr_pos + 1;
-            *application_identifier_length = 4;
+            APP_ID(1, 4, 0);
             break;
         }
         case 7253: {
-            *application_data_end = curr_pos + 40;
-            *application_identifier_length = 4;
-            *application_data_variable = 40;
+            APP_ID(40, 4, 40);
             break;
         }
         case 7254: {
-            *application_data_end = curr_pos + 40;
-            *application_identifier_length = 4;
-            *application_data_variable = 40;
+            APP_ID(40, 4, 40);
             break;
         }
         case 7255: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 4;
-            *application_data_variable = 10;
+            APP_ID(10, 4, 10);
             break;
         }
         case 7256: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 4;
-            *application_data_variable = 90;
+            APP_ID(90, 4, 90);
             break;
         }
         case 7257: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 7258: {
-            *application_data_end = curr_pos + 1 + 1 + 1;
-            *application_identifier_length = 4;
+            APP_ID(1 + 1 + 1, 4, 0);
             break;
         }
         case 7259: {
-            *application_data_end = curr_pos + 40;
-            *application_identifier_length = 4;
-            *application_data_variable = 40;
+            APP_ID(40, 4, 40);
             break;
         }
         case 8001: {
-            *application_data_end = curr_pos + 14;
-            *application_identifier_length = 4;
+            APP_ID(14, 4, 0);
             break;
         }
         case 8002: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 8003: {
-            *application_data_end = curr_pos + 14 + 16;
-            *application_identifier_length = 4;
-            *application_data_variable = 16;
+            APP_ID(14 + 16, 4, 16);
             break;
         }
         case 8004: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(30, 4, 30);
             break;
         }
         case 8005: {
-            *application_data_end = curr_pos + 6;
-            *application_identifier_length = 4;
+            APP_ID(6, 4, 0);
             break;
         }
         case 8006: {
-            *application_data_end = curr_pos + 14 + 2 + 2;
-            *application_identifier_length = 4;
+            APP_ID(14 + 2 + 2, 4, 0);
             break;
         }
         case 8007: {
-            *application_data_end = curr_pos + 34;
-            *application_identifier_length = 4;
-            *application_data_variable = 34;
+            APP_ID(34, 4, 34);
             break;
         }
         case 8008: {
-            *application_data_end = curr_pos + 8 + 4;
-            *application_identifier_length = 4;
-            *application_data_variable = 4;
+            APP_ID(8 + 4, 4, 4);
             break;
         }
         case 8010: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(30, 4, 30);
             break;
         }
         case 8011: {
-            *application_data_end = curr_pos + 12;
-            *application_identifier_length = 4;
-            *application_data_variable = 12;
+            APP_ID(12, 4, 12);
             break;
         }
         case 8012: {
-            *application_data_end = curr_pos + 20;
-            *application_identifier_length = 4;
-            *application_data_variable = 20;
+            APP_ID(20, 4, 20);
             break;
         }
         case 8013: {
-            *application_data_end = curr_pos + 30;
-            *application_identifier_length = 4;
-            *application_data_variable = 30;
+            APP_ID(30, 4, 30);
             break;
         }
         case 8017: {
-            *application_data_end = curr_pos + 18;
-            *application_identifier_length = 4;
+            APP_ID(18, 4, 0);
             break;
         }
         case 8018: {
-            *application_data_end = curr_pos + 18;
-            *application_identifier_length = 4;
+            APP_ID(18, 4, 0);
             break;
         }
         case 8019: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 4;
-            *application_data_variable = 10;
+            APP_ID(10, 4, 10);
             break;
         }
         case 8020: {
-            *application_data_end = curr_pos + 25;
-            *application_identifier_length = 4;
-            *application_data_variable = 25;
+            APP_ID(25, 4, 25);
             break;
         }
         case 8026: {
-            *application_data_end = curr_pos + 14 + 2 + 2;
-            *application_identifier_length = 4;
+            APP_ID(14 + 2 + 2, 4, 0);
             break;
         }
         case 8030: {
-            *application_data_end = curr_pos + 90;
-            *application_identifier_length = 4;
-            *application_data_variable = 90;
+            APP_ID(90, 4, 90);
             break;
         }
         case 8110: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 8111: {
-            *application_data_end = curr_pos + 4;
-            *application_identifier_length = 4;
+            APP_ID(4, 4, 0);
             break;
         }
         case 8112: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 8200: {
-            *application_data_end = curr_pos + 70;
-            *application_identifier_length = 4;
-            *application_data_variable = 70;
+            APP_ID(70, 4, 70);
             break;
         }
         case 977: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 3;
+            APP_ID(10, 3, 0);
             break;
         }
         case 978: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 3;
+            APP_ID(10, 3, 0);
             break;
         }
         case 979: {
-            *application_data_end = curr_pos + 10;
-            *application_identifier_length = 3;
+            APP_ID(10, 3, 0);
             break;
         }
         }
