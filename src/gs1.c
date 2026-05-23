@@ -84,7 +84,7 @@ void gs1_semantics(char result[],
         /* if the minimum data length has not yet arrived */
         if (*application_data_variable > 0) {
             if (curr_pos <
-                (*application_data_end) - (*application_data_variable)) {
+                    (*application_data_end) - (*application_data_variable)) {
                 return;
             }
         }
@@ -3065,7 +3065,7 @@ void gs1_semantics(char result[],
 
             app_id_str2[0] = 0;
             if ((*application_identifier >= 0) &&
-                (*application_identifier < 99999)) {
+                    (*application_identifier < 99999)) {
                 if (*application_identifier < 10) {
                     sprintf(&app_id_str2[0], "0%d", *application_identifier);
                 }
@@ -7314,7 +7314,7 @@ void gs1_semantics(char result[],
                         /* first ten characters are latitude */
                         for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
                             if ((data_str[dec_ctr] < '0') ||
-                                (data_str[dec_ctr] > '9')) break;
+                                    (data_str[dec_ctr] > '9')) break;
                             latlon_str[dec_ctr] = data_str[dec_ctr];
                         }
                         latlon_str[dec_ctr] = 0;
@@ -7325,7 +7325,7 @@ void gs1_semantics(char result[],
                             dec_ctr = 0;
                             for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
                                 if ((data_str[dec_ctr] < '0') ||
-                                    (data_str[dec_ctr] > '9')) break;
+                                        (data_str[dec_ctr] > '9')) break;
                                 latlon_str[dec_ctr] = data_str[dec_ctr + 10];
                             }
                             latlon_str[dec_ctr] = 0;
@@ -7772,7 +7772,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "AIDC MEDIA TYPE: ");
                     if ((int)strlen(data_str) == 2) {
                         if ((data_str[0] >= '0') && (data_str[0] <= '9') &&
-                            (data_str[1] >= '0') && (data_str[1] <= '9')) {
+                                (data_str[1] >= '0') && (data_str[1] <= '9')) {
                             aidc_media_type = atoi(data_str);
                         }
                     }
@@ -7855,7 +7855,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "BIRTH SEQUENCE: ");
                     if ((int)strlen(data_str) == 3) {
                         if ((data_str[0] >= '0') && (data_str[0] <= '9') &&
-                            (data_str[2] >= '0') && (data_str[2] <= '9')) {
+                                (data_str[2] >= '0') && (data_str[2] <= '9')) {
                             birth_sequence[0] = data_str[0];
                             birth_sequence[1] = data_str[2];
                         }
@@ -7878,7 +7878,7 @@ void gs1_semantics(char result[],
                         unsigned char all_numbers = 1;
                         for (int dim_ctr = 0; dim_ctr < 14; dim_ctr++) {
                             if ((data_str[dim_ctr] < '0') ||
-                                (data_str[dim_ctr] > '9')) {
+                                    (data_str[dim_ctr] > '9')) {
                                 all_numbers = 0;
                                 break;
                             }
@@ -7921,10 +7921,10 @@ void gs1_semantics(char result[],
                         }
                     }
                     if ((roll_width_mm == -1) ||
-                        (roll_length_metres == -1) ||
-                        (roll_diameter_mm == -1) ||
-                        (roll_no_of_splices == -1) ||
-                        (roll_winding_direction == -1)) {
+                            (roll_length_metres == -1) ||
+                            (roll_diameter_mm == -1) ||
+                            (roll_no_of_splices == -1) ||
+                            (roll_winding_direction == -1)) {
                         decode_strcat(gs1_result, "DIMENSIONS: ");
                     }
                 }
@@ -8011,13 +8011,13 @@ void gs1_semantics(char result[],
                     }
                     if ((int)strlen(data_str) == 18) {
                         if ((data_str[14] >= '0') && (data_str[14] <= '9') &&
-                            (data_str[15] >= '0') && (data_str[15] <= '9')) {
+                                (data_str[15] >= '0') && (data_str[15] <= '9')) {
                             itip_piece_number_str[0] = data_str[14];
                             itip_piece_number_str[1] = data_str[15];
                             itip_piece_number_str[2] = 0;
                         }
                         if ((data_str[16] >= '0') && (data_str[16] <= '9') &&
-                            (data_str[17] >= '0') && (data_str[17] <= '9')) {
+                                (data_str[17] >= '0') && (data_str[17] <= '9')) {
                             itip_total_count_str[0] = data_str[16];
                             itip_total_count_str[1] = data_str[17];
                             itip_total_count_str[2] = 0;
@@ -8168,13 +8168,13 @@ void gs1_semantics(char result[],
                     }
                     if ((int)strlen(data_str) == 18) {
                         if ((data_str[14] >= '0') && (data_str[14] <= '9') &&
-                            (data_str[15] >= '0') && (data_str[15] <= '9')) {
+                                (data_str[15] >= '0') && (data_str[15] <= '9')) {
                             itip_piece_number_str[0] = data_str[14];
                             itip_piece_number_str[1] = data_str[15];
                             itip_piece_number_str[2] = 0;
                         }
                         if ((data_str[16] >= '0') && (data_str[16] <= '9') &&
-                            (data_str[17] >= '0') && (data_str[17] <= '9')) {
+                                (data_str[17] >= '0') && (data_str[17] <= '9')) {
                             itip_total_count_str[0] = data_str[16];
                             itip_total_count_str[1] = data_str[17];
                             itip_total_count_str[2] = 0;
@@ -8428,7 +8428,7 @@ void gs1_semantics(char result[],
                 else if (birth_sequence[0] != 0) {
                     decode_strcat(gs1_result, data_str);
                     if ((birth_sequence[0] == 1) &&
-                        (birth_sequence[1] == 1)) {
+                            (birth_sequence[1] == 1)) {
                         decode_strcat(gs1_result, "ONE BABY");
                     }
                     else if ((birth_sequence[0] == 1) &&
