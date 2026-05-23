@@ -522,11 +522,32 @@ void save_verification_report(struct grid_2d * grid,
                               int light_angle_degrees,
                               char footer[]);
 
-/* gs1.c */
+/* gs1_utils.c */
+
+int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit);
+
+float get_temperature(char data_str[]);
+
+char * get_issn(char data_str[]);
+
+char * get_coupon(char data_str[]);
 
 char * get_package_type(char package_code[]);
 
-int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit);
+char * get_gs1_company_prefix(char data_str[]);
+
+char * get_company_prefix_str(char company_prefix_code[],
+                              int start_index, char data_str[]);
+
+char * get_country(char data_str[]);
+
+char * get_currency_value(int application_identifier,
+                          char data_str[]);
+
+char * get_decimal_value(int application_identifier,
+                         char data_str[]);
+
+/* gs1.c */
 
 void gs1_semantics(char result[],
                    char gs1_result[],
@@ -537,20 +558,6 @@ void gs1_semantics(char result[],
                    int * application_data_start,
                    int * application_data_end,
                    unsigned char * application_data_variable);
-
-char * get_currency_value(int application_identifier,
-                          char data_str[]);
-
-char * get_decimal_value(int application_identifier,
-                         char data_str[]);
-
-char * get_country(char data_str[]);
-
-char * get_gs1_company_prefix(char data_str[]);
-
-char * get_coupon(char data_str[]);
-
-char * get_issn(char data_str[]);
 
 /* condense.c */
 
