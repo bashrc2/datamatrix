@@ -34,6 +34,14 @@
       date_str = data_id_convert_date(dateformat, data_str); \
     }
 
+#define DECODE_DECIMAL(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) {                                     \
+    decode_strcat(gs1_result, title ": ");                      \
+    decimal_str = get_decimal_value(*application_identifier, data_str); \
+    }
+
+
 /**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
@@ -2853,48 +2861,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3101: {
-                if (debug == 1) printf("NET WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (kg)");
                 break;
             }
             case 3102: {
-                if (debug == 1) printf("NET WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (kg)");
                 break;
             }
             case 3103: {
-                if (debug == 1) printf("NET WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (kg)");
                 break;
             }
             case 3104: {
-                if (debug == 1) printf("NET WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (kg)");
                 break;
             }
             case 3105: {
-                if (debug == 1) printf("NET WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (kg)");
                 break;
             }
             case 311: {
@@ -2912,48 +2895,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3111: {
-                if (debug == 1) printf("LENGTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m)");
                 break;
             }
             case 3112: {
-                if (debug == 1) printf("LENGTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m)");
                 break;
             }
             case 3113: {
-                if (debug == 1) printf("LENGTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m)");
                 break;
             }
             case 3114: {
-                if (debug == 1) printf("LENGTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m)");
                 break;
             }
             case 3115: {
-                if (debug == 1) printf("LENGTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m)");
                 break;
             }
             case 312: {
@@ -2971,48 +2929,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3121: {
-                if (debug == 1) printf("WIDTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m)");
                 break;
             }
             case 3122: {
-                if (debug == 1) printf("WIDTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m)");
                 break;
             }
             case 3123: {
-                if (debug == 1) printf("WIDTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m)");
                 break;
             }
             case 3124: {
-                if (debug == 1) printf("WIDTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m)");
                 break;
             }
             case 3125: {
-                if (debug == 1) printf("WIDTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m)");
                 break;
             }
             case 313: {
@@ -3030,48 +2963,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3131: {
-                if (debug == 1) printf("HEIGHT (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m)");
                 break;
             }
             case 3132: {
-                if (debug == 1) printf("HEIGHT (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m)");
                 break;
             }
             case 3133: {
-                if (debug == 1) printf("HEIGHT (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m)");
                 break;
             }
             case 3134: {
-                if (debug == 1) printf("HEIGHT (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m)");
                 break;
             }
             case 3135: {
-                if (debug == 1) printf("HEIGHT (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m)");
                 break;
             }
             case 314: {
@@ -3089,48 +2997,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3141: {
-                if (debug == 1) printf("AREA (m2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2)");
                 break;
             }
             case 3142: {
-                if (debug == 1) printf("AREA (m2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2)");
                 break;
             }
             case 3143: {
-                if (debug == 1) printf("AREA (m2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2)");
                 break;
             }
             case 3144: {
-                if (debug == 1) printf("AREA (m2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2)");
                 break;
             }
             case 3145: {
-                if (debug == 1) printf("AREA (m2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2)");
                 break;
             }
             case 315: {
@@ -3148,48 +3031,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3151: {
-                if (debug == 1) printf("NET VOLUME (l) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (l): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (l)");
                 break;
             }
             case 3152: {
-                if (debug == 1) printf("NET VOLUME (l) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (l): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (l)");
                 break;
             }
             case 3153: {
-                if (debug == 1) printf("NET VOLUME (l) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (l): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (l)");
                 break;
             }
             case 3154: {
-                if (debug == 1) printf("NET VOLUME (l) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (l): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (l)");
                 break;
             }
             case 3155: {
-                if (debug == 1) printf("NET VOLUME (l) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (l): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (l)");
                 break;
             }
             case 316: {
@@ -3207,48 +3065,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3161: {
-                if (debug == 1) printf("NET VOLUME (m3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (m3)");
                 break;
             }
             case 3162: {
-                if (debug == 1) printf("NET VOLUME (m3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (m3)");
                 break;
             }
             case 3163: {
-                if (debug == 1) printf("NET VOLUME (m3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (m3)");
                 break;
             }
             case 3164: {
-                if (debug == 1) printf("NET VOLUME (m3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (m3)");
                 break;
             }
             case 3165: {
-                if (debug == 1) printf("NET VOLUME (m3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (m3)");
                 break;
             }
             case 320: {
@@ -3266,48 +3099,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3201: {
-                if (debug == 1) printf("NET WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (lb)");
                 break;
             }
             case 3202: {
-                if (debug == 1) printf("NET WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (lb)");
                 break;
             }
             case 3203: {
-                if (debug == 1) printf("NET WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (lb)");
                 break;
             }
             case 3204: {
-                if (debug == 1) printf("NET WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (lb)");
                 break;
             }
             case 3205: {
-                if (debug == 1) printf("NET WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (lb)");
                 break;
             }
             case 321: {
@@ -3325,47 +3133,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3211: {
-                if (debug == 1) printf("LENGTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in)");
                 break;
             }
             case 3212: {
-                if (debug == 1) printf("LENGTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in): ");
-                    decimal_str = get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in)");
                 break;
             }
             case 3213: {
-                if (debug == 1) printf("LENGTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in)");
                 break;
             }
             case 3214: {
-                if (debug == 1) printf("LENGTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in)");
                 break;
             }
             case 3215: {
-                if (debug == 1) printf("LENGTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in)");
                 break;
             }
             case 322: {
@@ -3383,48 +3167,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3221: {
-                if (debug == 1) printf("LENGTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft)");
                 break;
             }
             case 3222: {
-                if (debug == 1) printf("LENGTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft)");
                 break;
             }
             case 3223: {
-                if (debug == 1) printf("LENGTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft)");
                 break;
             }
             case 3224: {
-                if (debug == 1) printf("LENGTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft)");
                 break;
             }
             case 3225: {
-                if (debug == 1) printf("LENGTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft)");
                 break;
             }
             case 323: {
@@ -3442,48 +3201,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3231: {
-                if (debug == 1) printf("LENGTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd)");
                 break;
             }
             case 3232: {
-                if (debug == 1) printf("LENGTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd)");
                 break;
             }
             case 3233: {
-                if (debug == 1) printf("LENGTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd)");
                 break;
             }
             case 3234: {
-                if (debug == 1) printf("LENGTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd)");
                 break;
             }
             case 3235: {
-                if (debug == 1) printf("LENGTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd)");
                 break;
             }
             case 324: {
@@ -3501,48 +3235,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3241: {
-                if (debug == 1) printf("WIDTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in)");
                 break;
             }
             case 3242: {
-                if (debug == 1) printf("WIDTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in)");
                 break;
             }
             case 3243: {
-                if (debug == 1) printf("WIDTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in)");
                 break;
             }
             case 3244: {
-                if (debug == 1) printf("WIDTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in)");
                 break;
             }
             case 3245: {
-                if (debug == 1) printf("WIDTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in)");
                 break;
             }
             case 325: {
@@ -3560,48 +3269,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3251: {
-                if (debug == 1) printf("WIDTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft)");
                 break;
             }
             case 3252: {
-                if (debug == 1) printf("WIDTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft)");
                 break;
             }
             case 3253: {
-                if (debug == 1) printf("WIDTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft)");
                 break;
             }
             case 3254: {
-                if (debug == 1) printf("WIDTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft)");
                 break;
             }
             case 3255: {
-                if (debug == 1) printf("WIDTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft)");
                 break;
             }
             case 326: {
@@ -3619,48 +3303,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3261: {
-                if (debug == 1) printf("WIDTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd)");
                 break;
             }
             case 3262: {
-                if (debug == 1) printf("WIDTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd)");
                 break;
             }
             case 3263: {
-                if (debug == 1) printf("WIDTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd)");
                 break;
             }
             case 3264: {
-                if (debug == 1) printf("WIDTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd)");
                 break;
             }
             case 3265: {
-                if (debug == 1) printf("WIDTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd)");
                 break;
             }
             case 327: {
@@ -3678,48 +3337,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3271: {
-                if (debug == 1) printf("HEIGHT (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in)");
                 break;
             }
             case 3272: {
-                if (debug == 1) printf("HEIGHT (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in)");
                 break;
             }
             case 3273: {
-                if (debug == 1) printf("HEIGHT (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in)");
                 break;
             }
             case 3274: {
-                if (debug == 1) printf("HEIGHT (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in)");
                 break;
             }
             case 3275: {
-                if (debug == 1) printf("HEIGHT (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in)");
                 break;
             }
             case 328: {
@@ -3737,48 +3371,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3281: {
-                if (debug == 1) printf("HEIGHT (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft)");
                 break;
             }
             case 3282: {
-                if (debug == 1) printf("HEIGHT (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft)");
                 break;
             }
             case 3283: {
-                if (debug == 1) printf("HEIGHT (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft)");
                 break;
             }
             case 3284: {
-                if (debug == 1) printf("HEIGHT (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft)");
                 break;
             }
             case 3285: {
-                if (debug == 1) printf("HEIGHT (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft)");
                 break;
             }
             case 329: {
@@ -3796,48 +3405,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3291: {
-                if (debug == 1) printf("HEIGHT (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd)");
                 break;
             }
             case 3292: {
-                if (debug == 1) printf("HEIGHT (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd)");
                 break;
             }
             case 3293: {
-                if (debug == 1) printf("HEIGHT (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd)");
                 break;
             }
             case 3294: {
-                if (debug == 1) printf("HEIGHT (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd)");
                 break;
             }
             case 3295: {
-                if (debug == 1) printf("HEIGHT (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd)");
                 break;
             }
             case 330: {
@@ -3855,48 +3439,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3301: {
-                if (debug == 1) printf("GROSS WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (kg)");
                 break;
             }
             case 3302: {
-                if (debug == 1) printf("GROSS WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (kg)");
                 break;
             }
             case 3303: {
-                if (debug == 1) printf("GROSS WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (kg)");
                 break;
             }
             case 3304: {
-                if (debug == 1) printf("GROSS WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (kg)");
                 break;
             }
             case 3305: {
-                if (debug == 1) printf("GROSS WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (kg): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (kg)");
                 break;
             }
             case 331: {
@@ -3914,48 +3473,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3311: {
-                if (debug == 1) printf("LENGTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m), log");
                 break;
             }
             case 3312: {
-                if (debug == 1) printf("LENGTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m), log");
                 break;
             }
             case 3313: {
-                if (debug == 1) printf("LENGTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m), log");
                 break;
             }
             case 3314: {
-                if (debug == 1) printf("LENGTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m), log");
                 break;
             }
             case 3315: {
-                if (debug == 1) printf("LENGTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (m), log");
                 break;
             }
             case 332: {
@@ -3973,48 +3507,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3321: {
-                if (debug == 1) printf("WIDTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m), log");
                 break;
             }
             case 3322: {
-                if (debug == 1) printf("WIDTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m), log");
                 break;
             }
             case 3323: {
-                if (debug == 1) printf("WIDTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m), log");
                 break;
             }
             case 3324: {
-                if (debug == 1) printf("WIDTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m), log");
                 break;
             }
             case 3325: {
-                if (debug == 1) printf("WIDTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (m), log");
                 break;
             }
             case 333: {
@@ -4032,48 +3541,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3331: {
-                if (debug == 1) printf("HEIGHT (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m), log");
                 break;
             }
             case 3332: {
-                if (debug == 1) printf("HEIGHT (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m), log");
                 break;
             }
             case 3333: {
-                if (debug == 1) printf("HEIGHT (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m), log");
                 break;
             }
             case 3334: {
-                if (debug == 1) printf("HEIGHT (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m), log");
                 break;
             }
             case 3335: {
-                if (debug == 1) printf("HEIGHT (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (m), log");
                 break;
             }
             case 334: {
@@ -4091,46 +3575,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3341: {
-                if (debug == 1) printf("AREA (m2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2), log");
                 break;
             }
             case 3342: {
-                if (debug == 1) printf("AREA (m2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2), log");
                 break;
             }
             case 3343: {
-                if (debug == 1) printf("AREA (m2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2), log");
                 break;
             }
             case 3344: {
-                if (debug == 1) printf("AREA (m2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (m2), log");
                 break;
             }
             case 3345: {
-                if (debug == 1) printf("AREA (m2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2), log: ");
-                }
+                DECODE_DECIMAL("AREA (m2), log");
                 break;
             }
             case 335: {
@@ -4148,48 +3609,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3351: {
-                if (debug == 1) printf("VOLUME (l), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (l), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (l), log");
                 break;
             }
             case 3352: {
-                if (debug == 1) printf("VOLUME (l), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (l), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (l), log");
                 break;
             }
             case 3353: {
-                if (debug == 1) printf("VOLUME (l), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (l), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (l), log");
                 break;
             }
             case 3354: {
-                if (debug == 1) printf("VOLUME (l), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (l), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (l), log");
                 break;
             }
             case 3355: {
-                if (debug == 1) printf("VOLUME (l), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (l), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (l), log");
                 break;
             }
             case 336: {
@@ -4207,48 +3643,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3361: {
-                if (debug == 1) printf("VOLUME (m3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (m3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (m3), log");
                 break;
             }
             case 3362: {
-                if (debug == 1) printf("VOLUME (m3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (m3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (m3), log");
                 break;
             }
             case 3363: {
-                if (debug == 1) printf("VOLUME (m3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (m3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (m3), log");
                 break;
             }
             case 3364: {
-                if (debug == 1) printf("VOLUME (m3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (m3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (m3), log");
                 break;
             }
             case 3365: {
-                if (debug == 1) printf("VOLUME (m3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (m3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (m3), log");
                 break;
             }
             case 3370: {
@@ -4259,48 +3670,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3371: {
-                if (debug == 1) printf("KG PER m2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "KG PER m2: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("KG PER m2");
                 break;
             }
             case 3372: {
-                if (debug == 1) printf("KG PER m2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "KG PER m2: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("KG PER m2");
                 break;
             }
             case 3373: {
-                if (debug == 1) printf("KG PER m2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "KG PER m2: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("KG PER m2");
                 break;
             }
             case 3374: {
-                if (debug == 1) printf("KG PER m2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "KG PER m2: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("KG PER m2");
                 break;
             }
             case 3375: {
-                if (debug == 1) printf("KG PER m2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "KG PER m2: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("KG PER m2");
                 break;
             }
             case 340: {
@@ -4318,48 +3704,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3401: {
-                if (debug == 1) printf("GROSS WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (lb)");
                 break;
             }
             case 3402: {
-                if (debug == 1) printf("GROSS WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (lb)");
                 break;
             }
             case 3403: {
-                if (debug == 1) printf("GROSS WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (lb)");
                 break;
             }
             case 3404: {
-                if (debug == 1) printf("GROSS WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (lb)");
                 break;
             }
             case 3405: {
-                if (debug == 1) printf("GROSS WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (lb): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("GROSS WEIGHT (lb)");
                 break;
             }
             case 341: {
@@ -4377,48 +3738,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3411: {
-                if (debug == 1) printf("LENGTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in), log");
                 break;
             }
             case 3412: {
-                if (debug == 1) printf("LENGTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in), log");
                 break;
             }
             case 3413: {
-                if (debug == 1) printf("LENGTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in), log");
                 break;
             }
             case 3414: {
-                if (debug == 1) printf("LENGTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in), log");
                 break;
             }
             case 3415: {
-                if (debug == 1) printf("LENGTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (in), log");
                 break;
             }
             case 342: {
@@ -4436,48 +3772,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3421: {
-                if (debug == 1) printf("LENGTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft), log");
                 break;
             }
             case 3422: {
-                if (debug == 1) printf("LENGTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft), log");
                 break;
             }
             case 3423: {
-                if (debug == 1) printf("LENGTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft), log");
                 break;
             }
             case 3424: {
-                if (debug == 1) printf("LENGTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft), log");
                 break;
             }
             case 3425: {
-                if (debug == 1) printf("LENGTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (ft), log");
                 break;
             }
             case 343: {
@@ -4495,48 +3806,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3431: {
-                if (debug == 1) printf("LENGTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd), log");
                 break;
             }
             case 3432: {
-                if (debug == 1) printf("LENGTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd), log");
                 break;
             }
             case 3433: {
-                if (debug == 1) printf("LENGTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd), log");
                 break;
             }
             case 3434: {
-                if (debug == 1) printf("LENGTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd), log");
                 break;
             }
             case 3435: {
-                if (debug == 1) printf("LENGTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("LENGTH (yd), log");
                 break;
             }
             case 344: {
@@ -4554,48 +3840,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3441: {
-                if (debug == 1) printf("WIDTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in), log");
                 break;
             }
             case 3442: {
-                if (debug == 1) printf("WIDTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in), log");
                 break;
             }
             case 3443: {
-                if (debug == 1) printf("WIDTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in), log");
                 break;
             }
             case 3444: {
-                if (debug == 1) printf("WIDTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in), log");
                 break;
             }
             case 3445: {
-                if (debug == 1) printf("WIDTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (in), log");
                 break;
             }
             case 345: {
@@ -4613,48 +3874,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3451: {
-                if (debug == 1) printf("WIDTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft), log");
                 break;
             }
             case 3452: {
-                if (debug == 1) printf("WIDTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft), log");
                 break;
             }
             case 3453: {
-                if (debug == 1) printf("WIDTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft), log");
                 break;
             }
             case 3454: {
-                if (debug == 1) printf("WIDTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft), log");
                 break;
             }
             case 3455: {
-                if (debug == 1) printf("WIDTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (ft), log");
                 break;
             }
             case 346: {
@@ -4672,48 +3908,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3461: {
-                if (debug == 1) printf("WIDTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd), log");
                 break;
             }
             case 3462: {
-                if (debug == 1) printf("WIDTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd), log");
                 break;
             }
             case 3463: {
-                if (debug == 1) printf("WIDTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd), log");
                 break;
             }
             case 3464: {
-                if (debug == 1) printf("WIDTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd), log");
                 break;
             }
             case 3465: {
-                if (debug == 1) printf("WIDTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("WIDTH (yd), log");
                 break;
             }
             case 347: {
@@ -4731,48 +3942,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3471: {
-                if (debug == 1) printf("HEIGHT (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in), log");
                 break;
             }
             case 3472: {
-                if (debug == 1) printf("HEIGHT (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in), log");
                 break;
             }
             case 3473: {
-                if (debug == 1) printf("HEIGHT (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in), log");
                 break;
             }
             case 3474: {
-                if (debug == 1) printf("HEIGHT (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in), log");
                 break;
             }
             case 3475: {
-                if (debug == 1) printf("HEIGHT (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (in), log");
                 break;
             }
             case 348: {
@@ -4790,48 +3976,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3481: {
-                if (debug == 1) printf("HEIGHT (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft), log");
                 break;
             }
             case 3482: {
-                if (debug == 1) printf("HEIGHT (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft), log");
                 break;
             }
             case 3483: {
-                if (debug == 1) printf("HEIGHT (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft), log");
                 break;
             }
             case 3484: {
-                if (debug == 1) printf("HEIGHT (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft), log");
                 break;
             }
             case 3485: {
-                if (debug == 1) printf("HEIGHT (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (ft), log");
                 break;
             }
             case 349: {
@@ -4849,48 +4010,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3491: {
-                if (debug == 1) printf("HEIGHT (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd), log");
                 break;
             }
             case 3492: {
-                if (debug == 1) printf("HEIGHT (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd), log");
                 break;
             }
             case 3493: {
-                if (debug == 1) printf("HEIGHT (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd), log");
                 break;
             }
             case 3494: {
-                if (debug == 1) printf("HEIGHT (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd), log");
                 break;
             }
             case 3495: {
-                if (debug == 1) printf("HEIGHT (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("HEIGHT (yd), log");
                 break;
             }
             case 350: {
@@ -4908,48 +4044,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3501: {
-                if (debug == 1) printf("AREA (in2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2)");
                 break;
             }
             case 3502: {
-                if (debug == 1) printf("AREA (in2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2)");
                 break;
             }
             case 3503: {
-                if (debug == 1) printf("AREA (in2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2)");
                 break;
             }
             case 3504: {
-                if (debug == 1) printf("AREA (in2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2)");
                 break;
             }
             case 3505: {
-                if (debug == 1) printf("AREA (in2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2)");
                 break;
             }
             case 351: {
@@ -4967,48 +4078,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3511: {
-                if (debug == 1) printf("AREA (ft2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2)");
                 break;
             }
             case 3512: {
-                if (debug == 1) printf("AREA (ft2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2)");
                 break;
             }
             case 3513: {
-                if (debug == 1) printf("AREA (ft2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2)");
                 break;
             }
             case 3514: {
-                if (debug == 1) printf("AREA (ft2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2)");
                 break;
             }
             case 3515: {
-                if (debug == 1) printf("AREA (ft2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2)");
                 break;
             }
             case 352: {
@@ -5026,48 +4112,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3521: {
-                if (debug == 1) printf("AREA (yd2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2)");
                 break;
             }
             case 3522: {
-                if (debug == 1) printf("AREA (yd2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2)");
                 break;
             }
             case 3523: {
-                if (debug == 1) printf("AREA (yd2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2)");
                 break;
             }
             case 3524: {
-                if (debug == 1) printf("AREA (yd2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2)");
                 break;
             }
             case 3525: {
-                if (debug == 1) printf("AREA (yd2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2)");
                 break;
             }
             case 353: {
@@ -5085,48 +4146,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3531: {
-                if (debug == 1) printf("AREA (in2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2), log");
                 break;
             }
             case 3532: {
-                if (debug == 1) printf("AREA (in2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2), log");
                 break;
             }
             case 3533: {
-                if (debug == 1) printf("AREA (in2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2), log");
                 break;
             }
             case 3534: {
-                if (debug == 1) printf("AREA (in2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2), log");
                 break;
             }
             case 3535: {
-                if (debug == 1) printf("AREA (in2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (in2), log");
                 break;
             }
             case 354: {
@@ -5144,48 +4180,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3541: {
-                if (debug == 1) printf("AREA (ft2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2), log");
                 break;
             }
             case 3542: {
-                if (debug == 1) printf("AREA (ft2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2), log");
                 break;
             }
             case 3543: {
-                if (debug == 1) printf("AREA (ft2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2), log");
                 break;
             }
             case 3544: {
-                if (debug == 1) printf("AREA (ft2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2), log");
                 break;
             }
             case 3545: {
-                if (debug == 1) printf("AREA (ft2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (ft2), log");
                 break;
             }
             case 355: {
@@ -5203,48 +4214,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3551: {
-                if (debug == 1) printf("AREA (yd2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2), log");
                 break;
             }
             case 3552: {
-                if (debug == 1) printf("AREA (yd2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2), log");
                 break;
             }
             case 3553: {
-                if (debug == 1) printf("AREA (yd2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2), log");
                 break;
             }
             case 3554: {
-                if (debug == 1) printf("AREA (yd2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2), log");
                 break;
             }
             case 3555: {
-                if (debug == 1) printf("AREA (yd2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AREA (yd2), log");
                 break;
             }
             case 356: {
@@ -5262,48 +4248,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3561: {
-                if (debug == 1) printf("NET WEIGHT (tr oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (tr oz)");
                 break;
             }
             case 3562: {
-                if (debug == 1) printf("NET WEIGHT (tr oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (tr oz)");
                 break;
             }
             case 3563: {
-                if (debug == 1) printf("NET WEIGHT (tr oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (tr oz)");
                 break;
             }
             case 3564: {
-                if (debug == 1) printf("NET WEIGHT (tr oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (tr oz)");
                 break;
             }
             case 3565: {
-                if (debug == 1) printf("NET WEIGHT (tr oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET WEIGHT (tr oz)");
                 break;
             }
             case 357: {
@@ -5321,48 +4282,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3571: {
-                if (debug == 1) printf("NET VOLUME (oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (oz)");
                 break;
             }
             case 3572: {
-                if (debug == 1) printf("NET VOLUME (oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (oz)");
                 break;
             }
             case 3573: {
-                if (debug == 1) printf("NET VOLUME (oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (oz)");
                 break;
             }
             case 3574: {
-                if (debug == 1) printf("NET VOLUME (oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (oz)");
                 break;
             }
             case 3575: {
-                if (debug == 1) printf("NET VOLUME (oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (oz)");
                 break;
             }
             case 360: {
@@ -5380,48 +4316,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3601: {
-                if (debug == 1) printf("NET VOLUME (qt US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (qt US)");
                 break;
             }
             case 3602: {
-                if (debug == 1) printf("NET VOLUME (qt US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (qt US)");
                 break;
             }
             case 3603: {
-                if (debug == 1) printf("NET VOLUME (qt US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (qt US)");
                 break;
             }
             case 3604: {
-                if (debug == 1) printf("NET VOLUME (qt US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (qt US)");
                 break;
             }
             case 3605: {
-                if (debug == 1) printf("NET VOLUME (qt US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (qt US)");
                 break;
             }
             case 361: {
@@ -5439,48 +4350,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3611: {
-                if (debug == 1) printf("NET VOLUME (gal US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (gal US)");
                 break;
             }
             case 3612: {
-                if (debug == 1) printf("NET VOLUME (gal US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (gal US)");
                 break;
             }
             case 3613: {
-                if (debug == 1) printf("NET VOLUME (gal US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (gal US)");
                 break;
             }
             case 3614: {
-                if (debug == 1) printf("NET VOLUME (gal US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (gal US)");
                 break;
             }
             case 3615: {
-                if (debug == 1) printf("NET VOLUME (gal US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("NET VOLUME (gal US)");
                 break;
             }
             case 362: {
@@ -5498,48 +4384,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3621: {
-                if (debug == 1) printf("VOLUME (qt US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (qt US), log");
                 break;
             }
             case 3622: {
-                if (debug == 1) printf("VOLUME (qt US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (qt US), log");
                 break;
             }
             case 3623: {
-                if (debug == 1) printf("VOLUME (qt US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (qt US), log");
                 break;
             }
             case 3624: {
-                if (debug == 1) printf("VOLUME (qt US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (qt US), log");
                 break;
             }
             case 3625: {
-                if (debug == 1) printf("VOLUME (qt US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (qt US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (qt US), log");
                 break;
             }
             case 363: {
@@ -5557,48 +4418,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3631: {
-                if (debug == 1) printf("VOLUME (gal US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (gal US), log");
                 break;
             }
             case 3632: {
-                if (debug == 1) printf("VOLUME (gal US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (gal US), log");
                 break;
             }
             case 3633: {
-                if (debug == 1) printf("VOLUME (gal US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (gal US), log");
                 break;
             }
             case 3634: {
-                if (debug == 1) printf("VOLUME (gal US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (gal US), log");
                 break;
             }
             case 3635: {
-                if (debug == 1) printf("VOLUME (gal US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (gal US): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (gal US), log");
                 break;
             }
             case 364: {
@@ -5616,48 +4452,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3641: {
-                if (debug == 1) printf("VOLUME (in3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3)");
                 break;
             }
             case 3642: {
-                if (debug == 1) printf("VOLUME (in3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3)");
                 break;
             }
             case 3643: {
-                if (debug == 1) printf("VOLUME (in3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3)");
                 break;
             }
             case 3644: {
-                if (debug == 1) printf("VOLUME (in3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3)");
                 break;
             }
             case 3645: {
-                if (debug == 1) printf("VOLUME (in3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3)");
                 break;
             }
             case 365: {
@@ -5675,48 +4486,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3651: {
-                if (debug == 1) printf("VOLUME (ft3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3)");
                 break;
             }
             case 3652: {
-                if (debug == 1) printf("VOLUME (ft3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3)");
                 break;
             }
             case 3653: {
-                if (debug == 1) printf("VOLUME (ft3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3)");
                 break;
             }
             case 3654: {
-                if (debug == 1) printf("VOLUME (ft3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3)");
                 break;
             }
             case 3655: {
-                if (debug == 1) printf("VOLUME (ft3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3)");
                 break;
             }
             case 366: {
@@ -5734,48 +4520,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3661: {
-                if (debug == 1) printf("VOLUME (yd3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3)");
                 break;
             }
             case 3662: {
-                if (debug == 1) printf("VOLUME (yd3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3)");
                 break;
             }
             case 3663: {
-                if (debug == 1) printf("VOLUME (yd3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3)");
                 break;
             }
             case 3664: {
-                if (debug == 1) printf("VOLUME (yd3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3)");
                 break;
             }
             case 3665: {
-                if (debug == 1) printf("VOLUME (yd3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3): ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3)");
                 break;
             }
             case 367: {
@@ -5793,48 +4554,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3671: {
-                if (debug == 1) printf("VOLUME (in3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3), log");
                 break;
             }
             case 3672: {
-                if (debug == 1) printf("VOLUME (in3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3), log");
                 break;
             }
             case 3673: {
-                if (debug == 1) printf("VOLUME (in3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3), log");
                 break;
             }
             case 3674: {
-                if (debug == 1) printf("VOLUME (in3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3), log");
                 break;
             }
             case 3675: {
-                if (debug == 1) printf("VOLUME (in3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (in3), log");
                 break;
             }
             case 368: {
@@ -5852,48 +4588,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3681: {
-                if (debug == 1) printf("VOLUME (ft3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3), log");
                 break;
             }
             case 3682: {
-                if (debug == 1) printf("VOLUME (ft3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3), log");
                 break;
             }
             case 3683: {
-                if (debug == 1) printf("VOLUME (ft3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3), log");
                 break;
             }
             case 3684: {
-                if (debug == 1) printf("VOLUME (ft3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3), log");
                 break;
             }
             case 3685: {
-                if (debug == 1) printf("VOLUME (ft3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (ft3), log");
                 break;
             }
             case 369: {
@@ -5911,48 +4622,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3691: {
-                if (debug == 1) printf("VOLUME (yd3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3), log");
                 break;
             }
             case 3692: {
-                if (debug == 1) printf("VOLUME (yd3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3), log");
                 break;
             }
             case 3693: {
-                if (debug == 1) printf("VOLUME (yd3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3), log");
                 break;
             }
             case 3694: {
-                if (debug == 1) printf("VOLUME (yd3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3), log");
                 break;
             }
             case 3695: {
-                if (debug == 1) printf("VOLUME (yd3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3), log: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("VOLUME (yd3), log");
                 break;
             }
             case 3900: {
@@ -5965,21 +4651,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3901: {
-                if (debug == 1) printf("AMOUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AMOUNT: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AMOUNT");
                 break;
             }
             case 3902: {
-                if (debug == 1) printf("AMOUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AMOUNT: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AMOUNT");
                 break;
             }
             case 3910: {
@@ -6010,30 +4686,15 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3920: {
-                if (debug == 1) printf("PRICE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRICE");
                 break;
             }
             case 3921: {
-                if (debug == 1) printf("PRICE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRICE");
                 break;
             }
             case 3922: {
-                if (debug == 1) printf("PRICE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRICE");
                 break;
             }
             case 3930: {
@@ -6078,66 +4739,31 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3941: {
-                if (debug == 1) printf("PRCNT OFF ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRCNT OFF: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRCNT OFF");
                 break;
             }
             case 3942: {
-                if (debug == 1) printf("PRCNT OFF ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRCNT OFF: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRCNT OFF");
                 break;
             }
             case 3943: {
-                if (debug == 1) printf("PRCNT OFF ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRCNT OFF: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRCNT OFF");
                 break;
             }
             case 3950: {
-                if (debug == 1) printf("PRICE/UoM ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE/UoM: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRICE/UoM");
                 break;
             }
             case 3951: {
-                if (debug == 1) printf("PRICE/UoM ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE/UoM: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRICE/UoM");
                 break;
             }
             case 3952: {
-                if (debug == 1) printf("PRICE/UoM ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE/UoM: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRICE/UoM");
                 break;
             }
             case 3953: {
-                if (debug == 1) printf("PRICE/UoM ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE/UoM: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("PRICE/UoM");
                 break;
             }
             case 400: {
