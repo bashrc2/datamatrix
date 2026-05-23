@@ -541,6 +541,8 @@ char * get_company_prefix_str(char company_prefix_code[],
 
 char * get_country(char data_str[]);
 
+char * get_country_alpha2(char data_str[]);
+
 char * get_currency_value(int application_identifier,
                           char data_str[]);
 

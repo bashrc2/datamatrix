@@ -238,7 +238,7 @@ char * get_company_prefix_str(char company_prefix_code[],
 }
 
 /**
- * \brief returns the country for the given code number
+ * \brief returns the country for the given 3 digit code number
  * \param data_str String containing a code number to be decoded
  * \return decoded country string or NULL
  */
@@ -280,6 +280,47 @@ char * get_country(char data_str[])
             decode_strcat_char(country_str, data_str[i]);
         }
     }
+
+    return country_str;
+}
+
+/**
+ * \brief returns the country for the given two letter alphabetic code
+ *        https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+ * \param data_str String containing a code number to be decoded
+ * \return decoded country string or NULL
+ */
+char * get_country_alpha2(char data_str[])
+{
+    int i;
+    char data_str_country_code[3];
+
+    int data_len = strlen(data_str);
+    if (data_len != 2) return NULL;
+    for (i = 0; i < 2; i++) {
+        if ((data_str[i] < 'A') || (data_str[i] > 'Z')) return NULL;
+        data_str_country_code[i] = data_str[i];
+    }
+    data_str_country_code[2] = 0;
+
+    /* is this an iso3166 code? */
+    int no_of_countries =
+        ((int)sizeof(iso3166_2_country_codes) /
+         (int)sizeof(iso3166_2_country_codes[0]))/2;
+    int country_index = -1;
+    for (i = 0; i < no_of_countries; i++) {
+        if (strcmp(iso3166_2_country_codes[i*2],
+                   &data_str_country_code[0]) == 0) {
+            country_index = i;
+            break;
+        }
+    }
+    if (country_index == -1) return NULL;
+
+    char * country_str =
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    country_str[0] = 0;
+    decode_strcat(country_str, iso3166_2_country_codes[country_index*2+1]);
 
     return country_str;
 }

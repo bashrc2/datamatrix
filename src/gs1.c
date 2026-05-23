@@ -61,6 +61,13 @@
       country_str = get_country(data_str); \
     }
 
+#define DECODE_COUNTRY_ALPHA2(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      country_str = get_country_alpha2(data_str); \
+    }
+
 /**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
@@ -4718,11 +4725,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4307: {
-                /* TODO country alpha codes */
-                if (debug == 1) printf("SHIP TO COUNTRY ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO COUNTRY: ");
-                }
+                DECODE_COUNTRY_ALPHA2("SHIP TO COUNTRY");
                 break;
             }
             case 4308: {
@@ -4795,11 +4798,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4317: {
-                /* TODO country alpha codes */
-                if (debug == 1) printf("RTN TO COUNTRY ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO COUNTRY: ");
-                }
+                DECODE_COUNTRY_ALPHA2("RTN TO COUNTRY");
                 break;
             }
             case 4318: {
