@@ -139,6 +139,7 @@ void gs1_semantics(char result[],
 
     int curr_pos = (int)strlen(result);
     int authority_to_leave = -1;
+    int dangerous_goods = -1;
     int signature_required = -1;
     int aidc_media_type = -1;
     int bio_sex = -1;
@@ -2437,6 +2438,7 @@ void gs1_semantics(char result[],
         latitude = UNKNOWN_VALUE;
         longitude = UNKNOWN_VALUE;
         authority_to_leave = -1;
+        dangerous_goods = -1;
         signature_required = -1;
         aidc_media_type = -1;
         temperature = UNKNOWN_VALUE;
@@ -4825,7 +4827,12 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4321: {
-                DECODE("DANGEROUS GOODS");
+                if (debug == 1) printf("DANGEROUS GOODS ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "DANGEROUS GOODS: ");
+                    dangerous_goods = 0;
+                    if (data_str[0] == '1') dangerous_goods = 1;
+                }
                 break;
             }
             case 4322: {
@@ -5545,7 +5552,6 @@ void gs1_semantics(char result[],
                     free(geo_str);
                 }
                 else if (authority_to_leave != -1) {
-                    decode_strcat(gs1_result, data_str);
                     if (authority_to_leave == 0) {
                         decode_strcat(gs1_result, "NO");
                     }
@@ -5553,8 +5559,15 @@ void gs1_semantics(char result[],
                         decode_strcat(gs1_result, "YES");
                     }
                 }
+                else if (dangerous_goods != -1) {
+                    if (dangerous_goods == 0) {
+                        decode_strcat(gs1_result, "NO");
+                    }
+                    else {
+                        decode_strcat(gs1_result, "YES");
+                    }
+                }
                 else if (signature_required != -1) {
-                    decode_strcat(gs1_result, data_str);
                     if (signature_required == 0) {
                         decode_strcat(gs1_result, "NO");
                     }
