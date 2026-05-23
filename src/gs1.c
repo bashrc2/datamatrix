@@ -75,6 +75,17 @@
       temperature = get_temperature(data_str); \
     }
 
+#define DECODE_PROCESSOR(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      processor_country_code[0] = data_str[0]; \
+      processor_country_code[1] = data_str[1]; \
+      processor_country_code[2] = data_str[2]; \
+      processor_country_code[3] = 0; \
+      processor_country_str = get_country(&processor_country_code[0]); \
+    }
+
 /**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
@@ -4959,123 +4970,43 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7030: {
-                if (debug == 1) printf("PROCESSOR # 0 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 0: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 0");
                 break;
             }
             case 7031: {
-                if (debug == 1) printf("PROCESSOR # 1 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 1: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 1");
                 break;
             }
             case 7032: {
-                if (debug == 1) printf("PROCESSOR # 2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 2: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 2");
                 break;
             }
             case 7033: {
-                if (debug == 1) printf("PROCESSOR # 3 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 3: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 3");
                 break;
             }
             case 7034: {
-                if (debug == 1) printf("PROCESSOR # 4 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 4: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 4");
                 break;
             }
             case 7035: {
-                if (debug == 1) printf("PROCESSOR # 5 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 5: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 5");
                 break;
             }
             case 7036: {
-                if (debug == 1) printf("PROCESSOR # 6 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 6: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 6");
                 break;
             }
             case 7037: {
-                if (debug == 1) printf("PROCESSOR # 7 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 7: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 7");
                 break;
             }
             case 7038: {
-                if (debug == 1) printf("PROCESSOR # 8 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 8: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 8");
                 break;
             }
             case 7039: {
-                if (debug == 1) printf("PROCESSOR # 9 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # 9: ");
-                    processor_country_code[0] = data_str[0];
-                    processor_country_code[1] = data_str[1];
-                    processor_country_code[2] = data_str[2];
-                    processor_country_code[3] = 0;
-                    processor_country_str = get_country(&processor_country_code[0]);
-                }
+                DECODE_PROCESSOR("PROCESSOR # 9");
                 break;
             }
             case 7040: {
