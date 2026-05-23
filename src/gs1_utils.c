@@ -420,3 +420,378 @@ char * get_decimal_value(int application_identifier,
     }
     return decimal_str;
 }
+
+/**
+ * \brief returns UNECE meat carcasses and cuts code
+ *        https://unece.org/sites/default/files/2024-03/Bovine_2007_e_0.pdf
+ * \param data_str String to be decoded
+ * \return decoded UNECE meat carcasses and cuts code
+ */
+char * get_meat_cut(char data_str[])
+{
+    int i, data_len = strlen(data_str);
+    if (data_len < 19) return NULL;
+    char * meat_cut_str =
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    meat_cut_str[0] = 0;
+    decode_strcat(meat_cut_str, "MEAT CUT: ");
+    decode_strcat(meat_cut_str, data_str);
+
+    /* field 1 */
+    int no_of_species =
+        ((int)sizeof(unece_species_code) /
+         (int)sizeof(unece_species_code[0]))/2;
+    for (i = 0; i < no_of_species; i++) {
+        if ((unece_species_code[i*2][0] == data_str[0]) &&
+            (unece_species_code[i*2][1] == data_str[1])) {
+            decode_strcat(meat_cut_str, "\nSPECIES: ");
+            decode_strcat(meat_cut_str, unece_species_code[i*2 + 1]);
+            break;
+        }
+    }
+
+    /* field 2 */
+    int no_of_product_codes =
+        ((int)sizeof(unece_product_code) /
+         (int)sizeof(unece_product_code[0]))/3;
+    char prod_code_str[5];
+    /* check that all product code characters are numbers */
+    for (i = 2; i <= 5; i++) {
+        if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            return NULL;
+        }
+    }
+    prod_code_str[0] = data_str[2];
+    prod_code_str[1] = data_str[3];
+    prod_code_str[2] = data_str[4];
+    prod_code_str[3] = data_str[5];
+    prod_code_str[3] = 0;
+    int prod_code = atoi(prod_code_str);
+    for (i = 0; i < no_of_product_codes; i++) {
+        int prod_code_start = atoi(unece_product_code[i*3]);
+        if ((int)strlen(unece_product_code[i*3+1]) > 0) {
+            int prod_code_end = atoi(unece_product_code[i*3+1]);
+            if ((prod_code >= prod_code_start) &&
+                (prod_code <= prod_code_end)) {
+                decode_strcat(meat_cut_str, "\nPROD CODE: ");
+                decode_strcat(meat_cut_str, unece_product_code[i*3+2]);
+                break;
+            }
+        }
+        else {
+            if (prod_code == prod_code_start) {
+                decode_strcat(meat_cut_str, "\nPROD CODE: ");
+                decode_strcat(meat_cut_str, unece_product_code[i*3+2]);
+                break;
+            }
+        }
+    }
+
+    /* field 3 is 2 characters and not used */
+
+    /* field 4 */
+    switch(data_str[8]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nREFRIGERATION: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nREFRIGERATION: CHILLED");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nREFRIGERATION: FROZEN");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nREFRIGERATION: DEEP-FROZEN");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nREFRIGERATION: OTHER");
+        break;
+    }
+    }
+
+    /* field 5 */
+    switch(data_str[9]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: INTACT MALE");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: YOUNG INTACT MALE");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: STEER");
+        break;
+    }
+    case '4': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: HEIFER");
+        break;
+    }
+    case '5': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: STEER AND/OR HEIFER");
+        break;
+    }
+    case '6': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: COW");
+        break;
+    }
+    case '7': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: YOUNG BOVINE");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nBOVINE CATEGORY: OTHER");
+        break;
+    }
+    }
+
+    /* field 6 */
+    switch(data_str[10]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nPRODUCTION SYSTEM: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nPRODUCTION SYSTEM: INTENSIVE");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nPRODUCTION SYSTEM: EXTENSIVE");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nPRODUCTION SYSTEM: ORGANIC");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nPRODUCTION SYSTEM: OTHER");
+        break;
+    }
+    }
+
+    /* field 7 */
+    switch(data_str[11]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nFEEDING SYSTEM: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nFEEDING SYSTEM: GRAIN FED");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nFEEDING SYSTEM: FORAGE FED");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nFEEDING SYSTEM: EXCLUSIVELY FORAGE FED");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nFEEDING SYSTEM: OTHER");
+        break;
+    }
+    }
+
+    /* field 8 */
+    switch(data_str[12]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nSLAUGHTER SYSTEM: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nSLAUGHTER SYSTEM: CONVENTIONAL");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nSLAUGHTER SYSTEM: KOSHER");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nSLAUGHTER SYSTEM: HALAL");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nSLAUGHTER SYSTEM: OTHER");
+        break;
+    }
+    }
+
+    /* field 9 */
+    switch(data_str[13]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nPOST-SLAUGHTER PROCESSING: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nPOST-SLAUGHTER PROCESSING: SPECIFIED");
+        break;
+    }
+    }
+
+    /* field 10 */
+    switch(data_str[14]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: PEELED, DENUDED, SURFACE MEMBRANE REMOVED");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: PEELED, DENUDED");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: PRACTICALLY FREE");
+        break;
+    }
+    case '4': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: 3MM");
+        break;
+    }
+    case '5': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: 6MM");
+        break;
+    }
+    case '6': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: 13MM");
+        break;
+    }
+    case '7': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: 25MM");
+        break;
+    }
+    case '8': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: CHEMICAL LEAN SPECIFIED");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nFAT THICKNESS: OTHER");
+        break;
+    }
+    }
+
+    /* field 11 */
+    switch(data_str[15]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nBOVINE QUALITY SYSTEM: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nBOVINE QUALITY SYSTEM: OFFICIAL STANDARDS");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nBOVINE QUALITY SYSTEM: COMPANY STANDARDS");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nBOVINE QUALITY SYSTEM: INDUSTRY STANDARDS");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nBOVINE QUALITY SYSTEM: OTHER");
+        break;
+    }
+    }
+
+    /* field 12 */
+    switch(data_str[16]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nWEIGHT RANGE: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nWEIGHT RANGE: SPECIFIED");
+        break;
+    }
+    }
+
+    /* field 13 */
+    switch(data_str[17]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nPACKING: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nPACKING: CARCASES, HALF CARCASES AND QUARTERS - WITHOUT PACKING");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nPACKING: CARCASES, HALF CARCASES AND QUARTERS - WITH PACKING");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nPACKING: CUTS - INDIVIDUALLY WRAPPED");
+        break;
+    }
+    case '4': {
+        decode_strcat(meat_cut_str, "\nPACKING: CUTS - BULK PACKAGED");
+        break;
+    }
+    case '5': {
+        decode_strcat(meat_cut_str, "\nPACKING: CUTS - VACUUM PACKED");
+        break;
+    }
+    case '6': {
+        decode_strcat(meat_cut_str, "\nPACKING: CUTS - MODIFIED ATMOSPHERE PACKAGING");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nPACKING: OTHER");
+        break;
+    }
+    }
+
+    /* field 14 */
+    switch(data_str[18]) {
+    case '0': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: NOT SPECIFIED");
+        break;
+    }
+    case '1': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: QUALITY/GRADE/CLASSIFICATION");
+        break;
+    }
+    case '2': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: TRADE STANDARD");
+        break;
+    }
+    case '3': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: BOVINE/BATCH ID");
+        break;
+    }
+    case '4': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: QUALITY AND TRADE");
+        break;
+    }
+    case '5': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: QUALITY AND BOVINE/BATCH ID");
+        break;
+    }
+    case '6': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: TRADE STANDARD AND BOVINE/BATCH ID");
+        break;
+    }
+    case '7': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: QUALITY, TRADE STANDARD AND BOVINE/BATCH ID");
+        break;
+    }
+    case '9': {
+        decode_strcat(meat_cut_str, "\nCONFORMITY: OTHER");
+        break;
+    }
+    }
+
+    return meat_cut_str;
+}

@@ -86,6 +86,13 @@
       processor_country_str = get_country(&processor_country_code[0]); \
     }
 
+#define DECODE_MEAT(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      meat_cut_str = get_meat_cut(data_str); \
+    }
+
 /**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
@@ -115,6 +122,7 @@ void gs1_semantics(char result[],
     char * app_id_str, * data_str, * date_str, * end_date_str;
     char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
     char * company_prefix_str, * processor_country_str, * package_type_str;
+    char * meat_cut_str;
     unsigned char gtin_check_digit_passed = -1;
     unsigned char gsin_check_digit_passed = -1;
     unsigned char gsrn_check_digit_passed = -1;
@@ -2423,6 +2431,7 @@ void gs1_semantics(char result[],
         issn_str = NULL;
         company_prefix_str = NULL;
         package_type_str = NULL;
+        meat_cut_str = NULL;
         gtin_check_digit_passed = -1;
         gsin_check_digit_passed = -1;
         gsrn_check_digit_passed = -1;
@@ -4886,7 +4895,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7002: {
-                DECODE("MEAT CUT");
+                DECODE_MEAT("MEAT CUT");
                 break;
             }
             case 7003: {
@@ -5667,6 +5676,10 @@ void gs1_semantics(char result[],
                 }
                 else if (package_type_str != NULL) {
                     decode_strcat(gs1_result, package_type_str);
+                }
+                else if (meat_cut_str != NULL) {
+                    decode_strcat(gs1_result, meat_cut_str);
+                    free(meat_cut_str);
                 }
                 else {
                     decode_strcat(gs1_result, data_str);

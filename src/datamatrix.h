@@ -549,6 +549,8 @@ char * get_currency_value(int application_identifier,
 char * get_decimal_value(int application_identifier,
                          char data_str[]);
 
+char * get_meat_cut(char data_str[]);
+
 /* gs1.c */
 
 void gs1_semantics(char result[],

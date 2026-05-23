@@ -275,4 +275,6 @@ A set of images will be produced which show the detection process at each stage.
 
 [The Health Industry Supplier Labeling Standard for Patient Safety & Unique Device Identification (UDI)](https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf)
 
+[UNECE Standard Bovine Meat Carcases and Cuts](https://unece.org/sites/default/files/2024-03/Bovine_2007_e_0.pdf)
+
 <img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/noai.gif" width="10%" alt="No AI Allowed"/> <img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/hand_coded.gif" width="10%" alt="Hand Coded"/> <img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/dontfeedai.gif" width="10%" alt="Don't feed the AI"/> <img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/writtenbyhuman.png" width="10%" alt="Written by a human not by an AI"/>
