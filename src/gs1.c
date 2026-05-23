@@ -36,11 +36,17 @@
 
 #define DECODE_DECIMAL(title) \
     if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) {                                     \
-    decode_strcat(gs1_result, title ": ");                      \
-    decimal_str = get_decimal_value(*application_identifier, data_str); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      decimal_str = get_decimal_value(*application_identifier, data_str); \
     }
 
+#define DECODE_CURRENCY(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      curr_str = get_currency_value(*application_identifier, data_str); \
+    }
 
 /**
  * \brief state machine for handling GS1 semantics
@@ -4659,30 +4665,15 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3910: {
-                if (debug == 1) printf("AMOUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AMOUNT: ");
-                    curr_str =
-                        get_currency_value(*application_identifier, data_str);
-                }
+                DECODE_CURRENCY("AMOUNT");
                 break;
             }
             case 3911: {
-                if (debug == 1) printf("AMOUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AMOUNT: ");
-                    curr_str =
-                        get_currency_value(*application_identifier, data_str);
-                }
+                DECODE_CURRENCY("AMOUNT");
                 break;
             }
             case 3912: {
-                if (debug == 1) printf("AMOUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AMOUNT: ");
-                    curr_str =
-                        get_currency_value(*application_identifier, data_str);
-                }
+                DECODE_CURRENCY("AMOUNT");
                 break;
             }
             case 3920: {
@@ -4698,30 +4689,15 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3930: {
-                if (debug == 1) printf("PRICE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE: ");
-                    curr_str =
-                        get_currency_value(*application_identifier, data_str);
-                }
+                DECODE_CURRENCY("PRICE");
                 break;
             }
             case 3931: {
-                if (debug == 1) printf("PRICE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE: ");
-                    curr_str =
-                        get_currency_value(*application_identifier, data_str);
-                }
+                DECODE_CURRENCY("PRICE");
                 break;
             }
             case 3932: {
-                if (debug == 1) printf("PRICE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE: ");
-                    curr_str =
-                        get_currency_value(*application_identifier, data_str);
-                }
+                DECODE_CURRENCY("PRICE");
                 break;
             }
             case 394: {
