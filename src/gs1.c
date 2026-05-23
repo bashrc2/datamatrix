@@ -4656,7 +4656,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 422: {
-                DECODE("ORIGIN");
+                DECODE_COUNTRY("ORIGIN");
                 break;
             }
             case 423: {
