@@ -27,6 +27,12 @@
     *application_identifier_length = (id_len); \
     *application_data_variable = (variable_len);
 
+#define DECODE(title) \
+    if (debug == 1) printf(title " ");  \
+    if (is_digital_link == 0) { \
+        decode_strcat(gs1_result, title ": "); \
+    }
+
 #define DECODE_DATE(title, dateformat) \
     if (debug == 1) printf(title " "); \
     if (is_digital_link == 0) { \
@@ -46,6 +52,13 @@
     if (is_digital_link == 0) { \
       decode_strcat(gs1_result, title ": "); \
       curr_str = get_currency_value(*application_identifier, data_str); \
+    }
+
+#define DECODE_COUNTRY(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      country_str = get_country(data_str); \
     }
 
 /**
@@ -2517,10 +2530,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 2: {
-                if (debug == 1) printf("CONTENT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "CONTENT: ");
-                }
+                DECODE("CONTENT");
                 break;
             }
             case 3: {
@@ -2563,17 +2573,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 10: {
-                if (debug == 1) printf("BATCH/LOT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "BATCH/LOT: ");
-                }
+                DECODE("BATCH/LOT");
                 break;
             }
             case 11: {
@@ -2601,213 +2605,123 @@ void gs1_semantics(char result[],
                 break;
             }
             case 18: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 19: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 21: {
-                if (debug == 1) printf("SERIAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SERIAL: ");
-                }
+                DECODE("SERIAL");
                 break;
             }
             case 22: {
-                if (debug == 1) printf("CPV ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "CPV: ");
-                }
+                DECODE("CPV");
                 break;
             }
             case 30: {
-                if (debug == 1) printf("VAR COUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VAR COUNT: ");
-                }
+                DECODE("VAR COUNT");
                 break;
             }
             case 31: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 32: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 33: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 34: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 35: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 36: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 37: {
-                if (debug == 1) printf("COUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "COUNT: ");
-                }
+                DECODE("COUNT");
                 break;
             }
             case 41: {
-                if (debug == 1) printf("ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ID: ");
-                }
+                DECODE("ID");
                 break;
             }
             case 90: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 91: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 92: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 93: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 94: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 95: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 96: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 97: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 98: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 99: {
-                if (debug == 1) printf("INTERNAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "INTERNAL: ");
-                }
+                DECODE("INTERNAL");
                 break;
             }
             case 235: {
-                if (debug == 1) printf("TPX ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "TPX: ");
-                }
+                DECODE("TPX");
                 break;
             }
             case 240: {
-                if (debug == 1) printf("ADDITIONAL ID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ADDITIONAL ID: ");
-                }
+                DECODE("ADDITIONAL ID");
                 break;
             }
             case 241: {
-                if (debug == 1) printf("CUST PART No ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "CUST PART No: ");
-                }
+                DECODE("CUST PART No");
                 break;
             }
             case 242: {
-                if (debug == 1) printf("MTO VARIANT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "MTO VARIANT: ");
-                }
+                DECODE("MTO VARIANT");
                 break;
             }
             case 243: {
-                if (debug == 1) printf("PCN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PCN: ");
-                }
+                DECODE("PCN");
                 break;
             }
             case 250: {
-                if (debug == 1) printf("SECONDARY SERIAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SECONDARY SERIAL: ");
-                }
+                DECODE("SECONDARY SERIAL");
                 break;
             }
             case 251: {
-                if (debug == 1) printf("REF TO SOURCE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "REF TO SOURCE: ");
-                }
+                DECODE("REF TO SOURCE");
                 break;
             }
             case 253: {
@@ -2827,10 +2741,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 254: {
-                if (debug == 1) printf("GLN EXTENSION COMPONENT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GLN EXTENSION COMPONENT: ");
-                }
+                DECODE("GLN EXTENSION COMPONENT");
                 break;
             }
             case 255: {
@@ -2853,17 +2764,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 310: {
-                if (debug == 1) printf("NET WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
-                }
+                DECODE("NET WEIGHT (kg)");
                 break;
             }
             case 3100: {
-                if (debug == 1) printf("NET WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (kg): ");
-                }
+                DECODE("NET WEIGHT (kg)");
                 break;
             }
             case 3101: {
@@ -2887,17 +2792,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 311: {
-                if (debug == 1) printf("LENGTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m): ");
-                }
+                DECODE("LENGTH (m)");
                 break;
             }
             case 3110: {
-                if (debug == 1) printf("LENGTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m): ");
-                }
+                DECODE("LENGTH (m)");
                 break;
             }
             case 3111: {
@@ -2921,17 +2820,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 312: {
-                if (debug == 1) printf("WIDTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m): ");
-                }
+                DECODE("WIDTH (m)");
                 break;
             }
             case 3120: {
-                if (debug == 1) printf("WIDTH (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m): ");
-                }
+                DECODE("WIDTH (m)");
                 break;
             }
             case 3121: {
@@ -2955,17 +2848,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 313: {
-                if (debug == 1) printf("HEIGHT (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m): ");
-                }
+                DECODE("HEIGHT (m)");
                 break;
             }
             case 3130: {
-                if (debug == 1) printf("HEIGHT (m) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m): ");
-                }
+                DECODE("HEIGHT (m)");
                 break;
             }
             case 3131: {
@@ -2989,17 +2876,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 314: {
-                if (debug == 1) printf("AREA (m2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2): ");
-                }
+                DECODE("AREA (m2)");
                 break;
             }
             case 3140: {
-                if (debug == 1) printf("AREA (m2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2): ");
-                }
+                DECODE("AREA (m2)");
                 break;
             }
             case 3141: {
@@ -3023,17 +2904,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 315: {
-                if (debug == 1) printf("NET VOLUME (l) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (l): ");
-                }
+                DECODE("NET VOLUME (l)");
                 break;
             }
             case 3150: {
-                if (debug == 1) printf("NET VOLUME (l) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (l): ");
-                }
+                DECODE("NET VOLUME (l)");
                 break;
             }
             case 3151: {
@@ -3057,17 +2932,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 316: {
-                if (debug == 1) printf("NET VOLUME (m3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
-                }
+                DECODE("NET VOLUME (m3)");
                 break;
             }
             case 3160: {
-                if (debug == 1) printf("NET VOLUME (m3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (m3): ");
-                }
+                DECODE("NET VOLUME (m3)");
                 break;
             }
             case 3161: {
@@ -3091,17 +2960,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 320: {
-                if (debug == 1) printf("NET WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
-                }
+                DECODE("NET WEIGHT (lb)");
                 break;
             }
             case 3200: {
-                if (debug == 1) printf("NET WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (lb): ");
-                }
+                DECODE("NET WEIGHT (lb)");
                 break;
             }
             case 3201: {
@@ -3125,17 +2988,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 321: {
-                if (debug == 1) printf("LENGTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in): ");
-                }
+                DECODE("LENGTH (in)");
                 break;
             }
             case 3210: {
-                if (debug == 1) printf("LENGTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in): ");
-                }
+                DECODE("LENGTH (in)");
                 break;
             }
             case 3211: {
@@ -3159,17 +3016,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 322: {
-                if (debug == 1) printf("LENGTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft): ");
-                }
+                DECODE("LENGTH (ft)");
                 break;
             }
             case 3220: {
-                if (debug == 1) printf("LENGTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft): ");
-                }
+                DECODE("LENGTH (ft)");
                 break;
             }
             case 3221: {
@@ -3193,17 +3044,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 323: {
-                if (debug == 1) printf("LENGTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd): ");
-                }
+                DECODE("LENGTH (yd)");
                 break;
             }
             case 3230: {
-                if (debug == 1) printf("LENGTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd): ");
-                }
+                DECODE("LENGTH (yd)");
                 break;
             }
             case 3231: {
@@ -3227,17 +3072,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 324: {
-                if (debug == 1) printf("WIDTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in): ");
-                }
+                DECODE("WIDTH (in)");
                 break;
             }
             case 3240: {
-                if (debug == 1) printf("WIDTH (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in): ");
-                }
+                DECODE("WIDTH (in)");
                 break;
             }
             case 3241: {
@@ -3261,17 +3100,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 325: {
-                if (debug == 1) printf("WIDTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft): ");
-                }
+                DECODE("WIDTH (ft)");
                 break;
             }
             case 3250: {
-                if (debug == 1) printf("WIDTH (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft): ");
-                }
+                DECODE("WIDTH (ft)");
                 break;
             }
             case 3251: {
@@ -3295,17 +3128,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 326: {
-                if (debug == 1) printf("WIDTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd): ");
-                }
+                DECODE("WIDTH (yd)");
                 break;
             }
             case 3260: {
-                if (debug == 1) printf("WIDTH (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd): ");
-                }
+                DECODE("WIDTH (yd)");
                 break;
             }
             case 3261: {
@@ -3329,17 +3156,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 327: {
-                if (debug == 1) printf("HEIGHT (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in): ");
-                }
+                DECODE("HEIGHT (in)");
                 break;
             }
             case 3270: {
-                if (debug == 1) printf("HEIGHT (in) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in): ");
-                }
+                DECODE("HEIGHT (in)");
                 break;
             }
             case 3271: {
@@ -3363,17 +3184,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 328: {
-                if (debug == 1) printf("HEIGHT (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft): ");
-                }
+                DECODE("HEIGHT (ft)");
                 break;
             }
             case 3280: {
-                if (debug == 1) printf("HEIGHT (ft) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft): ");
-                }
+                DECODE("HEIGHT (ft)");
                 break;
             }
             case 3281: {
@@ -3397,17 +3212,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 329: {
-                if (debug == 1) printf("HEIGHT (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd): ");
-                }
+                DECODE("HEIGHT (yd)");
                 break;
             }
             case 3290: {
-                if (debug == 1) printf("HEIGHT (yd) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd): ");
-                }
+                DECODE("HEIGHT (yd)");
                 break;
             }
             case 3291: {
@@ -3431,17 +3240,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 330: {
-                if (debug == 1) printf("GROSS WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (kg): ");
-                }
+                DECODE("GROSS WEIGHT (kg)");
                 break;
             }
             case 3300: {
-                if (debug == 1) printf("GROSS WEIGHT (kg) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (kg): ");
-                }
+                DECODE("GROSS WEIGHT (kg)");
                 break;
             }
             case 3301: {
@@ -3465,17 +3268,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 331: {
-                if (debug == 1) printf("LENGTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m), log: ");
-                }
+                DECODE("LENGTH (m), log");
                 break;
             }
             case 3310: {
-                if (debug == 1) printf("LENGTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (m), log: ");
-                }
+                DECODE("LENGTH (m), log");
                 break;
             }
             case 3311: {
@@ -3499,17 +3296,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 332: {
-                if (debug == 1) printf("WIDTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m), log: ");
-                }
+                DECODE("WIDTH (m), log");
                 break;
             }
             case 3320: {
-                if (debug == 1) printf("WIDTH (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (m), log: ");
-                }
+                DECODE("WIDTH (m), log");
                 break;
             }
             case 3321: {
@@ -3533,17 +3324,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 333: {
-                if (debug == 1) printf("HEIGHT (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m), log: ");
-                }
+                DECODE("HEIGHT (m), log");
                 break;
             }
             case 3330: {
-                if (debug == 1) printf("HEIGHT (m), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (m), log: ");
-                }
+                DECODE("HEIGHT (m), log");
                 break;
             }
             case 3331: {
@@ -3567,17 +3352,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 334: {
-                if (debug == 1) printf("AREA (m2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2), log: ");
-                }
+                DECODE("AREA (m2), log");
                 break;
             }
             case 3340: {
-                if (debug == 1) printf("AREA (m2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (m2), log: ");
-                }
+                DECODE("AREA (m2), log");
                 break;
             }
             case 3341: {
@@ -3601,17 +3380,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 335: {
-                if (debug == 1) printf("VOLUME (l), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (l), log: ");
-                }
+                DECODE("VOLUME (l), log");
                 break;
             }
             case 3350: {
-                if (debug == 1) printf("VOLUME (l), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (l), log: ");
-                }
+                DECODE("VOLUME (l), log");
                 break;
             }
             case 3351: {
@@ -3635,17 +3408,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 336: {
-                if (debug == 1) printf("VOLUME (m3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (m3), log: ");
-                }
+                DECODE("VOLUME (m3), log");
                 break;
             }
             case 3360: {
-                if (debug == 1) printf("VOLUME (m3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (m3), log: ");
-                }
+                DECODE("VOLUME (m3), log");
                 break;
             }
             case 3361: {
@@ -3669,10 +3436,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3370: {
-                if (debug == 1) printf("KG PER m2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "KG PER m2: ");
-                }
+                DECODE("KG PER m2");
                 break;
             }
             case 3371: {
@@ -3696,17 +3460,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 340: {
-                if (debug == 1) printf("GROSS WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (lb): ");
-                }
+                DECODE("GROSS WEIGHT (lb)");
                 break;
             }
             case 3400: {
-                if (debug == 1) printf("GROSS WEIGHT (lb) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GROSS WEIGHT (lb): ");
-                }
+                DECODE("GROSS WEIGHT (lb)");
                 break;
             }
             case 3401: {
@@ -3730,17 +3488,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 341: {
-                if (debug == 1) printf("LENGTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in), log: ");
-                }
+                DECODE("LENGTH (in), log");
                 break;
             }
             case 3410: {
-                if (debug == 1) printf("LENGTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (in), log: ");
-                }
+                DECODE("LENGTH (in), log");
                 break;
             }
             case 3411: {
@@ -3764,17 +3516,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 342: {
-                if (debug == 1) printf("LENGTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft), log: ");
-                }
+                DECODE("LENGTH (ft), log");
                 break;
             }
             case 3420: {
-                if (debug == 1) printf("LENGTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (ft), log: ");
-                }
+                DECODE("LENGTH (ft), log");
                 break;
             }
             case 3421: {
@@ -3798,17 +3544,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 343: {
-                if (debug == 1) printf("LENGTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd), log: ");
-                }
+                DECODE("LENGTH (yd), log");
                 break;
             }
             case 3430: {
-                if (debug == 1) printf("LENGTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "LENGTH (yd), log: ");
-                }
+                DECODE("LENGTH (yd), log");
                 break;
             }
             case 3431: {
@@ -3832,17 +3572,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 344: {
-                if (debug == 1) printf("WIDTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in), log: ");
-                }
+                DECODE("WIDTH (in), log");
                 break;
             }
             case 3440: {
-                if (debug == 1) printf("WIDTH (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (in), log: ");
-                }
+                DECODE("WIDTH (in), log");
                 break;
             }
             case 3441: {
@@ -3866,17 +3600,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 345: {
-                if (debug == 1) printf("WIDTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft), log: ");
-                }
+                DECODE("WIDTH (ft), log");
                 break;
             }
             case 3450: {
-                if (debug == 1) printf("WIDTH (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (ft), log: ");
-                }
+                DECODE("WIDTH (ft), log");
                 break;
             }
             case 3451: {
@@ -3900,17 +3628,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 346: {
-                if (debug == 1) printf("WIDTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd), log: ");
-                }
+                DECODE("WIDTH (yd), log");
                 break;
             }
             case 3460: {
-                if (debug == 1) printf("WIDTH (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "WIDTH (yd), log: ");
-                }
+                DECODE("WIDTH (yd), log");
                 break;
             }
             case 3461: {
@@ -3934,17 +3656,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 347: {
-                if (debug == 1) printf("HEIGHT (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in), log: ");
-                }
+                DECODE("HEIGHT (in), log");
                 break;
             }
             case 3470: {
-                if (debug == 1) printf("HEIGHT (in), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (in), log: ");
-                }
+                DECODE("HEIGHT (in), log");
                 break;
             }
             case 3471: {
@@ -3968,17 +3684,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 348: {
-                if (debug == 1) printf("HEIGHT (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft), log: ");
-                }
+                DECODE("HEIGHT (ft), log");
                 break;
             }
             case 3480: {
-                if (debug == 1) printf("HEIGHT (ft), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (ft), log: ");
-                }
+                DECODE("HEIGHT (ft), log");
                 break;
             }
             case 3481: {
@@ -4002,17 +3712,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 349: {
-                if (debug == 1) printf("HEIGHT (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd), log: ");
-                }
+                DECODE("HEIGHT (yd), log");
                 break;
             }
             case 3490: {
-                if (debug == 1) printf("HEIGHT (yd), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "HEIGHT (yd), log: ");
-                }
+                DECODE("HEIGHT (yd), log");
                 break;
             }
             case 3491: {
@@ -4036,17 +3740,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 350: {
-                if (debug == 1) printf("AREA (in2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2): ");
-                }
+                DECODE("AREA (in2)");
                 break;
             }
             case 3500: {
-                if (debug == 1) printf("AREA (in2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2): ");
-                }
+                DECODE("AREA (in2)");
                 break;
             }
             case 3501: {
@@ -4070,17 +3768,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 351: {
-                if (debug == 1) printf("AREA (ft2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2): ");
-                }
+                DECODE("AREA (ft2)");
                 break;
             }
             case 3510: {
-                if (debug == 1) printf("AREA (ft2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2): ");
-                }
+                DECODE("AREA (ft2)");
                 break;
             }
             case 3511: {
@@ -4104,17 +3796,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 352: {
-                if (debug == 1) printf("AREA (yd2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2): ");
-                }
+                DECODE("AREA (yd2)");
                 break;
             }
             case 3520: {
-                if (debug == 1) printf("AREA (yd2) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2): ");
-                }
+                DECODE("AREA (yd2)");
                 break;
             }
             case 3521: {
@@ -4138,17 +3824,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 353: {
-                if (debug == 1) printf("AREA (in2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2), log: ");
-                }
+                DECODE("AREA (in2), log");
                 break;
             }
             case 3530: {
-                if (debug == 1) printf("AREA (in2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (in2), log: ");
-                }
+                DECODE("AREA (in2), log");
                 break;
             }
             case 3531: {
@@ -4172,17 +3852,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 354: {
-                if (debug == 1) printf("AREA (ft2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2), log: ");
-                }
+                DECODE("AREA (ft2), log");
                 break;
             }
             case 3540: {
-                if (debug == 1) printf("AREA (ft2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (ft2), log: ");
-                }
+                DECODE("AREA (ft2), log");
                 break;
             }
             case 3541: {
@@ -4206,17 +3880,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 355: {
-                if (debug == 1) printf("AREA (yd2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2), log: ");
-                }
+                DECODE("AREA (yd2), log");
                 break;
             }
             case 3550: {
-                if (debug == 1) printf("AREA (yd2), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AREA (yd2), log: ");
-                }
+                DECODE("AREA (yd2), log");
                 break;
             }
             case 3551: {
@@ -4240,17 +3908,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 356: {
-                if (debug == 1) printf("NET WEIGHT (tr oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
-                }
+                DECODE("NET WEIGHT (tr oz)");
                 break;
             }
             case 3560: {
-                if (debug == 1) printf("NET WEIGHT (tr oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET WEIGHT (tr oz): ");
-                }
+                DECODE("NET WEIGHT (tr oz)");
                 break;
             }
             case 3561: {
@@ -4274,17 +3936,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 357: {
-                if (debug == 1) printf("NET VOLUME (oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
-                }
+                DECODE("NET VOLUME (oz)");
                 break;
             }
             case 3570: {
-                if (debug == 1) printf("NET VOLUME (oz) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (oz): ");
-                }
+                DECODE("NET VOLUME (oz)");
                 break;
             }
             case 3571: {
@@ -4308,17 +3964,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 360: {
-                if (debug == 1) printf("NET VOLUME (qt US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
-                }
+                DECODE("NET VOLUME (qt US)");
                 break;
             }
             case 3600: {
-                if (debug == 1) printf("NET VOLUME (qt US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (qt US): ");
-                }
+                DECODE("NET VOLUME (qt US)");
                 break;
             }
             case 3601: {
@@ -4342,17 +3992,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 361: {
-                if (debug == 1) printf("NET VOLUME (gal US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
-                }
+                DECODE("NET VOLUME (gal US)");
                 break;
             }
             case 3610: {
-                if (debug == 1) printf("NET VOLUME (gal US) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NET VOLUME (gal US): ");
-                }
+                DECODE("NET VOLUME (gal US)");
                 break;
             }
             case 3611: {
@@ -4376,17 +4020,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 362: {
-                if (debug == 1) printf("VOLUME (qt US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (qt US): ");
-                }
+                DECODE("VOLUME (qt US), log");
                 break;
             }
             case 3620: {
-                if (debug == 1) printf("VOLUME (qt US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (qt US): ");
-                }
+                DECODE("VOLUME (qt US), log");
                 break;
             }
             case 3621: {
@@ -4410,17 +4048,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 363: {
-                if (debug == 1) printf("VOLUME (gal US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (gal US): ");
-                }
+                DECODE("VOLUME (gal US), log");
                 break;
             }
             case 3630: {
-                if (debug == 1) printf("VOLUME (gal US), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (gal US): ");
-                }
+                DECODE("VOLUME (gal US), log");
                 break;
             }
             case 3631: {
@@ -4444,17 +4076,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 364: {
-                if (debug == 1) printf("VOLUME (in3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3): ");
-                }
+                DECODE("VOLUME (in3)");
                 break;
             }
             case 3640: {
-                if (debug == 1) printf("VOLUME (in3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3): ");
-                }
+                DECODE("VOLUME (in3)");
                 break;
             }
             case 3641: {
@@ -4478,17 +4104,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 365: {
-                if (debug == 1) printf("VOLUME (ft3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3): ");
-                }
+                DECODE("VOLUME (ft3)");
                 break;
             }
             case 3650: {
-                if (debug == 1) printf("VOLUME (ft3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3): ");
-                }
+                DECODE("VOLUME (ft3)");
                 break;
             }
             case 3651: {
@@ -4512,17 +4132,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 366: {
-                if (debug == 1) printf("VOLUME (yd3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3): ");
-                }
+                DECODE("VOLUME (yd3)");
                 break;
             }
             case 3660: {
-                if (debug == 1) printf("VOLUME (yd3) ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3): ");
-                }
+                DECODE("VOLUME (yd3)");
                 break;
             }
             case 3661: {
@@ -4546,17 +4160,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 367: {
-                if (debug == 1) printf("VOLUME (in3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3), log: ");
-                }
+                DECODE("VOLUME (in3), log");
                 break;
             }
             case 3670: {
-                if (debug == 1) printf("VOLUME (in3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (in3), log: ");
-                }
+                DECODE("VOLUME (in3), log");
                 break;
             }
             case 3671: {
@@ -4580,17 +4188,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 368: {
-                if (debug == 1) printf("VOLUME (ft3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3), log: ");
-                }
+                DECODE("VOLUME (ft3), log");
                 break;
             }
             case 3680: {
-                if (debug == 1) printf("VOLUME (ft3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (ft3), log: ");
-                }
+                DECODE("VOLUME (ft3), log");
                 break;
             }
             case 3681: {
@@ -4614,17 +4216,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 369: {
-                if (debug == 1) printf("VOLUME (yd3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3), log: ");
-                }
+                DECODE("VOLUME (yd3), log");
                 break;
             }
             case 3690: {
-                if (debug == 1) printf("VOLUME (yd3), log ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VOLUME (yd3), log: ");
-                }
+                DECODE("VOLUME (yd3), log");
                 break;
             }
             case 3691: {
@@ -4648,12 +4244,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3900: {
-                if (debug == 1) printf("AMOUNT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AMOUNT: ");
-                    decimal_str =
-                        get_decimal_value(*application_identifier, data_str);
-                }
+                DECODE_DECIMAL("AMOUNT");
                 break;
             }
             case 3901: {
@@ -4701,17 +4292,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 394: {
-                if (debug == 1) printf("PRCNT OFF ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRCNT OFF: ");
-                }
+                DECODE("PRCNT OFF");
                 break;
             }
             case 3940: {
-                if (debug == 1) printf("PRCNT OFF ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRCNT OFF: ");
-                }
+                DECODE("PRCNT OFF");
                 break;
             }
             case 3941: {
@@ -4743,10 +4328,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 400: {
-                if (debug == 1) printf("ORDER NUMBER ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ORDER NUMBER: ");
-                }
+                DECODE("ORDER NUMBER");
                 break;
             }
             case 401: {
@@ -5044,10 +4626,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 420: {
-                if (debug == 1) printf("SHIP TO POST ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO POST: ");
-                }
+                DECODE("SHIP TO POST");
                 break;
             }
             case 421: {
@@ -5059,148 +4638,87 @@ void gs1_semantics(char result[],
                 break;
             }
             case 422: {
-                if (debug == 1) printf("ORIGIN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ORIGIN: ");
-                }
+                DECODE("ORIGIN");
                 break;
             }
             case 423: {
-                if (debug == 1) printf("COUNTRY – INITIAL PROCESS ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "COUNTRY – INITIAL PROCESS: ");
-                }
+                DECODE_COUNTRY("COUNTRY – INITIAL PROCESS");
                 break;
             }
             case 424: {
-                if (debug == 1) printf("COUNTRY – PROCESS ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "COUNTRY – PROCESS: ");
-                }
+                DECODE_COUNTRY("COUNTRY – PROCESS");
                 break;
             }
             case 425: {
-                if (debug == 1) printf("COUNTRY – DISASSEMBLY ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "COUNTRY – DISASSEMBLY: ");
-                }
+                DECODE_COUNTRY("COUNTRY – DISASSEMBLY");
                 break;
             }
             case 426: {
-                if (debug == 1) printf("COUNTRY – FULL PROCESS ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "COUNTRY – FULL PROCESS: ");
-                    country_str = get_country(data_str);
-                }
+                DECODE_COUNTRY("COUNTRY – FULL PROCESS");
                 break;
             }
             case 703: {
-                if (debug == 1) printf("PROCESSOR # s4 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROCESSOR # s4: ");
-                    country_str = get_country(data_str);
-                }
+                DECODE_COUNTRY("PROCESSOR # s4");
                 break;
             }
             case 710: {
-                if (debug == 1) printf("NHRN GERMANY IFA ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN GERMANY IFA: ");
-                }
+                DECODE("NHRN GERMANY IFA");
                 break;
             }
             case 711: {
-                if (debug == 1) printf("NHRN FRANCE CIP ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN FRANCE CIP: ");
-                }
+                DECODE("NHRN FRANCE CIP");
                 break;
             }
             case 712: {
-                if (debug == 1) printf("NHRN SPAIN NATIONAL CODE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN SPAIN NATIONAL CODE: ");
-                }
+                DECODE("NHRN SPAIN NATIONAL CODE");
                 break;
             }
             case 713: {
-                if (debug == 1) printf("NHRN BRASIL ANVISA ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN BRASIL ANVISA: ");
-                }
+                DECODE("NHRN BRASIL ANVISA");
                 break;
             }
             case 714: {
-                if (debug == 1) printf("NHRN PORTUGAL INFARMED");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN PORTUGAL INFARMED: ");
-                }
+                DECODE("NHRN PORTUGAL INFARMED");
                 break;
             }
             case 715: {
-                if (debug == 1) printf("NHRN US FDA ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN US FDA: ");
-                }
+                DECODE("NHRN US FDA");
                 break;
             }
             case 716: {
-                if (debug == 1) printf("NHRN ITALY AIFA ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NHRN ITALY AIFA: ");
-                }
+                DECODE("NHRN ITALY AIFA");
                 break;
             }
             case 4300: {
-                if (debug == 1) printf("SHIP TO COMP ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO COMP: ");
-                }
+                DECODE("SHIP TO COMP");
                 break;
             }
             case 4301: {
-                if (debug == 1) printf("SHIP TO NAME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO NAME: ");
-                }
+                DECODE("SHIP TO NAME");
                 break;
             }
             case 4302: {
-                if (debug == 1) printf("SHIP TO ADD1 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO ADD1: ");
-                }
+                DECODE("SHIP TO ADD1");
                 break;
             }
             case 4303: {
-                if (debug == 1) printf("SHIP TO ADD2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO ADD2: ");
-                }
+                DECODE("SHIP TO ADD2");
                 break;
             }
             case 4304: {
-                if (debug == 1) printf("SHIP TO SUB ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO SUB: ");
-                }
+                DECODE("SHIP TO SUB");
                 break;
             }
             case 4305: {
-                if (debug == 1) printf("SHIP TO LOC ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO LOC: ");
-                }
+                DECODE("SHIP TO LOC");
                 break;
             }
             case 4306: {
-                if (debug == 1) printf("SHIP TO REG ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO REG: ");
-                }
+                DECODE("SHIP TO REG");
                 break;
             }
             case 4307: {
+                /* TODO country alpha codes */
                 if (debug == 1) printf("SHIP TO COUNTRY ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "SHIP TO COUNTRY: ");
@@ -5208,10 +4726,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4308: {
-                if (debug == 1) printf("SHIP TO PHONE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO PHONE: ");
-                }
+                DECODE("SHIP TO PHONE");
                 break;
             }
             case 4309: {
@@ -5252,55 +4767,35 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4310: {
-                if (debug == 1) printf("RTN TO COMP ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO COMP: ");
-                }
+                DECODE("RTN TO COMP");
                 break;
             }
             case 4311: {
-                if (debug == 1) printf("RTN TO NAME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO NAME: ");
-                }
+                DECODE("RTN TO NAME");
                 break;
             }
             case 4312: {
-                if (debug == 1) printf("RTN TO ADD1 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO ADD1: ");
-                }
+                DECODE("RTN TO ADD1");
                 break;
             }
             case 4313: {
-                if (debug == 1) printf("RTN TO ADD2 ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO ADD2: ");
-                }
+                DECODE("RTN TO ADD2");
                 break;
             }
             case 4314: {
-                if (debug == 1) printf("RTN TO SUB ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO SUB: ");
-                }
+                DECODE("RTN TO SUB");
                 break;
             }
             case 4315: {
-                if (debug == 1) printf("RTN TO LOC ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO LOC: ");
-                }
+                DECODE("RTN TO LOC");
                 break;
             }
             case 4316: {
-                if (debug == 1) printf("RTN TO REG ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO REG: ");
-                }
+                DECODE("RTN TO REG");
                 break;
             }
             case 4317: {
+                /* TODO country alpha codes */
                 if (debug == 1) printf("RTN TO COUNTRY ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "RTN TO COUNTRY: ");
@@ -5308,31 +4803,19 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4318: {
-                if (debug == 1) printf("RTN TO POST ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO POST: ");
-                }
+                DECODE("RTN TO POST");
                 break;
             }
             case 4319: {
-                if (debug == 1) printf("RTN TO PHONE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "RTN TO PHONE: ");
-                }
+                DECODE("RTN TO PHONE");
                 break;
             }
             case 4320: {
-                if (debug == 1) printf("SRV DESCRIPTION ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SRV DESCRIPTION: ");
-                }
+                DECODE("SRV DESCRIPTION");
                 break;
             }
             case 4321: {
-                if (debug == 1) printf("DANGEROUS GOODS ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "DANGEROUS GOODS: ");
-                }
+                DECODE("DANGEROUS GOODS");
                 break;
             }
             case 4322: {
@@ -5398,17 +4881,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7001: {
-                if (debug == 1) printf("NSN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NSN: ");
-                }
+                DECODE("NSN");
                 break;
             }
             case 7002: {
-                if (debug == 1) printf("MEAT CUT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "MEAT CUT: ");
-                }
+                DECODE("MEAT CUT");
                 break;
             }
             case 7003: {
@@ -5416,17 +4893,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7004: {
-                if (debug == 1) printf("ACTIVE POTENCY ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ACTIVE POTENCY: ");
-                }
+                DECODE("ACTIVE POTENCY");
                 break;
             }
             case 7005: {
-                if (debug == 1) printf("CATCH AREA ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "CATCH AREA: ");
-                }
+                DECODE("CATCH AREA");
                 break;
             }
             case 7006: {
@@ -5445,24 +4916,15 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7008: {
-                if (debug == 1) printf("AQUATIC SPECIES ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "AQUATIC SPECIES: ");
-                }
+                DECODE("AQUATIC SPECIES");
                 break;
             }
             case 7009: {
-                if (debug == 1) printf("FISHING GEAR TYPE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "FISHING GEAR TYPE: ");
-                }
+                DECODE("FISHING GEAR TYPE");
                 break;
             }
             case 7010: {
-                if (debug == 1) printf("PROD METHOD ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROD METHOD: ");
-                }
+                DECODE("PROD METHOD");
                 break;
             }
             case 7011: {
@@ -5479,24 +4941,15 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7020: {
-                if (debug == 1) printf("REFURB LOT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "REFURB LOT: ");
-                }
+                DECODE("REFURB LOT");
                 break;
             }
             case 7021: {
-                if (debug == 1) printf("FUNC STAT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "FUNC STAT: ");
-                }
+                DECODE("FUNC STAT");
                 break;
             }
             case 7022: {
-                if (debug == 1) printf("REV STAT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "REV STAT: ");
-                }
+                DECODE("REV STAT");
                 break;
             }
             case 7023: {
@@ -5636,10 +5089,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7040: {
-                if (debug == 1) printf("UIC+EXT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "UIC+EXT: ");
-                }
+                DECODE("UIC+EXT");
                 break;
             }
             case 7041: {
@@ -5651,10 +5101,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7240: {
-                if (debug == 1) printf("PROTOCOL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROTOCOL: ");
-                }
+                DECODE("PROTOCOL");
                 break;
             }
             case 7241: {
@@ -5671,10 +5118,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7242: {
-                if (debug == 1) printf("VCN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VCN: ");
-                }
+                DECODE("VCN");
                 break;
             }
             case 7250: {
@@ -5698,38 +5142,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7253: {
-                if (debug == 1) printf("FAMILY NAME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "FAMILY NAME: ");
-                }
+                DECODE("FAMILY NAME");
                 break;
             }
             case 7254: {
-                if (debug == 1) printf("GIVEN NAME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "GIVEN NAME: ");
-                }
+                DECODE("GIVEN NAME");
                 break;
             }
             case 7255: {
-                if (debug == 1) printf("SUFFIX ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SUFFIX: ");
-                }
+                DECODE("SUFFIX");
                 break;
             }
             case 7256: {
-                if (debug == 1) printf("FULL NAME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "FULL NAME: ");
-                }
+                DECODE("FULL NAME");
                 break;
             }
             case 7257: {
-                if (debug == 1) printf("PERSON ADDR ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PERSON ADDR: ");
-                }
+                DECODE("PERSON ADDR");
                 break;
             }
             case 7258: {
@@ -5747,10 +5176,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7259: {
-                if (debug == 1) printf("BABY ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "BABY: ");
-                }
+                DECODE("BABY");
                 break;
             }
             case 8001: {
@@ -5814,11 +5240,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8002: {
-                if (debug == 1) printf("MOBILE TEL NO ");
-                if (is_digital_link == 0) {
-                    /* GS1 General Specifications section 3.9.2 */
-                    decode_strcat(gs1_result, "MOBILE TEL NO: ");
-                }
+                DECODE("MOBILE TEL NO");
                 break;
             }
             case 8003: {
@@ -5872,10 +5294,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8005: {
-                if (debug == 1) printf("PRICE PER UNIT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRICE PER UNIT: ");
-                }
+                DECODE("PRICE PER UNIT");
                 break;
             }
             case 8006: {
@@ -5910,10 +5329,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8007: {
-                if (debug == 1) printf("IBAN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "IBAN: ");
-                }
+                DECODE("IBAN");
                 break;
             }
             case 8008: {
@@ -5921,24 +5337,15 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8010: {
-                if (debug == 1) printf("CPID ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "CPID: ");
-                }
+                DECODE("CPID");
                 break;
             }
             case 8011: {
-                if (debug == 1) printf("CPID SERIAL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "CPID SERIAL: ");
-                }
+                DECODE("CPID SERIAL");
                 break;
             }
             case 8012: {
-                if (debug == 1) printf("VERSION ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "VERSION: ");
-                }
+                DECODE("VERSION");
                 break;
             }
             case 8013: {
@@ -6018,17 +5425,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8019: {
-                if (debug == 1) printf("SRIN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SRIN: ");
-                }
+                DECODE("SRIN");
                 break;
             }
             case 8020: {
-                if (debug == 1) printf("REF NO ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "REF NO: ");
-                }
+                DECODE("REF NO");
                 break;
             }
             case 8026: {
@@ -6063,38 +5464,23 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8030: {
-                if (debug == 1) printf("DIGSIG ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "DIGSIG: ");
-                }
+                DECODE("DIGSIG");
                 break;
             }
             case 8110: {
-                if (debug == 1) printf("COUPON ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "COUPON: ");
-                }
+                DECODE("COUPON");
                 break;
             }
             case 8111: {
-                if (debug == 1) printf("POINTS ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "POINTS: ");
-                }
+                DECODE("POINTS");
                 break;
             }
             case 8112: {
-                if (debug == 1) printf("COUPON ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "COUPON: ");
-                }
+                DECODE("COUPON");
                 break;
             }
             case 8200: {
-                if (debug == 1) printf("PRODUCT URL ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PRODUCT URL: ");
-                }
+                DECODE("PRODUCT URL");
                 break;
             }
             case 977: {
@@ -6108,17 +5494,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 978: {
-                if (debug == 1) printf("ISBN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ISBN: ");
-                }
+                DECODE("ISBN");
                 break;
             }
             case 979: {
-                if (debug == 1) printf("ISBN ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ISBN: ");
-                }
+                DECODE("ISBN");
                 break;
             }
             }
