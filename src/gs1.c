@@ -27,6 +27,13 @@
     *application_identifier_length = (id_len); \
     *application_data_variable = (variable_len);
 
+#define DECODE_DATE(title, dateformat) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      date_str = data_id_convert_date(dateformat, data_str); \
+    }
+
 /**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
@@ -2556,51 +2563,27 @@ void gs1_semantics(char result[],
                 break;
             }
             case 11: {
-                if (debug == 1) printf("PROD DATE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROD DATE: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("PROD DATE", "YYMMDD");
                 break;
             }
             case 12: {
-                if (debug == 1) printf("DUE DATE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "DUE DATE: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("DUE DATE", "YYMMDD");
                 break;
             }
             case 13: {
-                if (debug == 1) printf("PACK DATE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PACK DATE: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("PACK DATE", "YYMMDD");
                 break;
             }
             case 15: {
-                if (debug == 1) printf("BEST BEFORE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "BEST BEFORE: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("BEST BEFORE", "YYMMDD");
                 break;
             }
             case 16: {
-                if (debug == 1) printf("SELL BY ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SELL BY: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("SELL BY", "YYMMDD");
                 break;
             }
             case 17: {
-                if (debug == 1) printf("EXPIRY ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "EXPIRY: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("EXPIRY", "YYMMDD");
                 break;
             }
             case 18: {
@@ -6769,27 +6752,15 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4324: {
-                if (debug == 1) printf("NBEF DEL DT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NBEF DEL DT: ");
-                    date_str = data_id_convert_date("YYMMDDHHMM", data_str);
-                }
+                DECODE_DATE("NBEF DEL DT", "YYMMDDHHMM");
                 break;
             }
             case 4325: {
-                if (debug == 1) printf("NAFT DEL DT ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "NAFT DEL DT: ");
-                    date_str = data_id_convert_date("YYMMDDHHMM", data_str);
-                }
+                DECODE_DATE("NAFT DEL DT", "YYMMDDHHMM");
                 break;
             }
             case 4326: {
-                if (debug == 1) printf("REL DATE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "REL DATE: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("REL DATE", "YYMMDD");
                 break;
             }
             case 4330: {
@@ -6839,11 +6810,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7003: {
-                if (debug == 1) printf("EXPIRY TIME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "EXPIRY TIME: ");
-                    date_str = data_id_convert_date("YYMMDDHHMM", data_str);
-                }
+                DECODE_DATE("EXPIRY TIME", "YYMMDDHHMM");
                 break;
             }
             case 7004: {
@@ -6861,11 +6828,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7006: {
-                if (debug == 1) printf("FIRST FREEZE DATE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "FIRST FREEZE DATE: ");
-                    date_str = data_id_convert_date("YYMMDD", data_str);
-                }
+                DECODE_DATE("FIRST FREEZE DATE", "YYMMDD");
                 break;
             }
             case 7007: {
@@ -7113,19 +7076,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7250: {
-                if (debug == 1) printf("DOB ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "DOB: ");
-                    date_str = data_id_convert_date("YYYYMMDD", data_str);
-                }
+                DECODE_DATE("DOB", "YYYYMMDD");
                 break;
             }
             case 7251: {
-                if (debug == 1) printf("DOB TIME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "DOB TIME: ");
-                    date_str = data_id_convert_date("YYYYMMDDHHMM", data_str);
-                }
+                DECODE_DATE("DOB TIME", "YYYYMMDDHHMM");
                 break;
             }
             case 7252: {
@@ -7360,11 +7315,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8008: {
-                if (debug == 1) printf("PROD TIME ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "PROD TIME: ");
-                    date_str = data_id_convert_date("YYMMDDHH", data_str);
-                }
+                DECODE_DATE("PROD TIME", "YYMMDDHH");
                 break;
             }
             case 8010: {
