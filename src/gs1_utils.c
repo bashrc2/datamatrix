@@ -430,7 +430,7 @@ char * get_decimal_value(int application_identifier,
 char * get_meat_cut(char data_str[])
 {
     int i, data_len = strlen(data_str);
-    if (data_len < 19) return NULL;
+    if (data_len < 20) return NULL;
     char * meat_cut_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
     meat_cut_str[0] = 0;
@@ -465,7 +465,7 @@ char * get_meat_cut(char data_str[])
     prod_code_str[1] = data_str[3];
     prod_code_str[2] = data_str[4];
     prod_code_str[3] = data_str[5];
-    prod_code_str[3] = 0;
+    prod_code_str[4] = 0;
     int prod_code = atoi(prod_code_str);
     for (i = 0; i < no_of_product_codes; i++) {
         int prod_code_start = atoi(unece_product_code[i*3]);
@@ -577,7 +577,7 @@ char * get_meat_cut(char data_str[])
     }
     }
 
-    /* field 7 */
+    /* field 7a */
     switch(data_str[11]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nFEEDING SYSTEM: NOT SPECIFIED");
@@ -601,8 +601,10 @@ char * get_meat_cut(char data_str[])
     }
     }
 
+    /* field 7b not used */
+
     /* field 8 */
-    switch(data_str[12]) {
+    switch(data_str[13]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nSLAUGHTER SYSTEM: NOT SPECIFIED");
         break;
@@ -626,7 +628,7 @@ char * get_meat_cut(char data_str[])
     }
 
     /* field 9 */
-    switch(data_str[13]) {
+    switch(data_str[14]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nPOST-SLAUGHTER PROCESSING: NOT SPECIFIED");
         break;
@@ -638,7 +640,7 @@ char * get_meat_cut(char data_str[])
     }
 
     /* field 10 */
-    switch(data_str[14]) {
+    switch(data_str[15]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nFAT THICKNESS: NOT SPECIFIED");
         break;
@@ -682,7 +684,7 @@ char * get_meat_cut(char data_str[])
     }
 
     /* field 11 */
-    switch(data_str[15]) {
+    switch(data_str[16]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nBOVINE QUALITY SYSTEM: NOT SPECIFIED");
         break;
@@ -706,7 +708,7 @@ char * get_meat_cut(char data_str[])
     }
 
     /* field 12 */
-    switch(data_str[16]) {
+    switch(data_str[17]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nWEIGHT RANGE: NOT SPECIFIED");
         break;
@@ -718,7 +720,7 @@ char * get_meat_cut(char data_str[])
     }
 
     /* field 13 */
-    switch(data_str[17]) {
+    switch(data_str[18]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nPACKING: NOT SPECIFIED");
         break;
@@ -754,7 +756,7 @@ char * get_meat_cut(char data_str[])
     }
 
     /* field 14 */
-    switch(data_str[18]) {
+    switch(data_str[19]) {
     case '0': {
         decode_strcat(meat_cut_str, "\nCONFORMITY: NOT SPECIFIED");
         break;

@@ -675,6 +675,27 @@ static void test_package_type()
     assert(strstr(description, "Drum, wooden") == 0);
 }
 
+static void test_meat_cut()
+{
+    char * unece_code1 = "10164300153201040050";
+    assert((int)strlen(unece_code1) == 20);
+    char * description = get_meat_cut(unece_code1);
+    printf("\nMeat cut:\n%s\n", description);
+    assert(strstr("SPECIES: Bovine (Beef)", description) == 0);
+    assert(strstr("PROD CODE: Brisket", description) == 0);
+    assert(strstr("REFRIGERATION: CHILLED", description) == 0);
+    assert(strstr("BOVINE CATEGORY: STEER AND/OR HEIFER", description) == 0);
+    assert(strstr("PRODUCTION SYSTEM: ORGANIC", description) == 0);
+    assert(strstr("FEEDING SYSTEM: FORAGE FED", description) == 0);
+    assert(strstr("SLAUGHTER SYSTEM: CONVENTIONAL", description) == 0);
+    assert(strstr("POST-SLAUGHTER PROCESSING: NOT SPECIFIED", description) == 0);
+    assert(strstr("FAT THICKNESS: 3MM", description) == 0);
+    assert(strstr("BOVINE QUALITY SYSTEM: NOT SPECIFIED", description) == 0);
+    assert(strstr("WEIGHT RANGE: NOT SPECIFIED", description) == 0);
+    assert(strstr("PACKING: CUTS - VACUUM PACKED", description) == 0);
+    assert(strstr("CONFORMITY: NOT SPECIFIED", description) == 0);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -695,5 +716,6 @@ void run_all_tests()
     test_gtin_check_digit();
     test_sscc_check_digit();
     test_package_type();
+    test_meat_cut();
     printf("All tests complete\n");
 }
