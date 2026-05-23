@@ -68,6 +68,13 @@
       country_str = get_country_alpha2(data_str); \
     }
 
+#define DECODE_TEMPERATURE(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+      decode_strcat(gs1_result, title ": "); \
+      temperature = get_temperature(data_str); \
+    }
+
 /**
  * \brief state machine for handling GS1 semantics
  * Also see https://github.com/gs1/gs1-syntax-dictionary/blob/main/gs1-syntax-dictionary.txt
@@ -4848,35 +4855,19 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4330: {
-                if (debug == 1) printf("MAX TEMP F ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "MAX TEMP F: ");
-                    temperature = get_temperature(data_str);
-                }
+                DECODE_TEMPERATURE("MAX TEMP F");
                 break;
             }
             case 4331: {
-                if (debug == 1) printf("MAX TEMP C ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "MAX TEMP C: ");
-                    temperature = get_temperature(data_str);
-                }
+                DECODE_TEMPERATURE("MAX TEMP C");
                 break;
             }
             case 4332: {
-                if (debug == 1) printf("MIN TEMP F ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "MIN TEMP F: ");
-                    temperature = get_temperature(data_str);
-                }
+                DECODE_TEMPERATURE("MIN TEMP F");
                 break;
             }
             case 4333: {
-                if (debug == 1) printf("MIN TEMP C ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "MIN TEMP C: ");
-                    temperature = get_temperature(data_str);
-                }
+                DECODE_TEMPERATURE("MIN TEMP C");
                 break;
             }
             case 7001: {
