@@ -5535,7 +5535,6 @@ void gs1_semantics(char result[],
                     free(company_prefix_str);
                 }
                 else if (temperature != UNKNOWN_VALUE) {
-                    decode_strcat(gs1_result, data_str);
                     char * temp_str =
                         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
                     sprintf(temp_str, "%.2f", temperature);
@@ -5612,7 +5611,6 @@ void gs1_semantics(char result[],
                     }
                 }
                 else if (birth_sequence[0] != 0) {
-                    decode_strcat(gs1_result, data_str);
                     if ((birth_sequence[0] == 1) &&
                             (birth_sequence[1] == 1)) {
                         decode_strcat(gs1_result, "ONE BABY");
