@@ -4404,10 +4404,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 403: {
-                if (debug == 1) printf("ROUTE ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "ROUTE: ");
-                }
+                DECODE("ROUTE");
                 break;
             }
             case 410: {
@@ -4655,11 +4652,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 421: {
-                if (debug == 1) printf("SHIP TO POST ");
-                if (is_digital_link == 0) {
-                    decode_strcat(gs1_result, "SHIP TO POST: ");
-                    country_str = get_country(data_str);
-                }
+                DECODE_COUNTRY("SHIP TO POST");
                 break;
             }
             case 422: {
