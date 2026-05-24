@@ -952,340 +952,351 @@ char * get_north_american_coupon(char data_str[],
     if ((int)strlen(data_str) <= idx + 2) {
         return coupon_str;
     }
-    char data_field_1 = data_str[idx++];
-    decode_strcat(coupon_str, "\nDATA FIELD 1 - SECOND QUALIFYING PURCHASE: ");
-    decode_strcat_char(coupon_str, data_field_1);
-    char additional_purchase_rules_code = data_str[idx++];
-    switch(additional_purchase_rules_code) {
-    case '0': {
-        decode_strcat(coupon_str, "\nPRIMARY, 2ND OR 3RD ITEM CAN VALIDATE");
-        break;
-    }
-    case '1': {
-        decode_strcat(coupon_str, "\nALL ITEMS LISTED PURCHASED TO VALIDATE");
-        break;
-    }
-    case '2': {
-        decode_strcat(coupon_str, "\nPRIMARY AND 2ND OR 3RD ITEM PURCHASED TO VALIDATE");
-        break;
-    }
-    case '3': {
-        decode_strcat(coupon_str, "\n2ND OR 3RD FAMILY CODE OR COMPANY TO VALIDATE");
-        break;
-    }
-    }
-
-    /* second purchase requirement VLI */
-    vli_str[0] = data_str[idx++];
-    int second_purchase_requirement_vli = atoi(&vli_str[0]);
-    if (second_purchase_requirement_vli > 0) {
-        if (second_purchase_requirement_vli > 5) {
-            second_purchase_requirement_vli = 5;
-        }
-
-        if ((int)strlen(data_str) <= idx + second_purchase_requirement_vli) {
-            return coupon_str;
-        }
-
-        /* second purchase requirement */
-        char second_purchase_requirement_str[6];
-        int second_purchase_requirement_ctr = 0;
-        for(second_purchase_requirement_ctr = 0;
-            second_purchase_requirement_ctr < second_purchase_requirement_vli;
-            second_purchase_requirement_ctr++, idx++) {
-            second_purchase_requirement_str[second_purchase_requirement_ctr] =
-                data_str[idx];
-        }
-        second_purchase_requirement_str[second_purchase_requirement_ctr] = 0;
-
-        /* second purchase requirement code */
-        if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
-            return coupon_str;
-        }
-        char second_purchase_requirement_code = data_str[idx++];
-        decode_strcat(coupon_str, "\nSECOND PURCHASE REQUIREMENT CODE: ");
-        decode_strcat_char(coupon_str, second_purchase_requirement_code);
-        int decimal_places = 0;
-        switch(second_purchase_requirement_code) {
+    if (data_str[idx] == '1') {
+        char data_field_1 = data_str[idx++];
+        decode_strcat(coupon_str, "\nDATA FIELD 1 - SECOND QUALIFYING PURCHASE: ");
+        decode_strcat_char(coupon_str, data_field_1);
+        char additional_purchase_rules_code = data_str[idx++];
+        switch(additional_purchase_rules_code) {
         case '0': {
-            decode_strcat(coupon_str, "\nTHRESHOLD NO OF UNITS");
+            decode_strcat(coupon_str, "\nPRIMARY, 2ND OR 3RD ITEM CAN VALIDATE");
             break;
         }
         case '1': {
-            decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF ACCUMULATED TOTAL QUALIFYING ITEMS");
-            decimal_places = 2;
+            decode_strcat(coupon_str, "\nALL ITEMS LISTED PURCHASED TO VALIDATE");
             break;
         }
         case '2': {
-            decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF TOTAL TRANSACTION");
-            decimal_places = 2;
+            decode_strcat(coupon_str, "\nPRIMARY AND 2ND OR 3RD ITEM PURCHASED TO VALIDATE");
             break;
         }
         case '3': {
-            decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT LBS");
-            decimal_places = 2;
-            break;
-        }
-        case '4': {
-            decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT KG");
-            decimal_places = 3;
-            break;
-        }
-        case '9': {
-            decode_strcat(coupon_str, "\nCASHIER INTERVENTION REQUIRED");
+            decode_strcat(coupon_str, "\n2ND OR 3RD FAMILY CODE OR COMPANY TO VALIDATE");
             break;
         }
         }
-        decode_strcat(coupon_str, "\nSECOND PURCHASE REQUIREMENT: ");
-        int digit_ctr = 0;
-        for (digit_ctr = 0;
-             digit_ctr < (int)strlen(&second_purchase_requirement_str[0]) - decimal_places;
-             digit_ctr++) {
-            decode_strcat_char(coupon_str, second_purchase_requirement_str[digit_ctr]);
-        }
-        if (decimal_places > 0) {
-            if (digit_ctr > decimal_places) {
-                decode_strcat_char(coupon_str, '.');
-            }
-            while(digit_ctr < (int)strlen(&second_purchase_requirement_str[0])) {
-                decode_strcat_char(coupon_str, second_purchase_requirement_str[digit_ctr++]);
-            }
-        }
-    }
 
-    /* second purchase family code */
-    if ((int)strlen(data_str) <= idx + 3) {
-        return coupon_str;
-    }
-    char second_purchase_family_code[4];
-    ctr = 0;
-    for (ctr=0;ctr < 3; ctr++, idx++) {
-        second_purchase_family_code[ctr] = data_str[idx];
-    }
-    second_purchase_family_code[ctr] = 0;
-    decode_strcat(coupon_str, "\nSECOND PURCHASE FAMILY CODE: ");
-    decode_strcat(coupon_str, &second_purchase_family_code[0]);
+        /* second purchase requirement VLI */
+        vli_str[0] = data_str[idx++];
+        int second_purchase_requirement_vli = atoi(&vli_str[0]);
+        if (second_purchase_requirement_vli > 0) {
+            if (second_purchase_requirement_vli > 5) {
+                second_purchase_requirement_vli = 5;
+            }
 
-    /* second GS1 company prefix VLI */
-    if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
-        return coupon_str;
-    }
-    vli_str[0] = data_str[idx++];
-    vli = atoi(&vli_str[0]);
-    if (vli != 9) {
-        vli += 6;
-        if ((int)strlen(data_str) <= idx + vli) {
+            if ((int)strlen(data_str) <= idx + second_purchase_requirement_vli) {
+                return coupon_str;
+            }
+
+            /* second purchase requirement */
+            char second_purchase_requirement_str[6];
+            int second_purchase_requirement_ctr = 0;
+            for(second_purchase_requirement_ctr = 0;
+                second_purchase_requirement_ctr < second_purchase_requirement_vli;
+                second_purchase_requirement_ctr++, idx++) {
+                second_purchase_requirement_str[second_purchase_requirement_ctr] =
+                    data_str[idx];
+            }
+            second_purchase_requirement_str[second_purchase_requirement_ctr] = 0;
+
+            /* second purchase requirement code */
+            if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
+                return coupon_str;
+            }
+            char second_purchase_requirement_code = data_str[idx++];
+            decode_strcat(coupon_str, "\nSECOND PURCHASE REQUIREMENT CODE: ");
+            decode_strcat_char(coupon_str, second_purchase_requirement_code);
+            int decimal_places = 0;
+            switch(second_purchase_requirement_code) {
+            case '0': {
+                decode_strcat(coupon_str, "\nTHRESHOLD NO OF UNITS");
+                break;
+            }
+            case '1': {
+                decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF ACCUMULATED TOTAL QUALIFYING ITEMS");
+                decimal_places = 2;
+                break;
+            }
+            case '2': {
+                decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF TOTAL TRANSACTION");
+                decimal_places = 2;
+                break;
+            }
+            case '3': {
+                decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT LBS");
+                decimal_places = 2;
+                break;
+            }
+            case '4': {
+                decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT KG");
+                decimal_places = 3;
+                break;
+            }
+            case '9': {
+                decode_strcat(coupon_str, "\nCASHIER INTERVENTION REQUIRED");
+                break;
+            }
+            }
+            decode_strcat(coupon_str, "\nSECOND PURCHASE REQUIREMENT: ");
+            int digit_ctr = 0;
+            for (digit_ctr = 0;
+                 digit_ctr < (int)strlen(&second_purchase_requirement_str[0]) - decimal_places;
+                 digit_ctr++) {
+                decode_strcat_char(coupon_str, second_purchase_requirement_str[digit_ctr]);
+            }
+            if (decimal_places > 0) {
+                if (digit_ctr > decimal_places) {
+                    decode_strcat_char(coupon_str, '.');
+                }
+                while(digit_ctr < (int)strlen(&second_purchase_requirement_str[0])) {
+                    decode_strcat_char(coupon_str, second_purchase_requirement_str[digit_ctr++]);
+                }
+            }
+        }
+
+        /* second purchase family code */
+        if ((int)strlen(data_str) <= idx + 3) {
             return coupon_str;
         }
-        coupon_start_index = 0;
-        if (data_str[idx] == '0') {
-            coupon_start_index = 1;
+        char second_purchase_family_code[4];
+        ctr = 0;
+        for (ctr=0;ctr < 3; ctr++, idx++) {
+            second_purchase_family_code[ctr] = data_str[idx];
         }
+        second_purchase_family_code[ctr] = 0;
+        decode_strcat(coupon_str, "\nSECOND PURCHASE FAMILY CODE: ");
+        decode_strcat(coupon_str, &second_purchase_family_code[0]);
 
-        /* second GS1 company prefix */
-        company_prefix_str =
-            get_company_prefix_str(company_prefix_code,
-                                   idx + coupon_start_index, data_str);
-        if (company_prefix_str == NULL) {
+        /* second GS1 company prefix VLI */
+        if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
             return coupon_str;
         }
-        company_ctr = 0;
-        decode_strcat(coupon_str, "\nCOMPANY: ");
-        for (company_ctr = idx; company_ctr < idx + vli; company_ctr++) {
-            decode_strcat_char(coupon_str, data_str[company_ctr]);
-        }
-        decode_strcat(coupon_str, "\nCOUNTRY: ");
-        decode_strcat(coupon_str, company_prefix_str);
-        free(company_prefix_str);   
+        vli_str[0] = data_str[idx++];
+        vli = atoi(&vli_str[0]);
+        if (vli != 9) {
+            vli += 6;
+            if ((int)strlen(data_str) <= idx + vli) {
+                return coupon_str;
+            }
+            coupon_start_index = 0;
+            if (data_str[idx] == '0') {
+                coupon_start_index = 1;
+            }
 
-        idx += vli;
+            /* second GS1 company prefix */
+            company_prefix_str =
+                get_company_prefix_str(company_prefix_code,
+                                       idx + coupon_start_index, data_str);
+            if (company_prefix_str == NULL) {
+                return coupon_str;
+            }
+            company_ctr = 0;
+            decode_strcat(coupon_str, "\nCOMPANY: ");
+            for (company_ctr = idx; company_ctr < idx + vli; company_ctr++) {
+                decode_strcat_char(coupon_str, data_str[company_ctr]);
+            }
+            decode_strcat(coupon_str, "\nCOUNTRY: ");
+            decode_strcat(coupon_str, company_prefix_str);
+            free(company_prefix_str);   
+
+            idx += vli;
+        }
     }
 
     /* data field 2 - third qualifying purchase */
     if ((int)strlen(data_str) <= idx + 2) {
         return coupon_str;
     }
-    char data_field_2 = data_str[idx++];
-    decode_strcat(coupon_str, "\nDATA FIELD 2 - THIRD QUALIFYING PURCHASE: ");
-    decode_strcat_char(coupon_str, data_field_2);
-    /* third purchase requirement VLI */
-    vli_str[0] = data_str[idx++];
-    int third_purchase_requirement_vli = atoi(&vli_str[0]);
-    if (third_purchase_requirement_vli > 0) {
-        if (third_purchase_requirement_vli > 5) {
-            third_purchase_requirement_vli = 5;
+    if (data_str[idx] == '2') {
+        char data_field_2 = data_str[idx++];
+        decode_strcat(coupon_str, "\nDATA FIELD 2 - THIRD QUALIFYING PURCHASE: ");
+        decode_strcat_char(coupon_str, data_field_2);
+        /* third purchase requirement VLI */
+        vli_str[0] = data_str[idx++];
+        int third_purchase_requirement_vli = atoi(&vli_str[0]);
+        if (third_purchase_requirement_vli > 0) {
+            if (third_purchase_requirement_vli > 5) {
+                third_purchase_requirement_vli = 5;
+            }
+
+            if ((int)strlen(data_str) <= idx + third_purchase_requirement_vli) {
+                return coupon_str;
+            }
+
+            /* third purchase requirement */
+            char third_purchase_requirement_str[6];
+            int third_purchase_requirement_ctr = 0;
+            for(third_purchase_requirement_ctr = 0;
+                third_purchase_requirement_ctr < third_purchase_requirement_vli;
+                third_purchase_requirement_ctr++, idx++) {
+                third_purchase_requirement_str[third_purchase_requirement_ctr] =
+                    data_str[idx];
+            }
+            third_purchase_requirement_str[third_purchase_requirement_ctr] = 0;
+
+            /* third purchase requirement code */
+            if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
+                return coupon_str;
+            }
+            char third_purchase_requirement_code = data_str[idx++];
+            decode_strcat(coupon_str, "\nTHIRD PURCHASE REQUIREMENT CODE: ");
+            decode_strcat_char(coupon_str, third_purchase_requirement_code);
+            int decimal_places = 0;
+            switch(third_purchase_requirement_code) {
+            case '0': {
+                decode_strcat(coupon_str, "\nTHRESHOLD NO OF UNITS");
+                break;
+            }
+            case '1': {
+                decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF ACCUMULATED TOTAL QUALIFYING ITEMS");
+                decimal_places = 2;
+                break;
+            }
+            case '2': {
+                decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF TOTAL TRANSACTION");
+                decimal_places = 2;
+                break;
+            }
+            case '3': {
+                decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT LBS");
+                decimal_places = 2;
+                break;
+            }
+            case '4': {
+                decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT KG");
+                decimal_places = 3;
+                break;
+            }
+            case '9': {
+                decode_strcat(coupon_str, "\nCASHIER INTERVENTION REQUIRED");
+                break;
+            }
+            }
+            decode_strcat(coupon_str, "\nTHIRD PURCHASE REQUIREMENT: ");
+            int digit_ctr = 0;
+            for (digit_ctr = 0;
+                 digit_ctr < (int)strlen(&third_purchase_requirement_str[0]) - decimal_places;
+                 digit_ctr++) {
+                decode_strcat_char(coupon_str, third_purchase_requirement_str[digit_ctr]);
+            }
+            if (decimal_places > 0) {
+                if (digit_ctr > decimal_places) {
+                    decode_strcat_char(coupon_str, '.');
+                }
+                while(digit_ctr < (int)strlen(&third_purchase_requirement_str[0])) {
+                    decode_strcat_char(coupon_str, third_purchase_requirement_str[digit_ctr++]);
+                }
+            }
         }
 
-        if ((int)strlen(data_str) <= idx + third_purchase_requirement_vli) {
+        /* third purchase family code */
+        if ((int)strlen(data_str) <= idx + 3) {
             return coupon_str;
         }
-
-        /* third purchase requirement */
-        char third_purchase_requirement_str[6];
-        int third_purchase_requirement_ctr = 0;
-        for(third_purchase_requirement_ctr = 0;
-            third_purchase_requirement_ctr < third_purchase_requirement_vli;
-            third_purchase_requirement_ctr++, idx++) {
-            third_purchase_requirement_str[third_purchase_requirement_ctr] =
-                data_str[idx];
+        char third_purchase_family_code[4];
+        ctr = 0;
+        for (ctr=0;ctr < 3; ctr++, idx++) {
+            third_purchase_family_code[ctr] = data_str[idx];
         }
-        third_purchase_requirement_str[third_purchase_requirement_ctr] = 0;
+        third_purchase_family_code[ctr] = 0;
+        decode_strcat(coupon_str, "\nTHIRD PURCHASE FAMILY CODE: ");
+        decode_strcat(coupon_str, &third_purchase_family_code[0]);
 
-        /* third purchase requirement code */
+        /* third GS1 company prefix VLI */
         if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
             return coupon_str;
         }
-        char third_purchase_requirement_code = data_str[idx++];
-        decode_strcat(coupon_str, "\nTHIRD PURCHASE REQUIREMENT CODE: ");
-        decode_strcat_char(coupon_str, third_purchase_requirement_code);
-        int decimal_places = 0;
-        switch(third_purchase_requirement_code) {
-        case '0': {
-            decode_strcat(coupon_str, "\nTHRESHOLD NO OF UNITS");
-            break;
-        }
-        case '1': {
-            decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF ACCUMULATED TOTAL QUALIFYING ITEMS");
-            decimal_places = 2;
-            break;
-        }
-        case '2': {
-            decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF TOTAL TRANSACTION");
-            decimal_places = 2;
-            break;
-        }
-        case '3': {
-            decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT LBS");
-            decimal_places = 2;
-            break;
-        }
-        case '4': {
-            decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT KG");
-            decimal_places = 3;
-            break;
-        }
-        case '9': {
-            decode_strcat(coupon_str, "\nCASHIER INTERVENTION REQUIRED");
-            break;
-        }
-        }
-        decode_strcat(coupon_str, "\nTHIRD PURCHASE REQUIREMENT: ");
-        int digit_ctr = 0;
-        for (digit_ctr = 0;
-             digit_ctr < (int)strlen(&third_purchase_requirement_str[0]) - decimal_places;
-             digit_ctr++) {
-            decode_strcat_char(coupon_str, third_purchase_requirement_str[digit_ctr]);
-        }
-        if (decimal_places > 0) {
-            if (digit_ctr > decimal_places) {
-                decode_strcat_char(coupon_str, '.');
+        vli_str[0] = data_str[idx++];
+        vli = atoi(&vli_str[0]);
+        if (vli != 9) {
+            vli += 6;
+            if ((int)strlen(data_str) <= idx + vli) {
+                return coupon_str;
             }
-            while(digit_ctr < (int)strlen(&third_purchase_requirement_str[0])) {
-                decode_strcat_char(coupon_str, third_purchase_requirement_str[digit_ctr++]);
+            coupon_start_index = 0;
+            if (data_str[idx] == '0') {
+                coupon_start_index = 1;
             }
-        }
-    }
 
-    /* third purchase family code */
-    if ((int)strlen(data_str) <= idx + 3) {
-        return coupon_str;
-    }
-    char third_purchase_family_code[4];
-    ctr = 0;
-    for (ctr=0;ctr < 3; ctr++, idx++) {
-        third_purchase_family_code[ctr] = data_str[idx];
-    }
-    third_purchase_family_code[ctr] = 0;
-    decode_strcat(coupon_str, "\nTHIRD PURCHASE FAMILY CODE: ");
-    decode_strcat(coupon_str, &third_purchase_family_code[0]);
+            /* third GS1 company prefix */
+            company_prefix_str =
+                get_company_prefix_str(company_prefix_code,
+                                       idx + coupon_start_index, data_str);
+            if (company_prefix_str == NULL) {
+                return coupon_str;
+            }
+            company_ctr = 0;
+            decode_strcat(coupon_str, "\nCOMPANY: ");
+            for (company_ctr = idx; company_ctr < idx + vli; company_ctr++) {
+                decode_strcat_char(coupon_str, data_str[company_ctr]);
+            }
+            decode_strcat(coupon_str, "\nCOUNTRY: ");
+            decode_strcat(coupon_str, company_prefix_str);
+            free(company_prefix_str);
 
-    /* third GS1 company prefix VLI */
-    if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
-        return coupon_str;
-    }
-    vli_str[0] = data_str[idx++];
-    vli = atoi(&vli_str[0]);
-    if (vli != 9) {
-        vli += 6;
-        if ((int)strlen(data_str) <= idx + vli) {
-            return coupon_str;
+            idx += vli;
         }
-        coupon_start_index = 0;
-        if (data_str[idx] == '0') {
-            coupon_start_index = 1;
-        }
-
-        /* third GS1 company prefix */
-        company_prefix_str =
-            get_company_prefix_str(company_prefix_code,
-                                   idx + coupon_start_index, data_str);
-        if (company_prefix_str == NULL) {
-            return coupon_str;
-        }
-        company_ctr = 0;
-        decode_strcat(coupon_str, "\nCOMPANY: ");
-        for (company_ctr = idx; company_ctr < idx + vli; company_ctr++) {
-            decode_strcat_char(coupon_str, data_str[company_ctr]);
-        }
-        decode_strcat(coupon_str, "\nCOUNTRY: ");
-        decode_strcat(coupon_str, company_prefix_str);
-        free(company_prefix_str);
-
-        idx += vli;
     }
 
     /* data field 3 - expiration date */
     if ((int)strlen(data_str) <= idx + 6) {
         return coupon_str;
     }
-    char data_field_3 = data_str[idx++];
-    decode_strcat(coupon_str, "\nDATA FIELD 3 - EXPIRATION DATE: ");
-    decode_strcat_char(coupon_str, data_field_3);
+    char * date_str;
+    if (data_str[idx] == '3') {
+        char data_field_3 = data_str[idx++];
+        decode_strcat(coupon_str, "\nDATA FIELD 3 - EXPIRATION DATE: ");
+        decode_strcat_char(coupon_str, data_field_3);
 
-    /* expiration date */
-    char * date_str = data_id_convert_date("YYMMDD", &data_str[idx]);
-    if (date_str != NULL) {
-        decode_strcat(coupon_str, "\nEXPIRATION DATE: ");
-        decode_strcat(coupon_str, date_str);
-        free(date_str);
+        /* expiration date */
+        date_str = data_id_convert_date("YYMMDD", &data_str[idx]);
+        if (date_str != NULL) {
+            decode_strcat(coupon_str, "\nEXPIRATION DATE: ");
+            decode_strcat(coupon_str, date_str);
+            free(date_str);
+        }
+        idx += 6;
     }
-    idx += 6;
 
     /* data field 4 - start date */
     if ((int)strlen(data_str) <= idx + 6) {
         return coupon_str;
     }
-    char data_field_4 = data_str[idx++];
-    decode_strcat(coupon_str, "\nDATA FIELD 4 - START DATE: ");
-    decode_strcat_char(coupon_str, data_field_4);
+    if (data_str[idx] == '4') {
+        char data_field_4 = data_str[idx++];
+        decode_strcat(coupon_str, "\nDATA FIELD 4 - START DATE: ");
+        decode_strcat_char(coupon_str, data_field_4);
 
-    /* start date */
-    date_str = data_id_convert_date("YYMMDD", &data_str[idx]);
-    if (date_str != NULL) {
-        decode_strcat(coupon_str, "\nSTART DATE: ");
-        decode_strcat(coupon_str, date_str);
-        free(date_str);
+        /* start date */
+        date_str = data_id_convert_date("YYMMDD", &data_str[idx]);
+        if (date_str != NULL) {
+            decode_strcat(coupon_str, "\nSTART DATE: ");
+            decode_strcat(coupon_str, date_str);
+            free(date_str);
+        }
+        idx += 6;
     }
-    idx += 6;
 
     /* data field 5 - serial number */
     if ((int)strlen(data_str) <= idx + 7) {
         return coupon_str;
     }
-    char data_field_5 = data_str[idx++];
-    decode_strcat(coupon_str, "\nDATA FIELD 5 - SERIAL NO: ");
-    decode_strcat_char(coupon_str, data_field_5);
+    if (data_str[idx] == '5') {
+        char data_field_5 = data_str[idx++];
+        decode_strcat(coupon_str, "\nDATA FIELD 5 - SERIAL NO: ");
+        decode_strcat_char(coupon_str, data_field_5);
 
-    /* serial number vli */
-    if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
-        return coupon_str;
-    }
-    vli_str[0] = data_str[idx++];
-    vli = 6 + atoi(&vli_str[0]);
-    int serial_ctr = 0;
-    decode_strcat(coupon_str, "\nSERIAL NO: ");
-    for (serial_ctr = 0; serial_ctr < vli; serial_ctr++, idx++) {
-        decode_strcat_char(coupon_str, data_str[idx]);
+        /* serial number vli */
+        if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
+            return coupon_str;
+        }
+        vli_str[0] = data_str[idx++];
+        vli = 6 + atoi(&vli_str[0]);
+        int serial_ctr = 0;
+        decode_strcat(coupon_str, "\nSERIAL NO: ");
+        for (serial_ctr = 0; serial_ctr < vli; serial_ctr++, idx++) {
+            decode_strcat_char(coupon_str, data_str[idx]);
+        }
     }
     
     return coupon_str;

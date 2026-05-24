@@ -706,6 +706,69 @@ static void test_north_american_coupon()
     assert(strstr("SAVE VALUE: 150", description) == 0);
     assert(strstr("THIRD PURCHASE FAMILY CODE: 256", description) == 0);
     free(description);
+
+    char * coupon2 = "8110106141410012342501106501013085093101231";
+    description = get_north_american_coupon(&coupon2[4],
+                                            &company_prefix_code[0]);
+    assert(description != NULL);
+    printf("\n%s\n", description);
+    assert(strstr("OFFER CODE: 001234", description) == 0);
+    assert(strstr("SAVE VALUE: 50", description) == 0);
+    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 650", description) == 0);
+    assert(strstr("SECOND PURCHASE FAMILY CODE: 850", description) == 0);
+    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    free(description);
+
+    char * coupon3 = "8110106141410012471011076011110850921108609310123191000";
+    description = get_north_american_coupon(&coupon3[4],
+                                            &company_prefix_code[0]);
+    assert(description != NULL);
+    printf("\n%s\n", description);
+    assert(strstr("SAVE VALUE: 0", description) == 0);
+    assert(strstr("OFFER CODE: 001247", description) == 0);
+    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 760", description) == 0);
+    assert(strstr("SECOND PURCHASE FAMILY CODE: 850", description) == 0);
+    assert(strstr("THIRD PURCHASE FAMILY CODE: 860", description) == 0);
+    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    free(description);
+
+    char * coupon4 =
+        "8110106141411234562891101201212085010048000214025610048000310123191000";
+    description = get_north_american_coupon(&coupon4[4],
+                                            &company_prefix_code[0]);
+    assert(description != NULL);
+    printf("\n%s\n", description);
+    assert(strstr("OFFER CODE: 123456", description) == 0);
+    assert(strstr("SAVE VALUE: 89", description) == 0);
+    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
+    assert(strstr("SECOND PURCHASE FAMILY CODE: 850", description) == 0);
+    assert(strstr("THIRD PURCHASE FAMILY CODE: 256", description) == 0);
+    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    free(description);
+
+    char * coupon5 =
+        "81101061414154321031501101201211014092110256100126663101231";
+    description = get_north_american_coupon(&coupon5[4],
+                                            &company_prefix_code[0]);
+    assert(description != NULL);
+    printf("\n%s\n", description);
+    assert(strstr("OFFER CODE: 543210", description) == 0);
+    assert(strstr("SAVE VALUE: 150", description) == 0);
+    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
+    assert(strstr("SECOND PURCHASE FAMILY CODE: 140", description) == 0);
+    assert(strstr("THIRD PURCHASE FAMILY CODE: 256", description) == 0);
+    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    free(description);
+
+    char * coupon6 = "8110106141416543213500110000310123196000";
+    description = get_north_american_coupon(&coupon6[4],
+                                            &company_prefix_code[0]);
+    assert(description != NULL);
+    printf("\n%s\n", description);
+    assert(strstr("OFFER CODE: 654321", description) == 0);
+    assert(strstr("SAVE VALUE: 500", description) == 0);
+    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    free(description);
 }
 
 void run_all_tests()
