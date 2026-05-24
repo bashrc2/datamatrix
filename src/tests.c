@@ -694,6 +694,7 @@ static void test_meat_cut()
     assert(strstr("WEIGHT RANGE: NOT SPECIFIED", description) == 0);
     assert(strstr("PACKING: CUTS - VACUUM PACKED", description) == 0);
     assert(strstr("CONFORMITY: NOT SPECIFIED", description) == 0);
+    free(description);
 }
 
 void run_all_tests()
