@@ -697,6 +697,14 @@ static void test_north_american_coupon()
                                                    &company_prefix_code[0]);
     assert(description != NULL);
     printf("\n%s\n", description);
+    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    assert(strstr("COMPANY: 0012666", description) == 0);
+    assert(strstr("DATA FIELD 2 - THIRD QUALIFYING PURCHASE: 2",
+                  description) == 0);
+    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
+    assert(strstr("OFFER CODE: 654321", description) == 0);
+    assert(strstr("SAVE VALUE: 150", description) == 0);
+    assert(strstr("THIRD PURCHASE FAMILY CODE: 256", description) == 0);
     free(description);
 }
 
