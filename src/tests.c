@@ -686,6 +686,20 @@ static void test_meat_cut()
     free(description);
 }
 
+static void test_north_american_coupon()
+{
+    char company_prefix_code[4];
+    company_prefix_code[0] = 0;
+
+    /* 10 Appendix C example 1 */
+    char * coupon1 = "81101061414165432131501101201211014092110256100126663101231";
+    char * description = get_north_american_coupon(&coupon1[4],
+                                                   &company_prefix_code[0]);
+    assert(description != NULL);
+    printf("\n%s\n", description);
+    free(description);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -706,5 +720,6 @@ void run_all_tests()
     test_sscc_check_digit();
     test_package_type();
     test_meat_cut();
+    test_north_american_coupon();
     printf("All tests complete\n");
 }

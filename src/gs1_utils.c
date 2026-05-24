@@ -785,12 +785,13 @@ char * get_north_american_coupon(char data_str[],
 
     char * coupon_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    coupon_str[0] = 0;
 
     /* variable length indicator */
     char vli_str[2];
     vli_str[0] = data_str[0];
     vli_str[1] = 0;
-    int vli = atoi(&vli_str[0]);
+    int vli = 6 + atoi(&vli_str[0]);
     int coupon_start_index = 1;
     if (data_str[1] == '0') {
         coupon_start_index = 2;
@@ -811,11 +812,13 @@ char * get_north_american_coupon(char data_str[],
 
     /* offer code */
     int idx = 1 + vli;
+    printf("idx: %d\n", idx);
     if ((int)strlen(data_str) < idx + 7) {
         return coupon_str;
     }
     char offer_code_str[7];
     int offer_ctr = 0;
+    offer_code_str[0] = 0;
     for(offer_ctr = 0; offer_ctr < 6; offer_ctr++, idx++) {
         offer_code_str[offer_ctr] = data_str[idx];
     }
@@ -829,22 +832,24 @@ char * get_north_american_coupon(char data_str[],
     }
     vli_str[0] = data_str[idx++];
     int save_value_vli = atoi(&vli_str[0]);
-    if (save_value_vli > 5) save_value_vli = 5;
+    if (save_value_vli > 0) {
+        if (save_value_vli > 5) save_value_vli = 5;
 
-    if ((int)strlen(data_str) <= idx + save_value_vli) {
-        return coupon_str;
-    }
+        if ((int)strlen(data_str) <= idx + save_value_vli) {
+            return coupon_str;
+        }
 
-    /* save value */
-    char save_value_str[6];
-    int save_value_ctr = 0;
-    for(save_value_ctr = 0;
-        save_value_ctr < save_value_vli; save_value_ctr++, idx++) {
-        save_value_str[save_value_ctr] = data_str[idx];     
+        /* save value */
+        char save_value_str[6];
+        int save_value_ctr = 0;
+        for(save_value_ctr = 0;
+            save_value_ctr < save_value_vli; save_value_ctr++, idx++) {
+            save_value_str[save_value_ctr] = data_str[idx];     
+        }
+        save_value_str[save_value_ctr] = 0;
+        decode_strcat(coupon_str, "\nSAVE VALUE: ");
+        decode_strcat(coupon_str, &save_value_str[0]);
     }
-    save_value_str[save_value_ctr] = 0;
-    decode_strcat(coupon_str, "\nSAVE VALUE: ");
-    decode_strcat(coupon_str, &save_value_str[0]);
 
     /* primary purchase requirement variable length indicator */
     if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
@@ -852,72 +857,76 @@ char * get_north_american_coupon(char data_str[],
     }
     vli_str[0] = data_str[idx++];
     int primary_purchase_requirement_vli = atoi(&vli_str[0]);
-    if (primary_purchase_requirement_vli > 5) {
-        primary_purchase_requirement_vli = 5;
-    }
+    if (primary_purchase_requirement_vli > 0) {
+        if (primary_purchase_requirement_vli > 5) {
+            primary_purchase_requirement_vli = 5;
+        }
 
-    if ((int)strlen(data_str) <= idx + primary_purchase_requirement_vli) {
-        return coupon_str;
-    }
+        if ((int)strlen(data_str) <= idx + primary_purchase_requirement_vli) {
+            return coupon_str;
+        }
 
-    /* primary purchase requirement */
-    char primary_purchase_requirement_str[6];
-    int primary_purchase_requirement_ctr = 0;
-    for(primary_purchase_requirement_ctr = 0;
-        primary_purchase_requirement_ctr < primary_purchase_requirement_vli;
-        primary_purchase_requirement_ctr++, idx++) {
-        primary_purchase_requirement_str[primary_purchase_requirement_ctr] =
-            data_str[idx];
-    }
-    primary_purchase_requirement_str[primary_purchase_requirement_ctr] = 0;
+        /* primary purchase requirement */
+        char primary_purchase_requirement_str[6];
+        int primary_purchase_requirement_ctr = 0;
+        for(primary_purchase_requirement_ctr = 0;
+            primary_purchase_requirement_ctr < primary_purchase_requirement_vli;
+            primary_purchase_requirement_ctr++, idx++) {
+            primary_purchase_requirement_str[primary_purchase_requirement_ctr] =
+                data_str[idx];
+        }
+        primary_purchase_requirement_str[primary_purchase_requirement_ctr] = 0;
 
-    /* primary purchase requirement code */
-    if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
-        return coupon_str;
-    }
-    char primary_purchase_requirement_code = data_str[idx++];
-    int decimal_places = 0;
-    switch(primary_purchase_requirement_code) {
-    case '0': {
-        decode_strcat(coupon_str, "\nTHRESHOLD NO OF UNITS");
-        break;
-    }
-    case '1': {
-        decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF ACCUMULATED TOTAL QUALIFYING ITEMS");
-        decimal_places = 2;
-        break;
-    }
-    case '2': {
-        decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF TOTAL TRANSACTION");
-        decimal_places = 2;
-        break;
-    }
-    case '3': {
-        decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT LBS");
-        decimal_places = 2;
-        break;
-    }
-    case '4': {
-        decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT KG");
-        decimal_places = 3;
-        break;
-    }
-    case '9': {
-        decode_strcat(coupon_str, "\nCASHIER INTERVENTION REQUIRED");
-        break;
-    }
-    }
-    decode_strcat(coupon_str, "\nPRIMARY PURCHASE REQUIREMENT: ");
-    int digit_ctr = 0;
-    for (digit_ctr = 0;
-         digit_ctr < (int)strlen(&primary_purchase_requirement_str[0]) - decimal_places;
-         digit_ctr++) {
-        decode_strcat_char(coupon_str, primary_purchase_requirement_str[digit_ctr]);
-    }
-    if (decimal_places > 0) {
-        decode_strcat_char(coupon_str, '.');
-        while(digit_ctr < (int)strlen(&primary_purchase_requirement_str[0])) {
-            decode_strcat_char(coupon_str, primary_purchase_requirement_str[digit_ctr++]);
+        /* primary purchase requirement code */
+        if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
+            return coupon_str;
+        }
+        char primary_purchase_requirement_code = data_str[idx++];
+        int decimal_places = 0;
+        switch(primary_purchase_requirement_code) {
+        case '0': {
+            decode_strcat(coupon_str, "\nTHRESHOLD NO OF UNITS");
+            break;
+        }
+        case '1': {
+            decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF ACCUMULATED TOTAL QUALIFYING ITEMS");
+            decimal_places = 2;
+            break;
+        }
+        case '2': {
+            decode_strcat(coupon_str, "\nTHRESHOLD CASH VALUE OF TOTAL TRANSACTION");
+            decimal_places = 2;
+            break;
+        }
+        case '3': {
+            decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT LBS");
+            decimal_places = 2;
+            break;
+        }
+        case '4': {
+            decode_strcat(coupon_str, "\nTHRESHOLD WEIGHT KG");
+            decimal_places = 3;
+            break;
+        }
+        case '9': {
+            decode_strcat(coupon_str, "\nCASHIER INTERVENTION REQUIRED");
+            break;
+        }
+        }
+        decode_strcat(coupon_str, "\nPRIMARY PURCHASE REQUIREMENT: ");
+        int digit_ctr = 0;
+        for (digit_ctr = 0;
+             digit_ctr < (int)strlen(&primary_purchase_requirement_str[0]) - decimal_places;
+             digit_ctr++) {
+            decode_strcat_char(coupon_str, primary_purchase_requirement_str[digit_ctr]);
+        }
+        if (decimal_places > 0) {
+            if (digit_ctr > decimal_places) {
+                decode_strcat_char(coupon_str, '.');
+            }
+            while(digit_ctr < (int)strlen(&primary_purchase_requirement_str[0])) {
+                decode_strcat_char(coupon_str, primary_purchase_requirement_str[digit_ctr++]);
+            }
         }
     }
 
