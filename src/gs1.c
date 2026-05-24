@@ -120,7 +120,7 @@ void gs1_semantics(char result[],
     char company_prefix_code[4];
     char processor_country_code[4];
     char * app_id_str, * data_str, * date_str, * end_date_str;
-    char * curr_str, * decimal_str, * country_str, * coupon_str, * issn_str;
+    char * curr_str, * decimal_str, * country_str, * issn_str;
     char * company_prefix_str, * processor_country_str, * package_type_str;
     char * meat_cut_str;
     unsigned char gtin_check_digit_passed = -1;
@@ -2427,7 +2427,6 @@ void gs1_semantics(char result[],
         decimal_str = NULL;
         country_str = NULL;
         processor_country_str = NULL;
-        coupon_str = NULL;
         issn_str = NULL;
         company_prefix_str = NULL;
         package_type_str = NULL;
@@ -2783,10 +2782,7 @@ void gs1_semantics(char result[],
             case 255: {
                 if (debug == 1) printf("GCN ");
                 if (is_digital_link == 0) {
-                    coupon_str = get_coupon(data_str);
-                    if (coupon_str == NULL) {
-                        decode_strcat(gs1_result, "GCN: ");
-                    }
+                    decode_strcat(gs1_result, "GCN: ");
                     if ((int)strlen(data_str) > 4) {
                         int gcn_start_index = 0;
                         if (data_str[0] == '0') {
@@ -5527,10 +5523,6 @@ void gs1_semantics(char result[],
                     free(processor_country_str);
                     decode_strcat_char(gs1_result, ' ');
                     decode_strcat(gs1_result, &data_str[3]);
-                }
-                else if (coupon_str != NULL) {
-                    decode_strcat(gs1_result, coupon_str);
-                    free(coupon_str);
                 }
                 else if (issn_str != NULL) {
                     decode_strcat(gs1_result, issn_str);

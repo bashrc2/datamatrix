@@ -114,35 +114,6 @@ char * get_issn(char data_str[])
 }
 
 /**
- * \brief returns human readable details for a coupon
- * \param data_str String to be decoded
- * \return decoded coupon string or NULL
- */
-char * get_coupon(char data_str[])
-{
-    int i, data_len = strlen(data_str);
-    if (data_len < 12) return NULL;
-    char company[13];
-    for (i = 0; i < 12; i++) {
-        company[i] = data_str[i];
-    }
-    company[12] = 0;
-    char * coupon_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
-    coupon_str[0] = 0;
-    decode_strcat(coupon_str, "COMPANY/COUPON REF: ");
-    decode_strcat(coupon_str, company);
-    if (data_len > 12) {
-        decode_strcat_char(coupon_str, '\n');
-        decode_strcat(coupon_str, "SERIAL: ");
-        for (i = 12; i < data_len; i++) {
-            decode_strcat_char(coupon_str, data_str[i]);
-        }
-    }
-    return coupon_str;
-}
-
-/**
  * \brief Returns the package type description
  * \param package_code Package code
  * \return package description

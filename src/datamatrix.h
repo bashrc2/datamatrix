@@ -530,8 +530,6 @@ float get_temperature(char data_str[]);
 
 char * get_issn(char data_str[]);
 
-char * get_coupon(char data_str[]);
-
 char * get_package_type(char package_code[]);
 
 char * get_gs1_company_prefix(char data_str[]);
