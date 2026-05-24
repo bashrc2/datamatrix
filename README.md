@@ -269,6 +269,8 @@ A set of images will be produced which show the detection process at each stage.
 
 [Line–line intersection](https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection)
 
+[North American Coupon Application Guideline Using GS1 DataBar Expanded Symbols](https://www.gs1us.org/content/dam/gs1us/documents/industries-insights/standards/North-American-Coupon-Application-Guideline-Using-GS1-DataBar.pdf)
+
 [Popular ISO/IEC 15434 Barcode Formats](https://www.barcodefaq.com/2d/data-matrix/iso-iec-15434)
 
 [Reed–Solomon error correction](https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction)

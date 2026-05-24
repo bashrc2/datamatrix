@@ -549,6 +549,9 @@ char * get_decimal_value(int application_identifier,
 
 char * get_meat_cut(char data_str[]);
 
+char * get_north_american_coupon(char data_str[],
+								 char company_prefix_code[]);
+
 /* gs1.c */
 
 void gs1_semantics(char result[],

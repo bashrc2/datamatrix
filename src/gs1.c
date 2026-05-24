@@ -122,7 +122,8 @@ void gs1_semantics(char result[],
     char * app_id_str, * data_str, * date_str, * end_date_str;
     char * curr_str, * decimal_str, * country_str, * issn_str;
     char * company_prefix_str, * processor_country_str, * package_type_str;
-    char * meat_cut_str;
+    char * meat_cut_str, * coupon_str;
+    char offer_code_str[7];
     unsigned char gtin_check_digit_passed = -1;
     unsigned char gsin_check_digit_passed = -1;
     unsigned char gsrn_check_digit_passed = -1;
@@ -2431,6 +2432,7 @@ void gs1_semantics(char result[],
         company_prefix_str = NULL;
         package_type_str = NULL;
         meat_cut_str = NULL;
+        coupon_str = NULL;
         gtin_check_digit_passed = -1;
         gsin_check_digit_passed = -1;
         gsrn_check_digit_passed = -1;
@@ -2454,6 +2456,7 @@ void gs1_semantics(char result[],
         itip_piece_number_str[0] = 0;
         itip_total_count_str[0] = 0;
         bio_sex = -1;
+        offer_code_str[0] = 0;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -5394,7 +5397,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8110: {
-                DECODE("COUPON");
+                if (debug == 1) printf("COUPON ");
+                if (is_digital_link == 0) {
+                    coupon_str = get_north_american_coupon(data_str,
+                                                           &company_prefix_code[0]);
+                }
                 break;
             }
             case 8111: {
@@ -5402,7 +5409,11 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8112: {
-                DECODE("COUPON");
+                if (debug == 1) printf("COUPON ");
+                if (is_digital_link == 0) {
+                    coupon_str = get_north_american_coupon(data_str,
+                                                           &company_prefix_code[0]);
+                }
                 break;
             }
             case 8200: {
@@ -5673,10 +5684,21 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, meat_cut_str);
                     free(meat_cut_str);
                 }
+                else if (coupon_str != NULL) {
+                    decode_strcat(gs1_result, coupon_str);
+                    free(coupon_str);
+                }
                 else {
                     decode_strcat(gs1_result, data_str);
                 }
                 decode_strcat_char(gs1_result, '\n');
+
+                if (offer_code_str[0] != 0) {
+                    /* coupon offer code */
+                    decode_strcat(gs1_result, "OFFER CODE: ");
+                    decode_strcat(gs1_result, &offer_code_str[0]);
+                    decode_strcat_char(gs1_result, '\n');
+                }
 
                 /* show the status of a GTIN check digit */
                 if (gtin_check_digit_passed == 0) {
