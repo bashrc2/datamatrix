@@ -23,6 +23,9 @@
 #include "datamatrix.h"
 #include "gs1_lookup_tables.h"
 
+#define LOOKUP_TABLE_ROWS(lookup_table, columns) \
+    ((int)sizeof(lookup_table) / (int)sizeof(lookup_table[0]))/columns
+
 /**
  * \brief returns a check digit for the given GTIN
  * \param gtin GTIN code number as a string
@@ -121,10 +124,8 @@ char * get_issn(char data_str[])
 char * get_package_type(char package_code[])
 {
     int i;
-    if ((int)strlen(package_code) > 3) return NULL;
-    int no_of_package_types =
-        ((int)sizeof(package_type_code) /
-         (int)sizeof(package_type_code[0]))/2;
+    if ((int)strlen(package_code) > 3) return NULL; 
+    int no_of_package_types = LOOKUP_TABLE_ROWS(package_type_code, 2);
     int data_len = strlen(package_code);
     for (i = 0; i < no_of_package_types; i++) {
         if ((int)strlen(package_type_code[i*2]) != data_len) continue;
@@ -155,9 +156,7 @@ char * get_gs1_company_prefix(char data_str[])
     data_str_code[i] = 0;
 
     /* is this a GS1 company prefix? */
-    int no_of_company_prefixes =
-        ((int)sizeof(gs1_company_prefix) /
-         (int)sizeof(gs1_company_prefix[0]))/3;
+    int no_of_company_prefixes = LOOKUP_TABLE_ROWS(gs1_company_prefix, 3);
     int company_prefix_index = -1;
     int test_code = atoi(data_str_code);
     for (i = 0; i < no_of_company_prefixes; i++) {
@@ -227,9 +226,7 @@ char * get_country(char data_str[])
     data_str_country_code[3] = 0;
 
     /* is this an iso3166 code? */
-    int no_of_countries =
-        ((int)sizeof(iso3166_country_codes) /
-         (int)sizeof(iso3166_country_codes[0]))/3;
+    int no_of_countries = LOOKUP_TABLE_ROWS(iso3166_country_codes, 3);
     int country_index = -1;
     for (i = 0; i < no_of_countries; i++) {
         if (strcmp(iso3166_country_codes[i*3 + 2],
@@ -275,9 +272,7 @@ char * get_country_alpha2(char data_str[])
     data_str_country_code[2] = 0;
 
     /* is this an iso3166 code? */
-    int no_of_countries =
-        ((int)sizeof(iso3166_2_country_codes) /
-         (int)sizeof(iso3166_2_country_codes[0]))/2;
+    int no_of_countries = LOOKUP_TABLE_ROWS(iso3166_2_country_codes, 2);
     int country_index = -1;
     for (i = 0; i < no_of_countries; i++) {
         if (strcmp(iso3166_2_country_codes[i*2],
@@ -324,9 +319,7 @@ char * get_currency_value(int application_identifier,
     data_str_currency_code[3] = 0;
 
     /* is this an iso4217 code? */
-    int no_of_currencies =
-        ((int)sizeof(iso4217_currency_codes) /
-         (int)sizeof(iso4217_currency_codes[0]))/4;
+    int no_of_currencies = LOOKUP_TABLE_ROWS(iso4217_currency_codes, 4);
     int currency_index = -1;
     for (i = 0; i < no_of_currencies; i++) {
         if (strcmp(iso4217_currency_codes[i*4 + 3],
@@ -409,9 +402,7 @@ char * get_meat_cut(char data_str[])
     decode_strcat(meat_cut_str, data_str);
 
     /* field 1 */
-    int no_of_species =
-        ((int)sizeof(unece_species_code) /
-         (int)sizeof(unece_species_code[0]))/2;
+    int no_of_species = LOOKUP_TABLE_ROWS(unece_species_code, 2);
     for (i = 0; i < no_of_species; i++) {
         if ((unece_species_code[i*2][0] == data_str[0]) &&
             (unece_species_code[i*2][1] == data_str[1])) {
@@ -422,9 +413,7 @@ char * get_meat_cut(char data_str[])
     }
 
     /* field 2 */
-    int no_of_product_codes =
-        ((int)sizeof(unece_product_code) /
-         (int)sizeof(unece_product_code[0]))/3;
+    int no_of_product_codes = LOOKUP_TABLE_ROWS(unece_product_code, 3);
     char prod_code_str[5];
     /* check that all product code characters are numbers */
     for (i = 2; i <= 5; i++) {
