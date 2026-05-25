@@ -827,6 +827,7 @@ char * get_north_american_coupon(char data_str[],
     }
     vli_str[0] = data_str[idx++];
     int save_value_vli = atoi(&vli_str[0]);
+    int save_value = 0;
     if (save_value_vli > 0) {
         if (save_value_vli > 5) save_value_vli = 5;
 
@@ -844,6 +845,7 @@ char * get_north_american_coupon(char data_str[],
         save_value_str[save_value_ctr] = 0;
         decode_strcat(coupon_str, "\nSAVE VALUE: ");
         decode_strcat(coupon_str, &save_value_str[0]);
+        save_value = atoi(&save_value_str[0]);
     }
 
     /* primary purchase requirement variable length indicator */
@@ -1094,10 +1096,10 @@ char * get_north_american_coupon(char data_str[],
     }
 
     /* data field 2 - third qualifying purchase */
-    if ((int)strlen(data_str) <= idx + 2) {
-        return coupon_str;
-    }
     if (data_str[idx] == '2') {
+        if ((int)strlen(data_str) <= idx + 2) {
+            return coupon_str;
+        }
         char data_field_2 = data_str[idx++];
         decode_strcat(coupon_str, "\nDATA FIELD 2 - THIRD QUALIFYING PURCHASE: ");
         decode_strcat_char(coupon_str, data_field_2);
@@ -1229,11 +1231,11 @@ char * get_north_american_coupon(char data_str[],
     }
 
     /* data field 3 - expiration date */
-    if ((int)strlen(data_str) <= idx + 6) {
-        return coupon_str;
-    }
     char * date_str;
     if (data_str[idx] == '3') {
+        if ((int)strlen(data_str) <= idx + 6) {
+            return coupon_str;
+        }
         char data_field_3 = data_str[idx++];
         decode_strcat(coupon_str, "\nDATA FIELD 3 - EXPIRATION DATE: ");
         decode_strcat_char(coupon_str, data_field_3);
@@ -1249,10 +1251,10 @@ char * get_north_american_coupon(char data_str[],
     }
 
     /* data field 4 - start date */
-    if ((int)strlen(data_str) <= idx + 6) {
-        return coupon_str;
-    }
     if (data_str[idx] == '4') {
+        if ((int)strlen(data_str) <= idx + 6) {
+            return coupon_str;
+        }
         char data_field_4 = data_str[idx++];
         decode_strcat(coupon_str, "\nDATA FIELD 4 - START DATE: ");
         decode_strcat_char(coupon_str, data_field_4);
@@ -1268,10 +1270,10 @@ char * get_north_american_coupon(char data_str[],
     }
 
     /* data field 5 - serial number */
-    if ((int)strlen(data_str) <= idx + 7) {
-        return coupon_str;
-    }
     if (data_str[idx] == '5') {
+        if ((int)strlen(data_str) <= idx + 7) {
+            return coupon_str;
+        }
         char data_field_5 = data_str[idx++];
         decode_strcat(coupon_str, "\nDATA FIELD 5 - SERIAL NO: ");
         decode_strcat_char(coupon_str, data_field_5);
@@ -1288,6 +1290,158 @@ char * get_north_american_coupon(char data_str[],
             decode_strcat_char(coupon_str, data_str[idx]);
         }
     }
-    
+
+    /* data field 6 - retailer id */
+    if (data_str[idx] == '6') {
+        if ((int)strlen(data_str) <= idx + 2) {
+            return coupon_str;
+        }
+        char data_field_6 = data_str[idx++];
+        decode_strcat(coupon_str, "\nDATA FIELD 6 - RETAILER ID: ");
+        decode_strcat_char(coupon_str, data_field_6);
+
+        /* Retailer GS1 company prefix VLI */
+        if ((data_str[idx] < '0') || (data_str[idx] > '9')) {
+            return coupon_str;
+        }
+        vli_str[0] = data_str[idx++];
+        vli = 6 + atoi(&vli_str[0]);
+        if ((int)strlen(data_str) <= idx + vli) {
+            return coupon_str;
+        }
+        coupon_start_index = 0;
+        if (data_str[idx] == '0') {
+            coupon_start_index = 1;
+        }
+
+        /* Retailer GS1 company prefix */
+        company_prefix_str =
+            get_company_prefix_str(company_prefix_code,
+                                   idx + coupon_start_index, data_str);
+        if (company_prefix_str == NULL) {
+            return coupon_str;
+        }
+        company_ctr = 0;
+        decode_strcat(coupon_str, "\nRETAILER COMPANY: ");
+        for (company_ctr = idx; company_ctr < idx + vli; company_ctr++) {
+            decode_strcat_char(coupon_str, data_str[company_ctr]);
+        }
+        decode_strcat(coupon_str, "\nRETAILER COUNTRY: ");
+        decode_strcat(coupon_str, company_prefix_str);
+        free(company_prefix_str);
+
+        idx += vli;
+    }
+
+    /* data field 9 - misc elements */
+    if (data_str[idx] == '9') {
+        if ((int)strlen(data_str) < idx + 5) {
+            return coupon_str;
+        }
+        char data_field_9 = data_str[idx++];
+        decode_strcat(coupon_str, "\nDATA FIELD 9 - MISC ELEMENTS: ");
+        decode_strcat_char(coupon_str, data_field_9);
+
+        char save_value_code = data_str[idx++];
+        decode_strcat(coupon_str, "\nSAVE VALUE CODE: ");
+        decode_strcat_char(coupon_str, save_value_code);
+        switch(save_value_code) {
+        case '0': {
+            decode_strcat(coupon_str, " CENTS OFF QUALIFYING PURCHASE ITEMS");
+            break;
+        }
+        case '1': {
+            if (save_value == 0) {
+                decode_strcat(coupon_str, " ONE QUALIFYING PURCHASE ITEM IS FREE");
+            }
+            else if (save_value > 0) {
+                decode_strcat(coupon_str, " ONE QUALIFYING PURCHASE ITEM IS FREE UP TO SAVE VALUE");
+            }
+            break;
+        }
+        case '2': {
+            decode_strcat(coupon_str, " NO OF QUALIFYING PURCHASE ITEMS THAT ARE FREE");
+            break;
+        }
+        case '5': {
+            decode_strcat(coupon_str, " PERCENT OFF QUALIFYING PURCHASE ITEM");
+            break;
+        }
+        case '6': {
+            decode_strcat(coupon_str, " CENTS OFF FINAL TRANSACTION AMOUNT");
+            break;
+        }
+        }
+
+        char save_value_which_item = data_str[idx++];
+        decode_strcat(coupon_str, "\nSAVE VALUE WHICH ITEM: ");
+        decode_strcat_char(coupon_str, save_value_which_item);
+        switch(save_value_which_item) {
+        case '0': {
+            decode_strcat(coupon_str, " APPLIES TO PRIMARY QUALIFYING ITEM");
+            break;
+        }
+        case '1': {
+            decode_strcat(coupon_str, " APPLIES TO 2ND QUALIFYING ITEM");
+            break;
+        }
+        case '2': {
+            decode_strcat(coupon_str, " APPLIES TO 3RD QUALIFYING ITEM");
+            break;
+        }
+        }
+
+        char store_coupon_flag = data_str[idx++];
+        decode_strcat(coupon_str, "\nSTORE COUPON FLAG: ");
+        decode_strcat_char(coupon_str, store_coupon_flag);
+        switch(store_coupon_flag) {
+        case '0': {
+            decode_strcat(coupon_str, " NOT A STORE COUPON");
+            break;
+        }
+        case '1': {
+            decode_strcat(coupon_str, " APPLIES TO 1 QUALIFYING ITEM");
+            break;
+        }
+        case '2': {
+            decode_strcat(coupon_str, " APPLIES TO 2 QUALIFYING ITEMS");
+            break;
+        }
+        case '3': {
+            decode_strcat(coupon_str, " APPLIES TO 3 QUALIFYING ITEMS");
+            break;
+        }
+        case '4': {
+            decode_strcat(coupon_str, " APPLIES TO 4 QUALIFYING ITEMS");
+            break;
+        }
+        case '5': {
+            decode_strcat(coupon_str, " APPLIES TO 5 QUALIFYING ITEMS");
+            break;
+        }
+        case '6': {
+            decode_strcat(coupon_str, " APPLIES TO 6 QUALIFYING ITEMS");
+            break;
+        }
+        case '7': {
+            decode_strcat(coupon_str, " APPLIES TO 7 QUALIFYING ITEMS");
+            break;
+        }
+        case '8': {
+            decode_strcat(coupon_str, " APPLIES TO 8 QUALIFYING ITEMS");
+            break;
+        }
+        case '9': {
+            decode_strcat(coupon_str, " APPLIES TO ALL QUALIFYING ITEMS");
+            break;
+        }
+        }
+
+        char dont_multiply_flag = data_str[idx++];
+        if (dont_multiply_flag == '1') {
+            decode_strcat(coupon_str, "\nTHIS OFFER MUST NOT BE MULTIPLIED");
+        }
+    }
+
     return coupon_str;
 }

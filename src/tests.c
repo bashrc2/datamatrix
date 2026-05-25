@@ -696,7 +696,7 @@ static void test_north_american_coupon()
     char * description = get_north_american_coupon(&coupon1[4],
                                                    &company_prefix_code[0]);
     assert(description != NULL);
-    printf("\n%s\n", description);
+    printf("\nExample 1\n%s\n", description);
     assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
     assert(strstr("COMPANY: 0012666", description) == 0);
     assert(strstr("DATA FIELD 2 - THIRD QUALIFYING PURCHASE: 2",
@@ -711,7 +711,7 @@ static void test_north_american_coupon()
     description = get_north_american_coupon(&coupon2[4],
                                             &company_prefix_code[0]);
     assert(description != NULL);
-    printf("\n%s\n", description);
+    printf("\nExample 2\n%s\n", description);
     assert(strstr("OFFER CODE: 001234", description) == 0);
     assert(strstr("SAVE VALUE: 50", description) == 0);
     assert(strstr("PRIMARY PURCHASE FAMILY CODE: 650", description) == 0);
@@ -723,13 +723,16 @@ static void test_north_american_coupon()
     description = get_north_american_coupon(&coupon3[4],
                                             &company_prefix_code[0]);
     assert(description != NULL);
-    printf("\n%s\n", description);
+    printf("\nExample 3\n%s\n", description);
     assert(strstr("SAVE VALUE: 0", description) == 0);
     assert(strstr("OFFER CODE: 001247", description) == 0);
     assert(strstr("PRIMARY PURCHASE FAMILY CODE: 760", description) == 0);
     assert(strstr("SECOND PURCHASE FAMILY CODE: 850", description) == 0);
     assert(strstr("THIRD PURCHASE FAMILY CODE: 860", description) == 0);
     assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    assert(strstr("ONE QUALIFYING PURCHASE ITEM IS FREE", description) == 0);
+    assert(strstr("APPLIES TO PRIMARY QUALIFYING ITEM", description) == 0);
+    assert(strstr("NOT A STORE COUPON", description) == 0);
     free(description);
 
     char * coupon4 =
@@ -737,7 +740,7 @@ static void test_north_american_coupon()
     description = get_north_american_coupon(&coupon4[4],
                                             &company_prefix_code[0]);
     assert(description != NULL);
-    printf("\n%s\n", description);
+    printf("\nExample 4\n%s\n", description);
     assert(strstr("OFFER CODE: 123456", description) == 0);
     assert(strstr("SAVE VALUE: 89", description) == 0);
     assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
@@ -751,7 +754,7 @@ static void test_north_american_coupon()
     description = get_north_american_coupon(&coupon5[4],
                                             &company_prefix_code[0]);
     assert(description != NULL);
-    printf("\n%s\n", description);
+    printf("\nExample 5\n%s\n", description);
     assert(strstr("OFFER CODE: 543210", description) == 0);
     assert(strstr("SAVE VALUE: 150", description) == 0);
     assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
@@ -764,7 +767,7 @@ static void test_north_american_coupon()
     description = get_north_american_coupon(&coupon6[4],
                                             &company_prefix_code[0]);
     assert(description != NULL);
-    printf("\n%s\n", description);
+    printf("\nExample 6\n%s\n", description);
     assert(strstr("OFFER CODE: 654321", description) == 0);
     assert(strstr("SAVE VALUE: 500", description) == 0);
     assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
