@@ -1347,28 +1347,28 @@ char * get_north_american_coupon(char data_str[],
         decode_strcat_char(coupon_str, save_value_code);
         switch(save_value_code) {
         case '0': {
-            decode_strcat(coupon_str, " CENTS OFF QUALIFYING PURCHASE ITEMS");
+            decode_strcat(coupon_str, "\nCENTS OFF QUALIFYING PURCHASE ITEMS");
             break;
         }
         case '1': {
             if (save_value == 0) {
-                decode_strcat(coupon_str, " ONE QUALIFYING PURCHASE ITEM IS FREE");
+                decode_strcat(coupon_str, "\nONE QUALIFYING PURCHASE ITEM IS FREE");
             }
             else if (save_value > 0) {
-                decode_strcat(coupon_str, " ONE QUALIFYING PURCHASE ITEM IS FREE UP TO SAVE VALUE");
+                decode_strcat(coupon_str, "\nONE QUALIFYING PURCHASE ITEM IS FREE UP TO SAVE VALUE");
             }
             break;
         }
         case '2': {
-            decode_strcat(coupon_str, " NO OF QUALIFYING PURCHASE ITEMS THAT ARE FREE");
+            decode_strcat(coupon_str, "\nNO OF QUALIFYING PURCHASE ITEMS THAT ARE FREE");
             break;
         }
         case '5': {
-            decode_strcat(coupon_str, " PERCENT OFF QUALIFYING PURCHASE ITEM");
+            decode_strcat(coupon_str, "\nPERCENT OFF QUALIFYING PURCHASE ITEM");
             break;
         }
         case '6': {
-            decode_strcat(coupon_str, " CENTS OFF FINAL TRANSACTION AMOUNT");
+            decode_strcat(coupon_str, "\nCENTS OFF FINAL TRANSACTION AMOUNT");
             break;
         }
         }
