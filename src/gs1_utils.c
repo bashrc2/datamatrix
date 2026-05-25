@@ -23,6 +23,7 @@
 #include "datamatrix.h"
 #include "gs1_lookup_tables.h"
 
+/* the number of items (rows) in a lookup table */
 #define LOOKUP_TABLE_ROWS(lookup_table, columns) \
     ((int)sizeof(lookup_table) / (int)sizeof(lookup_table[0]))/columns
 
