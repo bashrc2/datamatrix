@@ -774,6 +774,14 @@ static void test_north_american_coupon()
     free(description);
 }
 
+static void test_check_characters()
+{
+    char check_character_pair[3];
+    char * data_str1 = "1987654Ad4X4bL5ttr2310c";
+    calc_check_character(data_str1, 0, &check_character_pair[0]);
+    assert(strcmp(&check_character_pair[0], "2K") == 0);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -795,5 +803,6 @@ void run_all_tests()
     test_package_type();
     test_meat_cut();
     test_north_american_coupon();
+    test_check_characters();
     printf("All tests complete\n");
 }

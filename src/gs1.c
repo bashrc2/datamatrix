@@ -2364,6 +2364,10 @@ void gs1_semantics(char result[],
             APP_ID(30, 4, 30);
             break;
         }
+        case 8014: {
+            APP_ID(25, 4, 25);
+            break;
+        }
         case 8017: {
             APP_ID(18, 4, 0);
             break;
@@ -5289,6 +5293,22 @@ void gs1_semantics(char result[],
                         company_prefix_str =
                             get_company_prefix_str(&company_prefix_code[0],
                                                    gmn_start_index, data_str);
+                    }
+                }
+                break;
+            }
+            case 8014: {
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "HIDRI: ");
+                    if ((int)strlen(data_str) > 4) {
+                        int gsrn_start_index = 0;
+                        if (data_str[0] == '0') {
+                            gsrn_start_index = 1;
+                        }
+                        company_prefix_str =
+                            get_company_prefix_str(&company_prefix_code[0],
+                                                   gsrn_start_index, data_str);
+                        /* TODO check character pair */
                     }
                 }
                 break;

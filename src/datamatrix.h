@@ -552,6 +552,9 @@ char * get_meat_cut(char data_str[]);
 char * get_north_american_coupon(char data_str[],
 								 char company_prefix_code[]);
 
+void calc_check_character(char data_str[], int check_characters,
+						  char check_character_pair[]);
+
 /* gs1.c */
 
 void gs1_semantics(char result[],

@@ -1445,3 +1445,55 @@ char * get_north_american_coupon(char data_str[],
 
     return coupon_str;
 }
+
+/**
+ * \brief Is the given number prime?
+ * \param n number to be checked
+ * \return 1 if prime, 0 otherwise
+ */
+static unsigned char is_prime(int n)
+{
+    /* 0 and 1 are not prime numbers */
+    if (n == 1 || n == 0) return 0;
+
+    /* Check for divisibility from 2 to sqrt(n) */
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) return 0;
+    }
+    return 1;
+}
+
+/**
+ * \brief returns a pair of check characters as described in section
+ *        7.9.5 of the GS1 general specifications
+ * \param data_str the string of characters to be checked
+ * \param check_characters If the string already contains check characters
+ *                         this is the number of them at the end, zero
+ *                         otherwise
+ * \param check_character_pair returned pair of check characters
+ */
+void calc_check_character(char data_str[], int check_characters,
+                          char check_character_pair[])
+{
+    int data_len = (int)strlen(data_str) - check_characters;
+    int encodable_chars_len = LOOKUP_TABLE_ROWS(encodable_char_ref, 2);
+    int curr_prime = 2, sum = 0;
+    for (int i = data_len-1; i >= 0; i--) {
+        for (int j = 0; j < encodable_chars_len; j++) {
+            if (encodable_char_ref[j*2][0] == data_str[i]) {
+                while(is_prime(curr_prime) == 0) {
+                    curr_prime++;
+                }
+                sum += (atoi(encodable_char_ref[j*2+1]) * curr_prime);
+                curr_prime++;
+                break;
+            }
+        }
+    }
+    int reference_value = sum % 1021;
+    int C1 = reference_value / 32;
+    int C2 = reference_value % 32;
+    check_character_pair[0] = check_char_ref[C1*2][0];
+    check_character_pair[1] = check_char_ref[C2*2][0];
+    check_character_pair[2] = 0;
+}
