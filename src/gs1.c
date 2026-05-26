@@ -47,6 +47,13 @@
         fishing_gear_type_str = get_fishing_gear_type(data_str); \
     }
 
+#define DECODE_FISHING_AREA(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+        decode_strcat(gs1_result, title ": "); \
+        fishing_area_str = get_fishing_area(data_str); \
+    }
+
 #define DECODE_AQUATIC_SPECIES(title)      \
     if (debug == 1) printf(title " "); \
     if (is_digital_link == 0) { \
@@ -156,7 +163,7 @@ void gs1_semantics(char result[],
     char * curr_str, * decimal_str, * country_str, * issn_str;
     char * company_prefix_str, * processor_country_str, * package_type_str;
     char * meat_cut_str, * coupon_str, * prod_method_str;
-    char * fishing_gear_type_str, * aquatic_species_str;
+    char * fishing_gear_type_str, * aquatic_species_str, * fishing_area_str;
     char offer_code_str[7];
     char certification_ref[3];
     unsigned char gtin_check_digit_passed = -1;
@@ -2505,6 +2512,7 @@ void gs1_semantics(char result[],
         date_str = NULL;
         prod_method_str = NULL;
         fishing_gear_type_str = NULL;
+        fishing_area_str = NULL;
         aquatic_species_str = NULL;
         end_date_str = NULL;
         curr_str = NULL;
@@ -4991,7 +4999,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7005: {
-                DECODE("CATCH AREA");
+                DECODE_FISHING_AREA("CATCH AREA");
                 break;
             }
             case 7006: {
@@ -5853,6 +5861,10 @@ void gs1_semantics(char result[],
                 else if (fishing_gear_type_str != NULL) {
                     decode_strcat(gs1_result, fishing_gear_type_str);
                     free(fishing_gear_type_str);
+                }
+                else if (fishing_area_str != NULL) {
+                    decode_strcat(gs1_result, fishing_area_str);
+                    free(fishing_area_str);
                 }
                 else if (aquatic_species_str != NULL) {
                     decode_strcat(gs1_result, aquatic_species_str);

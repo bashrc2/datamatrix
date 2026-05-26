@@ -821,6 +821,24 @@ static void test_aquatic_species()
     free(description);
 }
 
+static void test_fishing_area()
+{
+    char * description = get_fishing_area("27.2.a.2");
+    assert(description != NULL);
+    assert(strstr("Norwegian Sea Non-NEAFC Regulatory Area", description) == 0);
+    free(description);
+
+    description = get_fishing_area("27.14.b");
+    assert(description != NULL);
+    assert(strstr("Southeast Greenland", description) == 0);
+    free(description);
+
+    description = get_fishing_area("88.3");
+    assert(description != NULL);
+    assert(strstr("Bellingshausen Sea", description) == 0);
+    free(description);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -846,5 +864,6 @@ void run_all_tests()
     test_production_method();
     test_fishing_gear_type();
     test_aquatic_species();
+    test_fishing_area();
     printf("All tests complete\n");
 }

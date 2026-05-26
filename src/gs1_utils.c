@@ -1604,3 +1604,42 @@ char * get_aquatic_species(char data_str[])
     }
     return aquatic_species_str;
 }
+
+/**
+ * \brief returns description of the fishing area
+ *        as defined by Food and Agriculture Organisation (FAO) of the
+ *        United Nations
+ * \param data_str String to be matched
+ * \return Description of the fishing area
+ */
+char * get_fishing_area(char data_str[])
+{
+    if ((int)strlen(data_str) < 4) return NULL;
+    for (int i  = 0; i < (int)strlen(data_str); i++) {
+        if (((data_str[i] < '0') || (data_str[i] > '9')) &&
+            ((data_str[i] < 'a') || (data_str[i] > 'z')) &&
+            ((data_str[i] < 'A') || (data_str[i] > 'Z')) &&
+            (data_str[i] != '.')) return NULL;
+    }
+    char * fishing_area_str =
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    fishing_area_str[0] = 0;
+
+    decode_strcat(fishing_area_str, data_str);
+
+    int no_of_fishing_areas = LOOKUP_TABLE_ROWS(fishing_areas, 2);
+    for (int i = 0; i < no_of_fishing_areas; i++) {
+        if (strcmp(fishing_areas[i*2 + 1], data_str) == 0) {
+            decode_strcat_char(fishing_area_str, ' ');
+            decode_strcat(fishing_area_str, fishing_areas[i*2]);
+            break;
+        }
+    }
+
+    if (fishing_area_str[0] == 0) {
+        /* not found */
+        free(fishing_area_str);
+        return NULL;
+    }
+    return fishing_area_str;
+}
