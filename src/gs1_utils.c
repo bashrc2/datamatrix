@@ -1497,3 +1497,43 @@ void calc_check_character(char data_str[], int check_characters,
     check_character_pair[1] = check_char_ref[C2*2][0];
     check_character_pair[2] = 0;
 }
+
+/**
+ * \brief returns the United Nations production method
+ *        See section 3.8.11 of GS1 general specifications
+ * \param data_str String containing production method code
+ * \return Description of prodiction method
+ */
+char * get_production_method(char data_str[])
+{
+    if ((int)strlen(data_str) < 2) return NULL;
+    for (int i  = 0; i < (int)strlen(data_str); i++) {
+        if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
+    }
+    char * prod_method_str =
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char)); 
+    int prod_method_code = atoi(data_str);
+    switch(prod_method_code) {
+    case 1: {
+        decode_strcat(prod_method_str, "01 CAUGHT AT SEA");
+        break;
+    }
+    case 2: {
+        decode_strcat(prod_method_str, "02 CAUGHT IN FRESH WATER");
+        break;
+    }
+    case 3: {
+        decode_strcat(prod_method_str, "03 FARMED");
+        break;
+    }
+    case 4: {
+        decode_strcat(prod_method_str, "04 CULTIVATED");
+        break;
+    }
+    }
+    if ((int)strlen(prod_method_str) == 0) {
+        free(prod_method_str);
+        return NULL;
+    }
+    return prod_method_str;
+}

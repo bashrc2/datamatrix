@@ -550,10 +550,12 @@ char * get_decimal_value(int application_identifier,
 char * get_meat_cut(char data_str[]);
 
 char * get_north_american_coupon(char data_str[],
-								 char company_prefix_code[]);
+                                 char company_prefix_code[]);
 
 void calc_check_character(char data_str[], int check_characters,
-						  char check_character_pair[]);
+                          char check_character_pair[]);
+
+char * get_production_method(char data_str[]);
 
 /* gs1.c */
 

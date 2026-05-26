@@ -33,6 +33,13 @@
         decode_strcat(gs1_result, title ": "); \
     }
 
+#define DECODE_PRODUCTION_METHOD(title)                 \
+    if (debug == 1) printf(title " ");  \
+    if (is_digital_link == 0) { \
+        decode_strcat(gs1_result, title ": "); \
+        prod_method_str = get_production_method(data_str); \
+    }
+
 #define DECODE_CERT(title) \
     if (debug == 1) printf(title " ");  \
     if (is_digital_link == 0) { \
@@ -134,7 +141,7 @@ void gs1_semantics(char result[],
     char * app_id_str, * data_str, * date_str, * end_date_str;
     char * curr_str, * decimal_str, * country_str, * issn_str;
     char * company_prefix_str, * processor_country_str, * package_type_str;
-    char * meat_cut_str, * coupon_str;
+    char * meat_cut_str, * coupon_str, * prod_method_str;
     char offer_code_str[7];
     char certification_ref[3];
     unsigned char gtin_check_digit_passed = -1;
@@ -2481,6 +2488,7 @@ void gs1_semantics(char result[],
         *application_data_end = curr_pos + (*application_identifier_length);
         data_str = &result[*application_data_start];
         date_str = NULL;
+        prod_method_str = NULL;
         end_date_str = NULL;
         curr_str = NULL;
         decimal_str = NULL;
@@ -4993,7 +5001,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7010: {
-                DECODE("PROD METHOD");
+                DECODE_PRODUCTION_METHOD("PROD METHOD");
                 break;
             }
             case 7011: {
@@ -5820,6 +5828,10 @@ void gs1_semantics(char result[],
                 else if (coupon_str != NULL) {
                     decode_strcat(gs1_result, coupon_str);
                     free(coupon_str);
+                }
+                else if (prod_method_str != NULL) {
+                    decode_strcat(gs1_result, prod_method_str);
+                    free(prod_method_str);
                 }
                 else {
                     decode_strcat(gs1_result, data_str);
