@@ -28,20 +28,27 @@
     *application_data_variable = (variable_len);
 
 #define DECODE(title) \
-    if (debug == 1) printf(title " ");  \
+    if (debug == 1) printf(title " "); \
     if (is_digital_link == 0) { \
         decode_strcat(gs1_result, title ": "); \
     }
 
-#define DECODE_PRODUCTION_METHOD(title)                 \
-    if (debug == 1) printf(title " ");  \
+#define DECODE_PRODUCTION_METHOD(title) \
+    if (debug == 1) printf(title " "); \
     if (is_digital_link == 0) { \
         decode_strcat(gs1_result, title ": "); \
         prod_method_str = get_production_method(data_str); \
     }
 
+#define DECODE_FISHING_GEAR(title) \
+    if (debug == 1) printf(title " "); \
+    if (is_digital_link == 0) { \
+        decode_strcat(gs1_result, title ": "); \
+        fishing_gear_type_str = get_fishing_gear_type(data_str); \
+    }
+
 #define DECODE_CERT(title) \
-    if (debug == 1) printf(title " ");  \
+    if (debug == 1) printf(title " "); \
     if (is_digital_link == 0) { \
         decode_strcat(gs1_result, title ": "); \
         if ((int)strlen(data_str) > 2) { \
@@ -142,6 +149,7 @@ void gs1_semantics(char result[],
     char * curr_str, * decimal_str, * country_str, * issn_str;
     char * company_prefix_str, * processor_country_str, * package_type_str;
     char * meat_cut_str, * coupon_str, * prod_method_str;
+    char * fishing_gear_type_str;
     char offer_code_str[7];
     char certification_ref[3];
     unsigned char gtin_check_digit_passed = -1;
@@ -2489,6 +2497,7 @@ void gs1_semantics(char result[],
         data_str = &result[*application_data_start];
         date_str = NULL;
         prod_method_str = NULL;
+        fishing_gear_type_str = NULL;
         end_date_str = NULL;
         curr_str = NULL;
         decimal_str = NULL;
@@ -4997,7 +5006,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7009: {
-                DECODE("FISHING GEAR TYPE");
+                DECODE_FISHING_GEAR("FISHING GEAR TYPE");
                 break;
             }
             case 7010: {
@@ -5832,6 +5841,10 @@ void gs1_semantics(char result[],
                 else if (prod_method_str != NULL) {
                     decode_strcat(gs1_result, prod_method_str);
                     free(prod_method_str);
+                }
+                else if (fishing_gear_type_str != NULL) {
+                    decode_strcat(gs1_result, fishing_gear_type_str);
+                    free(fishing_gear_type_str);
                 }
                 else {
                     decode_strcat(gs1_result, data_str);

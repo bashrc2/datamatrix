@@ -789,6 +789,14 @@ static void test_production_method()
     free(description);
 }
 
+static void test_fishing_gear_type()
+{
+    char * description = get_fishing_gear_type("07.3");
+    printf("%s\n", description);
+    assert(strcmp("Encircling gillnets", description) == 0);
+    free(description);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -812,5 +820,6 @@ void run_all_tests()
     test_north_american_coupon();
     test_check_characters();
     test_production_method();
+    test_fishing_gear_type();
     printf("All tests complete\n");
 }

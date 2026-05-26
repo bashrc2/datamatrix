@@ -557,6 +557,8 @@ void calc_check_character(char data_str[], int check_characters,
 
 char * get_production_method(char data_str[]);
 
+char * get_fishing_gear_type(char data_str[]);
+
 /* gs1.c */
 
 void gs1_semantics(char result[],

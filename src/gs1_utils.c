@@ -1533,8 +1533,35 @@ char * get_production_method(char data_str[])
     }
     }
     if ((int)strlen(prod_method_str) == 0) {
+        /* not found */
         free(prod_method_str);
         return NULL;
     }
     return prod_method_str;
+}
+
+char * get_fishing_gear_type(char data_str[])
+{
+    if ((int)strlen(data_str) < 2) return NULL;
+    for (int i  = 0; i < (int)strlen(data_str); i++) {
+        if (((data_str[i] < '0') || (data_str[i] > '9')) &&
+            (data_str[i] != '.')) return NULL;
+    }
+    char * fishing_gear_type_str =
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    fishing_gear_type_str[0] = 0;
+    int no_of_fishing_gear_types = LOOKUP_TABLE_ROWS(fishing_gear_type, 3);
+    for (int i = 0; i < no_of_fishing_gear_types; i++) {
+        if (strcmp(fishing_gear_type[i*3 + 2], data_str) == 0) {
+            decode_strcat(fishing_gear_type_str, fishing_gear_type[i*3]);
+            break;
+        }
+    }
+
+    if (fishing_gear_type_str[0] == 0) {
+        /* not found */
+        free(fishing_gear_type_str);
+        return NULL;
+    }
+    return fishing_gear_type_str;
 }
