@@ -1511,7 +1511,8 @@ char * get_production_method(char data_str[])
         if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
     }
     char * prod_method_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char)); 
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    prod_method_str[0] = 0;
     int prod_method_code = atoi(data_str);
     switch(prod_method_code) {
     case 1: {

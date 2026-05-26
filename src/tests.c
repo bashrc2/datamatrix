@@ -782,6 +782,13 @@ static void test_check_characters()
     assert(strcmp(&check_character_pair[0], "2K") == 0);
 }
 
+static void test_production_method()
+{
+    char * description = get_production_method("02");
+    assert(strstr("CAUGHT IN FRESH WATER", description) == 0);
+    free(description);
+}
+
 void run_all_tests()
 {
     test_strcat();
@@ -804,5 +811,6 @@ void run_all_tests()
     test_meat_cut();
     test_north_american_coupon();
     test_check_characters();
+    test_production_method();
     printf("All tests complete\n");
 }
