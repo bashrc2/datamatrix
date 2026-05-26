@@ -2266,6 +2266,46 @@ void gs1_semantics(char result[],
             APP_ID(4, 4, 4);
             break;
         }
+        case 7230: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7231: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7232: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7233: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7234: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7235: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7236: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7237: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7238: {
+            APP_ID(30, 4, 30);
+            break;
+        }
+        case 7239: {
+            APP_ID(30, 4, 30);
+            break;
+        }
         case 7240: {
             APP_ID(20, 4, 20);
             break;
@@ -5034,6 +5074,46 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "UFRGT UNIT TYPE: ");
                     package_type_str = get_package_type(data_str);
                 }
+                break;
+            }
+            case 7230: {
+                DECODE("CERT # 0");
+                break;
+            }
+            case 7231: {
+                DECODE("CERT # 1");
+                break;
+            }
+            case 7232: {
+                DECODE("CERT # 2");
+                break;
+            }
+            case 7233: {
+                DECODE("CERT # 3");
+                break;
+            }
+            case 7234: {
+                DECODE("CERT # 4");
+                break;
+            }
+            case 7235: {
+                DECODE("CERT # 5");
+                break;
+            }
+            case 7236: {
+                DECODE("CERT # 6");
+                break;
+            }
+            case 7237: {
+                DECODE("CERT # 7");
+                break;
+            }
+            case 7238: {
+                DECODE("CERT # 8");
+                break;
+            }
+            case 7239: {
+                DECODE("CERT # 9");
                 break;
             }
             case 7240: {
