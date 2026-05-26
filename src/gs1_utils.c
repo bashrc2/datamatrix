@@ -1540,6 +1540,13 @@ char * get_production_method(char data_str[])
     return prod_method_str;
 }
 
+/**
+ * \brief returns description of fishing gear type
+ *        as defined by Food and Agriculture Organisation (FAO) of the
+ *        United Nations
+ * \param data_str String to be matched
+ * \return Description of fishing gear type
+ */
 char * get_fishing_gear_type(char data_str[])
 {
     if ((int)strlen(data_str) < 2) return NULL;
@@ -1566,6 +1573,13 @@ char * get_fishing_gear_type(char data_str[])
     return fishing_gear_type_str;
 }
 
+/**
+ * \brief returns description of aquatic species
+ *        as defined by Food and Agriculture Organisation (FAO) of the
+ *        United Nations
+ * \param data_str String to be matched
+ * \return Description of aquatic species
+ */
 char * get_aquatic_species(char data_str[])
 {
     if ((int)strlen(data_str) != 3) return NULL;
