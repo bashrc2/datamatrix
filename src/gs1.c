@@ -5046,7 +5046,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "AIDC MEDIA TYPE: ");
                     if ((int)strlen(data_str) == 2) {
                         if ((data_str[0] >= '0') && (data_str[0] <= '9') &&
-                                (data_str[1] >= '0') && (data_str[1] <= '9')) {
+                            (data_str[1] >= '0') && (data_str[1] <= '9')) {
                             aidc_media_type = atoi(data_str);
                         }
                     }
@@ -5509,52 +5509,52 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, data_str);
                     switch(aidc_media_type) {
                     case 0: {
-                        decode_strcat(gs1_result, "NOT USED");
+                        decode_strcat(gs1_result, " NOT USED");
                         break;
                     }
                     case 1: {
-                        decode_strcat(gs1_result, "WRISTBAND");
+                        decode_strcat(gs1_result, " WRISTBAND");
                         break;
                     }
                     case 2: {
-                        decode_strcat(gs1_result, "ORDER FORM");
+                        decode_strcat(gs1_result, " ORDER FORM");
                         break;
                     }
                     case 3: {
-                        decode_strcat(gs1_result, "SAMPLE TUBE");
+                        decode_strcat(gs1_result, " SAMPLE TUBE");
                         break;
                     }
                     case 4: {
-                        decode_strcat(gs1_result, "WORKING LIST / LAB LIST");
+                        decode_strcat(gs1_result, " WORKING LIST / LAB LIST");
                         break;
                     }
                     case 5: {
-                        decode_strcat(gs1_result, "TEST REPORT");
+                        decode_strcat(gs1_result, " TEST REPORT");
                         break;
                     }
                     case 6: {
-                        decode_strcat(gs1_result, "DELIVERY NOTE");
+                        decode_strcat(gs1_result, " DELIVERY NOTE");
                         break;
                     }
                     case 7: {
-                        decode_strcat(gs1_result, "INTENDED RECIPIENT LABEL");
+                        decode_strcat(gs1_result, " INTENDED RECIPIENT LABEL");
                         break;
                     }
                     case 8: {
-                        decode_strcat(gs1_result, "LABEL AFFIXED TO PRODUCT");
+                        decode_strcat(gs1_result, " LABEL AFFIXED TO PRODUCT");
                         break;
                     }
                     case 9: {
-                        decode_strcat(gs1_result, "IDENTITY CARD");
+                        decode_strcat(gs1_result, " IDENTITY CARD");
                         break;
                     }
                     case 10: {
-                        decode_strcat(gs1_result, "CLINICAL OR PROGRESS NOTES");
+                        decode_strcat(gs1_result, " CLINICAL OR PROGRESS NOTES");
                         break;
                     }
                     }
                     if (aidc_media_type > 10) {
-                        decode_strcat(gs1_result, "RESERVED");
+                        decode_strcat(gs1_result, " RESERVED");
                     }
                 }
                 else if (curr_str != NULL) {
