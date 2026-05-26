@@ -33,6 +33,17 @@
         decode_strcat(gs1_result, title ": "); \
     }
 
+#define DECODE_CERT(title) \
+    if (debug == 1) printf(title " ");  \
+    if (is_digital_link == 0) { \
+        decode_strcat(gs1_result, title ": "); \
+        if ((int)strlen(data_str) > 2) { \
+            certification_ref[0] = data_str[0]; \
+            certification_ref[1] = data_str[1]; \
+            certification_ref[2] = 0; \
+        } \
+    }
+
 #define DECODE_DATE(title, dateformat) \
     if (debug == 1) printf(title " "); \
     if (is_digital_link == 0) { \
@@ -125,6 +136,7 @@ void gs1_semantics(char result[],
     char * company_prefix_str, * processor_country_str, * package_type_str;
     char * meat_cut_str, * coupon_str;
     char offer_code_str[7];
+    char certification_ref[3];
     unsigned char gtin_check_digit_passed = -1;
     unsigned char gsin_check_digit_passed = -1;
     unsigned char gsrn_check_digit_passed = -1;
@@ -2503,6 +2515,7 @@ void gs1_semantics(char result[],
         itip_total_count_str[0] = 0;
         bio_sex = -1;
         offer_code_str[0] = 0;
+        certification_ref[0] = 0;
         check_characters_fail = -1;
 
         if (strlen(data_str) > 0) {
@@ -5077,43 +5090,43 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7230: {
-                DECODE("CERT # 0");
+                DECODE_CERT("CERT # 0");
                 break;
             }
             case 7231: {
-                DECODE("CERT # 1");
+                DECODE_CERT("CERT # 1");
                 break;
             }
             case 7232: {
-                DECODE("CERT # 2");
+                DECODE_CERT("CERT # 2");
                 break;
             }
             case 7233: {
-                DECODE("CERT # 3");
+                DECODE_CERT("CERT # 3");
                 break;
             }
             case 7234: {
-                DECODE("CERT # 4");
+                DECODE_CERT("CERT # 4");
                 break;
             }
             case 7235: {
-                DECODE("CERT # 5");
+                DECODE_CERT("CERT # 5");
                 break;
             }
             case 7236: {
-                DECODE("CERT # 6");
+                DECODE_CERT("CERT # 6");
                 break;
             }
             case 7237: {
-                DECODE("CERT # 7");
+                DECODE_CERT("CERT # 7");
                 break;
             }
             case 7238: {
-                DECODE("CERT # 8");
+                DECODE_CERT("CERT # 8");
                 break;
             }
             case 7239: {
-                DECODE("CERT # 9");
+                DECODE_CERT("CERT # 9");
                 break;
             }
             case 7240: {
@@ -5817,6 +5830,16 @@ void gs1_semantics(char result[],
                     /* coupon offer code */
                     decode_strcat(gs1_result, "OFFER CODE: ");
                     decode_strcat(gs1_result, &offer_code_str[0]);
+                    decode_strcat_char(gs1_result, '\n');
+                }
+
+                if (certification_ref[0] != 0) {
+                    decode_strcat(gs1_result, "CERT REF: ");
+                    decode_strcat(gs1_result, &certification_ref[0]);
+                    if (strcmp(&certification_ref[0], "EM") == 0) {
+                        decode_strcat(gs1_result,
+                                      " EUROPEAN MARINE EQUIPMENT DIRECTIVE");
+                    }
                     decode_strcat_char(gs1_result, '\n');
                 }
 
