@@ -117,6 +117,7 @@ void gs1_semantics(char result[],
                    unsigned char * application_data_variable)
 {
     char last_str[2];
+    char check_character_pair[3];
     char company_prefix_code[4];
     char processor_country_code[4];
     char * app_id_str, * data_str, * date_str, * end_date_str;
@@ -152,6 +153,7 @@ void gs1_semantics(char result[],
     int signature_required = -1;
     int aidc_media_type = -1;
     int bio_sex = -1;
+    int check_characters_fail = -1;
     if (curr_pos != (*application_data_end)) {
         if (curr_pos <= 1) return;
 
@@ -2461,6 +2463,7 @@ void gs1_semantics(char result[],
         itip_total_count_str[0] = 0;
         bio_sex = -1;
         offer_code_str[0] = 0;
+        check_characters_fail = -1;
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -5285,7 +5288,8 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("GMN ");
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "GMN: ");
-                    if ((int)strlen(data_str) > 4) {
+                    int gmn_len = (int)strlen(data_str);
+                    if (gmn_len > 4) {
                         int gmn_start_index = 0;
                         if (data_str[0] == '0') {
                             gmn_start_index = 1;
@@ -5293,14 +5297,22 @@ void gs1_semantics(char result[],
                         company_prefix_str =
                             get_company_prefix_str(&company_prefix_code[0],
                                                    gmn_start_index, data_str);
-                    }
+                        calc_check_character(data_str, 2,
+                                             &check_character_pair[0]);
+                        check_characters_fail = 0;
+                        if ((data_str[gmn_len-2] != check_character_pair[0]) ||
+                            (data_str[gmn_len-1] != check_character_pair[1])) {
+                            check_characters_fail = 1;
+                        }
+                    }                   
                 }
                 break;
             }
             case 8014: {
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "HIDRI: ");
-                    if ((int)strlen(data_str) > 4) {
+                    int hidri_len = (int)strlen(data_str);
+                    if (hidri_len > 4) {
                         int gsrn_start_index = 0;
                         if (data_str[0] == '0') {
                             gsrn_start_index = 1;
@@ -5308,7 +5320,15 @@ void gs1_semantics(char result[],
                         company_prefix_str =
                             get_company_prefix_str(&company_prefix_code[0],
                                                    gsrn_start_index, data_str);
-                        /* TODO check character pair */
+                        calc_check_character(data_str, 2,
+                                             &check_character_pair[0]);
+                        check_characters_fail = 0;
+                        if ((data_str[hidri_len-2] !=
+                             check_character_pair[0]) ||
+                            (data_str[hidri_len-1] !=
+                             check_character_pair[1])) {
+                            check_characters_fail = 1;
+                        }
                     }
                 }
                 break;
@@ -5778,6 +5798,13 @@ void gs1_semantics(char result[],
                         decode_strcat_char(gs1_result, sscc_package_type);
                         decode_strcat(gs1_result, "\n");
                     }
+                }
+
+                if (check_characters_fail == 1) {
+                    decode_strcat(gs1_result, "CHECK CHARACTERS: FAIL\n");
+                }
+                else if (check_characters_fail == 0) {
+                    decode_strcat(gs1_result, "CHECK CHARACTERS: PASS\n");
                 }
             }
             if (debug == 1) {
