@@ -1565,3 +1565,28 @@ char * get_fishing_gear_type(char data_str[])
     }
     return fishing_gear_type_str;
 }
+
+char * get_aquatic_species(char data_str[])
+{
+    if ((int)strlen(data_str) != 3) return NULL;
+    for (int i  = 0; i < (int)strlen(data_str); i++) {
+        if ((data_str[i] < 'A') || (data_str[i] > 'Z')) return NULL;
+    }
+    char * aquatic_species_str =
+        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+    aquatic_species_str[0] = 0;
+    int no_of_aquatic_species = LOOKUP_TABLE_ROWS(aquatic_species, 3);
+    for (int i = 0; i < no_of_aquatic_species; i++) {
+        if (strcmp(aquatic_species[i*3 + 1], data_str) == 0) {
+            decode_strcat(aquatic_species_str, aquatic_species[i*3]);
+            break;
+        }
+    }
+
+    if (aquatic_species_str[0] == 0) {
+        /* not found */
+        free(aquatic_species_str);
+        return NULL;
+    }
+    return aquatic_species_str;
+}

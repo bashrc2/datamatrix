@@ -785,6 +785,7 @@ static void test_check_characters()
 static void test_production_method()
 {
     char * description = get_production_method("02");
+    assert(description != NULL);
     assert(strstr("CAUGHT IN FRESH WATER", description) == 0);
     free(description);
 }
@@ -792,8 +793,31 @@ static void test_production_method()
 static void test_fishing_gear_type()
 {
     char * description = get_fishing_gear_type("07.3");
-    printf("%s\n", description);
+    assert(description != NULL);
     assert(strcmp("Encircling gillnets", description) == 0);
+    free(description);
+}
+
+static void test_aquatic_species()
+{
+    char * description = get_aquatic_species("USB");
+    assert(description != NULL);
+    assert(strcmp("Ballan wrasse", description) == 0);
+    free(description);
+
+    description = get_aquatic_species("CTC");
+    assert(description != NULL);
+    assert(strcmp("Common cuttlefish", description) == 0);
+    free(description);
+
+    description = get_aquatic_species("LEM");
+    assert(description != NULL);
+    assert(strcmp("Lemon sole", description) == 0);
+    free(description);
+
+    description = get_aquatic_species("NEP");
+    assert(description != NULL);
+    assert(strcmp("Norway lobster", description) == 0);
     free(description);
 }
 
@@ -821,5 +845,6 @@ void run_all_tests()
     test_check_characters();
     test_production_method();
     test_fishing_gear_type();
+    test_aquatic_species();
     printf("All tests complete\n");
 }
