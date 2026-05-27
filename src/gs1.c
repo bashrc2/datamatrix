@@ -5172,7 +5172,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "AIDC MEDIA TYPE: ");
                     if ((int)strlen(data_str) == 2) {
                         if ((data_str[0] >= '0') && (data_str[0] <= '9') &&
-                            (data_str[1] >= '0') && (data_str[1] <= '9')) {
+                                (data_str[1] >= '0') && (data_str[1] <= '9')) {
                             aidc_media_type = atoi(data_str);
                         }
                     }
@@ -5427,10 +5427,10 @@ void gs1_semantics(char result[],
                                              &check_character_pair[0]);
                         check_characters_fail = 0;
                         if ((data_str[gmn_len-2] != check_character_pair[0]) ||
-                            (data_str[gmn_len-1] != check_character_pair[1])) {
+                                (data_str[gmn_len-1] != check_character_pair[1])) {
                             check_characters_fail = 1;
                         }
-                    }                   
+                    }
                 }
                 break;
             }
@@ -5450,9 +5450,9 @@ void gs1_semantics(char result[],
                                              &check_character_pair[0]);
                         check_characters_fail = 0;
                         if ((data_str[hidri_len-2] !=
-                             check_character_pair[0]) ||
-                            (data_str[hidri_len-1] !=
-                             check_character_pair[1])) {
+                                check_character_pair[0]) ||
+                                (data_str[hidri_len-1] !=
+                                 check_character_pair[1])) {
                             check_characters_fail = 1;
                         }
                     }

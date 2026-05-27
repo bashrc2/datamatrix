@@ -1756,7 +1756,7 @@ char * fishing_areas[] = {
     "Norwegian Sea - NEAFC Regulatory Area", "27.2.a.1",
     "Norwegian Sea Non-NEAFC Regulatory Area", "27.2.a.2",
     "Spitzbergen and Bear Island - NEAFC Regulatory Area", "27.2.b.1",
-    "Spitzbergen and Bear Island Non-NEAFC Regulatory Area", "27.2.b.2",    
+    "Spitzbergen and Bear Island Non-NEAFC Regulatory Area", "27.2.b.2",
     "Skagerrak, Kattegat, Sound, Belt Sea, and Baltic Sea", "27.3",
     "Skagerrak", "27.3.a.20",
     "Kattegat", "27.3.a.21",

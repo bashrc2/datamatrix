@@ -125,7 +125,7 @@ char * get_issn(char data_str[])
 char * get_package_type(char package_code[])
 {
     int i;
-    if ((int)strlen(package_code) > 3) return NULL; 
+    if ((int)strlen(package_code) > 3) return NULL;
     int no_of_package_types = LOOKUP_TABLE_ROWS(package_type_code, 2);
     int data_len = strlen(package_code);
     for (i = 0; i < no_of_package_types; i++) {
@@ -406,7 +406,7 @@ char * get_meat_cut(char data_str[])
     int no_of_species = LOOKUP_TABLE_ROWS(unece_species_code, 2);
     for (i = 0; i < no_of_species; i++) {
         if ((unece_species_code[i*2][0] == data_str[0]) &&
-            (unece_species_code[i*2][1] == data_str[1])) {
+                (unece_species_code[i*2][1] == data_str[1])) {
             decode_strcat(meat_cut_str, "\nSPECIES: ");
             decode_strcat(meat_cut_str, unece_species_code[i*2 + 1]);
             break;
@@ -433,7 +433,7 @@ char * get_meat_cut(char data_str[])
         if ((int)strlen(unece_product_code[i*3+1]) > 0) {
             int prod_code_end = atoi(unece_product_code[i*3+1]);
             if ((prod_code >= prod_code_start) &&
-                (prod_code <= prod_code_end)) {
+                    (prod_code <= prod_code_end)) {
                 decode_strcat(meat_cut_str, "\nPROD CODE: ");
                 decode_strcat(meat_cut_str, unece_product_code[i*3+2]);
                 break;
@@ -839,8 +839,8 @@ char * get_north_american_coupon(char data_str[],
         char save_value_str[6];
         int save_value_ctr = 0;
         for(save_value_ctr = 0;
-            save_value_ctr < save_value_vli; save_value_ctr++, idx++) {
-            save_value_str[save_value_ctr] = data_str[idx];     
+                save_value_ctr < save_value_vli; save_value_ctr++, idx++) {
+            save_value_str[save_value_ctr] = data_str[idx];
         }
         save_value_str[save_value_ctr] = 0;
         decode_strcat(coupon_str, "\nSAVE VALUE: ");
@@ -867,8 +867,8 @@ char * get_north_american_coupon(char data_str[],
         char primary_purchase_requirement_str[6];
         int primary_purchase_requirement_ctr = 0;
         for(primary_purchase_requirement_ctr = 0;
-            primary_purchase_requirement_ctr < primary_purchase_requirement_vli;
-            primary_purchase_requirement_ctr++, idx++) {
+                primary_purchase_requirement_ctr < primary_purchase_requirement_vli;
+                primary_purchase_requirement_ctr++, idx++) {
             primary_purchase_requirement_str[primary_purchase_requirement_ctr] =
                 data_str[idx];
         }
@@ -913,8 +913,8 @@ char * get_north_american_coupon(char data_str[],
         decode_strcat(coupon_str, "\nPRIMARY PURCHASE REQUIREMENT: ");
         int digit_ctr = 0;
         for (digit_ctr = 0;
-             digit_ctr < (int)strlen(&primary_purchase_requirement_str[0]) - decimal_places;
-             digit_ctr++) {
+                digit_ctr < (int)strlen(&primary_purchase_requirement_str[0]) - decimal_places;
+                digit_ctr++) {
             decode_strcat_char(coupon_str, primary_purchase_requirement_str[digit_ctr]);
         }
         if (decimal_places > 0) {
@@ -933,7 +933,7 @@ char * get_north_american_coupon(char data_str[],
     }
     char primary_purchase_family_code[4];
     int ctr = 0;
-    for (ctr=0;ctr < 3; ctr++, idx++) {
+    for (ctr=0; ctr < 3; ctr++, idx++) {
         primary_purchase_family_code[ctr] = data_str[idx];
     }
     primary_purchase_family_code[ctr] = 0;
@@ -984,8 +984,8 @@ char * get_north_american_coupon(char data_str[],
             char second_purchase_requirement_str[6];
             int second_purchase_requirement_ctr = 0;
             for(second_purchase_requirement_ctr = 0;
-                second_purchase_requirement_ctr < second_purchase_requirement_vli;
-                second_purchase_requirement_ctr++, idx++) {
+                    second_purchase_requirement_ctr < second_purchase_requirement_vli;
+                    second_purchase_requirement_ctr++, idx++) {
                 second_purchase_requirement_str[second_purchase_requirement_ctr] =
                     data_str[idx];
             }
@@ -1032,8 +1032,8 @@ char * get_north_american_coupon(char data_str[],
             decode_strcat(coupon_str, "\nSECOND PURCHASE REQUIREMENT: ");
             int digit_ctr = 0;
             for (digit_ctr = 0;
-                 digit_ctr < (int)strlen(&second_purchase_requirement_str[0]) - decimal_places;
-                 digit_ctr++) {
+                    digit_ctr < (int)strlen(&second_purchase_requirement_str[0]) - decimal_places;
+                    digit_ctr++) {
                 decode_strcat_char(coupon_str, second_purchase_requirement_str[digit_ctr]);
             }
             if (decimal_places > 0) {
@@ -1052,7 +1052,7 @@ char * get_north_american_coupon(char data_str[],
         }
         char second_purchase_family_code[4];
         ctr = 0;
-        for (ctr=0;ctr < 3; ctr++, idx++) {
+        for (ctr=0; ctr < 3; ctr++, idx++) {
             second_purchase_family_code[ctr] = data_str[idx];
         }
         second_purchase_family_code[ctr] = 0;
@@ -1089,7 +1089,7 @@ char * get_north_american_coupon(char data_str[],
             }
             decode_strcat(coupon_str, "\nCOUNTRY: ");
             decode_strcat(coupon_str, company_prefix_str);
-            free(company_prefix_str);   
+            free(company_prefix_str);
 
             idx += vli;
         }
@@ -1119,8 +1119,8 @@ char * get_north_american_coupon(char data_str[],
             char third_purchase_requirement_str[6];
             int third_purchase_requirement_ctr = 0;
             for(third_purchase_requirement_ctr = 0;
-                third_purchase_requirement_ctr < third_purchase_requirement_vli;
-                third_purchase_requirement_ctr++, idx++) {
+                    third_purchase_requirement_ctr < third_purchase_requirement_vli;
+                    third_purchase_requirement_ctr++, idx++) {
                 third_purchase_requirement_str[third_purchase_requirement_ctr] =
                     data_str[idx];
             }
@@ -1167,8 +1167,8 @@ char * get_north_american_coupon(char data_str[],
             decode_strcat(coupon_str, "\nTHIRD PURCHASE REQUIREMENT: ");
             int digit_ctr = 0;
             for (digit_ctr = 0;
-                 digit_ctr < (int)strlen(&third_purchase_requirement_str[0]) - decimal_places;
-                 digit_ctr++) {
+                    digit_ctr < (int)strlen(&third_purchase_requirement_str[0]) - decimal_places;
+                    digit_ctr++) {
                 decode_strcat_char(coupon_str, third_purchase_requirement_str[digit_ctr]);
             }
             if (decimal_places > 0) {
@@ -1187,7 +1187,7 @@ char * get_north_american_coupon(char data_str[],
         }
         char third_purchase_family_code[4];
         ctr = 0;
-        for (ctr=0;ctr < 3; ctr++, idx++) {
+        for (ctr=0; ctr < 3; ctr++, idx++) {
             third_purchase_family_code[ctr] = data_str[idx];
         }
         third_purchase_family_code[ctr] = 0;
@@ -1552,7 +1552,7 @@ char * get_fishing_gear_type(char data_str[])
     if ((int)strlen(data_str) < 2) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if (((data_str[i] < '0') || (data_str[i] > '9')) &&
-            (data_str[i] != '.')) return NULL;
+                (data_str[i] != '.')) return NULL;
     }
     char * fishing_gear_type_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
@@ -1617,9 +1617,9 @@ char * get_fishing_area(char data_str[])
     if ((int)strlen(data_str) < 4) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if (((data_str[i] < '0') || (data_str[i] > '9')) &&
-            ((data_str[i] < 'a') || (data_str[i] > 'z')) &&
-            ((data_str[i] < 'A') || (data_str[i] > 'Z')) &&
-            (data_str[i] != '.')) return NULL;
+                ((data_str[i] < 'a') || (data_str[i] > 'z')) &&
+                ((data_str[i] < 'A') || (data_str[i] > 'Z')) &&
+                (data_str[i] != '.')) return NULL;
     }
     char * fishing_area_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));

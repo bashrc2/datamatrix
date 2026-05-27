@@ -694,7 +694,7 @@ static void test_north_american_coupon()
     /* 10 Appendix C example 1 */
     char * coupon1 = "81101061414165432131501101201211014092110256100126663101231";
     char * description = get_north_american_coupon(&coupon1[4],
-                                                   &company_prefix_code[0]);
+                         &company_prefix_code[0]);
     assert(description != NULL);
     printf("\nExample 1\n%s\n", description);
     assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
