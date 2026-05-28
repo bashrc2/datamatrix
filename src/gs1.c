@@ -5891,7 +5891,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "UIC: ");
                     decode_strcat(gs1_result, &uic[0]);
                     decode_strcat_char(gs1_result, '\n');
-                    decode_strcat(gs1_result, "UIC EXTENSION: ");
+                    decode_strcat(gs1_result, "UIC EXTENSION 1: ");
                     decode_strcat_char(gs1_result, uic_extension);
                     decode_strcat_char(gs1_result, '\n');
                     decode_strcat(gs1_result, "UIC IMPORTER INDEX: ");
