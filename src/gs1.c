@@ -172,7 +172,9 @@ void gs1_semantics(char result[],
     unsigned char sscc_check_digit_passed = -1;
     unsigned char grai_check_digit_passed = -1;
     unsigned char gln_check_digit_passed = -1;
-    char sscc_package_type = ' ';
+    char sscc_package_type = EMPTY_CHAR;
+    char uic_extension = EMPTY_CHAR;
+    char uic_importer_index = EMPTY_CHAR;
     char app_id_str2[10];
     char birth_sequence[2];
     char itip_piece_number_str[3];
@@ -195,6 +197,8 @@ void gs1_semantics(char result[],
     int aidc_media_type = -1;
     int bio_sex = -1;
     int check_characters_fail = -1;
+    char uic[3];
+
     if (curr_pos != (*application_data_end)) {
         if (curr_pos <= 1) return;
 
@@ -2550,6 +2554,9 @@ void gs1_semantics(char result[],
         offer_code_str[0] = 0;
         certification_ref[0] = 0;
         check_characters_fail = -1;
+        uic[0] = 0;
+        uic_extension = ' ';
+        uic_importer_index = ' ';
 
         if (strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
@@ -5111,7 +5118,17 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7040: {
-                DECODE("UIC+EXT");
+                if (debug == 1) printf("UIC+EXT ");
+                if (is_digital_link == 0) {
+                    decode_strcat(gs1_result, "UIC+EXT: ");
+                    if ((int)strlen(data_str) >= 4) {
+                        uic[0] = data_str[0];
+                        uic[1] = data_str[1];
+                        uic[2] = 0;
+                        uic_extension = data_str[2];
+                        uic_importer_index = data_str[3];
+                    }
+                }
                 break;
             }
             case 7041: {
@@ -5869,6 +5886,16 @@ void gs1_semantics(char result[],
                 else if (aquatic_species_str != NULL) {
                     decode_strcat(gs1_result, aquatic_species_str);
                     free(aquatic_species_str);
+                }
+                else if (uic[0] != 0) {
+                    decode_strcat(gs1_result, "UIC: ");
+                    decode_strcat(gs1_result, &uic[0]);
+                    decode_strcat_char(gs1_result, '\n');
+                    decode_strcat(gs1_result, "UIC EXTENSION: ");
+                    decode_strcat_char(gs1_result, uic_extension);
+                    decode_strcat_char(gs1_result, '\n');
+                    decode_strcat(gs1_result, "UIC IMPORTER INDEX: ");
+                    decode_strcat_char(gs1_result, uic_importer_index);
                 }
                 else {
                     decode_strcat(gs1_result, data_str);
