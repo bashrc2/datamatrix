@@ -215,6 +215,15 @@ int gs1_encode(int application_identifier, char data_str[],
         decode_strcat(encode_text, data_str);
         break;
     }
+    case 21: { /* SERIAL */
+        if (data_len > 20) {
+            printf("SERIAL should contain no more than 20 characters\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+        break;
+    }
     default: {
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);

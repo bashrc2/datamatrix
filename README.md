@@ -90,6 +90,7 @@ sudo make install
 --sellby [YYMMDD]             Generate a GS1 datamatrix with the given SELL BY
 --useby [YYMMDD]              Generate a GS1 datamatrix with the given USE BY
 --variant [two digits]        Generate a GS1 datamatrix with the given VARIANT
+--serial [number]             Generate a GS1 datamatrix with the given SERIAL
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
