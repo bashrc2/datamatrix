@@ -92,6 +92,8 @@ sudo make install
 --variant [two digits]        Generate a GS1 datamatrix with the given VARIANT
 --serial [number]             Generate a GS1 datamatrix with the given SERIAL
 --custpartno [number]         Generate a GS1 datamatrix with the given CUST PART NO
+--mtovariant [code]           Generate a GS1 datamatrix with the given MTO VARIANT
+--gdti [code]                 Generate a GS1 datamatrix with the given GDTI
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix

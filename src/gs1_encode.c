@@ -285,6 +285,30 @@ int gs1_encode(int application_identifier, char data_str[],
         decode_strcat_char(encode_description, '\n');
         break;
     }
+    case 242: { /* MTO VARIANT */
+        if (data_len > 6) {
+            printf("MTO VARIANT should contain no more than 6 characters\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
+        break;
+    }
+    case 253: { /* GDTI */
+        if (data_len != 12) {
+            printf("GDTI should contain 12 characters\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
+        break;
+    }
     default: {
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
