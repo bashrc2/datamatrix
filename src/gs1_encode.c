@@ -71,11 +71,11 @@ int gs1_encode(int application_identifier, char data_str[],
     }
     case 2: { /* CONTENT */
         if (data_len > 13) {
-            printf("CONTENT should contain no more than 13 digits\n");
+            printf("CONTENT should contain no more than 13 characters\n");
             return -1;
         }
         else if (data_len < 8) {
-            printf("CONTENT should contain no less than 8 digits\n");
+            printf("CONTENT should contain no less than 8 characters\n");
             return -1;
         }
         decode_strcat(encode_text, &app_id_str[0]);
@@ -86,8 +86,8 @@ int gs1_encode(int application_identifier, char data_str[],
         decode_strcat(encode_text, data_str);
         int check_digit = get_gtin_check_digit(data_str, 0);
         decode_strcat_char(encode_text, '0' + check_digit);
-		break;
-	}
+        break;
+    }
     case 3: { /* MTO GTIN */
         if (data_len < 13) {
             printf("MTO GTIN should contain at least 13 digits\n");
@@ -98,6 +98,15 @@ int gs1_encode(int application_identifier, char data_str[],
         for (int i = 0; i < 14 - data_len;  i++) {
             decode_strcat_char(encode_text, '0');
         }
+        decode_strcat(encode_text, data_str);
+        break;
+    }
+    case 10: {
+        if (data_len > 20) {
+            printf("BATCH/LOT should contain no more than 20 characters\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
         break;
     }

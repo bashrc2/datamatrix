@@ -219,6 +219,12 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--MTOGTIN")==0)) {
             if (gs1_encode(3, argv[i+1], encode_text) != 0) return -1;
         }       
+        if ((strcmp(argv[i],"--batch")==0) ||
+            (strcmp(argv[i],"--BATCH")==0) ||
+            (strcmp(argv[i],"--lot")==0) ||
+            (strcmp(argv[i],"--LOT")==0)) {
+            if (gs1_encode(10, argv[i+1], encode_text) != 0) return -1;
+        }       
         if (strcmp(argv[i],"--dot")==0) {
             if (strlen(argv[i+1]) <= 3) {
                 sprintf(&dot_char[0], "%s", argv[i+1]);

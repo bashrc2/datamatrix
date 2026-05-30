@@ -82,6 +82,7 @@ sudo make install
 --gtin [code]                 Generate a GS1 datamatrix with the given GTIN
 --content [code]              Generate a GS1 datamatrix with the given CONTENT
 --mtogtin [code]              Generate a GS1 datamatrix with the given MTO GTIN
+--batch [code]                Generate a GS1 datamatrix with the given BATCH/LOT
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix

@@ -71,6 +71,7 @@ void show_help()
     printf("   --gtin [code]               Generate a GS1 datamatrix with the given GTIN\n");
     printf("   --content [code]            Generate a GS1 datamatrix with the given CONTENT\n");
     printf("   --mtogtin [code]            Generate a GS1 datamatrix with the given MTO GTIN\n");
+    printf("   --batch [code]              Generate a GS1 datamatrix with the given BATCH/LOT\n");
     printf("   --txt [text]                Decode a text string containing a datamatrix\n");
     printf("   --squaremodules             Generated datamatrix has square modules\n");
     printf("   --dot [character]           Custom dot character when generating a datamatrix\n");
