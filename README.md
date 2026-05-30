@@ -89,6 +89,7 @@ sudo make install
 --bestbefore [YYMMDD]         Generate a GS1 datamatrix with the given BEST BEFORE
 --sellby [YYMMDD]             Generate a GS1 datamatrix with the given SELL BY
 --useby [YYMMDD]              Generate a GS1 datamatrix with the given USE BY
+--variant [two digits]        Generate a GS1 datamatrix with the given VARIANT
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
