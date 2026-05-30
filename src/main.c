@@ -237,6 +237,12 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--PACKDATE")==0)) {
             if (gs1_encode(13, argv[i+1], encode_text) != 0) return -1;
         }       
+        if ((strcmp(argv[i],"--bestbefore")==0) ||
+            (strcmp(argv[i],"--bestby")==0) ||
+            (strcmp(argv[i],"--BESTBEFORE")==0) ||
+            (strcmp(argv[i],"--BESTBY")==0)) {
+            if (gs1_encode(15, argv[i+1], encode_text) != 0) return -1;
+        }       
         if (strcmp(argv[i],"--dot")==0) {
             if (strlen(argv[i+1]) <= 3) {
                 sprintf(&dot_char[0], "%s", argv[i+1]);

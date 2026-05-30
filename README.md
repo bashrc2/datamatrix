@@ -86,6 +86,7 @@ sudo make install
 --proddate [YYMMDD]           Generate a GS1 datamatrix with the given PROD DATE
 --duedate [YYMMDD]            Generate a GS1 datamatrix with the given DUE DATE
 --packdate [YYMMDD]           Generate a GS1 datamatrix with the given PACK DATE
+--bestbefore [YYMMDD]         Generate a GS1 datamatrix with the given BEST BEFORE
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
