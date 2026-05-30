@@ -45,6 +45,13 @@ int gs1_encode(int application_identifier, char data_str[],
     }
 
     switch(application_identifier){
+	case 0: { /* SSCC */
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+		int check_digit = get_gtin_check_digit(data_str, 0);
+        decode_strcat_char(encode_text, '0' + check_digit);
+		break;
+	}
     case 1: { /* GTIN */
         if (data_len > 14) {
             printf("GTIN should contain no more than 14 digits");

@@ -203,6 +203,10 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"-e")==0)) {
             decode_strcat(&encode_text[0], argv[i+1]);
         }
+        if ((strcmp(argv[i],"--sscc")==0) ||
+            (strcmp(argv[i],"--SSCC")==0)) {
+            gs1_encode(0, argv[i+1], encode_text);
+        }       
         if ((strcmp(argv[i],"--gtin")==0) ||
             (strcmp(argv[i],"--GTIN")==0)) {
             gs1_encode(1, argv[i+1], encode_text);
