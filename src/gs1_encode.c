@@ -45,16 +45,20 @@ int gs1_encode(int application_identifier, char data_str[],
     }
 
     switch(application_identifier){
-	case 0: { /* SSCC */
+    case 0: { /* SSCC */
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
-		int check_digit = get_gtin_check_digit(data_str, 0);
+        int check_digit = get_gtin_check_digit(data_str, 0);
         decode_strcat_char(encode_text, '0' + check_digit);
-		break;
-	}
+        break;
+    }
     case 1: { /* GTIN */
         if (data_len > 14) {
-            printf("GTIN should contain no more than 14 digits");
+            printf("GTIN should contain no more than 14 digits\n");
+            return -1;
+        }
+        else if (data_len < 8) {
+            printf("GTIN should contain no less than 8 digits\n");
             return -1;
         }
         decode_strcat(encode_text, &app_id_str[0]);
@@ -64,6 +68,22 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, data_str);
         break;
+    }
+    case 3: { /* MTO GTIN */
+        if (data_len < 13) {
+            printf("MTO GTIN should contain at least 13 digits\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        /* pad with zeros */
+        for (int i = 0; i < 14 - data_len;  i++) {
+            decode_strcat_char(encode_text, '0');
+        }
+        decode_strcat(encode_text, data_str);
+        break;
+    }
+    default: {
+        decode_strcat(encode_text, data_str);
     }
     }
 

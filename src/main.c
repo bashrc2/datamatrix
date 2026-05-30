@@ -205,11 +205,15 @@ int main(int argc, char* argv[])
         }
         if ((strcmp(argv[i],"--sscc")==0) ||
             (strcmp(argv[i],"--SSCC")==0)) {
-            gs1_encode(0, argv[i+1], encode_text);
+            if (gs1_encode(0, argv[i+1], encode_text) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--gtin")==0) ||
             (strcmp(argv[i],"--GTIN")==0)) {
-            gs1_encode(1, argv[i+1], encode_text);
+            if (gs1_encode(1, argv[i+1], encode_text) != 0) return -1;
+        }       
+        if ((strcmp(argv[i],"--mtogtin")==0) ||
+            (strcmp(argv[i],"--MTOGTIN")==0)) {
+            if (gs1_encode(3, argv[i+1], encode_text) != 0) return -1;
         }       
         if (strcmp(argv[i],"--dot")==0) {
             if (strlen(argv[i+1]) <= 3) {
