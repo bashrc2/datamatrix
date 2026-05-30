@@ -390,6 +390,18 @@ int gs1_encode(int application_identifier, char data_str[],
         decode_strcat_char(encode_description, '\n');
         break;
     }
+    case 422: { /* ORIGIN */
+        if (data_len != 3) {
+            printf("ORIGIN should contain 3 digits\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
+        break;
+    }
     default: {
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);

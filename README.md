@@ -100,6 +100,7 @@ sudo make install
 --gsin [code]                 Generate a GS1 datamatrix with the given GSIN
 --shipto [code]               Generate a GS1 datamatrix with the given SHIP TO LOC
 --billto [code]               Generate a GS1 datamatrix with the given BILL TO
+--origin [code]               Generate a GS1 datamatrix with the given ORIGIN
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
