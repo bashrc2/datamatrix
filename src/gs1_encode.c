@@ -333,6 +333,18 @@ int gs1_encode(int application_identifier, char data_str[],
         decode_strcat_char(encode_description, '\n');
         break;
     }
+    case 400: { /* ORDER NUMBER */
+        if (data_len > 30) {
+            printf("ORDER NUMBER should contain no more than 30 characters\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
+        break;
+    }
     default: {
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
