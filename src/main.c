@@ -201,9 +201,12 @@ int main(int argc, char* argv[])
         }
         if ((strcmp(argv[i],"--encode")==0) ||
                 (strcmp(argv[i],"-e")==0)) {
-            encode_text[0] = 0;
             decode_strcat(&encode_text[0], argv[i+1]);
         }
+        if ((strcmp(argv[i],"--gtin")==0) ||
+            (strcmp(argv[i],"--GTIN")==0)) {
+            gs1_encode(1, argv[i+1], encode_text);
+        }       
         if (strcmp(argv[i],"--dot")==0) {
             if (strlen(argv[i+1]) <= 3) {
                 sprintf(&dot_char[0], "%s", argv[i+1]);

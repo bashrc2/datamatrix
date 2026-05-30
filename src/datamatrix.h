@@ -576,6 +576,11 @@ void gs1_semantics(char result[],
                    int * application_data_end,
                    unsigned char * application_data_variable);
 
+/* gs1_encode.c */
+
+int gs1_encode(int application_identifier, char data_str[],
+               char encode_text[]);
+
 /* condense.c */
 
 unsigned char condense_data_blocks(struct grid_2d * grid,

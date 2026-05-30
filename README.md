@@ -78,6 +78,7 @@ sudo make install
 --web [url]                   Website url on verification report
 --footer [text]               Footer shown on verification report
 -e --encode [text]            Generate a datamatrix from the given text
+--gtin [code]                 Generate a datamatrix with the given GTIN
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
