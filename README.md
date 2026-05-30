@@ -91,6 +91,7 @@ sudo make install
 --useby [YYMMDD]              Generate a GS1 datamatrix with the given USE BY
 --variant [two digits]        Generate a GS1 datamatrix with the given VARIANT
 --serial [number]             Generate a GS1 datamatrix with the given SERIAL
+--custpartno [number]         Generate a GS1 datamatrix with the given CUST PART NO
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
