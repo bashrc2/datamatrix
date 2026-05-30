@@ -97,6 +97,7 @@ sudo make install
 --gln [number]                Generate a GS1 datamatrix with the given GLN
 --gcn [number]                Generate a GS1 datamatrix with the given GCN
 --orderno [number]            Generate a GS1 datamatrix with the given ORDER NUMBER
+--gsin [code]                 Generate a GS1 datamatrix with the given GSIN
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix

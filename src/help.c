@@ -86,6 +86,7 @@ void show_help()
     printf("   --gln [number]              Generate a GS1 datamatrix with the given GLN\n");
     printf("   --gcn [number]              Generate a GS1 datamatrix with the given GCN\n");
     printf("   --orderno [number]          Generate a GS1 datamatrix with the given ORDER NUMBER\n");
+    printf("   --gsin [code]               Generate a GS1 datamatrix with the given GSIN\n");
     printf("   --txt [text]                Decode a text string containing a datamatrix\n");
     printf("   --squaremodules             Generated datamatrix has square modules\n");
     printf("   --dot [character]           Custom dot character when generating a datamatrix\n");
