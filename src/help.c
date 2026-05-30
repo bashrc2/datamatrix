@@ -76,6 +76,7 @@ void show_help()
     printf("   --duedate [YYMMDD]          Generate a GS1 datamatrix with the given DUE DATE\n");
     printf("   --packdate [YYMMDD]         Generate a GS1 datamatrix with the given PACK DATE\n");
     printf("   --bestbefore [YYMMDD]       Generate a GS1 datamatrix with the given BEST BEFORE\n");
+    printf("   --sellby [YYMMDD]           Generate a GS1 datamatrix with the given SELL BY\n");
     printf("   --txt [text]                Decode a text string containing a datamatrix\n");
     printf("   --squaremodules             Generated datamatrix has square modules\n");
     printf("   --dot [character]           Custom dot character when generating a datamatrix\n");
