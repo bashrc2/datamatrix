@@ -296,6 +296,11 @@ int main(int argc, char* argv[])
             if (gs1_encode(254, argv[i+1], encode_text,
                            &encode_description[0]) != 0) return -1;
         }       
+        if ((strcmp(argv[i],"--gcn")==0) ||
+            (strcmp(argv[i],"--GCN")==0)) {
+            if (gs1_encode(255, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
+        }       
         if (strcmp(argv[i],"--dot")==0) {
             if (strlen(argv[i+1]) <= 3) {
                 sprintf(&dot_char[0], "%s", argv[i+1]);
