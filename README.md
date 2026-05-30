@@ -118,7 +118,7 @@ You can also GS1 encode a datamatrix using the typical fields.
 datamatrix --gtin 12345678901234 --batch 3725a --serial 738235495
 ```
 
-You can also specify how dots and spaces appear.
+You can specify how dots and spaces appear.
 
 ``` bash
 datamatrix -e "ABCDEF" --dot "●" --space " "
