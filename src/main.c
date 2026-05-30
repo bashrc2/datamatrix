@@ -85,6 +85,7 @@ int main(int argc, char* argv[])
 
     /* encoding parameters */
     char encode_text[MAX_DECODE_LENGTH];
+    char encode_description[MAX_DECODE_LENGTH];
     int encode_scale = 1;
     int encode_image_width = 512;
     float coords_offset_x = 0;
@@ -116,6 +117,9 @@ int main(int argc, char* argv[])
 
     /* text to be encoded as a datamatrix */
     encode_text[0] = 0;
+
+    /* description shown beneath encoded datamatrix */
+    encode_description[0] = 0;
 
     /* contact details to appear on verification report */
     address_line1[0] = 0;
@@ -205,59 +209,72 @@ int main(int argc, char* argv[])
         }
         if ((strcmp(argv[i],"--sscc")==0) ||
             (strcmp(argv[i],"--SSCC")==0)) {
-            if (gs1_encode(0, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(0, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--gtin")==0) ||
             (strcmp(argv[i],"--GTIN")==0)) {
-            if (gs1_encode(1, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(1, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--content")==0) ||
             (strcmp(argv[i],"--CONTENT")==0)) {
-            if (gs1_encode(2, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(2, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--mtogtin")==0) ||
             (strcmp(argv[i],"--MTOGTIN")==0)) {
-            if (gs1_encode(3, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(3, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--batch")==0) ||
             (strcmp(argv[i],"--BATCH")==0) ||
             (strcmp(argv[i],"--lot")==0) ||
             (strcmp(argv[i],"--LOT")==0)) {
-            if (gs1_encode(10, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(10, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--proddate")==0) ||
             (strcmp(argv[i],"--PRODDATE")==0)) {
-            if (gs1_encode(11, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(11, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--duedate")==0) ||
             (strcmp(argv[i],"--DUEDATE")==0)) {
-            if (gs1_encode(12, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(12, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--packdate")==0) ||
             (strcmp(argv[i],"--PACKDATE")==0)) {
-            if (gs1_encode(13, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(13, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--bestbefore")==0) ||
             (strcmp(argv[i],"--bestby")==0) ||
             (strcmp(argv[i],"--BESTBEFORE")==0) ||
             (strcmp(argv[i],"--BESTBY")==0)) {
-            if (gs1_encode(15, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(15, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--sellby")==0) ||
             (strcmp(argv[i],"--SELLBY")==0)) {
-            if (gs1_encode(16, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(16, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--useby")==0) ||
             (strcmp(argv[i],"--USEBY")==0)) {
-            if (gs1_encode(17, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(17, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--variant")==0) ||
             (strcmp(argv[i],"--VARIANT")==0)) {
-            if (gs1_encode(20, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(20, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if ((strcmp(argv[i],"--serial")==0) ||
             (strcmp(argv[i],"--SERIAL")==0)) {
-            if (gs1_encode(21, argv[i+1], encode_text) != 0) return -1;
+            if (gs1_encode(21, argv[i+1], encode_text,
+                           &encode_description[0]) != 0) return -1;
         }       
         if (strcmp(argv[i],"--dot")==0) {
             if (strlen(argv[i+1]) <= 3) {
@@ -487,19 +504,25 @@ int main(int argc, char* argv[])
             /* show with square modules */
             sprintf(&dot_char[0], "█");
         }
-        return encode_datamatrix_to_text(&encode_text[0],
-                                         encode_scale,
-                                         is_square,
-                                         csv,
-                                         show_coords,
-                                         coords_offset_x,
-                                         coords_offset_y,
-                                         &output_filename[0],
-                                         encode_image_width,
-                                         &dot_char[0],
-                                         &empty_char[0],
-                                         square_modules,
-                                         debug);
+        if (encode_datamatrix_to_text(&encode_text[0],
+                                      encode_scale,
+                                      is_square,
+                                      csv,
+                                      show_coords,
+                                      coords_offset_x,
+                                      coords_offset_y,
+                                      &output_filename[0],
+                                      encode_image_width,
+                                      &dot_char[0],
+                                      &empty_char[0],
+                                      square_modules,
+                                      debug) == 0) {
+            if (encode_description[0] != 0) {
+                printf("%s", encode_description);
+            }
+            return 0;
+        }
+        return -1;
     }
 
     /* was a file specified */

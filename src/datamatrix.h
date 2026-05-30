@@ -579,7 +579,7 @@ void gs1_semantics(char result[],
 /* gs1_encode.c */
 
 int gs1_encode(int application_identifier, char data_str[],
-               char encode_text[]);
+               char encode_text[], char encode_description[]);
 
 /* condense.c */
 

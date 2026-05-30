@@ -26,11 +26,12 @@
  * \brief encodes a GS1 application identifier into the given encoded string
  * \param application_identifier Application identifier number
  * \param data_str Data to be used with the application identifier
- * \param encoded_text Returned encoded string
+ * \param encode_text Returned encoded string
+ * \param encode_description Returned description shown beneath the datamatrix
  * \return zero on success
  */
 int gs1_encode(int application_identifier, char data_str[],
-               char encode_text[])
+               char encode_text[], char encode_description[])
 {
     char app_id_str[16];
     int data_len = (int)strlen(data_str);
@@ -44,12 +45,20 @@ int gs1_encode(int application_identifier, char data_str[],
         sprintf(&app_id_str[0], "0%d", application_identifier);
     }
 
+    decode_strcat(encode_description, "  (");
+    decode_strcat(encode_description, &app_id_str[0]);
+    decode_strcat(encode_description, ") ");
+
     switch(application_identifier){
     case 0: { /* SSCC */
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
         int check_digit = get_gtin_check_digit(data_str, 0);
         decode_strcat_char(encode_text, '0' + check_digit);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '0' + check_digit);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 1: { /* GTIN */
@@ -65,8 +74,12 @@ int gs1_encode(int application_identifier, char data_str[],
         /* pad with zeros */
         for (int i = 0; i < 14 - data_len;  i++) {
             decode_strcat_char(encode_text, '0');
+            decode_strcat_char(encode_description, '0');
         }
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 2: { /* CONTENT */
@@ -82,10 +95,15 @@ int gs1_encode(int application_identifier, char data_str[],
         /* pad with zeros */
         for (int i = 0; i < 13 - data_len;  i++) {
             decode_strcat_char(encode_text, '0');
+            decode_strcat_char(encode_description, '0');
         }
         decode_strcat(encode_text, data_str);
         int check_digit = get_gtin_check_digit(data_str, 0);
         decode_strcat_char(encode_text, '0' + check_digit);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '0' + check_digit);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 3: { /* MTO GTIN */
@@ -97,8 +115,12 @@ int gs1_encode(int application_identifier, char data_str[],
         /* pad with zeros */
         for (int i = 0; i < 14 - data_len;  i++) {
             decode_strcat_char(encode_text, '0');
+            decode_strcat_char(encode_description, '0');
         }
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 10: { /* BATCH/LOT */
@@ -108,6 +130,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 11: { /* PROD DATE */
@@ -123,6 +148,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 12: { /* DUE DATE */
@@ -138,6 +166,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 13: { /* PACK DATE */
@@ -153,6 +184,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 15: { /* BEST BEFORE */
@@ -168,6 +202,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 16: { /* SELL BY */
@@ -183,6 +220,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 17: { /* USE BY */
@@ -198,6 +238,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 20: { /* VARIANT */
@@ -213,6 +256,9 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     case 21: { /* SERIAL */
@@ -222,11 +268,17 @@ int gs1_encode(int application_identifier, char data_str[],
         }
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
         break;
     }
     default: {
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '\n');
     }
     }
 
