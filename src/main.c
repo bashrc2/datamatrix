@@ -211,6 +211,10 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--GTIN")==0)) {
             if (gs1_encode(1, argv[i+1], encode_text) != 0) return -1;
         }       
+        if ((strcmp(argv[i],"--content")==0) ||
+            (strcmp(argv[i],"--CONTENT")==0)) {
+            if (gs1_encode(2, argv[i+1], encode_text) != 0) return -1;
+        }       
         if ((strcmp(argv[i],"--mtogtin")==0) ||
             (strcmp(argv[i],"--MTOGTIN")==0)) {
             if (gs1_encode(3, argv[i+1], encode_text) != 0) return -1;

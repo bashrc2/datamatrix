@@ -78,9 +78,10 @@ sudo make install
 --web [url]                   Website url on verification report
 --footer [text]               Footer shown on verification report
 -e --encode [text]            Generate a datamatrix from the given text
---sscc [code]                 Generate a datamatrix with the given SSCC
---gtin [code]                 Generate a datamatrix with the given GTIN
---mtogtin [code]              Generate a datamatrix with the given MTO GTIN
+--sscc [code]                 Generate a GS1 datamatrix with the given SSCC
+--gtin [code]                 Generate a GS1 datamatrix with the given GTIN
+--content [code]              Generate a GS1 datamatrix with the given CONTENT
+--mtogtin [code]              Generate a GS1 datamatrix with the given MTO GTIN
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
