@@ -375,6 +375,21 @@ int gs1_encode(int application_identifier, char data_str[],
         decode_strcat_char(encode_description, '\n');
         break;
     }
+    case 411: { /* BILL TO */
+        if (data_len != 12) {
+            printf("BILL TO should contain 12 characters\n");
+            return -1;
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+        int check_digit = get_gtin_check_digit(data_str, 0);
+        decode_strcat_char(encode_text, '0' + check_digit);
+
+        decode_strcat(encode_description, data_str);
+        decode_strcat_char(encode_description, '0' + check_digit);
+        decode_strcat_char(encode_description, '\n');
+        break;
+    }
     default: {
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);

@@ -99,6 +99,7 @@ sudo make install
 --orderno [number]            Generate a GS1 datamatrix with the given ORDER NUMBER
 --gsin [code]                 Generate a GS1 datamatrix with the given GSIN
 --shipto [code]               Generate a GS1 datamatrix with the given SHIP TO LOC
+--billto [code]               Generate a GS1 datamatrix with the given BILL TO
 --txt [text]                  Decode a text string containing a datamatrix
 --squaremodules               Generated datamatrix has square modules
 --dot [character]             Custom dot character when generating a datamatrix
