@@ -110,6 +110,21 @@ int gs1_encode(int application_identifier, char data_str[],
         decode_strcat(encode_text, data_str);
         break;
     }
+    case 11: {
+        if (data_len != 6) {
+            printf("PROD DATE should contain 6 digits YYMMDD\n");
+            return -1;
+        }
+        for (int i = 0; i < 6;  i++) {
+            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+                printf("Only numbers are permitted within PROD DATE\n");
+                return -1;
+            }
+        }
+        decode_strcat(encode_text, &app_id_str[0]);
+        decode_strcat(encode_text, data_str);
+        break;
+    }
     default: {
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);
