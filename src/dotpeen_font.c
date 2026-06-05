@@ -718,7 +718,7 @@ char * font_numbers[] = {
     "     "
 };
 
-char * font_misc_lookup = " ./-()";
+char * font_misc_lookup = " .:/-()[]";
 char * font_misc[] = {
     "     ",
     "     ",
@@ -738,6 +738,17 @@ char * font_misc[] = {
     "     ",
     " ●●  ",
     " ●●  ",
+    "     ",
+    "     ",
+    "     ",
+
+    "     ",
+    " ●●  ",
+    " ●●  ",
+    "     ",
+    " ●●  ",
+    " ●●  ",
+    "     ",
     "     ",
     "     ",
     "     ",
@@ -782,6 +793,29 @@ char * font_misc[] = {
     "  ●  ",
     "  ●  ",
     " ●   ",
+    "     ",
+    "     ",
+    "     ",
+
+
+    "  ●● ",
+    "  ●  ",
+    "  ●  ",
+    "  ●  ",
+    "  ●  ",
+    "  ●  ",
+    "  ●● ",
+    "     ",
+    "     ",
+    "     ",
+
+    " ●●  ",
+    "  ●  ",
+    "  ●  ",
+    "  ●  ",
+    "  ●  ",
+    "  ●  ",
+    " ●●  ",
     "     ",
     "     ",
     "     ",
@@ -867,15 +901,15 @@ void draw_character(unsigned char img[],
                     int bitsperpixel,
                     int tx, int ty, int bx, int by,
                     int r, int g, int b,
-					char chr)
+                    char chr)
 {
     int dx = bx - tx;
     int dy = by - ty;
     int dot_radius = dx / (FONT_WIDTH*2);
-	char dotmatrix[FONT_WIDTH*FONT_HEIGHT];
+    char dotmatrix[FONT_WIDTH*FONT_HEIGHT];
 
-	lookup_character(chr, &dotmatrix[0]);
-	
+    lookup_character(chr, &dotmatrix[0]);
+    
     for (int y = 0; y < FONT_HEIGHT; y++) {
         for (int x = 0; x < FONT_WIDTH; x++) {
             if (dotmatrix[y*FONT_WIDTH + x] != ' ') {
