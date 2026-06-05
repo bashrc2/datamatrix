@@ -342,12 +342,12 @@ void draw_dot(unsigned char img[],
 
 /* dotpeen_font.c */
 
-void draw_character(unsigned char img[],
-                    unsigned int width, unsigned int height,
-                    int bitsperpixel,
-                    int tx, int ty, int bx, int by,
-                    int r, int g, int b,
-                    char chr);
+void draw_text(unsigned char img[],
+               unsigned int width, unsigned int height,
+               int bitsperpixel,
+               int text_x, int text_y, int text_width,
+               int r, int g, int b,
+               char * text);
 
 /* geometry.c */
 

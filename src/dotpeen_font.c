@@ -907,12 +907,12 @@ static void lookup_character(char chr, char dotmatrix[])
  * \param b Blue
  * \param chr character to be returned
  */
-void draw_character(unsigned char img[],
-                    unsigned int width, unsigned int height,
-                    int bitsperpixel,
-                    int tx, int ty, int bx, int by,
-                    int r, int g, int b,
-                    char chr)
+static void draw_character(unsigned char img[],
+                           unsigned int width, unsigned int height,
+                           int bitsperpixel,
+                           int tx, int ty, int bx, int by,
+                           int r, int g, int b,
+                           char chr)
 {
     int dx = bx - tx;
     int dy = by - ty;
@@ -932,5 +932,40 @@ void draw_character(unsigned char img[],
                          r, g, b);
             }
         }
+    }
+}
+
+/**
+ * \brief Draws the given text at the given coordinate
+ * \param img Array containing image
+ * \param width Width of the image
+ * \param height Height of the image
+ * \param bitsperpixel Number of bits per pixel
+ * \param text_x top left coordinate at which to begin drawing the text
+ * \param text_y top coordinate at which to begin drawing the text
+ * \param text_width width of each character in pixels
+ * \param r Red
+ * \param g Green
+ * \param b Blue
+ * \param text Text to be drawn
+ */
+void draw_text(unsigned char img[],
+               unsigned int width, unsigned int height,
+               int bitsperpixel,
+               int text_x, int text_y, int text_width,
+               int r, int g, int b,
+               char * text)
+{
+    int text_height = text_width * FONT_HEIGHT / FONT_WIDTH;
+    int text_len = (int)strlen(text);
+
+    for (int i = 0; i < text_len; i++) {
+        int tx = text_x + (i * text_width);
+        int ty = text_y;
+        int bx = text_x + ((i+1) * text_width);
+        int by = text_y + text_height;
+        draw_character(img, width, height, bitsperpixel,
+                       tx, ty, bx, by, r, g, b,
+                       text[i]);
     }
 }
