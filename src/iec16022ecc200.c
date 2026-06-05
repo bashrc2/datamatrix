@@ -21,14 +21,9 @@
  *
  *********************************************************************/
 
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
+#include "datamatrix.h"
 #include "reedsol.h"
 #include "iec16022ecc200.h"
-#include "datamatrix.h"
 
 /* #define DEBUG */
 
