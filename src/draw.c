@@ -28,7 +28,7 @@
 
 /**
  * \brief Draws a line of the given width and colour
- * \param Array containing image
+ * \param img Array containing image
  * \param width Width of the image
  * \param height Height of the image
  * \param bitsperpixel Number of bits per pixel
@@ -102,7 +102,7 @@ void draw_line(unsigned char img[],
 
 /**
  * \brief Draws a dot of the given width and colour
- * \param Array containing image
+ * \param img Array containing image
  * \param width Width of the image
  * \param height Height of the image
  * \param bitsperpixel Number of bits per pixel

@@ -340,6 +340,15 @@ void draw_dot(unsigned char img[],
               int centre_x, int centre_y, int radius,
               int r, int g, int b);
 
+/* dotpeen_font.c */
+
+void draw_character(unsigned char img[],
+                    unsigned int width, unsigned int height,
+                    int bitsperpixel,
+                    int tx, int ty, int bx, int by,
+                    int r, int g, int b,
+                    char chr);
+
 /* geometry.c */
 
 int point_in_polygon(int x, int y, int points[], int no_of_points);
