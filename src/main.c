@@ -159,7 +159,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--fromstring")==0) ||
                 (strcmp(argv[i],"--fromtext")==0)) {
             decode_from_text[0] = 0;
-            if (strlen(argv[i+1]) >= MAX_DECODE_STRING_LENGTH) {
+            if ((int)strlen(argv[i+1]) >= MAX_DECODE_STRING_LENGTH) {
                 printf("String too long\n");
                 return -1;
             }
@@ -327,7 +327,7 @@ int main(int argc, char* argv[])
                            &encode_description[0]) != 0) return -1;
         }       
         if (strcmp(argv[i],"--dot")==0) {
-            if (strlen(argv[i+1]) <= 3) {
+            if ((int)strlen(argv[i+1]) <= 3) {
                 sprintf(&dot_char[0], "%s", argv[i+1]);
                 dot_char_specified = 1;
             }
@@ -335,7 +335,7 @@ int main(int argc, char* argv[])
         if ((strcmp(argv[i],"--empty")==0) ||
                 (strcmp(argv[i],"--void")==0) ||
                 (strcmp(argv[i],"--space")==0)) {
-            if (strlen(argv[i+1]) <= 3) {
+            if ((int)strlen(argv[i+1]) <= 3) {
                 sprintf(&empty_char[0], "%s", argv[i+1]);
                 empty_char_specified = 1;
             }
@@ -576,7 +576,7 @@ int main(int argc, char* argv[])
     }
 
     /* was a file specified */
-    if (strlen(&filename[0]) == 0) {
+    if ((int)strlen(&filename[0]) == 0) {
         printf("No image file specified\n");
         return 0;
     }
@@ -680,7 +680,7 @@ int main(int argc, char* argv[])
                     max_high_pixels_percent,
                     segment_join_radius,
                     decode_result);
-    if (strlen(decode_result) > 0) {
+    if ((int)strlen(decode_result) > 0) {
         if (verify == 0) {
             printf("%s\n", decode_result);
         }

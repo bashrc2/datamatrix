@@ -230,7 +230,7 @@ static char * hibc_secondary_data_flag(char result[], int start_index,
         decode_strcat_char(translated_str, '\n');
     }
 
-    if (strlen(translated_str) > 0) return translated_str;
+    if ((int)strlen(translated_str) > 0) return translated_str;
     free(translated_str);
     return NULL;
 }
@@ -317,7 +317,7 @@ void hibc_semantics(char result[],
                     unsigned char debug)
 {
     int i, index = 0;
-    int str_len = strlen(result);
+    int str_len = (int)strlen(result);
     unsigned char is_hibc = 0;
     int hibc_data_start = 0;
     char * translated_str = NULL;

@@ -138,7 +138,7 @@ void save_verification_report(struct grid_2d * grid,
             /* decode result */
             if (strstr(line, "{\\decoderesult}") != NULL) {
                 fprintf(fp_report, "\\newcommand{\\decoderesult}{");
-                for (int i = 0; i < strlen(decode_result); i++) {
+                for (int i = 0; i < (int)strlen(decode_result); i++) {
                     if (decode_result[i] == 29) {
                         fprintf(fp_report, "<GS>");
                     }
@@ -302,7 +302,7 @@ void save_verification_report(struct grid_2d * grid,
             }
         }
         /* logo image at top of report */
-        if (strlen(logo_filename) > 0) {
+        if ((int)strlen(logo_filename) > 0) {
             if (strstr(line, "{img/logo_square.png}") != NULL) {
                 fprintf(fp_report, "\\includegraphics[height=2.5cm,clip]{%s}\n",
                         logo_filename);
@@ -322,7 +322,7 @@ void save_verification_report(struct grid_2d * grid,
             continue;
         }
         /* footer text */
-        if (strlen(footer) > 0) {
+        if ((int)strlen(footer) > 0) {
             if (strstr(line, "\\fancyfoot") != NULL) {
                 fprintf(fp_report, "\\fancyfoot[C]{%s}\n", footer);
                 continue;

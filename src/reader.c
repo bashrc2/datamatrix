@@ -37,7 +37,7 @@
 unsigned char any_decode(char * thr_decode_result[], int max_config)
 {
     for (int i = 0; i < max_config; i++) {
-        if (strlen(thr_decode_result[i]) > 0) return 1;
+        if ((int)strlen(thr_decode_result[i]) > 0) return 1;
     }
     return 0;
 }
@@ -857,11 +857,11 @@ int read_datamatrix(unsigned char image_data[],
                     datamatrix_decode(&grid[try_config], debug, gs1_url,
                                       thr_decode_result[try_config],
                                       human_readable);
-                    if (strlen(thr_decode_result[try_config]) > 0) {
+                    if ((int)strlen(thr_decode_result[try_config]) > 0) {
                         free_grid(&grid[try_config]);
                         best_config = try_config;
                         best_perimeter_x0 = perimeter_x0;
-                        if (strlen(grid_filename) > 0) {
+                        if ((int)strlen(grid_filename) > 0) {
                             /* show the grid */
                             memcpy(image_data, original_image_data,
                                    image_width * image_height *
@@ -882,10 +882,10 @@ int read_datamatrix(unsigned char image_data[],
                     datamatrix_decode(&grid[try_config], debug,
                                       gs1_url, thr_decode_result[try_config],
                                       human_readable);
-                    if (strlen(thr_decode_result[try_config]) > 0) {
+                    if ((int)strlen(thr_decode_result[try_config]) > 0) {
                         best_config = try_config;
                         best_perimeter_x0 = perimeter_x0;
-                        if (strlen(grid_filename) > 0) {
+                        if ((int)strlen(grid_filename) > 0) {
                             /* show the grid */
                             memcpy(image_data, original_image_data,
                                    image_width * image_height *
@@ -987,11 +987,11 @@ int read_datamatrix(unsigned char image_data[],
                         datamatrix_decode(&grid[try_config], debug,
                                           gs1_url, thr_decode_result[try_config],
                                           human_readable);
-                        if (strlen(thr_decode_result[try_config]) > 0) {
+                        if ((int)strlen(thr_decode_result[try_config]) > 0) {
                             free_grid(&grid[try_config]);
                             best_config = try_config;
                             best_perimeter_x0 = perimeter_x0;
-                            if (strlen(grid_filename) > 0) {
+                            if ((int)strlen(grid_filename) > 0) {
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
                                        image_width * image_height *
@@ -1031,10 +1031,10 @@ int read_datamatrix(unsigned char image_data[],
                         datamatrix_decode(&grid[try_config], debug,
                                           gs1_url, thr_decode_result[try_config],
                                           human_readable);
-                        if (strlen(thr_decode_result[try_config]) > 0) {
+                        if ((int)strlen(thr_decode_result[try_config]) > 0) {
                             best_config = try_config;
                             best_perimeter_x0 = perimeter_x0;
-                            if (strlen(grid_filename) > 0) {
+                            if ((int)strlen(grid_filename) > 0) {
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
                                        image_width * image_height *
@@ -1157,10 +1157,10 @@ int read_datamatrix(unsigned char image_data[],
                                           gs1_url,
                                           thr_decode_result[try_config],
                                           human_readable);
-                        if (strlen(thr_decode_result[try_config]) > 0) {
+                        if ((int)strlen(thr_decode_result[try_config]) > 0) {
                             best_config = try_config;
                             best_perimeter_x0 = perimeter_x0;
-                            if (strlen(grid_filename) > 0) {
+                            if ((int)strlen(grid_filename) > 0) {
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
                                        image_width * image_height *
@@ -1233,7 +1233,7 @@ int read_datamatrix(unsigned char image_data[],
         free_line_segments(&segments[try_config]);
 
         /* quality metrics */
-        if (strlen(thr_decode_result[try_config]) > 0) {
+        if ((int)strlen(thr_decode_result[try_config]) > 0) {
             if (verify == 1) {
                 calculate_quality_metrics(&grid[try_config],
                                           original_image_data,
@@ -1256,9 +1256,9 @@ int read_datamatrix(unsigned char image_data[],
     }
 
     if (best_config > -1) {
-        if (strlen(thr_decode_result[best_config]) > 0) {
+        if ((int)strlen(thr_decode_result[best_config]) > 0) {
             /* -o option: output image showing perimeter */
-            if ((strlen(output_filename) > 0) &&
+            if (((int)strlen(output_filename) > 0) &&
                     (best_perimeter_x0 > -1)) {
                 memcpy(image_data, original_image_data,
                        image_width*image_height*image_bytesperpixel);
@@ -1273,8 +1273,8 @@ int read_datamatrix(unsigned char image_data[],
             if (verify == 1) {
                 show_quality_metrics(&grid[best_config], csv, json, yaml,
                                      aperture, light_nm, light_angle_degrees);
-                if ((strlen(report_template) > 0) &&
-                        (strlen(report_filename) > 0)) {
+                if (((int)strlen(report_template) > 0) &&
+					((int)strlen(report_filename) > 0)) {
                     save_verification_report(&grid[best_config],
                                              address_line1,
                                              address_line2,
@@ -1306,7 +1306,7 @@ int read_datamatrix(unsigned char image_data[],
 
     /* free allocated memory */
     free(original_image_data);
-    if (strlen(decode_result) > 0) {
+    if ((int)strlen(decode_result) > 0) {
         return 0;
     }
     return -1;

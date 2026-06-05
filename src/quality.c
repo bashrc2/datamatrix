@@ -508,7 +508,7 @@ static void save_grid_cell_shape(struct grid_2d * grid,
     int no_of_pixels = 0;
     int cell_fill = 0;
 
-    if (strlen(filename) == 0) return;
+    if ((int)strlen(filename) == 0) return;
 
     /* create the image */
     unsigned char * cell_shape_image =
@@ -1170,7 +1170,7 @@ void calculate_quality_metrics(struct grid_2d * grid,
         grid->fixed_pattern_damage_grade = 4;
     }
 
-    if (strlen(histogram_filename) > 0) {
+    if ((int)strlen(histogram_filename) > 0) {
         save_reflectance_histogram(image_data,
                                    image_width, image_height,
                                    image_bitsperpixel,

@@ -2232,42 +2232,42 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                       gs1_url, debug);
         if (human_readable == 1) {
             /* if there is a GS1 formatted decode then return that instead */
-            if (strlen(gs1_result) > 0) {
+            if ((int)strlen(gs1_result) > 0) {
                 grid->gs1_datamatrix = 1;
                 result[0] = 0;
-                if (strlen(gs1_url) == 0) {
+                if ((int)strlen(gs1_url) == 0) {
                     decode_strcat(result, "STANDARD: GS1\n");
                 }
                 decode_strcat(result, gs1_result);
-                if (strlen(gs1_url) == 0) {
+                if ((int)strlen(gs1_url) == 0) {
                     /* remove the final newline */
-                    result[strlen(result)-1] = 0;
+                    result[(int)strlen(result)-1] = 0;
                 }
             }
             /* if there is an ISO 15434 decode then return that instead */
-            if (strlen(iso15434_result) > 0) {
+            if ((int)strlen(iso15434_result) > 0) {
                 grid->iso15434_datamatrix = 1;
                 result[0] = 0;
                 decode_strcat(result, iso15434_result);
-                if (strlen(iso15434_uii) > 0) {
+                if ((int)strlen(iso15434_uii) > 0) {
                     decode_strcat(result, "UII: ");
                     decode_strcat(result, iso15434_uii);
                 }
                 else {
                     /* remove the final newline */
-                    result[strlen(result)-1] = 0;
+                    result[(int)strlen(result)-1] = 0;
                 }
             }
             /* if there is a HIBC decode then return that instead */
-            if (strlen(result) > 0) {
+            if ((int)strlen(result) > 0) {
                 if (result[0] == '+') {
                     hibc_semantics(result, hibc_result, debug);
-                    if (strlen(hibc_result) > 0) {
+                    if ((int)strlen(hibc_result) > 0) {
                         grid->hibc_datamatrix = 1;
                         result[0] = 0;
                         decode_strcat(result, hibc_result);
                         /* remove the final newline */
-                        result[strlen(result)-1] = 0;
+                        result[(int)strlen(result)-1] = 0;
                     }
                 }
             }

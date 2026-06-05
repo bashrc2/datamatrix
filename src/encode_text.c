@@ -49,7 +49,7 @@ static int encode_datamatrix_to_image(char * image_filename,
                                       int encode_image_height,
                                       unsigned char square_modules)
 {
-    int image_filename_length = strlen(image_filename);
+    int image_filename_length = (int)strlen(image_filename);
     /* check that the output image filename is long enough */
     if (image_filename_length < 4) {
         printf("Output filename too short.\n");
@@ -134,7 +134,7 @@ int encode_datamatrix_to_text(char * text,
                  square = 0,
                  noquiet = 0;
 
-    barcodelen = strlen(text);
+    barcodelen = (int)strlen(text);
 
     /* force square shape? */
     if (is_square == 1) square = 1;

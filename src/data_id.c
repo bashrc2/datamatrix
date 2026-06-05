@@ -443,7 +443,7 @@ int get_data_identifier(char data_str[],
     id_human_readable[0] = 0;
     value[0] = 0;
 
-    if (strlen(data_str) < 4) return 0;
+    if ((int)strlen(data_str) < 4) return 0;
 
     for (i = 0; i <= 2; i++) {
         search_id[i] = data_str[i];
@@ -463,10 +463,10 @@ int get_data_identifier(char data_str[],
         }
     }
 
-    if (strlen(id_human_readable) > 0) {
+    if ((int)strlen(id_human_readable) > 0) {
         decode_strcat(value, &data_str[id_index+1]);
         decode_strcat(id, &search_id[0]);
-        if (strlen(value) > 0) {
+        if ((int)strlen(value) > 0) {
             return 1;
         }
     }
@@ -503,7 +503,7 @@ static char * month_number_to_text(char month_number[])
 char * data_id_convert_company_prefix(char * id_human_readable, char * id_value)
 {
     if (strstr(id_human_readable, "GS1 COMPANY PREFIX") == NULL) return NULL;
-    if (strlen(id_value) < 2) return NULL;
+    if ((int)strlen(id_value) < 2) return NULL;
     char * company_prefix = get_gs1_company_prefix(id_value);
     if (company_prefix == NULL) return NULL;
     char * company_prefix_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
@@ -523,7 +523,7 @@ char * data_id_convert_company_prefix(char * id_human_readable, char * id_value)
 char * data_id_convert_date(char * id_human_readable, char * id_value)
 {
     if (strstr(id_human_readable, "YYYYMMDDHHMM") != NULL) {
-        if (strlen(id_value) >= 12) {
+        if ((int)strlen(id_value) >= 12) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* year */
@@ -558,7 +558,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYYYMMDDYYYYMMDD") != NULL) {
-        if (strlen(id_value) >= 16) {
+        if ((int)strlen(id_value) >= 16) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* year */
@@ -599,7 +599,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYYYMMDD") != NULL) {
-        if (strlen(id_value) >= 8) {
+        if ((int)strlen(id_value) >= 8) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* day */
@@ -626,7 +626,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYYYDDMM") != NULL) {
-        if (strlen(id_value) >= 8) {
+        if ((int)strlen(id_value) >= 8) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* day */
@@ -653,7 +653,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYYYWW") != NULL) {
-        if (strlen(id_value) >= 6) {
+        if ((int)strlen(id_value) >= 6) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* year */
@@ -670,7 +670,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYWWYYWW") != NULL) {
-        if (strlen(id_value) >= 8) {
+        if ((int)strlen(id_value) >= 8) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* year */
@@ -695,7 +695,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYMMDDHH") != NULL) {
-        if (strlen(id_value) >= 8) {
+        if ((int)strlen(id_value) >= 8) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* day */
@@ -726,7 +726,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYMMDD") != NULL) {
-        if (strlen(id_value) >= 6) {
+        if ((int)strlen(id_value) >= 6) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* day */
@@ -752,7 +752,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYDDMM") != NULL) {
-        if (strlen(id_value) >= 6) {
+        if ((int)strlen(id_value) >= 6) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* day */
@@ -778,7 +778,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "DDMMYY") != NULL) {
-        if (strlen(id_value) >= 6) {
+        if ((int)strlen(id_value) >= 6) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* day */
@@ -804,7 +804,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "MMDDYY") != NULL) {
-        if (strlen(id_value) >= 6) {
+        if ((int)strlen(id_value) >= 6) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* day */
@@ -831,7 +831,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
     if ((strstr(id_human_readable, "YYJJJHH") != NULL) ||
             (strstr(id_human_readable, "YYDDDHH") != NULL)) {
-        if (strlen(id_value) >= 7) {
+        if ((int)strlen(id_value) >= 7) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* year */
@@ -854,7 +854,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
 
     if ((strstr(id_human_readable, "YYJJJ") != NULL) ||
             (strstr(id_human_readable, "YYDDD") != NULL)) {
-        if (strlen(id_value) >= 5) {
+        if ((int)strlen(id_value) >= 5) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* year */
@@ -871,7 +871,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "MMYY") != NULL) {
-        if (strlen(id_value) >= 4) {
+        if ((int)strlen(id_value) >= 4) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* month */
@@ -893,7 +893,7 @@ char * data_id_convert_date(char * id_human_readable, char * id_value)
     }
 
     if (strstr(id_human_readable, "YYWW") != NULL) {
-        if (strlen(id_value) >= 4) {
+        if ((int)strlen(id_value) >= 4) {
             char * date_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             date_value[0] = 0;
             /* year */

@@ -372,7 +372,7 @@ char * iso15434_translate_data_qualifier(char result[],
                     }
                     if (application_identifier != -1) {
                         /* what actual length of data do we have? */
-                        int data_length = strlen(result) - application_identifier_length;
+                        int data_length = (int)strlen(result) - application_identifier_length;
                         /* what is the min and max length of data for this application identifier? */
                         int max_data_length = application_data_end - application_data_start;
                         int min_data_length =
@@ -395,9 +395,9 @@ char * iso15434_translate_data_qualifier(char result[],
                         if (debug == 1) {
                             printf("translated_str 1 %d: %s\n", i, translated_str);
                         }
-                        if (strlen(translated_str) > 0) {
+                        if ((int)strlen(translated_str) > 0) {
                             /* remove trailing newline */
-                            translated_str[strlen(translated_str)-1] = 0;
+                            translated_str[(int)strlen(translated_str)-1] = 0;
                             /* update the UII */
                             for (i = start_pos + application_identifier_length;
                                     i < end_index; i++) {
@@ -408,7 +408,7 @@ char * iso15434_translate_data_qualifier(char result[],
                     }
                 }
             }
-            if (strlen(translated_str) == 0) {
+            if ((int)strlen(translated_str) == 0) {
                 application_identifier_length = 4;
                 for (i = start_pos; i < end_index; i++) {
                     decode_strcat_char(translated_str, result[i]);
@@ -443,7 +443,7 @@ void iso15434_semantics(char result[],
                         char iso15434_uii[])
 {
     int prev_char_value, char_value, i, j;
-    int str_len = strlen(result);
+    int str_len = (int)strlen(result);
     char * translated_str;
     const int CHAR_GS = 29;
     const int CHAR_RS = 30;
@@ -505,11 +505,11 @@ void iso15434_semantics(char result[],
     if ((char_value == CHAR_GS) ||
             (char_value == CHAR_RS)) {
         /* GS or RS */
-        for (i = *iso15434_data_start; i < strlen(result); i++) {
+        for (i = *iso15434_data_start; i < (int)strlen(result); i++) {
             prev_char_value = (int)(result[i]);
             if ((prev_char_value == CHAR_GS) ||
                     (prev_char_value == CHAR_RS)) {
-                if (strlen(format_code) == 0) {
+                if ((int)strlen(format_code) == 0) {
                     for (j = *iso15434_data_start; j < i; j++) {
                         decode_strcat_char(format_code, result[j]);
                     }

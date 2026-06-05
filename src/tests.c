@@ -106,7 +106,7 @@ static void test_decode()
     create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
     show_grid(&grid);
     datamatrix_decode(&grid, 1, &gs1_url[0], decode_result, human_readable);
-    assert(strlen(decode_result) > 0);
+    assert((int)strlen(decode_result) > 0);
     assert(strcmp(decode_result, "123") == 0);
 
     free_grid(&grid);
@@ -174,7 +174,7 @@ static void test_decode()
     create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy2);
     show_grid(&grid2);
     datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result, human_readable);
-    assert(strlen(decode_result) > 0);
+    assert((int)strlen(decode_result) > 0);
     assert(strcmp(decode_result, "Test") == 0);
 
     free(decode_result);
@@ -221,7 +221,7 @@ static void test_gs1_decode()
     create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
     show_grid(&grid);
     datamatrix_decode(&grid, 1, &gs1_url[0], decode_result, human_readable);
-    assert(strlen(decode_result) > 0);
+    assert((int)strlen(decode_result) > 0);
     printf("%s\n", decode_result);
     assert(strcmp(decode_result,
                   "STANDARD: GS1\nGTIN-13: 00068780000108\nCOUNTRY: GS1 US, Code 006\nGTIN CHECK DIGIT: PASS\nPACK DATE: 31 Dec 2030\nBATCH/LOT: ABC123") == 0);
@@ -234,7 +234,7 @@ static void test_gs1_decode()
     create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy1);
     show_grid(&grid2);
     datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result, human_readable);
-    assert(strlen(decode_result) > 0);
+    assert((int)strlen(decode_result) > 0);
     printf("%s\n", decode_result);
     assert(strcmp(decode_result,
                   "https://test.domain/01/00068780000108/13/301231/10/ABC123") == 0);
@@ -404,10 +404,10 @@ static void test_iso15434_translate()
     decode_strcat(&test_data[0], "9S12345");
 
     result = iso15434_translate_data_qualifier(&test_data[0], 0,
-             strlen(&test_data[0]),
-             &iso15434_uii[0],
-             &format_code[0],
-             debug);
+                                               (int)strlen(&test_data[0]),
+                                               &iso15434_uii[0],
+                                               &format_code[0],
+                                               debug);
     if (result != NULL) {
         assert(strcmp(result, "PACKAGE ID: 12345") == 0);
         free(result);
@@ -422,10 +422,10 @@ static void test_iso15434_translate()
     decode_strcat(&test_data[0], "PNO 987654");
 
     result = iso15434_translate_data_qualifier(&test_data[0], 0,
-             strlen(&test_data[0]),
-             &iso15434_uii[0],
-             &format_code[0],
-             debug);
+                                               (int)strlen(&test_data[0]),
+                                               &iso15434_uii[0],
+                                               &format_code[0],
+                                               debug);
     if (result != NULL) {
         assert(strcmp(result, "PART NUMBER: 987654") == 0);
         free(result);
@@ -440,10 +440,10 @@ static void test_iso15434_translate()
     decode_strcat(&test_data[0], "8002268435460012427936");
 
     result = iso15434_translate_data_qualifier(&test_data[0], 0,
-             strlen(&test_data[0]),
-             &iso15434_uii[0],
-             &format_code[0],
-             debug);
+                                               (int)strlen(&test_data[0]),
+                                               &iso15434_uii[0],
+                                               &format_code[0],
+                                               debug);
     assert(result != NULL);
     assert(strcmp(result, "MOBILE TEL NO: 268435460012427936") == 0);
     free(result);
@@ -618,25 +618,25 @@ static int test_multiply_abs()
 static void test_gtin_check_digit()
 {
     char gtin13_1[] = "890613400002";
-    assert(strlen(gtin13_1) == 12);
+    assert((int)strlen(gtin13_1) == 12);
     int check_digit = get_gtin_check_digit(gtin13_1, 0);
     printf("\nGTIN-13: %s check digit %d\n", gtin13_1, check_digit);
     assert(check_digit == 7);
 
     char gtin13_2[] = "520123400000";
-    assert(strlen(gtin13_2) == 12);
+    assert((int)strlen(gtin13_2) == 12);
     check_digit = get_gtin_check_digit(gtin13_2, 0);
     printf("GTIN-13: %s check digit %d\n", gtin13_2, check_digit);
     assert(check_digit == 1);
 
     char gtin13_3[] = "407007196707";
-    assert(strlen(gtin13_3) == 12);
+    assert((int)strlen(gtin13_3) == 12);
     check_digit = get_gtin_check_digit(gtin13_3, 0);
     printf("GTIN-13: %s check digit %d\n", gtin13_3, check_digit);
     assert(check_digit == 2);
 
     char gtin13_4[] = "841056400625";
-    assert(strlen(gtin13_4) == 12);
+    assert((int)strlen(gtin13_4) == 12);
     check_digit = get_gtin_check_digit(gtin13_4, 0);
     printf("GTIN-13: %s check digit %d\n", gtin13_4, check_digit);
     assert(check_digit == 7);
@@ -645,13 +645,13 @@ static void test_gtin_check_digit()
 static void test_sscc_check_digit()
 {
     char sscc_1[] = "0718908562723189";
-    assert(strlen(sscc_1) == 16);
+    assert((int)strlen(sscc_1) == 16);
     int check_digit = get_gtin_check_digit(sscc_1, 0);
     printf("\nSSCC: %s check digit %d\n", sscc_1, check_digit);
     assert(check_digit == 6);
 
     char sscc_2[] = "5060292004000079";
-    assert(strlen(sscc_2) == 16);
+    assert((int)strlen(sscc_2) == 16);
     check_digit = get_gtin_check_digit(sscc_2, 0);
     printf("SSCC: %s check digit %d\n", sscc_2, check_digit);
     assert(check_digit == 2);

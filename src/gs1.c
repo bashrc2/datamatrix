@@ -2558,7 +2558,7 @@ void gs1_semantics(char result[],
         uic_extension = ' ';
         uic_importer_index = ' ';
 
-        if (strlen(data_str) > 0) {
+        if ((int)strlen(data_str) > 0) {
             /* see https://www.gs1.org/docs/barcodes/GSCN-25-081-UN-ECE-Recommendation20.pdf */
 
             app_id_str2[0] = 0;
@@ -2573,9 +2573,9 @@ void gs1_semantics(char result[],
             }
 
             if (gs1_url != NULL) {
-                if (strlen(gs1_url) > 0) {
+                if ((int)strlen(gs1_url) > 0) {
                     /* build the GS1 digital link */
-                    if (strlen(gs1_result) == 0) {
+                    if ((int)strlen(gs1_result) == 0) {
                         if (gs1_url[0] != '.') {
                             decode_strcat(gs1_result, gs1_url);
                         }
@@ -5625,7 +5625,7 @@ void gs1_semantics(char result[],
 
             unsigned char build_digital_link = 0;
             if (gs1_url != NULL) {
-                if (strlen(gs1_url) > 0) {
+                if ((int)strlen(gs1_url) > 0) {
                     build_digital_link = 1;
                 }
             }

@@ -213,13 +213,13 @@ int decode_datamatrix_from_text(char * datamatrix_text,
     int i, dimension_x=0, dimension_y=0, decode_step=0;
 
     sprintf(&empty_char[0], " ");
-    if ((strlen(custom_empty_char) > 0) &&
-            (strlen(custom_empty_char) <= 3)) {
+    if (((int)strlen(custom_empty_char) > 0) &&
+		((int)strlen(custom_empty_char) <= 3)) {
         sprintf(&empty_char[0], "%s", custom_empty_char);
     }
 
-    if ((strlen(custom_dot_char) > 0) &&
-            (strlen(custom_dot_char) <= 3)) {
+    if (((int)strlen(custom_dot_char) > 0) &&
+		((int)strlen(custom_dot_char) <= 3)) {
         /* using custom dot character */
         datamatrix_unicode_to_ascii(datamatrix_text,
                                     custom_dot_char,

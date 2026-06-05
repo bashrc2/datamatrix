@@ -67,7 +67,7 @@ int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit) {
  */
 float get_temperature(char data_str[])
 {
-    int i, ctr=0, data_len = strlen(data_str);
+    int i, ctr=0, data_len = (int)strlen(data_str);
     char * temp_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
     for (i = 0; i < data_len; i++) {
@@ -91,7 +91,7 @@ float get_temperature(char data_str[])
  */
 char * get_issn(char data_str[])
 {
-    int i, data_len = strlen(data_str);
+    int i, data_len = (int)strlen(data_str);
     if (data_len < 10) return NULL;
     char * issn_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
@@ -127,7 +127,7 @@ char * get_package_type(char package_code[])
     int i;
     if ((int)strlen(package_code) > 3) return NULL;
     int no_of_package_types = LOOKUP_TABLE_ROWS(package_type_code, 2);
-    int data_len = strlen(package_code);
+    int data_len = (int)strlen(package_code);
     for (i = 0; i < no_of_package_types; i++) {
         if ((int)strlen(package_type_code[i*2]) != data_len) continue;
         if (strstr(package_type_code[i*2], package_code) == 0) {
@@ -148,7 +148,7 @@ char * get_gs1_company_prefix(char data_str[])
     char data_str_code[16];
     unsigned char code_range = 0;
 
-    int data_len = strlen(data_str);
+    int data_len = (int)strlen(data_str);
     if ((data_len < 2) || (data_len > 15)) return NULL;
     for (i = 0; i < data_len; i++) {
         if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
@@ -165,7 +165,7 @@ char * get_gs1_company_prefix(char data_str[])
         int min_code = atoi(gs1_company_prefix[i*3]);
         int max_code = min_code;
         code_range = 0;
-        if (strlen(gs1_company_prefix[i*3 + 1]) > 0) {
+        if ((int)strlen(gs1_company_prefix[i*3 + 1]) > 0) {
             max_code = atoi(gs1_company_prefix[i*3 + 1]);
             code_range = 1;
         }
@@ -218,7 +218,7 @@ char * get_country(char data_str[])
     int i;
     char data_str_country_code[4];
 
-    int data_len = strlen(data_str);
+    int data_len = (int)strlen(data_str);
     if (data_len < 3) return NULL;
     for (i = 0; i < 3; i++) {
         if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
@@ -264,7 +264,7 @@ char * get_country_alpha2(char data_str[])
     int i;
     char data_str_country_code[3];
 
-    int data_len = strlen(data_str);
+    int data_len = (int)strlen(data_str);
     if (data_len != 2) return NULL;
     for (i = 0; i < 2; i++) {
         if ((data_str[i] < 'A') || (data_str[i] > 'Z')) return NULL;
@@ -305,11 +305,11 @@ char * get_currency_value(int application_identifier,
     char data_str_currency_code[4];
 
     if (application_identifier < 3910) return NULL;
-    if (strlen(data_str) < 4) return NULL;
+    if ((int)strlen(data_str) < 4) return NULL;
     int decimal_places = application_identifier % 10;
     if (decimal_places > 2) return NULL;
     /* check that the data is all numeric */
-    int data_len = strlen(data_str);
+    int data_len = (int)strlen(data_str);
     for (i = 0; i < data_len; i++) {
         if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
         if (i < 3) {
@@ -361,11 +361,11 @@ char * get_decimal_value(int application_identifier,
     int i;
 
     if (application_identifier < 3100) return NULL;
-    if (strlen(data_str) < 1) return NULL;
+    if ((int)strlen(data_str) < 1) return NULL;
     int decimal_places = application_identifier % 10;
     if (decimal_places > 3) return NULL;
     /* check that the data is all numeric */
-    int data_len = strlen(data_str);
+    int data_len = (int)strlen(data_str);
     for (i = 0; i < data_len; i++) {
         if ((data_str[i] < '0') || (data_str[i] > '9')) return NULL;
     }
@@ -394,7 +394,7 @@ char * get_decimal_value(int application_identifier,
  */
 char * get_meat_cut(char data_str[])
 {
-    int i, data_len = strlen(data_str);
+    int i, data_len = (int)strlen(data_str);
     if (data_len < 20) return NULL;
     char * meat_cut_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
