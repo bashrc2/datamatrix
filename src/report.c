@@ -23,7 +23,7 @@
 #include "datamatrix.h"
 
 /**
- * \brief saves a verification report
+ * \brief saves a verification report in latex format
  * \param grid grid object
  * \param address_line1 First line of address to appear on verification report
  * \param address_line2 Second line of address to appear on verification report
