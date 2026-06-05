@@ -488,6 +488,8 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
 
 /* quality.c */
 
+unsigned char overall_quality_grade(struct grid_2d * grid);
+
 void calculate_quality_metrics(struct grid_2d * grid,
                                unsigned char image_data[],
                                unsigned char thresholded_image_data[],
@@ -504,6 +506,8 @@ void show_quality_metrics(struct grid_2d * grid,
                           float aperture,
                           int light_nm,
                           int light_angle_degrees);
+
+/* report.c */
 
 void save_verification_report(struct grid_2d * grid,
                               char address_line1[],
