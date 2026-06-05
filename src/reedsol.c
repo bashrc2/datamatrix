@@ -30,8 +30,8 @@
   size.
 */
 
-#include <stdio.h>              /* only needed for debug */
-#include <stdlib.h>             /* only needed for malloc/free */
+#include "datamatrix.h"
+
 typedef unsigned char byte;
 typedef unsigned int word;
 static word symsize;            /* in bits */
@@ -58,7 +58,7 @@ static word *mem = NULL;
   (x + a**i)*(x + a**(i+1))*...   [nsym terms]
   For ECC200, offset is 1.
 */
-static word *log, *alog, *rspoly;
+static word *rlog, *alog, *rspoly;
 
 #ifndef LIB
 #define RS_CORRECT
@@ -81,7 +81,7 @@ static int calc_syndromes(int len, byte * data, word * synd)
         s = 0;
         for (k = 0; k < len + (int)plen; k++) {
             if (s)
-                s = alog[(log[s] + index) % fsize];
+                s = alog[(rlog[s] + index) % fsize];
             s ^= data[k];
         }
         synd[i] = s;
@@ -109,13 +109,13 @@ static int berlekamp_massey(word * synd, word * f, word * g, word * work)
         e = synd[m - 1];
         for (i = 0; i < L; i++)
             if (f[i] && synd[m - L + i - 1])
-                e ^= alog[(log[f[i]] + log[synd[m - L + i - 1]]) % fsize];
+                e ^= alog[(rlog[f[i]] + rlog[synd[m - L + i - 1]]) % fsize];
         if (e) {
-            el = log[e];
+            el = rlog[e];
             if (L >= m - L) {
                 for (i = 0; i < m - L; i++)
                     if (g[i])
-                        f[i + 2 * L - m] ^= alog[(log[g[i]] + el) % fsize];
+                        f[i + 2 * L - m] ^= alog[(rlog[g[i]] + el) % fsize];
             }
             else {
                 for (i = 0; i <= L; i++)
@@ -126,9 +126,9 @@ static int berlekamp_massey(word * synd, word * f, word * g, word * work)
                     f[i] = 0;
                 for (i = 0; i <= m - L; i++)
                     if (g[i])
-                        f[i] ^= alog[(log[g[i]] + el) % fsize];
+                        f[i] ^= alog[(rlog[g[i]] + el) % fsize];
                 for (i = 0; i <= L; i++)
-                    g[i] = work[i] ? alog[(log[work[i]] + fsize - el) % fsize] : 0;
+                    g[i] = work[i] ? alog[(rlog[work[i]] + fsize - el) % fsize] : 0;
                 L = m - L;
             }
         }
@@ -151,7 +151,7 @@ static int find_errors(int len, int numroots, word * eloc, word * elist)
         e = 0;
         for (i = numroots; i >= 0; i--) {
             if (e)
-                e = alog[(log[e] + k) % fsize];
+                e = alog[(rlog[e] + k) % fsize];
             e ^= eloc[i];
         }
         if (e == 0) {
@@ -174,16 +174,16 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
         k = elist[s];
         for (i = plen - numerrs; i >= 0; i--) {
             if (e)
-                e = alog[(log[e] + k) % fsize];
+                e = alog[(rlog[e] + k) % fsize];
             e ^= eval[i];
         }
         e2 = 0;
         for (i = numerrs - 1 + numerrs % 2; i > 0; i -= 2) {
             if (e2)
-                e2 = alog[(log[e2] + 2 * k) % fsize];
+                e2 = alog[(rlog[e2] + 2 * k) % fsize];
             e2 ^= eloc[i];
         }
-        e = alog[(2 * fsize - log[e] - log[e2] + k * (fsize - off)) % fsize];
+        e = alog[(2 * fsize - rlog[e] - rlog[e2] + k * (fsize - off)) % fsize];
         i = len + plen - 1 - k;
 
         /* DEBUG */
@@ -195,22 +195,11 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
 
 #endif /*  */
 
-/* simple checked response malloc */
-static void * safemalloc(int n)
-{
-    void * ptr = malloc(n);
-    if (!ptr) {
-        fprintf(stderr, "Malloc(%d) failed\n", n);
-        exit(1);
-    }
-    return ptr;
-}
-
 /*
   allocate_mem() must ensure that memory is allocated as follows
   (units are words):
 
-  log[]     size fsize + 1
+  rlog[]    size fsize + 1
   alog[]    size fsize
   rspoly[]  size plen + 1
   synd[]    size plen
@@ -226,8 +215,8 @@ static void allocate_mem(void)
 {
     free(mem);
     mem = (word *)safemalloc(sizeof (word) * (2 * fsize + 6 * plen + 5));
-    log = mem;
-    alog = log + fsize + 1;
+    rlog = mem;
+    alog = rlog + fsize + 1;
     rspoly = alog + fsize;
 
 #ifdef  RS_CORRECT
@@ -255,11 +244,11 @@ void rs_init(word gfpoly, word paritylen, word offset)
     fsize = b - 1;
     allocate_mem();
 
-    /* Calculate the log/alog tables */
+    /* Calculate the rlog/alog tables */
     p = 1;
     for (k = 0; k < (int)fsize; k++) {
         alog[k] = p;
-        log[p] = k;
+        rlog[p] = k;
         p <<= 1;
         if (p & b)
             p ^= gfpoly;
@@ -271,7 +260,7 @@ void rs_init(word gfpoly, word paritylen, word offset)
         rspoly[i] = 0;
         for (k = i; k > 0; k--)
             if (rspoly[k - 1])
-                rspoly[k] ^= alog[(log[rspoly[k - 1]] + offset) % fsize];
+                rspoly[k] ^= alog[(rlog[rspoly[k - 1]] + offset) % fsize];
         offset++;
     }
 }
@@ -295,7 +284,7 @@ void rs_encode(word len, byte * data, byte * res)
         for (k = 1; k <= (int)plen; k++) {
             v = (k == (int)plen) ? 0 : res[k];
             if (m && rspoly[k])
-                v ^= alog[(log[m] + log[rspoly[k]]) % fsize];
+                v ^= alog[(rlog[m] + rlog[rspoly[k]]) % fsize];
             res[k - 1] = v;
         }
     }
