@@ -32,7 +32,6 @@
 
 #include <stdio.h>              /* only needed for debug */
 #include <stdlib.h>             /* only needed for malloc/free */
-#include <err.h>
 typedef unsigned char byte;
 typedef unsigned int word;
 static word symsize;            /* in bits */
@@ -199,10 +198,12 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
 /* simple checked response malloc */
 static void * safemalloc(int n)
 {
-    void *p = malloc(n);
-    if (!p)
-        err(1, "Malloc(%d) failed\n", n);
-    return p;
+    void * ptr = malloc(n);
+    if (!ptr) {
+        fprintf(stderr, "Malloc(%d) failed\n", n);
+        exit(1);
+    }
+    return ptr;
 }
 
 /*
