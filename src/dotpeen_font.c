@@ -960,10 +960,12 @@ void draw_text(unsigned char img[],
     int text_len = (int)strlen(text);
 
     for (int i = 0; i < text_len; i++) {
+        /* bounding box of the character */
         int tx = text_x + (i * text_width);
         int ty = text_y;
         int bx = text_x + ((i+1) * text_width);
         int by = text_y + text_height;
+        if ((bx >= (int)width) || (by >= (int)height)) break;
         draw_character(img, width, height, bitsperpixel,
                        tx, ty, bx, by, r, g, b,
                        text[i]);
