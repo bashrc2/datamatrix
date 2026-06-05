@@ -345,7 +345,7 @@ void draw_dot(unsigned char img[],
 void draw_text(unsigned char img[],
                unsigned int width, unsigned int height,
                int bitsperpixel,
-               int text_x, int text_y, int text_width,
+               int text_x, int text_y, int character_width,
                int r, int g, int b,
                char * text);
 

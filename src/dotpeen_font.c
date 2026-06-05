@@ -943,7 +943,7 @@ static void draw_character(unsigned char img[],
  * \param bitsperpixel Number of bits per pixel
  * \param text_x top left coordinate at which to begin drawing the text
  * \param text_y top coordinate at which to begin drawing the text
- * \param text_width width of each character in pixels
+ * \param character_width width of each character in pixels
  * \param r Red
  * \param g Green
  * \param b Blue
@@ -952,18 +952,18 @@ static void draw_character(unsigned char img[],
 void draw_text(unsigned char img[],
                unsigned int width, unsigned int height,
                int bitsperpixel,
-               int text_x, int text_y, int text_width,
+               int text_x, int text_y, int character_width,
                int r, int g, int b,
                char * text)
 {
-    int text_height = text_width * FONT_HEIGHT / FONT_WIDTH;
+    int text_height = character_width * FONT_HEIGHT / FONT_WIDTH;
     int text_len = (int)strlen(text);
 
     for (int i = 0; i < text_len; i++) {
         /* bounding box of the character */
-        int tx = text_x + (i * text_width);
+        int tx = text_x + (i * character_width);
         int ty = text_y;
-        int bx = text_x + ((i+1) * text_width);
+        int bx = text_x + ((i+1) * character_width);
         int by = text_y + text_height;
         if ((bx >= (int)width) || (by >= (int)height)) break;
         draw_character(img, width, height, bitsperpixel,
