@@ -26,7 +26,6 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-#include <err.h>
 #include "reedsol.h"
 #include "iec16022ecc200.h"
 #include "datamatrix.h"
