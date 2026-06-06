@@ -49,7 +49,7 @@ int gs1_encode(int application_identifier, char data_str[],
     decode_strcat(encode_description, &app_id_str[0]);
     decode_strcat(encode_description, ") ");
 
-    switch(application_identifier){
+    switch(application_identifier) {
     case 0: { /* SSCC */
         decode_strcat(encode_text, &app_id_str[0]);
         decode_strcat(encode_text, data_str);

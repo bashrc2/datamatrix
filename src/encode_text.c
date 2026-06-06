@@ -182,13 +182,13 @@ int encode_datamatrix_to_text_or_image(char * text,
     if (description[0] != 0) {
         /* allow extra height for description of rectangular datamatrix */
         if ((encode_width != encode_height) &&
-            ((description_position == DESCRIPTION_ABOVE) ||
-             (description_position == DESCRIPTION_BELOW))) {
+                ((description_position == DESCRIPTION_ABOVE) ||
+                 (description_position == DESCRIPTION_BELOW))) {
             encode_image_height *= 2;
         }
         /* allow extra width for description on either side */
         if ((description_position == DESCRIPTION_LEFT) ||
-            (description_position == DESCRIPTION_RIGHT)) {
+                (description_position == DESCRIPTION_RIGHT)) {
             encode_image_width *= 2;
         }
     }

@@ -258,7 +258,7 @@ char * font_upper[] = {
     "     ",
     "     ",
     "     ",
-    
+
     "o   o",
     "o   o",
     "o   o",
@@ -392,7 +392,7 @@ char * font_lower[] = {
     "    o",
     "o   o",
     " ooo ",
-    
+
     "o    ",
     "o    ",
     "o oo ",
@@ -451,10 +451,10 @@ char * font_lower[] = {
     "     ",
     "     ",
     "oo o ",
-    "o o o", 
-    "o o o", 
-    "o o o", 
-    "o o o", 
+    "o o o",
+    "o o o",
+    "o o o",
+    "o o o",
     "     ",
     "     ",
     "     ",
@@ -469,7 +469,7 @@ char * font_lower[] = {
     "     ",
     "     ",
     "     ",
-    
+
     "     ",
     "     ",
     " ooo ",
@@ -917,7 +917,7 @@ static void draw_character(unsigned char img[],
     char dotmatrix[FONT_WIDTH*FONT_HEIGHT];
 
     lookup_character(chr, &dotmatrix[0]);
-    
+
     for (int y = 0; y < FONT_HEIGHT; y++) {
         for (int x = 0; x < FONT_WIDTH; x++) {
             if (dotmatrix[y*FONT_WIDTH + x] != ' ') {

@@ -1274,7 +1274,7 @@ int read_datamatrix(unsigned char image_data[],
                 show_quality_metrics(&grid[best_config], csv, json, yaml,
                                      aperture, light_nm, light_angle_degrees);
                 if (((int)strlen(report_template) > 0) &&
-                    ((int)strlen(report_filename) > 0)) {
+                        ((int)strlen(report_filename) > 0)) {
                     save_verification_report(&grid[best_config],
                                              address_line1,
                                              address_line2,

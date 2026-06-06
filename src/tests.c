@@ -404,10 +404,10 @@ static void test_iso15434_translate()
     decode_strcat(&test_data[0], "9S12345");
 
     result = iso15434_translate_data_qualifier(&test_data[0], 0,
-                                               (int)strlen(&test_data[0]),
-                                               &iso15434_uii[0],
-                                               &format_code[0],
-                                               debug);
+             (int)strlen(&test_data[0]),
+             &iso15434_uii[0],
+             &format_code[0],
+             debug);
     if (result != NULL) {
         assert(strcmp(result, "PACKAGE ID: 12345") == 0);
         free(result);
@@ -422,10 +422,10 @@ static void test_iso15434_translate()
     decode_strcat(&test_data[0], "PNO 987654");
 
     result = iso15434_translate_data_qualifier(&test_data[0], 0,
-                                               (int)strlen(&test_data[0]),
-                                               &iso15434_uii[0],
-                                               &format_code[0],
-                                               debug);
+             (int)strlen(&test_data[0]),
+             &iso15434_uii[0],
+             &format_code[0],
+             debug);
     if (result != NULL) {
         assert(strcmp(result, "PART NUMBER: 987654") == 0);
         free(result);
@@ -440,10 +440,10 @@ static void test_iso15434_translate()
     decode_strcat(&test_data[0], "8002268435460012427936");
 
     result = iso15434_translate_data_qualifier(&test_data[0], 0,
-                                               (int)strlen(&test_data[0]),
-                                               &iso15434_uii[0],
-                                               &format_code[0],
-                                               debug);
+             (int)strlen(&test_data[0]),
+             &iso15434_uii[0],
+             &format_code[0],
+             debug);
     assert(result != NULL);
     assert(strcmp(result, "MOBILE TEL NO: 268435460012427936") == 0);
     free(result);
