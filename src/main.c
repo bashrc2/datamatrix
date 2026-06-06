@@ -386,6 +386,11 @@ int main(int argc, char* argv[])
                 segment_join_radius = 6;
             }
         }
+        if (strcmp(argv[i],"--charwidth")==0) {
+            character_width = atof(argv[i+1]);
+            if (character_width < 5) character_width = 5;
+            if (character_width > 1000) character_width = 1000;
+        }
         if (strcmp(argv[i],"--aperture")==0) {
             aperture = atof(argv[i+1]);
         }

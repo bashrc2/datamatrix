@@ -112,6 +112,7 @@ sudo make install
 --offsety [value]              y offset added to dot centre coordinates
 --seglink [value]              Pixel radius used to link edge segments
 --pos [above|below|right|left] Position of text within encoded datamatrix image
+--charwidth [pixels]           Width of characters shown on encoded datamatrix image
 --tests                        Run unit tests
 ```
 
@@ -162,7 +163,7 @@ datamatrix -e "ABCDEF" --csv
 You can also export the generated datamatrix as an image in PNG or SVG format.
 
 ``` bash
-datamatrix --gtin 12345678901234 --pos right -o test.png -w 512
+datamatrix --gtin 12345678901234 --pos right --charwidth 20 -o test.png -w 512
 ```
 
 ## Example Decoding
