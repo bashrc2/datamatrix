@@ -230,9 +230,21 @@ void encode_image(unsigned char img[], int width, int height,
             break;
         }
         case DESCRIPTION_RIGHT: {
+            pattern_tx = 0;
+            pattern_ty = 0;
+            pattern_bx = width/2;
+            pattern_by = height;
+            text_tx = pattern_bx + character_width;
+            text_ty = (height/2) - (description_height/2) + character_height;
             break;
         }
         case DESCRIPTION_LEFT: {
+            pattern_tx = width/2;
+            pattern_ty = 0;
+            pattern_bx = width;
+            pattern_by = height;
+            text_tx = character_width;
+            text_ty = (height/2) - (description_height/2) + character_height;
             break;
         }
         }

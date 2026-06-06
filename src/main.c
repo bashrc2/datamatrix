@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
     char dot_char[4];
     char empty_char[4];
     unsigned char square_modules = 0;
-    unsigned char description_position = DESCRIPTION_ABOVE;
+    unsigned char description_position = DESCRIPTION_LEFT;
     int character_width = 20;
     int line_spacing = 6;
 

@@ -174,11 +174,18 @@ int encode_datamatrix_to_text_or_image(char * text,
     int encode_image_height = \
                               encode_image_width * encode_height / encode_width;
 
-    /* allow extra height for description of rectangular datamatrix */
-    if ((description[0] != 0) && (encode_width != encode_height) &&
-        ((description_position == DESCRIPTION_ABOVE) ||
-         (description_position == DESCRIPTION_BELOW))) {
-        encode_image_height *= 2;
+    if (description[0] != 0) {
+        /* allow extra height for description of rectangular datamatrix */
+        if ((encode_width != encode_height) &&
+            ((description_position == DESCRIPTION_ABOVE) ||
+             (description_position == DESCRIPTION_BELOW))) {
+            encode_image_height *= 2;
+        }
+        /* allow extra width for description on either side */
+        if ((description_position == DESCRIPTION_LEFT) ||
+            (description_position == DESCRIPTION_RIGHT)) {
+            encode_image_width *= 2;
+        }
     }
 
     if (grid && (image_filename[0] != 0)) {
