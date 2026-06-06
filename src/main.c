@@ -554,19 +554,19 @@ int main(int argc, char* argv[])
             /* show with square modules */
             sprintf(&dot_char[0], "█");
         }
-        if (encode_datamatrix_to_text(&encode_text[0],
-                                      encode_scale,
-                                      is_square,
-                                      csv,
-                                      show_coords,
-                                      coords_offset_x,
-                                      coords_offset_y,
-                                      &output_filename[0],
-                                      encode_image_width,
-                                      &dot_char[0],
-                                      &empty_char[0],
-                                      square_modules,
-                                      debug) == 0) {
+        if (encode_datamatrix_to_text_or_image(&encode_text[0],
+                                               encode_scale,
+                                               is_square,
+                                               csv,
+                                               show_coords,
+                                               coords_offset_x,
+                                               coords_offset_y,
+                                               &output_filename[0],
+                                               encode_image_width,
+                                               &dot_char[0],
+                                               &empty_char[0],
+                                               square_modules,
+                                               debug) == 0) {
             if (encode_description[0] != 0) {
                 printf("%s", encode_description);
             }

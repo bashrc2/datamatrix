@@ -709,19 +709,19 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 
 /* encode_text.c */
 
-int encode_datamatrix_to_text(char * text,
-                              int encode_scale,
-                              unsigned char is_square,
-                              unsigned char csv,
-                              unsigned char show_coords,
-                              float coords_offset_x,
-                              float coords_offset_y,
-                              char * image_filename,
-                              int encode_image_width,
-                              char * dot_char,
-                              char * empty_char,
-                              unsigned char square_modules,
-                              unsigned char debug);
+int encode_datamatrix_to_text_or_image(char * text,
+                                       int encode_scale,
+                                       unsigned char is_square,
+                                       unsigned char csv,
+                                       unsigned char show_coords,
+                                       float coords_offset_x,
+                                       float coords_offset_y,
+                                       char * image_filename,
+                                       int encode_image_width,
+                                       char * dot_char,
+                                       char * empty_char,
+                                       unsigned char square_modules,
+                                       unsigned char debug);
 
 /* png2.c */
 
