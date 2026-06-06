@@ -179,13 +179,21 @@ void encode_image(unsigned char img[], int width, int height,
                     pattern_by = pattern_ty + width;
                 }
                 pattern_by = available_height;
+                text_ty = height - description_height;
             }
             else {
                 /* rectangular datamatrix */
+                pattern_tx = 0;
+                pattern_ty = 0;
+                pattern_bx = width;
+                pattern_by = width * encode_height / encode_width;
+                text_ty = pattern_by + separation;
+                if (height - pattern_by > description_height) {
+                    text_ty += ((height - pattern_by) - description_height)/2;
+                }
             }
             /* description shown below the datamatrix */
             text_tx = (width - description_width)/2;
-            text_ty = height - description_height;
             break;
         }
         case DESCRIPTION_ABOVE: {
