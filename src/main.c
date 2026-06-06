@@ -555,6 +555,7 @@ int main(int argc, char* argv[])
             sprintf(&dot_char[0], "█");
         }
         if (encode_datamatrix_to_text_or_image(&encode_text[0],
+                                               &encode_description[0],
                                                encode_scale,
                                                is_square,
                                                csv,
@@ -567,9 +568,6 @@ int main(int argc, char* argv[])
                                                &empty_char[0],
                                                square_modules,
                                                debug) == 0) {
-            if (encode_description[0] != 0) {
-                printf("%s", encode_description);
-            }
             return 0;
         }
         return -1;

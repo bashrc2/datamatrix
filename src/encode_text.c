@@ -96,6 +96,8 @@ static int encode_datamatrix_to_image(char * image_filename,
 /**
  * \brief encode text into a datamatrix as text or an image
  * \param text the text to be encoded
+ * \param description a formatted description to appear alongside
+ *        or underneath the datamatrix pattern
  * \param encode_scale Scaling factor for text datamatrix output
  * \param is_square 1 if the datamatrix should be square
  * \param csv 1 if output should be in CSV format
@@ -111,6 +113,7 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \returns 0 on success, -1 otherwise
  */
 int encode_datamatrix_to_text_or_image(char * text,
+									   char * description,
                                        int encode_scale,
                                        unsigned char is_square,
                                        unsigned char csv,
@@ -218,6 +221,10 @@ int encode_datamatrix_to_text_or_image(char * text,
         /* change direction for each row */
         direction = 1 - direction;
     }
+
+	if (description[0] != 0) {
+		printf("%s", description);
+	}
 
     if (grid) {
         free(grid);

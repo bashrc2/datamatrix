@@ -710,6 +710,7 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 /* encode_text.c */
 
 int encode_datamatrix_to_text_or_image(char * text,
+                                       char * description,
                                        int encode_scale,
                                        unsigned char is_square,
                                        unsigned char csv,
