@@ -96,7 +96,11 @@ static int encode_datamatrix_to_image(char * image_filename,
         encode_svg(image_filename,
                    encode_image_width, encode_image_height,
                    grid, encode_width, encode_height,
-                   square_modules);
+                   square_modules,
+                   description,
+                   description_position,
+                   character_width,
+                   line_spacing, character_separation);
         free(grid);
     }
     else {

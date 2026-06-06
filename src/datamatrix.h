@@ -362,6 +362,13 @@ void draw_text(unsigned char img[],
                int r, int g, int b,
                char * text);
 
+void draw_text_svg(FILE * fp_image,
+                   unsigned int width, unsigned int height,
+                   int text_x, int text_y, int character_width,
+                   int line_spacing,
+                   int character_separation,
+                   char * text);
+
 int description_text_width(char * description);
 int description_text_lines(char * description);
 
@@ -718,7 +725,12 @@ void encode_image(unsigned char img[], int width, int height,
 void encode_svg(char * image_filename, int width, int height,
                 unsigned char * grid,
                 unsigned int encode_width, unsigned int encode_height,
-                unsigned char square_modules);
+                unsigned char square_modules,
+                char * description,
+                unsigned char description_position,
+                int character_width,
+                int line_spacing,
+                int character_separation);
 
 /* decode_text.c */
 

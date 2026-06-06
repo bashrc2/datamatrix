@@ -74,6 +74,7 @@ static void encode_image_dot(unsigned char img[], int width, int height,
  * \param width width of the image
  * \param height height of the image
  * \param bitsperpixel Number of bits per pixel
+ * \param grid occupancy grid for the datamatrix
  * \param encode_width width of the datamatrix grid
  * \param encode_height height of the datamatrix grid
  * \param square_modules draw with square shaped modules
@@ -265,41 +266,42 @@ void encode_image(unsigned char img[], int width, int height,
 
 /**
  * \brief returns an SVG image from the given datamatrix grid
- * \param image_filename filename of the svg image to be saved
- * \param width width of the image
- * \param height height of the image
+ * \param grid occupancy grid for the datamatrix
  * \param encode_width width of the datamatrix grid
  * \param encode_height height of the datamatrix grid
  * \param square_modules draw with square shaped modules
+ * \param tx Bounding box top left x coordinate
+ * \param ty Bounding box top left y coordinate
+ * \param bx Bounding box bottom right x coordinate
+ * \param by Bounding box bottom right y coordinate
+ * \param fp_image file pointer to the image being saved
  */
-void encode_svg(char * image_filename, int width, int height,
-                unsigned char *grid,
-                unsigned int encode_width, unsigned int encode_height,
-                unsigned char square_modules)
+void encode_svg_base(unsigned char *grid,
+                     unsigned int encode_width, unsigned int encode_height,
+                     unsigned char square_modules,
+                     int tx, int ty, int bx, int by,
+                     FILE * fp_image)
 {
     unsigned int x, y;
     int dot_x, dot_y;
-    int half_cell_width = width / ((int)encode_width * 2);
-    int half_cell_height = height / ((int)encode_height * 2);
+    int bounding_box_width = bx - tx;
+    int bounding_box_height = by - ty;
+    int half_cell_width = bounding_box_width / ((int)encode_width * 2);
+    int half_cell_height = bounding_box_height / ((int)encode_height * 2);
     int dot_radius = half_cell_width * 8 / 10;
-    FILE * fp_image;
 
     if (square_modules != 0) {
         dot_radius = half_cell_width + 1;
     }
 
-    fp_image = fopen(image_filename, "w");
     if (fp_image == NULL) return;
-    fprintf(fp_image,
-            "<svg height=\"%d\" width=\"%d\" xmlns=\"http://www.w3.org/2000/svg\">\n",
-            width, height);
 
     /* draw dots */
     for (y = 0; y < encode_height; y++) {
-        dot_y = ((int)y * height / (int)encode_height) + half_cell_height;
+        dot_y = ty + ((int)y * bounding_box_height / (int)encode_height) + half_cell_height;
         for (x = 0; x < encode_width; x++) {
             if (!grid[encode_width * y + x]) continue;
-            dot_x = ((int)x * width / (int)encode_width) + half_cell_width;
+            dot_x = tx + ((int)x * bounding_box_width / (int)encode_width) + half_cell_width;
             if (square_modules == 0) {
                 fprintf(fp_image,
                         "<circle r=\"%d\" cx=\"%d\" cy=\"%d\" fill=\"black\" />\n",
@@ -313,6 +315,159 @@ void encode_svg(char * image_filename, int width, int height,
             }
         }
     }
+}
+
+
+/**
+ * \brief returns an SVG image from the given datamatrix grid
+ * \param image_filename filename of the svg image to be saved
+ * \param width width of the image
+ * \param height height of the image
+ * \param encode_width width of the datamatrix grid
+ * \param encode_height height of the datamatrix grid
+ * \param square_modules draw with square shaped modules
+ * \param description formatted description accompanying the datamatrix
+ * \param description_position Position of the formatted description
+ * \param character_width Width of each description character in pixels
+ * \param line spacing Spacing between description lines in pixels
+ * \param character_separation Horizontal separation between characters in pixels
+ */
+void encode_svg(char * image_filename, int width, int height,
+                unsigned char *grid,
+                unsigned int encode_width, unsigned int encode_height,
+                unsigned char square_modules,
+                char * description,
+                unsigned char description_position,
+                int character_width,
+                int line_spacing,
+                int character_separation)
+{
+    FILE * fp_image;
+    /* bounding box for the datamatrix pattern within the image */
+    int pattern_tx = 0;
+    int pattern_ty = 0;
+    int pattern_bx = width;
+    int pattern_by = height;
+
+    fp_image = fopen(image_filename, "w");
+    if (fp_image == NULL) return;
+    fprintf(fp_image,
+            "<svg height=\"%d\" width=\"%d\" xmlns=\"http://www.w3.org/2000/svg\">\n",
+            height, width);
+
+    /* get the maximum width of the description in characters */
+    int max_description_width = description_text_width(description);
+    int lines = description_text_lines(description);
+    /* get the width and height of the box containing the description
+       in pixels */
+    int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
+    int description_width = max_description_width * character_width;
+    int description_height =
+        ((lines+1) * character_height) + ((lines-1) * line_spacing);
+
+    /* bounding box for the description */
+    int text_tx = -1;
+    int text_ty = -1;
+    int text_len = (int)strlen(description);
+    if (text_len > 0) {
+        switch(description_position) {
+        case DESCRIPTION_BELOW: {
+            /* separation between datamatrix and description in pixels */
+            int separation = line_spacing;
+            int available_height = height - description_height - separation;
+
+            pattern_tx = 0;
+            pattern_ty = 0;
+            if (encode_width == encode_height) {
+                /* square datamatrix */
+                if (available_height < width) {
+                    pattern_tx = (width - available_height) / 2;
+                    pattern_bx = pattern_tx + available_height;
+                }
+                else {
+                    pattern_ty = (available_height - width) / 2;
+                    pattern_by = pattern_ty + width;
+                }
+                pattern_by = available_height;
+                text_ty = height - description_height;
+            }
+            else {
+                /* rectangular datamatrix */
+                pattern_tx = 0;
+                pattern_ty = 0;
+                pattern_bx = width;
+                pattern_by = width * encode_height / encode_width;
+                text_ty = pattern_by + separation;
+                if (height - pattern_by > description_height) {
+                    text_ty += ((height - pattern_by) - description_height)/2;
+                }
+            }
+            /* description shown below the datamatrix */
+            text_tx = (width - description_width)/2;
+            break;
+        }
+        case DESCRIPTION_ABOVE: {
+            /* separation between datamatrix and description in pixels */
+            int separation = line_spacing;
+            int available_height = height - description_height - separation;
+
+            pattern_tx = 0;
+            pattern_ty = 0;
+            if (encode_width == encode_height) {
+                /* square datamatrix */
+                if (available_height < width) {
+                    pattern_tx = (width - available_height) / 2;
+                    pattern_bx = pattern_tx + available_height;
+                }
+                else {
+                    pattern_ty = (available_height - width) / 2;
+                    pattern_by = pattern_ty + width;
+                }
+                pattern_by = available_height;
+                pattern_ty = height - (pattern_by - pattern_ty);
+                pattern_by = height;
+            }
+            else {
+                /* rectangular datamatrix */
+                pattern_tx = 0;
+                pattern_bx = width;
+                pattern_ty = width * encode_height / encode_width;
+                pattern_by = height;
+            }
+            /* description shown above the datamatrix */
+            text_tx = (width - description_width)/2;
+            text_ty = (pattern_ty/2) - (description_height/2) + character_height;
+            break;
+        }
+        case DESCRIPTION_RIGHT: {
+            pattern_tx = 0;
+            pattern_ty = 0;
+            pattern_bx = width/2;
+            pattern_by = height;
+            text_tx = pattern_bx + character_width;
+            text_ty = (height/2) - (description_height/2) + character_height;
+            break;
+        }
+        case DESCRIPTION_LEFT: {
+            pattern_tx = width/2;
+            pattern_ty = 0;
+            pattern_bx = width;
+            pattern_by = height;
+            text_tx = character_width;
+            text_ty = (height/2) - (description_height/2) + character_height;
+            break;
+        }
+        }
+    }
+    
+    encode_svg_base(grid, encode_width, encode_height, square_modules,
+                    pattern_tx, pattern_ty, pattern_bx, pattern_by, fp_image);
+    if (text_tx != -1) {
+        draw_text_svg(fp_image, width, height,
+                      text_tx, text_ty, character_width, line_spacing,
+                      character_separation, description);
+    }
+
     fprintf(fp_image, "</svg>\n");
     fclose(fp_image);
 }

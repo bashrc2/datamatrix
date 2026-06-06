@@ -933,6 +933,43 @@ static void draw_character(unsigned char img[],
 }
 
 /**
+ * \brief Draws a character within the given bounding box
+ * \param fp_image file pointer to the image being saved
+ * \param width Width of the image
+ * \param height Height of the image
+ * \param tx top left corner of the bounding box
+ * \param ty top corner of the bounding box
+ * \param bx bottom right  corner of the bounding box
+ * \param by bottom  corner of the bounding box
+ * \param chr character to be returned
+ */
+static void draw_character_svg(FILE * fp_image,
+                               unsigned int width, unsigned int height,
+                               int tx, int ty, int bx, int by,
+                               char chr)
+{
+    int dx = bx - tx;
+    int dy = by - ty;
+    int dot_radius = dx / (FONT_WIDTH*2);
+    char dotmatrix[FONT_WIDTH*FONT_HEIGHT];
+
+    lookup_character(chr, &dotmatrix[0]);
+
+    for (int y = 0; y < FONT_HEIGHT; y++) {
+        for (int x = 0; x < FONT_WIDTH; x++) {
+            if (dotmatrix[y*FONT_WIDTH + x] != ' ') {
+                int centre_x = tx + dot_radius + (x * dx / FONT_WIDTH);
+                int centre_y = ty + dot_radius + (y * dy / FONT_HEIGHT);
+
+                fprintf(fp_image,
+                        "<circle r=\"%d\" cx=\"%d\" cy=\"%d\" fill=\"black\" />\n",
+                        dot_radius, centre_x, centre_y);
+            }
+        }
+    }
+}
+
+/**
  * \brief Draws the given text at the given coordinate
  * \param img Array containing image
  * \param width Width of the image
@@ -976,6 +1013,49 @@ void draw_text(unsigned char img[],
             draw_character(img, width, height, bitsperpixel,
                            tx, ty, bx, by, r, g, b,
                            text[i]);
+        }
+        col++;
+    }
+}
+
+/**
+ * \brief Draws the given text at the given coordinate with an SVG image
+ * \param fp_image file pointer to the image being saved
+ * \param width Width of the image
+ * \param height Height of the image
+ * \param text_x top left coordinate at which to begin drawing the text
+ * \param text_y top coordinate at which to begin drawing the text
+ * \param character_width width of each character in pixels
+ * \param line spacing Spacing between description lines in pixels
+ * \param character_separation Horizontal separation between characters in pixels
+ * \param text Text to be drawn
+ */
+void draw_text_svg(FILE * fp_image,
+                   unsigned int width, unsigned int height,
+                   int text_x, int text_y, int character_width,
+                   int line_spacing,
+                   int character_separation,
+                   char * text)
+{
+    int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
+    int text_len = (int)strlen(text);
+    int row = 0, col = 0;
+
+    for (int i = 0; i < text_len; i++) {
+        if (text[i] == '\n') {
+            col = 0;
+            row++;
+            continue;
+        }
+        /* bounding box of the character */
+        int tx = text_x + (col * character_width);
+        int ty = text_y + (row * (character_height + line_spacing));
+        int bx = tx + character_width - character_separation;
+        int by = ty + character_height;
+        if ((bx < (int)width) && (by < (int)height)) {
+            draw_character_svg(fp_image, width, height,
+                               tx, ty, bx, by,
+                               text[i]);
         }
         col++;
     }
