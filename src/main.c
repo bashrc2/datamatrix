@@ -391,6 +391,11 @@ int main(int argc, char* argv[])
             if (character_width < 5) character_width = 5;
             if (character_width > 1000) character_width = 1000;
         }
+        if (strcmp(argv[i],"--linespacing")==0) {
+            line_spacing = atof(argv[i+1]);
+            if (line_spacing < 5) line_spacing = 5;
+            if (line_spacing > 1000) line_spacing = 1000;
+        }
         if (strcmp(argv[i],"--aperture")==0) {
             aperture = atof(argv[i+1]);
         }

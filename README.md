@@ -113,6 +113,7 @@ sudo make install
 --seglink [value]              Pixel radius used to link edge segments
 --pos [above|below|right|left] Position of text within encoded datamatrix image
 --charwidth [pixels]           Width of characters shown on encoded datamatrix image
+--linespacing [pixels]         Line spacing for text on encoded datamatrix image
 --tests                        Run unit tests
 ```
 

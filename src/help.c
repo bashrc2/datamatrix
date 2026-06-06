@@ -102,5 +102,6 @@ void show_help()
     printf("   --seglink [value]              Pixel radius used to link edge segments\n");
     printf("   --pos [above|below|right|left] Position of text within encoded datamatrix image\n");
     printf("   --charwidth [pixels]           Width of characters shown on encoded datamatrix image\n");
+    printf("   --linespacing [pixels]         Line spacing for text on encoded datamatrix image\n");
     printf("   --tests                        Run unit tests\n");
 }
