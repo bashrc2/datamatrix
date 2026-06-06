@@ -43,7 +43,7 @@
  * \param description_position Position of the formatted description
  * \param character_width Width of each description character in pixels
  * \param line spacing Spacing between description lines in pixels
- * \param character_separation Separation between characters in pixels
+ * \param character_separation Horizontal separation between characters in pixels
  * \returns 0 on success, -1 otherwise
  */
 static int encode_datamatrix_to_image(char * image_filename,

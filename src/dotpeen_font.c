@@ -942,7 +942,7 @@ static void draw_character(unsigned char img[],
  * \param text_y top coordinate at which to begin drawing the text
  * \param character_width width of each character in pixels
  * \param line spacing Spacing between description lines in pixels
- * \param character_separation Separation between characters in pixels
+ * \param character_separation Horizontal separation between characters in pixels
  * \param r Red
  * \param g Green
  * \param b Blue
