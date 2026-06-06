@@ -37,7 +37,7 @@ sudo make install
 
 ``` text
 -f --filename [PNG file]       Filename of a PNG file containing the datamatrix image
---square                       Matrix aspect ratio is expected to be square
+--squaredim                    Matrix aspect ratio is expected to be square
 --rectangle                    Matrix aspect ratio is expected to be rectangular
 --quality                      Show quality metrics for verification reports
 -o --output [PNG file]         Save an image showing the detected datamatrix
@@ -146,7 +146,7 @@ datamatrix -e "ABCDEF" --squaremodules
 The datamatrix can be forced to square dimensions.
 
 ``` bash
-datamatrix -e "user@email.domain" --square
+datamatrix -e "user@email.domain" --squaredim
 ```
 
 You can output the dot centre coordinates in the range 0-1000, optionally with offsets.

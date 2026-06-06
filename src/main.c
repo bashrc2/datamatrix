@@ -537,7 +537,8 @@ int main(int argc, char* argv[])
             debug = 1;
             loop_incr = 1;
         }
-        if (strcmp(argv[i],"--square")==0) {
+        if ((strcmp(argv[i],"--square")==0) ||
+            (strcmp(argv[i],"--squaredim")==0)) {
             is_square = 1;
             loop_incr = 1;
         }

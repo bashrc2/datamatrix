@@ -26,7 +26,7 @@ void show_help()
 {
     printf("datamatrix command options:\n\n");
     printf("-f --filename [PNG file]          Filename of a PNG file containing the datamatrix image\n");
-    printf("   --square                       Matrix is expected to be square\n");
+    printf("   --squaredim                    Matrix is expected to be square\n");
     printf("   --rectangle                    Matrix is expected to be rectangular\n");
     printf("   --quality                      Show quality metrics for verification reports\n");
     printf("-o --output [PNG file]            Save an image showing the detected datamatrix\n");
