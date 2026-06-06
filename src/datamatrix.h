@@ -361,6 +361,9 @@ void draw_text(unsigned char img[],
                int r, int g, int b,
                char * text);
 
+int description_text_width(char * description);
+int description_text_lines(char * description);
+
 /* geometry.c */
 
 int point_in_polygon(int x, int y, int points[], int no_of_points);

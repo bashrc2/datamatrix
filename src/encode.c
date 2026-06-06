@@ -146,25 +146,8 @@ void encode_image(unsigned char img[], int width, int height,
     int pattern_by = height;
 
     /* get the maximum width of the description in characters */
-    int w = 0, max_description_width = 0;
-    int lines = 0;
-    int text_len = (int)strlen(description);
-    for (int i = 0; i < text_len; i++) {
-        if (description[i] == '\n') {
-            if (w > max_description_width) {
-                max_description_width = w+2;
-            }
-            w = 0;
-            lines++;
-        }
-        else {
-            w++;
-        }
-    }
-    if (w > max_description_width) {
-        max_description_width = w+2;
-    }
-    if (lines == 0) lines = 1;
+    int max_description_width = description_text_width(description);
+    int lines = description_text_lines(description);
     /* get the width and height of the box containing the description
        in pixels */
     int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
@@ -175,12 +158,13 @@ void encode_image(unsigned char img[], int width, int height,
     /* bounding box for the description */
     int text_tx = -1;
     int text_ty = -1;
+    int text_len = (int)strlen(description);
     if (text_len > 0) {
         switch(description_position) {
         case DESCRIPTION_BELOW: {
             /* separation between datamatrix and description in pixels */
             int separation = line_spacing;
-			int available_height = height - description_height - separation;
+            int available_height = height - description_height - separation;
 
             pattern_tx = 0;
             pattern_ty = 0;

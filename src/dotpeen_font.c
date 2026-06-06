@@ -978,3 +978,44 @@ void draw_text(unsigned char img[],
         col++;
     }
 }
+
+/**
+ * \brief returns the maximum width of description in characters
+ * \param description Formatted description alongside datamatrix pattern
+ * \return number of characters across
+ */
+int description_text_width(char * description)
+{
+    int w = 0, max_description_width = 0;
+    for (int i = 0; i < (int)strlen(description); i++) {
+        if (description[i] == '\n') {
+            if (w > max_description_width) {
+                max_description_width = w+2;
+            }
+            w = 0;
+        }
+        else {
+            w++;
+        }
+    }
+    if (w > max_description_width) {
+        max_description_width = w+2;
+    }
+    return max_description_width;
+}
+
+/**
+ * \brief returns the number of lines in a formatted description
+ * \param description Formatted description alongside datamatrix pattern
+ * \return number of lines
+ */
+int description_text_lines(char * description)
+{
+    int lines = 0;
+    if (description[0] == 0) return 0;
+    for (int i = 0; i < (int)strlen(description); i++) {
+        if (description[i] == '\n') lines++;
+    }
+    if (lines == 0) lines = 1;
+    return lines;
+}
