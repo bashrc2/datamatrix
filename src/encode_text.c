@@ -211,6 +211,11 @@ int encode_datamatrix_to_text_or_image(char * text,
     unsigned int x, y, x_directional;
     char dot_chr[8];
     char empty_chr[8];
+
+    if ((description[0] != 0) && (description_position == DESCRIPTION_ABOVE)) {
+        printf("%s", description);
+    }
+
     if (square_modules == 0) {
         /* round */
         sprintf(&dot_chr[0], "%s%s", dot_char, empty_char);
@@ -262,7 +267,7 @@ int encode_datamatrix_to_text_or_image(char * text,
         direction = 1 - direction;
     }
 
-    if (description[0] != 0) {
+    if ((description[0] != 0) && (description_position == DESCRIPTION_BELOW)) {
         printf("%s", description);
     }
 
