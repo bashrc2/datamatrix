@@ -118,6 +118,149 @@ static void encode_image_base(unsigned char img[], int width, int height,
 }
 
 /**
+ * \brief Returns bounding boxes for the datamatrix pattern and
+ *        top left corner of the bounding box of the description
+ * \param width width of the image
+ * \param height height of the image
+ * \param description formatted description accompanying the datamatrix
+ * \param character_width Width of each description character in pixels
+ * \param line spacing Spacing between description lines in pixels
+ * \param description_position Position of the formatted description
+ * \param encode_width width of the datamatrix grid
+ * \param encode_height height of the datamatrix grid
+ * \param pattern_tx Returned top left corner of datamatrix pattern
+ * \param pattern_ty Returned top corner of datamatrix pattern
+ * \param pattern_bx Returned bottom right corner of datamatrix pattern
+ * \param pattern_by Returned bottom corner of datamatrix pattern
+ * \param text_tx Returned top left corner of description
+ * \param text_ty Returned top corner of description
+ */
+static void get_encode_bounding_box_pattern(int width, int height,
+                                            char * description,
+                                            int character_width,
+                                            int line_spacing,
+                                            unsigned char description_position,
+                                            int encode_width,
+                                            int encode_height,
+                                            int * pattern_tx,
+                                            int * pattern_ty,
+                                            int * pattern_bx,
+                                            int * pattern_by,
+                                            int * text_tx,
+                                            int * text_ty)
+{
+    *pattern_tx = 0;
+    *pattern_ty = 0;
+    *pattern_bx = width;
+    *pattern_by = height;
+
+    /* get the maximum width of the description in characters */
+    int max_description_width = description_text_width(description);
+    int lines = description_text_lines(description);
+    /* get the width and height of the box containing the description
+       in pixels */
+    int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
+    int description_width = max_description_width * character_width;
+    int description_height =
+        ((lines+1) * character_height) + ((lines-1) * line_spacing);
+
+    /* bounding box for the description */
+    *text_tx = -1;
+    *text_ty = -1;
+    int text_len = (int)strlen(description);
+    if (text_len > 0) {
+        switch(description_position) {
+        case DESCRIPTION_BELOW: {
+            /* separation between datamatrix and description in pixels */
+            int separation = line_spacing;
+            int available_height = height - description_height - separation;
+
+            *pattern_tx = 0;
+            *pattern_ty = 0;
+            if (encode_width == encode_height) {
+                /* square datamatrix */
+                if (available_height < width) {
+                    *pattern_tx = (width - available_height) / 2;
+                    *pattern_bx = *pattern_tx + available_height;
+                }
+                else {
+                    *pattern_ty = (available_height - width) / 2;
+                    *pattern_by = *pattern_ty + width;
+                }
+                *pattern_by = available_height;
+                *text_ty = height - description_height;
+            }
+            else {
+                /* rectangular datamatrix */
+                *pattern_tx = 0;
+                *pattern_ty = 0;
+                *pattern_bx = width;
+                *pattern_by = width * encode_height / encode_width;
+                *text_ty = *pattern_by + separation;
+                if (height - *pattern_by > description_height) {
+                    *text_ty += ((height - *pattern_by) - description_height)/2;
+                }
+            }
+            /* description shown below the datamatrix */
+            *text_tx = (width - description_width)/2;
+            break;
+        }
+        case DESCRIPTION_ABOVE: {
+            /* separation between datamatrix and description in pixels */
+            int separation = line_spacing;
+            int available_height = height - description_height - separation;
+
+            *pattern_tx = 0;
+            *pattern_ty = 0;
+            if (encode_width == encode_height) {
+                /* square datamatrix */
+                if (available_height < width) {
+                    *pattern_tx = (width - available_height) / 2;
+                    *pattern_bx = *pattern_tx + available_height;
+                }
+                else {
+                    *pattern_ty = (available_height - width) / 2;
+                    *pattern_by = *pattern_ty + width;
+                }
+                *pattern_by = available_height;
+                *pattern_ty = height - (*pattern_by - *pattern_ty);
+                *pattern_by = height;
+            }
+            else {
+                /* rectangular datamatrix */
+                *pattern_tx = 0;
+                *pattern_bx = width;
+                *pattern_ty = width * encode_height / encode_width;
+                *pattern_by = height;
+            }
+            /* description shown above the datamatrix */
+            *text_tx = (width - description_width)/2;
+            *text_ty = (*pattern_ty/2) - (description_height/2) + character_height;
+            break;
+        }
+        case DESCRIPTION_RIGHT: {
+            *pattern_tx = 0;
+            *pattern_ty = 0;
+            *pattern_bx = width/2;
+            *pattern_by = height;
+            *text_tx = *pattern_bx + character_width;
+            *text_ty = (height/2) - (description_height/2) + character_height;
+            break;
+        }
+        case DESCRIPTION_LEFT: {
+            *pattern_tx = width/2;
+            *pattern_ty = 0;
+            *pattern_bx = width;
+            *pattern_by = height;
+            *text_tx = character_width;
+            *text_ty = (height/2) - (description_height/2) + character_height;
+            break;
+        }
+        }
+    }
+}
+
+/**
  * \brief returns an image from the given datamatrix grid
  * \param img returned image array
  * \param width width of the image
@@ -147,111 +290,23 @@ void encode_image(unsigned char img[], int width, int height,
     int pattern_ty = 0;
     int pattern_bx = width;
     int pattern_by = height;
-
-    /* get the maximum width of the description in characters */
-    int max_description_width = description_text_width(description);
-    int lines = description_text_lines(description);
-    /* get the width and height of the box containing the description
-       in pixels */
-    int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
-    int description_width = max_description_width * character_width;
-    int description_height =
-        ((lines+1) * character_height) + ((lines-1) * line_spacing);
-
-    /* bounding box for the description */
+    /* top left corner of the bounding box for the description */
     int text_tx = -1;
     int text_ty = -1;
-    int text_len = (int)strlen(description);
-    if (text_len > 0) {
-        switch(description_position) {
-        case DESCRIPTION_BELOW: {
-            /* separation between datamatrix and description in pixels */
-            int separation = line_spacing;
-            int available_height = height - description_height - separation;
 
-            pattern_tx = 0;
-            pattern_ty = 0;
-            if (encode_width == encode_height) {
-                /* square datamatrix */
-                if (available_height < width) {
-                    pattern_tx = (width - available_height) / 2;
-                    pattern_bx = pattern_tx + available_height;
-                }
-                else {
-                    pattern_ty = (available_height - width) / 2;
-                    pattern_by = pattern_ty + width;
-                }
-                pattern_by = available_height;
-                text_ty = height - description_height;
-            }
-            else {
-                /* rectangular datamatrix */
-                pattern_tx = 0;
-                pattern_ty = 0;
-                pattern_bx = width;
-                pattern_by = width * encode_height / encode_width;
-                text_ty = pattern_by + separation;
-                if (height - pattern_by > description_height) {
-                    text_ty += ((height - pattern_by) - description_height)/2;
-                }
-            }
-            /* description shown below the datamatrix */
-            text_tx = (width - description_width)/2;
-            break;
-        }
-        case DESCRIPTION_ABOVE: {
-            /* separation between datamatrix and description in pixels */
-            int separation = line_spacing;
-            int available_height = height - description_height - separation;
-
-            pattern_tx = 0;
-            pattern_ty = 0;
-            if (encode_width == encode_height) {
-                /* square datamatrix */
-                if (available_height < width) {
-                    pattern_tx = (width - available_height) / 2;
-                    pattern_bx = pattern_tx + available_height;
-                }
-                else {
-                    pattern_ty = (available_height - width) / 2;
-                    pattern_by = pattern_ty + width;
-                }
-                pattern_by = available_height;
-                pattern_ty = height - (pattern_by - pattern_ty);
-                pattern_by = height;
-            }
-            else {
-                /* rectangular datamatrix */
-                pattern_tx = 0;
-                pattern_bx = width;
-                pattern_ty = width * encode_height / encode_width;
-                pattern_by = height;
-            }
-            /* description shown above the datamatrix */
-            text_tx = (width - description_width)/2;
-            text_ty = (pattern_ty/2) - (description_height/2) + character_height;
-            break;
-        }
-        case DESCRIPTION_RIGHT: {
-            pattern_tx = 0;
-            pattern_ty = 0;
-            pattern_bx = width/2;
-            pattern_by = height;
-            text_tx = pattern_bx + character_width;
-            text_ty = (height/2) - (description_height/2) + character_height;
-            break;
-        }
-        case DESCRIPTION_LEFT: {
-            pattern_tx = width/2;
-            pattern_ty = 0;
-            pattern_bx = width;
-            pattern_by = height;
-            text_tx = character_width;
-            text_ty = (height/2) - (description_height/2) + character_height;
-            break;
-        }
-        }
-    }
+    get_encode_bounding_box_pattern(width, height,
+                                    description,
+                                    character_width,
+                                    line_spacing,
+                                    description_position,
+                                    encode_width,
+                                    encode_height,
+                                    &pattern_tx,
+                                    &pattern_ty,
+                                    &pattern_bx,
+                                    &pattern_by,
+                                    &text_tx,
+                                    &text_ty);
 
     encode_image_base(img, width, height, bitsperpixel, grid,
                       encode_width, encode_height,
@@ -317,7 +372,6 @@ void encode_svg_base(unsigned char *grid,
     }
 }
 
-
 /**
  * \brief returns an SVG image from the given datamatrix grid
  * \param image_filename filename of the svg image to be saved
@@ -348,6 +402,9 @@ void encode_svg(char * image_filename, int width, int height,
     int pattern_ty = 0;
     int pattern_bx = width;
     int pattern_by = height;
+    /* top left corner of the bounding box for the description */
+    int text_tx = -1;
+    int text_ty = -1;
 
     fp_image = fopen(image_filename, "w");
     if (fp_image == NULL) return;
@@ -355,110 +412,19 @@ void encode_svg(char * image_filename, int width, int height,
             "<svg height=\"%d\" width=\"%d\" xmlns=\"http://www.w3.org/2000/svg\">\n",
             height, width);
 
-    /* get the maximum width of the description in characters */
-    int max_description_width = description_text_width(description);
-    int lines = description_text_lines(description);
-    /* get the width and height of the box containing the description
-       in pixels */
-    int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
-    int description_width = max_description_width * character_width;
-    int description_height =
-        ((lines+1) * character_height) + ((lines-1) * line_spacing);
-
-    /* bounding box for the description */
-    int text_tx = -1;
-    int text_ty = -1;
-    int text_len = (int)strlen(description);
-    if (text_len > 0) {
-        switch(description_position) {
-        case DESCRIPTION_BELOW: {
-            /* separation between datamatrix and description in pixels */
-            int separation = line_spacing;
-            int available_height = height - description_height - separation;
-
-            pattern_tx = 0;
-            pattern_ty = 0;
-            if (encode_width == encode_height) {
-                /* square datamatrix */
-                if (available_height < width) {
-                    pattern_tx = (width - available_height) / 2;
-                    pattern_bx = pattern_tx + available_height;
-                }
-                else {
-                    pattern_ty = (available_height - width) / 2;
-                    pattern_by = pattern_ty + width;
-                }
-                pattern_by = available_height;
-                text_ty = height - description_height;
-            }
-            else {
-                /* rectangular datamatrix */
-                pattern_tx = 0;
-                pattern_ty = 0;
-                pattern_bx = width;
-                pattern_by = width * encode_height / encode_width;
-                text_ty = pattern_by + separation;
-                if (height - pattern_by > description_height) {
-                    text_ty += ((height - pattern_by) - description_height)/2;
-                }
-            }
-            /* description shown below the datamatrix */
-            text_tx = (width - description_width)/2;
-            break;
-        }
-        case DESCRIPTION_ABOVE: {
-            /* separation between datamatrix and description in pixels */
-            int separation = line_spacing;
-            int available_height = height - description_height - separation;
-
-            pattern_tx = 0;
-            pattern_ty = 0;
-            if (encode_width == encode_height) {
-                /* square datamatrix */
-                if (available_height < width) {
-                    pattern_tx = (width - available_height) / 2;
-                    pattern_bx = pattern_tx + available_height;
-                }
-                else {
-                    pattern_ty = (available_height - width) / 2;
-                    pattern_by = pattern_ty + width;
-                }
-                pattern_by = available_height;
-                pattern_ty = height - (pattern_by - pattern_ty);
-                pattern_by = height;
-            }
-            else {
-                /* rectangular datamatrix */
-                pattern_tx = 0;
-                pattern_bx = width;
-                pattern_ty = width * encode_height / encode_width;
-                pattern_by = height;
-            }
-            /* description shown above the datamatrix */
-            text_tx = (width - description_width)/2;
-            text_ty = (pattern_ty/2) - (description_height/2) + character_height;
-            break;
-        }
-        case DESCRIPTION_RIGHT: {
-            pattern_tx = 0;
-            pattern_ty = 0;
-            pattern_bx = width/2;
-            pattern_by = height;
-            text_tx = pattern_bx + character_width;
-            text_ty = (height/2) - (description_height/2) + character_height;
-            break;
-        }
-        case DESCRIPTION_LEFT: {
-            pattern_tx = width/2;
-            pattern_ty = 0;
-            pattern_bx = width;
-            pattern_by = height;
-            text_tx = character_width;
-            text_ty = (height/2) - (description_height/2) + character_height;
-            break;
-        }
-        }
-    }
+    get_encode_bounding_box_pattern(width, height,
+                                    description,
+                                    character_width,
+                                    line_spacing,
+                                    description_position,
+                                    encode_width,
+                                    encode_height,
+                                    &pattern_tx,
+                                    &pattern_ty,
+                                    &pattern_bx,
+                                    &pattern_by,
+                                    &text_tx,
+                                    &text_ty);
     
     encode_svg_base(grid, encode_width, encode_height, square_modules,
                     pattern_tx, pattern_ty, pattern_bx, pattern_by, fp_image);
