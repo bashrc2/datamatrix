@@ -27,9 +27,6 @@
 
 #include "datamatrix.h"
 
-#define FONT_WIDTH  5
-#define FONT_HEIGHT 10
-
 char * font_upper[] = {
     "  o  ",
     " o o ",
@@ -944,6 +941,7 @@ static void draw_character(unsigned char img[],
  * \param text_x top left coordinate at which to begin drawing the text
  * \param text_y top coordinate at which to begin drawing the text
  * \param character_width width of each character in pixels
+ * \param line spacing Spacing between description lines in pixels
  * \param r Red
  * \param g Green
  * \param b Blue
@@ -953,21 +951,30 @@ void draw_text(unsigned char img[],
                unsigned int width, unsigned int height,
                int bitsperpixel,
                int text_x, int text_y, int character_width,
+               int line_spacing,
                int r, int g, int b,
                char * text)
 {
-    int text_height = character_width * FONT_HEIGHT / FONT_WIDTH;
+    int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
     int text_len = (int)strlen(text);
+    int row = 0, col = 0;
 
     for (int i = 0; i < text_len; i++) {
+        if (text[i] == '\n') {
+            col = 0;
+            row++;
+            continue;
+        }
         /* bounding box of the character */
-        int tx = text_x + (i * character_width);
-        int ty = text_y;
-        int bx = text_x + ((i+1) * character_width);
-        int by = text_y + text_height;
-        if ((bx >= (int)width) || (by >= (int)height)) break;
-        draw_character(img, width, height, bitsperpixel,
-                       tx, ty, bx, by, r, g, b,
-                       text[i]);
+        int tx = text_x + (col * character_width);
+        int ty = text_y + (row * (character_height + line_spacing));
+        int bx = tx + character_width;
+        int by = ty + character_height;
+        if ((bx < (int)width) && (by < (int)height)) {
+            draw_character(img, width, height, bitsperpixel,
+                           tx, ty, bx, by, r, g, b,
+                           text[i]);
+        }
+        col++;
     }
 }

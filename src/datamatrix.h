@@ -61,6 +61,17 @@
 #define SAMPLING_PATTERN_SOLID     0
 #define SAMPLING_PATTERN_RING      1
 
+/* position for formatted description when displaying an encoded
+   datamatrix as an image */
+#define DESCRIPTION_BELOW 0
+#define DESCRIPTION_ABOVE 1
+#define DESCRIPTION_RIGHT 2
+#define DESCRIPTION_LEFT  3
+
+/* dot peen font character matrix */
+#define FONT_WIDTH  5
+#define FONT_HEIGHT 10
+
 #ifndef ABS
 #define ABS(a) (((a) < 0) ? -(a) : (a))
 #endif
@@ -346,6 +357,7 @@ void draw_text(unsigned char img[],
                unsigned int width, unsigned int height,
                int bitsperpixel,
                int text_x, int text_y, int character_width,
+               int line_spacing,
                int r, int g, int b,
                char * text);
 
@@ -692,7 +704,11 @@ void run_all_tests();
 void encode_image(unsigned char img[], int width, int height,
                   int bitsperpixel, unsigned char * grid,
                   unsigned int encode_width, unsigned int encode_height,
-                  unsigned char square_modules);
+                  unsigned char square_modules,
+                  char * description,
+                  unsigned char description_position,
+                  int character_width,
+                  int line_spacing);
 
 void encode_svg(char * image_filename, int width, int height,
                 unsigned char * grid,
@@ -711,6 +727,9 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 
 int encode_datamatrix_to_text_or_image(char * text,
                                        char * description,
+                                       unsigned char description_position,
+                                       int character_width,
+                                       int line_spacing,
                                        int encode_scale,
                                        unsigned char is_square,
                                        unsigned char csv,

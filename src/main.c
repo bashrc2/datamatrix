@@ -95,6 +95,9 @@ int main(int argc, char* argv[])
     char dot_char[4];
     char empty_char[4];
     unsigned char square_modules = 0;
+    unsigned char description_position = DESCRIPTION_BELOW;
+    int character_width = 20;
+    int line_spacing = 6;
 
     /* representations for dot and space for encoded datamatrix */
     sprintf(&dot_char[0], "●");
@@ -556,6 +559,9 @@ int main(int argc, char* argv[])
         }
         if (encode_datamatrix_to_text_or_image(&encode_text[0],
                                                &encode_description[0],
+                                               description_position,
+                                               character_width,
+                                               line_spacing,
                                                encode_scale,
                                                is_square,
                                                csv,

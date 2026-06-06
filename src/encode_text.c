@@ -39,6 +39,10 @@
  * \param encode_image_width width of the datamatrix image
  * \param encode_image_height height of the datamatrix image
  * \param square_modules draw with square shaped modules
+ * \param description formatted description accompanying the datamatrix
+ * \param description_position Position of the formatted description
+ * \param character_width Width of each description character in pixels
+ * \param line spacing Spacing between description lines in pixels
  * \returns 0 on success, -1 otherwise
  */
 static int encode_datamatrix_to_image(char * image_filename,
@@ -47,7 +51,11 @@ static int encode_datamatrix_to_image(char * image_filename,
                                       unsigned int encode_height,
                                       int encode_image_width,
                                       int encode_image_height,
-                                      unsigned char square_modules)
+                                      unsigned char square_modules,
+                                      char * description,
+                                      unsigned char description_position,
+                                      int character_width,
+                                      int line_spacing)
 {
     int image_filename_length = (int)strlen(image_filename);
     /* check that the output image filename is long enough */
@@ -68,7 +76,11 @@ static int encode_datamatrix_to_image(char * image_filename,
         encode_image(encode_image_data,
                      encode_image_width, encode_image_height, 24,
                      grid, encode_width, encode_height,
-                     square_modules);
+                     square_modules,
+                     description,
+                     description_position,
+                     character_width,
+                     line_spacing);
         write_png_file(image_filename,
                        encode_image_width, encode_image_height, 24,
                        encode_image_data);
@@ -98,6 +110,9 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \param text the text to be encoded
  * \param description a formatted description to appear alongside
  *        or underneath the datamatrix pattern
+ * \param description_position Position of the formatted description
+ * \param character_width Width of each description character in pixels
+ * \param line spacing Spacing between description lines in pixels
  * \param encode_scale Scaling factor for text datamatrix output
  * \param is_square 1 if the datamatrix should be square
  * \param csv 1 if output should be in CSV format
@@ -113,7 +128,10 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \returns 0 on success, -1 otherwise
  */
 int encode_datamatrix_to_text_or_image(char * text,
-									   char * description,
+                                       char * description,
+                                       unsigned char description_position,
+                                       int character_width,
+                                       int line_spacing,
                                        int encode_scale,
                                        unsigned char is_square,
                                        unsigned char csv,
@@ -163,7 +181,11 @@ int encode_datamatrix_to_text_or_image(char * text,
                                           encode_height,
                                           encode_image_width,
                                           encode_image_height,
-                                          square_modules);
+                                          square_modules,
+                                          description,
+                                          description_position,
+                                          character_width,
+                                          line_spacing);
     }
 
     /* encode as text */
@@ -222,9 +244,9 @@ int encode_datamatrix_to_text_or_image(char * text,
         direction = 1 - direction;
     }
 
-	if (description[0] != 0) {
-		printf("%s", description);
-	}
+    if (description[0] != 0) {
+        printf("%s", description);
+    }
 
     if (grid) {
         free(grid);

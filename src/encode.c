@@ -77,17 +77,24 @@ static void encode_image_dot(unsigned char img[], int width, int height,
  * \param encode_width width of the datamatrix grid
  * \param encode_height height of the datamatrix grid
  * \param square_modules draw with square shaped modules
+ * \param tx Bounding box top left x coordinate
+ * \param ty Bounding box top left y coordinate
+ * \param bx Bounding box bottom right x coordinate
+ * \param by Bounding box bottom right y coordinate
  */
-void encode_image(unsigned char img[], int width, int height,
-                  int bitsperpixel, unsigned char *grid,
-                  unsigned int encode_width, unsigned int encode_height,
-                  unsigned char square_modules)
+static void encode_image_base(unsigned char img[], int width, int height,
+                              int bitsperpixel, unsigned char *grid,
+                              unsigned int encode_width, unsigned int encode_height,
+                              unsigned char square_modules,
+                              int tx, int ty, int bx, int by)
 {
     unsigned int x, y;
     int bytes_per_pixel = bitsperpixel/8;
     int dot_x, dot_y;
-    int half_cell_width = width / ((int)encode_width * 2);
-    int half_cell_height = height / ((int)encode_height * 2);
+    int bounding_box_width = bx - tx;
+    int bounding_box_height = by - ty;
+    int half_cell_width = bounding_box_width / ((int)encode_width * 2);
+    int half_cell_height = bounding_box_height / ((int)encode_height * 2);
     int dot_radius = half_cell_width * 8 / 10;
 
     if (square_modules != 0) {
@@ -99,14 +106,125 @@ void encode_image(unsigned char img[], int width, int height,
 
     /* draw dots */
     for (y = 0; y < encode_height; y++) {
-        dot_y = ((int)y * height / (int)encode_height) + half_cell_height;
+        dot_y = ty + ((int)y * bounding_box_height / (int)encode_height) + half_cell_height;
         for (x = 0; x < encode_width; x++) {
             if (!grid[encode_width * y + x]) continue;
-            dot_x = ((int)x * width / (int)encode_width) + half_cell_width;
+            dot_x = tx + ((int)x * bounding_box_width / (int)encode_width) + half_cell_width;
             encode_image_dot(img, width, height, bytes_per_pixel,
                              dot_x, dot_y, dot_radius, square_modules);
         }
     }
+}
+
+/**
+ * \brief returns an image from the given datamatrix grid
+ * \param img returned image array
+ * \param width width of the image
+ * \param height height of the image
+ * \param bitsperpixel Number of bits per pixel
+ * \param encode_width width of the datamatrix grid
+ * \param encode_height height of the datamatrix grid
+ * \param square_modules draw with square shaped modules
+ * \param description formatted description accompanying the datamatrix
+ * \param description_position Position of the formatted description
+ * \param character_width Width of each description character in pixels
+ * \param line spacing Spacing between description lines in pixels
+ */
+void encode_image(unsigned char img[], int width, int height,
+                  int bitsperpixel, unsigned char *grid,
+                  unsigned int encode_width, unsigned int encode_height,
+                  unsigned char square_modules,
+                  char * description,
+                  unsigned char description_position,
+                  int character_width,
+                  int line_spacing)
+{
+    /* bounding box for the datamatrix pattern within the image */
+    int pattern_tx = 0;
+    int pattern_ty = 0;
+    int pattern_bx = width;
+    int pattern_by = height;
+
+    /* get the maximum width of the description in characters */
+    int w = 0, max_description_width = 0;
+    int lines = 0;
+    int text_len = (int)strlen(description);
+    for (int i = 0; i < text_len; i++) {
+        if (description[i] == '\n') {
+            if (w > max_description_width) {
+                max_description_width = w+1;
+            }
+            w = 0;
+            lines++;
+        }
+        else {
+            w++;
+        }
+    }
+    if (w > max_description_width) {
+        max_description_width = w+1;
+    }
+    if (lines == 0) lines = 1;
+    /* get the width and height of the box containing the description
+       in pixels */
+    int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
+    int description_width = max_description_width * character_width;
+    int description_height =
+        ((lines+1) * character_height) + ((lines-1) * line_spacing);
+
+    /* bounding box for the description */
+    int text_tx = -1;
+    int text_ty = -1;
+    if (text_len > 0) {
+        switch(description_position) {
+        case DESCRIPTION_BELOW: {
+            /* separation between datamatrix and description in pixels */
+            int separation = line_spacing;
+
+            pattern_tx = 0;
+            pattern_ty = 0;
+            if (encode_width == encode_height) {
+                /* square datamatrix */
+                int available_height = height - description_height - separation;
+                if (available_height < width) {
+                    pattern_tx = (width - available_height) / 2;
+                    pattern_bx = pattern_tx + available_height;
+                }
+                else {
+                    pattern_ty = (available_height - width) / 2;
+                    pattern_by = pattern_ty + width;
+                }
+                pattern_by = available_height;
+            }
+            else {
+                /* rectangular datamatrix */
+            }
+            /* description shown below the datamatrix */
+            text_tx = (width - description_width)/2;
+            text_ty = height - description_height;
+            break;
+        }
+        case DESCRIPTION_ABOVE: {
+            break;
+        }
+        case DESCRIPTION_RIGHT: {
+            break;
+        }
+        case DESCRIPTION_LEFT: {
+            break;
+        }
+        }
+    }
+
+    encode_image_base(img, width, height, bitsperpixel, grid,
+                      encode_width, encode_height,
+                      square_modules,
+                      pattern_tx, pattern_ty,
+                      pattern_bx, pattern_by);
+    if (text_tx == -1) return;
+    draw_text(img, width, height, bitsperpixel,
+              text_tx, text_ty, character_width, line_spacing,
+              0, 0, 0, description);
 }
 
 /**
