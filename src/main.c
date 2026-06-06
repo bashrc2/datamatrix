@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
     char dot_char[4];
     char empty_char[4];
     unsigned char square_modules = 0;
-    unsigned char description_position = DESCRIPTION_LEFT;
+    unsigned char description_position = DESCRIPTION_BELOW;
     int character_width = 20;
     int line_spacing = 6;
 
@@ -209,6 +209,28 @@ int main(int argc, char* argv[])
         if ((strcmp(argv[i],"--encode")==0) ||
                 (strcmp(argv[i],"-e")==0)) {
             decode_strcat(&encode_text[0], argv[i+1]);
+        }
+        
+        if ((strcmp(argv[i],"--position")==0) ||
+                (strcmp(argv[i],"--pos")==0)) {
+            if ((strcmp(argv[i+1], "below")==0) ||
+                (strcmp(argv[i+1], "bottom")==0) ||
+                (strcmp(argv[i+1], "down")==0)) {
+                description_position = DESCRIPTION_BELOW;
+            }
+            if ((strcmp(argv[i+1], "above")==0) ||
+                (strcmp(argv[i+1], "top")==0) ||
+                (strcmp(argv[i+1], "up")==0)) {
+                description_position = DESCRIPTION_ABOVE;
+            }
+            if ((strcmp(argv[i+1], "right")==0) ||
+                (strcmp(argv[i+1], "r")==0)) {
+                description_position = DESCRIPTION_RIGHT;
+            }
+            if ((strcmp(argv[i+1], "left")==0) ||
+                (strcmp(argv[i+1], "l")==0)) {
+                description_position = DESCRIPTION_LEFT;
+            }
         }
         if ((strcmp(argv[i],"--sscc")==0) ||
             (strcmp(argv[i],"--SSCC")==0)) {

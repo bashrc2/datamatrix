@@ -36,82 +36,83 @@ sudo make install
 ## Command options
 
 ``` text
--f --filename [PNG file]      Filename of a PNG file containing the datamatrix image
---square                      Matrix aspect ratio is expected to be square
---rectangle                   Matrix aspect ratio is expected to be rectangular
---quality                     Show quality metrics for verification reports
--o --output [PNG file]        Save an image showing the detected datamatrix
--g --grid [PNG file]          Save an image showing the detected grid
---hist [PNG file]             Save reflectance histogram
---shape [PNG file]            Save cell shape variance image
--t --template [TEX file]      Path for verification report template
--r --report [TEX file]        Filename to save a verification report as
--l --logo [image file]        Logo image to be shown at top of verification report
---histcentres                 Only sample grid cell centres for reflectance histogram
---mingrid [8..144]            Minimum matrix dimension
---maxgrid [8..144]            Maximum matrix dimension
---debug                       Show debugging information
---csv                         Show quality metrics in CSV format
---json                        Show quality metrics in JSON format
---yaml                        Show quality metrics in yaml format
---freq [8..144]               Set the matrix dimension
---erode [0..20]               Set erosion itterations
---dilate [0..20]              Set dilation itterations
---meanlight [0..20]           Set mean light threshold
---darklight [1..10]           Sampling step size when calculating peak dark and light
---maxhigh [6..90]             Maximum percent of high pixels after thresholding
---resolver [url]              GS1 resolver (eg. https://id.gs1.org)
---sampleradius [pixels]       Radius for sampling each grid cell
---minsegmentlength [pixels]   Minimum edge segment length for segment joining
---resizewidth [pixels]        Width of image after resizing from original
---resizeheight [pixels]       Height of image after resizing from original
---binwidth [pixels]           Width of the binary image used for perimeter detection
---raw                         Show the raw decoded text
---aperture [ref]              Aperture reference number from ISO 15416
---light [nm]                  Peak light wavelength used in nanometres
---angle [90|45]               Angle of illumination in degrees
---address1 [text]             First line of address on verification report
---address2 [text]             Second line of address on verification report
---address3 [text]             Third line of address on verification report
---phone [number]              Telephone number on verification report
---email [address]             Email address on verification report
---web [url]                   Website url on verification report
---footer [text]               Footer shown on verification report
--e --encode [text]            Generate a datamatrix from the given text
---sscc [code]                 Generate a GS1 datamatrix with the given SSCC
---gtin [code]                 Generate a GS1 datamatrix with the given GTIN
---content [code]              Generate a GS1 datamatrix with the given CONTENT
---mtogtin [code]              Generate a GS1 datamatrix with the given MTO GTIN
---batch [code]                Generate a GS1 datamatrix with the given BATCH/LOT
---proddate [YYMMDD]           Generate a GS1 datamatrix with the given PROD DATE
---duedate [YYMMDD]            Generate a GS1 datamatrix with the given DUE DATE
---packdate [YYMMDD]           Generate a GS1 datamatrix with the given PACK DATE
---bestbefore [YYMMDD]         Generate a GS1 datamatrix with the given BEST BEFORE
---sellby [YYMMDD]             Generate a GS1 datamatrix with the given SELL BY
---useby [YYMMDD]              Generate a GS1 datamatrix with the given USE BY
---variant [two digits]        Generate a GS1 datamatrix with the given VARIANT
---serial [number]             Generate a GS1 datamatrix with the given SERIAL
---custpartno [number]         Generate a GS1 datamatrix with the given CUST PART NO
---mtovariant [code]           Generate a GS1 datamatrix with the given MTO VARIANT
---gdti [code]                 Generate a GS1 datamatrix with the given GDTI
---gln [number]                Generate a GS1 datamatrix with the given GLN
---gcn [number]                Generate a GS1 datamatrix with the given GCN
---orderno [number]            Generate a GS1 datamatrix with the given ORDER NUMBER
---gsin [code]                 Generate a GS1 datamatrix with the given GSIN
---shipto [code]               Generate a GS1 datamatrix with the given SHIP TO LOC
---billto [code]               Generate a GS1 datamatrix with the given BILL TO
---origin [code]               Generate a GS1 datamatrix with the given ORIGIN
---txt [text]                  Decode a text string containing a datamatrix
---squaremodules               Generated datamatrix has square modules
---dot [character]             Custom dot character when generating a datamatrix
---space [character]           Custom space character when generating a datamatrix
---scale [text]                Scale of generated datamatrix in range 1-10
--w --width [pixels]           Width for generated datamatrix image
---coords                      Show dot centre coordinates for generated datamatrix
---offsetx [value]             x offset added to dot centre coordinates
---offsety [value]             y offset added to dot centre coordinates
---seglink [value]             Pixel radius used to link edge segments
---tests                       Run unit tests
+-f --filename [PNG file]       Filename of a PNG file containing the datamatrix image
+--square                       Matrix aspect ratio is expected to be square
+--rectangle                    Matrix aspect ratio is expected to be rectangular
+--quality                      Show quality metrics for verification reports
+-o --output [PNG file]         Save an image showing the detected datamatrix
+-g --grid [PNG file]           Save an image showing the detected grid
+--hist [PNG file]              Save reflectance histogram
+--shape [PNG file]             Save cell shape variance image
+-t --template [TEX file]       Path for verification report template
+-r --report [TEX file]         Filename to save a verification report as
+-l --logo [image file]         Logo image to be shown at top of verification report
+--histcentres                  Only sample grid cell centres for reflectance histogram
+--mingrid [8..144]             Minimum matrix dimension
+--maxgrid [8..144]             Maximum matrix dimension
+--debug                        Show debugging information
+--csv                          Show quality metrics in CSV format
+--json                         Show quality metrics in JSON format
+--yaml                         Show quality metrics in yaml format
+--freq [8..144]                Set the matrix dimension
+--erode [0..20]                Set erosion itterations
+--dilate [0..20]               Set dilation itterations
+--meanlight [0..20]            Set mean light threshold
+--darklight [1..10]            Sampling step size when calculating peak dark and light
+--maxhigh [6..90]              Maximum percent of high pixels after thresholding
+--resolver [url]               GS1 resolver (eg. https://id.gs1.org)
+--sampleradius [pixels]        Radius for sampling each grid cell
+--minsegmentlength [pixels]    Minimum edge segment length for segment joining
+--resizewidth [pixels]         Width of image after resizing from original
+--resizeheight [pixels]        Height of image after resizing from original
+--binwidth [pixels]            Width of the binary image used for perimeter detection
+--raw                          Show the raw decoded text
+--aperture [ref]               Aperture reference number from ISO 15416
+--light [nm]                   Peak light wavelength used in nanometres
+--angle [90|45]                Angle of illumination in degrees
+--address1 [text]              First line of address on verification report
+--address2 [text]              Second line of address on verification report
+--address3 [text]              Third line of address on verification report
+--phone [number]               Telephone number on verification report
+--email [address]              Email address on verification report
+--web [url]                    Website url on verification report
+--footer [text]                Footer shown on verification report
+-e --encode [text]             Generate a datamatrix from the given text
+--sscc [code]                  Generate a GS1 datamatrix with the given SSCC
+--gtin [code]                  Generate a GS1 datamatrix with the given GTIN
+--content [code]               Generate a GS1 datamatrix with the given CONTENT
+--mtogtin [code]               Generate a GS1 datamatrix with the given MTO GTIN
+--batch [code]                 Generate a GS1 datamatrix with the given BATCH/LOT
+--proddate [YYMMDD]            Generate a GS1 datamatrix with the given PROD DATE
+--duedate [YYMMDD]             Generate a GS1 datamatrix with the given DUE DATE
+--packdate [YYMMDD]            Generate a GS1 datamatrix with the given PACK DATE
+--bestbefore [YYMMDD]          Generate a GS1 datamatrix with the given BEST BEFORE
+--sellby [YYMMDD]              Generate a GS1 datamatrix with the given SELL BY
+--useby [YYMMDD]               Generate a GS1 datamatrix with the given USE BY
+--variant [two digits]         Generate a GS1 datamatrix with the given VARIANT
+--serial [number]              Generate a GS1 datamatrix with the given SERIAL
+--custpartno [number]          Generate a GS1 datamatrix with the given CUST PART NO
+--mtovariant [code]            Generate a GS1 datamatrix with the given MTO VARIANT
+--gdti [code]                  Generate a GS1 datamatrix with the given GDTI
+--gln [number]                 Generate a GS1 datamatrix with the given GLN
+--gcn [number]                 Generate a GS1 datamatrix with the given GCN
+--orderno [number]             Generate a GS1 datamatrix with the given ORDER NUMBER
+--gsin [code]                  Generate a GS1 datamatrix with the given GSIN
+--shipto [code]                Generate a GS1 datamatrix with the given SHIP TO LOC
+--billto [code]                Generate a GS1 datamatrix with the given BILL TO
+--origin [code]                Generate a GS1 datamatrix with the given ORIGIN
+--txt [text]                   Decode a text string containing a datamatrix
+--squaremodules                Generated datamatrix has square modules
+--dot [character]              Custom dot character when generating a datamatrix
+--space [character]            Custom space character when generating a datamatrix
+--scale [text]                 Scale of generated datamatrix in range 1-10
+-w --width [pixels]            Width for generated datamatrix image
+--coords                       Show dot centre coordinates for generated datamatrix
+--offsetx [value]              x offset added to dot centre coordinates
+--offsety [value]              y offset added to dot centre coordinates
+--seglink [value]              Pixel radius used to link edge segments
+--pos [above|below|right|left] Position of text within encoded datamatrix image
+--tests                        Run unit tests
 ```
 
 ## Example Encoding
@@ -161,7 +162,7 @@ datamatrix -e "ABCDEF" --csv
 You can also export the generated datamatrix as an image in PNG or SVG format.
 
 ``` bash
-datamatrix --gtin 12345678901234 -o test.png -w 512
+datamatrix --gtin 12345678901234 --pos right -o test.png -w 512
 ```
 
 ## Example Decoding
