@@ -129,6 +129,7 @@ static void encode_image_base(unsigned char img[], int width, int height,
  * \param description_position Position of the formatted description
  * \param character_width Width of each description character in pixels
  * \param line spacing Spacing between description lines in pixels
+ * \param character_separation Separation between characters in pixels
  */
 void encode_image(unsigned char img[], int width, int height,
                   int bitsperpixel, unsigned char *grid,
@@ -137,7 +138,8 @@ void encode_image(unsigned char img[], int width, int height,
                   char * description,
                   unsigned char description_position,
                   int character_width,
-                  int line_spacing)
+                  int line_spacing,
+                  int character_separation)
 {
     /* bounding box for the datamatrix pattern within the image */
     int pattern_tx = 0;
@@ -258,7 +260,7 @@ void encode_image(unsigned char img[], int width, int height,
     if (text_tx == -1) return;
     draw_text(img, width, height, bitsperpixel,
               text_tx, text_ty, character_width, line_spacing,
-              0, 0, 0, description);
+              character_separation, 0, 0, 0, description);
 }
 
 /**

@@ -358,6 +358,7 @@ void draw_text(unsigned char img[],
                int bitsperpixel,
                int text_x, int text_y, int character_width,
                int line_spacing,
+               int character_separation,
                int r, int g, int b,
                char * text);
 
@@ -711,7 +712,8 @@ void encode_image(unsigned char img[], int width, int height,
                   char * description,
                   unsigned char description_position,
                   int character_width,
-                  int line_spacing);
+                  int line_spacing,
+                  int character_separation);
 
 void encode_svg(char * image_filename, int width, int height,
                 unsigned char * grid,

@@ -43,6 +43,7 @@
  * \param description_position Position of the formatted description
  * \param character_width Width of each description character in pixels
  * \param line spacing Spacing between description lines in pixels
+ * \param character_separation Separation between characters in pixels
  * \returns 0 on success, -1 otherwise
  */
 static int encode_datamatrix_to_image(char * image_filename,
@@ -55,7 +56,8 @@ static int encode_datamatrix_to_image(char * image_filename,
                                       char * description,
                                       unsigned char description_position,
                                       int character_width,
-                                      int line_spacing)
+                                      int line_spacing,
+                                      int character_separation)
 {
     int image_filename_length = (int)strlen(image_filename);
     /* check that the output image filename is long enough */
@@ -80,7 +82,7 @@ static int encode_datamatrix_to_image(char * image_filename,
                      description,
                      description_position,
                      character_width,
-                     line_spacing);
+                     line_spacing, character_separation);
         write_png_file(image_filename,
                        encode_image_width, encode_image_height, 24,
                        encode_image_data);
@@ -154,6 +156,7 @@ int encode_datamatrix_to_text_or_image(char * text,
                  encode_ecclen = 0,
                  square = 0,
                  noquiet = 0;
+    int character_separation = character_width / FONT_WIDTH;
 
     barcodelen = (int)strlen(text);
 
@@ -199,7 +202,8 @@ int encode_datamatrix_to_text_or_image(char * text,
                                           description,
                                           description_position,
                                           character_width,
-                                          line_spacing);
+                                          line_spacing,
+                                          character_separation);
     }
 
     /* encode as text */

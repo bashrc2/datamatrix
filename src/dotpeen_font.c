@@ -942,6 +942,7 @@ static void draw_character(unsigned char img[],
  * \param text_y top coordinate at which to begin drawing the text
  * \param character_width width of each character in pixels
  * \param line spacing Spacing between description lines in pixels
+ * \param character_separation Separation between characters in pixels
  * \param r Red
  * \param g Green
  * \param b Blue
@@ -952,6 +953,7 @@ void draw_text(unsigned char img[],
                int bitsperpixel,
                int text_x, int text_y, int character_width,
                int line_spacing,
+               int character_separation,
                int r, int g, int b,
                char * text)
 {
@@ -968,7 +970,7 @@ void draw_text(unsigned char img[],
         /* bounding box of the character */
         int tx = text_x + (col * character_width);
         int ty = text_y + (row * (character_height + line_spacing));
-        int bx = tx + character_width;
+        int bx = tx + character_width - character_separation;
         int by = ty + character_height;
         if ((bx < (int)width) && (by < (int)height)) {
             draw_character(img, width, height, bitsperpixel,
