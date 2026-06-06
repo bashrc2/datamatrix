@@ -156,6 +156,8 @@ int encode_datamatrix_to_text_or_image(char * text,
                  encode_ecclen = 0,
                  square = 0,
                  noquiet = 0;
+    /* a small horizontal separation between characters so that they don't
+       appear joined together */
     int character_separation = character_width / FONT_WIDTH;
 
     barcodelen = (int)strlen(text);
