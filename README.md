@@ -161,7 +161,7 @@ datamatrix -e "ABCDEF" --csv
 You can also export the generated datamatrix as an image in PNG or SVG format.
 
 ``` bash
-datamatrix -e "ABCDEF" -o test.png -w 256
+datamatrix --gtin 12345678901234 -o test.png -w 512
 ```
 
 ## Example Decoding
