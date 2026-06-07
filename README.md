@@ -108,6 +108,7 @@ sudo make install
 --expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE
 --mandate [YYYYMMDD]           Generate a HIBC datamatrix with the given MANUFACTURE DATE
 --lot [4 characters]           Generate a HIBC datamatrix with the given LOT NUMBER
+--qty [1-5 digits]             Generate a HIBC datamatrix with the given QUANTITY
 --txt [text]                   Decode a text string containing a datamatrix
 --squaremodules                Generated datamatrix has square modules
 --dot [character]              Custom dot character when generating a datamatrix

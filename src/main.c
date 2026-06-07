@@ -445,6 +445,14 @@ int main(int argc, char* argv[])
                 hibc_encoding = 1;
             }
         }
+        if ((strcmp(argv[i],"--quantity")==0) ||
+            (strcmp(argv[i],"--qty")==0)) {
+            if (gs1_encoding == 0) {
+                if (hibc_encode("QUANTITY", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+                hibc_encoding = 1;
+            }
+        }
         if ((strcmp(argv[i],"--gsin")==0) ||
                 (strcmp(argv[i],"--GSIN")==0)) {
             if (hibc_encoding == 0) {

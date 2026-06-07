@@ -176,6 +176,24 @@ int hibc_encode(char * application_identifier, char data_str[],
         decode_strcat(encode_description, data_str);
         decode_strcat_char(encode_description, '\n');
     }
+    else if (strcmp(application_identifier, "QUANTITY") == 0) {
+        if ((data_len > 0) && (data_len < 6)) {
+			if ((int)strlen(encode_text) > 1) {
+				decode_strcat_char(encode_text, '/');
+			}
+			decode_strcat(encode_text, "Q");
+			decode_strcat(encode_text, data_str);
+
+			decode_strcat(encode_description, application_identifier);
+			decode_strcat(encode_description, ": ");
+			decode_strcat(encode_description, data_str);
+			decode_strcat_char(encode_description, '\n');
+		}
+        else {
+            printf("QUANTITY should be 1-5 characters\n");
+            return 1;
+        }
+    }
     else {
         return 1;
     }
