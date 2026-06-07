@@ -707,7 +707,6 @@ int main(int argc, char* argv[])
 
     /* add HIBC check character */
     if ((hibc_encoding != 0) && (encode_text[0] != 0)) {
-        printf("Test 43743\n");
         char hibc_check = hibc_check_character(encode_text);
         decode_strcat_char(encode_text, hibc_check);
 
