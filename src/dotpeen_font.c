@@ -850,7 +850,6 @@ char * font_misc[] = {
     "     ",
     "     ",
 
-    "     ",
     "  o  ",
     " oooo",
     "o o  ",
@@ -858,6 +857,7 @@ char * font_misc[] = {
     "  o o",
     "oooo ",
     "  o  ",
+    "     ",
     "     ",
     "     "
 };
