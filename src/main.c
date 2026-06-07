@@ -100,6 +100,7 @@ int main(int argc, char* argv[])
     int line_spacing = 6;
     unsigned char hibc_encoding = 0;
     unsigned char gs1_encoding = 0;
+    int unit_of_measure = -1;
 
     /* representations for dot and space for encoded datamatrix */
     sprintf(&dot_char[0], "●");
@@ -426,6 +427,7 @@ int main(int argc, char* argv[])
             if (gs1_encoding == 0) {
                 if (hibc_encode("UNIT OF MEASURE", argv[i+1],
                                 encode_text) != 0) return -1;
+                unit_of_measure = atoi(argv[i+1]);
                 hibc_encoding = 1;
             }
         }
@@ -447,6 +449,10 @@ int main(int argc, char* argv[])
         if ((strcmp(argv[i],"--quantity")==0) ||
             (strcmp(argv[i],"--qty")==0)) {
             if (gs1_encoding == 0) {
+                if (unit_of_measure != 9) {
+                    printf("QUANTITY may only be specified when UNIT OF MEASURE is 9\n");
+                    return -1;
+                }
                 if (hibc_encode("QUANTITY", argv[i+1],
                                 encode_text) != 0) return -1;
                 hibc_encoding = 1;
