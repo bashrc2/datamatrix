@@ -9,6 +9,7 @@
  * Outputs the plain text encoded by the datamatrix pattern
  * Implemented in pure [C99](https://en.wikipedia.org/wiki/C99)
  * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d) and digital links
+ * Supports [ANSI/HIBC](https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf) health industry supplier labeling standard
  * Can generate quality metrics for verification reports
  * Parallelized with [OpenMP](https://www.openmp.org)
  * No dependencies or software supply chains!
