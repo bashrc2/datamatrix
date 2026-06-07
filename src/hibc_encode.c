@@ -45,11 +45,6 @@ int hibc_encode(char * application_identifier, char data_str[],
                 decode_strcat_char(encode_text, '/');
             }
             decode_strcat(encode_text, data_str);
-
-            decode_strcat(encode_description, application_identifier);
-            decode_strcat(encode_description, ": ");
-            decode_strcat(encode_description, data_str);
-            decode_strcat_char(encode_description, '\n');
         }
         else {
             printf("LABELER ID should be 4 characters\n");
@@ -63,11 +58,6 @@ int hibc_encode(char * application_identifier, char data_str[],
                 return 1;
             }
             decode_strcat(encode_text, data_str);
-
-            decode_strcat(encode_description, application_identifier);
-            decode_strcat(encode_description, ": ");
-            decode_strcat(encode_description, data_str);
-            decode_strcat_char(encode_description, '\n');
         }
         else {
             printf("PRODUCT ID should be 4 characters\n");
@@ -81,11 +71,6 @@ int hibc_encode(char * application_identifier, char data_str[],
                 return 1;
             }
             decode_strcat(encode_text, data_str);
-
-            decode_strcat(encode_description, application_identifier);
-            decode_strcat(encode_description, ": ");
-            decode_strcat(encode_description, data_str);
-            decode_strcat_char(encode_description, '\n');
         }
         else {
             printf("UNIT OF MEASURE should be 1 character\n");
@@ -99,11 +84,6 @@ int hibc_encode(char * application_identifier, char data_str[],
             }
             decode_strcat(encode_text, "$$5");
             decode_strcat(encode_text, data_str);
-
-            decode_strcat(encode_description, application_identifier);
-            decode_strcat(encode_description, ": ");
-            decode_strcat(encode_description, data_str);
-            decode_strcat_char(encode_description, '\n');
         }
         else {
             printf("EXPIRY should be 5 characters YYDDD\n");
@@ -117,11 +97,6 @@ int hibc_encode(char * application_identifier, char data_str[],
             }
             decode_strcat(encode_text, "14D");
             decode_strcat(encode_text, data_str);
-
-            decode_strcat(encode_description, application_identifier);
-            decode_strcat(encode_description, ": ");
-            decode_strcat(encode_description, data_str);
-            decode_strcat_char(encode_description, '\n');
         }
         else {
             printf("EXPIRATION DATE should be 8 characters YYYYMMDD\n");
@@ -135,11 +110,6 @@ int hibc_encode(char * application_identifier, char data_str[],
             }
             decode_strcat(encode_text, "$");
             decode_strcat(encode_text, data_str);
-
-            decode_strcat(encode_description, application_identifier);
-            decode_strcat(encode_description, ": ");
-            decode_strcat(encode_description, data_str);
-            decode_strcat_char(encode_description, '\n');
         }
         else {
             printf("LOT NUMBER should be 4 characters\n");
@@ -153,11 +123,6 @@ int hibc_encode(char * application_identifier, char data_str[],
             }
             decode_strcat(encode_text, "16D");
             decode_strcat(encode_text, data_str);
-
-            decode_strcat(encode_description, application_identifier);
-            decode_strcat(encode_description, ": ");
-            decode_strcat(encode_description, data_str);
-            decode_strcat_char(encode_description, '\n');
         }
         else {
             printf("MANUFACTURE DATE should be 8 characters YYYYMMDD\n");
@@ -170,25 +135,15 @@ int hibc_encode(char * application_identifier, char data_str[],
         }
         decode_strcat(encode_text, "S");
         decode_strcat(encode_text, data_str);
-
-        decode_strcat(encode_description, application_identifier);
-        decode_strcat(encode_description, ": ");
-        decode_strcat(encode_description, data_str);
-        decode_strcat_char(encode_description, '\n');
     }
     else if (strcmp(application_identifier, "QUANTITY") == 0) {
         if ((data_len > 0) && (data_len < 6)) {
-			if ((int)strlen(encode_text) > 1) {
-				decode_strcat_char(encode_text, '/');
-			}
-			decode_strcat(encode_text, "Q");
-			decode_strcat(encode_text, data_str);
-
-			decode_strcat(encode_description, application_identifier);
-			decode_strcat(encode_description, ": ");
-			decode_strcat(encode_description, data_str);
-			decode_strcat_char(encode_description, '\n');
-		}
+            if ((int)strlen(encode_text) > 1) {
+                decode_strcat_char(encode_text, '/');
+            }
+            decode_strcat(encode_text, "Q");
+            decode_strcat(encode_text, data_str);
+        }
         else {
             printf("QUANTITY should be 1-5 characters\n");
             return 1;
@@ -196,6 +151,13 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else {
         return 1;
+    }
+
+    if ((int)strlen(encode_text) > 0) {
+        encode_description[0] = 0;
+        decode_strcat_char(encode_description, '*');
+        decode_strcat(encode_description, encode_text);
+        decode_strcat(encode_description, "*\n");
     }
     return 0;
 }
