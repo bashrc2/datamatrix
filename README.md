@@ -90,7 +90,7 @@ sudo make install
 --sellby [YYMMDD]              Generate a GS1 datamatrix with the given SELL BY
 --useby [YYMMDD]               Generate a GS1 datamatrix with the given USE BY
 --variant [two digits]         Generate a GS1 datamatrix with the given VARIANT
---serial [number]              Generate a GS1 datamatrix with the given SERIAL
+--serial [number]              Generate a GS1/HIBC datamatrix with the given SERIAL
 --custpartno [number]          Generate a GS1 datamatrix with the given CUST PART NO
 --mtovariant [code]            Generate a GS1 datamatrix with the given MTO VARIANT
 --gdti [code]                  Generate a GS1 datamatrix with the given GDTI
@@ -101,6 +101,13 @@ sudo make install
 --shipto [code]                Generate a GS1 datamatrix with the given SHIP TO LOC
 --billto [code]                Generate a GS1 datamatrix with the given BILL TO
 --origin [code]                Generate a GS1 datamatrix with the given ORIGIN
+--labeler [4 characters]       Generate a HIBC datamatrix with the given LABELER ID
+--prodid [4 characters]        Generate a HIBC datamatrix with the given PRODUCT ID
+--unit [1 character]           Generate a HIBC datamatrix with the given UNIT OF MEASURE
+--expiry [YYDDD]               Generate a HIBC datamatrix with the given EXPIRY
+--expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE
+--mandate [YYYYMMDD]           Generate a HIBC datamatrix with the given MANUFACTURE DATE
+--lot [4 characters]           Generate a HIBC datamatrix with the given LOT NUMBER
 --txt [text]                   Decode a text string containing a datamatrix
 --squaremodules                Generated datamatrix has square modules
 --dot [character]              Custom dot character when generating a datamatrix
@@ -129,6 +136,12 @@ You can also GS1 encode a datamatrix using the typical fields.
 
 ``` bash
 datamatrix --gtin 12345678901234 --batch 3725a --serial 738235495
+```
+
+Or use HIBC encoding:
+
+``` bash
+datamatrix --labeler A999 --prodid 1234 --unit 5 --expiry 26034 --mandate 20260116
 ```
 
 You can specify how dots and spaces appear.
