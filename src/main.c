@@ -276,8 +276,8 @@ int main(int argc, char* argv[])
                 gs1_encoding = 1;
             }
             else {
-                if (hibc_encode("LOT NUMBER", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("LOT NUMBER", argv[i+1],
+                                encode_text) != 0) return -1;
             }
         }
         if ((strcmp(argv[i],"--proddate")==0) ||
@@ -289,8 +289,8 @@ int main(int argc, char* argv[])
                 gs1_encoding = 1;
             }
             else {
-                if (hibc_encode("MANUFACTURE DATE", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("MANUFACTURE DATE", argv[i+1],
+                                encode_text) != 0) return -1;
             }
         }
         if ((strcmp(argv[i],"--duedate")==0) ||
@@ -351,9 +351,8 @@ int main(int argc, char* argv[])
                 gs1_encoding = 1;
             }
             else {
-                if (hibc_encode("SUPPLIER SERIAL NUMBER",
-                                argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("SUPPLIER SERIAL NUMBER", argv[i+1],
+                                encode_text) != 0) return -1;
             }
         }
         if ((strcmp(argv[i],"--custpartno")==0) ||
@@ -407,8 +406,8 @@ int main(int argc, char* argv[])
         if ((strcmp(argv[i],"--labeler")==0) ||
                 (strcmp(argv[i],"--labelerid")==0)) {
             if (gs1_encoding == 0) {
-                if (hibc_encode("LABELER ID", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("LABELER ID", argv[i+1],
+                                encode_text) != 0) return -1;
                 hibc_encoding = 1;
             }
         }
@@ -417,39 +416,39 @@ int main(int argc, char* argv[])
             (strcmp(argv[i],"--catalog")==0) ||
                 (strcmp(argv[i],"--productid")==0)) {
             if (gs1_encoding == 0) {
-                if (hibc_encode("PRODUCT ID", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("PRODUCT ID", argv[i+1],
+                                encode_text) != 0) return -1;
                 hibc_encoding = 1;
             }
         }
         if ((strcmp(argv[i],"--unit")==0) ||
                 (strcmp(argv[i],"--oum")==0)) {
             if (gs1_encoding == 0) {
-                if (hibc_encode("UNIT OF MEASURE", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("UNIT OF MEASURE", argv[i+1],
+                                encode_text) != 0) return -1;
                 hibc_encoding = 1;
             }
         }
         if ((strcmp(argv[i],"--expiry")==0) ||
                 (strcmp(argv[i],"--exp")==0)) {
             if (gs1_encoding == 0) {
-                if (hibc_encode("EXPIRY", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("EXPIRY", argv[i+1],
+                                encode_text) != 0) return -1;
                 hibc_encoding = 1;
             }
         }
         if (strcmp(argv[i],"--expiration")==0) {
             if (gs1_encoding == 0) {
-                if (hibc_encode("EXPIRATION DATE", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("EXPIRATION DATE", argv[i+1],
+                                encode_text) != 0) return -1;
                 hibc_encoding = 1;
             }
         }
         if ((strcmp(argv[i],"--quantity")==0) ||
             (strcmp(argv[i],"--qty")==0)) {
             if (gs1_encoding == 0) {
-                if (hibc_encode("QUANTITY", argv[i+1], encode_text,
-                                &encode_description[0]) != 0) return -1;
+                if (hibc_encode("QUANTITY", argv[i+1],
+                                encode_text) != 0) return -1;
                 hibc_encoding = 1;
             }
         }

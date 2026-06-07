@@ -620,7 +620,7 @@ int gs1_encode(int application_identifier, char data_str[],
 /* hibc_encode.c */
 
 int hibc_encode(char * application_identifier, char data_str[],
-                char encode_text[], char encode_description[]);
+                char encode_text[]);
 
 char hibc_check_character(char * encode_text);
 

@@ -48,11 +48,10 @@ char hibc_check_character(char * encode_text)
  * \param application_identifier Application identifier string
  * \param data_str Data to be used with the application identifier
  * \param encode_text Returned encoded string
- * \param encode_description Returned description shown beneath the datamatrix
  * \return zero on success
  */
 int hibc_encode(char * application_identifier, char data_str[],
-                char encode_text[], char encode_description[])
+                char encode_text[])
 {
     int data_len = (int)strlen(data_str);
 
