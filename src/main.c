@@ -705,6 +705,19 @@ int main(int argc, char* argv[])
         }
     }
 
+    /* add HIBC check character */
+    if ((hibc_encoding != 0) && (encode_text[0] != 0)) {
+        printf("Test 43743\n");
+        char hibc_check = hibc_check_character(encode_text);
+        decode_strcat_char(encode_text, hibc_check);
+
+        /* create the display version for use within images */
+        encode_description[0] = 0;
+        decode_strcat_char(encode_description, '*');
+        decode_strcat(encode_description, encode_text);
+        decode_strcat(encode_description, "*\n");       
+    }
+    
     if (decode_from_text[0] != 0) {
         if ((dot_char_specified == 1) ||
                 (empty_char_specified == 1)) {

@@ -74,10 +74,6 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "PRODUCT ID") == 0) {
         if (data_len == 4) {
-            if (strstr("LABELER ID", encode_description) != 0) {
-                printf("LABELER ID should have been set before PRODUCT ID\n");
-                return 1;
-            }
             decode_strcat(encode_text, data_str);
         }
         else {
@@ -87,10 +83,6 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "UNIT OF MEASURE") == 0) {
         if (data_len == 1) {
-            if (strstr("PRODUCT ID", encode_description) != 0) {
-                printf("PRODUCT ID should have been set before UNIT OF MEASURE\n");
-                return 1;
-            }
             decode_strcat(encode_text, data_str);
         }
         else {
@@ -174,11 +166,5 @@ int hibc_encode(char * application_identifier, char data_str[],
         return 1;
     }
 
-    if ((int)strlen(encode_text) > 0) {
-        encode_description[0] = 0;
-        decode_strcat_char(encode_description, '*');
-        decode_strcat(encode_description, encode_text);
-        decode_strcat(encode_description, "*\n");
-    }
     return 0;
 }
