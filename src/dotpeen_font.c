@@ -715,7 +715,7 @@ char * font_numbers[] = {
     "     "
 };
 
-char * font_misc_lookup = " .,:/-()[]";
+char * font_misc_lookup = " .,:/-()[]+$";
 char * font_misc[] = {
     "     ",
     "     ",
@@ -825,6 +825,28 @@ char * font_misc[] = {
     "  o  ",
     " oo  ",
     "     ",
+    "     ",
+    "     ",
+
+    "     ",
+    "     ",
+    "  o  ",
+    "  o  ",
+    "ooooo",
+    "  o  ",
+    "  o  ",
+    "     ",
+    "     ",
+    "     ",
+
+    "     ",
+    "  o  ",
+    " oooo",
+    "o o  ",
+    " ooo ",
+    "  o o",
+    "oooo ",
+    "  o  ",
     "     ",
     "     "
 };
