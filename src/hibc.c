@@ -84,27 +84,32 @@ static char * hibc_secondary_data_flag(char result[], int start_index,
 
                 switch(result[start_index+2]) {
                 case '2': {
-                    date_value = data_id_convert_date("MMDDYY", &result[start_index+3]);
+                    date_value = data_id_convert_date("MMDDYY",
+                                                      &result[start_index+3]);
                     date_offset = 4+6;
                     break;
                 }
                 case '3': {
-                    date_value = data_id_convert_date("YYMMDD", &result[start_index+3]);
+                    date_value = data_id_convert_date("YYMMDD",
+                                                      &result[start_index+3]);
                     date_offset = 4+6;
                     break;
                 }
                 case '4': {
-                    date_value = data_id_convert_date("YYMMDDHH", &result[start_index+3]);
+                    date_value = data_id_convert_date("YYMMDDHH",
+                                                      &result[start_index+3]);
                     date_offset = 4+8;
                     break;
                 }
                 case '5': {
-                    date_value = data_id_convert_date("YYJJJ", &result[start_index+3]);
+                    date_value = data_id_convert_date("YYJJJ",
+                                                      &result[start_index+3]);
                     date_offset = 4+5;
                     break;
                 }
                 case '6': {
-                    date_value = data_id_convert_date("YYJJJHH", &result[start_index+3]);
+                    date_value = data_id_convert_date("YYJJJHH",
+                                                      &result[start_index+3]);
                     date_offset = 4+7;
                     break;
                 }
