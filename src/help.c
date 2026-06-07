@@ -79,7 +79,7 @@ void show_help()
     printf("   --sellby [YYMMDD]              Generate a GS1 datamatrix with the given SELL BY\n");
     printf("   --useby [YYMMDD]               Generate a GS1 datamatrix with the given USE BY\n");
     printf("   --variant [two digits]         Generate a GS1 datamatrix with the given VARIANT\n");
-    printf("   --serial [number]              Generate a GS1 datamatrix with the given SERIAL\n");
+    printf("   --serial [number]              Generate a GS1/HIBC datamatrix with the given SERIAL\n");
     printf("   --custpartno [number]          Generate a GS1 datamatrix with the given CUST PART NO\n");
     printf("   --mtovariant [code]            Generate a GS1 datamatrix with the given MTO VARIANT\n");
     printf("   --gdti [code]                  Generate a GS1 datamatrix with the given GDTI\n");
@@ -90,6 +90,14 @@ void show_help()
     printf("   --shipto [code]                Generate a GS1 datamatrix with the given SHIP TO LOC\n");
     printf("   --billto [code]                Generate a GS1 datamatrix with the given BILL TO\n");
     printf("   --origin [code]                Generate a GS1 datamatrix with the given ORIGIN\n");
+    printf("   --labeler [4 characters]       Generate a HIBC datamatrix with the given LABELER ID\n");
+    printf("   --prodid [4 characters]        Generate a HIBC datamatrix with the given PRODUCT ID\n");
+    printf("   --unit [1 character]           Generate a HIBC datamatrix with the given UNIT OF MEASURE\n");
+    printf("   --expiry [YYDDD]               Generate a HIBC datamatrix with the given EXPIRY\n");
+    printf("   --expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE\n");
+    printf("   --mandate [YYYYMMDD]           Generate a HIBC datamatrix with the given MANUFACTURE DATE\n");
+    printf("   --lot [4 characters]           Generate a HIBC datamatrix with the given LOT NUMBER\n");
+    printf("   --qty [1-5 digits]             Generate a HIBC datamatrix with the given QUANTITY\n");
     printf("   --txt [text]                   Decode a text string containing a datamatrix\n");
     printf("   --squaremodules                Generated datamatrix has square modules\n");
     printf("   --dot [character]              Custom dot character when generating a datamatrix\n");
