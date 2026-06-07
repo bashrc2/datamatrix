@@ -473,6 +473,13 @@ static void test_hibc_translate()
                   "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 31 Dec 2011\nEXPIRATION DATE YYYYMMDD: 31 Jan 2020\n") == 0);
 }
 
+static void test_hibc_check_character()
+{
+    char * hibc_text = "+A123BJC5D6E71";
+    char check = hibc_check_character(hibc_text);
+    assert(check == 'G');
+}
+
 static void test_gs1_currency()
 {
     printf("test_gs1_currency\n");
@@ -865,5 +872,6 @@ void run_all_tests()
     test_fishing_gear_type();
     test_aquatic_species();
     test_fishing_area();
+    test_hibc_check_character();
     printf("All tests complete\n");
 }

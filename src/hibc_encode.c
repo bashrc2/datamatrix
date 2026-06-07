@@ -23,6 +23,27 @@
 #include "datamatrix.h"
 
 /**
+ * \brief Returns the HIBC check character for the given text
+ * \param encode_text Encoded HIBC string
+ * \return Check character
+ */
+char hibc_check_character(char * encode_text)
+{
+    const char * lookup = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+    int sum = 0;
+
+    for (int i = 0; i < (int)strlen(encode_text); i++) {
+        for (int j = 0; j < (int)strlen(lookup); j++) {
+            if (encode_text[i] == lookup[j]) {
+                sum += j;
+                break;
+            }
+        }
+    }
+    return lookup[sum % 43];
+}
+
+/**
  * \brief encodes a HIBC application identifier into the given encoded string
  * \param application_identifier Application identifier string
  * \param data_str Data to be used with the application identifier

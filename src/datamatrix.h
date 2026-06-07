@@ -622,6 +622,8 @@ int gs1_encode(int application_identifier, char data_str[],
 int hibc_encode(char * application_identifier, char data_str[],
                 char encode_text[], char encode_description[]);
 
+char hibc_check_character(char * encode_text);
+
 /* condense.c */
 
 unsigned char condense_data_blocks(struct grid_2d * grid,
