@@ -422,7 +422,7 @@ int main(int argc, char* argv[])
             }
         }
         if ((strcmp(argv[i],"--unit")==0) ||
-                (strcmp(argv[i],"--oum")==0)) {
+                (strcmp(argv[i],"--uom")==0)) {
             if (gs1_encoding == 0) {
                 if (hibc_encode("UNIT OF MEASURE", argv[i+1],
                                 encode_text) != 0) return -1;
