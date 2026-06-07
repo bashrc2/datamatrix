@@ -61,10 +61,16 @@ int hibc_encode(char * application_identifier, char data_str[],
 
     if (strcmp(application_identifier, "LABELER ID") == 0) {
         if (data_len == 4) {
-            if ((int)strlen(encode_text) > 1) {
-                decode_strcat_char(encode_text, '/');
+            if ((data_str[0] >= 'A') && (data_str[0] <= 'Z')) {
+                if ((int)strlen(encode_text) > 1) {
+                    decode_strcat_char(encode_text, '/');
+                }
+                decode_strcat(encode_text, data_str);
             }
-            decode_strcat(encode_text, data_str);
+            else {
+                printf("LABELER ID first character should be a letter A-Z\n");
+                return 1;
+            }
         }
         else {
             printf("LABELER ID should be 4 characters\n");
