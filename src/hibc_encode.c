@@ -82,10 +82,16 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "UNIT OF MEASURE") == 0) {
         if (data_len == 1) {
-            decode_strcat(encode_text, data_str);
+            if ((data_str[0] >= '0') && (data_str[0] <= '9')) {
+                decode_strcat(encode_text, data_str);
+            }
+            else {
+                printf("UNIT OF MEASURE should be a number\n");
+                return 1;
+            }
         }
         else {
-            printf("UNIT OF MEASURE should be 1 character\n");
+            printf("UNIT OF MEASURE should be 1 digit\n");
             return 1;
         }
     }
