@@ -98,8 +98,8 @@ int main(int argc, char* argv[])
     unsigned char description_position = DESCRIPTION_BELOW;
     int character_width = 20;
     int line_spacing = 6;
-	unsigned char hibc_encoding = 0;
-	unsigned char gs1_encoding = 0;
+    unsigned char hibc_encoding = 0;
+    unsigned char gs1_encoding = 0;
 
     /* representations for dot and space for encoded datamatrix */
     sprintf(&dot_char[0], "●");
@@ -236,244 +236,246 @@ int main(int argc, char* argv[])
         }
         if ((strcmp(argv[i],"--sscc")==0) ||
                 (strcmp(argv[i],"--SSCC")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(0, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(0, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--gtin")==0) ||
                 (strcmp(argv[i],"--GTIN")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(1, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(1, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--content")==0) ||
                 (strcmp(argv[i],"--CONTENT")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(2, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(2, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--mtogtin")==0) ||
                 (strcmp(argv[i],"--MTOGTIN")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(3, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(3, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--batch")==0) ||
                 (strcmp(argv[i],"--BATCH")==0) ||
                 (strcmp(argv[i],"--lot")==0) ||
                 (strcmp(argv[i],"--LOT")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(10, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
-			else {
-				if (hibc_encode("LOT NUMBER", argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(10, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
+            else {
+                if (hibc_encode("LOT NUMBER", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+            }
         }
         if ((strcmp(argv[i],"--proddate")==0) ||
-			(strcmp(argv[i],"--mandate")==0) ||
+            (strcmp(argv[i],"--mandate")==0) ||
                 (strcmp(argv[i],"--PRODDATE")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(11, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
-			else {
-				if (hibc_encode("MANUFACTURE DATE", argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(11, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
+            else {
+                if (hibc_encode("MANUFACTURE DATE", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+            }
         }
         if ((strcmp(argv[i],"--duedate")==0) ||
                 (strcmp(argv[i],"--DUEDATE")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(12, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(12, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--packdate")==0) ||
                 (strcmp(argv[i],"--PACKDATE")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(13, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(13, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--bestbefore")==0) ||
                 (strcmp(argv[i],"--bestby")==0) ||
                 (strcmp(argv[i],"--BESTBEFORE")==0) ||
                 (strcmp(argv[i],"--BESTBY")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(15, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(15, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--sellby")==0) ||
                 (strcmp(argv[i],"--SELLBY")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(16, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(16, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--useby")==0) ||
                 (strcmp(argv[i],"--USEBY")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(17, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(17, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--variant")==0) ||
                 (strcmp(argv[i],"--VARIANT")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(20, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(20, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--serial")==0) ||
                 (strcmp(argv[i],"--SERIAL")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(21, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
-			else {
-				if (hibc_encode("SUPPLIER SERIAL NUMBER",
-								argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(21, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
+            else {
+                if (hibc_encode("SUPPLIER SERIAL NUMBER",
+                                argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+            }
         }
         if ((strcmp(argv[i],"--custpartno")==0) ||
                 (strcmp(argv[i],"--CUSTPARTNO")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(241, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(241, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--mtovariant")==0) ||
                 (strcmp(argv[i],"--MTOVARIANT")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(242, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(242, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--gdti")==0) ||
                 (strcmp(argv[i],"--GDTI")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(253, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(253, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--gln")==0) ||
                 (strcmp(argv[i],"--GLN")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(254, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(254, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--gcn")==0) ||
                 (strcmp(argv[i],"--GCN")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(255, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(255, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--orderno")==0) ||
                 (strcmp(argv[i],"--ORDERNO")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(400, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(400, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--labeler")==0) ||
                 (strcmp(argv[i],"--labelerid")==0)) {
-			if (gs1_encoding == 0) {
-				if (hibc_encode("LABELER ID", argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-				hibc_encoding = 1;
-			}
+            if (gs1_encoding == 0) {
+                if (hibc_encode("LABELER ID", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+                hibc_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--prodid")==0) ||
+            (strcmp(argv[i],"--pcn")==0) ||
+            (strcmp(argv[i],"--catalog")==0) ||
                 (strcmp(argv[i],"--productid")==0)) {
-			if (gs1_encoding == 0) {
-				if (hibc_encode("PRODUCT ID", argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-				hibc_encoding = 1;
-			}
+            if (gs1_encoding == 0) {
+                if (hibc_encode("PRODUCT ID", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+                hibc_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--unit")==0) ||
                 (strcmp(argv[i],"--oum")==0)) {
-			if (gs1_encoding == 0) {
-				if (hibc_encode("UNIT OF MEASURE", argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-				hibc_encoding = 1;
-			}
+            if (gs1_encoding == 0) {
+                if (hibc_encode("UNIT OF MEASURE", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+                hibc_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--expiry")==0) ||
                 (strcmp(argv[i],"--exp")==0)) {
-			if (gs1_encoding == 0) {
-				if (hibc_encode("EXPIRY", argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-				hibc_encoding = 1;
-			}
+            if (gs1_encoding == 0) {
+                if (hibc_encode("EXPIRY", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+                hibc_encoding = 1;
+            }
         }
         if (strcmp(argv[i],"--expiration")==0) {
-			if (gs1_encoding == 0) {
-				if (hibc_encode("EXPIRATION DATE", argv[i+1], encode_text,
-								&encode_description[0]) != 0) return -1;
-				hibc_encoding = 1;
-			}
+            if (gs1_encoding == 0) {
+                if (hibc_encode("EXPIRATION DATE", argv[i+1], encode_text,
+                                &encode_description[0]) != 0) return -1;
+                hibc_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--gsin")==0) ||
                 (strcmp(argv[i],"--GSIN")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(402, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(402, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--shipto")==0) ||
                 (strcmp(argv[i],"--SHIPTO")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(410, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(410, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--billto")==0) ||
                 (strcmp(argv[i],"--BILLTO")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(411, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(411, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if ((strcmp(argv[i],"--origin")==0) ||
                 (strcmp(argv[i],"--ORIGIN")==0)) {
-			if (hibc_encoding == 0) {
-				if (gs1_encode(422, argv[i+1], encode_text,
-							   &encode_description[0]) != 0) return -1;
-				gs1_encoding = 1;
-			}
+            if (hibc_encoding == 0) {
+                if (gs1_encode(422, argv[i+1], encode_text,
+                               &encode_description[0]) != 0) return -1;
+                gs1_encoding = 1;
+            }
         }
         if (strcmp(argv[i],"--dot")==0) {
             if ((int)strlen(argv[i+1]) <= 3) {
