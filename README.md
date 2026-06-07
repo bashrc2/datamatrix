@@ -179,6 +179,7 @@ You can also export the generated datamatrix as an image in PNG or SVG format.
 
 ``` bash
 datamatrix --gtin 12345678901234 --pos right --charwidth 20 -o test.png -w 512
+datamatrix --labeler A999 --prodid 1234 --unit 5 --expiry 26034 --mandate 20260116 -o test.png --charwidth 12
 ```
 
 ## Example Decoding
