@@ -617,6 +617,11 @@ void gs1_semantics(char result[],
 int gs1_encode(int application_identifier, char data_str[],
                char encode_text[], char encode_description[]);
 
+/* hibc_encode.c */
+
+int hibc_encode(char * application_identifier, char data_str[],
+                char encode_text[], char encode_description[]);
+
 /* condense.c */
 
 unsigned char condense_data_blocks(struct grid_2d * grid,
