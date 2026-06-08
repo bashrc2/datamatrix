@@ -2271,6 +2271,24 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                     }
                 }
             }
+            /* is this an AMD CPU? */
+            if ((int)strlen(result) == 27) {
+                if (strstr(result, "_100-") != NULL) {
+                    if ((result[13] == '_') && (result[17] == '-')) {
+                        char * amd_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+                        amd_result[0] = 0;
+                        decode_strcat(amd_result, "AMD CPU SERIAL: ");
+                        for (i = 0; i < 13; i++) {
+                            decode_strcat_char(amd_result, result[i]);
+                        }
+                        decode_strcat(amd_result, "\nAMD CPU OPN: ");
+                        decode_strcat(amd_result, &result[14]);
+                        result[0] = 0;
+                        decode_strcat(result, amd_result);
+                        free(amd_result);
+                    }
+                }
+            }           
         }
         grid->unused_error_correction =
             get_unused_error_correction(codewords_length,
