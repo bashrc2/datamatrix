@@ -455,6 +455,14 @@ int main(int argc, char* argv[])
                 hibc_encoding = 1;
             }
         }
+        if ((strcmp(argv[i],"--expiryjulianhour")==0) ||
+                (strcmp(argv[i],"--expjulhr")==0)) {
+            if (gs1_encoding == 0) {
+                if (hibc_encode("EXPIRY JULIAN HOUR", argv[i+1],
+                                encode_text) != 0) return -1;
+                hibc_encoding = 1;
+            }
+        }
         if (strcmp(argv[i],"--expiration")==0) {
             if (gs1_encoding == 0) {
                 if (hibc_encode("EXPIRATION DATE", argv[i+1],

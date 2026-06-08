@@ -106,6 +106,7 @@ sudo make install
 --prodid [4 characters]        Generate a HIBC datamatrix with the given PRODUCT ID
 --unit [1 character]           Generate a HIBC datamatrix with the given UNIT OF MEASURE
 --expiryjulian [YYJJJ]         Generate a HIBC datamatrix with the given EXPIRY julian day
+--expiryjulianhour [YYJJJHH]   Generate a HIBC datamatrix with the given EXPIRY julian hour
 --expiry [YYMMDD]              Generate a HIBC datamatrix with the given EXPIRY
 --expiryjour [YYMMDDHH]        Generate a HIBC datamatrix with the given EXPIRY hour
 --expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE

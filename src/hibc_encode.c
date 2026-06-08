@@ -140,6 +140,19 @@ int hibc_encode(char * application_identifier, char data_str[],
             return 1;
         }
     }
+    else if (strcmp(application_identifier, "EXPIRY JULIAN HOUR") == 0) {
+        if (data_len == 7) {
+            if ((int)strlen(encode_text) > 1) {
+                decode_strcat_char(encode_text, '/');
+            }
+            decode_strcat(encode_text, "$$6");
+            decode_strcat(encode_text, data_str);
+        }
+        else {
+            printf("EXPIRY HOUR should be 7 digits YYJJJHH\n");
+            return 1;
+        }
+    }
     else if (strcmp(application_identifier, "EXPIRATION DATE") == 0) {
         if (data_len == 8) {
             if ((int)strlen(encode_text) > 1) {
