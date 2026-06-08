@@ -101,7 +101,7 @@ int hibc_encode(char * application_identifier, char data_str[],
             return 1;
         }
     }
-    else if (strcmp(application_identifier, "EXPIRY") == 0) {
+    else if (strcmp(application_identifier, "EXPIRY JULIAN") == 0) {
         if (data_len == 5) {
             if ((int)strlen(encode_text) > 1) {
                 decode_strcat_char(encode_text, '/');
@@ -110,7 +110,33 @@ int hibc_encode(char * application_identifier, char data_str[],
             decode_strcat(encode_text, data_str);
         }
         else {
-            printf("EXPIRY should be 5 characters YYDDD\n");
+            printf("EXPIRY JULIAN should be 5 digits YYJJJ\n");
+            return 1;
+        }
+    }
+    else if (strcmp(application_identifier, "EXPIRY") == 0) {
+        if (data_len == 6) {
+            if ((int)strlen(encode_text) > 1) {
+                decode_strcat_char(encode_text, '/');
+            }
+            decode_strcat(encode_text, "$$3");
+            decode_strcat(encode_text, data_str);
+        }
+        else {
+            printf("EXPIRY should be 6 digits YYMMDD\n");
+            return 1;
+        }
+    }
+    else if (strcmp(application_identifier, "EXPIRY HOUR") == 0) {
+        if (data_len == 8) {
+            if ((int)strlen(encode_text) > 1) {
+                decode_strcat_char(encode_text, '/');
+            }
+            decode_strcat(encode_text, "$$4");
+            decode_strcat(encode_text, data_str);
+        }
+        else {
+            printf("EXPIRY HOUR should be 8 digits YYMMDDHH\n");
             return 1;
         }
     }
@@ -123,7 +149,7 @@ int hibc_encode(char * application_identifier, char data_str[],
             decode_strcat(encode_text, data_str);
         }
         else {
-            printf("EXPIRATION DATE should be 8 characters YYYYMMDD\n");
+            printf("EXPIRATION DATE should be 8 digits YYYYMMDD\n");
             return 1;
         }
     }

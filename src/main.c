@@ -431,10 +431,26 @@ int main(int argc, char* argv[])
                 hibc_encoding = 1;
             }
         }
+        if ((strcmp(argv[i],"--expiryjulian")==0) ||
+                (strcmp(argv[i],"--expjul")==0)) {
+            if (gs1_encoding == 0) {
+                if (hibc_encode("EXPIRY JULIAN", argv[i+1],
+                                encode_text) != 0) return -1;
+                hibc_encoding = 1;
+            }
+        }
         if ((strcmp(argv[i],"--expiry")==0) ||
                 (strcmp(argv[i],"--exp")==0)) {
             if (gs1_encoding == 0) {
                 if (hibc_encode("EXPIRY", argv[i+1],
+                                encode_text) != 0) return -1;
+                hibc_encoding = 1;
+            }
+        }
+        if ((strcmp(argv[i],"--expiryhour")==0) ||
+                (strcmp(argv[i],"--exphr")==0)) {
+            if (gs1_encoding == 0) {
+                if (hibc_encode("EXPIRY HOUR", argv[i+1],
                                 encode_text) != 0) return -1;
                 hibc_encoding = 1;
             }

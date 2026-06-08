@@ -93,7 +93,9 @@ void show_help()
     printf("   --labeler [4 characters]       Generate a HIBC datamatrix with the given LABELER ID\n");
     printf("   --prodid [4 characters]        Generate a HIBC datamatrix with the given PRODUCT ID\n");
     printf("   --unit [1 character]           Generate a HIBC datamatrix with the given UNIT OF MEASURE\n");
-    printf("   --expiry [YYDDD]               Generate a HIBC datamatrix with the given EXPIRY\n");
+    printf("   --expiryjulian [YYJJJ]         Generate a HIBC datamatrix with the given EXPIRY julian day\n");
+    printf("   --expiry [YYMMDD]              Generate a HIBC datamatrix with the given EXPIRY\n");
+    printf("   --expiryhour [YYMMDDHH]        Generate a HIBC datamatrix with the given EXPIRY hour\n");
     printf("   --expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE\n");
     printf("   --mandate [YYYYMMDD]           Generate a HIBC datamatrix with the given MANUFACTURE DATE\n");
     printf("   --lot [4 characters]           Generate a HIBC datamatrix with the given LOT NUMBER\n");

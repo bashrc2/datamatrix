@@ -105,7 +105,9 @@ sudo make install
 --labeler [4 characters]       Generate a HIBC datamatrix with the given LABELER ID
 --prodid [4 characters]        Generate a HIBC datamatrix with the given PRODUCT ID
 --unit [1 character]           Generate a HIBC datamatrix with the given UNIT OF MEASURE
---expiry [YYDDD]               Generate a HIBC datamatrix with the given EXPIRY
+--expiryjulian [YYJJJ]         Generate a HIBC datamatrix with the given EXPIRY julian day
+--expiry [YYMMDD]              Generate a HIBC datamatrix with the given EXPIRY
+--expiryjour [YYMMDDHH]        Generate a HIBC datamatrix with the given EXPIRY hour
 --expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE
 --mandate [YYYYMMDD]           Generate a HIBC datamatrix with the given MANUFACTURE DATE
 --lot [4 characters]           Generate a HIBC datamatrix with the given LOT NUMBER
