@@ -668,7 +668,7 @@ static void test_package_type()
 {
     char * package_code1 = "1W";
     char * description = get_package_type(package_code1);
-    assert(strstr(description, "Drum, wooden") == 0);
+    assert(strstr(description, "Drum, wooden") == NULL);
 }
 
 static void test_meat_cut()
@@ -677,19 +677,19 @@ static void test_meat_cut()
     assert((int)strlen(unece_code1) == 20);
     char * description = get_meat_cut(unece_code1);
     printf("\nMeat cut:\n%s\n", description);
-    assert(strstr("SPECIES: Bovine (Beef)", description) == 0);
-    assert(strstr("PROD CODE: Brisket", description) == 0);
-    assert(strstr("REFRIGERATION: CHILLED", description) == 0);
-    assert(strstr("BOVINE CATEGORY: STEER AND/OR HEIFER", description) == 0);
-    assert(strstr("PRODUCTION SYSTEM: ORGANIC", description) == 0);
-    assert(strstr("FEEDING SYSTEM: FORAGE FED", description) == 0);
-    assert(strstr("SLAUGHTER SYSTEM: CONVENTIONAL", description) == 0);
-    assert(strstr("POST-SLAUGHTER PROCESSING: NOT SPECIFIED", description) == 0);
-    assert(strstr("FAT THICKNESS: 3MM", description) == 0);
-    assert(strstr("BOVINE QUALITY SYSTEM: NOT SPECIFIED", description) == 0);
-    assert(strstr("WEIGHT RANGE: NOT SPECIFIED", description) == 0);
-    assert(strstr("PACKING: CUTS - VACUUM PACKED", description) == 0);
-    assert(strstr("CONFORMITY: NOT SPECIFIED", description) == 0);
+    assert(strstr(description, "SPECIES: Bovine (Beef)") != NULL);
+    assert(strstr(description, "PROD CODE: Brisket") != NULL);
+    assert(strstr(description, "REFRIGERATION: CHILLED") != NULL);
+    assert(strstr(description, "BOVINE CATEGORY: STEER AND/OR HEIFER") != NULL);
+    assert(strstr(description, "PRODUCTION SYSTEM: ORGANIC") != NULL);
+    assert(strstr(description, "FEEDING SYSTEM: FORAGE FED") != NULL);
+    assert(strstr(description, "SLAUGHTER SYSTEM: CONVENTIONAL") != NULL);
+    assert(strstr(description, "POST-SLAUGHTER PROCESSING: NOT SPECIFIED") != NULL);
+    assert(strstr(description, "FAT THICKNESS: 3MM") != NULL);
+    assert(strstr(description, "BOVINE QUALITY SYSTEM: NOT SPECIFIED") != NULL);
+    assert(strstr(description, "WEIGHT RANGE: NOT SPECIFIED") != NULL);
+    assert(strstr(description, "PACKING: CUTS - VACUUM PACKED") != NULL);
+    assert(strstr(description, "CONFORMITY: NOT SPECIFIED") != NULL);
     free(description);
 }
 
@@ -704,14 +704,13 @@ static void test_north_american_coupon()
                          &company_prefix_code[0]);
     assert(description != NULL);
     printf("\nExample 1\n%s\n", description);
-    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
-    assert(strstr("COMPANY: 0012666", description) == 0);
-    assert(strstr("DATA FIELD 2 - THIRD QUALIFYING PURCHASE: 2",
-                  description) == 0);
-    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
-    assert(strstr("OFFER CODE: 654321", description) == 0);
-    assert(strstr("SAVE VALUE: 150", description) == 0);
-    assert(strstr("THIRD PURCHASE FAMILY CODE: 256", description) == 0);
+    assert(strstr(description, "EXPIRATION DATE: 31 Dec 2010") != NULL);
+    assert(strstr(description, "COMPANY: 0012666") != NULL);
+    assert(strstr(description, "DATA FIELD 2 - THIRD QUALIFYING PURCHASE: 2") != NULL);
+    assert(strstr(description, "PRIMARY PURCHASE FAMILY CODE: 120") != NULL);
+    assert(strstr(description, "OFFER CODE: 654321") != NULL);
+    assert(strstr(description, "SAVE VALUE: 150") != NULL);
+    assert(strstr(description, "THIRD PURCHASE FAMILY CODE: 256") != NULL);
     free(description);
 
     char * coupon2 = "8110106141410012342501106501013085093101231";
@@ -719,11 +718,11 @@ static void test_north_american_coupon()
                                             &company_prefix_code[0]);
     assert(description != NULL);
     printf("\nExample 2\n%s\n", description);
-    assert(strstr("OFFER CODE: 001234", description) == 0);
-    assert(strstr("SAVE VALUE: 50", description) == 0);
-    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 650", description) == 0);
-    assert(strstr("SECOND PURCHASE FAMILY CODE: 850", description) == 0);
-    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    assert(strstr(description, "OFFER CODE: 001234") != NULL);
+    assert(strstr(description, "SAVE VALUE: 50") != NULL);
+    assert(strstr(description, "PRIMARY PURCHASE FAMILY CODE: 650") != NULL);
+    assert(strstr(description, "SECOND PURCHASE FAMILY CODE: 850") != NULL);
+    assert(strstr(description, "EXPIRATION DATE: 31 Dec 2010") != NULL);
     free(description);
 
     char * coupon3 = "8110106141410012471011076011110850921108609310123191000";
@@ -731,15 +730,15 @@ static void test_north_american_coupon()
                                             &company_prefix_code[0]);
     assert(description != NULL);
     printf("\nExample 3\n%s\n", description);
-    assert(strstr("SAVE VALUE: 0", description) == 0);
-    assert(strstr("OFFER CODE: 001247", description) == 0);
-    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 760", description) == 0);
-    assert(strstr("SECOND PURCHASE FAMILY CODE: 850", description) == 0);
-    assert(strstr("THIRD PURCHASE FAMILY CODE: 860", description) == 0);
-    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
-    assert(strstr("ONE QUALIFYING PURCHASE ITEM IS FREE", description) == 0);
-    assert(strstr("APPLIES TO PRIMARY QUALIFYING ITEM", description) == 0);
-    assert(strstr("NOT A STORE COUPON", description) == 0);
+    assert(strstr(description, "SAVE VALUE: 0") != NULL);
+    assert(strstr(description, "OFFER CODE: 001247") != NULL);
+    assert(strstr(description, "PRIMARY PURCHASE FAMILY CODE: 760") != NULL);
+    assert(strstr(description, "SECOND PURCHASE FAMILY CODE: 850") != NULL);
+    assert(strstr(description, "THIRD PURCHASE FAMILY CODE: 860") != NULL);
+    assert(strstr(description, "EXPIRATION DATE: 31 Dec 2010") != NULL);
+    assert(strstr(description, "ONE QUALIFYING PURCHASE ITEM IS FREE") != NULL);
+    assert(strstr(description, "APPLIES TO PRIMARY QUALIFYING ITEM") != NULL);
+    assert(strstr(description, "NOT A STORE COUPON") != NULL);
     free(description);
 
     char * coupon4 =
@@ -748,12 +747,12 @@ static void test_north_american_coupon()
                                             &company_prefix_code[0]);
     assert(description != NULL);
     printf("\nExample 4\n%s\n", description);
-    assert(strstr("OFFER CODE: 123456", description) == 0);
-    assert(strstr("SAVE VALUE: 89", description) == 0);
-    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
-    assert(strstr("SECOND PURCHASE FAMILY CODE: 850", description) == 0);
-    assert(strstr("THIRD PURCHASE FAMILY CODE: 256", description) == 0);
-    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    assert(strstr(description, "OFFER CODE: 123456") != NULL);
+    assert(strstr(description, "SAVE VALUE: 89") != NULL);
+    assert(strstr(description, "PRIMARY PURCHASE FAMILY CODE: 120") != NULL);
+    assert(strstr(description, "SECOND PURCHASE FAMILY CODE: 850") != NULL);
+    assert(strstr(description, "THIRD PURCHASE FAMILY CODE: 256") != NULL);
+    assert(strstr(description, "EXPIRATION DATE: 31 Dec 2010") != NULL);
     free(description);
 
     char * coupon5 =
@@ -762,12 +761,12 @@ static void test_north_american_coupon()
                                             &company_prefix_code[0]);
     assert(description != NULL);
     printf("\nExample 5\n%s\n", description);
-    assert(strstr("OFFER CODE: 543210", description) == 0);
-    assert(strstr("SAVE VALUE: 150", description) == 0);
-    assert(strstr("PRIMARY PURCHASE FAMILY CODE: 120", description) == 0);
-    assert(strstr("SECOND PURCHASE FAMILY CODE: 140", description) == 0);
-    assert(strstr("THIRD PURCHASE FAMILY CODE: 256", description) == 0);
-    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    assert(strstr(description, "OFFER CODE: 543210") != NULL);
+    assert(strstr(description, "SAVE VALUE: 150") != NULL);
+    assert(strstr(description, "PRIMARY PURCHASE FAMILY CODE: 120") != NULL);
+    assert(strstr(description, "SECOND PURCHASE FAMILY CODE: 140") != NULL);
+    assert(strstr(description, "THIRD PURCHASE FAMILY CODE: 256") != NULL);
+    assert(strstr(description, "EXPIRATION DATE: 31 Dec 2010") != NULL);
     free(description);
 
     char * coupon6 = "8110106141416543213500110000310123196000";
@@ -775,9 +774,9 @@ static void test_north_american_coupon()
                                             &company_prefix_code[0]);
     assert(description != NULL);
     printf("\nExample 6\n%s\n", description);
-    assert(strstr("OFFER CODE: 654321", description) == 0);
-    assert(strstr("SAVE VALUE: 500", description) == 0);
-    assert(strstr("EXPIRATION DATE: 31 Dec 2010", description) == 0);
+    assert(strstr(description, "OFFER CODE: 654321") != NULL);
+    assert(strstr(description, "SAVE VALUE: 500") != NULL);
+    assert(strstr(description, "EXPIRATION DATE: 31 Dec 2010") != NULL);
     free(description);
 }
 
@@ -793,7 +792,7 @@ static void test_production_method()
 {
     char * description = get_production_method("02");
     assert(description != NULL);
-    assert(strstr("CAUGHT IN FRESH WATER", description) == 0);
+    assert(strstr(description, "CAUGHT IN FRESH WATER") != NULL);
     free(description);
 }
 
@@ -832,17 +831,27 @@ static void test_fishing_area()
 {
     char * description = get_fishing_area("27.2.a.2");
     assert(description != NULL);
-    assert(strstr("Norwegian Sea Non-NEAFC Regulatory Area", description) == 0);
+    assert(strstr(description, "Norwegian Sea Non-NEAFC Regulatory Area") != NULL);
+    free(description);
+
+    description = get_fishing_area("27.3.c.22");
+    assert(description != NULL);
+    assert(strstr(description, "Belt Sea") != NULL);
+    free(description);
+
+    description = get_fishing_area("27.5.b.2");
+    assert(description != NULL);
+    assert(strstr(description, "Faroe Bank") != NULL);
     free(description);
 
     description = get_fishing_area("27.14.b");
     assert(description != NULL);
-    assert(strstr("Southeast Greenland", description) == 0);
+    assert(strstr(description, "Southeast Greenland") != NULL);
     free(description);
 
     description = get_fishing_area("88.3");
     assert(description != NULL);
-    assert(strstr("Bellingshausen Sea", description) == 0);
+    assert(strstr(description, "Bellingshausen Sea") != NULL);
     free(description);
 }
 
