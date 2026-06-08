@@ -2,7 +2,7 @@
  * Software License Agreement (GPLv3)
  *
  *  Datamatrix decoding functions
- *  Copyright (c) 2025, Bob Mottram
+ *  Copyright (c) 2025-2026, Bob Mottram
  *  bob@libreserver.org
  *
  *  This is partly based on, or inspired by, an ECC kernel module
