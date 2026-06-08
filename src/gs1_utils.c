@@ -130,7 +130,7 @@ char * get_package_type(char package_code[])
     int data_len = (int)strlen(package_code);
     for (i = 0; i < no_of_package_types; i++) {
         if ((int)strlen(package_type_code[i*2]) != data_len) continue;
-        if (strstr(package_type_code[i*2], package_code) == 0) {
+        if (strstr(package_type_code[i*2], package_code) != NULL) {
             return package_type_code[i*2 + 1];
         }
     }

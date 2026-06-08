@@ -668,7 +668,9 @@ static void test_package_type()
 {
     char * package_code1 = "1W";
     char * description = get_package_type(package_code1);
-    assert(strstr(description, "Drum, wooden") == NULL);
+	assert(description != NULL);
+	printf("%s\n", description);
+    assert(strstr(description, "Drum, wooden") != NULL);
 }
 
 static void test_meat_cut()
