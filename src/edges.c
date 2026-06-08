@@ -542,6 +542,11 @@ void join_line_segments(struct line_segments * segments,
                    of the first */
                 start_x2 = segments->members[index2*2];
                 start_y2 = segments->members[index2*2+1];
+                length = segments->no_of_members[j]-1;
+                index2 += length;
+                end_x2 = segments->members[index2*2];
+                end_y2 = segments->members[index2*2+1];
+                index2++;
                 dx = start_x2 - start_x1;
                 dy = start_y2 - start_y1;
                 if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
@@ -566,13 +571,8 @@ void join_line_segments(struct line_segments * segments,
                         segments->joins[join_index] = (unsigned char)JOIN_END_TO_START;
                     }
                 }
-                length = segments->no_of_members[j]-1;
-                index2 += length;
                 /* compare end of the second line segment to the start
                    of the first */
-                end_x2 = segments->members[index2*2];
-                end_y2 = segments->members[index2*2+1];
-                index2++;
                 dx = end_x2 - start_x1;
                 dy = end_y2 - start_y1;
                 if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
@@ -881,11 +881,12 @@ void get_peripheral_edges(struct line_segments * segments,
     dx = max_x - min_x;
     dy = max_y - min_y;
 
+    segments->edge_centre_hits = 0;
+
     if ((dx < 1) || (dy < 1)) return;
 
     segments->edge_centre_x = 0;
     segments->edge_centre_y = 0;
-    segments->edge_centre_hits = 0;
 
     /* perimeter edges for the current segment */
     update_peripheral(segments, index);

@@ -509,6 +509,8 @@ int read_datamatrix(unsigned char image_data[],
             get_peripheral_edges(&segments[try_config], segment_index,
                                  resized_thresholded_width,
                                  resized_thresholded_height);
+            /* TODO this threshold should be adjustable */
+            if (segments[try_config].edge_centre_hits < 100) continue;              
 
             int quantization_degrees = 5;
             get_segments_orientation(&segments[try_config],
