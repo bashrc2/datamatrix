@@ -145,7 +145,7 @@ datamatrix --gtin 12345678901234 --batch 3725a --serial 738235495
 Or use HIBC encoding:
 
 ``` bash
-datamatrix --labeler A999 --prodid 1234 --unit 5 --expiry 26034 --mandate 20260116
+datamatrix --labeler A999 --prodid 1234 --unit 5 --expiryjulian 26034 --mandate 20260116
 ```
 
 You can specify how dots and spaces appear.
@@ -182,7 +182,7 @@ You can also export the generated datamatrix as an image in PNG or SVG format.
 
 ``` bash
 datamatrix --gtin 12345678901234 --pos right --charwidth 20 -o test.png -w 512
-datamatrix --labeler A999 --prodid 1234 --unit 5 --expiry 26034 --mandate 20260116 -o test.png --charwidth 12
+datamatrix --labeler A999 --prodid 1234 --unit 5 --expiryjulian 26034 --mandate 20260116 -o test.png --charwidth 12
 ```
 
 ## Example Decoding
