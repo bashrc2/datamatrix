@@ -103,11 +103,17 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY JULIAN") == 0) {
         if (data_len == 5) {
-            if ((int)strlen(encode_text) > 1) {
-                decode_strcat_char(encode_text, '/');
+            if (strstr(encode_text, "/$$") == NULL) {
+                if ((int)strlen(encode_text) > 1) {
+                    decode_strcat_char(encode_text, '/');
+                }
+                decode_strcat(encode_text, "$$5");
+                decode_strcat(encode_text, data_str);
             }
-            decode_strcat(encode_text, "$$5");
-            decode_strcat(encode_text, data_str);
+            else {
+                printf("EXPIRY cannot be set more than once\n");
+                return 1;
+            }
         }
         else {
             printf("EXPIRY JULIAN should be 5 digits YYJJJ\n");
@@ -116,11 +122,17 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY") == 0) {
         if (data_len == 6) {
-            if ((int)strlen(encode_text) > 1) {
-                decode_strcat_char(encode_text, '/');
+            if (strstr(encode_text, "/$$") == NULL) {
+                if ((int)strlen(encode_text) > 1) {
+                    decode_strcat_char(encode_text, '/');
+                }
+                decode_strcat(encode_text, "$$3");
+                decode_strcat(encode_text, data_str);
             }
-            decode_strcat(encode_text, "$$3");
-            decode_strcat(encode_text, data_str);
+            else {
+                printf("EXPIRY cannot be set more than once\n");
+                return 1;
+            }
         }
         else {
             printf("EXPIRY should be 6 digits YYMMDD\n");
@@ -129,11 +141,17 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY HOUR") == 0) {
         if (data_len == 8) {
-            if ((int)strlen(encode_text) > 1) {
-                decode_strcat_char(encode_text, '/');
+            if (strstr(encode_text, "/$$") == NULL) {
+                if ((int)strlen(encode_text) > 1) {
+                    decode_strcat_char(encode_text, '/');
+                }
+                decode_strcat(encode_text, "$$4");
+                decode_strcat(encode_text, data_str);
             }
-            decode_strcat(encode_text, "$$4");
-            decode_strcat(encode_text, data_str);
+            else {
+                printf("EXPIRY cannot be set more than once\n");
+                return 1;
+            }
         }
         else {
             printf("EXPIRY HOUR should be 8 digits YYMMDDHH\n");
@@ -142,11 +160,17 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY JULIAN HOUR") == 0) {
         if (data_len == 7) {
-            if ((int)strlen(encode_text) > 1) {
-                decode_strcat_char(encode_text, '/');
+            if (strstr(encode_text, "/$$") == NULL) {
+                if ((int)strlen(encode_text) > 1) {
+                    decode_strcat_char(encode_text, '/');
+                }
+                decode_strcat(encode_text, "$$6");
+                decode_strcat(encode_text, data_str);
             }
-            decode_strcat(encode_text, "$$6");
-            decode_strcat(encode_text, data_str);
+            else {
+                printf("EXPIRY cannot be set more than once\n");
+                return 1;
+            }
         }
         else {
             printf("EXPIRY HOUR should be 7 digits YYJJJHH\n");
@@ -168,7 +192,7 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "LOT NUMBER") == 0) {
         if ((data_len >= 1) && (data_len <= 18)) {
-            if (strstr("/$$", encode_text) != 0) {
+            if (strstr(encode_text, "/$$") == NULL) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }
