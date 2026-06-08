@@ -91,7 +91,7 @@ void show_help()
     printf("   --billto [code]                Generate a GS1 datamatrix with the given BILL TO\n");
     printf("   --origin [code]                Generate a GS1 datamatrix with the given ORIGIN\n");
     printf("   --labeler [4 characters]       Generate a HIBC datamatrix with the given LABELER ID\n");
-    printf("   --prodid [4 characters]        Generate a HIBC datamatrix with the given PRODUCT ID\n");
+    printf("   --prodid [1-18 characters]     Generate a HIBC datamatrix with the given PRODUCT ID\n");
     printf("   --unit [1 character]           Generate a HIBC datamatrix with the given UNIT OF MEASURE\n");
     printf("   --expiryjulian [YYJJJ]         Generate a HIBC datamatrix with the given EXPIRY julian day\n");
     printf("   --expiryjulianhour [YYJJJHH]   Generate a HIBC datamatrix with the given EXPIRY julian hour\n");
@@ -99,7 +99,7 @@ void show_help()
     printf("   --expiryhour [YYMMDDHH]        Generate a HIBC datamatrix with the given EXPIRY hour\n");
     printf("   --expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE\n");
     printf("   --mandate [YYYYMMDD]           Generate a HIBC datamatrix with the given MANUFACTURE DATE\n");
-    printf("   --lot [4 characters]           Generate a HIBC datamatrix with the given LOT NUMBER\n");
+    printf("   --lot [1-18 characters]        Generate a HIBC datamatrix with the given LOT NUMBER\n");
     printf("   --qty [1-5 digits]             Generate a HIBC datamatrix with the given QUANTITY\n");
     printf("   --txt [text]                   Decode a text string containing a datamatrix\n");
     printf("   --squaremodules                Generated datamatrix has square modules\n");

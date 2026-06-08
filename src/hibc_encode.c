@@ -168,10 +168,12 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "LOT NUMBER") == 0) {
         if ((data_len >= 1) && (data_len <= 18)) {
-            if ((int)strlen(encode_text) > 1) {
-                decode_strcat_char(encode_text, '/');
+            if (strstr("/$$", encode_text) != 0) {
+                if ((int)strlen(encode_text) > 1) {
+                    decode_strcat_char(encode_text, '/');
+                }
+                decode_strcat(encode_text, "$");
             }
-            decode_strcat(encode_text, "$");
             decode_strcat(encode_text, data_str);
         }
         else {

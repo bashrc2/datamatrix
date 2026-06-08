@@ -103,7 +103,7 @@ sudo make install
 --billto [code]                Generate a GS1 datamatrix with the given BILL TO
 --origin [code]                Generate a GS1 datamatrix with the given ORIGIN
 --labeler [4 characters]       Generate a HIBC datamatrix with the given LABELER ID
---prodid [4 characters]        Generate a HIBC datamatrix with the given PRODUCT ID
+--prodid [1-18 characters]     Generate a HIBC datamatrix with the given PRODUCT ID
 --unit [1 character]           Generate a HIBC datamatrix with the given UNIT OF MEASURE
 --expiryjulian [YYJJJ]         Generate a HIBC datamatrix with the given EXPIRY julian day
 --expiryjulianhour [YYJJJHH]   Generate a HIBC datamatrix with the given EXPIRY julian hour
@@ -111,7 +111,7 @@ sudo make install
 --expiryjour [YYMMDDHH]        Generate a HIBC datamatrix with the given EXPIRY hour
 --expiration [YYYYMMDD]        Generate a HIBC datamatrix with the given EXPIRATION DATE
 --mandate [YYYYMMDD]           Generate a HIBC datamatrix with the given MANUFACTURE DATE
---lot [4 characters]           Generate a HIBC datamatrix with the given LOT NUMBER
+--lot [1-18 characters]        Generate a HIBC datamatrix with the given LOT NUMBER
 --qty [1-5 digits]             Generate a HIBC datamatrix with the given QUANTITY
 --txt [text]                   Decode a text string containing a datamatrix
 --squaremodules                Generated datamatrix has square modules
