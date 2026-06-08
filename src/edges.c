@@ -506,9 +506,10 @@ static int get_joined_segment_length(struct line_segments * segments,
 void join_line_segments(struct line_segments * segments,
                         int join_radius)
 {
-    int i, j, start_x, start_y, end_x, end_y, dx, dy;
-    int index, index2, length;
-    int x, y, join_index, radius, join_radius_sqr;
+    int i, j, start_x1, start_y1, end_x1, end_y1;
+    int start_x2, start_y2, end_x2, end_y2;
+    int dx, dy, index, index2, length;
+    int join_index, radius, join_radius_sqr;
     int max_length, max_length_index, ctr;
 
     /* clear the joins matrix */
@@ -525,13 +526,13 @@ void join_line_segments(struct line_segments * segments,
         for (i = 0; i < segments->no_of_segments; i++) {
             if (segments->no_of_members[i] == 0) continue;
             /* start of the line segment */
-            start_x = segments->members[index*2];
-            start_y = segments->members[index*2+1];
+            start_x1 = segments->members[index*2];
+            start_y1 = segments->members[index*2+1];
             length = segments->no_of_members[i]-1;
             index += length;
             /* end of the line segment */
-            end_x = segments->members[index*2];
-            end_y = segments->members[index*2+1];
+            end_x1 = segments->members[index*2];
+            end_y1 = segments->members[index*2+1];
             index2 = index+1;
             index++;
             /* line segments other than this one */
@@ -539,10 +540,10 @@ void join_line_segments(struct line_segments * segments,
                 if (segments->no_of_members[j] == 0) continue;
                 /* compare start of the second line segment to the start
                    of the first */
-                x = segments->members[index2*2];
-                y = segments->members[index2*2+1];
-                dx = x - start_x;
-                dy = y - start_y;
+                start_x2 = segments->members[index2*2];
+                start_y2 = segments->members[index2*2+1];
+                dx = start_x2 - start_x1;
+                dy = start_y2 - start_y1;
                 if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
                     /* two start points are joined */
                     join_index = (j*segments->max_segments) + i;
@@ -554,8 +555,8 @@ void join_line_segments(struct line_segments * segments,
                 }
                 /* compare start of the second line segment to the end
                    of the first */
-                dx = x - end_x;
-                dy = y - end_y;
+                dx = start_x2 - end_x1;
+                dy = start_y2 - end_y1;
                 if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
                     /* end of the first line segment joined to start of the second */
                     join_index = (j*segments->max_segments) + i;
@@ -569,11 +570,11 @@ void join_line_segments(struct line_segments * segments,
                 index2 += length;
                 /* compare end of the second line segment to the start
                    of the first */
-                x = segments->members[index2*2];
-                y = segments->members[index2*2+1];
+                end_x2 = segments->members[index2*2];
+                end_y2 = segments->members[index2*2+1];
                 index2++;
-                dx = x - start_x;
-                dy = y - start_y;
+                dx = end_x2 - start_x1;
+                dy = end_y2 - start_y1;
                 if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
                     /* start of the first line segment joined to end of the second */
                     join_index = (j*segments->max_segments) + i;
@@ -585,8 +586,8 @@ void join_line_segments(struct line_segments * segments,
                 }
                 /* compare end of the second line segment to the end
                    of the first */
-                dx = x - end_x;
-                dy = y - end_y;
+                dx = end_x2 - end_x1;
+                dy = end_y2 - end_y1;
                 if (SQUARE_MAG(dx, dy) <= join_radius_sqr) {
                     /* both ends joined */
                     join_index = (j*segments->max_segments) + i;
