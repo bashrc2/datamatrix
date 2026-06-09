@@ -500,7 +500,8 @@ int read_datamatrix(unsigned char image_data[],
             continue;
         }
 
-        /* this must count upwards */
+        /* this must count upwards, from the longest joined segment to
+           the shortest */
         for (int seg_idx = 0;
                 seg_idx < segments[try_config].no_of_segments; seg_idx++) {
             if (any_decode(&thr_decode_result[0], max_config) == 1) {
@@ -514,7 +515,14 @@ int read_datamatrix(unsigned char image_data[],
                                      resized_thresholded_height);
             /* reject very small objects with not many edges around their
                periphery*/
-            if (peripheral_edge_count < min_peripheral_edges) continue;
+            if (peripheral_edge_count < min_peripheral_edges) {
+                if (debug == 1) {
+                    printf("%d below peripheral edges threshold %d/%d\n",
+                           try_config, peripheral_edge_count,
+                           min_peripheral_edges);
+                }
+                continue;
+            }
 
             int quantization_degrees = 5;
             get_segments_orientation(&segments[try_config],
@@ -541,6 +549,10 @@ int read_datamatrix(unsigned char image_data[],
                                        perimeter_x1, perimeter_y1,
                                        perimeter_x2, perimeter_y2,
                                        perimeter_x3, perimeter_y3);
+            if (debug == 1) {
+                printf("%d aspect_ratio_percent: %d%%\n",
+                       try_config, aspect_ratio_percent);
+            }
             rectangular = is_rectangle;
             if ((aspect_ratio_percent < 80) || (aspect_ratio_percent > 120)) {
                 if (is_square == 1) continue;

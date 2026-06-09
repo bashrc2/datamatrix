@@ -907,8 +907,9 @@ int get_peripheral_edges(struct line_segments * segments,
     update_peripheral(segments, index);
 
     /* add edges for other joined segments */
-    for (int i = 0; i < segments->max_segments; i++) {
+	for (int i = 0; i < segments->max_segments; i++) {
         if (i == index) continue;
+		
         int idx = i*segments->max_segments + index;
         if (segments->joins[idx] != JOIN_NONE) {
             update_peripheral(segments, i);
