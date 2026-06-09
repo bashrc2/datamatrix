@@ -273,8 +273,8 @@ unsigned char segment_edges_within_roi(struct line_segments * segments,
 int get_segment_aspect_ratio(struct line_segments * segments,
                              int index);
 
-void get_peripheral_edges(struct line_segments * segments,
-                          int index, int width, int height);
+int get_peripheral_edges(struct line_segments * segments,
+                         int index, int width, int height);
 
 float get_segments_orientation(struct line_segments * segments,
                                int width, int height,

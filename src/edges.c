@@ -862,9 +862,10 @@ static void update_peripheral(struct line_segments * segments,
  * \param index index of the line segment
  * \param width width of the image
  * \param height height of the image
+ * \return number of edges around the periphery
  */
-void get_peripheral_edges(struct line_segments * segments,
-                          int index, int width, int height)
+int get_peripheral_edges(struct line_segments * segments,
+                         int index, int width, int height)
 {
     int min_x=-1, min_y=-1;
     int max_x=-1, max_y=-1;
@@ -882,10 +883,9 @@ void get_peripheral_edges(struct line_segments * segments,
     dx = max_x - min_x;
     dy = max_y - min_y;
 
+    if ((dx < 1) || (dy < 1)) return 0;
+
     segments->edge_centre_hits = 0;
-
-    if ((dx < 1) || (dy < 1)) return;
-
     segments->edge_centre_x = 0;
     segments->edge_centre_y = 0;
 
@@ -906,6 +906,7 @@ void get_peripheral_edges(struct line_segments * segments,
         segments->edge_centre_x /= segments->edge_centre_hits;
         segments->edge_centre_y /= segments->edge_centre_hits;
     }
+    return segments->edge_centre_hits;
 }
 
 /**
