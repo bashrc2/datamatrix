@@ -545,7 +545,7 @@ int read_datamatrix(unsigned char image_data[],
                                image_bitsperpixel);
                 if (debug == 1) {
                     sprintf(debug_filename[try_config],
-                            "debug_%d_08b_perim_not fit_%d.png",
+                            "debug_%d_08b_perim_not_fit_%d.png",
                             try_config, seg_idx);
                     write_png_file(debug_filename[try_config],
                                    resized_thresholded_width,
