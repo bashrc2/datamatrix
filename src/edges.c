@@ -617,6 +617,7 @@ void join_line_segments(struct line_segments * segments,
     for (i = 0; i < segments->no_of_segments; i++) {
         max_length = 0;
         max_length_index = -1;
+        /* line segments other than this one */
         for (j = 0; j < segments->no_of_segments; j++) {
             if (segments->selected[j] != 0) continue;
             if (segments->joined_length[j] >= max_length) {
