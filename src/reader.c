@@ -511,7 +511,8 @@ int read_datamatrix(unsigned char image_data[],
             get_peripheral_edges(&segments[try_config], segment_index,
                                  resized_thresholded_width,
                                  resized_thresholded_height);
-            /* reject very small objects */
+            /* reject very small objects with not many edges around their
+               periphery*/
             if (segments[try_config].edge_centre_hits <
                 min_peripheral_edges) continue;
 
