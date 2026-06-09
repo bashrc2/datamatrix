@@ -142,23 +142,23 @@ int read_datamatrix(unsigned char image_data[],
     /* the magic numbers
        Note that these are doubled sets so that we can also vary the
        meanlight sampling radius*/
-    const int no_of_configs = 7*2;
+    const int no_of_configs = 8*2;
     int max_config = no_of_configs;
     int ml_threshold_configs[] = {
         0, 0, 50, 10, 10, 20, 10,
         0, 0, 50, 10, 10, 20, 10
     };
     int erosion_itterations_configs[] = {
-        1, 0, 1, 0, 0, 0, 0,
-        1, 0, 1, 0, 0, 0, 0
+        1, 0, 1, 0, 0, 0, 0, 2,
+        1, 0, 1, 0, 0, 0, 0, 2
     };
     int dilate_itterations_configs[] = {
-        9, 5, 4, 6, 5, 2, 15,
-        9, 5, 4, 6, 5, 2, 15
+        9, 5, 4, 6, 5, 2, 15, 8,
+        9, 5, 4, 6, 5, 2, 15, 8
     };
     int ml_sampling_radius[] = {
-        50, 50, 50, 50, 50, 50, 50,
-        20, 20, 20, 20, 20, 20, 20
+        50, 50, 50, 50, 50, 50, 50, 50,
+        20, 20, 20, 20, 20, 20, 20, 20
     };
 
     struct grid_2d grid[no_of_configs];
