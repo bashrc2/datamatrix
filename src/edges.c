@@ -1421,6 +1421,90 @@ void show_perimeter(struct line_segments * segments,
 }
 
 /**
+ * \brief shows intersecting perimeter sides
+ * \param segments object containing line segments
+ * \param result image to be updated
+ * \param width width of the image
+ * \param height height of the image
+ * \param result_bitsperpixel Number of bits per pixel
+ * \param side1 Index of the first intersecting side
+ * \param side2 Index of the second intersecting side
+ */
+void show_perimeter_intersection(struct line_segments * segments,
+                                 unsigned char result[], int width, int height,
+                                 int result_bitsperpixel,
+                                 int side1, int side2)
+{
+    int side, x, y, n;
+    unsigned char r=0, g=0, b=0, vertical;
+    int result_bytesperpixel = result_bitsperpixel/8;
+    int * perimeter;
+
+    memset(result, 0, width*height*result_bytesperpixel);
+
+    for (side = 0; side < 4; side++) {
+        if ((side != side1) && (side != side2)) continue;
+        switch(side) {
+        case 0: {
+            r = 255;
+            g = 255;
+            b = 255;
+            perimeter = segments->perimeter_left;
+            vertical = 0;
+            break;
+        }
+        case 1: {
+            r = 255;
+            g = 255;
+            b = 0;
+            perimeter = segments->perimeter_right;
+            vertical = 0;
+            break;
+        }
+        case 2: {
+            r = 255;
+            g = 0;
+            b = 0;
+            perimeter = segments->perimeter_top;
+            vertical = 1;
+            break;
+        }
+        case 3: {
+            r = 0;
+            g = 255;
+            b = 0;
+            perimeter = segments->perimeter_bottom;
+            vertical = 1;
+            break;
+        }
+        }
+
+        if (vertical == 0) {
+            for (y = 0; y < height; y++) {
+                x = perimeter[y];
+                if ((x > 0) && (x < width)) {
+                    n = (y*width*result_bytesperpixel)+(x*result_bytesperpixel);
+                    result[n] = r;
+                    result[n+1] = g;
+                    result[n+2] = b;
+                }
+            }
+        }
+        else {
+            for (x = 0; x < width; x++) {
+                y = perimeter[x];
+                if ((y > 0) && (y < height)) {
+                    n = (y*width*result_bytesperpixel)+(x*result_bytesperpixel);
+                    result[n] = r;
+                    result[n+1] = g;
+                    result[n+2] = b;
+                }
+            }
+        }
+    }
+}
+
+/**
  * \brief fits a perimeter to all four sides
  * \param segments object containing line segments
  * \param width width of the image
@@ -1537,6 +1621,7 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
  * \param debug Set to 1 to enable debug
  * \param try_config Current settings configuration being tried
  * \param seg_idx Current line segment being tried
+ * \param offset extra offset when selecting second longest side
  * \return 0 on success, -1 otherwise
  */
 unsigned char fit_perimeter_to_sides(struct line_segments * segments,
@@ -1550,9 +1635,15 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                      float * perimeter_x3,
                                      float * perimeter_y3,
                                      unsigned char debug,
-                                     int try_config, int seg_idx)
+                                     int try_config, int seg_idx,
+                                     int offset,
+                                     unsigned char thr_edges_image_data[],
+                                     int resized_thresholded_width,
+                                     int resized_thresholded_height,
+                                     int image_bitsperpixel,
+                                     char * debug_filename)
 {
-    int side, no_of_edges, max_edges=0, max_edges2=0, max_side1=-1, max_side2=-1;
+    int side, no_of_edges, max_edges=0, max_side1=-1, max_side2=-1;
     int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy;
     int no_of_samples, no_of_edge_samples, edge_idx, dist_sqr, max_dist_sqr;
     unsigned char enough_edges = 1;
@@ -1576,7 +1667,18 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
         return -1;
     }
 
+    /* get the orthogonal side with the maximum length */
+    max_side2 = (max_side1 + offset) % 4;
+    if (segments->side_edges_count[max_side2] == 0) {
+        if (debug == 1) {
+            printf("%d %d No orthogonal side containing edges found\n",
+                   try_config, seg_idx);
+        }
+        return -1;
+    }
+    
     /* get the side with the second highest number of edges */
+    /*
     for (side = 0; side < 4; side++) {
         if (side == max_side1) continue;
         no_of_edges = segments->side_edges_count[side];
@@ -1591,6 +1693,7 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
         }
         return -1;
     }
+    */
 
     /* do the other two sides have enough edges to fit lines to them? */
     int min_side_edges = max_edges/8;
@@ -1660,8 +1763,45 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
 
     /* do the sides intersect? */
     if (!intersection(x0, y0, x1, y1, x2, y2, x3, y3,
-                      &xi, &yi)) return -1;
-    if ((xi < 0) || (xi >= width) || (yi < 0) || (yi >= height)) return -1;
+                      &xi, &yi)) {
+        if (debug == 1) {
+            printf("%d %d no intersection\n", try_config, seg_idx);
+            show_perimeter_intersection(segments,
+                                        thr_edges_image_data,
+                                        resized_thresholded_width,
+                                        resized_thresholded_height,
+                                        image_bitsperpixel,
+                                        max_side1, max_side2);
+            sprintf(debug_filename,
+                    "debug_%d_08b_perim_intersection_failed_%d_%d.png",
+                    try_config, seg_idx, offset);
+            write_png_file(debug_filename,
+                           resized_thresholded_width,
+                           resized_thresholded_height,
+                           24, thr_edges_image_data);
+        }
+        return -1;
+    }
+    if ((xi < 0) || (xi >= width) || (yi < 0) || (yi >= height)) {
+        if (debug == 1) {
+            printf("%d %d intersection out of range (%.1f, %.1f) w%d h%d\n",
+                   try_config, seg_idx, xi, yi, width, height);
+            show_perimeter_intersection(segments,
+                                        thr_edges_image_data,
+                                        resized_thresholded_width,
+                                        resized_thresholded_height,
+                                        image_bitsperpixel,
+                                        max_side1, max_side2);
+            sprintf(debug_filename,
+                    "debug_%d_08b_perim_intersection_out_of_range_%d_%d.png",
+                    try_config, seg_idx, offset);
+            write_png_file(debug_filename,
+                           resized_thresholded_width,
+                           resized_thresholded_height,
+                           24, thr_edges_image_data);           
+        }
+        return -1;
+    }
 
     *perimeter_x0 = xi;
     *perimeter_y0 = yi;
@@ -1685,7 +1825,25 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
     x5 = x4 + (y1 - y0);
     y5 = y4 + (x1 - x0);
     if (!intersection(x0, y0, x1, y1, x4, y4, x5, y5,
-                      &xi_outer, &yi_outer)) return -1;
+                      &xi_outer, &yi_outer)) {
+        if (debug == 1) {
+            printf("%d %d no orthogonal intersection 1\n", try_config, seg_idx);
+            show_perimeter_intersection(segments,
+                                        thr_edges_image_data,
+                                        resized_thresholded_width,
+                                        resized_thresholded_height,
+                                        image_bitsperpixel,
+                                        max_side1, max_side2);
+            sprintf(debug_filename,
+                    "debug_%d_08b_perim_orthogonal_intersection_failed_%d_%d.png",
+                    try_config, seg_idx, offset);
+            write_png_file(debug_filename,
+                           resized_thresholded_width,
+                           resized_thresholded_height,
+                           24, thr_edges_image_data);
+        }
+        return -1;
+    }
     *perimeter_x1 = xi_outer;
     *perimeter_y1 = yi_outer;
 
@@ -1708,7 +1866,25 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
     x5 = x4 + (y3 - y2);
     y5 = y4 + (x3 - x2);
     if (!intersection(x2, y2, x3, y3, x4, y4, x5, y5,
-                      &xi_outer, &yi_outer)) return -1;
+                      &xi_outer, &yi_outer)) {
+        if (debug == 1) {
+            printf("%d %d no orthogonal intersection 2\n", try_config, seg_idx);
+            show_perimeter_intersection(segments,
+                                        thr_edges_image_data,
+                                        resized_thresholded_width,
+                                        resized_thresholded_height,
+                                        image_bitsperpixel,
+                                        max_side1, max_side2);
+            sprintf(debug_filename,
+                    "debug_%d_08b_perim_orthogonal2_intersection_failed_%d_%d.png",
+                    try_config, seg_idx, offset);
+            write_png_file(debug_filename,
+                           resized_thresholded_width,
+                           resized_thresholded_height,
+                           24, thr_edges_image_data);
+        }
+        return -1;
+    }
     *perimeter_x3 = xi_outer;
     *perimeter_y3 = yi_outer;
 
@@ -1723,6 +1899,9 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
     *perimeter_y2 = cy + dy2;
     if ((*perimeter_x2 < 0) || (*perimeter_y2 < 0) ||
             (*perimeter_x2 >= width) || (*perimeter_y2 >= height)) {
+        if (debug == 1) {
+            printf("%d %d no interpolated vertex\n", try_config, seg_idx);
+        }
         return -1;
     }
     return 0;

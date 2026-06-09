@@ -530,14 +530,26 @@ int read_datamatrix(unsigned char image_data[],
                                      resized_thresholded_height,
                                      quantization_degrees);
 
-            if (fit_perimeter_to_sides(&segments[try_config],
-                                       resized_thresholded_width,
-                                       resized_thresholded_height,
-                                       &perimeter_x0, &perimeter_y0,
-                                       &perimeter_x1, &perimeter_y1,
-                                       &perimeter_x2, &perimeter_y2,
-                                       &perimeter_x3, &perimeter_y3,
-                                       debug, try_config, seg_idx) != 0) {
+            unsigned char fitted = 0;
+            for (int try_fit = 0; try_fit < 4; try_fit++) {
+                if (fit_perimeter_to_sides(&segments[try_config],
+                                           resized_thresholded_width,
+                                           resized_thresholded_height,
+                                           &perimeter_x0, &perimeter_y0,
+                                           &perimeter_x1, &perimeter_y1,
+                                           &perimeter_x2, &perimeter_y2,
+                                           &perimeter_x3, &perimeter_y3,
+                                           debug, try_config, seg_idx, try_fit,
+                                           thr_edges_image_data,
+                                           resized_thresholded_width,
+                                           resized_thresholded_height,
+                                           image_bitsperpixel,
+                                           debug_filename[try_config]) == 0) {
+                    fitted = 1;
+                    break;
+                }
+            }
+            if (fitted == 0) {
                 /* perimeter does not fit */
                 show_perimeter(&segments[try_config], thr_edges_image_data,
                                resized_thresholded_width,

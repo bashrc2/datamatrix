@@ -287,7 +287,13 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                      float * perimeter_x2, float * perimeter_y2,
                                      float * perimeter_x3, float * perimeter_y3,
                                      unsigned char debug,
-                                     int try_config, int seg_idx);
+                                     int try_config, int seg_idx,
+                                     int offset,
+                                     unsigned char thr_edges_image_data[],
+                                     int resized_thresholded_width,
+                                     int resized_thresholded_height,
+                                     int image_bitsperpixel,
+                                     char * debug_filename);
 
 int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
                            float perimeter_x1, float perimeter_y1,
@@ -311,6 +317,10 @@ void show_peripheral_edges(struct line_segments * segments,
 void show_perimeter(struct line_segments * segments,
                     unsigned char result[], int width, int height,
                     int result_bitsperpixel);
+void show_perimeter_intersection(struct line_segments * segments,
+                                 unsigned char result[], int width, int height,
+                                 int result_bitsperpixel,
+                                 int side1, int side2);
 void show_shape_perimeter(unsigned char result[], int width, int height,
                           int result_bitsperpixel,
                           float perimeter_x0, float perimeter_y0,
