@@ -78,6 +78,7 @@ int main(int argc, char* argv[])
     int darklight_sampling_step = 1;
     int max_high_pixels_percent = 13;
     int segment_join_radius = 6;
+	int min_peripheral_edges = 100;
 
     /* only looks for squares or rectangles */
     unsigned char is_square = 0;
@@ -604,6 +605,10 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--minsegment")==0)) {
             min_segment_length = atoi(argv[i+1]);
         }
+        if ((strcmp(argv[i],"--minedges")==0) ||
+                (strcmp(argv[i],"--minperipheral")==0)) {
+            min_peripheral_edges = atoi(argv[i+1]);
+        }
         if ((strcmp(argv[i],"-o")==0) ||
                 (strcmp(argv[i],"--output")==0)) {
             decode_strcat(&output_filename[0], argv[i+1]);
@@ -891,6 +896,7 @@ int main(int argc, char* argv[])
                     darklight_sampling_step,
                     max_high_pixels_percent,
                     segment_join_radius,
+					min_peripheral_edges,
                     decode_result);
     if ((int)strlen(decode_result) > 0) {
         if (verify == 0) {

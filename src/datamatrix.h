@@ -711,6 +711,7 @@ int read_datamatrix(unsigned char image_data[],
                     int darklight_sampling_step,
                     int max_high_pixels_percent,
                     int segment_join_radius,
+                    int min_peripheral_edges,
                     char * decode_result);
 
 /* tests.c */

@@ -85,6 +85,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param darklight_sampling_step Step size for dark/light peaks calculation
  * \param max_high_pixels_percent Maximum percentage of high pixels after thresholding
  * \param segment_join_radius Edge segment linking radius in pixels
+ * \param min_peripheral_edges Minimum number of edges around the periphery
  * \param decode_result returned decode text
  * \return zero on decode success, -1 otherwise
  */
@@ -129,6 +130,7 @@ int read_datamatrix(unsigned char image_data[],
                     int darklight_sampling_step,
                     int max_high_pixels_percent,
                     int segment_join_radius,
+                    int min_peripheral_edges,
                     char * decode_result)
 {
     int original_image_width = image_width;
@@ -509,8 +511,9 @@ int read_datamatrix(unsigned char image_data[],
             get_peripheral_edges(&segments[try_config], segment_index,
                                  resized_thresholded_width,
                                  resized_thresholded_height);
-            /* TODO this threshold should be adjustable */
-            if (segments[try_config].edge_centre_hits < 100) continue;              
+            /* reject very small objects */
+            if (segments[try_config].edge_centre_hits <
+                min_peripheral_edges) continue;
 
             int quantization_degrees = 5;
             get_segments_orientation(&segments[try_config],

@@ -64,6 +64,7 @@ sudo make install
 --resolver [url]               GS1 resolver (eg. https://id.gs1.org)
 --sampleradius [pixels]        Radius for sampling each grid cell
 --minsegmentlength [pixels]    Minimum edge segment length for segment joining
+--minedges [number]            Minimum edges around the periphery of a potential datamatrix
 --resizewidth [pixels]         Width of image after resizing from original
 --resizeheight [pixels]        Height of image after resizing from original
 --binwidth [pixels]            Width of the binary image used for perimeter detection

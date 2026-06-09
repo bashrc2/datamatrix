@@ -52,6 +52,7 @@ void show_help()
     printf("   --resolver [url]               GS1 resolver (eg. https://id.gs1.org)\n");
     printf("   --sampleradius [pixels]        Radius for sampling each grid cell\n");
     printf("   --minsegmentlength [pixels]    Minimum edge segment length for segment joining\n");
+    printf("   --minedges [number]            Minimum edges around the periphery of a potential datamatrix\n");
     printf("   --resizewidth [pixels]         Width of image after resizing from original\n");
     printf("   --resizeheight [pixels]        Height of image after resizing from original\n");
     printf("   --binwidth [pixels]            Width of the binary image used for perimeter detection\n");
