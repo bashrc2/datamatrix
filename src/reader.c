@@ -517,10 +517,10 @@ int read_datamatrix(unsigned char image_data[],
                periphery*/
             if (peripheral_edge_count < min_peripheral_edges) {
                 if (debug == 1) {
-                    printf("%d below peripheral edges threshold %d/%d\n",
-                           try_config, peripheral_edge_count,
+                    printf("%d %d below peripheral edges threshold %d/%d\n",
+                           try_config, seg_idx, peripheral_edge_count,
                            min_peripheral_edges);
-                }
+				}
                 continue;
             }
 
@@ -537,10 +537,20 @@ int read_datamatrix(unsigned char image_data[],
                                        &perimeter_x1, &perimeter_y1,
                                        &perimeter_x2, &perimeter_y2,
                                        &perimeter_x3, &perimeter_y3) != 0) {
+				/* perimeter does not fit */
                 show_perimeter(&segments[try_config], thr_edges_image_data,
                                resized_thresholded_width,
                                resized_thresholded_height,
                                image_bitsperpixel);
+				if (debug == 1) {
+					sprintf(debug_filename[try_config],
+							"debug_%d_08b_perim_not fit_%d.png",
+							try_config, seg_idx);
+					write_png_file(debug_filename[try_config],
+								   resized_thresholded_width,
+								   resized_thresholded_height,
+								   24, thr_edges_image_data);
+				}
                 continue;
             }
 
@@ -550,8 +560,8 @@ int read_datamatrix(unsigned char image_data[],
                                        perimeter_x2, perimeter_y2,
                                        perimeter_x3, perimeter_y3);
             if (debug == 1) {
-                printf("%d aspect_ratio_percent: %d%%\n",
-                       try_config, aspect_ratio_percent);
+                printf("%d %d aspect_ratio_percent: %d%%\n",
+                       try_config, seg_idx, aspect_ratio_percent);
             }
             rectangular = is_rectangle;
             if ((aspect_ratio_percent < 80) || (aspect_ratio_percent > 120)) {
@@ -600,7 +610,8 @@ int read_datamatrix(unsigned char image_data[],
                                       resized_thresholded_height,
                                       image_bitsperpixel);
                 sprintf(debug_filename[try_config],
-                        "debug_%d_09_peripheral_edges.png", try_config);
+                        "debug_%d_09_peripheral_edges%d.png",
+						try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -612,7 +623,7 @@ int read_datamatrix(unsigned char image_data[],
                                resized_thresholded_height,
                                image_bitsperpixel);
                 sprintf(debug_filename[try_config],
-                        "debug_%d_10_perimeter.png", try_config);
+                        "debug_%d_10_perimeter%d.png", try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -629,7 +640,8 @@ int read_datamatrix(unsigned char image_data[],
                                      perimeter_x2, perimeter_y2,
                                      perimeter_x3, perimeter_y3);
                 sprintf(debug_filename[try_config],
-                        "debug_%d_11_shape_perimeter_small.png", try_config);
+                        "debug_%d_11_shape_perimeter_small%d.png",
+						try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -689,7 +701,8 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x3, perimeter_y3);
             if (debug == 1) {
                 sprintf(debug_filename[try_config],
-                        "debug_%d_12_shape_perimeter.png", try_config);
+                        "debug_%d_12_shape_perimeter%d.png",
+						try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                image_width, image_height, 24, thr_image_data);
             }
