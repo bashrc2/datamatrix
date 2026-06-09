@@ -726,6 +726,13 @@ void show_square_line_segments(struct line_segments * segments,
         }
 
         srand(i);
+        for (j = 0; j < i; j++) {
+            if (segments->joins[(j*segments->max_segments)+i] != JOIN_NONE) {
+                srand(j);
+                break;
+            }
+        }
+
         r = (unsigned char)(rand()%255);
         g = (unsigned char)(rand()%255);
         b = (unsigned char)(rand()%255);
@@ -799,6 +806,13 @@ void show_rectangular_line_segments(struct line_segments * segments,
         }
 
         srand(i);
+        for (j = 0; j < i; j++) {
+            if (segments->joins[(j*segments->max_segments)+i] != JOIN_NONE) {
+                srand(j);
+                break;
+            }
+        }
+
         r = (unsigned char)(rand()%255);
         g = (unsigned char)(rand()%255);
         b = (unsigned char)(rand()%255);
