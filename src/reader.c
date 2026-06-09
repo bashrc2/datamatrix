@@ -520,7 +520,7 @@ int read_datamatrix(unsigned char image_data[],
                     printf("%d %d below peripheral edges threshold %d/%d\n",
                            try_config, seg_idx, peripheral_edge_count,
                            min_peripheral_edges);
-				}
+                }
                 continue;
             }
 
@@ -536,21 +536,22 @@ int read_datamatrix(unsigned char image_data[],
                                        &perimeter_x0, &perimeter_y0,
                                        &perimeter_x1, &perimeter_y1,
                                        &perimeter_x2, &perimeter_y2,
-                                       &perimeter_x3, &perimeter_y3) != 0) {
-				/* perimeter does not fit */
+                                       &perimeter_x3, &perimeter_y3,
+                                       debug, try_config, seg_idx) != 0) {
+                /* perimeter does not fit */
                 show_perimeter(&segments[try_config], thr_edges_image_data,
                                resized_thresholded_width,
                                resized_thresholded_height,
                                image_bitsperpixel);
-				if (debug == 1) {
-					sprintf(debug_filename[try_config],
-							"debug_%d_08b_perim_not fit_%d.png",
-							try_config, seg_idx);
-					write_png_file(debug_filename[try_config],
-								   resized_thresholded_width,
-								   resized_thresholded_height,
-								   24, thr_edges_image_data);
-				}
+                if (debug == 1) {
+                    sprintf(debug_filename[try_config],
+                            "debug_%d_08b_perim_not fit_%d.png",
+                            try_config, seg_idx);
+                    write_png_file(debug_filename[try_config],
+                                   resized_thresholded_width,
+                                   resized_thresholded_height,
+                                   24, thr_edges_image_data);
+                }
                 continue;
             }
 
@@ -565,12 +566,33 @@ int read_datamatrix(unsigned char image_data[],
             }
             rectangular = is_rectangle;
             if ((aspect_ratio_percent < 80) || (aspect_ratio_percent > 120)) {
-                if (is_square == 1) continue;
+                /* if the aspect is rectangular, but square is specified */
+                if (is_square == 1) {
+                    if (debug == 1) {
+                        printf("%d %d aspect is rectangular, but square is specified\n",
+                               try_config, seg_idx);
+                    }
+                    continue;
+                }
+                /* does this match any rectangular aspect ratio? */
                 rectangular =
                     rectangular_joined_line_segments(aspect_ratio_percent);
-                if (rectangular == 0) continue;
+                /* if it isn't rectangular and isn't square then continue */
+                if (rectangular == 0) {
+                    if (debug == 1) {
+                        printf("%d %d Looks rectangular, but does not match any rectangle aspect ratio\n",
+                               try_config, seg_idx);
+                    }
+                    continue;
+                }
             }
-            else if (is_rectangle == 1) continue;
+            else if (is_rectangle == 1) {
+                if (debug == 1) {
+                    printf("%d %d rectangle has square aspect ratio %d%%\n",
+                           try_config, seg_idx, aspect_ratio_percent);
+                }
+                continue;
+            }
 
             /* check that the corners are approximately square */
             /* first corner */
@@ -582,6 +604,10 @@ int read_datamatrix(unsigned char image_data[],
                 corner_radians = (2 * (float)PI) - corner_radians;
             angle_degrees = corner_radians / (float)PI * 180;
             if ((angle_degrees < 70) || (angle_degrees > 110)) {
+                if (debug == 1) {
+                    printf("%d %d Too much angular distortion %f.1 degrees\n",
+                           try_config, seg_idx, angle_degrees);
+                }
                 continue;
             }
 
@@ -594,6 +620,10 @@ int read_datamatrix(unsigned char image_data[],
                 corner_radians = (2 * (float)PI) - corner_radians;
             angle_degrees = corner_radians / (float)PI * 180;
             if ((angle_degrees < 70) || (angle_degrees > 110)) {
+                if (debug == 1) {
+                    printf("%d %d Second corner too much angular distortion %f.1 degrees\n",
+                           try_config, seg_idx, angle_degrees);
+                }
                 continue;
             }
             /* shrink the perimeter according to the amount of dilation */
@@ -611,7 +641,7 @@ int read_datamatrix(unsigned char image_data[],
                                       image_bitsperpixel);
                 sprintf(debug_filename[try_config],
                         "debug_%d_09_peripheral_edges%d.png",
-						try_config, seg_idx);
+                        try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -641,7 +671,7 @@ int read_datamatrix(unsigned char image_data[],
                                      perimeter_x3, perimeter_y3);
                 sprintf(debug_filename[try_config],
                         "debug_%d_11_shape_perimeter_small%d.png",
-						try_config, seg_idx);
+                        try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -702,7 +732,7 @@ int read_datamatrix(unsigned char image_data[],
             if (debug == 1) {
                 sprintf(debug_filename[try_config],
                         "debug_%d_12_shape_perimeter%d.png",
-						try_config, seg_idx);
+                        try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                image_width, image_height, 24, thr_image_data);
             }

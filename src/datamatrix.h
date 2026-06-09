@@ -285,7 +285,9 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                      float * perimeter_x0, float * perimeter_y0,
                                      float * perimeter_x1, float * perimeter_y1,
                                      float * perimeter_x2, float * perimeter_y2,
-                                     float * perimeter_x3, float * perimeter_y3);
+                                     float * perimeter_x3, float * perimeter_y3,
+                                     unsigned char debug,
+                                     int try_config, int seg_idx);
 
 int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
                            float perimeter_x1, float perimeter_y1,

@@ -907,9 +907,9 @@ int get_peripheral_edges(struct line_segments * segments,
     update_peripheral(segments, index);
 
     /* add edges for other joined segments */
-	for (int i = 0; i < segments->max_segments; i++) {
+    for (int i = 0; i < segments->max_segments; i++) {
         if (i == index) continue;
-		
+        
         int idx = i*segments->max_segments + index;
         if (segments->joins[idx] != JOIN_NONE) {
             update_peripheral(segments, i);
@@ -1534,6 +1534,9 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
  * \param perimeter_y2 returned third perimeter y coord
  * \param perimeter_x3 returned fourth perimeter x coord
  * \param perimeter_y3 returned fourth perimeter y coord
+ * \param debug Set to 1 to enable debug
+ * \param try_config Current settings configuration being tried
+ * \param seg_idx Current line segment being tried
  * \return 0 on success, -1 otherwise
  */
 unsigned char fit_perimeter_to_sides(struct line_segments * segments,
@@ -1545,7 +1548,9 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                      float * perimeter_x2,
                                      float * perimeter_y2,
                                      float * perimeter_x3,
-                                     float * perimeter_y3)
+                                     float * perimeter_y3,
+                                     unsigned char debug,
+                                     int try_config, int seg_idx)
 {
     int side, no_of_edges, max_edges=0, max_edges2=0, max_side1=-1, max_side2=-1;
     int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy;
@@ -1564,7 +1569,12 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
             max_side1 = side;
         }
     }
-    if (max_side1 == -1) return -1;
+    if (max_side1 == -1) {
+        if (debug == 1) {
+            printf("%d %d No longest side edges found\n", try_config, seg_idx);
+        }
+        return -1;
+    }
 
     /* get the side with the second highest number of edges */
     for (side = 0; side < 4; side++) {
@@ -1575,13 +1585,19 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
             max_side2 = side;
         }
     }
-    if (max_side2 == -1) return -1;
+    if (max_side2 == -1) {
+        if (debug == 1) {
+            printf("%d %d No second longest side edges found\n", try_config, seg_idx);
+        }
+        return -1;
+    }
 
     /* do the other two sides have enough edges to fit lines to them? */
+    int min_side_edges = max_edges/8;
     for (side = 0; side < 4; side++) {
         if ((side == max_side1) || (side == max_side2)) continue;
         no_of_edges = segments->side_edges_count[side];
-        if (no_of_edges < max_edges/8) {
+        if (no_of_edges < min_side_edges) {
             enough_edges = 0;
             break;
         }
@@ -1594,6 +1610,10 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                           perimeter_x1, perimeter_y1,
                                           perimeter_x2, perimeter_y2,
                                           perimeter_x3, perimeter_y3);
+    }
+    else if (debug == 1) {
+        printf("%d %d Two sides with the least edges do not have sufficient (at least %d)\n",
+               try_config, seg_idx, min_side_edges);
     }
 
     /* if lines cannot be fitted to all sides then try fitting two lines and
@@ -1612,7 +1632,10 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                  no_of_edge_samples,
                                  &x0, &y0, &x1, &y1);
     if (first_fit_edges == NO_LINE_FIT) {
-        printf("Unable to fit first line %d\n", first_fit_edges);
+        if (debug == 1) {
+            printf("%d %d Unable to fit first line %d\n", try_config, seg_idx,
+                   first_fit_edges);
+        }
         return -1;
     }
 
@@ -1628,7 +1651,10 @@ unsigned char fit_perimeter_to_sides(struct line_segments * segments,
                                   no_of_edge_samples,
                                   &x2, &y2, &x3, &y3);
     if (second_fit_edges == NO_LINE_FIT) {
-        printf("Unable to fit second line %d\n", second_fit_edges);
+        if (debug == 1) {
+            printf("%d %d Unable to fit second line %d\n", try_config, seg_idx,
+                   second_fit_edges);
+        }
         return -1;
     }
 
@@ -1836,7 +1862,7 @@ int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
                            float perimeter_x3, float perimeter_y3)
 {
     int dx, dy;
-    float dist0, dist1, dist2, max_dist, min_dist;
+    float dist0, dist1, dist2, dist3, max_dist, min_dist;
 
     dx = perimeter_x1 - perimeter_x0;
     dy = perimeter_y1 - perimeter_y0;
@@ -1855,6 +1881,12 @@ int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
     dist2 = HYPOT(dx, dy);
     if (dist2 > max_dist) max_dist = dist2;
     if (dist2 < min_dist) min_dist = dist2;
+
+    dx = perimeter_x3 - perimeter_x0;
+    dy = perimeter_y3 - perimeter_y0;
+    dist3 = HYPOT(dx, dy);
+    if (dist3 > max_dist) max_dist = dist3;
+    if (dist3 < min_dist) min_dist = dist3;
 
     if (max_dist == min_dist) return 100;
     if (min_dist > 0) {
