@@ -1005,12 +1005,21 @@ int read_datamatrix(unsigned char image_data[],
             /* if timing border frequency detection fails then try to decode using
                all possible grids */
             if (rectangular == 0) {
+                if (debug == 1) {
+                    printf("%d Trying all square dimensions\n", try_config);
+                }
                 int * valid_squares = get_valid_squares();
                 for (int frequency_index = 0; frequency_index < NO_OF_VALID_SQUARES;
                         frequency_index++) {
                     most_probable_frequency = valid_squares[frequency_index];
                     if ((most_probable_frequency < minimum_grid_dimension) ||
                             (most_probable_frequency > maximum_grid_dimension)) continue;
+                    if (debug == 1) {
+                        printf("%d Trying square dimension %dx%d\n",
+                               try_config, most_probable_frequency,
+                               most_probable_frequency);
+                    }
+
                     /* calculate the length of one of the sides of the perimeter */
                     float perimeter_side_dx = perimeter_x1 - perimeter_x0;
                     float perimeter_side_dy = perimeter_y1 - perimeter_y0;
@@ -1091,8 +1100,8 @@ int read_datamatrix(unsigned char image_data[],
                                                 curr_sampling_radius,
                                                 curr_sampling_pattern);
                                 sprintf(debug_filename[try_config],
-                                        "debug_%d_17_grid_sampling.png",
-                                        try_config);
+                                        "debug_%d_17_grid_sampling_%d.png",
+                                        try_config, curr_sampling_pattern);
                                 write_png_file(debug_filename[try_config],
                                                image_width, image_height, 24,
                                                thr_image_data);
@@ -1104,7 +1113,15 @@ int read_datamatrix(unsigned char image_data[],
                         datamatrix_decode(&grid[try_config], debug,
                                           gs1_url, thr_decode_result[try_config],
                                           human_readable);
-                        if ((int)strlen(thr_decode_result[try_config]) > 0) {
+                        if ((int)strlen(thr_decode_result[try_config]) == 0) {
+                            if (debug == 1) {
+                                printf("debug_%d_18_failed to decode %d_%dx%d.png",
+                                    try_config, curr_sampling_pattern,
+                                    most_probable_frequency,
+                                    most_probable_frequency);
+                            }
+                        }
+                        else {
                             best_config = try_config;
                             best_perimeter_x0 = perimeter_x0;
                             if ((int)strlen(grid_filename) > 0) {
@@ -1154,6 +1171,9 @@ int read_datamatrix(unsigned char image_data[],
             }
             else {
                 /* try all rectangles */
+                if (debug == 1) {
+                    printf("%d Trying all rectangle dimensions\n", try_config);
+                }
                 int * valid_rectangles = get_valid_rectangles();
                 for (int frequency_index = 0;
                         frequency_index < NO_OF_VALID_RECTANGLES;
@@ -1175,6 +1195,11 @@ int read_datamatrix(unsigned char image_data[],
                             valid_rectangles[frequency_index*2];
                         most_probable_frequency =
                             most_probable_frequency_x;
+                    }
+                    if (debug == 1) {
+                        printf("%d Trying rectangle dimension %dx%d\n",
+                               try_config, most_probable_frequency_x,
+                               most_probable_frequency_y);
                     }
                     if ((most_probable_frequency < minimum_grid_dimension) ||
                             (most_probable_frequency > maximum_grid_dimension)) continue;
@@ -1226,11 +1251,39 @@ int read_datamatrix(unsigned char image_data[],
                             free_grid(&grid[try_config]);
                             break;
                         }
+
+                        if (debug == 1) {
+                            mono_to_colour(thr_mono_img, image_width, image_height,
+                                           image_bitsperpixel, thr_image_data);
+                            show_grid_image(&grid[try_config], thr_image_data,
+                                            image_width, image_height,
+                                            image_bitsperpixel,
+                                            curr_sampling_radius,
+                                            curr_sampling_pattern);
+                            show_grid(&grid[try_config]);
+                            sprintf(debug_filename[try_config],
+                                    "debug_%d_17_rectangle_grid_%d_%dx%d.png",
+                                    try_config, curr_sampling_pattern,
+                                    most_probable_frequency_x,
+                                    most_probable_frequency_y);
+                            write_png_file(debug_filename[try_config],
+                                           image_width, image_height, 24,
+                                           thr_image_data);
+                        }
+
                         datamatrix_decode(&grid[try_config], debug,
                                           gs1_url,
                                           thr_decode_result[try_config],
                                           human_readable);
-                        if ((int)strlen(thr_decode_result[try_config]) > 0) {
+                        if ((int)strlen(thr_decode_result[try_config]) == 0) {
+                            if (debug == 1) {
+                                printf("debug_%d_18_failed to decode %d_%dx%d.png",
+                                    try_config, curr_sampling_pattern,
+                                    most_probable_frequency_x,
+                                    most_probable_frequency_y);
+                            }
+                        }
+                        else {
                             best_config = try_config;
                             best_perimeter_x0 = perimeter_x0;
                             if ((int)strlen(grid_filename) > 0) {
@@ -1262,7 +1315,7 @@ int read_datamatrix(unsigned char image_data[],
                                                 curr_sampling_radius,
                                                 curr_sampling_pattern);
                                 sprintf(debug_filename[try_config],
-                                        "debug_%d_17_grid_sampling.png",
+                                        "debug_%d_18_grid_sampling.png",
                                         try_config);
                                 write_png_file(debug_filename[try_config],
                                                image_width, image_height,
