@@ -1622,6 +1622,11 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
  * \param try_config Current settings configuration being tried
  * \param seg_idx Current line segment being tried
  * \param offset extra offset when selecting second longest side
+ * \param thr_edges_image_data image to save debug information
+ * \param resized_thresholded_width Width of the debug image
+ * \param resized_thresholded_height Height of the debug image
+ * \param image_bitsperpixel Bits per pixel in the debug image
+ * \param debug_filename filename of the debug image
  * \return 0 on success, -1 otherwise
  */
 unsigned char fit_perimeter_to_sides(struct line_segments * segments,
