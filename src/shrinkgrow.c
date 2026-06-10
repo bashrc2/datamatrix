@@ -223,6 +223,7 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
 {
     int side, pos_x, pos_y;
     float tx, ty, bx, by, dx, dy, cx=0, cy=0, mid_point_x, mid_point_y;
+    float half_dx, half_dy;
     float direction_x, direction_y, offset_x, offset_y;
     float direction_extended_x, direction_extended_y;
     float expanded_tx=0, expanded_ty=0, expanded_bx=0, expanded_by=0;
@@ -275,9 +276,11 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
         /* side vector */
         dx = bx - tx;
         dy = by - ty;
+        half_dx = dx/2;
+        half_dy = dy/2;
         /* mid point of the side */
-        mid_point_x = tx + (dx/2);
-        mid_point_y = ty + (dy/2);
+        mid_point_x = tx + half_dx;
+        mid_point_y = ty + half_dy;
         /* outward direction vector */
         direction_x = mid_point_x - cx;
         direction_y = mid_point_y - cy;
@@ -291,7 +294,7 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
                            image_data, image_bytesperpixel, debug,
                            (int)mid_point_x, (int)mid_point_y,
                            (int)direction_extended_x, (int)direction_extended_y,
-                           (int)(dx/2), (int)(dy/2), 0, &pos_x, &pos_y);
+                           (int)half_dx, (int)half_dy, 0, &pos_x, &pos_y);
         if (pos_x != -1) {
             offset_x = (float)pos_x - mid_point_x;
             offset_y = (float)pos_y - mid_point_y;
