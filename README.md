@@ -162,7 +162,7 @@ And show square modules rather than round.
 datamatrix -e "ABCDEF" --squaremodules
 ```
 
-The datamatrix can be forced to square dimensions.
+The datamatrix can be forced to square dimensions. This avoids having the system get distracted by any rectangular shapes in the image. You can also do the reverse with the **--rectangle** option, to exclude square shapes.
 
 ``` bash
 datamatrix -e "user@email.domain" --squaredim
