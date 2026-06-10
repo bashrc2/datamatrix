@@ -225,7 +225,7 @@ If you know the range of grid dimensions which are expected then you can narrow 
 datamatrix -f examples/01.png --mingrid 10 --maxgrid 20
 ```
 
-The datamatrix can be forced to square dimensions. This avoids having the system get distracted by any rectangular shapes in the image. You can also do the reverse with the **--rectangle** option, to exclude square shapes.
+The datamatrix scan can be forced to only look for square codes. This avoids having the system get distracted by any rectangular shapes in the image. You can also do the reverse with the **--rectangle** option, to exclude square shapes.
 
 ``` bash
 datamatrix -f examples/01.png --squaredim
