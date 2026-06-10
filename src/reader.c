@@ -1115,7 +1115,7 @@ int read_datamatrix(unsigned char image_data[],
                                           human_readable);
                         if ((int)strlen(thr_decode_result[try_config]) == 0) {
                             if (debug == 1) {
-                                printf("debug_%d_18_failed to decode %d_%dx%d.png",
+                                printf("debug_%d_18_failed to decode %d_%dx%d.png\n",
                                     try_config, curr_sampling_pattern,
                                     most_probable_frequency,
                                     most_probable_frequency);
@@ -1277,7 +1277,7 @@ int read_datamatrix(unsigned char image_data[],
                                           human_readable);
                         if ((int)strlen(thr_decode_result[try_config]) == 0) {
                             if (debug == 1) {
-                                printf("debug_%d_18_failed to decode %d_%dx%d.png",
+                                printf("debug_%d_18_failed to decode %d_%dx%d.png\n",
                                     try_config, curr_sampling_pattern,
                                     most_probable_frequency_x,
                                     most_probable_frequency_y);
