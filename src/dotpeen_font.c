@@ -963,10 +963,10 @@ static void draw_character(unsigned char img[],
     lookup_character(chr, &dotmatrix[0]);
 
     for (int y = 0; y < FONT_HEIGHT; y++) {
+        int centre_y = ty + dot_radius + (y * dy / FONT_HEIGHT);
         for (int x = 0; x < FONT_WIDTH; x++) {
             if (dotmatrix[y*FONT_WIDTH + x] != ' ') {
                 int centre_x = tx + dot_radius + (x * dx / FONT_WIDTH);
-                int centre_y = ty + dot_radius + (y * dy / FONT_HEIGHT);
 
                 draw_dot(img, width, height, bitsperpixel,
                          centre_x, centre_y, dot_radius,
@@ -1000,10 +1000,10 @@ static void draw_character_svg(FILE * fp_image,
     lookup_character(chr, &dotmatrix[0]);
 
     for (int y = 0; y < FONT_HEIGHT; y++) {
+        int centre_y = ty + dot_radius + (y * dy / FONT_HEIGHT);
         for (int x = 0; x < FONT_WIDTH; x++) {
             if (dotmatrix[y*FONT_WIDTH + x] != ' ') {
                 int centre_x = tx + dot_radius + (x * dx / FONT_WIDTH);
-                int centre_y = ty + dot_radius + (y * dy / FONT_HEIGHT);
 
                 fprintf(fp_image,
                         "<circle r=\"%d\" cx=\"%d\" cy=\"%d\" fill=\"black\" />\n",
