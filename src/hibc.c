@@ -27,7 +27,7 @@
  * \brief returns the primary data
  * \param result
  * \param end_index
- * \returns
+ * \returns String containing HIBC parameters
  */
 static char * hibc_primary_data(char result[], int end_index)
 {
@@ -64,7 +64,7 @@ static char * hibc_primary_data(char result[], int end_index)
  * \param result
  * \param start_index
  * \param end_index
- * \returns
+ * \returns String containing HIBC parameters
  */
 static char * hibc_secondary_data_flag(char result[], int start_index,
                                        int end_index)
@@ -245,7 +245,7 @@ static char * hibc_secondary_data_flag(char result[], int start_index,
  * \param result
  * \param start_index
  * \param end_index
- * \returns
+ * \returns String containing HIBC parameters
  */
 static char * hibc_secondary_data(char result[], int start_index,
                                   int end_index)
