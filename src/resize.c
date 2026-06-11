@@ -26,15 +26,15 @@
 #include "datamatrix.h"
 
 /**
- * @brief makes an image larger using an appropriate background colour
- * @param img The original image array
- * @param width Width of the original image
- * @param height Height of the original image
- * @param bitsperpixel Number of bits per pixel in the image
- * @param enlarged The returned enlarged image
- * @param enlarged_width Width of the enlarged image
- * @param enlarged_height Height of the enlarged image
- * @return zero on success
+ * \brief makes an image larger using an appropriate background colour
+ * \param img The original image array
+ * \param width Width of the original image
+ * \param height Height of the original image
+ * \param bitsperpixel Number of bits per pixel in the image
+ * \param enlarged The returned enlarged image
+ * \param enlarged_width Width of the enlarged image
+ * \param enlarged_height Height of the enlarged image
+ * \return zero on success
  */
 int enlarge_image(unsigned char img[], int width, int height,
                   int bitsperpixel,
@@ -85,15 +85,15 @@ int enlarge_image(unsigned char img[], int width, int height,
 }
 
 /**
- * @brief Changes the size of an image
- * @param img The original image array
- * @param width Width of the original image
- * @param height Height of the original image
- * @param bitsperpixel Number of bits per pixel in the image
- * @param resized The returned enlarged image
- * @param resized_width Width of the enlarged image
- * @param resized_height Height of the enlarged image
- * @return zero on success
+ * \brief Changes the size of an image
+ * \param img The original image array
+ * \param width Width of the original image
+ * \param height Height of the original image
+ * \param bitsperpixel Number of bits per pixel in the image
+ * \param resized The returned enlarged image
+ * \param resized_width Width of the enlarged image
+ * \param resized_height Height of the enlarged image
+ * \return zero on success
  */
 int resize_image(unsigned char img[], int width, int height,
                  int bitsperpixel,
@@ -137,15 +137,15 @@ int resize_image(unsigned char img[], int width, int height,
 }
 
 /**
- * @brief Changes the size of a thresholded image (light on dark)
- * @param img The original thresholded image array
- * @param width Width of the original image
- * @param height Height of the original image
- * @param bitsperpixel Number of bits per pixel in the image
- * @param resized The returned resized image
- * @param resized_width Width of the resized image
- * @param resized_height Height of the resized image
- * @return zero on success
+ * \brief Changes the size of a thresholded image (light on dark)
+ * \param img The original thresholded image array
+ * \param width Width of the original image
+ * \param height Height of the original image
+ * \param bitsperpixel Number of bits per pixel in the image
+ * \param resized The returned resized image
+ * \param resized_width Width of the resized image
+ * \param resized_height Height of the resized image
+ * \return zero on success
  */
 int resize_thresholded_image(unsigned char img[], int width, int height,
                              int bitsperpixel,
