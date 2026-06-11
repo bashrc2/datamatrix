@@ -73,7 +73,7 @@ static unsigned char is_dark_image(unsigned char img_mono[],
  * \param sampling_radius_percent Radius to sample within as a percentage of image width
  * \param sampling_step Step size for dark/light peaks calculation
  * \param thresholded returned thresholded image array
- * \return
+ * \return percent of active pixels
  */
 int meanlight_threshold(unsigned char img[], int width, int height,
                         int bitsperpixel, int threshold,
