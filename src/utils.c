@@ -40,7 +40,9 @@ void * safemalloc(int n)
 /**
  * \brief a safe version of strcat which avoids buffer overrun
  * \param result the string to be added to
- * \param text the string to be added */
+ * \param text the string to be added
+ * \return zero on success
+ */
 int decode_strcat(char * result, char * text)
 {
     if ((int)strlen(result) + (int)strlen(text) + sizeof(char) >= MAX_DECODE_LENGTH)
@@ -52,7 +54,9 @@ int decode_strcat(char * result, char * text)
 /**
  * \brief add a single character to a string
  * \param result the string to be added to
- * \param chr the character to be added */
+ * \param chr the character to be added
+ * \return zero on success
+ */
 int decode_strcat_char(char * result, char chr)
 {
     int length = (int)strlen(result);
