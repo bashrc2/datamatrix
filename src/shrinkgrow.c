@@ -139,6 +139,7 @@ static unsigned char line_has_edges(unsigned char mono_edges_img[],
  * \param positive presence or absence of edges
  * \param pos_x returned x coordinate for the position where edges exist
  * \param pos_y returned y coordinate for the position where edges exist
+ * \return 1 if the line has edges, 0 otherwise
  */
 static unsigned char search_line_points(unsigned char mono_img[],
                                         int width, int height,
