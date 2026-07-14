@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
 
     /* handle piped input */
     if (!isatty(fileno(stdin))) {
-        char pipe[65536];
+        char * pipe = (char*)safemalloc(65536);
         i = 0;
         while(-1 != (pipe[i++] = getchar()));
         int pipe_len = (int)strlen(pipe);
@@ -143,6 +143,7 @@ int main(int argc, char* argv[])
                 decode_from_text[i] = pipe[i];
             }
         }
+        free(pipe);
     }
 
     /* representations for dot and space for encoded datamatrix */
