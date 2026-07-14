@@ -105,3 +105,20 @@ int getline2(char line[], FILE * fp)
     if (c == EOF) return -1;
     return 0;
 }
+
+/**
+ * \brief returns 0 if the given text ends with the given match
+ * \param text The string to be checked
+ * \param match The match to check for at the end of the text
+ * \return 0 if matched, -1 otherwise
+ */
+int ends_with(char * text, char * match)
+{
+    int i, j=0, match_len = (int)strlen(match);
+    int text_len = (int)strlen(text);
+    if (match_len > text_len) return -1;
+    for (i = match_len; i > 0; i--, j++) {
+        if (text[text_len - i] != match[j]) return -1;
+    }
+    return 0;
+}

@@ -68,10 +68,7 @@ static int encode_datamatrix_to_image(char * image_filename,
     }
 
     /* check that the output image filename is png format */
-    if ((image_filename[image_filename_length-4] == '.') &&
-            (image_filename[image_filename_length-3] == 'p') &&
-            (image_filename[image_filename_length-2] == 'n') &&
-            (image_filename[image_filename_length-1] == 'g')) {
+    if (ends_with(image_filename, ".png") == 0) {
         unsigned char * encode_image_data =
             (unsigned char*)safemalloc(encode_image_width*
                                        encode_image_height*3);
@@ -89,10 +86,7 @@ static int encode_datamatrix_to_image(char * image_filename,
 
         free(grid);
     }
-    else if ((image_filename[image_filename_length-4] == '.') &&
-             (image_filename[image_filename_length-3] == 's') &&
-             (image_filename[image_filename_length-2] == 'v') &&
-             (image_filename[image_filename_length-1] == 'g')) {
+    else if (ends_with(image_filename, ".svg") == 0) {
         encode_svg(image_filename,
                    encode_image_width, encode_image_height,
                    grid, encode_width, encode_height,

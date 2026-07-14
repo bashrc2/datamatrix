@@ -126,10 +126,7 @@ int main(int argc, char* argv[])
             if (pipe_len > 4) {
                 /* does the file extension look correct? */
                 if (pipe_len < MAX_DECODE_LENGTH) {
-                    if ((pipe[pipe_len-4] == '.') &&
-                        (pipe[pipe_len-3] == 'p') &&
-                        (pipe[pipe_len-2] == 'n') &&
-                        (pipe[pipe_len-1] == 'g')) {
+                    if (ends_with(pipe, ".png") == 0) {
                         for (i = 0; i <= pipe_len; i++) {
                             filename[i] = pipe[i];
                         }
