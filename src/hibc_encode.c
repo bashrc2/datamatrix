@@ -88,7 +88,7 @@ int hibc_encode(char * application_identifier, char data_str[],
     }
     else if (strcmp(application_identifier, "UNIT OF MEASURE") == 0) {
         if (data_len == 1) {
-            if ((data_str[0] >= '0') && (data_str[0] <= '9')) {
+            if (is_number(data_str[0]) == 0) {
                 decode_strcat(encode_text, data_str);
             }
             else {

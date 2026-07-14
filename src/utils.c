@@ -122,3 +122,14 @@ int ends_with(char * text, char * match)
     }
     return 0;
 }
+
+/**
+ * \brief is the given character a number?
+ * \param ch character
+ * \return 0 if the character is a number, -1 otherwise
+ */
+int is_number(char ch)
+{
+    if ((ch >= '0') && (ch <= '9')) return 0;
+    return -1;
+}

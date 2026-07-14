@@ -502,6 +502,8 @@ int getline2(char line[], FILE * fp);
 
 int ends_with(char * text, char * match);
 
+int is_number(char ch);
+
 /* shrinkgrow.c */
 
 void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,

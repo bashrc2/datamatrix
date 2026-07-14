@@ -141,7 +141,7 @@ int gs1_encode(int application_identifier, char data_str[],
             return -1;
         }
         for (int i = 0; i < 6;  i++) {
-            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            if (is_number(data_str[i]) == -1) {
                 printf("Only numbers are permitted within PROD DATE\n");
                 return -1;
             }
@@ -159,7 +159,7 @@ int gs1_encode(int application_identifier, char data_str[],
             return -1;
         }
         for (int i = 0; i < 6;  i++) {
-            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            if (is_number(data_str[i]) == -1) {
                 printf("Only numbers are permitted within DUE DATE\n");
                 return -1;
             }
@@ -177,7 +177,7 @@ int gs1_encode(int application_identifier, char data_str[],
             return -1;
         }
         for (int i = 0; i < 6;  i++) {
-            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            if (is_number(data_str[i]) == -1) {
                 printf("Only numbers are permitted within PACK DATE\n");
                 return -1;
             }
@@ -195,7 +195,7 @@ int gs1_encode(int application_identifier, char data_str[],
             return -1;
         }
         for (int i = 0; i < 6;  i++) {
-            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            if (is_number(data_str[i]) == -1) {
                 printf("Only numbers are permitted within BEST BEFORE\n");
                 return -1;
             }
@@ -213,7 +213,7 @@ int gs1_encode(int application_identifier, char data_str[],
             return -1;
         }
         for (int i = 0; i < 6;  i++) {
-            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            if (is_number(data_str[i]) == -1) {
                 printf("Only numbers are permitted within SELL BY\n");
                 return -1;
             }
@@ -231,7 +231,7 @@ int gs1_encode(int application_identifier, char data_str[],
             return -1;
         }
         for (int i = 0; i < 6;  i++) {
-            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            if (is_number(data_str[i]) == -1) {
                 printf("Only numbers are permitted within USE BY\n");
                 return -1;
             }
@@ -249,7 +249,7 @@ int gs1_encode(int application_identifier, char data_str[],
             return -1;
         }
         for (int i = 0; i < 2;  i++) {
-            if ((data_str[i] < '0') || (data_str[i] > '9')) {
+            if (is_number(data_str[i]) == -1) {
                 printf("Only numbers are permitted within VARIANT\n");
                 return -1;
             }
