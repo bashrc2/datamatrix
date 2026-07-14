@@ -195,10 +195,22 @@ It's possible to decode a datamatrix contained within a text string, as generate
 datamatrix --txt "datamatrix text goes here"
 ```
 
-When decoding, you typically only need to supply a PNG formatted input image.
+The text representation of a datamatrix may also be piped in.
+
+``` bash
+echo -n "datamatrix text goes here" | datamatrix
+```
+
+When decoding an image, you typically only need to supply a PNG formatted filename.
 
 ``` bash
 datamatrix -f examples/01.png
+```
+
+You can also pipe in the filename.
+
+``` bash
+echo "examples/01.png" | datamatrix
 ```
 
 When possible, decoded text will appear in a more verbose human readable form. However if you want to know what text the datamatrix directly encodes then you can use the *--raw* option.
