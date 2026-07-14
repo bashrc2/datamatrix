@@ -882,7 +882,7 @@ static void lookup_character(char chr, char dotmatrix[])
 {
     int offset, w, h, i;
 
-    if ((chr >= '0') && (chr <= '9')) {
+    if (is_number(chr) == 0) {
         offset = FONT_HEIGHT * (int)(chr - '0');
         i = 0;
         for (h = 0; h < FONT_HEIGHT; h++) {

@@ -480,8 +480,8 @@ int get_data_identifier(char data_str[],
  */
 static char * month_number_to_text(char month_number[])
 {
-    if ((month_number[0] < '0') || (month_number[0] > '9')) return NULL;
-    if ((month_number[1] < '0') || (month_number[1] > '9')) return NULL;
+    if (is_number(month_number[0]) == -1) return NULL;
+    if (is_number(month_number[1]) == -1) return NULL;
     char mnth_str[3];
     mnth_str[0] = month_number[0];
     mnth_str[1] = month_number[1];
