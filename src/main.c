@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
         if (strstr(pipe, ".png") != NULL) {
             /* remove spurious endings */
             while ((pipe_len > 4) &&
-                   ((pipe[pipe_len-1] < 'a') || (pipe[pipe_len-1] > 'z'))) {
+                   (is_letter_lower(pipe[pipe_len-1]) == -1)) {
                 pipe[--pipe_len] = 0;               
             }
             if (pipe_len > 4) {

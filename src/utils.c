@@ -133,3 +133,25 @@ int is_number(char ch)
     if ((ch >= '0') && (ch <= '9')) return 0;
     return -1;
 }
+
+/**
+ * \brief is the given character a lower case letter?
+ * \param ch character
+ * \return 0 if the character is a lower case letter, -1 otherwise
+ */
+int is_letter_lower(char ch)
+{
+    if ((ch >= 'a') && (ch <= 'z')) return 0;
+    return -1;
+}
+
+/**
+ * \brief is the given character an upper case letter?
+ * \param ch character
+ * \return 0 if the character is an upper case letter, -1 otherwise
+ */
+int is_letter_upper(char ch)
+{
+    if ((ch >= 'A') && (ch <= 'Z')) return 0;
+    return -1;
+}

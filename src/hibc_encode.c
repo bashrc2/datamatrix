@@ -61,7 +61,7 @@ int hibc_encode(char * application_identifier, char data_str[],
 
     if (strcmp(application_identifier, "LABELER ID") == 0) {
         if (data_len == 4) {
-            if ((data_str[0] >= 'A') && (data_str[0] <= 'Z')) {
+            if (is_letter_upper(data_str[0]) == 0) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }

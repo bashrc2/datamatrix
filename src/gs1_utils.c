@@ -267,7 +267,7 @@ char * get_country_alpha2(char data_str[])
     int data_len = (int)strlen(data_str);
     if (data_len != 2) return NULL;
     for (i = 0; i < 2; i++) {
-        if ((data_str[i] < 'A') || (data_str[i] > 'Z')) return NULL;
+        if (is_letter_upper(data_str[i]) == -1) return NULL;
         data_str_country_code[i] = data_str[i];
     }
     data_str_country_code[2] = 0;
@@ -1584,7 +1584,7 @@ char * get_aquatic_species(char data_str[])
 {
     if ((int)strlen(data_str) != 3) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
-        if ((data_str[i] < 'A') || (data_str[i] > 'Z')) return NULL;
+        if (is_letter_upper(data_str[i]) == -1) return NULL;
     }
     char * aquatic_species_str =
         (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
@@ -1617,8 +1617,8 @@ char * get_fishing_area(char data_str[])
     if ((int)strlen(data_str) < 4) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if ((is_number(data_str[i]) == -1) &&
-            ((data_str[i] < 'a') || (data_str[i] > 'z')) &&
-            ((data_str[i] < 'A') || (data_str[i] > 'Z')) &&
+            (is_letter_lower(data_str[i]) == -1) &&
+            (is_letter_upper(data_str[i]) == -1) &&
             (data_str[i] != '.')) return NULL;
     }
     char * fishing_area_str =
