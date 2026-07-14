@@ -24,6 +24,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "datamatrix.h"
 
@@ -78,7 +79,7 @@ int main(int argc, char* argv[])
     int darklight_sampling_step = 1;
     int max_high_pixels_percent = 13;
     int segment_join_radius = 6;
-	int min_peripheral_edges = 100;
+    int min_peripheral_edges = 100;
 
     /* only looks for squares or rectangles */
     unsigned char is_square = 0;
@@ -103,15 +104,50 @@ int main(int argc, char* argv[])
     unsigned char gs1_encoding = 0;
     int unit_of_measure = -1;
 
-    /* representations for dot and space for encoded datamatrix */
-    sprintf(&dot_char[0], "●");
-    sprintf(&empty_char[0], " ");
-
     /* no filename specified */
     filename[0] = 0;
 
     /* string used for decoding a datamatrix represented as text */
     decode_from_text[0] = 0;
+
+    /* handle piped input */
+    if (!isatty(fileno(stdin))) {
+        char pipe[65536];
+        i = 0;
+        while(-1 != (pipe[i++] = getchar()));
+        int pipe_len = (int)strlen(pipe);
+        /* potential filename? */
+        if (strstr(pipe, ".png") != NULL) {
+            /* remove spurious endings */
+            while ((pipe_len > 4) &&
+                   ((pipe[pipe_len-1] < 'a') || (pipe[pipe_len-1] > 'z'))) {
+                pipe[--pipe_len] = 0;               
+            }
+            if (pipe_len > 4) {
+                /* does the file extension look correct? */
+                if (pipe_len < MAX_DECODE_LENGTH) {
+                    if ((pipe[pipe_len-4] == '.') &&
+                        (pipe[pipe_len-3] == 'p') &&
+                        (pipe[pipe_len-2] == 'n') &&
+                        (pipe[pipe_len-1] == 'g')) {
+                        for (i = 0; i <= pipe_len; i++) {
+                            filename[i] = pipe[i];
+                        }
+                    }
+                }
+            }
+        }
+        else if (pipe_len < MAX_DECODE_STRING_LENGTH) {
+            /* assume that this is a datamatrix represented as text */
+            for (i = 0; i <= pipe_len; i++) {
+                decode_from_text[i] = pipe[i];
+            }
+        }
+    }
+
+    /* representations for dot and space for encoded datamatrix */
+    sprintf(&dot_char[0], "●");
+    sprintf(&empty_char[0], " ");
 
     /* no verification report filename specified */
     report_filename[0] = 0;
@@ -896,7 +932,7 @@ int main(int argc, char* argv[])
                     darklight_sampling_step,
                     max_high_pixels_percent,
                     segment_join_radius,
-					min_peripheral_edges,
+                    min_peripheral_edges,
                     decode_result);
     if ((int)strlen(decode_result) > 0) {
         if (verify == 0) {
