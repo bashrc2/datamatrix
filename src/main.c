@@ -44,6 +44,8 @@ int main(int argc, char* argv[])
     unsigned char show_coords = 0;
     unsigned char json = 0;
     unsigned char yaml = 0;
+    unsigned char decode_json = 0;
+    unsigned char decode_yaml = 0;
     int minimum_grid_dimension = MIN_GRID_DIMENSION;
     int maximum_grid_dimension = MAX_GRID_DIMENSION;
     int test_ml_threshold = 0;
@@ -727,12 +729,24 @@ int main(int argc, char* argv[])
             yaml = 0;
             loop_incr = 1;
         }
+        if ((strcmp(argv[i],"--decodejson")==0) ||
+			(strcmp(argv[i],"--djson")==0)) {
+            decode_json = 1;
+            decode_yaml = 0;
+            loop_incr = 1;
+        }
         if ((strcmp(argv[i],"--yaml")==0) ||
                 (strcmp(argv[i],"--yml")==0)) {
             verify = 1;
             csv = 0;
             json = 0;
             yaml = 1;
+            loop_incr = 1;
+        }
+        if ((strcmp(argv[i],"--decodeyaml")==0) ||
+			(strcmp(argv[i],"--dyaml")==0)) {
+            decode_json = 0;
+            decode_yaml = 1;
             loop_incr = 1;
         }
         if (strcmp(argv[i],"--debug")==0) {
@@ -934,7 +948,14 @@ int main(int argc, char* argv[])
                     decode_result);
     if ((int)strlen(decode_result) > 0) {
         if (verify == 0) {
-            printf("%s\n", decode_result);
+			if ((decode_json == 0) && (decode_yaml == 0)) {
+				printf("%s\n", decode_result);
+			}
+			else if (decode_json == 1) {
+				decode_as_json(decode_result);
+			}
+			else if (decode_yaml == 1) {
+			}
         }
         else {
             if ((csv == 0) && (json == 0) && (yaml == 0)) {
