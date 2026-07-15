@@ -730,7 +730,7 @@ int main(int argc, char* argv[])
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"--decodejson")==0) ||
-			(strcmp(argv[i],"--djson")==0)) {
+            (strcmp(argv[i],"--djson")==0)) {
             decode_json = 1;
             decode_yaml = 0;
             loop_incr = 1;
@@ -744,7 +744,7 @@ int main(int argc, char* argv[])
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"--decodeyaml")==0) ||
-			(strcmp(argv[i],"--dyaml")==0)) {
+            (strcmp(argv[i],"--dyaml")==0)) {
             decode_json = 0;
             decode_yaml = 1;
             loop_incr = 1;
@@ -948,14 +948,14 @@ int main(int argc, char* argv[])
                     decode_result);
     if ((int)strlen(decode_result) > 0) {
         if (verify == 0) {
-			if ((decode_json == 0) && (decode_yaml == 0)) {
-				printf("%s\n", decode_result);
-			}
-			else if (decode_json == 1) {
-				decode_as_json(decode_result);
-			}
-			else if (decode_yaml == 1) {
-			}
+            if ((decode_json == 0) && (decode_yaml == 0)) {
+                printf("%s\n", decode_result);
+            }
+            else if (decode_json == 1) {
+                decode_as_json(decode_result);
+            }
+            else if (decode_yaml == 1) {
+            }
         }
         else {
             if ((csv == 0) && (json == 0) && (yaml == 0)) {
