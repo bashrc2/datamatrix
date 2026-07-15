@@ -1450,9 +1450,6 @@ void decode_as_json(char * decode_result)
         return;
     }
     printf("{\n");
-    
-    char * json_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
-    json_result[0] = 0;
 
     char * fieldname = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
     fieldname[0] = 0;
@@ -1513,6 +1510,72 @@ void decode_as_json(char * decode_result)
         printf("}\n");
     }
 
+    free(fieldname);
+    free(field_value);
+}
+
+/**
+ * \brief if the result of a datamatrix decode has multiple fields then display
+ *        them in yaml format
+ * \param decode_result datamatrix decode result
+ */
+void decode_as_yaml(char * decode_result)
+{
+    if (strstr(decode_result, "STANDARD: ") == NULL) {
+        printf("%s\n", decode_result);
+        return;
+    }
+    printf("---\n");
+
+    char * fieldname = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    fieldname[0] = 0;
+    int i, j, start_ctr = 0;
+    unsigned char field_found = 0;
+
+    char * field_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    field_value[0] = 0;
+    int field_value_start_ctr = 0;
+
+    for (i = 0; i < (int)strlen(decode_result); i++) {
+        if (field_found == 0) {
+            /* get the field name */
+            if (i < (int)strlen(decode_result)-1) {
+                if ((decode_result[i] == ':') &&
+                    (decode_result[i+1] == ' ')) {
+                    field_found = 1;
+                    for (j = start_ctr; j < i; j++) {
+                        fieldname[j-start_ctr] = tolower(decode_result[j]);
+                    }
+                    fieldname[j-start_ctr] = 0;
+                    field_value_start_ctr = i+2;
+                }
+            }
+        }
+        else {
+            /* get the field value */
+            if ((decode_result[i] == '\n') ||
+                (i == (int)strlen(decode_result)-1)) {
+                int end_ctr = i;
+                if (i == (int)strlen(decode_result)-1) end_ctr = i+1;
+                start_ctr = i+1;
+                if ((int)strlen(fieldname) > 0) {
+                    for (j = field_value_start_ctr; j < end_ctr; j++) {
+                        field_value[j-field_value_start_ctr] =
+                            decode_result[j];
+                    }
+                    field_value[j-field_value_start_ctr] = 0;
+                    if ((int)strlen(field_value) > 0) {
+                        printf("%s: %s\n", fieldname, field_value);
+                    }
+                    field_value_start_ctr = 0;
+                    fieldname[0] = 0;
+                    field_found = 0;
+                }
+            }
+        }
+    }
+
+    printf("---\n");
     free(fieldname);
     free(field_value);
 }

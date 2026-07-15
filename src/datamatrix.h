@@ -736,6 +736,8 @@ int read_datamatrix(unsigned char image_data[],
 
 void decode_as_json(char * decode_result);
 
+void decode_as_yaml(char * decode_result);
+
 /* tests.c */
 
 void run_all_tests();

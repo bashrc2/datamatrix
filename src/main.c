@@ -955,6 +955,7 @@ int main(int argc, char* argv[])
                 decode_as_json(decode_result);
             }
             else if (decode_yaml == 1) {
+                decode_as_yaml(decode_result);
             }
         }
         else {
