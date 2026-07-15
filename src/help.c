@@ -44,6 +44,7 @@ void show_help()
     printf("   --json                         Show quality metrics in JSON format\n");
     printf("   --yaml                         Show quality metrics in yaml format\n");
     printf("   --decodejson                   Show decode fields in JSON format\n");
+    printf("   --decodeyaml                   Show decode fields in yaml format\n");
     printf("   --freq [8..144]                Set the matrix dimension\n");
     printf("   --erode [0..20]                Set erosion itterations\n");
     printf("   --dilate [0..20]               Set dilation itterations\n");
