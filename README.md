@@ -55,6 +55,7 @@ sudo make install
 --csv                          Show quality metrics in CSV format
 --json                         Show quality metrics in JSON format
 --yaml                         Show quality metrics in yaml format
+--decodejson                   Show decode fields in JSON format
 --freq [8..144]                Set the matrix dimension
 --erode [0..20]                Set erosion itterations
 --dilate [0..20]               Set dilation itterations
