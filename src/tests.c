@@ -462,7 +462,7 @@ static void test_hibc_translate()
     hibc_semantics(&test_data[0], &hibc_result[0], 1);
     printf("%s\n", &hibc_result[0]);
     assert(strcmp(&hibc_result[0],
-                  "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020 DAY 015\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 12 Dec 2011\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
+                  "STANDARD: HIBC\nLABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nEXPIRY: 2020 DAY 015\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 12 Dec 2011\nSUPPLIER SERIAL NUMBER: 77DEFG457\n") == 0);
 
     test_data[0] = 0;
     hibc_result[0] = 0;
@@ -470,7 +470,7 @@ static void test_hibc_translate()
     hibc_semantics(&test_data[0], &hibc_result[0], 1);
     printf("%s\n", &hibc_result[0]);
     assert(strcmp(&hibc_result[0],
-                  "LABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 31 Dec 2011\nEXPIRATION DATE YYYYMMDD: 31 Jan 2020\n") == 0);
+                  "STANDARD: HIBC\nLABELER ID: A999\nPRODUCT ID: 1234\nUNIT OF MEASURE: 5\nLOT NUMBER: 10X3\nMANUFACTURE DATE YYYYMMDD: 31 Dec 2011\nEXPIRATION DATE YYYYMMDD: 31 Jan 2020\n") == 0);
 }
 
 static void test_hibc_check_character()
@@ -668,8 +668,8 @@ static void test_package_type()
 {
     char * package_code1 = "1W";
     char * description = get_package_type(package_code1);
-	assert(description != NULL);
-	printf("%s\n", description);
+    assert(description != NULL);
+    printf("%s\n", description);
     assert(strstr(description, "Drum, wooden") != NULL);
 }
 

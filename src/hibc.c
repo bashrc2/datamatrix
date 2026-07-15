@@ -38,6 +38,8 @@ static char * hibc_primary_data(char result[], int end_index)
     char * translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
     translated_str[0] = 0;
 
+    decode_strcat(translated_str, "STANDARD: HIBC\n");
+
     /* first 4 characters */
     decode_strcat(translated_str, "LABELER ID: ");
     for (i = 1; i <= 4; i++) {
@@ -273,7 +275,6 @@ static char * hibc_secondary_data(char result[], int start_index,
         char * id_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
 
         if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
-            translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, id_human_readable);
             decode_strcat(translated_str, ": ");
