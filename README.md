@@ -215,6 +215,13 @@ You can also pipe in the filename.
 echo "examples/01.png" | datamatrix
 ```
 
+If the datamatrix contains GS1 or HIBC fields then you can optionally display those in json or yaml format.
+
+``` bash
+datamatrix -f examples/02.png --decodejson
+datamatrix -f examples/02.png --decodeyaml
+```
+
 When possible, decoded text will appear in a more verbose human readable form. However if you want to know what text the datamatrix directly encodes then you can use the *--raw* option.
 
 ``` bash
