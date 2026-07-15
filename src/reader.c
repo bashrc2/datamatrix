@@ -1446,7 +1446,7 @@ int read_datamatrix(unsigned char image_data[],
 void decode_as_json(char * decode_result)
 {
     if (strstr(decode_result, "STANDARD: ") == NULL) {
-        printf("%s\n", decode_result);
+        printf("{\n  \"decode\": \"%s\"\n}\n", decode_result);
         return;
     }
     printf("{\n");
@@ -1522,7 +1522,7 @@ void decode_as_json(char * decode_result)
 void decode_as_yaml(char * decode_result)
 {
     if (strstr(decode_result, "STANDARD: ") == NULL) {
-        printf("%s\n", decode_result);
+        printf("---\ndecode: %s\n---\n", decode_result);
         return;
     }
     printf("---\n");
