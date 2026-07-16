@@ -27,6 +27,7 @@
 
 /**
  * \brief makes an image larger using an appropriate background colour
+ *        NOTE: this just adds a larger border around the image
  * \param img The original image array
  * \param width Width of the original image
  * \param height Height of the original image
