@@ -620,7 +620,7 @@ static void complete_fixed_pattern(struct grid_2d * grid)
             damage++;
             timing_border_damage++;
         }
-        grid->occupancy[grid->dimension_x-1][grid_y] = expected;
+        grid->occupancy[grid->dimension_x-1][grid_y] = (unsigned char)expected;
         fixed_pattern_cells++;
         timing_border_cells++;
     }

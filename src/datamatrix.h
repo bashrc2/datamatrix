@@ -34,6 +34,7 @@
 #include <time.h>
 #include <omp.h>
 #include <float.h>
+#include <limits.h>
 #include "lodepng.h"
 
 #define DATAMATRIX_VERSION_STRING  "v1.0.0"
@@ -74,6 +75,10 @@
 
 #ifndef ABS
 #define ABS(a) (((a) < 0) ? -(a) : (a))
+#endif
+
+#ifndef UINT_TO_INT
+#define UINT_TO_INT(i) (((i) <= (unsigned int)INT_MAX) ? ((int)(i)) : (-(int)~(i) - 1))
 #endif
 
 #ifndef NO_OF_VALID_SQUARES
@@ -351,14 +356,14 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
 /* draw.c */
 
 void draw_line(unsigned char img[],
-               unsigned int width, unsigned int height,
+               int width, int height,
                int bitsperpixel,
                int tx, int ty, int bx, int by,
                int line_width,
                int r, int g, int b);
 
 void draw_dot(unsigned char img[],
-              unsigned int width, unsigned int height,
+              int width, int height,
               int bitsperpixel,
               int centre_x, int centre_y, int radius,
               int r, int g, int b);
@@ -366,7 +371,7 @@ void draw_dot(unsigned char img[],
 /* dotpeen_font.c */
 
 void draw_text(unsigned char img[],
-               unsigned int width, unsigned int height,
+               int width, int height,
                int bitsperpixel,
                int text_x, int text_y, int character_width,
                int line_spacing,
@@ -375,7 +380,7 @@ void draw_text(unsigned char img[],
                char * text);
 
 void draw_text_svg(FILE * fp_image,
-                   unsigned int width, unsigned int height,
+                   int width, int height,
                    int text_x, int text_y, int character_width,
                    int line_spacing,
                    int character_separation,
@@ -746,7 +751,7 @@ void run_all_tests();
 
 void encode_image(unsigned char img[], int width, int height,
                   int bitsperpixel, unsigned char * grid,
-                  unsigned int encode_width, unsigned int encode_height,
+                  int encode_width, int encode_height,
                   unsigned char square_modules,
                   char * description,
                   unsigned char description_position,
@@ -756,7 +761,7 @@ void encode_image(unsigned char img[], int width, int height,
 
 void encode_svg(char * image_filename, int width, int height,
                 unsigned char * grid,
-                unsigned int encode_width, unsigned int encode_height,
+                int encode_width, int encode_height,
                 unsigned char square_modules,
                 char * description,
                 unsigned char description_position,

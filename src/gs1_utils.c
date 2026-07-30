@@ -79,7 +79,7 @@ float get_temperature(char data_str[])
         temp_str[ctr++] = data_str[i];
     }
     temp_str[ctr] = 0;
-    float temperature = atof(&temp_str[0]);
+    float temperature = (float)atof(&temp_str[0]);
     free(temp_str);
     return temperature;
 }

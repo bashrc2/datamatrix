@@ -35,10 +35,13 @@ int main(int argc, char* argv[])
     unsigned char * resized_image_data = NULL;
     unsigned int image_width=0;
     unsigned int image_height=0;
-    unsigned int resized_image_width=800;
-    unsigned int resized_image_height=0;
+    int image_width_int=0;
+    int image_height_int=0;
+    int resized_image_width=800;
+    int resized_image_height=0;
     int resized_thresholded_width = 150;
     unsigned int image_bitsperpixel=0;
+    int image_bitsperpixel_int=0;
     unsigned char debug = 0;
     unsigned char csv = 0;
     unsigned char show_coords = 0;
@@ -682,10 +685,10 @@ int main(int argc, char* argv[])
             }
         }
         if (strcmp(argv[i],"--resizewidth")==0) {
-            resized_image_width = (unsigned int)atoi(argv[i+1]);
+            resized_image_width = atoi(argv[i+1]);
         }
         if (strcmp(argv[i],"--resizeheight")==0) {
-            resized_image_height = (unsigned int)atoi(argv[i+1]);
+            resized_image_height = atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--width")==0) ||
                 ((strcmp(argv[i],"-w")==0))) {
@@ -871,26 +874,30 @@ int main(int argc, char* argv[])
         printf("Couldn't load image depth\n");
         return 0;
     }
+	image_width_int = UINT_TO_INT(image_width);
+	image_height_int = UINT_TO_INT(image_height);
+	image_bitsperpixel_int = UINT_TO_INT(image_bitsperpixel);
 
     if (debug == 1) {
         printf("Image: %s\n", &filename[0]);
-        printf("Resolution: %dx%d\n", image_width, image_height);
-        printf("Depth: %d\n", image_bitsperpixel);
+        printf("Resolution: %dx%d\n", image_width_int, image_height_int);
+        printf("Depth: %d\n", image_bitsperpixel_int);
     }
 
     if (resized_image_width > 0) {
         if (resized_image_height == 0) {
-            resized_image_height = image_height * resized_image_width / image_width;
+            resized_image_height =
+				image_height_int * resized_image_width / image_width_int;
         }
         /* create an array to store the enlarged image */
         resized_image_data =
             (unsigned char*)safemalloc((size_t)(resized_image_width *
 												resized_image_height *
-												image_bitsperpixel/8));
+												image_bitsperpixel_int/8));
         if (resized_image_data == NULL) return -653;
         /* resize the image */
-        if (resize_image(image_data, image_width, image_height,
-                         image_bitsperpixel,
+        if (resize_image(image_data, image_width_int, image_height_int,
+                         image_bitsperpixel_int,
                          resized_image_data,
                          resized_image_width, resized_image_height) != 0) {
             printf("Failed to resize\n");
@@ -899,22 +906,22 @@ int main(int argc, char* argv[])
         /* resized image becomes the output */
         free(image_data);
         image_data = resized_image_data;
-        image_width = resized_image_width;
-        image_height = resized_image_height;
+        image_width_int = resized_image_width;
+        image_height_int = resized_image_height;
         resized_image_data = NULL;
 
         if (debug == 1) {
-            write_png_file("debug_01_resize.png", image_width, image_height,
+            write_png_file("debug_01_resize.png", image_width_int, image_height_int,
                            24, image_data);
-            printf("Resized resolution: %dx%d\n", image_width, image_height);
+            printf("Resized resolution: %dx%d\n", image_width_int, image_height_int);
         }
     }
 
 
     char * decode_result =
 		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
-    read_datamatrix(image_data, image_width, image_height,
-                    image_bitsperpixel, debug,
+    read_datamatrix(image_data, image_width_int, image_height_int,
+                    image_bitsperpixel_int, debug,
                     &output_filename[0],
                     &grid_filename[0],
                     test_ml_threshold,

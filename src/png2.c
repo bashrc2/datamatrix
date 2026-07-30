@@ -61,7 +61,7 @@ int write_png_file(char* filename,
 									  (unsigned int)width, (unsigned int)height);
     }
     if (bitsperpixel == 8) {
-        image = (unsigned char*)safemalloc(width * height * 3);
+        image = (unsigned char*)safemalloc((size_t)(width * height * 3));
         if (image) {
             for (i = 0; i < width*height; i++) {
                 image[i*3] = buffer[i];

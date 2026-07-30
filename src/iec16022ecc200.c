@@ -230,7 +230,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
     }
     /* do the encoding */
     while (sp < sl && tp < tl) {
-        char newenc = tolower(encoding[sp]); /* suggest new encoding */
+        char newenc = (char)tolower(encoding[sp]); /* suggest new encoding */
 #ifdef  DEBUG
         int S = sp;
         int T = tp;
@@ -270,7 +270,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                 }
                 w = strchr(e, c);
                 if (w)
-                    out[p++] = ((w - e) + 3) % 40;
+                    out[p++] = (unsigned int)(((w - e) + 3) % 40);
                 else {
                     if (newenc == 'x') {
                         fprintf(stderr,
@@ -284,12 +284,12 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                         w = strchr(s2, c);
                         if (w) { /* shift 2 */
                             out[p++] = 1;
-                            out[p++] = (w - s2);
+                            out[p++] = (unsigned int)(w - s2);
                         } else {
                             w = strchr(s3, c);
                             if (w) {
                                 out[p++] = 2;
-                                out[p++] = (w - s3);
+                                out[p++] = (unsigned int)(w - s3);
                             } else {
                                 fprintf(stderr,
                                         "Could not encode 0x%02X, should not happen\n", c);
@@ -315,7 +315,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                             t[tp++] = 238;
                         enc = newenc;
                     }
-                    t[tp++] = (v >> 8);
+                    t[tp++] = (unsigned char)(v >> 8);
                     t[tp++] = (v & 0xFF);
                     p -= 3;
                     out[0] = out[3];
@@ -374,7 +374,7 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
                 enc = 'a';
             }
             if (sl - sp >= 2 && isdigit(s[sp]) && isdigit (s[sp + 1])) {
-                t[tp++] = (s[sp] - '0') * 10 + s[sp + 1] - '0' + 130;
+                t[tp++] = (unsigned char)((s[sp] - '0') * 10 + s[sp + 1] - '0' + 130);
                 sp += 2;
             } else if (s[sp] > 127) {
                 t[tp++] = 235;
@@ -392,17 +392,17 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
             t[tp++] = 231; /* base256 */
             int TP = tp;
             if (l < 250)
-                t[tp++] = l;
+                t[tp++] = (unsigned char)l;
             else {
-                t[tp++] = 249 + (l / 250);
-                t[tp++] = (l % 250);
+                t[tp++] = (unsigned char)(249 + (l / 250));
+                t[tp++] = (unsigned char)(l % 250);
             }
             while (l-- && tp < tl)
                 t[tp++] = s[sp++]; /* + (((tp + 1) * 149) % 255) + 1; */  /* see annex H */
             while (TP < tp) {
                 /* coding - see annex H - YES this includes the length bytes,
                    believe it or not. */
-                t[TP] += (((TP + 1) * 149) % 255) + 1;
+                t[TP] += (unsigned char)((((TP + 1) * 149) % 255) + 1);
                 TP++;
             }
             if (tp + 1 >= tl)
@@ -546,8 +546,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                     bl = t;
                     b = e;
                 }
-        enc[p][E_ASCII].t = tl + bl;
-        enc[p][E_ASCII].s = sl;
+        enc[p][E_ASCII].t = (short int)(tl + bl);
+        enc[p][E_ASCII].s = (short int)sl;
         if (bl && b == E_ASCII)
             enc[p][b].s += enc[p + sl][b].s;
         /* C40 */
@@ -586,8 +586,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                 bl = 1;
                 b = E_ASCII;
             }
-            enc[p][E_C40].t = tl + bl;
-            enc[p][E_C40].s = sl;
+            enc[p][E_C40].t = (short int)(tl + bl);
+            enc[p][E_C40].s = (short int)sl;
             if (bl && b == E_C40)
                 enc[p][b].s += enc[p + sl][b].s;
         }
@@ -627,8 +627,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                 bl = 1;
                 b = E_ASCII;
             }
-            enc[p][E_TEXT].t = tl + bl;
-            enc[p][E_TEXT].s = sl;
+            enc[p][E_TEXT].t = (short int)(tl + bl);
+            enc[p][E_TEXT].s = (short int)sl;
             if (bl && b == E_TEXT)
                 enc[p][b].s += enc[p + sl][b].s;
         }
@@ -662,8 +662,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                 bl = 1;
                 b = E_ASCII;
             }
-            enc[p][E_X12].t = tl + bl;
-            enc[p][E_X12].s = sl;
+            enc[p][E_X12].t = (short int)(tl + bl);
+            enc[p][E_X12].s = (short int)sl;
             if (bl && b == E_X12)
                 enc[p][b].s += enc[p + sl][b].s;
         }
@@ -738,8 +738,8 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                     }
                 }
             }
-            enc[p][E_EDIFACT].t = bl;
-            enc[p][E_EDIFACT].s = sl;
+            enc[p][E_EDIFACT].t = (short int)bl;
+            enc[p][E_EDIFACT].s = (short int)sl;
             if (bl && b == E_EDIFACT)
                 enc[p][b].s += enc[p + sl][b].s;
         }
@@ -752,7 +752,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
                 bl = t;
                 b = e;
             }
-        enc[p][E_BINARY].t = 1 + bl;
+        enc[p][E_BINARY].t = (short int)(1 + bl);
         enc[p][E_BINARY].s = 1;
         if (bl && b == E_BINARY)
             enc[p][b].s += enc[p + 1][b].s;

@@ -85,11 +85,11 @@ static void encode_image_dot(unsigned char img[], int width, int height,
  */
 static void encode_image_base(unsigned char img[], int width, int height,
                               int bitsperpixel, unsigned char *grid,
-                              unsigned int encode_width, unsigned int encode_height,
+                              int encode_width, int encode_height,
                               unsigned char square_modules,
                               int tx, int ty, int bx, int by)
 {
-    unsigned int x, y;
+    int x, y;
     int bytes_per_pixel = bitsperpixel/8;
     int dot_x, dot_y;
     int bounding_box_width = bx - tx;
@@ -278,7 +278,7 @@ static void get_encode_bounding_box_pattern(int width, int height,
  */
 void encode_image(unsigned char img[], int width, int height,
                   int bitsperpixel, unsigned char *grid,
-                  unsigned int encode_width, unsigned int encode_height,
+                  int encode_width, int encode_height,
                   unsigned char square_modules,
                   char * description,
                   unsigned char description_position,
@@ -333,12 +333,12 @@ void encode_image(unsigned char img[], int width, int height,
  * \param fp_image file pointer to the image being saved
  */
 void encode_svg_base(unsigned char *grid,
-                     unsigned int encode_width, unsigned int encode_height,
+                     int encode_width, int encode_height,
                      unsigned char square_modules,
                      int tx, int ty, int bx, int by,
                      FILE * fp_image)
 {
-    unsigned int x, y;
+    int x, y;
     int dot_x, dot_y;
     int bounding_box_width = bx - tx;
     int bounding_box_height = by - ty;
@@ -389,7 +389,7 @@ void encode_svg_base(unsigned char *grid,
  */
 void encode_svg(char * image_filename, int width, int height,
                 unsigned char *grid,
-                unsigned int encode_width, unsigned int encode_height,
+                int encode_width, int encode_height,
                 unsigned char square_modules,
                 char * description,
                 unsigned char description_position,

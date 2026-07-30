@@ -949,7 +949,7 @@ static void lookup_character(char chr, char dotmatrix[])
  * \param chr character to be returned
  */
 static void draw_character(unsigned char img[],
-                           unsigned int width, unsigned int height,
+                           int width, int height,
                            int bitsperpixel,
                            int tx, int ty, int bx, int by,
                            int r, int g, int b,
@@ -988,7 +988,7 @@ static void draw_character(unsigned char img[],
  * \param chr character to be returned
  */
 static void draw_character_svg(FILE * fp_image,
-                               unsigned int width, unsigned int height,
+                               int width, int height,
                                int tx, int ty, int bx, int by,
                                char chr)
 {
@@ -1030,7 +1030,7 @@ static void draw_character_svg(FILE * fp_image,
  * \param text Text to be drawn
  */
 void draw_text(unsigned char img[],
-               unsigned int width, unsigned int height,
+               int width, int height,
                int bitsperpixel,
                int text_x, int text_y, int character_width,
                int line_spacing,
@@ -1053,7 +1053,7 @@ void draw_text(unsigned char img[],
         int ty = text_y + (row * (character_height + line_spacing));
         int bx = tx + character_width - character_separation;
         int by = ty + character_height;
-        if ((bx < (int)width) && (by < (int)height)) {
+        if ((bx < width) && (by < height)) {
             draw_character(img, width, height, bitsperpixel,
                            tx, ty, bx, by, r, g, b,
                            text[i]);
@@ -1075,7 +1075,7 @@ void draw_text(unsigned char img[],
  * \param text Text to be drawn
  */
 void draw_text_svg(FILE * fp_image,
-                   unsigned int width, unsigned int height,
+                   int width, int height,
                    int text_x, int text_y, int character_width,
                    int line_spacing,
                    int character_separation,

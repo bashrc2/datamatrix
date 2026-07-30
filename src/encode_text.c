@@ -48,8 +48,8 @@
  */
 static int encode_datamatrix_to_image(char * image_filename,
                                       unsigned char * grid,
-                                      unsigned int encode_width,
-                                      unsigned int encode_height,
+                                      int encode_width,
+                                      int encode_height,
                                       int encode_image_width,
                                       int encode_image_height,
                                       unsigned char square_modules,
@@ -146,19 +146,19 @@ int encode_datamatrix_to_text_or_image(char * text,
                                        unsigned char debug)
 {
     char * encoding = NULL;
-    int barcodelen = 0;
+    unsigned int barcodelen = 0;
     unsigned char *grid = 0;
     unsigned int encode_width = 0, encode_height = 0;
     unsigned int len = 0,
-                 maxlen = 0,
-                 encode_ecclen = 0,
-                 square = 0,
-                 noquiet = 0;
+		maxlen = 0,
+		encode_ecclen = 0;
+	unsigned char square = 0;
+	unsigned char noquiet = 0;
     /* a small horizontal separation between characters so that they don't
        appear joined together */
     int character_separation = character_width / FONT_WIDTH;
 
-    barcodelen = (int)strlen(text);
+    barcodelen = (unsigned int)strlen(text);
 
     /* force square shape? */
     if (is_square == 1) square = 1;
@@ -169,13 +169,15 @@ int encode_datamatrix_to_text_or_image(char * text,
     grid = iec16022ecc200(&encode_width, &encode_height,
                           &encoding, barcodelen,
                           (unsigned char *)text, &len,
-                          &maxlen, &encode_ecclen, square, noquiet);
+                          &maxlen, &encode_ecclen,
+						  square, noquiet);
     if (debug == 1)
         printf("encoded: '%s' %dx%d\n",
                text, encode_width, encode_height);
     /* show the datamatrix */
     int encode_image_height = \
-                              encode_image_width * encode_height / encode_width;
+		UINT_TO_INT((unsigned int)encode_image_width *
+					encode_height / encode_width);
 
     if (description[0] != 0) {
         /* allow extra height for description of rectangular datamatrix */
@@ -191,11 +193,13 @@ int encode_datamatrix_to_text_or_image(char * text,
         }
     }
 
+	int encode_width_int = UINT_TO_INT(encode_width);
+	int encode_height_int = UINT_TO_INT(encode_height);
     if (grid && (image_filename[0] != 0)) {
         return encode_datamatrix_to_image(image_filename,
                                           grid,
-                                          encode_width,
-                                          encode_height,
+                                          encode_width_int,
+                                          encode_height_int,
                                           encode_image_width,
                                           encode_image_height,
                                           square_modules,
@@ -207,8 +211,8 @@ int encode_datamatrix_to_text_or_image(char * text,
     }
 
     /* encode as text */
-    unsigned int S = encode_scale;
-    unsigned int x, y, x_directional;
+    int S = encode_scale;
+    int x, y, x_directional;
     char dot_chr[8];
     char empty_chr[8];
 
@@ -238,21 +242,21 @@ int encode_datamatrix_to_text_or_image(char * text,
     float x_coord, y_coord;
     unsigned char direction = 0;
     if (show_coords == 1) S = 1;
-    for (y = 0; y < encode_height * S; y++) {
-        for (x = 0; x < encode_width * S; x++) {
+    for (y = 0; y < encode_height_int * S; y++) {
+        for (x = 0; x < encode_width_int * S; x++) {
             if (show_coords == 0) {
                 printf("%s",
-                       grid[encode_width *
+                       grid[encode_width_int *
                                          (y / S) + (x / S)] ? dot_chr : empty_chr);
             }
             else {
                 /* show dot coordinates */
                 x_directional = x;
-                if (direction == 1) x_directional = encode_width - 1 - x;
-                if (grid[encode_width * y + x_directional]) {
+                if (direction == 1) x_directional = encode_width_int - 1 - x;
+                if (grid[encode_width_int * y + x_directional]) {
                     x_coord =
                         coords_offset_x +
-                        ((float)(x_directional * (unsigned int)encode_image_width) /
+                        ((float)(x_directional * encode_image_width) /
                          (float)encode_width);
                     y_coord =
                         coords_offset_y +
