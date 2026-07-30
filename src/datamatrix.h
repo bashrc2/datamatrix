@@ -800,8 +800,8 @@ unsigned char * read_png_file(char * filename,
                               unsigned int * bitsperpixel);
 
 int write_png_file(char* filename,
-                   unsigned int width, unsigned int height,
-                   unsigned int bitsperpixel,
+                   int width, int height,
+                   int bitsperpixel,
                    unsigned char * buffer);
 
 /* help.c */
