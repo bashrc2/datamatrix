@@ -252,11 +252,11 @@ int encode_datamatrix_to_text_or_image(char * text,
                 if (grid[encode_width * y + x_directional]) {
                     x_coord =
                         coords_offset_x +
-                        (x_directional * encode_image_width /
+                        ((float)(x_directional * (unsigned int)encode_image_width) /
                          (float)encode_width);
                     y_coord =
                         coords_offset_y +
-                        (y * encode_image_height /
+                        ((float)(y * encode_image_height) /
                          (float)encode_height);
                     printf("%.3f, %.3f,\n", x_coord, y_coord);
                 }

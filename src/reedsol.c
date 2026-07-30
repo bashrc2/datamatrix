@@ -151,7 +151,7 @@ static int find_errors(int len, int numroots, word * eloc, word * elist)
         e = 0;
         for (i = numroots; i >= 0; i--) {
             if (e)
-                e = alog[(rlog[e] + k) % fsize];
+                e = alog[(rlog[e] + (word)k) % fsize];
             e ^= eloc[i];
         }
         if (e == 0) {
@@ -159,7 +159,7 @@ static int find_errors(int len, int numroots, word * eloc, word * elist)
             /* printf("error at %d\n", len + plen - 1 - k); */
             if (len + (int)plen - 1 < k)
                 return 0;
-            elist[s++] = k;
+            elist[s++] = (word)k;
         }
     }
     return (s == numroots);
@@ -172,7 +172,7 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
     for (s = 0; s < numerrs; s++) {
         e = 0;
         k = elist[s];
-        for (i = plen - numerrs; i >= 0; i--) {
+        for (i = (int)plen - numerrs; i >= 0; i--) {
             if (e)
                 e = alog[(rlog[e] + k) % fsize];
             e ^= eval[i];
@@ -184,11 +184,11 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
             e2 ^= eloc[i];
         }
         e = alog[(2 * fsize - rlog[e] - rlog[e2] + k * (fsize - off)) % fsize];
-        i = len + plen - 1 - k;
+        i = len + (int)plen - 1 - (int)k;
 
         /* DEBUG */
         /* printf("k=%d locn %d correct by %.2x from %d to %d\n", k, i, e, data[i], data[i] ^ e); */
-        data[i] ^= e;
+        data[i] = (byte)((word)data[i] ^ e);
     }
 }
 

@@ -692,37 +692,39 @@ int read_datamatrix(unsigned char image_data[],
 
             /* convert back to original image resolution */
             perimeter_x0 =
-                (perimeter_x0 * original_image_width) /
-                resized_thresholded_width;
+                (perimeter_x0 * (float)original_image_width) /
+                (float)resized_thresholded_width;
             perimeter_y0 =
-                (perimeter_y0 * original_image_height) /
-                resized_thresholded_height;
+                (perimeter_y0 * (float)original_image_height) /
+                (float)resized_thresholded_height;
             perimeter_x1 =
-                (perimeter_x1 * original_image_width) /
-                resized_thresholded_width;
+                (perimeter_x1 * (float)original_image_width) /
+                (float)resized_thresholded_width;
             perimeter_y1 =
-                (perimeter_y1 * original_image_height) /
-                resized_thresholded_height;
+                (perimeter_y1 * (float)original_image_height) /
+                (float)resized_thresholded_height;
             perimeter_x2 =
-                (perimeter_x2 * original_image_width) /
-                resized_thresholded_width;
+                (perimeter_x2 * (float)original_image_width) /
+                (float)resized_thresholded_width;
             perimeter_y2 =
-                (perimeter_y2 * original_image_height) /
-                resized_thresholded_height;
+                (perimeter_y2 * (float)original_image_height) /
+                (float)resized_thresholded_height;
             perimeter_x3 =
-                (perimeter_x3 * original_image_width) /
-                resized_thresholded_width;
+                (perimeter_x3 * (float)original_image_width) /
+                (float)resized_thresholded_width;
             perimeter_y3 =
-                (perimeter_y3 * original_image_height) /
-                resized_thresholded_height;
+                (perimeter_y3 * (float)original_image_height) /
+                (float)resized_thresholded_height;
 
             /* because of the left/above oriented method of edge detection
                within detect_edges_binary, shift the perimeter right and down
                by the equivalent of half a pixel */
             float x_adjust =
-                (original_image_width / resized_thresholded_width) * 0.5f;
+                ((float)original_image_width /
+				 (float)resized_thresholded_width) * 0.5f;
             float y_adjust =
-                (original_image_height / resized_thresholded_height) * 0.5f;
+                ((float)original_image_height /
+				 (float)resized_thresholded_height) * 0.5f;
             perimeter_x0 += x_adjust;
             perimeter_y0 += y_adjust;
             perimeter_x1 += x_adjust;
@@ -1211,7 +1213,7 @@ int read_datamatrix(unsigned char image_data[],
                         HYPOT(perimeter_side_dx, perimeter_side_dy);
                     /* the current cell size */
                     float curr_cell_size =
-                        perimeter_side_length / most_probable_frequency_x;
+                        perimeter_side_length / (float)most_probable_frequency_x;
 
                     /* sample grid cells in different patterns */
                     curr_sampling_radius = sampling_radius;
@@ -1470,7 +1472,7 @@ void decode_as_json(char * decode_result)
                     (decode_result[i+1] == ' ')) {
                     field_found = 1;
                     for (j = start_ctr; j < i; j++) {
-                        fieldname[j-start_ctr] = tolower(decode_result[j]);
+                        fieldname[j-start_ctr] = (char)tolower(decode_result[j]);
                     }
                     fieldname[j-start_ctr] = 0;
                     field_value_start_ctr = i+2;
@@ -1545,7 +1547,7 @@ void decode_as_yaml(char * decode_result)
                     (decode_result[i+1] == ' ')) {
                     field_found = 1;
                     for (j = start_ctr; j < i; j++) {
-                        fieldname[j-start_ctr] = tolower(decode_result[j]);
+                        fieldname[j-start_ctr] = (char)tolower(decode_result[j]);
                     }
                     fieldname[j-start_ctr] = 0;
                     field_value_start_ctr = i+2;

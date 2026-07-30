@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
     if (!isatty(fileno(stdin))) {
         char * pipe = (char*)safemalloc((size_t)65536);
         i = 0;
-        while(-1 != (pipe[i++] = getchar()));
+        while(-1 != (pipe[i++] = (char)getchar()));
         int pipe_len = (int)strlen(pipe);
         /* potential filename? */
         if (strstr(pipe, ".png") != NULL) {
@@ -587,17 +587,17 @@ int main(int argc, char* argv[])
             }
         }
         if (strcmp(argv[i],"--charwidth")==0) {
-            character_width = atof(argv[i+1]);
+            character_width = atoi(argv[i+1]);
             if (character_width < 5) character_width = 5;
             if (character_width > 1000) character_width = 1000;
         }
         if (strcmp(argv[i],"--linespacing")==0) {
-            line_spacing = atof(argv[i+1]);
+            line_spacing = atoi(argv[i+1]);
             if (line_spacing < 5) line_spacing = 5;
             if (line_spacing > 1000) line_spacing = 1000;
         }
         if (strcmp(argv[i],"--aperture")==0) {
-            aperture = atof(argv[i+1]);
+            aperture = (float)atof(argv[i+1]);
         }
         if (strcmp(argv[i],"--light")==0) {
             light_nm = atoi(argv[i+1]);
@@ -682,10 +682,10 @@ int main(int argc, char* argv[])
             }
         }
         if (strcmp(argv[i],"--resizewidth")==0) {
-            resized_image_width = atoi(argv[i+1]);
+            resized_image_width = (unsigned int)atoi(argv[i+1]);
         }
         if (strcmp(argv[i],"--resizeheight")==0) {
-            resized_image_height = atoi(argv[i+1]);
+            resized_image_height = (unsigned int)atoi(argv[i+1]);
         }
         if ((strcmp(argv[i],"--width")==0) ||
                 ((strcmp(argv[i],"-w")==0))) {
@@ -717,10 +717,10 @@ int main(int argc, char* argv[])
             loop_incr = 1;
         }
         if (strcmp(argv[i],"--offsetx")==0) {
-            coords_offset_x = atof(argv[i+1]);
+            coords_offset_x = (float)atof(argv[i+1]);
         }
         if (strcmp(argv[i],"--offsety")==0) {
-            coords_offset_y = atof(argv[i+1]);
+            coords_offset_y = (float)atof(argv[i+1]);
         }
         if (strcmp(argv[i],"--json")==0) {
             verify = 1;

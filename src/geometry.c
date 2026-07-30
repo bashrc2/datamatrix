@@ -299,11 +299,11 @@ int ransac_fit(int edges[], int no_of_edges,
         horizontal = 1;
         if (ABS(dy) > ABS(dx)) {
             horizontal = 0;
-            gradient = dx / (float)dy;
+            gradient = (float)dx / (float)dy;
         }
         else {
             gradient = 0;
-            if (dx != 0) gradient = dy / (float)dx;
+            if (dx != 0) gradient = (float)dy / (float)dx;
         }
 
         /* for each edge */
@@ -314,11 +314,13 @@ int ransac_fit(int edges[], int no_of_edges,
             /* calculate the deviation from expected */
             deviation = 0;
             if (horizontal == 1) {
-                predicted_edge_y = yy0 + (((float)edge_x - xx0) * gradient);
+                predicted_edge_y =
+					(float)yy0 + ((float)(edge_x - xx0) * gradient);
                 deviation = ABS(predicted_edge_y - (float)edge_y);
             }
             else {
-                predicted_edge_x = xx0 + (((float)edge_y - yy0) * gradient);
+                predicted_edge_x =
+					(float)xx0 + ((float)(edge_y - yy0) * gradient);
                 deviation = ABS(predicted_edge_x - (float)edge_x);
             }
 

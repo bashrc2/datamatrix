@@ -82,9 +82,9 @@ static void save_reflectance_histogram(unsigned char image_data[],
     int axes_g = 0;
     int axes_b = 0;
     int image_bytesperpixel = image_bitsperpixel/8;
-    int grid_x, grid_y, x, y, n, bb, reflectance, tx, ty, bx, by;
+    int grid_x, grid_y, x, y, n, bb, tx, ty, bx, by;
     int border_tx, border_ty, border_bx, border_by;
-    unsigned int mean_reflectance = 0;
+    unsigned int reflectance, mean_reflectance = 0;
     unsigned int mean_reflectance_hits = 0;
     unsigned int max=0;
     unsigned int histogram[256];
@@ -104,9 +104,9 @@ static void save_reflectance_histogram(unsigned char image_data[],
                 n = (y*image_width + x)*image_bytesperpixel;
                 reflectance = 0;
                 for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
-                    reflectance += image_data[n];
+                    reflectance += (unsigned int)image_data[n];
                 }
-                reflectance /= image_bytesperpixel;
+                reflectance /= (unsigned int)image_bytesperpixel;
                 histogram[reflectance]++;
             }
         }
@@ -125,35 +125,35 @@ static void save_reflectance_histogram(unsigned char image_data[],
 
         for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
             /* horizontal line */
-            grid_pos_y = grid_y + 0.5f;
+            grid_pos_y = (float)grid_y + 0.5f;
             horizontal_x1 =
                 grid->perimeter.x0 +
-                (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+                (horizontal_dx1 * grid_pos_y / (float)grid->dimension_y);
             horizontal_y1 =
                 grid->perimeter.y0 +
-                (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+                (horizontal_dy1 * grid_pos_y / (float)grid->dimension_y);
             horizontal_x2 =
                 grid->perimeter.x1 +
-                (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+                (horizontal_dx2 * grid_pos_y / (float)grid->dimension_y);
             horizontal_y2 =
                 grid->perimeter.y1 +
-                (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+                (horizontal_dy2 * grid_pos_y / (float)grid->dimension_y);
 
             for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
                 /* vertical line */
-                grid_pos_x = grid_x + 0.5f;
+                grid_pos_x = (float)grid_x + 0.5f;
                 vertical_x1 =
                     grid->perimeter.x0 +
-                    (vertical_dx1 * grid_pos_x / grid->dimension_x);
+                    (vertical_dx1 * grid_pos_x / (float)grid->dimension_x);
                 vertical_y1 =
                     grid->perimeter.y0 +
-                    (vertical_dy1 * grid_pos_x / grid->dimension_x);
+                    (vertical_dy1 * grid_pos_x / (float)grid->dimension_x);
                 vertical_x2 =
                     grid->perimeter.x3 +
-                    (vertical_dx2 * grid_pos_x / grid->dimension_x);
+                    (vertical_dx2 * grid_pos_x / (float)grid->dimension_x);
                 vertical_y2 =
                     grid->perimeter.y3 +
-                    (vertical_dy2 * grid_pos_x / grid->dimension_x);
+                    (vertical_dy2 * grid_pos_x / (float)grid->dimension_x);
                 intersection(horizontal_x1, horizontal_y1,
                              horizontal_x2, horizontal_y2,
                              vertical_x1, vertical_y1,
@@ -174,9 +174,9 @@ static void save_reflectance_histogram(unsigned char image_data[],
 
                                 reflectance = 0;
                                 for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
-                                    reflectance += image_data[n];
+                                    reflectance += (unsigned int)image_data[n];
                                 }
-                                reflectance /= image_bytesperpixel;
+                                reflectance /= (unsigned int)image_bytesperpixel;
                                 histogram[reflectance]++;
                             }
                         }
@@ -188,7 +188,7 @@ static void save_reflectance_histogram(unsigned char image_data[],
 
     /* find maximum histogram response */
     max = 1;
-    for (reflectance = 0; reflectance < 256; reflectance++) {
+    for (reflectance = 0; reflectance < (unsigned int)256; reflectance++) {
         if (histogram[reflectance] > 0) {
             mean_reflectance += histogram[reflectance];
             mean_reflectance_hits++;
@@ -221,10 +221,13 @@ static void save_reflectance_histogram(unsigned char image_data[],
 
     /* draw the histogram */
     for (x = border_tx; x <= border_bx; x++) {
-        reflectance = (x - border_tx) * 255 / (border_bx - border_tx);
+        reflectance = (unsigned int)(x - border_tx) * (unsigned int)255 /
+			(unsigned int)(border_bx - border_tx);
         reflectance = histogram[reflectance];
-        if (reflectance > (int)max) reflectance = (int)max;
-        y = border_by - (reflectance * (border_by - border_ty) / (int)max);
+        if (reflectance > max) reflectance = max;
+        y = border_by -
+			(int)((float)reflectance * (float)(border_by - border_ty) /
+				  (float)max);
         draw_line(histogram_image,
                   histogram_image_width, histogram_image_height, 24,
                   x, y, x, border_by, 1, r, g, b);
@@ -389,7 +392,7 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
         cell_width = max_x - min_x;
         cell_height = max_y - min_y;
         if (cell_height > 0) {
-            *elongation = ABS(1.0f - (cell_width / (float)cell_height));
+            *elongation = ABS(1.0f - ((float)cell_width / (float)cell_height));
         }
 
         /* calculate offset from centre */
@@ -540,35 +543,35 @@ static void save_grid_cell_shape(struct grid_2d * grid,
 
     for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
         /* horizontal line */
-        grid_pos_y = grid_y + 0.5f;
+        grid_pos_y = (float)grid_y + 0.5f;
         horizontal_x1 =
             grid->perimeter.x0 +
-            (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+            (horizontal_dx1 * grid_pos_y / (float)grid->dimension_y);
         horizontal_y1 =
             grid->perimeter.y0 +
-            (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+            (horizontal_dy1 * grid_pos_y / (float)grid->dimension_y);
         horizontal_x2 =
             grid->perimeter.x1 +
-            (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+            (horizontal_dx2 * grid_pos_y / (float)grid->dimension_y);
         horizontal_y2 =
             grid->perimeter.y1 +
-            (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+            (horizontal_dy2 * grid_pos_y / (float)grid->dimension_y);
 
         for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
             /* vertical line */
-            grid_pos_x = grid_x + 0.5f;
+            grid_pos_x = (float)grid_x + 0.5f;
             vertical_x1 =
                 grid->perimeter.x0 +
-                (vertical_dx1 * grid_pos_x / grid->dimension_x);
+                (vertical_dx1 * grid_pos_x / (float)grid->dimension_x);
             vertical_y1 =
                 grid->perimeter.y0 +
-                (vertical_dy1 * grid_pos_x / grid->dimension_x);
+                (vertical_dy1 * grid_pos_x / (float)grid->dimension_x);
             vertical_x2 =
                 grid->perimeter.x3 +
-                (vertical_dx2 * grid_pos_x / grid->dimension_x);
+                (vertical_dx2 * grid_pos_x / (float)grid->dimension_x);
             vertical_y2 =
                 grid->perimeter.y3 +
-                (vertical_dy2 * grid_pos_x / grid->dimension_x);
+                (vertical_dy2 * grid_pos_x / (float)grid->dimension_x);
             intersection(horizontal_x1, horizontal_y1,
                          horizontal_x2, horizontal_y2,
                          vertical_x1, vertical_y1,
@@ -644,7 +647,8 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
 {
     int image_bytesperpixel = image_bitsperpixel/8;
     int grid_x, grid_y, offset_x=0, offset_y=0;
-    int av_offset_x=0, av_offset_y=0, offset_hits=0;
+    float av_offset_x=0, av_offset_y=0;
+	int offset_hits=0;
     int cell_no_of_pixels, av_cell_no_of_pixels=0;
     int cell_fill=0, total_cell_fill=0;
     float grid_non_uniformity_x, grid_non_uniformity_y;
@@ -668,35 +672,35 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
 
     for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
         /* horizontal line */
-        grid_pos_y = grid_y + 0.5f;
+        grid_pos_y = (float)grid_y + 0.5f;
         horizontal_x1 =
             grid->perimeter.x0 +
-            (horizontal_dx1 * grid_pos_y / grid->dimension_y);
+            (horizontal_dx1 * grid_pos_y / (float)grid->dimension_y);
         horizontal_y1 =
             grid->perimeter.y0 +
-            (horizontal_dy1 * grid_pos_y / grid->dimension_y);
+            (horizontal_dy1 * grid_pos_y / (float)grid->dimension_y);
         horizontal_x2 =
             grid->perimeter.x1 +
-            (horizontal_dx2 * grid_pos_y / grid->dimension_y);
+            (horizontal_dx2 * grid_pos_y / (float)grid->dimension_y);
         horizontal_y2 =
             grid->perimeter.y1 +
-            (horizontal_dy2 * grid_pos_y / grid->dimension_y);
+            (horizontal_dy2 * grid_pos_y / (float)grid->dimension_y);
 
         for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
             /* vertical line */
-            grid_pos_x = grid_x + 0.5f;
+            grid_pos_x = (float)grid_x + 0.5f;
             vertical_x1 =
                 grid->perimeter.x0 +
-                (vertical_dx1 * grid_pos_x / grid->dimension_x);
+                (vertical_dx1 * grid_pos_x / (float)grid->dimension_x);
             vertical_y1 =
                 grid->perimeter.y0 +
-                (vertical_dy1 * grid_pos_x / grid->dimension_x);
+                (vertical_dy1 * grid_pos_x / (float)grid->dimension_x);
             vertical_x2 =
                 grid->perimeter.x3 +
-                (vertical_dx2 * grid_pos_x / grid->dimension_x);
+                (vertical_dx2 * grid_pos_x / (float)grid->dimension_x);
             vertical_y2 =
                 grid->perimeter.y3 +
-                (vertical_dy2 * grid_pos_x / grid->dimension_x);
+                (vertical_dy2 * grid_pos_x / (float)grid->dimension_x);
             intersection(horizontal_x1, horizontal_y1,
                          horizontal_x2, horizontal_y2,
                          vertical_x1, vertical_y1,
@@ -714,8 +718,8 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
                                                  &cell_no_of_pixels,
                                                  &cell_fill);
                     if (offset_x != NO_OFFSET) {
-                        av_offset_x += ABS(offset_x);
-                        av_offset_y += ABS(offset_y);
+                        av_offset_x += ABS((float)offset_x);
+                        av_offset_y += ABS((float)offset_y);
                         av_elongation += cell_elongation;
                         av_cell_no_of_pixels += cell_no_of_pixels;
                         total_cell_fill += cell_fill;
@@ -733,7 +737,7 @@ static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
     grid->cell_fill = 0;
     if (offset_hits > 0) {
         grid->cell_fill = (unsigned char)(total_cell_fill / offset_hits);
-        grid->elongation = (av_elongation / offset_hits) * 100;
+        grid->elongation = (av_elongation / (float)offset_hits) * 100.0f;
         grid->dots_per_element = av_cell_no_of_pixels / offset_hits;
 
         grid_non_uniformity_x = ABS(av_offset_x / (float)offset_hits);
@@ -798,12 +802,12 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
                           grid->perimeter.x2, grid->perimeter.y2,
                           grid->perimeter.x3, grid->perimeter.y3);
     if (grid->dimension_x > grid->dimension_y) {
-        cell_width_longest = longest_side / grid->dimension_x;
-        cell_width_shortest = shortest_side / grid->dimension_y;
+        cell_width_longest = longest_side / (float)grid->dimension_x;
+        cell_width_shortest = shortest_side / (float)grid->dimension_y;
     }
     else {
-        cell_width_longest = longest_side / grid->dimension_y;
-        cell_width_shortest = shortest_side / grid->dimension_x;
+        cell_width_longest = longest_side / (float)grid->dimension_y;
+        cell_width_shortest = shortest_side / (float)grid->dimension_x;
     }
     grid->axial_non_uniformity =
         ABS(1.0f - (cell_width_shortest/cell_width_longest))*100;
@@ -886,7 +890,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
     int image_bytesperpixel = image_bitsperpixel/8;
     /* symbol contrast converted back to a pixel value */
     float symbol_contrast =
-        grid->symbol_contrast * 255 * image_bytesperpixel / 100.0f;
+        grid->symbol_contrast * 255.0f * (float)image_bytesperpixel / 100.0f;
     int hits, reflectance, global_threshold;
     float modulation, cell_modulation, min_modulation=1;
     int min_x=image_width,min_y=image_height,max_x=0,max_y=0;
@@ -966,7 +970,8 @@ static void quality_metric_modulation(struct grid_2d * grid,
                from GS1 2D Barcode Verification Process Implementation
                Guideline 9.1.3 */
             cell_modulation =
-                2.0f * ABS(reflectance - global_threshold) / symbol_contrast;
+                2.0f * ABS((float)(reflectance - global_threshold)) /
+				symbol_contrast;
             modulation += cell_modulation;
             if (cell_modulation < min_modulation) {
                 min_modulation = cell_modulation;
