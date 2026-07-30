@@ -52,28 +52,28 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
     dx = *perimeter_x0 - cx;
     dy = *perimeter_y0 - cy;
     dist = HYPOT(dx, dy);
-    fraction = (dist - dilation)/dist;
+    fraction = (dist - (float)dilation) / dist;
     *perimeter_x0 = cx + (dx * fraction);
     *perimeter_y0 = cy + (dy * fraction);
 
     dx = *perimeter_x1 - cx;
     dy = *perimeter_y1 - cy;
     dist = HYPOT(dx, dy);
-    fraction = (dist - dilation)/dist;
+    fraction = (dist - (float)dilation) / dist;
     *perimeter_x1 = cx + (dx * fraction);
     *perimeter_y1 = cy + (dy * fraction);
 
     dx = *perimeter_x2 - cx;
     dy = *perimeter_y2 - cy;
     dist = HYPOT(dx, dy);
-    fraction = (dist - dilation)/dist;
+    fraction = (dist - (float)dilation) / dist;
     *perimeter_x2 = cx + (dx * fraction);
     *perimeter_y2 = cy + (dy * fraction);
 
     dx = *perimeter_x3 - cx;
     dy = *perimeter_y3 - cy;
     dist = HYPOT(dx, dy);
-    fraction = (dist - dilation)/dist;
+    fraction = (dist - (float)dilation) / dist;
     *perimeter_x3 = cx + (dx * fraction);
     *perimeter_y3 = cy + (dy * fraction);
 }
@@ -286,8 +286,10 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
         direction_x = mid_point_x - cx;
         direction_y = mid_point_y - cy;
         /* extended outwards further */
-        direction_extended_x = cx + (direction_x*max_extension_percent/100);
-        direction_extended_y = cy + (direction_y*max_extension_percent/100);
+        direction_extended_x = cx +
+			(direction_x * (float)max_extension_percent / 100.0f);
+        direction_extended_y = cy +
+			(direction_y * (float)max_extension_percent / 100.0f);
 
         pos_x = -1;
         pos_y = -1;
@@ -490,14 +492,18 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
         direction_y = mid_point_y - cy;
         /* left contracted inwards further */
         direction_contracted_left_x =
-            left_mid_point_x - (direction_x*min_extension_percent/100);
+            left_mid_point_x -
+			(direction_x * (float)min_extension_percent / 100.0f);
         direction_contracted_left_y =
-            left_mid_point_y - (direction_y*min_extension_percent/100);
+            left_mid_point_y -
+			(direction_y * (float)min_extension_percent / 100.0f);
         /* right contracted inwards further */
         direction_contracted_right_x =
-            right_mid_point_x - (direction_x*min_extension_percent/100);
+            right_mid_point_x -
+			(direction_x * (float)min_extension_percent / 100.0f);
         direction_contracted_right_y =
-            right_mid_point_y - (direction_y*min_extension_percent/100);
+            right_mid_point_y -
+			(direction_y * (float)min_extension_percent / 100.0f);
         /* left travel to be searched */
         dx_quarter = (int)(dx / 4);
         dy_quarter = (int)(dy / 4);
@@ -520,12 +526,12 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
         if ((left_x == -1) && (right_x == -1)) continue;
         contracted = 1;
         if (left_x == -1) {
-            left_x = left_mid_point_x;
-            left_y = left_mid_point_y;
+            left_x = (int)left_mid_point_x;
+            left_y = (int)left_mid_point_y;
         }
         if (right_x == -1) {
-            right_x = right_mid_point_x;
-            right_y = right_mid_point_y;
+            right_x = (int)right_mid_point_x;
+            right_y = (int)right_mid_point_y;
         }
         /* find the intercept between this line and the previous one */
         xi = -1;

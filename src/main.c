@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
 
     /* handle piped input */
     if (!isatty(fileno(stdin))) {
-        char * pipe = (char*)safemalloc(65536);
+        char * pipe = (char*)safemalloc((size_t)65536);
         i = 0;
         while(-1 != (pipe[i++] = getchar()));
         int pipe_len = (int)strlen(pipe);
@@ -884,8 +884,9 @@ int main(int argc, char* argv[])
         }
         /* create an array to store the enlarged image */
         resized_image_data =
-            (unsigned char*)safemalloc(resized_image_width*resized_image_height*
-                                       image_bitsperpixel/8);
+            (unsigned char*)safemalloc((size_t)(resized_image_width *
+												resized_image_height *
+												image_bitsperpixel/8));
         if (resized_image_data == NULL) return -653;
         /* resize the image */
         if (resize_image(image_data, image_width, image_height,
@@ -910,7 +911,8 @@ int main(int argc, char* argv[])
     }
 
 
-    char * decode_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * decode_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     read_datamatrix(image_data, image_width, image_height,
                     image_bitsperpixel, debug,
                     &output_filename[0],

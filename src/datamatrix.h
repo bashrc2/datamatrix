@@ -280,20 +280,20 @@ float get_segments_orientation(struct line_segments * segments,
                                int width, int height,
                                int quantization_degrees);
 
-unsigned char fit_perimeter_to_sides(struct line_segments * segments,
-                                     int width, int height,
-                                     float * perimeter_x0, float * perimeter_y0,
-                                     float * perimeter_x1, float * perimeter_y1,
-                                     float * perimeter_x2, float * perimeter_y2,
-                                     float * perimeter_x3, float * perimeter_y3,
-                                     unsigned char debug,
-                                     int try_config, int seg_idx,
-                                     int offset,
-                                     unsigned char thr_edges_image_data[],
-                                     int resized_thresholded_width,
-                                     int resized_thresholded_height,
-                                     int image_bitsperpixel,
-                                     char * debug_filename);
+int fit_perimeter_to_sides(struct line_segments * segments,
+						   int width, int height,
+						   float * perimeter_x0, float * perimeter_y0,
+						   float * perimeter_x1, float * perimeter_y1,
+						   float * perimeter_x2, float * perimeter_y2,
+						   float * perimeter_x3, float * perimeter_y3,
+						   unsigned char debug,
+						   int try_config, int seg_idx,
+						   int offset,
+						   unsigned char thr_edges_image_data[],
+						   int resized_thresholded_width,
+						   int resized_thresholded_height,
+						   int image_bitsperpixel,
+						   char * debug_filename);
 
 int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
                            float perimeter_x1, float perimeter_y1,
@@ -496,7 +496,7 @@ int decode_strcat(char * result, char * text);
 
 int decode_strcat_char(char * result, char chr);
 
-void * safemalloc(int n);
+void * safemalloc(size_t n);
 
 int getline2(char line[], FILE * fp);
 

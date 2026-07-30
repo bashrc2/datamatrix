@@ -72,7 +72,7 @@ void colour_to_mono(unsigned char img[], int width, int height,
         sum += img[i];
         if (ch == 0) {
             ch = bytesperpixel;
-            mono[idx--] = sum / bytesperpixel;
+            mono[idx--] = (unsigned char)(sum / bytesperpixel);
             sum = 0;
         }
     }

@@ -126,7 +126,7 @@ int meanlight_threshold(unsigned char img[], int width, int height,
         }
     }
 
-    percent = (int)(percent_active*100/(width*height));
+    percent = (int)((float)percent_active*100.0f/(float)(width*height));
     if (percent > 30) {
         /* invert the thresholded image */
         for (i = (width*height) - 1; i >= 0 ; i--) thresholded[i] = 255 - thresholded[i];

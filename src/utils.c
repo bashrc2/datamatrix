@@ -27,11 +27,11 @@
  * \param n number of bytes to allocate
  * \returns void pointer to allocated memory
  */
-void * safemalloc(int n)
+void * safemalloc(size_t n)
 {
     void * ptr = malloc(n);
     if (!ptr) {
-        fprintf(stderr, "Malloc(%d) failed\n", n);
+        fprintf(stderr, "Malloc(%zu) failed\n", n);
         exit(1);
     }
     return ptr;
@@ -45,7 +45,7 @@ void * safemalloc(int n)
  */
 int decode_strcat(char * result, char * text)
 {
-    if ((int)strlen(result) + (int)strlen(text) + sizeof(char) >= MAX_DECODE_LENGTH)
+    if (strlen(result) + strlen(text) + sizeof(char) >= (size_t)MAX_DECODE_LENGTH)
         return -1;
     strcat(result, text);
     return 0;
@@ -59,8 +59,8 @@ int decode_strcat(char * result, char * text)
  */
 int decode_strcat_char(char * result, char chr)
 {
-    int length = (int)strlen(result);
-    if (length + (2*sizeof(char)) >= MAX_DECODE_LENGTH)
+    size_t length = strlen(result);
+    if (length + (2 * sizeof(char)) >= (size_t)MAX_DECODE_LENGTH)
         return -1;
     result[length++] = chr;
     result[length] = 0;
@@ -90,7 +90,7 @@ int getline2(char line[], FILE * fp)
             line[i] = 0;
             break;
         }
-        c = getc(fp);
+        c = (char)getc(fp);
         if (c == EOF) {
             line[i] = 0;
             break;

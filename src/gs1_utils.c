@@ -69,7 +69,7 @@ float get_temperature(char data_str[])
 {
     int i, ctr=0, data_len = (int)strlen(data_str);
     char * temp_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     for (i = 0; i < data_len; i++) {
         if (is_number(data_str[i]) == -1) {
             free(temp_str);
@@ -94,7 +94,7 @@ char * get_issn(char data_str[])
     int i, data_len = (int)strlen(data_str);
     if (data_len < 10) return NULL;
     char * issn_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     issn_str[0] = 0;
     decode_strcat(issn_str, "ISSN: ");
     for (i = 0; i < 4; i++) {
@@ -177,7 +177,7 @@ char * get_gs1_company_prefix(char data_str[])
     if (company_prefix_index == -1) return NULL;
 
     char * company_prefix_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     company_prefix_str[0] = 0;
     decode_strcat(company_prefix_str,
                   gs1_company_prefix[company_prefix_index*3+2]);
@@ -239,7 +239,7 @@ char * get_country(char data_str[])
     if (country_index == -1) return NULL;
 
     char * country_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     country_str[0] = 0;
     decode_strcat(country_str, iso3166_country_codes[country_index*3]);
 
@@ -285,7 +285,7 @@ char * get_country_alpha2(char data_str[])
     if (country_index == -1) return NULL;
 
     char * country_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     country_str[0] = 0;
     decode_strcat(country_str, iso3166_2_country_codes[country_index*2+1]);
 
@@ -332,7 +332,7 @@ char * get_currency_value(int application_identifier,
     if (currency_index == -1) return NULL;
 
     char * currency_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     currency_str[0] = 0;
 
     for (i = 3; i < data_len; i++) {
@@ -371,7 +371,7 @@ char * get_decimal_value(int application_identifier,
     }
 
     char * decimal_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     decimal_str[0] = 0;
 
     for (i = 0; i < data_len; i++) {
@@ -397,7 +397,7 @@ char * get_meat_cut(char data_str[])
     int i, data_len = (int)strlen(data_str);
     if (data_len < 20) return NULL;
     char * meat_cut_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     meat_cut_str[0] = 0;
     decode_strcat(meat_cut_str, "MEAT CUT: ");
     decode_strcat(meat_cut_str, data_str);
@@ -774,7 +774,7 @@ char * get_north_american_coupon(char data_str[],
     if (is_number(data_str[0]) == -1) return NULL;
 
     char * coupon_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     coupon_str[0] = 0;
 
     /* variable length indicator */
@@ -1511,7 +1511,7 @@ char * get_production_method(char data_str[])
         if (is_number(data_str[i]) == -1) return NULL;
     }
     char * prod_method_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     prod_method_str[0] = 0;
     int prod_method_code = atoi(data_str);
     switch(prod_method_code) {
@@ -1555,7 +1555,7 @@ char * get_fishing_gear_type(char data_str[])
             (data_str[i] != '.')) return NULL;
     }
     char * fishing_gear_type_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     fishing_gear_type_str[0] = 0;
     int no_of_fishing_gear_types = LOOKUP_TABLE_ROWS(fishing_gear_type, 3);
     for (int i = 0; i < no_of_fishing_gear_types; i++) {
@@ -1587,7 +1587,7 @@ char * get_aquatic_species(char data_str[])
         if (is_letter_upper(data_str[i]) == -1) return NULL;
     }
     char * aquatic_species_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     aquatic_species_str[0] = 0;
     int no_of_aquatic_species = LOOKUP_TABLE_ROWS(aquatic_species, 3);
     for (int i = 0; i < no_of_aquatic_species; i++) {
@@ -1622,7 +1622,7 @@ char * get_fishing_area(char data_str[])
             (data_str[i] != '.')) return NULL;
     }
     char * fishing_area_str =
-        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     fishing_area_str[0] = 0;
 
     decode_strcat(fishing_area_str, data_str);

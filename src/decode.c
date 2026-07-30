@@ -120,8 +120,9 @@ static unsigned char get_unused_error_correction(int no_of_codewords,
     float unused_error_correction;
 
     const int modules_per_codeword = 8;
-    float e2t = ((*no_of_erasures) + (2 * (*no_of_errors))) / (float)modules_per_codeword;
-    float Ecap = no_of_codewords - error_correction_codewords;
+    float e2t = (float)((*no_of_erasures) + (2 * (*no_of_errors))) /
+		(float)modules_per_codeword;
+    float Ecap = (float)(no_of_codewords - error_correction_codewords);
     if (e2t > Ecap) {
         unused_error_correction = 0;
     }
@@ -315,7 +316,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 
     /* pack two data values into three bytes: 1600 * C1 + 40 * c2 + C3 + 1 */
     packed = a * 256 + b;
-    int * c40Values = (int*)safemalloc(3*sizeof(int));
+    int * c40Values = (int*)safemalloc((size_t)3 * sizeof(int));
     c40Values[0] = ((packed - 1) / 1600);
     c40Values[1] = ((packed - 1) / 40) % 40;
     c40Values[2] = (packed - 1) % 40;
@@ -432,7 +433,7 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        char iso15434_uii[])
 {
     int i;
-    char * unpacked = (char*)safemalloc(4*sizeof(char));
+    char * unpacked = (char*)safemalloc((size_t)4 * sizeof(char));
 
     while (*position < datalength) {
         if (*position + 2 >= datalength)
@@ -546,7 +547,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
 
     /* 3 bytes encoded by 1600 * C1 + 40 * c2 + C3 + 1 */
     packed = a * 256 + b;
-    int * x12Values = (int*)safemalloc(3*sizeof(int));
+    int * x12Values = (int*)safemalloc((size_t)3 * sizeof(int));
     x12Values[0] = ((packed - 1) / 1600);
     x12Values[1] = ((packed - 1) / 40) % 40;
     x12Values[2] = (packed - 1) % 40;
@@ -914,7 +915,7 @@ static unsigned char reed_solomon_decode_init(int symbolBits,
     else {
         *m_CCSDS = 0;
     }
-    memset(m_Pp, 0, ((*m_MM) + 1) * sizeof(int));
+    memset(m_Pp, 0, (size_t)((*m_MM) + 1) * sizeof(int));
 
     m_Pp[0] = 1;
     m_Pp[*m_MM] = 1;
@@ -1020,17 +1021,17 @@ static unsigned char reed_solomon_decode_init(int symbolBits,
         }
     }
     /* index->polynomial form conversion table */
-    memset(m_alpha_to, 0, ((*m_NN) + 1) * sizeof(int));
+    memset(m_alpha_to, 0, (size_t)((*m_NN) + 1) * sizeof(int));
 
     /* Polynomial->index form conversion table */
-    memset(m_index_of, 0, ((*m_NN) + 1) * sizeof(int));
+    memset(m_index_of, 0, (size_t)((*m_NN) + 1) * sizeof(int));
 
     /* No legal value  index form represents zero, so
        we need a special value for this purpose */
     *m_A0 = (*m_NN);
 
     /* Generator polynomial g(x)  index form */
-    memset(m_Gg, 0, ((*m_NN) - (*m_KK) + 1) * sizeof(int));
+    memset(m_Gg, 0, (size_t)((*m_NN) - (*m_KK) + 1) * sizeof(int));
 
     reed_solomon_generate_gf(*m_MM, *m_NN, *m_A0, m_alpha_to, m_index_of, m_Pp);
 
@@ -1038,8 +1039,8 @@ static unsigned char reed_solomon_decode_init(int symbolBits,
 
     if (*m_CCSDS == 1) {
         /* zero initialise */
-        memset(m_tal1tab, 0, ((*m_NN) + 1) * sizeof(unsigned char));
-        memset(m_taltab, 0, ((*m_NN) + 1) * sizeof(unsigned char));
+        memset(m_tal1tab, 0, (size_t)((*m_NN) + 1) * sizeof(unsigned char));
+        memset(m_taltab, 0, (size_t)((*m_NN) + 1) * sizeof(unsigned char));
 
         reed_solomon_gen_ltab(tal, m_taltab, m_tal1tab);
     }
@@ -1099,38 +1100,38 @@ static int reed_solomon_decode(int symbolBits,
     int u, q, tmp, num1, num2, den, discr_r;
 
     int* data = grid->data;
-    memset(data, 0, m_NN * sizeof(int));
+    memset(data, 0, (size_t)m_NN * sizeof(int));
 
     int* lambda = grid->lambda;
-    memset(lambda, 0, (m_NN - m_KK + 1) * sizeof(int));
+    memset(lambda, 0, (size_t)(m_NN - m_KK + 1) * sizeof(int));
 
     int* s = grid->s;
     /* Err+Eras Locator poly and syndrome poly */
-    memset(s, 0, (m_NN - m_KK + 1) * sizeof(int));
+    memset(s, 0, (size_t)(m_NN - m_KK + 1) * sizeof(int));
 
     int* b = grid->b;
-    memset(b, 0, (m_NN - m_KK + 1) * sizeof(int));
+    memset(b, 0, (size_t)(m_NN - m_KK + 1) * sizeof(int));
 
     int* t = grid->t;
-    memset(t, 0, (m_NN - m_KK + 1) * sizeof(int));
+    memset(t, 0, (size_t)(m_NN - m_KK + 1) * sizeof(int));
 
     int* omega = grid->omega;
-    memset(omega, 0, (m_NN - m_KK + 1) * sizeof(int));
+    memset(omega, 0, (size_t)(m_NN - m_KK + 1) * sizeof(int));
 
     int* root = grid->root;
-    memset(root, 0, (m_NN - m_KK) * sizeof(int));
+    memset(root, 0, (size_t)(m_NN - m_KK) * sizeof(int));
 
     int* reg = grid->reg;
-    memset(reg, 0, (m_NN - m_KK + 1) * sizeof(int));
+    memset(reg, 0, (size_t)(m_NN - m_KK + 1) * sizeof(int));
 
     int* loc = grid->loc;
-    memset(loc, 0, (m_NN - m_KK) * sizeof(int));
+    memset(loc, 0, (size_t)(m_NN - m_KK) * sizeof(int));
 
     int syn_error, count;
     if ((user_data_length > m_KK) || (paritydata_length != m_NN - m_KK)) {
         return -1;
     }
-    memcpy(data, user_data, user_data_length * sizeof(int));
+    memcpy(data, user_data, (size_t)user_data_length * sizeof(int));
     for (i = m_KK, j = 0; i < m_NN; i++, j++) {
         data[i] = (int)paritydata[j];
     }
@@ -1190,7 +1191,7 @@ static int reed_solomon_decode(int symbolBits,
     }
 
     lambda_length = m_NN - m_KK + 1;
-    memset(lambda, 0, lambda_length * sizeof(int));
+    memset(lambda, 0, (size_t)lambda_length * sizeof(int));
 
     lambda[0] = 1;
     if (no_eras > 0) {
@@ -1448,7 +1449,7 @@ static int reed_solomon_decode(int symbolBits,
                 }
             }
             if (count > 0) {
-                memcpy(user_data, data, user_data_length * sizeof(int));
+                memcpy(user_data, data, (size_t)user_data_length * sizeof(int));
                 for (i = m_KK, j = 0; i < m_NN; i++, j++) paritydata[j] = data[i];
             }
         }
@@ -1475,18 +1476,18 @@ static int reed_solomon_correct(int n_err_data,
     int n = 255 - (*error_codeword_count);
     if (n < 0) return -1;
     int data_length = n;
-    int * data = (int*)safemalloc(n*sizeof(int));
-    memset(data, 0, n * sizeof(int));
+    int * data = (int*)safemalloc((size_t)n * sizeof(int));
+    memset(data, 0, (size_t)n * sizeof(int));
 
     int parity_length = (*error_codeword_count);
-    int * parity = (int*)safemalloc((*error_codeword_count)*sizeof(int));
-    memset(parity, 0, (*error_codeword_count) * sizeof(int));
+    int * parity = (int*)safemalloc((size_t)(*error_codeword_count) * sizeof(int));
+    memset(parity, 0, (size_t)(*error_codeword_count) * sizeof(int));
 
     /* create erasures array */
     int * erasures = NULL;
     if (erasure_index != NULL) {
-        erasures = (int*)safemalloc(erasure_index_length*sizeof(int));
-        memset(erasures, 0, erasure_index_length * sizeof(int));
+        erasures = (int*)safemalloc((size_t)erasure_index_length * sizeof(int));
+        memset(erasures, 0, (size_t)erasure_index_length * sizeof(int));
     }
 
     /* NOTE: symbol order is reversed */
@@ -1526,8 +1527,8 @@ static int reed_solomon_correct(int n_err_data,
 
         if (n2 < erasure_index_length) {
             if (n2 > 0) {
-                int * new_erasures = (int*)safemalloc(n2*sizeof(int));
-                memcpy(new_erasures, erasures, n2 * sizeof(int));
+                int * new_erasures = (int*)safemalloc((size_t)n2 * sizeof(int));
+                memcpy(new_erasures, erasures, (size_t)n2 * sizeof(int));
                 free(erasures);
                 erasures = new_erasures;
                 erasure_index_length = n2;
@@ -1582,16 +1583,16 @@ static int reed_solomon_correct(int n_err_data,
     return nucorrections;
 }
 
-static unsigned char reed_solomon(unsigned char codewords[],
-                                  int codewords_length,
-                                  int n_err_data,
-                                  int erasures[],
-                                  int erasures_length,
-                                  int * nooferrors,
-                                  int * nooferasures,
-                                  unsigned char corrected_codewords[],
-                                  int * corrected_codewords_length,
-                                  struct grid_2d * grid)
+static int reed_solomon(unsigned char codewords[],
+						int codewords_length,
+						int n_err_data,
+						int erasures[],
+						int erasures_length,
+						int * nooferrors,
+						int * nooferasures,
+						unsigned char corrected_codewords[],
+						int * corrected_codewords_length,
+						struct grid_2d * grid)
 {
     int i, no_of_errors = -1;
     int no_of_erasures = 0;
@@ -1599,12 +1600,13 @@ static unsigned char reed_solomon(unsigned char codewords[],
     unsigned char * rs_codewords;
 
     rs_codewords =
-        (unsigned char*)safemalloc(codewords_length*sizeof(unsigned char));
+        (unsigned char*)safemalloc((size_t)codewords_length * sizeof(unsigned char));
 
     if (erasures_length == 0) no_of_erasures = 0;
 
     error_codeword_count = n_err_data;
-    memcpy(rs_codewords, codewords, codewords_length*sizeof(unsigned char));
+    memcpy(rs_codewords, codewords,
+		   (size_t)codewords_length * sizeof(unsigned char));
 
     no_of_errors =
         reed_solomon_correct(n_err_data,
@@ -1925,12 +1927,15 @@ static struct key_value_pair_int** generate_translation_table(int no_of_rows,
 {
     int i, chr, row, col;
     struct key_value_pair_int** translation_table =
-        (struct key_value_pair_int**)safemalloc(no_of_rows*sizeof(struct key_value_pair_int*));
+        (struct key_value_pair_int**)safemalloc((size_t)no_of_rows *
+												sizeof(struct key_value_pair_int*));
     for (i = 0; i < no_of_rows; i++) {
         translation_table[i] =
-            (struct key_value_pair_int*)safemalloc(no_of_cols*sizeof(struct key_value_pair_int));
+            (struct key_value_pair_int*)safemalloc((size_t)no_of_cols *
+												   sizeof(struct key_value_pair_int));
         /* clear the table to zero */
-        memset(translation_table[i], 0, no_of_cols*sizeof(struct key_value_pair_int));
+        memset(translation_table[i], 0,
+			   (size_t)no_of_cols * sizeof(struct key_value_pair_int));
     }
 
     if (translation_table != NULL) {
@@ -2163,10 +2168,14 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     int corrected_codewords_length, erasures_length;
     int grid_no_of_errors=0, grid_no_of_erasures=0;
     int * erasures = NULL;
-    char * gs1_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
-    char * iso15434_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
-    char * hibc_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
-    char * iso15434_uii = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * gs1_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+    char * iso15434_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+    char * hibc_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+    char * iso15434_uii =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     int condensed=0;
 
     result[0] = 0;
@@ -2181,7 +2190,8 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
 
     /* clear the codeword pattern */
     for (i = 0; i < grid->dimension_x; i++)
-        memset(grid->codeword_pattern[i], 0, grid->dimension_y * sizeof(int));
+        memset(grid->codeword_pattern[i], 0,
+			   (size_t)grid->dimension_y * sizeof(int));
 
     codewords_length = translate(grid, debug);
     if (codewords_length == 0) {
@@ -2202,7 +2212,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     for (i = 0; i < grid->dimension_x*grid->dimension_y; i++)
         if (grid->damage[i] > 0) erasures_length++;
     if (erasures_length > 0) {
-        memset(grid->erasures, 0, erasures_length * sizeof(int));
+        memset(grid->erasures, 0, (size_t)erasures_length * sizeof(int));
         locate_erasures(grid->dimension_x, grid->dimension_y,
                         grid->codeword_pattern,
                         grid->damage,
@@ -2275,7 +2285,9 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
             if ((int)strlen(result) == 27) {
                 if (strstr(result, "_100-") != NULL) {
                     if ((result[13] == '_') && (result[17] == '-')) {
-                        char * amd_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+                        char * amd_result =
+							(char*)safemalloc((size_t)MAX_DECODE_LENGTH *
+											  sizeof(char));
                         amd_result[0] = 0;
                         decode_strcat(amd_result, "AMD CPU SERIAL: ");
                         for (i = 0; i < 13; i++) {

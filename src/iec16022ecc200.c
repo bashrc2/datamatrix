@@ -492,7 +492,7 @@ char * strdup(const char* s)
         return NULL;
     }
 
-    memcpy(result, s, slen+1);
+    memcpy(result, s, (size_t)(slen + 1));
     return result;
 }
 
@@ -521,7 +521,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
         short t; /* number of bytes of target generated encoding from this
                     point to end if already in this encoding mode */
     } enc[MAXBARCODE + 1][E_MAX];
-    memset(&enc, 0, sizeof (enc));
+    memset(&enc, 0, sizeof(enc));
     if (lenp)
         *lenp = 0;
     if (!l)
@@ -760,7 +760,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
            fprintf(stderr, " %c*%d/%d", encchr[e], enc[p][e].s, enc[p][e].t);
            fprintf(stderr, "\n"); */
     }
-    encoding = (char*)safemalloc(l + 1);
+    encoding = (char*)safemalloc((size_t)(l + 1));
     p = 0;
     {
         int cur = E_ASCII; /* starts ASCII */
@@ -810,7 +810,7 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
     char *encoding = 0;
     unsigned char *grid = 0;
     struct ecc200matrix_s *matrix;
-    memset(binary, 0, sizeof (binary));
+    memset(binary, 0, sizeof(binary));
     if (o.encodingptr)
         encoding = *o.encodingptr;
     if (o.Wptr)
@@ -889,10 +889,10 @@ unsigned char * iec16022ecc200_opts(iec16022ecc200_t o)
             int x, y, NC, NR, *places;
             NC = W - 2 * (W / matrix->FW);
             NR = H - 2 * (H / matrix->FH);
-            places = (int*)safemalloc(NC * NR * sizeof (int));
+            places = (int*)safemalloc((size_t)(NC * NR) * sizeof(int));
             ecc200placement(places, NR, NC);
-            grid = (unsigned char*)safemalloc((W + q + q) * (H + q + q));
-            memset(grid, 0, (W + q + q) * (H + q + q));
+            grid = (unsigned char*)safemalloc((size_t)((W + q + q) * (H + q + q)));
+            memset(grid, 0, (size_t)((W + q + q) * (H + q + q)));
             for (y = 0; y < H; y += matrix->FH) {
                 for (x = 0; x < W; x++)
                     grid[(y + q + matrix->FH - 1) * (W + q + q) + q + x] = 1;

@@ -64,14 +64,14 @@ void draw_line(unsigned char img[],
             for (xx = x - half_width; xx < x - half_width + line_width; xx++) {
                 if ((xx < 0) || (xx >= (int)width))
                     continue;
-                n = (y * width + xx) * bytes_per_pixel;
+                n = (y * (int)width + xx) * bytes_per_pixel;
                 if (bytes_per_pixel == 3) {
-                    img[n] = b;
-                    img[n+1] = g;
-                    img[n+2] = r;
+                    img[n] = (unsigned char)b;
+                    img[n+1] = (unsigned char)g;
+                    img[n+2] = (unsigned char)r;
                 }
                 else {
-                    img[n] = r;
+                    img[n] = (unsigned char)r;
                 }
             }
         }
@@ -86,14 +86,14 @@ void draw_line(unsigned char img[],
             for (yy = y - half_width; yy < y - half_width + line_width; yy++) {
                 if ((yy < 0) || (yy >= (int)height))
                     continue;
-                n = (yy * width + x) * bytes_per_pixel;
+                n = (yy * (int)width + x) * bytes_per_pixel;
                 if (bytes_per_pixel == 3) {
-                    img[n] = b;
-                    img[n+1] = g;
-                    img[n+2] = r;
+                    img[n] = (unsigned char)b;
+                    img[n+1] = (unsigned char)g;
+                    img[n+2] = (unsigned char)r;
                 }
                 else {
-                    img[n] = r;
+                    img[n] = (unsigned char)r;
                 }
             }
         }
@@ -136,10 +136,10 @@ void draw_dot(unsigned char img[],
         for (x = tx; x <= bx; x++) {
             dx = x - centre_x;
             if (SQUARE_MAG(dx, dy) > radius_sqr) continue;
-            n = (y*width + x)*bytesperpixel;
-            img[n+2] = b;
-            img[n+1] = g;
-            img[n] = r;
+            n = (y * (int)width + x) * bytesperpixel;
+            img[n+2] = (unsigned char)b;
+            img[n+1] = (unsigned char)g;
+            img[n] = (unsigned char)r;
         }
     }
 }

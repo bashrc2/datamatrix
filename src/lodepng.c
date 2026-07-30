@@ -867,7 +867,7 @@ static unsigned HuffmanTree_makeFromFrequencies(HuffmanTree* tree, const unsigne
     tree->lengths = (unsigned*)lodepng_realloc(tree->lengths, numcodes * sizeof(unsigned));
     if(!tree->lengths) return 83; /*alloc fail*/
     /*initialize all lengths to 0*/
-    memset(tree->lengths, 0, numcodes * sizeof(unsigned));
+    memset(tree->lengths, 0, (size_t)numcodes * sizeof(unsigned));
 
     error = lodepng_huffman_code_lengths(tree->lengths, frequencies, numcodes, maxbitlen);
     if(!error) error = HuffmanTree_makeFromLengths2(tree);

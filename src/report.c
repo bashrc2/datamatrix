@@ -73,7 +73,7 @@ void save_verification_report(struct grid_2d * grid,
     fp_report = fopen(report_filename, "w");
     if (fp_report == NULL) return;
 
-    line = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    line = (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
 
     while (getline2(line, fp_template) != -1) {
         if (strstr(line, "\\newcommand{") != NULL) {

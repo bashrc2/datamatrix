@@ -89,11 +89,12 @@ static void save_reflectance_histogram(unsigned char image_data[],
     unsigned int max=0;
     unsigned int histogram[256];
     unsigned char * histogram_image =
-        (unsigned char*)safemalloc(histogram_image_width*histogram_image_height*3*
+        (unsigned char*)safemalloc((size_t)(histogram_image_width *
+											histogram_image_height * 3) *
                                    sizeof(unsigned char));
 
     /* clear the histogram */
-    memset(&histogram[0], 0, 256*sizeof(unsigned int));
+    memset(&histogram[0], 0, (size_t)256 * sizeof(unsigned int));
 
     if (module_centres == 0) {
         /* calculate the histogram for all pixels inside the quiet zone perimeter */
@@ -199,7 +200,8 @@ static void save_reflectance_histogram(unsigned char image_data[],
 
     /* clear the image */
     memset(histogram_image, 255,
-           histogram_image_width*histogram_image_height*3*sizeof(unsigned char));
+           (size_t)(histogram_image_width * histogram_image_height * 3) *
+		   sizeof(unsigned char));
 
     /* calculate border inside image */
     border_tx = histogram_image_width*border_percent/100;
@@ -512,15 +514,15 @@ static void save_grid_cell_shape(struct grid_2d * grid,
 
     /* create the image */
     unsigned char * cell_shape_image =
-        (unsigned char*)safemalloc(cell_shape_image_width*
-                                   cell_shape_image_height*
-                                   cell_shape_bytesperpixel*
+        (unsigned char*)safemalloc((size_t)(cell_shape_image_width *
+											cell_shape_image_height *
+											cell_shape_bytesperpixel) *
                                    sizeof(unsigned char));
 
     /* clear the image */
     memset(cell_shape_image, 0,
-           cell_shape_image_width*cell_shape_image_height*
-           cell_shape_bytesperpixel*sizeof(unsigned char));
+           (size_t)(cell_shape_image_width * cell_shape_image_height *
+					cell_shape_bytesperpixel) * sizeof(unsigned char));
 
     float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
     float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
@@ -973,7 +975,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
         }
     }
     if (hits > 0) {
-        modulation /= hits;
+        modulation /= (float)hits;
     }
     grid->modulation = (unsigned char)(modulation * 100);
     /* contrast uniformity is the minimum cell modulation */

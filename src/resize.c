@@ -105,7 +105,7 @@ int resize_image(unsigned char img[], int width, int height,
     int bytes_per_pixel = bitsperpixel/8;
 
     if ((resized_width == width) && (resized_height == height)) {
-        memcpy(resized, img, width*height*bytes_per_pixel);
+        memcpy(resized, img, (size_t)(width*height * bytes_per_pixel));
         return 0;
     }
 
@@ -118,7 +118,8 @@ int resize_image(unsigned char img[], int width, int height,
         return -1;
     }
 
-    memset(resized, '\0', resized_width*resized_height*bytes_per_pixel);
+    memset(resized, '\0', (size_t)(resized_width * resized_height *
+								   bytes_per_pixel));
 
     for (y = resized_height-1; y >= 0; y--) {
         y2 = y * height / resized_height;
@@ -131,7 +132,9 @@ int resize_image(unsigned char img[], int width, int height,
                 if (resized[n2+c] == 0)
                     resized[n2+c] = img[n1+c];
                 else
-                    resized[n2+c] = (unsigned int)((int)img[n1+c]+(int)resized[n2+c])/2;
+                    resized[n2+c] =
+						(unsigned char)((int)img[n1+c] +
+										(int)resized[n2+c]) / 2;
         }
     }
     return 0;
@@ -157,7 +160,7 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
     int bytes_per_pixel = bitsperpixel/8;
 
     if ((resized_width == width) && (resized_height == height)) {
-        memcpy(resized, img, width*height*bytes_per_pixel);
+        memcpy(resized, img, (size_t)(width * height * bytes_per_pixel));
         return 0;
     }
 
@@ -170,7 +173,8 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
         return -1;
     }
 
-    memset(resized, '\0', resized_width*resized_height*bytes_per_pixel);
+    memset(resized, '\0', (size_t)(resized_width * resized_height *
+								   bytes_per_pixel));
 
     for (y = height-1; y >= 0; y--) {
         y2 = (y * resized_height / height) * resized_width;
@@ -179,7 +183,7 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
             if (img[n2] == 0) continue;
             x2 = x * resized_width / width;
             n1 = (y2 + x2)*bytes_per_pixel;
-            memset(&resized[n1], 255, bytes_per_pixel);
+            memset(&resized[n1], 255, (size_t)bytes_per_pixel);
         }
     }
     return 0;

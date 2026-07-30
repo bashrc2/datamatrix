@@ -86,7 +86,8 @@ static void test_decode()
     char gs1_url[MAX_DECODE_LENGTH];
     gs1_url[0] = 0;
 
-    char * decode_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * decode_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     assert(decode_result != NULL);
 
     unsigned char occupancy1[] = {
@@ -184,13 +185,14 @@ static void test_decode()
 static void test_gs1_decode()
 {
     printf("test_gs1_decode\n");
-    int human_readable = 1;
+    unsigned char human_readable = 1;
     int dimension_x, dimension_y;
     struct grid_2d grid, grid2;
     char gs1_url[MAX_DECODE_LENGTH];
     gs1_url[0] = 0;
 
-    char * decode_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * decode_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     assert(decode_result != NULL);
 
     /* example from GS1 General Specifications */
@@ -266,7 +268,8 @@ static void test_condense()
     int condensed_dimension_x, condensed_dimension_y;
     struct grid_2d grid;
 
-    char * decode_result = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * decode_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     assert(decode_result != NULL);
 
     unsigned char occupancy[] = {

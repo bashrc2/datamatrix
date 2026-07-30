@@ -225,10 +225,10 @@ int ransac_fit(int edges[], int no_of_edges,
         horizontal = 1;
         if (ABS(dy) > ABS(dx)) {
             horizontal = 0;
-            gradient = dx / (float)dy;
+            gradient = (float)dx / (float)dy;
         }
         else {
-            gradient = dy / (float)dx;
+            gradient = (float)dy / (float)dx;
         }
 
         for (edge_sample = no_of_edge_samples-1; edge_sample >= 0; edge_sample--) {
@@ -240,12 +240,12 @@ int ransac_fit(int edges[], int no_of_edges,
             /* calculate the deviation from expected */
             deviation = 0;
             if (horizontal == 1) {
-                predicted_edge_y = yy0 + ((edge_x - xx0) * gradient);
-                deviation = ABS(predicted_edge_y - edge_y);
+                predicted_edge_y = (float)yy0 + ((float)(edge_x - xx0) * gradient);
+                deviation = ABS(predicted_edge_y - (float)edge_y);
             }
             else {
-                predicted_edge_x = xx0 + ((edge_y - yy0) * gradient);
-                deviation = ABS(predicted_edge_x - edge_x);
+                predicted_edge_x = (float)xx0 + ((float)(edge_y - yy0) * gradient);
+                deviation = ABS(predicted_edge_x - (float)edge_x);
             }
 
             if (deviation < max_deviation) {
@@ -314,12 +314,12 @@ int ransac_fit(int edges[], int no_of_edges,
             /* calculate the deviation from expected */
             deviation = 0;
             if (horizontal == 1) {
-                predicted_edge_y = yy0 + ((edge_x - xx0) * gradient);
-                deviation = ABS(predicted_edge_y - edge_y);
+                predicted_edge_y = yy0 + (((float)edge_x - xx0) * gradient);
+                deviation = ABS(predicted_edge_y - (float)edge_y);
             }
             else {
-                predicted_edge_x = xx0 + ((edge_y - yy0) * gradient);
-                deviation = ABS(predicted_edge_x - edge_x);
+                predicted_edge_x = xx0 + (((float)edge_y - yy0) * gradient);
+                deviation = ABS(predicted_edge_x - (float)edge_x);
             }
 
             /* store edge index within tolerance */
@@ -328,51 +328,51 @@ int ransac_fit(int edges[], int no_of_edges,
                 linefit[linefit_no_of_edges] = edge_sample * 2;
                 linefit_no_of_edges++;
                 /* average edge position */
-                av_x += edge_x;
-                av_y += edge_y;
+                av_x += (float)edge_x;
+                av_y += (float)edge_y;
             }
         }
 
         if (linefit_no_of_edges > 0) {
             /* average edge position */
-            av_x /= linefit_no_of_edges;
-            av_y /= linefit_no_of_edges;
+            av_x /= (float)linefit_no_of_edges;
+            av_y /= (float)linefit_no_of_edges;
 
             for (i = 0; i < linefit_no_of_edges; i++) {
                 idx = linefit[i];
                 if (horizontal == 1) {
                     if (edges[idx] < av_x) {
-                        *x0 += edges[idx];
-                        *y0 += edges[idx + 1];
+                        *x0 += (float)edges[idx];
+                        *y0 += (float)edges[idx + 1];
                         hits0++;
                     }
                     else {
-                        *x1 += edges[idx];
-                        *y1 += edges[idx + 1];
+                        *x1 += (float)edges[idx];
+                        *y1 += (float)edges[idx + 1];
                         hits1++;
                     }
                     continue;
                 }
 
                 if (edges[idx+1] < av_y) {
-                    *x0 += edges[idx];
-                    *y0 += edges[idx + 1];
+                    *x0 += (float)edges[idx];
+                    *y0 += (float)edges[idx + 1];
                     hits0++;
                 }
                 else {
-                    *x1 += edges[idx];
-                    *y1 += edges[idx + 1];
+                    *x1 += (float)edges[idx];
+                    *y1 += (float)edges[idx + 1];
                     hits1++;
                 }
             }
 
             if (hits0 > 0) {
-                *x0 /= hits0;
-                *y0 /= hits0;
+                *x0 /= (float)hits0;
+                *y0 /= (float)hits0;
             }
             if (hits1 > 0) {
-                *x1 /= hits1;
-                *y1 /= hits1;
+                *x1 /= (float)hits1;
+                *y1 /= (float)hits1;
             }
         }
     }

@@ -214,7 +214,7 @@ static void make_corrections(int numerrs, int len, byte * data, word * elist, wo
 static void allocate_mem(void)
 {
     free(mem);
-    mem = (word *)safemalloc(sizeof (word) * (2 * fsize + 6 * plen + 5));
+    mem = (word *)safemalloc(sizeof(word) * (size_t)(2 * fsize + 6 * plen + 5));
     rlog = mem;
     alog = rlog + fsize + 1;
     rspoly = alog + fsize;
@@ -248,7 +248,7 @@ void rs_init(word gfpoly, word paritylen, word offset)
     p = 1;
     for (k = 0; k < (int)fsize; k++) {
         alog[k] = p;
-        rlog[p] = k;
+        rlog[p] = (word)k;
         p <<= 1;
         if (p & b)
             p ^= gfpoly;
@@ -285,7 +285,7 @@ void rs_encode(word len, byte * data, byte * res)
             v = (k == (int)plen) ? 0 : res[k];
             if (m && rspoly[k])
                 v ^= alog[(rlog[m] + rlog[rspoly[k]]) % fsize];
-            res[k - 1] = v;
+            res[k - 1] = (byte)v;
         }
     }
 }

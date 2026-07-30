@@ -36,9 +36,9 @@ float get_cell_width(struct grid_2d * grid)
                          grid->perimeter.x2, grid->perimeter.y2,
                          grid->perimeter.x3, grid->perimeter.y3);
     if (grid->dimension_x > grid->dimension_y) {
-        return longest_side / grid->dimension_x;
+        return longest_side / (float)grid->dimension_x;
     }
-    return longest_side / grid->dimension_y;
+    return longest_side / (float)grid->dimension_y;
 }
 
 /**
@@ -76,8 +76,8 @@ static int get_timing_prob_side(unsigned char mono_img[],
 
     for (i = 0; i < frequency; i++) {
         expected = (i % 2) * 255;
-        x = (int)(tx + ((i+0.5f) * dx / frequency));
-        y = (int)(ty + ((i+0.5f) * dy / frequency));
+        x = (int)(tx + (((float)i + 0.5f) * dx / (float)frequency));
+        y = (int)(ty + (((float)i + 0.5f) * dy / (float)frequency));
         cell_prob = 0;
         /* sample a few pixels around this point */
         min_x = x - sampling_radius;
@@ -239,8 +239,8 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
         freq = valid_squares[index];
         if ((freq < minimum_grid_dimension) ||
                 (freq > maximum_grid_dimension)) continue;
-        pitch = side_length / freq;
-        half_pitch = pitch/2;
+        pitch = side_length / (float)freq;
+        half_pitch = pitch / 2;
         /* make a shrunken perimeter half the pitch smaller */
         for (side = 0; side < 4; side++) {
             switch(side) {
@@ -408,8 +408,8 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
         if ((freq < minimum_grid_dimension) ||
                 (freq > maximum_grid_dimension)) continue;
         freq_shortest = valid_rectangles[index*2];
-        pitch = side_length / freq;
-        half_pitch = pitch/2;
+        pitch = side_length / (float)freq;
+        half_pitch = pitch / 2;
         /* make a shrunken perimeter half the pitch smaller */
         for (side = 0; side < 4; side++) {
             switch(side) {
@@ -630,7 +630,7 @@ static void complete_fixed_pattern(struct grid_2d * grid)
             damage++;
             timing_border_damage++;
         }
-        grid->occupancy[grid_x][0] = expected;
+        grid->occupancy[grid_x][0] = (unsigned char)expected;
         fixed_pattern_cells++;
         timing_border_cells++;
     }
@@ -699,7 +699,8 @@ static void orient_grid(struct grid_2d * grid)
     if (right_hits > left_hits) {
         /* mirror */
         grid->mirrored = 1;
-        temp = (unsigned char*)safemalloc(grid->dimension_x*sizeof(unsigned char));
+        temp = (unsigned char*)safemalloc((size_t)grid->dimension_x *
+										  sizeof(unsigned char));
         if (temp != NULL) {
             /* mirror occupancy */
             for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
@@ -734,7 +735,8 @@ static void orient_grid(struct grid_2d * grid)
     if (top_hits > bottom_hits) {
         /* flip */
         grid->flipped = 1;
-        temp = (unsigned char*)safemalloc(grid->dimension_y*sizeof(unsigned char));
+        temp = (unsigned char*)safemalloc((size_t)grid->dimension_y *
+										  sizeof(unsigned char));
         if (temp != NULL) {
             /* flip occupancy */
             for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
@@ -790,97 +792,105 @@ static void create_grid_base(int dimension_x, int dimension_y,
     grid->gs1_datamatrix = 0;
 
     /* generate the grid cells and initialise them to zero */
-    grid->occupancy = (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
+    grid->occupancy = (unsigned char**)safemalloc((size_t)dimension_x *
+												  sizeof(unsigned char*));
     for (grid_x = 0; grid_x < dimension_x; grid_x++) {
         grid->occupancy[grid_x] =
-            (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
-        memset(grid->occupancy[grid_x], 0, dimension_y * sizeof(unsigned char));
+            (unsigned char *)safemalloc((size_t)dimension_y *
+										sizeof(unsigned char));
+        memset(grid->occupancy[grid_x], 0,
+			   (size_t)dimension_y * sizeof(unsigned char));
     }
 
     /* generate the grid buffer cells and initialise them to zero */
     grid->occupancy_buffer =
-        (unsigned char**)safemalloc(dimension_x*sizeof(unsigned char*));
+        (unsigned char**)safemalloc((size_t)dimension_x * sizeof(unsigned char*));
     for (grid_x = 0; grid_x < dimension_x; grid_x++) {
         grid->occupancy_buffer[grid_x] =
-            (unsigned char *)safemalloc(dimension_y*sizeof(unsigned char));
+            (unsigned char *)safemalloc((size_t)dimension_y * sizeof(unsigned char));
         memset(grid->occupancy_buffer[grid_x], 0,
-               dimension_y * sizeof(unsigned char));
+               (size_t)dimension_y * sizeof(unsigned char));
     }
 
     /* generate the damaged cells and initialise them to zero */
-    grid->damage = (unsigned char*)safemalloc(dimension_x * dimension_x *
+    grid->damage = (unsigned char*)safemalloc((size_t)(dimension_x * dimension_x) *
                    sizeof(unsigned char));
-    memset(grid->damage, 0, dimension_x*dimension_y * sizeof(unsigned char));
+    memset(grid->damage, 0,
+		   (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* generate original damaged cells for use when drawing damage in an image */
-    grid->original_damage = (unsigned char*)safemalloc(dimension_x *
-                            dimension_x *
-                            sizeof(unsigned char));
+    grid->original_damage = (unsigned char*)safemalloc((size_t)(dimension_x *
+																dimension_x) *
+													   sizeof(unsigned char));
     memset(grid->original_damage, 0,
-           dimension_x*dimension_y * sizeof(unsigned char));
+           (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* generate the damaged cells buffer and initialise them to zero */
-    grid->damage_buffer = (unsigned char*)safemalloc(dimension_x *
-                          dimension_x *
-                          sizeof(unsigned char));
+    grid->damage_buffer = (unsigned char*)safemalloc((size_t)(dimension_x *
+															  dimension_x) *
+													 sizeof(unsigned char));
     memset(grid->damage_buffer, 0,
-           dimension_x*dimension_y * sizeof(unsigned char));
+           (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* erasures */
-    grid->erasures = (int*)safemalloc(MAX_GRID_DIMENSION *
-                                      MAX_GRID_DIMENSION * sizeof(int));
+    grid->erasures = (int*)safemalloc((size_t)(MAX_GRID_DIMENSION *
+											   MAX_GRID_DIMENSION) * sizeof(int));
 
     /* codeword array, cleared to zero */
-    grid->codeword = (unsigned char*)safemalloc(MAX_CODEWORDS *
+    grid->codeword = (unsigned char*)safemalloc((size_t)MAX_CODEWORDS *
                      sizeof(unsigned char));
-    memset(grid->codeword, 0, MAX_CODEWORDS * sizeof(unsigned char));
+    memset(grid->codeword, 0, (size_t)MAX_CODEWORDS * sizeof(unsigned char));
 
     /* codeword pattern array, cleared to zero */
-    grid->codeword_pattern = (int**)safemalloc(dimension_x*sizeof(int*));
+    grid->codeword_pattern = (int**)safemalloc((size_t)dimension_x * sizeof(int*));
     for (grid_x = 0; grid_x < dimension_x; grid_x++) {
         grid->codeword_pattern[grid_x] =
-            (int *)safemalloc(dimension_y*sizeof(int));
-        memset(grid->codeword_pattern[grid_x], 0, dimension_y * sizeof(int));
+            (int *)safemalloc((size_t)dimension_y * sizeof(int));
+        memset(grid->codeword_pattern[grid_x], 0,
+			   (size_t)dimension_y * sizeof(int));
     }
 
     grid->corrected_codewords =
-        (unsigned char*)safemalloc(MAX_CODEWORDS*sizeof(unsigned char));
-    memset(grid->corrected_codewords, 0, MAX_CODEWORDS * sizeof(unsigned char));
+        (unsigned char*)safemalloc((size_t)MAX_CODEWORDS * sizeof(unsigned char));
+    memset(grid->corrected_codewords, 0,
+		   (size_t)MAX_CODEWORDS * sizeof(unsigned char));
 
-    grid->data_bytes = (unsigned char*)safemalloc(8*sizeof(unsigned char));
+    grid->data_bytes = (unsigned char*)safemalloc((size_t)8 * sizeof(unsigned char));
 
-    grid->m_Pp = (int*)safemalloc(max_bits*sizeof(int));
+    grid->m_Pp = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
     /* index->polynomial form conversion table */
-    grid->m_alpha_to = (int*)safemalloc(max_bits*sizeof(int));
+    grid->m_alpha_to = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
     /* Polynomial->index form conversion table */
-    grid->m_index_of = (int*)safemalloc(max_bits*sizeof(int));
+    grid->m_index_of = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
     /* Generator polynomial g(x)  index form */
-    grid->m_Gg = (int*)safemalloc(max_bits*sizeof(int));
+    grid->m_Gg = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->m_taltab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
+    grid->m_taltab = (unsigned char*)safemalloc((size_t)max_bits *
+												sizeof(unsigned char));
 
-    grid->m_tal1tab = (unsigned char*)safemalloc(max_bits*sizeof(unsigned char));
+    grid->m_tal1tab = (unsigned char*)safemalloc((size_t)max_bits *
+												 sizeof(unsigned char));
 
-    grid->data = (int*)safemalloc(max_bits*sizeof(int));
+    grid->data = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->lambda = (int*)safemalloc(max_bits*sizeof(int));
+    grid->lambda = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->s = (int*)safemalloc(max_bits*sizeof(int));
+    grid->s = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->b = (int*)safemalloc(max_bits*sizeof(int));
+    grid->b = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->t = (int*)safemalloc(max_bits*sizeof(int));
+    grid->t = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->omega = (int*)safemalloc(max_bits*sizeof(int));
+    grid->omega = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->root = (int*)safemalloc(max_bits*sizeof(int));
+    grid->root = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->reg = (int*)safemalloc(max_bits*sizeof(int));
+    grid->reg = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
-    grid->loc = (int*)safemalloc(max_bits*sizeof(int));
+    grid->loc = (int*)safemalloc((size_t)max_bits * sizeof(int));
 }
 
 /**
@@ -1078,8 +1088,8 @@ void create_grid(int dimension_x, int dimension_y,
 
     for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
         /* horizontal line */
-        grid_pos_y = grid_y + 0.5f;
-        mult_y = grid_pos_y / grid->dimension_y;
+        grid_pos_y = (float)grid_y + 0.5f;
+        mult_y = grid_pos_y / (float)grid->dimension_y;
         horizontal_x1 = grid->perimeter.x0 + (horizontal_dx1 * mult_y);
         horizontal_y1 = grid->perimeter.y0 + (horizontal_dy1 * mult_y);
         horizontal_x2 = grid->perimeter.x1 + (horizontal_dx2 * mult_y);
@@ -1087,8 +1097,8 @@ void create_grid(int dimension_x, int dimension_y,
 
         for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
             /* vertical line */
-            grid_pos_x = grid_x + 0.5f;
-            mult_x = grid_pos_x / grid->dimension_x;
+            grid_pos_x = (float)grid_x + 0.5f;
+            mult_x = grid_pos_x / (float)grid->dimension_x;
             vertical_x1 = grid->perimeter.x0 + (vertical_dx1 * mult_x);
             vertical_y1 = grid->perimeter.y0 + (vertical_dy1 * mult_x);
             vertical_x2 = grid->perimeter.x3 + (vertical_dx2 * mult_x);
@@ -1280,8 +1290,8 @@ void show_grid_image(struct grid_2d * grid,
 
     for (grid_y = -1; grid_y <= grid->dimension_y; grid_y++) {
         /* horizontal line */
-        grid_pos_y = grid_y + 0.5f;
-        float mult_y = grid_pos_y / grid->dimension_y;
+        grid_pos_y = (float)grid_y + 0.5f;
+        float mult_y = grid_pos_y / (float)grid->dimension_y;
         float horizontal_x1 =
             grid->perimeter.x0 + (horizontal_dx1 * mult_y);
         float horizontal_y1 =
@@ -1293,8 +1303,8 @@ void show_grid_image(struct grid_2d * grid,
 
         for (grid_x = -1; grid_x <= grid->dimension_x; grid_x++) {
             /* vertical line */
-            grid_pos_x = grid_x + 0.5f;
-            float mult_x = grid_pos_x / grid->dimension_x;
+            grid_pos_x = (float)grid_x + 0.5f;
+            float mult_x = grid_pos_x / (float)grid->dimension_x;
             float vertical_x1 =
                 grid->perimeter.x0 + (vertical_dx1 * mult_x);
             float vertical_y1 =

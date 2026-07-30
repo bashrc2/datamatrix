@@ -87,7 +87,8 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
 
     unsigned char ** new_occupancy = grid->occupancy_buffer;
     unsigned char * new_damage = grid->damage_buffer;
-    memset(new_damage, 0, new_dimension_x * new_dimension_y * sizeof(unsigned char));
+    memset(new_damage, 0,
+		   (size_t)(new_dimension_x * new_dimension_y) * sizeof(unsigned char));
 
     /* create a new occupancy and damage pattern */
     for (block_x = 0; block_x < blocks_x; block_x++) {
@@ -122,10 +123,10 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
 
     /* timing border */
     for (grid_y = new_dimension_y-1; grid_y >= 0; grid_y--) {
-        new_occupancy[new_dimension_x-1][grid_y] = grid_y % 2;
+        new_occupancy[new_dimension_x-1][grid_y] = (unsigned char)(grid_y % 2);
     }
     for (grid_x = new_dimension_x-1; grid_x >= 0; grid_x--) {
-        new_occupancy[grid_x][0] = 1 - (grid_x % 2);
+        new_occupancy[grid_x][0] = (unsigned char)(1 - (grid_x % 2));
     }
 
     /* copy back to the original occupancy and damage arrays */

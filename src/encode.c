@@ -103,7 +103,8 @@ static void encode_image_base(unsigned char img[], int width, int height,
     }
 
     /* clear the image */
-    memset(img, 255, width*height*bytes_per_pixel*sizeof(unsigned char));
+    memset(img, 255,
+		   (size_t)(width * height * bytes_per_pixel) * sizeof(unsigned char));
 
     /* draw dots */
     for (y = 0; y < encode_height; y++) {

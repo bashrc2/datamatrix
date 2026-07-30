@@ -42,7 +42,7 @@ void dilate(unsigned char img[], int width, int height,
 {
     int pixels = width * height;
 
-    memcpy(buffer, img, pixels);
+    memcpy(buffer, img, (size_t)pixels);
 
     int n;
     unsigned char value;
@@ -74,7 +74,7 @@ void dilate(unsigned char img[], int width, int height,
         }
 
         if (itt < itterations - 1)
-            memcpy(buffer, result, pixels);
+            memcpy(buffer, result, (size_t)pixels);
     }
 }
 
@@ -94,7 +94,7 @@ void erode(unsigned char img[], int width, int height,
 {
     int pixels = width * height;
 
-    memcpy(buffer, img, pixels);
+    memcpy(buffer, img, (size_t)pixels);
 
     int n;
     unsigned char value;
@@ -127,7 +127,7 @@ void erode(unsigned char img[], int width, int height,
         }
 
         if (itt < itterations - 1) {
-            memcpy(buffer, result, pixels);
+            memcpy(buffer, result, (size_t)pixels);
         }
     }
 }

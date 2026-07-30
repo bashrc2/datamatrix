@@ -35,7 +35,8 @@ static char * hibc_primary_data(char result[], int end_index)
 
     if (end_index < 8) return NULL;
 
-    char * translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * translated_str =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     translated_str[0] = 0;
 
     decode_strcat(translated_str, "STANDARD: HIBC\n");
@@ -73,7 +74,8 @@ static char * hibc_secondary_data_flag(char result[], int start_index,
 {
     int i, date_offset;
     char * date_value = NULL;
-    char * translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+    char * translated_str =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     translated_str[0] = 0;
 
     if (result[start_index+1] == '$') {
@@ -260,19 +262,22 @@ static char * hibc_secondary_data(char result[], int start_index,
         return hibc_secondary_data_flag(result, start_index, end_index);
     }
     else {
-        char * translated_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+        char * translated_str =
+			(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
         translated_str[0] = 0;
 
-        char * data_str = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+        char * data_str =
+			(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
         data_str[0] = 0;
         for (i = start_index; i < end_index; i++) {
             decode_strcat_char(data_str, result[i]);
         }
 
-        char * id = (char*)safemalloc(5*sizeof(char));
+        char * id = (char*)safemalloc((size_t)5 * sizeof(char));
         char * id_human_readable =
-            (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
-        char * id_value = (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(char));
+            (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        char * id_value =
+			(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
 
         if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
             translated_str[0] = 0;

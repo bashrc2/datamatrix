@@ -70,8 +70,8 @@ static int encode_datamatrix_to_image(char * image_filename,
     /* check that the output image filename is png format */
     if (ends_with(image_filename, ".png") == 0) {
         unsigned char * encode_image_data =
-            (unsigned char*)safemalloc(encode_image_width*
-                                       encode_image_height*3);
+            (unsigned char*)safemalloc((size_t)(encode_image_width *
+												encode_image_height * 3));
         encode_image(encode_image_data,
                      encode_image_width, encode_image_height, 24,
                      grid, encode_width, encode_height,

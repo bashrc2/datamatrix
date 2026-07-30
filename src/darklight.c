@@ -58,7 +58,7 @@ static void darklight_thresholds(unsigned int histogram[],
        avoids unneccessary multiplies later on */
     for (grey_level = 255; grey_level >=0; grey_level--) {
         histogram_sqr_mag[grey_level] =
-            histogram[grey_level] * histogram[grey_level];
+            (float)(histogram[grey_level] * histogram[grey_level]);
     }
 
     /* Evaluate all possible thresholds */
@@ -75,13 +75,13 @@ static void darklight_thresholds(unsigned int histogram[],
         for(h = 255; h >= 0; h--) {
             sqr_mag = histogram_sqr_mag[h];
             if (h < bucket) {
-                curr_mean_dark += h * sqr_mag;
-                variance_dark += (bucket - h) * sqr_mag;
+                curr_mean_dark += (float)h * sqr_mag;
+                variance_dark += (float)(bucket - h) * sqr_mag;
                 dark_hits += sqr_mag;
             }
             else {
-                curr_mean_light += h * sqr_mag;
-                variance_light += (bucket - h) * sqr_mag;
+                curr_mean_light += (float)h * sqr_mag;
+                variance_light += (float)(bucket - h) * sqr_mag;
                 light_hits += sqr_mag;
             }
         }
@@ -137,17 +137,18 @@ void darklight(unsigned char img[],
         (unsigned int)((width * sampling_radius_percent / 100)/2);
     unsigned int ty =
         (unsigned int)((height * sampling_radius_percent / 100)/2);
-    unsigned int bx = width - 1 - tx;
-    unsigned int by = height - 1 - ty;
+    unsigned int bx = (unsigned int)(width - 1) - tx;
+    unsigned int by = (unsigned int)(height - 1) - ty;
     unsigned int n = (ty * (unsigned int)width) + tx;
     unsigned int vertical_increment =
         (unsigned int)(width * sample_step);
     float mean_dark=0, mean_light=0;
 
-    for (y = ty; y <= by; y += sample_step, n += vertical_increment) {
+    for (y = ty; y <= by; y += (unsigned int)sample_step,
+			 n += vertical_increment) {
         n2 = n;
 
-        for (x = tx; x <= bx; x += sample_step, n2++)
+        for (x = tx; x <= bx; x += (unsigned int)sample_step, n2++)
             histogram[img[n2]]++;
     }
 

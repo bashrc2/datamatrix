@@ -161,7 +161,8 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
     int x_pos, y_pos=0;
 
     /* clear the grid */
-    memset(occupancy, 0, dimension_x * dimension_y * sizeof(unsigned char));
+    memset(occupancy, 0,
+		   (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* for each line of the datamatrix string */
     for (i = 0; i < (int)strlen(datamatrix_ascii); i++) {
@@ -247,7 +248,7 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 
     /* make an occupancy grid */
     unsigned char * occupancy =
-        (unsigned char*)safemalloc(dimension_x * dimension_y *
+        (unsigned char*)safemalloc((size_t)(dimension_x * dimension_y) *
                                    sizeof(unsigned char));
     if (occupancy == NULL) return -1;
 
@@ -259,7 +260,8 @@ int decode_datamatrix_from_text(char * datamatrix_text,
 
     /* decode the result */
     struct grid_2d grid;
-    char * decode_result = (char*)safemalloc(MAX_DECODE_LENGTH * sizeof(char));
+    char * decode_result =
+		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     if (decode_result == NULL) return -1;
     unsigned char human_readable = 1;
     decode_result[0] = 0;

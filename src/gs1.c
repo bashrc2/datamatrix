@@ -166,12 +166,12 @@ void gs1_semantics(char result[],
     char * fishing_gear_type_str, * aquatic_species_str, * fishing_area_str;
     char offer_code_str[7];
     char certification_ref[3];
-    unsigned char gtin_check_digit_passed = -1;
-    unsigned char gsin_check_digit_passed = -1;
-    unsigned char gsrn_check_digit_passed = -1;
-    unsigned char sscc_check_digit_passed = -1;
-    unsigned char grai_check_digit_passed = -1;
-    unsigned char gln_check_digit_passed = -1;
+    int gtin_check_digit_passed = -1;
+    int gsin_check_digit_passed = -1;
+    int gsrn_check_digit_passed = -1;
+    int sscc_check_digit_passed = -1;
+    int grai_check_digit_passed = -1;
+    int gln_check_digit_passed = -1;
     char sscc_package_type = EMPTY_CHAR;
     char uic_extension = EMPTY_CHAR;
     char uic_importer_index = EMPTY_CHAR;
@@ -4868,7 +4868,8 @@ void gs1_semantics(char result[],
                         }
                         latlon_str[dec_ctr] = 0;
                         if ((int)strlen(latlon_str) == 10) {
-                            latitude = (atof(latlon_str) / 10000000.0f) - 90.0f;
+                            latitude =
+								((float)atof(latlon_str) / 10000000.0f) - 90.0f;
 
                             /* second ten characters are longitude */
                             dec_ctr = 0;
@@ -5728,7 +5729,8 @@ void gs1_semantics(char result[],
                 }
                 else if (temperature != UNKNOWN_VALUE) {
                     char * temp_str =
-                        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+                        (char*)safemalloc((size_t)MAX_DECODE_LENGTH *
+										  sizeof(unsigned char));
                     sprintf(temp_str, "%.2f", temperature);
                     decode_strcat(gs1_result, temp_str);
                     free(temp_str);
@@ -5737,7 +5739,8 @@ void gs1_semantics(char result[],
                          (longitude != UNKNOWN_VALUE)) {
                     decode_strcat(gs1_result, data_str);
                     char * geo_str =
-                        (char*)safemalloc(MAX_DECODE_LENGTH*sizeof(unsigned char));
+                        (char*)safemalloc((size_t)MAX_DECODE_LENGTH *
+										  sizeof(unsigned char));
                     sprintf(geo_str, "LAT %.4f LON %.4f", latitude, longitude);
                     decode_strcat(gs1_result, geo_str);
                     free(geo_str);

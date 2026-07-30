@@ -49,43 +49,45 @@ void init_line_segments(struct line_segments * segments,
     segments->no_of_segments = 0;
     segments->ignore_periphery = 0;
     segments->members =
-        (int*)safemalloc(segments->max_members*2*sizeof(int));
+        (int*)safemalloc((size_t)(segments->max_members * 2) * sizeof(int));
     segments->no_of_members =
-        (int*)safemalloc(segments->max_segments*sizeof(int));
+        (int*)safemalloc((size_t)(segments->max_segments) * sizeof(int));
     segments->joins =
-        (unsigned char*)safemalloc(segments->max_segments *
-                                   segments->max_segments *
+        (unsigned char*)safemalloc((size_t)(segments->max_segments *
+											segments->max_segments) *
                                    sizeof(unsigned char));
     segments->joins_sorted =
-        (int*)safemalloc(segments->max_segments*sizeof(int));
+        (int*)safemalloc((size_t)segments->max_segments * sizeof(int));
     segments->selected =
-        (unsigned char*)safemalloc(segments->max_segments*sizeof(unsigned char));
+        (unsigned char*)safemalloc((size_t)segments->max_segments *
+								   sizeof(unsigned char));
     segments->joined_length =
-        (int*)safemalloc(segments->max_segments*sizeof(int));
+        (int*)safemalloc((size_t)segments->max_segments * sizeof(int));
     segments->minimum_segment_length = 20;
 
-    segments->perimeter_left = (int*)safemalloc(height*sizeof(int));
-    segments->perimeter_right = (int*)safemalloc(height*sizeof(int));
-    segments->perimeter_top = (int*)safemalloc(width*sizeof(int));
-    segments->perimeter_bottom = (int*)safemalloc(width*sizeof(int));
-    segments->orientation_histogram = (int*)safemalloc(360*sizeof(int));
+    segments->perimeter_left = (int*)safemalloc((size_t)height * sizeof(int));
+    segments->perimeter_right = (int*)safemalloc((size_t)height * sizeof(int));
+    segments->perimeter_top = (int*)safemalloc((size_t)width * sizeof(int));
+    segments->perimeter_bottom = (int*)safemalloc((size_t)width * sizeof(int));
+    segments->orientation_histogram = (int*)safemalloc((size_t)360 * sizeof(int));
 
-    segments->orientation_histogram_edges = (int**)safemalloc(360*sizeof(int*));
+    segments->orientation_histogram_edges =
+		(int**)safemalloc((size_t)360 * sizeof(int*));
     for (i = 0; i < 360; i++) {
         segments->orientation_histogram_edges[i] =
-            (int*)safemalloc(MAX_ORIENTATION_EDGES*4*sizeof(int));
+            (int*)safemalloc((size_t)(MAX_ORIENTATION_EDGES * 4) * sizeof(int));
     }
 
-    segments->side_edges = (int**)safemalloc(4*sizeof(int*));
+    segments->side_edges = (int**)safemalloc((size_t)4 * sizeof(int*));
     for (i = 0; i < 4; i++) {
         segments->side_edges[i] =
-            (int*)safemalloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
+            (int*)safemalloc((size_t)(MAX_ORIENTATION_EDGES * 2) * sizeof(int));
     }
-    segments->side_edges_count = (int*)safemalloc(4*sizeof(int));
+    segments->side_edges_count = (int*)safemalloc((size_t)4 * sizeof(int));
     segments->linefit =
-        (int*)safemalloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
+        (int*)safemalloc((size_t)(MAX_ORIENTATION_EDGES * 2) * sizeof(int));
     segments->linefit2 =
-        (int*)safemalloc(MAX_ORIENTATION_EDGES*2*sizeof(int));
+        (int*)safemalloc((size_t)(MAX_ORIENTATION_EDGES * 2) * sizeof(int));
 
     segments->edge_centre_hits = 0;
 }
@@ -140,7 +142,7 @@ void detect_edges_binary(unsigned char img[],
 {
     int x, y, n;
 
-    memset(buffer, 255, width * height * sizeof(unsigned char));
+    memset(buffer, 255, (size_t)(width * height) * sizeof(unsigned char));
 
     for (y = height-2; y >= 0; y--) {
         n = y*width + width - 2;
@@ -157,7 +159,7 @@ void detect_edges_binary(unsigned char img[],
         }
     }
 
-    memcpy(img, buffer, width * height * sizeof(unsigned char));
+    memcpy(img, buffer, (size_t)(width * height) * sizeof(unsigned char));
 }
 
 /**
@@ -407,13 +409,13 @@ void show_line_segments(struct line_segments * segments,
     unsigned char r,g,b;
     int result_bytesperpixel = result_bitsperpixel/8;
 
-    memset(result, 0, width*height*result_bytesperpixel);
+    memset(result, 0, (size_t)(width * height * result_bytesperpixel));
 
     for (i = 0; i < segments->no_of_segments; i++) {
-        srand(i);
+        srand((unsigned int)i);
         for (j = 0; j < i; j++) {
             if (segments->joins[(j*segments->max_segments)+i] != JOIN_NONE) {
-                srand(j);
+                srand((unsigned int)j);
                 break;
             }
         }
@@ -514,7 +516,7 @@ void join_line_segments(struct line_segments * segments,
 
     /* clear the joins matrix */
     memset(segments->joins, JOIN_NONE,
-           segments->max_segments * segments->max_segments *
+           (size_t)(segments->max_segments * segments->max_segments) *
            sizeof(unsigned char));
 
     /* populate the joins matrix, starting from the closest
@@ -608,9 +610,9 @@ void join_line_segments(struct line_segments * segments,
 
     /* clear the sorted joins matrix */
     memset(segments->joins_sorted, 0,
-           segments->max_segments * sizeof(int));
+           (size_t)segments->max_segments * sizeof(int));
     memset(segments->selected, 0,
-           segments->max_segments * sizeof(unsigned char));
+           (size_t)segments->max_segments * sizeof(unsigned char));
 
     /* sort joined segments into length order */
     ctr = 0;
@@ -716,7 +718,7 @@ void show_square_line_segments(struct line_segments * segments,
     unsigned char r,g,b;
     int result_bytesperpixel = result_bitsperpixel/8;
 
-    memset(result, 0, width*height*result_bytesperpixel);
+    memset(result, 0, (size_t)(width * height * result_bytesperpixel));
 
     for (i = 0; i < segments->no_of_segments; i++) {
         aspect_ratio = get_segment_aspect_ratio(segments, i);
@@ -725,10 +727,10 @@ void show_square_line_segments(struct line_segments * segments,
             continue;
         }
 
-        srand(i);
+        srand((unsigned int)i);
         for (j = 0; j < i; j++) {
             if (segments->joins[(j*segments->max_segments)+i] != JOIN_NONE) {
-                srand(j);
+                srand((unsigned int)j);
                 break;
             }
         }
@@ -795,7 +797,7 @@ void show_rectangular_line_segments(struct line_segments * segments,
     unsigned char r,g,b;
     int result_bytesperpixel = result_bitsperpixel/8;
 
-    memset(result, 0, width*height*result_bytesperpixel);
+    memset(result, 0, (size_t)(width * height * result_bytesperpixel));
 
     for (i = 0; i < segments->no_of_segments; i++) {
         aspect_ratio = get_segment_aspect_ratio(segments, i);
@@ -805,10 +807,10 @@ void show_rectangular_line_segments(struct line_segments * segments,
             continue;
         }
 
-        srand(i);
+        srand((unsigned int)i);
         for (j = 0; j < i; j++) {
             if (segments->joins[(j*segments->max_segments)+i] != JOIN_NONE) {
-                srand(j);
+                srand((unsigned int)j);
                 break;
             }
         }
@@ -886,10 +888,10 @@ int get_peripheral_edges(struct line_segments * segments,
     int dx, dy;
 
     /* clear perimeter arrays */
-    memset(segments->perimeter_left, 0, height*sizeof(int));
-    memset(segments->perimeter_right, 0, height*sizeof(int));
-    memset(segments->perimeter_top, 0, width*sizeof(int));
-    memset(segments->perimeter_bottom, 0, width*sizeof(int));
+    memset(segments->perimeter_left, 0, (size_t)height * sizeof(int));
+    memset(segments->perimeter_right, 0, (size_t)height * sizeof(int));
+    memset(segments->perimeter_top, 0, (size_t)width * sizeof(int));
+    memset(segments->perimeter_bottom, 0, (size_t)width * sizeof(int));
 
     get_segment_bounding_box(segments, index,
                              &min_x, &min_y, &max_x, &max_y);
@@ -1019,8 +1021,8 @@ static void assign_edges_to_sides(struct line_segments * segments,
     int no_of_buckets = (int)(360 / quantization_degrees);
     int orientation_quantized2;
     int orientation_quantized_wiggle;
-    float separator_x0 = segments->edge_centre_x;
-    float separator_y0 = segments->edge_centre_y;
+    float separator_x0 = (float)segments->edge_centre_x;
+    float separator_y0 = (float)segments->edge_centre_y;
     float separator_x1, separator_y1;
 
     for (orthogonal = 0; orthogonal < 2; orthogonal++) {
@@ -1034,10 +1036,10 @@ static void assign_edges_to_sides(struct line_segments * segments,
 
         /* calculate the separator line */
         separator_x1 =
-            segments->edge_centre_x -
+            (float)segments->edge_centre_x -
             (100 * (float)sin(orientation_radians + (orthogonal * (PI * 0.5f))));
         separator_y1 =
-            segments->edge_centre_y -
+            (float)segments->edge_centre_y -
             (100 * (float)cos(orientation_radians + (orthogonal * (PI * 0.5f))));
 
         /* two opposite sides */
@@ -1095,7 +1097,7 @@ float get_segments_orientation(struct line_segments * segments,
     int no_of_buckets = (int)(360 / quantization_degrees);
 
     /* clear the orientation histogram */
-    memset(segments->orientation_histogram, 0, 360*sizeof(int));
+    memset(segments->orientation_histogram, 0, (size_t)360 * sizeof(int));
 
     /* clear the side edges count */
     for (side = 0; side < 4; side++) {
@@ -1129,17 +1131,17 @@ float get_segments_orientation(struct line_segments * segments,
                 /* distance to the previous edge coordinate */
                 dx = perimeter[y] - prev_x;
                 dy = y - prev_y;
-                dist = SQUARE_MAG(dx, dy);
+                dist = SQUARE_MAG((float)dx, (float)dy);
                 angle = 0;
                 if (dist > 0.001f) {
                     dist = (float)sqrt(dist);
                     /* angle to the previous edge coordinate */
-                    angle = (float)acos(dy / dist);
+                    angle = (float)acos((float)dy / dist);
                 }
                 if (dx < 0) angle = twopi - angle;
-                angle_degrees = angle / PI * 180.0f;
+                angle_degrees = angle / (float)PI * 180.0f;
                 /* update the histogram */
-                bucket = (int)(angle_degrees / quantization_degrees);
+                bucket = (int)(angle_degrees / (float)quantization_degrees);
                 if ((bucket >= 0) && (bucket < no_of_buckets)) {
                     if (segments->orientation_histogram[bucket] <
                             MAX_ORIENTATION_EDGES-1) {
@@ -1209,17 +1211,17 @@ float get_segments_orientation(struct line_segments * segments,
                 /* distance to the previous edge coordinate */
                 dx = x - prev_x;
                 dy = perimeter[x] - prev_y;
-                dist = SQUARE_MAG(dx, dy);
+                dist = SQUARE_MAG((float)dx, (float)dy);
                 angle = 0;
                 if (dist > 0.001f) {
                     dist = (float)sqrt(dist);
                     /* angle to the previous edge coordinate */
-                    angle = (float)acos(dy / dist);
+                    angle = (float)acos((float)dy / dist);
                 }
                 if (dx < 0) angle = twopi - angle;
-                angle_degrees = angle / PI * 180.0f;
+                angle_degrees = angle / (float)PI * 180.0f;
                 /* update the histogram */
-                bucket = (int)(angle_degrees / quantization_degrees);
+                bucket = (int)(angle_degrees / (float)quantization_degrees);
                 if ((bucket >= 0) && (bucket < no_of_buckets)) {
                     if (segments->orientation_histogram[bucket] <
                             MAX_ORIENTATION_EDGES-1) {
@@ -1273,7 +1275,8 @@ float get_segments_orientation(struct line_segments * segments,
 
     /* calculate the orientation */
     orientation_radians =
-        ((float)orientation_quantized * quantization_degrees) * PI / 180.0f;
+        (float)(orientation_quantized * quantization_degrees) *
+		(float)PI / 180.0f;
 
     /* using the orientation, assign edges to sides */
     assign_edges_to_sides(segments, orientation_quantized,
@@ -1299,7 +1302,7 @@ void show_peripheral_edges(struct line_segments * segments,
     unsigned char r=0, g=0, b=0;
     int result_bytesperpixel = result_bitsperpixel/8;
 
-    memset(result, 0, width*height*result_bytesperpixel);
+    memset(result, 0, (size_t)(width * height * result_bytesperpixel));
 
     for (side = 0; side < 4; side++) {
         switch(side) {
@@ -1357,7 +1360,7 @@ void show_perimeter(struct line_segments * segments,
     int result_bytesperpixel = result_bitsperpixel/8;
     int * perimeter;
 
-    memset(result, 0, width*height*result_bytesperpixel);
+    memset(result, 0, (size_t)(width * height * result_bytesperpixel));
 
     for (side = 0; side < 4; side++) {
         switch(side) {
@@ -1440,7 +1443,7 @@ void show_perimeter_intersection(struct line_segments * segments,
     int result_bytesperpixel = result_bitsperpixel/8;
     int * perimeter;
 
-    memset(result, 0, width*height*result_bytesperpixel);
+    memset(result, 0, (size_t)(width * height * result_bytesperpixel));
 
     for (side = 0; side < 4; side++) {
         if ((side != side1) && (side != side2)) continue;
@@ -1522,7 +1525,7 @@ void show_perimeter_intersection(struct line_segments * segments,
  * \param perimeter_y3 returned fourth perimeter y coord
  * \return 0 on success, -1 otherwise
  */
-static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
+static int fit_perimeter_to_all_sides(struct line_segments * segments,
         int width, int height,
         float max_deviation,
         int centre_x, int centre_y,
@@ -1629,24 +1632,24 @@ static unsigned char fit_perimeter_to_all_sides(struct line_segments * segments,
  * \param debug_filename filename of the debug image
  * \return 0 on success, -1 otherwise
  */
-unsigned char fit_perimeter_to_sides(struct line_segments * segments,
-                                     int width, int height,
-                                     float * perimeter_x0,
-                                     float * perimeter_y0,
-                                     float * perimeter_x1,
-                                     float * perimeter_y1,
-                                     float * perimeter_x2,
-                                     float * perimeter_y2,
-                                     float * perimeter_x3,
-                                     float * perimeter_y3,
-                                     unsigned char debug,
-                                     int try_config, int seg_idx,
-                                     int offset,
-                                     unsigned char thr_edges_image_data[],
-                                     int resized_thresholded_width,
-                                     int resized_thresholded_height,
-                                     int image_bitsperpixel,
-                                     char * debug_filename)
+int fit_perimeter_to_sides(struct line_segments * segments,
+						   int width, int height,
+						   float * perimeter_x0,
+						   float * perimeter_y0,
+						   float * perimeter_x1,
+						   float * perimeter_y1,
+						   float * perimeter_x2,
+						   float * perimeter_y2,
+						   float * perimeter_x3,
+						   float * perimeter_y3,
+						   unsigned char debug,
+						   int try_config, int seg_idx,
+						   int offset,
+						   unsigned char thr_edges_image_data[],
+						   int resized_thresholded_width,
+						   int resized_thresholded_height,
+						   int image_bitsperpixel,
+						   char * debug_filename)
 {
     int side, no_of_edges, max_edges=0, max_side1=-1, max_side2=-1;
     int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy;
@@ -2045,7 +2048,7 @@ int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
                            float perimeter_x2, float perimeter_y2,
                            float perimeter_x3, float perimeter_y3)
 {
-    int dx, dy;
+    float dx, dy;
     float dist0, dist1, dist2, dist3, max_dist, min_dist;
 
     dx = perimeter_x1 - perimeter_x0;
