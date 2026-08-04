@@ -2615,7 +2615,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[sscc_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 sscc_check_digit_passed = 0;
@@ -2653,7 +2653,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gtin_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gtin_check_digit_passed = 0;
@@ -2696,7 +2696,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gtin_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gtin_check_digit_passed = 0;
@@ -4500,7 +4500,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gsin_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gsin_check_digit_passed = 0;
@@ -4534,7 +4534,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4564,7 +4564,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4594,7 +4594,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4624,7 +4624,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4654,7 +4654,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4684,7 +4684,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4714,7 +4714,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4744,7 +4744,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gln_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gln_check_digit_passed = 0;
@@ -4863,7 +4863,7 @@ void gs1_semantics(char result[],
                         int dec_ctr = 0;
                         /* first ten characters are latitude */
                         for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
-                            if (is_number(data_str[dec_ctr]) == -1) break;
+                            if (!isdigit(data_str[dec_ctr])) break;
                             latlon_str[dec_ctr] = data_str[dec_ctr];
                         }
                         latlon_str[dec_ctr] = 0;
@@ -4874,7 +4874,7 @@ void gs1_semantics(char result[],
                             /* second ten characters are longitude */
                             dec_ctr = 0;
                             for (dec_ctr = 0; dec_ctr < 10; dec_ctr++) {
-                                if (is_number(data_str[dec_ctr]) == -1) break;
+                                if (!isdigit(data_str[dec_ctr])) break;
                                 latlon_str[dec_ctr] = data_str[dec_ctr + 10];
                             }
                             latlon_str[dec_ctr] = 0;
@@ -5187,8 +5187,8 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "AIDC MEDIA TYPE: ");
                     if ((int)strlen(data_str) == 2) {
-                        if ((is_number(data_str[0]) == 0) &&
-                            (is_number(data_str[1]) == 0)) {
+                        if ((isdigit(data_str[0])) &&
+                            (isdigit(data_str[1]))) {
                             aidc_media_type = atoi(data_str);
                         }
                     }
@@ -5212,7 +5212,7 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "BIO SEX: ");
                     if ((int)strlen(data_str) == 1) {
-                        if (is_number(data_str[0]) == 0) {
+                        if (isdigit(data_str[0])) {
                             bio_sex = atoi(data_str);
                         }
                     }
@@ -5244,8 +5244,8 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "BIRTH SEQUENCE: ");
                     if ((int)strlen(data_str) == 3) {
-                        if ((is_number(data_str[0]) == 0) &&
-                            (is_number(data_str[2]) == 0)) {
+                        if ((isdigit(data_str[0])) &&
+                            (isdigit(data_str[2]))) {
                             birth_sequence[0] = data_str[0];
                             birth_sequence[1] = data_str[2];
                         }
@@ -5264,7 +5264,7 @@ void gs1_semantics(char result[],
                     if ((int)strlen(data_str) == 14) {
                         unsigned char all_numbers = 1;
                         for (int dim_ctr = 0; dim_ctr < 14; dim_ctr++) {
-                            if (is_number(data_str[dim_ctr]) == -1) {
+                            if (!isdigit(data_str[dim_ctr])) {
                                 all_numbers = 0;
                                 break;
                             }
@@ -5339,7 +5339,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[grai_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 grai_check_digit_passed = 0;
@@ -5389,14 +5389,14 @@ void gs1_semantics(char result[],
                                                    itip_start_index, data_str);
                     }
                     if ((int)strlen(data_str) == 18) {
-                        if ((is_number(data_str[14]) == 0) &&
-                            (is_number(data_str[15]) == 0)) {
+                        if ((isdigit(data_str[14])) &&
+                            (isdigit(data_str[15]))) {
                             itip_piece_number_str[0] = data_str[14];
                             itip_piece_number_str[1] = data_str[15];
                             itip_piece_number_str[2] = 0;
                         }
-                        if ((is_number(data_str[16]) == 0) &&
-                            (is_number(data_str[17]) == 0)) {
+                        if ((isdigit(data_str[16])) &&
+                            (isdigit(data_str[17]))) {
                             itip_total_count_str[0] = data_str[16];
                             itip_total_count_str[1] = data_str[17];
                             itip_total_count_str[2] = 0;
@@ -5491,7 +5491,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gsrn_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gsrn_check_digit_passed = 0;
@@ -5521,7 +5521,7 @@ void gs1_semantics(char result[],
                             get_gtin_check_digit(&data_str[gsrn_start_index], 1);
                         if (check_digit != -1) {
                             char last_char = data_str[(int)strlen(data_str)-1];
-                            if (is_number(last_char) == 0) {
+                            if (isdigit(last_char)) {
                                 last_str[0] = last_char;
                                 last_str[1] = 0;
                                 gsrn_check_digit_passed = 0;
@@ -5557,14 +5557,14 @@ void gs1_semantics(char result[],
                                                    itip_start_index, data_str);
                     }
                     if ((int)strlen(data_str) == 18) {
-                        if ((is_number(data_str[14]) == 0) &&
-                            (is_number(data_str[15]) == 0)) {
+                        if ((isdigit(data_str[14])) &&
+                            (isdigit(data_str[15]))) {
                             itip_piece_number_str[0] = data_str[14];
                             itip_piece_number_str[1] = data_str[15];
                             itip_piece_number_str[2] = 0;
                         }
-                        if ((is_number(data_str[16]) == 0) &&
-                            (is_number(data_str[17]) == 0)) {
+                        if ((isdigit(data_str[16])) &&
+                            (isdigit(data_str[17]))) {
                             itip_total_count_str[0] = data_str[16];
                             itip_total_count_str[1] = data_str[17];
                             itip_total_count_str[2] = 0;

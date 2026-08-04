@@ -507,8 +507,6 @@ int getline2(char line[], FILE * fp);
 
 int ends_with(char * text, char * match);
 
-int is_number(char ch);
-
 int is_letter_lower(char ch);
 
 int is_letter_upper(char ch);

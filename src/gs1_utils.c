@@ -42,7 +42,7 @@ int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit) {
 
     num_str[1] = 0;
     for (i = 0; i < gtin_len; i++) {
-        if (is_number(gtin[i]) == -1) return -1;
+        if (!isdigit(gtin[i])) return -1;
         num_str[0] = gtin[i];
         int num = atoi(num_str);
         if (i % 2 == 0) {
@@ -71,7 +71,7 @@ float get_temperature(char data_str[])
     char * temp_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     for (i = 0; i < data_len; i++) {
-        if (is_number(data_str[i]) == -1) {
+        if (!isdigit(data_str[i])) {
             free(temp_str);
             return UNKNOWN_VALUE;
         }
@@ -151,7 +151,7 @@ char * get_gs1_company_prefix(char data_str[])
     int data_len = (int)strlen(data_str);
     if ((data_len < 2) || (data_len > 15)) return NULL;
     for (i = 0; i < data_len; i++) {
-        if (is_number(data_str[i]) == -1) return NULL;
+        if (!isdigit(data_str[i])) return NULL;
         data_str_code[i] = data_str[i];
     }
     data_str_code[i] = 0;
@@ -221,7 +221,7 @@ char * get_country(char data_str[])
     int data_len = (int)strlen(data_str);
     if (data_len < 3) return NULL;
     for (i = 0; i < 3; i++) {
-        if (is_number(data_str[i]) == -1) return NULL;
+        if (!isdigit(data_str[i])) return NULL;
         data_str_country_code[i] = data_str[i];
     }
     data_str_country_code[3] = 0;
@@ -311,7 +311,7 @@ char * get_currency_value(int application_identifier,
     /* check that the data is all numeric */
     int data_len = (int)strlen(data_str);
     for (i = 0; i < data_len; i++) {
-        if (is_number(data_str[i]) == -1) return NULL;
+        if (!isdigit(data_str[i])) return NULL;
         if (i < 3) {
             /* get the currency code */
             data_str_currency_code[i] = data_str[i];
@@ -367,7 +367,7 @@ char * get_decimal_value(int application_identifier,
     /* check that the data is all numeric */
     int data_len = (int)strlen(data_str);
     for (i = 0; i < data_len; i++) {
-        if (is_number(data_str[i]) == -1) return NULL;
+        if (!isdigit(data_str[i])) return NULL;
     }
 
     char * decimal_str =
@@ -418,7 +418,7 @@ char * get_meat_cut(char data_str[])
     char prod_code_str[5];
     /* check that all product code characters are numbers */
     for (i = 2; i <= 5; i++) {
-        if (is_number(data_str[i]) == -1) {
+        if (!isdigit(data_str[i])) {
             return NULL;
         }
     }
@@ -771,7 +771,7 @@ char * get_meat_cut(char data_str[])
 char * get_north_american_coupon(char data_str[],
                                  char company_prefix_code[])
 {
-    if (is_number(data_str[0]) == -1) return NULL;
+    if (!isdigit(data_str[0])) return NULL;
 
     char * coupon_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -822,7 +822,7 @@ char * get_north_american_coupon(char data_str[],
     decode_strcat(coupon_str, &offer_code_str[0]);
 
     /* save value variable length indicator */
-    if (is_number(data_str[idx]) == -1) {
+    if (!isdigit(data_str[idx])) {
         return coupon_str;
     }
     vli_str[0] = data_str[idx++];
@@ -849,7 +849,7 @@ char * get_north_american_coupon(char data_str[],
     }
 
     /* primary purchase requirement variable length indicator */
-    if (is_number(data_str[idx]) == -1) {
+    if (!isdigit(data_str[idx])) {
         return coupon_str;
     }
     vli_str[0] = data_str[idx++];
@@ -875,7 +875,7 @@ char * get_north_american_coupon(char data_str[],
         primary_purchase_requirement_str[primary_purchase_requirement_ctr] = 0;
 
         /* primary purchase requirement code */
-        if (is_number(data_str[idx]) == -1) {
+        if (!isdigit(data_str[idx])) {
             return coupon_str;
         }
         char primary_purchase_requirement_code = data_str[idx++];
@@ -992,7 +992,7 @@ char * get_north_american_coupon(char data_str[],
             second_purchase_requirement_str[second_purchase_requirement_ctr] = 0;
 
             /* second purchase requirement code */
-            if (is_number(data_str[idx]) == -1) {
+            if (!isdigit(data_str[idx])) {
                 return coupon_str;
             }
             char second_purchase_requirement_code = data_str[idx++];
@@ -1060,7 +1060,7 @@ char * get_north_american_coupon(char data_str[],
         decode_strcat(coupon_str, &second_purchase_family_code[0]);
 
         /* second GS1 company prefix VLI */
-        if (is_number(data_str[idx]) == -1) {
+        if (!isdigit(data_str[idx])) {
             return coupon_str;
         }
         vli_str[0] = data_str[idx++];
@@ -1127,7 +1127,7 @@ char * get_north_american_coupon(char data_str[],
             third_purchase_requirement_str[third_purchase_requirement_ctr] = 0;
 
             /* third purchase requirement code */
-            if (is_number(data_str[idx]) == -1) {
+            if (!isdigit(data_str[idx])) {
                 return coupon_str;
             }
             char third_purchase_requirement_code = data_str[idx++];
@@ -1195,7 +1195,7 @@ char * get_north_american_coupon(char data_str[],
         decode_strcat(coupon_str, &third_purchase_family_code[0]);
 
         /* third GS1 company prefix VLI */
-        if (is_number(data_str[idx]) == -1) {
+        if (!isdigit(data_str[idx])) {
             return coupon_str;
         }
         vli_str[0] = data_str[idx++];
@@ -1279,7 +1279,7 @@ char * get_north_american_coupon(char data_str[],
         decode_strcat_char(coupon_str, data_field_5);
 
         /* serial number vli */
-        if (is_number(data_str[idx]) == -1) {
+        if (!isdigit(data_str[idx])) {
             return coupon_str;
         }
         vli_str[0] = data_str[idx++];
@@ -1301,7 +1301,7 @@ char * get_north_american_coupon(char data_str[],
         decode_strcat_char(coupon_str, data_field_6);
 
         /* Retailer GS1 company prefix VLI */
-        if (is_number(data_str[idx]) == -1) {
+        if (!isdigit(data_str[idx])) {
             return coupon_str;
         }
         vli_str[0] = data_str[idx++];
@@ -1508,7 +1508,7 @@ char * get_production_method(char data_str[])
 {
     if ((int)strlen(data_str) < 2) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
-        if (is_number(data_str[i]) == -1) return NULL;
+        if (!isdigit(data_str[i])) return NULL;
     }
     char * prod_method_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -1551,7 +1551,7 @@ char * get_fishing_gear_type(char data_str[])
 {
     if ((int)strlen(data_str) < 2) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
-        if ((is_number(data_str[i]) == -1) &&
+        if ((!isdigit(data_str[i])) &&
             (data_str[i] != '.')) return NULL;
     }
     char * fishing_gear_type_str =
@@ -1616,7 +1616,7 @@ char * get_fishing_area(char data_str[])
 {
     if ((int)strlen(data_str) < 4) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
-        if ((is_number(data_str[i]) == -1) &&
+        if ((!isdigit(data_str[i])) &&
             (is_letter_lower(data_str[i]) == -1) &&
             (is_letter_upper(data_str[i]) == -1) &&
             (data_str[i] != '.')) return NULL;
