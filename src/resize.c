@@ -37,10 +37,10 @@
  * \param enlarged_height Height of the enlarged image
  * \return zero on success
  */
-int enlarge_image(unsigned char img[], int width, int height,
-                  int bitsperpixel,
+int enlarge_image(const unsigned char img[], const int width, const int height,
+                  const int bitsperpixel,
                   unsigned char enlarged[],
-                  int enlarged_width, int enlarged_height)
+                  const int enlarged_width, const int enlarged_height)
 {
     int i, c, tx, ty, bx, by, x, y, n0=0, n1;
     int bytes_per_pixel = bitsperpixel/8;
@@ -91,15 +91,15 @@ int enlarge_image(unsigned char img[], int width, int height,
  * \param width Width of the original image
  * \param height Height of the original image
  * \param bitsperpixel Number of bits per pixel in the image
- * \param resized The returned enlarged image
+ * \param resized The returned resized image
  * \param resized_width Width of the enlarged image
  * \param resized_height Height of the enlarged image
  * \return zero on success
  */
-int resize_image(unsigned char img[], int width, int height,
-                 int bitsperpixel,
+int resize_image(const unsigned char img[], const int width, const int height,
+                 const int bitsperpixel,
                  unsigned char resized[],
-                 int resized_width, int resized_height)
+                 const int resized_width, const int resized_height)
 {
     int c, x, y, x2, y2, n1, n2;
     int bytes_per_pixel = bitsperpixel/8;
@@ -119,7 +119,7 @@ int resize_image(unsigned char img[], int width, int height,
     }
 
     memset(resized, '\0', (size_t)(resized_width * resized_height *
-								   bytes_per_pixel));
+                                   bytes_per_pixel));
 
     for (y = resized_height-1; y >= 0; y--) {
         y2 = y * height / resized_height;
@@ -133,8 +133,8 @@ int resize_image(unsigned char img[], int width, int height,
                     resized[n2+c] = img[n1+c];
                 else
                     resized[n2+c] =
-						(unsigned char)((int)img[n1+c] +
-										(int)resized[n2+c]) / 2;
+                        (unsigned char)((int)img[n1+c] +
+                                        (int)resized[n2+c]) / 2;
         }
     }
     return 0;
@@ -151,10 +151,11 @@ int resize_image(unsigned char img[], int width, int height,
  * \param resized_height Height of the resized image
  * \return zero on success
  */
-int resize_thresholded_image(unsigned char img[], int width, int height,
-                             int bitsperpixel,
+int resize_thresholded_image(const unsigned char img[],
+                             const int width, const int height,
+                             const int bitsperpixel,
                              unsigned char resized[],
-                             int resized_width, int resized_height)
+                             const int resized_width, const int resized_height)
 {
     int x, y, x2, y2, n1, n2;
     int bytes_per_pixel = bitsperpixel/8;
@@ -174,7 +175,7 @@ int resize_thresholded_image(unsigned char img[], int width, int height,
     }
 
     memset(resized, '\0', (size_t)(resized_width * resized_height *
-								   bytes_per_pixel));
+                                   bytes_per_pixel));
 
     for (y = height-1; y >= 0; y--) {
         y2 = (y * resized_height / height) * resized_width;

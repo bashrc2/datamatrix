@@ -42,23 +42,23 @@
  * \param light_angle_degrees Angle of illumination in degrees
  * \param footer Footer text on verification report
  */
-void save_verification_report(struct grid_2d * grid,
-                              char address_line1[],
-                              char address_line2[],
-                              char address_line3[],
-                              char phone[],
-                              char email[],
-                              char website[],
-                              char grid_filename[],
-                              char histogram_filename[],
-                              char report_template[],
-                              char report_filename[],
-                              char logo_filename[],
-                              char decode_result[],
-                              float aperture,
-                              int light_nm,
-                              int light_angle_degrees,
-                              char footer[])
+void save_verification_report(const struct grid_2d * grid,
+                              const char address_line1[],
+                              const char address_line2[],
+                              const char address_line3[],
+                              const char phone[],
+                              const char email[],
+                              const char website[],
+                              const char grid_filename[],
+                              const char histogram_filename[],
+                              const char report_template[],
+                              const char report_filename[],
+                              const char logo_filename[],
+                              const char decode_result[],
+                              const float aperture,
+                              const int light_nm,
+                              const int light_angle_degrees,
+                              const char footer[])
 {
     FILE * fp_template, * fp_report;
     char * line = NULL;

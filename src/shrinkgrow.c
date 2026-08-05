@@ -36,7 +36,8 @@
  * \param perimeter_x3 fourth perimeter x coord
  * \param perimeter_y3 fourth perimeter y coord
  */
-void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
+void shrinkwrap_shape_perimeter(const int erosion_itterations,
+                                const int dilate_itterations,
                                 float * perimeter_x0, float * perimeter_y0,
                                 float * perimeter_x1, float * perimeter_y1,
                                 float * perimeter_x2, float * perimeter_y2,
@@ -89,9 +90,10 @@ void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
  * \param by end y coordinate of the line to be checked for edges
  * \return 1 is an edge exists on the line, 0 otherwise
  */
-static unsigned char line_has_edges(unsigned char mono_edges_img[],
-                                    int width, int height,
-                                    int tx, int ty, int bx, int by)
+static unsigned char line_has_edges(const unsigned char mono_edges_img[],
+                                    const int width, const int height,
+                                    const int tx, const int ty,
+                                    const int bx, const int by)
 {
     int dx = bx - tx;
     int dy = by - ty;
@@ -141,15 +143,15 @@ static unsigned char line_has_edges(unsigned char mono_edges_img[],
  * \param pos_y returned y coordinate for the position where edges exist
  * \return 1 if the line has edges, 0 otherwise
  */
-static unsigned char search_line_points(unsigned char mono_img[],
-                                        int width, int height,
+static unsigned char search_line_points(const unsigned char mono_img[],
+                                        const int width, const int height,
                                         unsigned char image_data[],
-                                        int image_bytesperpixel,
-                                        unsigned char debug,
-                                        int start_x, int start_y,
-                                        int end_x, int end_y,
-                                        int line_dx, int line_dy,
-                                        unsigned char positive,
+                                        const int image_bytesperpixel,
+                                        const unsigned char debug,
+                                        const int start_x, const int start_y,
+                                        const int end_x, const int end_y,
+                                        const int line_dx, const int line_dy,
+                                        const unsigned char positive,
                                         int * pos_x, int * pos_y)
 {
     int x, y, n, retval;
@@ -211,16 +213,16 @@ static unsigned char search_line_points(unsigned char mono_img[],
  * \param image_bitsperpixel Number of bits per pixel in the colour image
  * \return 1 if expanded, 0 otherwise
  */
-unsigned char expand_perimeter_sides(unsigned char mono_img[],
-                                     int width, int height,
+unsigned char expand_perimeter_sides(const unsigned char mono_img[],
+                                     const int width, const int height,
                                      float * perimeter_x0, float * perimeter_y0,
                                      float * perimeter_x1, float * perimeter_y1,
                                      float * perimeter_x2, float * perimeter_y2,
                                      float * perimeter_x3, float * perimeter_y3,
-                                     int max_extension_percent,
-                                     unsigned char debug,
+                                     const int max_extension_percent,
+                                     const unsigned char debug,
                                      unsigned char image_data[],
-                                     int image_bitsperpixel)
+                                     const int image_bitsperpixel)
 {
     int side, pos_x, pos_y;
     float tx, ty, bx, by, dx, dy, cx=0, cy=0, mid_point_x, mid_point_y;
@@ -287,9 +289,9 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
         direction_y = mid_point_y - cy;
         /* extended outwards further */
         direction_extended_x = cx +
-			(direction_x * (float)max_extension_percent / 100.0f);
+            (direction_x * (float)max_extension_percent / 100.0f);
         direction_extended_y = cy +
-			(direction_y * (float)max_extension_percent / 100.0f);
+            (direction_y * (float)max_extension_percent / 100.0f);
 
         pos_x = -1;
         pos_y = -1;
@@ -365,8 +367,8 @@ unsigned char expand_perimeter_sides(unsigned char mono_img[],
  * \param image_bitsperpixel Number of bits per pixel in the colour image
  * \return 1 if contracted, 0 otherwise
  */
-unsigned char contract_perimeter_sides(unsigned char mono_img[],
-                                       int width, int height,
+unsigned char contract_perimeter_sides(const unsigned char mono_img[],
+                                       const int width, const int height,
                                        float * perimeter_x0,
                                        float * perimeter_y0,
                                        float * perimeter_x1,
@@ -375,10 +377,10 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
                                        float * perimeter_y2,
                                        float * perimeter_x3,
                                        float * perimeter_y3,
-                                       int min_extension_percent,
-                                       unsigned char debug,
+                                       const int min_extension_percent,
+                                       const unsigned char debug,
                                        unsigned char image_data[],
-                                       int image_bitsperpixel)
+                                       const int image_bitsperpixel)
 {
     int side, left_x, left_y, right_x, right_y;
     float tx, ty, bx, by, xi, yi;
@@ -493,17 +495,17 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
         /* left contracted inwards further */
         direction_contracted_left_x =
             left_mid_point_x -
-			(direction_x * (float)min_extension_percent / 100.0f);
+            (direction_x * (float)min_extension_percent / 100.0f);
         direction_contracted_left_y =
             left_mid_point_y -
-			(direction_y * (float)min_extension_percent / 100.0f);
+            (direction_y * (float)min_extension_percent / 100.0f);
         /* right contracted inwards further */
         direction_contracted_right_x =
             right_mid_point_x -
-			(direction_x * (float)min_extension_percent / 100.0f);
+            (direction_x * (float)min_extension_percent / 100.0f);
         direction_contracted_right_y =
             right_mid_point_y -
-			(direction_y * (float)min_extension_percent / 100.0f);
+            (direction_y * (float)min_extension_percent / 100.0f);
         /* left travel to be searched */
         dx_quarter = (int)(dx / 4);
         dy_quarter = (int)(dy / 4);

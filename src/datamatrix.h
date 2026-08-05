@@ -346,18 +346,19 @@ unsigned char rectangular_joined_line_segments(const int aspect_ratio);
 
 /* resize.c */
 
-int enlarge_image(unsigned char img[], int width, int height,
-                  int bitsperpixel,
+int enlarge_image(const unsigned char img[], const int width, const int height,
+                  const int bitsperpixel,
                   unsigned char enlarged[],
-                  int enlarged_width, int enlarged_height);
-int resize_image(unsigned char img[], int width, int height,
-                 int bitsperpixel,
+                  const int enlarged_width, const int enlarged_height);
+int resize_image(const unsigned char img[], const int width, const int height,
+                 const int bitsperpixel,
                  unsigned char resized[],
-                 int resized_width, int resized_height);
-int resize_thresholded_image(unsigned char img[], int width, int height,
-                             int bitsperpixel,
+                 const int resized_width, const int resized_height);
+int resize_thresholded_image(const unsigned char img[],
+                             const int width, const int height,
+                             const int bitsperpixel,
                              unsigned char resized[],
-                             int resized_width, int resized_height);
+                             const int resized_width, const int resized_height);
 
 /* draw.c */
 
@@ -520,33 +521,34 @@ int is_letter_upper(char ch);
 
 /* shrinkgrow.c */
 
-void shrinkwrap_shape_perimeter(int erosion_itterations, int dilate_itterations,
+void shrinkwrap_shape_perimeter(const int erosion_itterations,
+                                const int dilate_itterations,
                                 float * perimeter_x0, float * perimeter_y0,
                                 float * perimeter_x1, float * perimeter_y1,
                                 float * perimeter_x2, float * perimeter_y2,
                                 float * perimeter_x3, float * perimeter_y3);
 
-unsigned char expand_perimeter_sides(unsigned char mono_img[],
-                                     int width, int height,
+unsigned char expand_perimeter_sides(const unsigned char mono_img[],
+                                     const int width, const int height,
                                      float * perimeter_x0, float * perimeter_y0,
                                      float * perimeter_x1, float * perimeter_y1,
                                      float * perimeter_x2, float * perimeter_y2,
                                      float * perimeter_x3, float * perimeter_y3,
-                                     int max_extension_percent,
-                                     unsigned char debug,
+                                     const int max_extension_percent,
+                                     const unsigned char debug,
                                      unsigned char image_data[],
-                                     int image_bitsperpixel);
+                                     const int image_bitsperpixel);
 
-unsigned char contract_perimeter_sides(unsigned char mono_img[],
-                                       int width, int height,
+unsigned char contract_perimeter_sides(const unsigned char mono_img[],
+                                       const int width, const int height,
                                        float * perimeter_x0, float * perimeter_y0,
                                        float * perimeter_x1, float * perimeter_y1,
                                        float * perimeter_x2, float * perimeter_y2,
                                        float * perimeter_x3, float * perimeter_y3,
-                                       int min_extension_percent,
-                                       unsigned char debug,
+                                       const int min_extension_percent,
+                                       const unsigned char debug,
                                        unsigned char image_data[],
-                                       int image_bitsperpixel);
+                                       const int image_bitsperpixel);
 
 /* quality.c */
 
@@ -571,23 +573,23 @@ void show_quality_metrics(const struct grid_2d * grid,
 
 /* report.c */
 
-void save_verification_report(struct grid_2d * grid,
-                              char address_line1[],
-                              char address_line2[],
-                              char address_line3[],
-                              char phone[],
-                              char email[],
-                              char website[],
-                              char grid_filename[],
-                              char histogram_filename[],
-                              char report_template[],
-                              char report_filename[],
-                              char logo_filename[],
-                              char decode_result[],
-                              float aperture,
-                              int light_nm,
-                              int light_angle_degrees,
-                              char footer[]);
+void save_verification_report(const struct grid_2d * grid,
+                              const char address_line1[],
+                              const char address_line2[],
+                              const char address_line3[],
+                              const char phone[],
+                              const char email[],
+                              const char website[],
+                              const char grid_filename[],
+                              const char histogram_filename[],
+                              const char report_template[],
+                              const char report_filename[],
+                              const char logo_filename[],
+                              const char decode_result[],
+                              const float aperture,
+                              const int light_nm,
+                              const int light_angle_degrees,
+                              const char footer[]);
 
 /* gs1_utils.c */
 
