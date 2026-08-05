@@ -126,9 +126,9 @@ static void darklight_thresholds(const unsigned int histogram[],
  * \param light returned mean light threshold
  */
 void darklight(const unsigned char img[],
-               int width, int height,
-               int sample_step,
-               int sampling_radius_percent,
+               const int width, const int height,
+               const int sample_step,
+               const int sampling_radius_percent,
                unsigned char * dark, unsigned char * light)
 {
     unsigned int x,y,n2;

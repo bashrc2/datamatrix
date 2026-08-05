@@ -219,23 +219,26 @@ struct line_segments {
 
 /* threshold.c */
 
-int meanlight_threshold(unsigned char img[], int width, int height,
-                        int bitsperpixel, int threshold,
-                        int sampling_radius_percent,
-                        int sampling_step,
+int meanlight_threshold(unsigned char img[],
+                        const int width, const int height,
+                        const int bitsperpixel, int threshold,
+                        const int sampling_radius_percent,
+                        const int sampling_step,
                         unsigned char thresholded[]);
 
-unsigned char get_percent_high(unsigned char mono_img[],
-                               int image_width, int image_height);
+unsigned char get_percent_high(const unsigned char mono_img[],
+                               const int image_width, const int image_height);
 
 /* convert.c */
 
-void mono_to_colour(const unsigned char img[], int width, int height,
-                    int bitsperpixel,
+void mono_to_colour(const unsigned char img[],
+                    const int width, const int height,
+                    const int bitsperpixel,
                     unsigned char colour[]);
 
-void colour_to_mono(const unsigned char img[], int width, int height,
-                    int bitsperpixel,
+void colour_to_mono(const unsigned char img[],
+                    const int width, const int height,
+                    const int bitsperpixel,
                     unsigned char mono[]);
 
 /* erosiondilation.c */
@@ -254,9 +257,9 @@ void erode(const unsigned char img[], const int width, const int height,
 /* darklight.c */
 
 void darklight(const unsigned char img[],
-               int width, int height,
-               int sample_step,
-               int sampling_radius_percent,
+               const int width, const int height,
+               const int sample_step,
+               const int sampling_radius_percent,
                unsigned char * dark, unsigned char * light);
 
 /* edges.c */
@@ -501,23 +504,23 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                        const char gs1_url[], char result[],
                        unsigned char human_readable);
 unsigned char condense_data_blocks(struct grid_2d * grid,
-                                   unsigned char debug);
+                                   const unsigned char debug);
 
 /* utils.c */
 
 int decode_strcat(char * result, const char * text);
 
-int decode_strcat_char(char * result, char chr);
+int decode_strcat_char(char * result, const char chr);
 
-void * safemalloc(size_t n);
+void * safemalloc(const size_t n);
 
 int getline2(char line[], FILE * fp);
 
-int ends_with(char * text, char * match);
+int ends_with(char * text, const char * match);
 
-int is_letter_lower(char ch);
+int is_letter_lower(const char ch);
 
-int is_letter_upper(char ch);
+int is_letter_upper(const char ch);
 
 /* shrinkgrow.c */
 
@@ -785,7 +788,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
                                 const char * gs1_url,
                                 char * custom_dot_char,
                                 char * custom_empty_char,
-                                unsigned char debug);
+                                const unsigned char debug);
 
 /* encode_text.c */
 

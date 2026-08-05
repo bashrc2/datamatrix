@@ -39,7 +39,7 @@
 static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
                                        const char * dot_text,
                                        char * result,
-                                       unsigned char debug)
+                                       const unsigned char debug)
 {
     int dot_text_len = (int)strlen(dot_text);
     int i, j, ctr = 0, found = 0;
@@ -78,7 +78,7 @@ static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
  * \param empty_char character used to represent empty space
  */
 static void get_text_datamatrix_dimensions(const char * datamatrix_ascii,
-        unsigned char debug,
+        const unsigned char debug,
         int * dimension_x,
         int * dimension_y,
         int * decode_step,
@@ -151,9 +151,9 @@ static void get_text_datamatrix_dimensions(const char * datamatrix_ascii,
  * \param empty_char character or string used to represent empty space
  */
 static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
-        int dimension_x,
-        int dimension_y,
-        int decode_step,
+        const int dimension_x,
+        const int dimension_y,
+        const int decode_step,
         const char * datamatrix_ascii,
         const char * empty_char)
 {
@@ -162,7 +162,7 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
 
     /* clear the grid */
     memset(occupancy, 0,
-		   (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
+           (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* for each line of the datamatrix string */
     for (i = 0; i < (int)strlen(datamatrix_ascii); i++) {
@@ -203,7 +203,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
                                 const char * gs1_url,
                                 char * custom_dot_char,
                                 char * custom_empty_char,
-                                unsigned char debug)
+                                const unsigned char debug)
 {
     char datamatrix_ascii[MAX_DECODE_STRING_LENGTH];
     char empty_char[5];
@@ -261,7 +261,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
     /* decode the result */
     struct grid_2d grid;
     char * decode_result =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     if (decode_result == NULL) return -1;
     unsigned char human_readable = 1;
     decode_result[0] = 0;

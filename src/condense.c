@@ -28,7 +28,7 @@
  * \param axis_dimension a grid dimension
  * \return number of data blocks in the dimension
  */
-static int grid_data_blocks_axis(int axis_dimension)
+static int grid_data_blocks_axis(const int axis_dimension)
 {
     if (axis_dimension >= 120) return 6;
     if (axis_dimension >= 64) return 4;
@@ -58,7 +58,7 @@ static void grid_data_blocks(const struct grid_2d * grid,
  * \param grid grid object
  */
 unsigned char condense_data_blocks(struct grid_2d * grid,
-                                   unsigned char debug)
+                                   const unsigned char debug)
 {
     int blocks_x=1, blocks_y=1, grid_x, grid_y, block_x, block_y;
     int original_tx, original_ty, new_tx, new_ty, new_bx, new_by;
@@ -88,7 +88,7 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
     unsigned char ** new_occupancy = grid->occupancy_buffer;
     unsigned char * new_damage = grid->damage_buffer;
     memset(new_damage, 0,
-		   (size_t)(new_dimension_x * new_dimension_y) * sizeof(unsigned char));
+           (size_t)(new_dimension_x * new_dimension_y) * sizeof(unsigned char));
 
     /* create a new occupancy and damage pattern */
     for (block_x = 0; block_x < blocks_x; block_x++) {

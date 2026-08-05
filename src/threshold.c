@@ -35,10 +35,10 @@
  * \param light peak light
  * \return 0 if this is a mostly dark image
  */
-static unsigned char is_dark_image(unsigned char img_mono[],
-                                   int width, int height,
-                                   unsigned char dark,
-                                   unsigned char light)
+static unsigned char is_dark_image(const unsigned char img_mono[],
+                                   const int width, const int height,
+                                   const unsigned char dark,
+                                   const unsigned char light)
 {
     int dark_pixels=0, light_pixels=0;
     int i, diff_dark, diff_light;
@@ -75,10 +75,11 @@ static unsigned char is_dark_image(unsigned char img_mono[],
  * \param thresholded returned thresholded image array
  * \return percent of active pixels
  */
-int meanlight_threshold(unsigned char img[], int width, int height,
-                        int bitsperpixel, int threshold,
-                        int sampling_radius_percent,
-                        int sampling_step,
+int meanlight_threshold(unsigned char img[],
+                        const int width, const int height,
+                        const int bitsperpixel, int threshold,
+                        const int sampling_radius_percent,
+                        const int sampling_step,
                         unsigned char thresholded[])
 {
     unsigned char * img_mono = thresholded;
@@ -143,8 +144,8 @@ int meanlight_threshold(unsigned char img[], int width, int height,
  * \param image_height Height of the image
  * \return percentage of high pixels
  */
-unsigned char get_percent_high(unsigned char mono_img[],
-                               int image_width, int image_height)
+unsigned char get_percent_high(const unsigned char mono_img[],
+                               const int image_width, const int image_height)
 {
     int i, high = 0;
 

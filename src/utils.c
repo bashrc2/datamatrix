@@ -27,7 +27,7 @@
  * \param n number of bytes to allocate
  * \returns void pointer to allocated memory
  */
-void * safemalloc(size_t n)
+void * safemalloc(const size_t n)
 {
     void * ptr = malloc(n);
     if (!ptr) {
@@ -57,7 +57,7 @@ int decode_strcat(char * result, const char * text)
  * \param chr the character to be added
  * \return zero on success
  */
-int decode_strcat_char(char * result, char chr)
+int decode_strcat_char(char * result, const char chr)
 {
     size_t length = strlen(result);
     if (length + (2 * sizeof(char)) >= (size_t)MAX_DECODE_LENGTH)
@@ -112,7 +112,7 @@ int getline2(char line[], FILE * fp)
  * \param match The match to check for at the end of the text
  * \return 0 if matched, -1 otherwise
  */
-int ends_with(char * text, char * match)
+int ends_with(char * text, const char * match)
 {
     int i, j=0, match_len = (int)strlen(match);
     int text_len = (int)strlen(text);
@@ -128,7 +128,7 @@ int ends_with(char * text, char * match)
  * \param ch character
  * \return 0 if the character is a lower case letter, -1 otherwise
  */
-int is_letter_lower(char ch)
+int is_letter_lower(const char ch)
 {
     if ((ch >= 'a') && (ch <= 'z')) return 0;
     return -1;
@@ -139,7 +139,7 @@ int is_letter_lower(char ch)
  * \param ch character
  * \return 0 if the character is an upper case letter, -1 otherwise
  */
-int is_letter_upper(char ch)
+int is_letter_upper(const char ch)
 {
     if ((ch >= 'A') && (ch <= 'Z')) return 0;
     return -1;
