@@ -35,9 +35,9 @@
  * \param itterations number of dilation itterations
  * \param result returned dilated image
  */
-void dilate(unsigned char img[], int width, int height,
+void dilate(const unsigned char img[], const int width, const int height,
             unsigned char buffer[],
-            int itterations,
+            const int itterations,
             unsigned char result[])
 {
     int pixels = width * height;
@@ -87,9 +87,9 @@ void dilate(unsigned char img[], int width, int height,
  * \param itterations number of erosion itterations
  * \param result returned eroded image
  */
-void erode(unsigned char img[], int width, int height,
+void erode(const unsigned char img[], const int width, const int height,
            unsigned char buffer[],
-           int itterations,
+           const int itterations,
            unsigned char result[])
 {
     int pixels = width * height;

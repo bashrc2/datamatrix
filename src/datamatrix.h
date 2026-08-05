@@ -240,14 +240,14 @@ void colour_to_mono(const unsigned char img[], int width, int height,
 
 /* erosiondilation.c */
 
-void dilate(unsigned char img[], int width, int height,
+void dilate(const unsigned char img[], const int width, const int height,
             unsigned char buffer[],
-            int itterations,
+            const int itterations,
             unsigned char result[]);
 
-void erode(unsigned char img[], int width, int height,
+void erode(const unsigned char img[], const int width, const int height,
            unsigned char buffer[],
-           int itterations,
+           const int itterations,
            unsigned char result[]);
 
 
@@ -397,51 +397,52 @@ int description_text_lines(const char * description);
 
 /* geometry.c */
 
-int point_in_polygon(int x, int y, int points[], int no_of_points);
+int point_in_polygon(const int x, const int y,
+					 const int points[], const int no_of_points);
 
-void get_centroid(float perimeter_x0, float perimeter_y0,
-                  float perimeter_x1, float perimeter_y1,
-                  float perimeter_x2, float perimeter_y2,
-                  float perimeter_x3, float perimeter_y3,
+void get_centroid(const float perimeter_x0, const float perimeter_y0,
+                  const float perimeter_x1, const float perimeter_y1,
+                  const float perimeter_x2, const float perimeter_y2,
+                  const float perimeter_x3, const float perimeter_y3,
                   float * centre_x, float * centre_y);
 
-float get_side_length(int side,
-                      float perimeter_x0, float perimeter_y0,
-                      float perimeter_x1, float perimeter_y1,
-                      float perimeter_x2, float perimeter_y2,
-                      float perimeter_x3, float perimeter_y3);
+float get_side_length(const int side,
+                      const float perimeter_x0, const float perimeter_y0,
+                      const float perimeter_x1, const float perimeter_y1,
+                      const float perimeter_x2, const float perimeter_y2,
+                      const float perimeter_x3, const float perimeter_y3);
 
-float get_longest_side(float perimeter_x0, float perimeter_y0,
-                       float perimeter_x1, float perimeter_y1,
-                       float perimeter_x2, float perimeter_y2,
-                       float perimeter_x3, float perimeter_y3);
+float get_longest_side(const float perimeter_x0, const float perimeter_y0,
+                       const float perimeter_x1, const float perimeter_y1,
+                       const float perimeter_x2, const float perimeter_y2,
+                       const float perimeter_x3, const float perimeter_y3);
 
-float get_shortest_side(float perimeter_x0, float perimeter_y0,
-                        float perimeter_x1, float perimeter_y1,
-                        float perimeter_x2, float perimeter_y2,
-                        float perimeter_x3, float perimeter_y3);
+float get_shortest_side(const float perimeter_x0, const float perimeter_y0,
+                        const float perimeter_x1, const float perimeter_y1,
+                        const float perimeter_x2, const float perimeter_y2,
+                        const float perimeter_x3, const float perimeter_y3);
 
-int intersection(float x0, float y0,
-                 float x1, float y1,
-                 float x2, float y2,
-                 float x3, float y3,
+int intersection(const float x0, const float y0,
+                 const float x1, const float y1,
+                 const float x2, const float y2,
+                 const float x3, const float y3,
                  float * xi, float * yi);
 
-float point_dist_from_line(float x0, float y0,
-                           float x1, float y1,
-                           float point_x, float point_y);
+float point_dist_from_line(const float x0, const float y0,
+                           const float x1, const float y1,
+                           const float point_x, const float point_y);
 
-int ransac_fit(int edges[], int no_of_edges,
-               int linefit[], int max_edges,
-               float max_deviation,
-               int no_of_samples,
+int ransac_fit(const int edges[], const int no_of_edges,
+               int linefit[], const int max_edges,
+               const float max_deviation,
+               const int no_of_samples,
                int no_of_edge_samples,
                float *x0, float *y0,
                float *x1, float *y1);
 
-float corner_angle(float x0, float y0,
-                   float x1, float y1,
-                   float x2, float y2);
+float corner_angle(const float x0, const float y0,
+                   const float x1, const float y1,
+                   const float x2, const float y2);
 
 /* grid.c */
 

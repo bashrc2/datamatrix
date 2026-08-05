@@ -40,10 +40,10 @@
  * \param yi intersection y coordinate
  * \return 0 if the lines intersect, -2 if parallel
  */
-int intersection(float x0, float y0,
-                 float x1, float y1,
-                 float x2, float y2,
-                 float x3, float y3,
+int intersection(const float x0, const float y0,
+                 const float x1, const float y1,
+                 const float x2, const float y2,
+                 const float x3, const float y3,
                  float * xi, float * yi)
 {
     /* constants of linear equations */
@@ -147,9 +147,9 @@ int intersection(float x0, float y0,
  * \param point_y point y coordinate
  * \return distance of the point from the line
  */
-float point_dist_from_line(float x0, float y0,
-                           float x1, float y1,
-                           float point_x, float point_y)
+float point_dist_from_line(const float x0, const float y0,
+                           const float x1, const float y1,
+                           const float point_x, const float point_y)
 {
     float dx = x1 - x0;
     float dy = y1 - y0;
@@ -164,7 +164,7 @@ float point_dist_from_line(float x0, float y0,
  * \brief fits a line to set of edges using RANSAC
  * \param edges array of edges
  * \param no_of_edges number of edges in the array
- * \param linefit temporary array used for line fir refinement
+ * \param linefit temporary array used for line fit refinement
  * \param max_deviation maximum deviation of edge positions from the ideal best fit line in pixels
  * \param no_of_samples number of possible lines to consider
  * \param no_of_edge_samples number of edges to sample for each candidate line
@@ -174,10 +174,10 @@ float point_dist_from_line(float x0, float y0,
  * \param y1 returned end y coordinate of the best fit line
  * \return number of edges on best fit line
  */
-int ransac_fit(int edges[], int no_of_edges,
-               int linefit[], int max_edges,
-               float max_deviation,
-               int no_of_samples,
+int ransac_fit(const int edges[], const int no_of_edges,
+               int linefit[], const int max_edges,
+               const float max_deviation,
+               const int no_of_samples,
                int no_of_edge_samples,
                float * x0, float * y0,
                float * x1, float * y1)
@@ -315,12 +315,12 @@ int ransac_fit(int edges[], int no_of_edges,
             deviation = 0;
             if (horizontal == 1) {
                 predicted_edge_y =
-					(float)yy0 + ((float)(edge_x - xx0) * gradient);
+                    (float)yy0 + ((float)(edge_x - xx0) * gradient);
                 deviation = ABS(predicted_edge_y - (float)edge_y);
             }
             else {
                 predicted_edge_x =
-					(float)xx0 + ((float)(edge_y - yy0) * gradient);
+                    (float)xx0 + ((float)(edge_y - yy0) * gradient);
                 deviation = ABS(predicted_edge_x - (float)edge_x);
             }
 
@@ -393,9 +393,9 @@ int ransac_fit(int edges[], int no_of_edges,
  * \param y2 line third point y coordinate
  * \return angle in radians
  */
-float corner_angle(float x0, float y0,
-                   float x1, float y1,
-                   float x2, float y2)
+float corner_angle(const float x0, const float y0,
+                   const float x1, const float y1,
+                   const float x2, const float y2)
 {
     float pt1 = x0 - x1, pt2 = y0 - y1;
     float pt3 = x2 - x1, pt4 = y2 - y1;
@@ -419,11 +419,11 @@ float corner_angle(float x0, float y0,
  * \param perimeter_y3 fourth perimeter y coord
  * \return length of the side
  */
-float get_side_length(int side,
-                      float perimeter_x0, float perimeter_y0,
-                      float perimeter_x1, float perimeter_y1,
-                      float perimeter_x2, float perimeter_y2,
-                      float perimeter_x3, float perimeter_y3)
+float get_side_length(const int side,
+                      const float perimeter_x0, const float perimeter_y0,
+                      const float perimeter_x1, const float perimeter_y1,
+                      const float perimeter_x2, const float perimeter_y2,
+                      const float perimeter_x3, const float perimeter_y3)
 {
     float x0=0, y0=0, x1=0, y1=0, dx, dy;
 
@@ -474,10 +474,10 @@ float get_side_length(int side,
  * \param perimeter_y3 fourth perimeter y coord
  * \return longest side length
  */
-float get_longest_side(float perimeter_x0, float perimeter_y0,
-                       float perimeter_x1, float perimeter_y1,
-                       float perimeter_x2, float perimeter_y2,
-                       float perimeter_x3, float perimeter_y3)
+float get_longest_side(const float perimeter_x0, const float perimeter_y0,
+                       const float perimeter_x1, const float perimeter_y1,
+                       const float perimeter_x2, const float perimeter_y2,
+                       const float perimeter_x3, const float perimeter_y3)
 {
     int side;
     float length, max_length=0;
@@ -505,10 +505,10 @@ float get_longest_side(float perimeter_x0, float perimeter_y0,
  * \param perimeter_y3 fourth perimeter y coord
  * \return shortest side length
  */
-float get_shortest_side(float perimeter_x0, float perimeter_y0,
-                        float perimeter_x1, float perimeter_y1,
-                        float perimeter_x2, float perimeter_y2,
-                        float perimeter_x3, float perimeter_y3)
+float get_shortest_side(const float perimeter_x0, const float perimeter_y0,
+                        const float perimeter_x1, const float perimeter_y1,
+                        const float perimeter_x2, const float perimeter_y2,
+                        const float perimeter_x3, const float perimeter_y3)
 {
     int side;
     float length, min_length=-1;
@@ -537,10 +537,10 @@ float get_shortest_side(float perimeter_x0, float perimeter_y0,
  * \param centre_x returned x coordinate for the centroid
  * \param centre_y returned y coordinate for the centroid
  */
-void get_centroid(float perimeter_x0, float perimeter_y0,
-                  float perimeter_x1, float perimeter_y1,
-                  float perimeter_x2, float perimeter_y2,
-                  float perimeter_x3, float perimeter_y3,
+void get_centroid(const float perimeter_x0, const float perimeter_y0,
+                  const float perimeter_x1, const float perimeter_y1,
+                  const float perimeter_x2, const float perimeter_y2,
+                  const float perimeter_x3, const float perimeter_y3,
                   float * centre_x, float * centre_y)
 {
     *centre_x = (perimeter_x0 + perimeter_x1 + perimeter_x2 + perimeter_x3) / 4;
@@ -555,7 +555,8 @@ void get_centroid(float perimeter_x0, float perimeter_y0,
  * \param no_of_points number of polygon vertices
  * \return non-zero if inside polygon
  */
-int point_in_polygon(int x, int y, int points[], int no_of_points)
+int point_in_polygon(const int x, const int y,
+                     const int points[], const int no_of_points)
 {
     int i, j, c = 0;
 
