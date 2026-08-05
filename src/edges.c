@@ -54,13 +54,13 @@ void init_line_segments(struct line_segments * segments,
         (int*)safemalloc((size_t)(segments->max_segments) * sizeof(int));
     segments->joins =
         (unsigned char*)safemalloc((size_t)(segments->max_segments *
-											segments->max_segments) *
+                                            segments->max_segments) *
                                    sizeof(unsigned char));
     segments->joins_sorted =
         (int*)safemalloc((size_t)segments->max_segments * sizeof(int));
     segments->selected =
         (unsigned char*)safemalloc((size_t)segments->max_segments *
-								   sizeof(unsigned char));
+                                   sizeof(unsigned char));
     segments->joined_length =
         (int*)safemalloc((size_t)segments->max_segments * sizeof(int));
     segments->minimum_segment_length = 20;
@@ -72,7 +72,7 @@ void init_line_segments(struct line_segments * segments,
     segments->orientation_histogram = (int*)safemalloc((size_t)360 * sizeof(int));
 
     segments->orientation_histogram_edges =
-		(int**)safemalloc((size_t)360 * sizeof(int*));
+        (int**)safemalloc((size_t)360 * sizeof(int*));
     for (i = 0; i < 360; i++) {
         segments->orientation_histogram_edges[i] =
             (int*)safemalloc((size_t)(MAX_ORIENTATION_EDGES * 4) * sizeof(int));
@@ -712,7 +712,7 @@ int get_segment_aspect_ratio(const struct line_segments * segments,
  */
 void show_square_line_segments(const struct line_segments * segments,
                                unsigned char result[],
-							   const int width, const int height,
+                               const int width, const int height,
                                const int result_bitsperpixel)
 {
     int i,j,index=0,x,y,n,aspect_ratio;
@@ -941,9 +941,9 @@ static void assign_edges_to_side(struct line_segments * segments,
                                  const int orientation_quantized2,
                                  const int orthogonal,
                                  const float separator_x0,
-								 const float separator_y0,
+                                 const float separator_y0,
                                  const float separator_x1,
-								 const float separator_y1)
+                                 const float separator_y1)
 {
     int i, size, side_index, edge_index, prev_x, prev_y, x, y;
     int index = orientation_quantized2;
@@ -1279,7 +1279,7 @@ float get_segments_orientation(struct line_segments * segments,
     /* calculate the orientation */
     orientation_radians =
         (float)(orientation_quantized * quantization_degrees) *
-		(float)PI / 180.0f;
+        (float)PI / 180.0f;
 
     /* using the orientation, assign edges to sides */
     assign_edges_to_sides(segments, orientation_quantized,
@@ -1299,7 +1299,7 @@ float get_segments_orientation(struct line_segments * segments,
  */
 void show_peripheral_edges(const struct line_segments * segments,
                            unsigned char result[],
-						   const int width, const int height,
+                           const int width, const int height,
                            const int result_bitsperpixel)
 {
     int side, edge_index, x, y, n, no_of_edges;
@@ -1357,7 +1357,7 @@ void show_peripheral_edges(const struct line_segments * segments,
  */
 void show_perimeter(const struct line_segments * segments,
                     unsigned char result[],
-					const int width, const int height,
+                    const int width, const int height,
                     const int result_bitsperpixel)
 {
     int side, x, y, n;
@@ -1440,7 +1440,7 @@ void show_perimeter(const struct line_segments * segments,
  */
 void show_perimeter_intersection(const struct line_segments * segments,
                                  unsigned char result[],
-								 const int width, const int height,
+                                 const int width, const int height,
                                  const int result_bitsperpixel,
                                  const int side1, const int side2)
 {
@@ -1639,23 +1639,23 @@ static int fit_perimeter_to_all_sides(const struct line_segments * segments,
  * \return 0 on success, -1 otherwise
  */
 int fit_perimeter_to_sides(const struct line_segments * segments,
-						   const int width, const int height,
-						   float * perimeter_x0,
-						   float * perimeter_y0,
-						   float * perimeter_x1,
-						   float * perimeter_y1,
-						   float * perimeter_x2,
-						   float * perimeter_y2,
-						   float * perimeter_x3,
-						   float * perimeter_y3,
-						   const unsigned char debug,
-						   const int try_config, const int seg_idx,
-						   const int offset,
-						   unsigned char thr_edges_image_data[],
-						   const int resized_thresholded_width,
-						   const int resized_thresholded_height,
-						   const int image_bitsperpixel,
-						   char * debug_filename)
+                           const int width, const int height,
+                           float * perimeter_x0,
+                           float * perimeter_y0,
+                           float * perimeter_x1,
+                           float * perimeter_y1,
+                           float * perimeter_x2,
+                           float * perimeter_y2,
+                           float * perimeter_x3,
+                           float * perimeter_y3,
+                           const unsigned char debug,
+                           const int try_config, const int seg_idx,
+                           const int offset,
+                           unsigned char thr_edges_image_data[],
+                           const int resized_thresholded_width,
+                           const int resized_thresholded_height,
+                           const int image_bitsperpixel,
+                           char * debug_filename)
 {
     int side, no_of_edges, max_edges=0, max_side1=-1, max_side2=-1;
     int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy;
@@ -1937,7 +1937,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
  * \param perimeter_y3 fourth perimeter y coord
  */
 void show_shape_perimeter(unsigned char result[],
-						  const int width, const int height,
+                          const int width, const int height,
                           const int result_bitsperpixel,
                           const float perimeter_x0, const float perimeter_y0,
                           const float perimeter_x1, const float perimeter_y1,

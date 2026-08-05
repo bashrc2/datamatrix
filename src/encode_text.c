@@ -48,16 +48,16 @@
  */
 static int encode_datamatrix_to_image(char * image_filename,
                                       unsigned char * grid,
-                                      int encode_width,
-                                      int encode_height,
-                                      int encode_image_width,
-                                      int encode_image_height,
-                                      unsigned char square_modules,
-                                      char * description,
-                                      unsigned char description_position,
-                                      int character_width,
-                                      int line_spacing,
-                                      int character_separation)
+                                      const int encode_width,
+                                      const int encode_height,
+                                      const int encode_image_width,
+                                      const int encode_image_height,
+                                      const unsigned char square_modules,
+                                      const char * description,
+                                      const unsigned char description_position,
+                                      const int character_width,
+                                      const int line_spacing,
+                                      const int character_separation)
 {
     int image_filename_length = (int)strlen(image_filename);
     /* check that the output image filename is long enough */
@@ -71,7 +71,7 @@ static int encode_datamatrix_to_image(char * image_filename,
     if (ends_with(image_filename, ".png") == 0) {
         unsigned char * encode_image_data =
             (unsigned char*)safemalloc((size_t)(encode_image_width *
-												encode_image_height * 3));
+                                                encode_image_height * 3));
         encode_image(encode_image_data,
                      encode_image_width, encode_image_height, 24,
                      grid, encode_width, encode_height,
@@ -127,33 +127,33 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \param debug 1 to show debug, 0 otherwise
  * \returns 0 on success, -1 otherwise
  */
-int encode_datamatrix_to_text_or_image(char * text,
-                                       char * description,
-                                       unsigned char description_position,
-                                       int character_width,
-                                       int line_spacing,
-                                       int encode_scale,
-                                       unsigned char is_square,
-                                       unsigned char csv,
-                                       unsigned char show_coords,
-                                       float coords_offset_x,
-                                       float coords_offset_y,
+int encode_datamatrix_to_text_or_image(const char * text,
+                                       const char * description,
+                                       const unsigned char description_position,
+                                       const int character_width,
+                                       const int line_spacing,
+                                       const int encode_scale,
+                                       const unsigned char is_square,
+                                       const unsigned char csv,
+                                       const unsigned char show_coords,
+                                       const float coords_offset_x,
+                                       const float coords_offset_y,
                                        char * image_filename,
                                        int encode_image_width,
-                                       char * dot_char,
-                                       char * empty_char,
-                                       unsigned char square_modules,
-                                       unsigned char debug)
+                                       const char * dot_char,
+                                       const char * empty_char,
+                                       const unsigned char square_modules,
+                                       const unsigned char debug)
 {
     char * encoding = NULL;
     unsigned int barcodelen = 0;
     unsigned char *grid = 0;
     unsigned int encode_width = 0, encode_height = 0;
     unsigned int len = 0,
-		maxlen = 0,
-		encode_ecclen = 0;
-	unsigned char square = 0;
-	unsigned char noquiet = 0;
+        maxlen = 0,
+        encode_ecclen = 0;
+    unsigned char square = 0;
+    unsigned char noquiet = 0;
     /* a small horizontal separation between characters so that they don't
        appear joined together */
     int character_separation = character_width / FONT_WIDTH;
@@ -170,14 +170,14 @@ int encode_datamatrix_to_text_or_image(char * text,
                           &encoding, barcodelen,
                           (unsigned char *)text, &len,
                           &maxlen, &encode_ecclen,
-						  square, noquiet);
+                          square, noquiet);
     if (debug == 1)
         printf("encoded: '%s' %dx%d\n",
                text, encode_width, encode_height);
     /* show the datamatrix */
     int encode_image_height = \
-		UINT_TO_INT((unsigned int)encode_image_width *
-					encode_height / encode_width);
+        UINT_TO_INT((unsigned int)encode_image_width *
+                    encode_height / encode_width);
 
     if (description[0] != 0) {
         /* allow extra height for description of rectangular datamatrix */
@@ -193,8 +193,8 @@ int encode_datamatrix_to_text_or_image(char * text,
         }
     }
 
-	int encode_width_int = UINT_TO_INT(encode_width);
-	int encode_height_int = UINT_TO_INT(encode_height);
+    int encode_width_int = UINT_TO_INT(encode_width);
+    int encode_height_int = UINT_TO_INT(encode_height);
     if (grid && (image_filename[0] != 0)) {
         return encode_datamatrix_to_image(image_filename,
                                           grid,

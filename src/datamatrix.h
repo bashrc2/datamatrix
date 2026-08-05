@@ -753,25 +753,27 @@ void run_all_tests();
 
 /* encode.c */
 
-void encode_image(unsigned char img[], int width, int height,
-                  int bitsperpixel, unsigned char * grid,
-                  int encode_width, int encode_height,
-                  unsigned char square_modules,
-                  char * description,
-                  unsigned char description_position,
-                  int character_width,
-                  int line_spacing,
-                  int character_separation);
+void encode_image(unsigned char img[],
+				  const int width, const int height,
+                  const int bitsperpixel, const unsigned char * grid,
+                  const int encode_width, const int encode_height,
+                  const unsigned char square_modules,
+                  const char * description,
+                  const unsigned char description_position,
+                  const int character_width,
+                  const int line_spacing,
+                  const int character_separation);
 
-void encode_svg(char * image_filename, int width, int height,
-                unsigned char * grid,
-                int encode_width, int encode_height,
-                unsigned char square_modules,
-                char * description,
-                unsigned char description_position,
-                int character_width,
-                int line_spacing,
-                int character_separation);
+void encode_svg(const char * image_filename,
+				const int width, const int height,
+                const unsigned char * grid,
+                const int encode_width, const int encode_height,
+                const unsigned char square_modules,
+                const char * description,
+                const unsigned char description_position,
+                const int character_width,
+                const int line_spacing,
+                const int character_separation);
 
 /* decode_text.c */
 
@@ -783,23 +785,23 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
 
 /* encode_text.c */
 
-int encode_datamatrix_to_text_or_image(char * text,
-                                       char * description,
-                                       unsigned char description_position,
-                                       int character_width,
-                                       int line_spacing,
-                                       int encode_scale,
-                                       unsigned char is_square,
-                                       unsigned char csv,
-                                       unsigned char show_coords,
-                                       float coords_offset_x,
-                                       float coords_offset_y,
+int encode_datamatrix_to_text_or_image(const char * text,
+                                       const char * description,
+                                       const unsigned char description_position,
+                                       const int character_width,
+                                       const int line_spacing,
+                                       const int encode_scale,
+                                       const unsigned char is_square,
+                                       const unsigned char csv,
+                                       const unsigned char show_coords,
+                                       const float coords_offset_x,
+                                       const float coords_offset_y,
                                        char * image_filename,
                                        int encode_image_width,
-                                       char * dot_char,
-                                       char * empty_char,
-                                       unsigned char square_modules,
-                                       unsigned char debug);
+                                       const char * dot_char,
+                                       const char * empty_char,
+                                       const unsigned char square_modules,
+                                       const unsigned char debug);
 
 /* png2.c */
 

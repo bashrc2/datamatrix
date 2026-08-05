@@ -38,10 +38,12 @@
  * \param dot_radius radius of the dot
  * \param square_modules draw with square shaped modules
  */
-static void encode_image_dot(unsigned char img[], int width, int height,
-                             int bytes_per_pixel,
-                             int dot_x, int dot_y, int dot_radius,
-                             unsigned char square_modules)
+static void encode_image_dot(unsigned char img[],
+                             const int width, const int height,
+                             const int bytes_per_pixel,
+                             const int dot_x, const int dot_y,
+                             const int dot_radius,
+                             const unsigned char square_modules)
 {
     int tx = dot_x - dot_radius;
     int bx = dot_x + dot_radius;
@@ -83,11 +85,14 @@ static void encode_image_dot(unsigned char img[], int width, int height,
  * \param bx Bounding box bottom right x coordinate
  * \param by Bounding box bottom right y coordinate
  */
-static void encode_image_base(unsigned char img[], int width, int height,
-                              int bitsperpixel, unsigned char *grid,
-                              int encode_width, int encode_height,
-                              unsigned char square_modules,
-                              int tx, int ty, int bx, int by)
+static void encode_image_base(unsigned char img[],
+                              const int width, const int height,
+                              const int bitsperpixel,
+                              const unsigned char *grid,
+                              const int encode_width, const int encode_height,
+                              const unsigned char square_modules,
+                              const int tx, const int ty,
+                              const int bx, const int by)
 {
     int x, y;
     int bytes_per_pixel = bitsperpixel/8;
@@ -104,7 +109,7 @@ static void encode_image_base(unsigned char img[], int width, int height,
 
     /* clear the image */
     memset(img, 255,
-		   (size_t)(width * height * bytes_per_pixel) * sizeof(unsigned char));
+           (size_t)(width * height * bytes_per_pixel) * sizeof(unsigned char));
 
     /* draw dots */
     for (y = 0; y < encode_height; y++) {
@@ -136,13 +141,13 @@ static void encode_image_base(unsigned char img[], int width, int height,
  * \param text_tx Returned top left corner of description
  * \param text_ty Returned top corner of description
  */
-static void get_encode_bounding_box_pattern(int width, int height,
-                                            char * description,
-                                            int character_width,
-                                            int line_spacing,
-                                            unsigned char description_position,
-                                            int encode_width,
-                                            int encode_height,
+static void get_encode_bounding_box_pattern(const int width, const int height,
+                                            const char * description,
+                                            const int character_width,
+                                            const int line_spacing,
+                                            const unsigned char description_position,
+                                            const int encode_width,
+                                            const int encode_height,
                                             int * pattern_tx,
                                             int * pattern_ty,
                                             int * pattern_bx,
@@ -276,15 +281,16 @@ static void get_encode_bounding_box_pattern(int width, int height,
  * \param line spacing Spacing between description lines in pixels
  * \param character_separation Horizontal separation between characters in pixels
  */
-void encode_image(unsigned char img[], int width, int height,
-                  int bitsperpixel, unsigned char *grid,
-                  int encode_width, int encode_height,
-                  unsigned char square_modules,
-                  char * description,
-                  unsigned char description_position,
-                  int character_width,
-                  int line_spacing,
-                  int character_separation)
+void encode_image(unsigned char img[],
+                  const int width, const int height,
+                  int const bitsperpixel, const unsigned char * grid,
+                  int const encode_width, int const encode_height,
+                  const unsigned char square_modules,
+                  const char * description,
+                  const unsigned char description_position,
+                  const int character_width,
+                  const int line_spacing,
+                  const int character_separation)
 {
     /* bounding box for the datamatrix pattern within the image */
     int pattern_tx = 0;
@@ -332,11 +338,11 @@ void encode_image(unsigned char img[], int width, int height,
  * \param by Bounding box bottom right y coordinate
  * \param fp_image file pointer to the image being saved
  */
-void encode_svg_base(unsigned char *grid,
-                     int encode_width, int encode_height,
-                     unsigned char square_modules,
-                     int tx, int ty, int bx, int by,
-                     FILE * fp_image)
+static void encode_svg_base(const unsigned char * grid,
+                            const int encode_width, const int encode_height,
+                            const unsigned char square_modules,
+                            const int tx, const int ty, const int bx, const int by,
+                            FILE * fp_image)
 {
     int x, y;
     int dot_x, dot_y;
@@ -387,15 +393,16 @@ void encode_svg_base(unsigned char *grid,
  * \param line spacing Spacing between description lines in pixels
  * \param character_separation Horizontal separation between characters in pixels
  */
-void encode_svg(char * image_filename, int width, int height,
-                unsigned char *grid,
-                int encode_width, int encode_height,
-                unsigned char square_modules,
-                char * description,
-                unsigned char description_position,
-                int character_width,
-                int line_spacing,
-                int character_separation)
+void encode_svg(const char * image_filename,
+                const int width, const int height,
+                const unsigned char * grid,
+                const int encode_width, const int encode_height,
+                const unsigned char square_modules,
+                const char * description,
+                const unsigned char description_position,
+                const int character_width,
+                const int line_spacing,
+                const int character_separation)
 {
     FILE * fp_image;
     /* bounding box for the datamatrix pattern within the image */
