@@ -33,7 +33,8 @@
  * \param includes_check_digit Non zero if the given GTIN includes the check digit at the end
  * \return check digit in the range 0-9
  */
-int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit) {
+int get_gtin_check_digit(const char gtin[],
+                         const unsigned char includes_check_digit) {
     int i, even_sum = 0, odd_sum = 0;
     char num_str[2];
     int gtin_len = (int)strlen(gtin);
@@ -65,7 +66,7 @@ int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit) {
  * \param data_str String to be decoded
  * \return temperature value
  */
-float get_temperature(char data_str[])
+float get_temperature(const char data_str[])
 {
     int i, ctr=0, data_len = (int)strlen(data_str);
     char * temp_str =
@@ -89,7 +90,7 @@ float get_temperature(char data_str[])
  * \param data_str String to be decoded
  * \return decoded ISSN string or NULL
  */
-char * get_issn(char data_str[])
+char * get_issn(const char data_str[])
 {
     int i, data_len = (int)strlen(data_str);
     if (data_len < 10) return NULL;
@@ -122,7 +123,7 @@ char * get_issn(char data_str[])
  * \param package_code Package code
  * \return package description
  */
-char * get_package_type(char package_code[])
+char * get_package_type(const char package_code[])
 {
     int i;
     if ((int)strlen(package_code) > 3) return NULL;
@@ -142,7 +143,7 @@ char * get_package_type(char package_code[])
  * \param data_str String containing a code number to be decoded
  * \return decoded Company Prefix or NULL
  */
-char * get_gs1_company_prefix(char data_str[])
+char * get_gs1_company_prefix(const char data_str[])
 {
     int i;
     char data_str_code[16];
@@ -199,7 +200,7 @@ char * get_gs1_company_prefix(char data_str[])
  * \param data_str String containing data
  */
 char * get_company_prefix_str(char company_prefix_code[],
-                              int start_index, char data_str[])
+                              const int start_index, const char data_str[])
 {
     company_prefix_code[0] = data_str[start_index];
     company_prefix_code[1] = data_str[start_index+1];
@@ -213,7 +214,7 @@ char * get_company_prefix_str(char company_prefix_code[],
  * \param data_str String containing a code number to be decoded
  * \return decoded country string or NULL
  */
-char * get_country(char data_str[])
+char * get_country(const char data_str[])
 {
     int i;
     char data_str_country_code[4];
@@ -259,7 +260,7 @@ char * get_country(char data_str[])
  * \param data_str String containing a code number to be decoded
  * \return decoded country string or NULL
  */
-char * get_country_alpha2(char data_str[])
+char * get_country_alpha2(const char data_str[])
 {
     int i;
     char data_str_country_code[3];
@@ -298,8 +299,8 @@ char * get_country_alpha2(char data_str[])
  * \param data_str String to be decoded
  * \return decoded currency string or NULL
  */
-char * get_currency_value(int application_identifier,
-                          char data_str[])
+char * get_currency_value(const int application_identifier,
+                          const char data_str[])
 {
     int i;
     char data_str_currency_code[4];
@@ -355,8 +356,8 @@ char * get_currency_value(int application_identifier,
  * \param data_str String to be decoded
  * \return decoded decimal string or NULL
  */
-char * get_decimal_value(int application_identifier,
-                         char data_str[])
+char * get_decimal_value(const int application_identifier,
+                         const char data_str[])
 {
     int i;
 
@@ -392,7 +393,7 @@ char * get_decimal_value(int application_identifier,
  * \param data_str String to be decoded
  * \return decoded UNECE meat carcasses and cuts code
  */
-char * get_meat_cut(char data_str[])
+char * get_meat_cut(const char data_str[])
 {
     int i, data_len = (int)strlen(data_str);
     if (data_len < 20) return NULL;
@@ -1451,7 +1452,7 @@ char * get_north_american_coupon(char data_str[],
  * \param n number to be checked
  * \return 1 if prime, 0 otherwise
  */
-static unsigned char is_prime(int n)
+static unsigned char is_prime(const int n)
 {
     /* 0 and 1 are not prime numbers */
     if (n == 1 || n == 0) return 0;
@@ -1472,7 +1473,7 @@ static unsigned char is_prime(int n)
  *                         otherwise
  * \param check_character_pair returned pair of check characters
  */
-void calc_check_character(char data_str[], int check_characters,
+void calc_check_character(const char data_str[], const int check_characters,
                           char check_character_pair[])
 {
     int data_len = (int)strlen(data_str) - check_characters;
@@ -1504,7 +1505,7 @@ void calc_check_character(char data_str[], int check_characters,
  * \param data_str String containing production method code
  * \return Description of prodiction method
  */
-char * get_production_method(char data_str[])
+char * get_production_method(const char data_str[])
 {
     if ((int)strlen(data_str) < 2) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
@@ -1547,7 +1548,7 @@ char * get_production_method(char data_str[])
  * \param data_str String to be matched
  * \return Description of fishing gear type
  */
-char * get_fishing_gear_type(char data_str[])
+char * get_fishing_gear_type(const char data_str[])
 {
     if ((int)strlen(data_str) < 2) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
@@ -1580,7 +1581,7 @@ char * get_fishing_gear_type(char data_str[])
  * \param data_str String to be matched
  * \return Description of aquatic species
  */
-char * get_aquatic_species(char data_str[])
+char * get_aquatic_species(const char data_str[])
 {
     if ((int)strlen(data_str) != 3) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
@@ -1612,7 +1613,7 @@ char * get_aquatic_species(char data_str[])
  * \param data_str String to be matched
  * \return Description of the fishing area
  */
-char * get_fishing_area(char data_str[])
+char * get_fishing_area(const char data_str[])
 {
     if ((int)strlen(data_str) < 4) return NULL;
     for (int i  = 0; i < (int)strlen(data_str); i++) {

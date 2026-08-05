@@ -591,44 +591,45 @@ void save_verification_report(struct grid_2d * grid,
 
 /* gs1_utils.c */
 
-int get_gtin_check_digit(char gtin[], unsigned char includes_check_digit);
+int get_gtin_check_digit(const char gtin[],
+                         const unsigned char includes_check_digit);
 
-float get_temperature(char data_str[]);
+float get_temperature(const char data_str[]);
 
-char * get_issn(char data_str[]);
+char * get_issn(const char data_str[]);
 
-char * get_package_type(char package_code[]);
+char * get_package_type(const char package_code[]);
 
-char * get_gs1_company_prefix(char data_str[]);
+char * get_gs1_company_prefix(const char data_str[]);
 
 char * get_company_prefix_str(char company_prefix_code[],
-                              int start_index, char data_str[]);
+                              const int start_index, const char data_str[]);
 
-char * get_country(char data_str[]);
+char * get_country(const char data_str[]);
 
-char * get_country_alpha2(char data_str[]);
+char * get_country_alpha2(const char data_str[]);
 
-char * get_currency_value(int application_identifier,
-                          char data_str[]);
+char * get_currency_value(const int application_identifier,
+                          const char data_str[]);
 
-char * get_decimal_value(int application_identifier,
-                         char data_str[]);
+char * get_decimal_value(const int application_identifier,
+                         const char data_str[]);
 
-char * get_meat_cut(char data_str[]);
+char * get_meat_cut(const char data_str[]);
 
 char * get_north_american_coupon(char data_str[],
                                  char company_prefix_code[]);
 
-void calc_check_character(char data_str[], int check_characters,
+void calc_check_character(const char data_str[], const int check_characters,
                           char check_character_pair[]);
 
-char * get_production_method(char data_str[]);
+char * get_production_method(const char data_str[]);
 
-char * get_fishing_gear_type(char data_str[]);
+char * get_fishing_gear_type(const char data_str[]);
 
-char * get_aquatic_species(char data_str[]);
+char * get_aquatic_species(const char data_str[]);
 
-char * get_fishing_area(char data_str[]);
+char * get_fishing_area(const char data_str[]);
 
 /* gs1.c */
 
@@ -644,7 +645,7 @@ void gs1_semantics(char result[],
 
 /* gs1_encode.c */
 
-int gs1_encode(int application_identifier, char data_str[],
+int gs1_encode(const int application_identifier, char data_str[],
                char encode_text[], char encode_description[]);
 
 /* hibc_encode.c */

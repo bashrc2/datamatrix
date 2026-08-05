@@ -30,7 +30,7 @@
  * \param encode_description Returned description shown beneath the datamatrix
  * \return zero on success
  */
-int gs1_encode(int application_identifier, char data_str[],
+int gs1_encode(const int application_identifier, char data_str[],
                char encode_text[], char encode_description[])
 {
     char app_id_str[16];
