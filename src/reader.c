@@ -90,33 +90,33 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \return zero on decode success, -1 otherwise
  */
 int read_datamatrix(unsigned char image_data[],
-                    int image_width, int image_height,
-                    int image_bitsperpixel,
-                    unsigned char debug,
+                    const int image_width, const int image_height,
+                    const int image_bitsperpixel,
+                    const unsigned char debug,
                     char output_filename[],
-                    char grid_filename[],
-                    int test_ml_threshold,
-                    int test_erode, int test_dilate,
-                    int test_frequency,
-                    unsigned char verify,
-                    unsigned char csv,
-                    unsigned char json,
-                    unsigned char yaml,
-                    int minimum_grid_dimension,
-                    int maximum_grid_dimension,
+                    const char grid_filename[],
+                    const int test_ml_threshold,
+                    const int test_erode, int const test_dilate,
+                    const int test_frequency,
+                    const unsigned char verify,
+                    const unsigned char csv,
+                    const unsigned char json,
+                    const unsigned char yaml,
+                    const int minimum_grid_dimension,
+                    const int maximum_grid_dimension,
                     const char gs1_url[],
-                    unsigned char raw_decode,
-                    unsigned char histogram_module_centres,
+                    const unsigned char raw_decode,
+                    const unsigned char histogram_module_centres,
                     char histogram_filename[],
-                    int resized_thresholded_width,
-                    int sampling_radius,
-                    int min_segment_length,
-                    float aperture,
-                    int light_nm,
-                    int light_angle_degrees,
-                    unsigned char is_square,
-                    unsigned char is_rectangle,
-                    char cell_shape_filename[],
+                    const int resized_thresholded_width,
+                    const int sampling_radius,
+                    const int min_segment_length,
+                    const float aperture,
+                    const int light_nm,
+                    const int light_angle_degrees,
+                    const unsigned char is_square,
+                    const unsigned char is_rectangle,
+                    const char cell_shape_filename[],
                     char report_template[],
                     char report_filename[],
                     char logo_filename[],
@@ -127,10 +127,10 @@ int read_datamatrix(unsigned char image_data[],
                     char email[],
                     char website[],
                     char footer[],
-                    int darklight_sampling_step,
-                    int max_high_pixels_percent,
-                    int segment_join_radius,
-                    int min_peripheral_edges,
+                    const int darklight_sampling_step,
+                    const int max_high_pixels_percent,
+                    const int segment_join_radius,
+                    const int min_peripheral_edges,
                     char * decode_result)
 {
     int original_image_width = image_width;
@@ -173,7 +173,7 @@ int read_datamatrix(unsigned char image_data[],
        such as showing the detected perimeter */
     unsigned char * original_image_data =
         (unsigned char*)safemalloc((size_t)(image_width * image_height *
-											image_bytesperpixel));
+                                            image_bytesperpixel));
 
     float best_perimeter_x0=-1;
 
@@ -203,7 +203,7 @@ int read_datamatrix(unsigned char image_data[],
         /* initialise as empty string */
         thr_decode_result[try_config][0] = 0;
         debug_filename[try_config] =
-			(char*)safemalloc((size_t)256 * sizeof(char));
+            (char*)safemalloc((size_t)256 * sizeof(char));
     }
 
     /* try a few different configurations of erosion/dilation, binary threshold
@@ -225,7 +225,7 @@ int read_datamatrix(unsigned char image_data[],
 
         unsigned char * thr_image_data =
             (unsigned char*)safemalloc((size_t)(image_width * image_height *
-												image_bytesperpixel));
+                                                image_bytesperpixel));
         /* thresholded/binary image */
         unsigned char * thr_meanlight_image_data =
             (unsigned char*)safemalloc((size_t)(image_width * image_height) *
@@ -234,7 +234,7 @@ int read_datamatrix(unsigned char image_data[],
            parallelization */
         unsigned char * thr_original_meanlight_image_data =
             (unsigned char*)safemalloc((size_t)(image_width * image_height *
-												image_bytesperpixel));
+                                                image_bytesperpixel));
         /* full size mono image used for perimeter fitting */
         unsigned char * thr_mono_img =
             (unsigned char*)safemalloc((size_t)(image_width * image_height) *
@@ -242,7 +242,7 @@ int read_datamatrix(unsigned char image_data[],
         /* small binary image used for perimeter detection */
         unsigned char * thr_binary_image =
             (unsigned char*)safemalloc((size_t)(resized_thresholded_width *
-												resized_thresholded_height) *
+                                                resized_thresholded_height) *
                                        sizeof(unsigned char));
         /* buffer images, full size and small */
         unsigned char * thr_buffer_img =
@@ -250,13 +250,13 @@ int read_datamatrix(unsigned char image_data[],
                                        sizeof(unsigned char));
         unsigned char * thr_binary_image_buffer =
             (unsigned char*)safemalloc((size_t)(resized_thresholded_width *
-												resized_thresholded_height) *
+                                                resized_thresholded_height) *
                                        sizeof(unsigned char));
         /* array used to store edges and edge segments */
         unsigned char * thr_edges_image_data =
             (unsigned char*)safemalloc((size_t)(resized_thresholded_width *
-												resized_thresholded_height *
-												image_bytesperpixel));
+                                                resized_thresholded_height *
+                                                image_bytesperpixel));
 
         /* make an image which will be used by this thread */
         memcpy(thr_image_data, original_image_data,
@@ -721,10 +721,10 @@ int read_datamatrix(unsigned char image_data[],
                by the equivalent of half a pixel */
             float x_adjust =
                 ((float)original_image_width /
-				 (float)resized_thresholded_width) * 0.5f;
+                 (float)resized_thresholded_width) * 0.5f;
             float y_adjust =
                 ((float)original_image_height /
-				 (float)resized_thresholded_height) * 0.5f;
+                 (float)resized_thresholded_height) * 0.5f;
             perimeter_x0 += x_adjust;
             perimeter_y0 += y_adjust;
             perimeter_x1 += x_adjust;
@@ -940,7 +940,7 @@ int read_datamatrix(unsigned char image_data[],
                             /* show the grid */
                             memcpy(image_data, original_image_data,
                                    (size_t)(image_width * image_height *
-											image_bytesperpixel));
+                                            image_bytesperpixel));
                             show_grid_image(&grid[try_config],
                                             image_data,
                                             image_width, image_height,
@@ -964,7 +964,7 @@ int read_datamatrix(unsigned char image_data[],
                             /* show the grid */
                             memcpy(image_data, original_image_data,
                                    (size_t)(image_width * image_height *
-											image_bytesperpixel));
+                                            image_bytesperpixel));
                             show_grid_image(&grid[try_config],
                                             image_data,
                                             image_width, image_height,
@@ -1079,7 +1079,7 @@ int read_datamatrix(unsigned char image_data[],
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
                                        (size_t)(image_width * image_height *
-												image_bytesperpixel));
+                                                image_bytesperpixel));
                                 show_grid_image(&grid[try_config],
                                                 image_data,
                                                 image_width, image_height,
@@ -1130,7 +1130,7 @@ int read_datamatrix(unsigned char image_data[],
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
                                        (size_t)(image_width * image_height *
-												image_bytesperpixel));
+                                                image_bytesperpixel));
                                 show_grid_image(&grid[try_config],
                                                 image_data,
                                                 image_width, image_height,
@@ -1292,7 +1292,7 @@ int read_datamatrix(unsigned char image_data[],
                                 /* show the grid */
                                 memcpy(image_data, original_image_data,
                                        (size_t)(image_width * image_height *
-												image_bytesperpixel));
+                                                image_bytesperpixel));
                                 show_grid_image(&grid[try_config],
                                                 image_data,
                                                 image_width, image_height,
@@ -1445,7 +1445,7 @@ int read_datamatrix(unsigned char image_data[],
  *        them in json format
  * \param decode_result datamatrix decode result
  */
-void decode_as_json(char * decode_result)
+void decode_as_json(const char * decode_result)
 {
     if (strstr(decode_result, "STANDARD: ") == NULL) {
         printf("{\n  \"decode\": \"%s\"\n}\n", decode_result);
@@ -1459,7 +1459,7 @@ void decode_as_json(char * decode_result)
     unsigned char field_found = 0;
 
     char * field_value =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     field_value[0] = 0;
     int field_value_start_ctr = 0;
     int field_count = 0;
@@ -1522,7 +1522,7 @@ void decode_as_json(char * decode_result)
  *        them in yaml format
  * \param decode_result datamatrix decode result
  */
-void decode_as_yaml(char * decode_result)
+void decode_as_yaml(const char * decode_result)
 {
     if (strstr(decode_result, "STANDARD: ") == NULL) {
         printf("---\ndecode: %s\n---\n", decode_result);
