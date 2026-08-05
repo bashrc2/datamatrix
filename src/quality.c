@@ -34,8 +34,8 @@
  * \param y y coordinate to test
  * \return 1 if the point is in the quiet zone
  */
-static unsigned char point_in_quiet_zone(struct grid_2d * grid,
-        int x, int y)
+static unsigned char point_in_quiet_zone(const struct grid_2d * grid,
+        const int x, const int y)
 {
     int points[4*2] = {
         (int)grid->quiet_zone_perimeter.x0, (int)grid->quiet_zone_perimeter.y0,
@@ -62,15 +62,15 @@ static unsigned char point_in_quiet_zone(struct grid_2d * grid,
  * \param module_centres Sample only the module centres
  * \param filename filename for the histogram image
  */
-static void save_reflectance_histogram(unsigned char image_data[],
-                                       int image_width, int image_height,
-                                       int image_bitsperpixel,
-                                       struct grid_2d * grid,
-                                       int histogram_image_width,
-                                       int histogram_image_height,
-                                       int r, int g, int b,
-                                       unsigned char module_centres,
-                                       char filename[])
+static void save_reflectance_histogram(const unsigned char image_data[],
+                                       const int image_width, const int image_height,
+                                       const int image_bitsperpixel,
+                                       const struct grid_2d * grid,
+                                       const int histogram_image_width,
+                                       const int histogram_image_height,
+                                       const int r, const int g, const int b,
+                                       const unsigned char module_centres,
+                                       const char * filename)
 {
     const int border_percent = 5;
     const int sampling_radius = 2;
@@ -90,7 +90,7 @@ static void save_reflectance_histogram(unsigned char image_data[],
     unsigned int histogram[256];
     unsigned char * histogram_image =
         (unsigned char*)safemalloc((size_t)(histogram_image_width *
-											histogram_image_height * 3) *
+                                            histogram_image_height * 3) *
                                    sizeof(unsigned char));
 
     /* clear the histogram */
@@ -201,7 +201,7 @@ static void save_reflectance_histogram(unsigned char image_data[],
     /* clear the image */
     memset(histogram_image, 255,
            (size_t)(histogram_image_width * histogram_image_height * 3) *
-		   sizeof(unsigned char));
+           sizeof(unsigned char));
 
     /* calculate border inside image */
     border_tx = histogram_image_width*border_percent/100;
@@ -222,12 +222,12 @@ static void save_reflectance_histogram(unsigned char image_data[],
     /* draw the histogram */
     for (x = border_tx; x <= border_bx; x++) {
         reflectance = (unsigned int)(x - border_tx) * (unsigned int)255 /
-			(unsigned int)(border_bx - border_tx);
+            (unsigned int)(border_bx - border_tx);
         reflectance = histogram[reflectance];
         if (reflectance > max) reflectance = max;
         y = border_by -
-			(int)((float)reflectance * (float)(border_by - border_ty) /
-				  (float)max);
+            (int)((float)reflectance * (float)(border_by - border_ty) /
+                  (float)max);
         draw_line(histogram_image,
                   histogram_image_width, histogram_image_height, 24,
                   x, y, x, border_by, 1, r, g, b);
@@ -269,7 +269,8 @@ static void save_reflectance_histogram(unsigned char image_data[],
  * \param y y coordinate to test
  * \return 1 if the given point is inside the perimeter
  */
-static unsigned char point_in_perimeter(struct grid_2d * grid, int x, int y)
+static unsigned char point_in_perimeter(const struct grid_2d * grid,
+                                        const int x, const int y)
 {
     int points[4*2] = {
         (int)grid->perimeter.x0, (int)grid->perimeter.y0,
@@ -344,10 +345,10 @@ static void calculate_quiet_zone(struct grid_2d * grid)
  * \param no_of_pixels returned number of pixels within the cell
  * \param cell_fill returned percentage of the cell which is filled
  */
-static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
-        int image_width, int image_height,
-        int image_bytesperpixel,
-        int x, int y, int radius,
+static void grid_nonuniformity_test_cell(const unsigned char thresholded_image_data[],
+        const int image_width, const int image_height,
+        const int image_bytesperpixel,
+        const int x, const int y, const int radius,
         int * offset_x, int * offset_y,
         float * elongation,
         int * no_of_pixels,
@@ -418,14 +419,14 @@ static void grid_nonuniformity_test_cell(unsigned char thresholded_image_data[],
  * \param cell_shape_image_height height of the cell shape image
  * \param cell_shape_bytesperpixel Number of bytes per pixel in cell shape image
  */
-static void grid_cell_shape_test_cell(unsigned char thresholded_image_data[],
-                                      int image_width, int image_height,
-                                      int image_bytesperpixel,
-                                      int x, int y, int radius,
+static void grid_cell_shape_test_cell(const unsigned char thresholded_image_data[],
+                                      const int image_width, const int image_height,
+                                      const int image_bytesperpixel,
+                                      const int x, const int y, const int radius,
                                       unsigned char cell_shape_image[],
-                                      int cell_shape_image_width,
-                                      int cell_shape_image_height,
-                                      int cell_shape_bytesperpixel)
+                                      const int cell_shape_image_width,
+                                      const int cell_shape_image_height,
+                                      const int cell_shape_bytesperpixel)
 {
     int n2, n = (y*image_width + x)*image_bytesperpixel;
     int half_cell_shape_image_width = cell_shape_image_width/2;
@@ -494,12 +495,12 @@ static void grid_cell_shape_test_cell(unsigned char thresholded_image_data[],
  * \param filename filename to save as
  */
 static void save_grid_cell_shape(struct grid_2d * grid,
-                                 unsigned char thresholded_image_data[],
-                                 int image_width, int image_height,
-                                 int image_bitsperpixel,
-                                 int cell_shape_image_width,
-                                 int cell_shape_image_height,
-                                 char filename[])
+                                 const unsigned char thresholded_image_data[],
+                                 const int image_width, const int image_height,
+                                 const int image_bitsperpixel,
+                                 const int cell_shape_image_width,
+                                 const int cell_shape_image_height,
+                                 const char filename[])
 {
     const int cell_shape_bitsperpixel = 24;
     float xi, yi, grid_pos_x, grid_pos_y;
@@ -518,14 +519,14 @@ static void save_grid_cell_shape(struct grid_2d * grid,
     /* create the image */
     unsigned char * cell_shape_image =
         (unsigned char*)safemalloc((size_t)(cell_shape_image_width *
-											cell_shape_image_height *
-											cell_shape_bytesperpixel) *
+                                            cell_shape_image_height *
+                                            cell_shape_bytesperpixel) *
                                    sizeof(unsigned char));
 
     /* clear the image */
     memset(cell_shape_image, 0,
            (size_t)(cell_shape_image_width * cell_shape_image_height *
-					cell_shape_bytesperpixel) * sizeof(unsigned char));
+                    cell_shape_bytesperpixel) * sizeof(unsigned char));
 
     float horizontal_dx1 = grid->perimeter.x3 - grid->perimeter.x0;
     float horizontal_dy1 = grid->perimeter.y3 - grid->perimeter.y0;
@@ -641,14 +642,14 @@ static void save_grid_cell_shape(struct grid_2d * grid,
  * \param image_bitsperpixel Number of bits per pixel
  */
 static void quality_metric_grid_nonuniformity(struct grid_2d * grid,
-        unsigned char thresholded_image_data[],
-        int image_width, int image_height,
-        int image_bitsperpixel)
+        const unsigned char thresholded_image_data[],
+        const int image_width, const int image_height,
+        const int image_bitsperpixel)
 {
     int image_bytesperpixel = image_bitsperpixel/8;
     int grid_x, grid_y, offset_x=0, offset_y=0;
     float av_offset_x=0, av_offset_y=0;
-	int offset_hits=0;
+    int offset_hits=0;
     int cell_no_of_pixels, av_cell_no_of_pixels=0;
     int cell_fill=0, total_cell_fill=0;
     float grid_non_uniformity_x, grid_non_uniformity_y;
@@ -838,8 +839,8 @@ static void quality_metric_axial_nonuniformity(struct grid_2d * grid)
  * \param max_x returned bounding box bottom right x coordinate
  * \param max_y returned bounding box bottom right y coordinate
  */
-static void get_grid_bounding_box(struct grid_2d * grid,
-                                  int image_width, int image_height,
+static void get_grid_bounding_box(const struct grid_2d * grid,
+                                  const int image_width, const int image_height,
                                   int * min_x, int * min_y,
                                   int * max_x, int * max_y)
 {
@@ -882,10 +883,10 @@ static void get_grid_bounding_box(struct grid_2d * grid,
  * \param mage_bitsperpixel Number of bits per pixel
  */
 static void quality_metric_modulation(struct grid_2d * grid,
-                                      unsigned char image_data[],
-                                      unsigned char thresholded_image_data[],
-                                      int image_width, int image_height,
-                                      int image_bitsperpixel)
+                                      const unsigned char image_data[],
+                                      const unsigned char thresholded_image_data[],
+                                      const int image_width, const int image_height,
+                                      const int image_bitsperpixel)
 {
     int image_bytesperpixel = image_bitsperpixel/8;
     /* symbol contrast converted back to a pixel value */
@@ -971,7 +972,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
                Guideline 9.1.3 */
             cell_modulation =
                 2.0f * ABS((float)(reflectance - global_threshold)) /
-				symbol_contrast;
+                symbol_contrast;
             modulation += cell_modulation;
             if (cell_modulation < min_modulation) {
                 min_modulation = cell_modulation;
@@ -1012,9 +1013,9 @@ static void quality_metric_modulation(struct grid_2d * grid,
  * \param mage_bitsperpixel Number of bits per pixel
  */
 static void quality_metric_symbol_contrast(struct grid_2d * grid,
-        unsigned char image_data[],
-        int image_width, int image_height,
-        int image_bitsperpixel)
+        const unsigned char image_data[],
+        const int image_width, const int image_height,
+        const int image_bitsperpixel)
 {
     int image_bytesperpixel = image_bitsperpixel/8;
     int x, y, n, b, min_x=image_width, min_y=image_height, max_x=0, max_y=0;
@@ -1105,13 +1106,13 @@ static void quality_metric_angle_of_distortion(struct grid_2d * grid)
  * \param cell_shape_filename optional cell shape image
  */
 void calculate_quality_metrics(struct grid_2d * grid,
-                               unsigned char image_data[],
-                               unsigned char thresholded_image_data[],
-                               int image_width, int image_height,
-                               int image_bitsperpixel,
-                               unsigned char histogram_module_centres,
-                               char histogram_filename[],
-                               char cell_shape_filename[])
+                               const unsigned char image_data[],
+                               const unsigned char thresholded_image_data[],
+                               const int image_width, const int image_height,
+                               const int image_bitsperpixel,
+                               const unsigned char histogram_module_centres,
+                               const char histogram_filename[],
+                               const char cell_shape_filename[])
 {
     calculate_quiet_zone(grid);
     quality_metric_angle_of_distortion(grid);
@@ -1204,7 +1205,7 @@ void calculate_quality_metrics(struct grid_2d * grid,
  * \param grid grid object
  * \return overall grade in the range 0-4
  */
-unsigned char overall_quality_grade(struct grid_2d * grid)
+unsigned char overall_quality_grade(const struct grid_2d * grid)
 {
     unsigned char grade = grid->symbol_contrast_grade;
     if (grid->axial_non_uniformity_grade < grade) {
@@ -1238,10 +1239,10 @@ unsigned char overall_quality_grade(struct grid_2d * grid)
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
  */
-static void show_quality_metrics_human_readable(struct grid_2d * grid,
-        float aperture,
-        int light_nm,
-        int light_angle_degrees)
+static void show_quality_metrics_human_readable(const struct grid_2d * grid,
+        const float aperture,
+        const int light_nm,
+        const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -1302,10 +1303,10 @@ static void show_quality_metrics_human_readable(struct grid_2d * grid,
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
  */
-static void show_quality_metrics_csv(struct grid_2d * grid,
-                                     float aperture,
-                                     int light_nm,
-                                     int light_angle_degrees)
+static void show_quality_metrics_csv(const struct grid_2d * grid,
+                                     const float aperture,
+                                     const int light_nm,
+                                     const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -1363,10 +1364,10 @@ static void show_quality_metrics_csv(struct grid_2d * grid,
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
  */
-static void show_quality_metrics_json(struct grid_2d * grid,
-                                      float aperture,
-                                      int light_nm,
-                                      int light_angle_degrees)
+static void show_quality_metrics_json(const struct grid_2d * grid,
+                                      const float aperture,
+                                      const int light_nm,
+                                      const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -1428,10 +1429,10 @@ static void show_quality_metrics_json(struct grid_2d * grid,
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
  */
-static void show_quality_metrics_yaml(struct grid_2d * grid,
-                                      float aperture,
-                                      int light_nm,
-                                      int light_angle_degrees)
+static void show_quality_metrics_yaml(const struct grid_2d * grid,
+                                      const float aperture,
+                                      const int light_nm,
+                                      const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
@@ -1498,13 +1499,13 @@ static void show_quality_metrics_yaml(struct grid_2d * grid,
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
  */
-void show_quality_metrics(struct grid_2d * grid,
-                          unsigned char csv,
-                          unsigned char json,
-                          unsigned char yaml,
-                          float aperture,
-                          int light_nm,
-                          int light_angle_degrees)
+void show_quality_metrics(const struct grid_2d * grid,
+                          const unsigned char csv,
+                          const unsigned char json,
+                          const unsigned char yaml,
+                          const float aperture,
+                          const int light_nm,
+                          const int light_angle_degrees)
 {
     if (csv == 1) {
         show_quality_metrics_csv(grid, aperture, light_nm, light_angle_degrees);

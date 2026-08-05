@@ -550,24 +550,24 @@ unsigned char contract_perimeter_sides(unsigned char mono_img[],
 
 /* quality.c */
 
-unsigned char overall_quality_grade(struct grid_2d * grid);
+unsigned char overall_quality_grade(const struct grid_2d * grid);
 
 void calculate_quality_metrics(struct grid_2d * grid,
-                               unsigned char image_data[],
-                               unsigned char thresholded_image_data[],
-                               int image_width, int image_height,
-                               int image_bitsperpixel,
-                               unsigned char histogram_module_centres,
-                               char histogram_filename[],
-                               char cell_shape_filename[]);
+                               const unsigned char image_data[],
+                               const unsigned char thresholded_image_data[],
+                               const int image_width, const int image_height,
+                               const int image_bitsperpixel,
+                               const unsigned char histogram_module_centres,
+                               const char histogram_filename[],
+                               const char cell_shape_filename[]);
 
-void show_quality_metrics(struct grid_2d * grid,
-                          unsigned char csv,
-                          unsigned char json,
-                          unsigned char yaml,
-                          float aperture,
-                          int light_nm,
-                          int light_angle_degrees);
+void show_quality_metrics(const struct grid_2d * grid,
+                          const unsigned char csv,
+                          const unsigned char json,
+                          const unsigned char yaml,
+                          const float aperture,
+                          const int light_nm,
+                          const int light_angle_degrees);
 
 /* report.c */
 
@@ -650,10 +650,10 @@ int gs1_encode(const int application_identifier, char data_str[],
 
 /* hibc_encode.c */
 
-int hibc_encode(char * application_identifier, char data_str[],
+int hibc_encode(const char * application_identifier, const char data_str[],
                 char encode_text[]);
 
-char hibc_check_character(char * encode_text);
+char hibc_check_character(const char * encode_text);
 
 /* condense.c */
 
@@ -681,7 +681,7 @@ char * iso15434_translate_data_qualifier(char result[],
 
 void hibc_semantics(char result[],
                     char hibc_result[],
-                    unsigned char debug);
+                    const unsigned char debug);
 
 /* data_id.c */
 
@@ -807,15 +807,15 @@ int encode_datamatrix_to_text_or_image(const char * text,
 
 /* png2.c */
 
-unsigned char * read_png_file(char * filename,
+unsigned char * read_png_file(const char * filename,
                               unsigned int * width,
                               unsigned int * height,
                               unsigned int * bitsperpixel);
 
-int write_png_file(char* filename,
-                   int width, int height,
-                   int bitsperpixel,
-                   unsigned char * buffer);
+int write_png_file(const char * filename,
+                   const int width, const int height,
+                   const int bitsperpixel,
+                   unsigned char buffer[]);
 
 /* help.c */
 

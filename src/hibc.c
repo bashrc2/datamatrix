@@ -29,14 +29,14 @@
  * \param end_index
  * \returns String containing HIBC parameters
  */
-static char * hibc_primary_data(char result[], int end_index)
+static char * hibc_primary_data(const char result[], const int end_index)
 {
     int i;
 
     if (end_index < 8) return NULL;
 
     char * translated_str =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     translated_str[0] = 0;
 
     decode_strcat(translated_str, "STANDARD: HIBC\n");
@@ -69,13 +69,13 @@ static char * hibc_primary_data(char result[], int end_index)
  * \param end_index
  * \returns String containing HIBC parameters
  */
-static char * hibc_secondary_data_flag(char result[], int start_index,
-                                       int end_index)
+static char * hibc_secondary_data_flag(char result[], const int start_index,
+                                       const int end_index)
 {
     int i, date_offset;
     char * date_value = NULL;
     char * translated_str =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     translated_str[0] = 0;
 
     if (result[start_index+1] == '$') {
@@ -251,8 +251,8 @@ static char * hibc_secondary_data_flag(char result[], int start_index,
  * \param end_index
  * \returns String containing HIBC parameters
  */
-static char * hibc_secondary_data(char result[], int start_index,
-                                  int end_index)
+static char * hibc_secondary_data(char result[], const int start_index,
+                                  const int end_index)
 {
     int i;
 
@@ -263,11 +263,11 @@ static char * hibc_secondary_data(char result[], int start_index,
     }
     else {
         char * translated_str =
-			(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+            (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
         translated_str[0] = 0;
 
         char * data_str =
-			(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+            (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
         data_str[0] = 0;
         for (i = start_index; i < end_index; i++) {
             decode_strcat_char(data_str, result[i]);
@@ -277,7 +277,7 @@ static char * hibc_secondary_data(char result[], int start_index,
         char * id_human_readable =
             (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
         char * id_value =
-			(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+            (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
 
         if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
             translated_str[0] = 0;
@@ -325,7 +325,7 @@ static char * hibc_secondary_data(char result[], int start_index,
  */
 void hibc_semantics(char result[],
                     char hibc_result[],
-                    unsigned char debug)
+                    const unsigned char debug)
 {
     int i, index = 0;
     int str_len = (int)strlen(result);

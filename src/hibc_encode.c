@@ -27,7 +27,7 @@
  * \param encode_text Encoded HIBC string
  * \return Check character
  */
-char hibc_check_character(char * encode_text)
+char hibc_check_character(const char * encode_text)
 {
     const char * lookup = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
     int sum = 0;
@@ -50,7 +50,7 @@ char hibc_check_character(char * encode_text)
  * \param encode_text Returned encoded string
  * \return zero on success
  */
-int hibc_encode(char * application_identifier, char data_str[],
+int hibc_encode(const char * application_identifier, const char data_str[],
                 char encode_text[])
 {
     int data_len = (int)strlen(data_str);

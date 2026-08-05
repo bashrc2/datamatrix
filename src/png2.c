@@ -25,7 +25,7 @@
 
 #include "datamatrix.h"
 
-unsigned char * read_png_file(char * filename,
+unsigned char * read_png_file(const char * filename,
                               unsigned int * width,
                               unsigned int * height,
                               unsigned int * bitsperpixel)
@@ -43,10 +43,10 @@ unsigned char * read_png_file(char * filename,
     return image;
 }
 
-int write_png_file(char* filename,
-                   int width, int height,
-                   int bitsperpixel,
-                   unsigned char *buffer)
+int write_png_file(const char * filename,
+                   const int width, const int height,
+                   const int bitsperpixel,
+                   unsigned char buffer[])
 {
     unsigned error=1;
     int i;
