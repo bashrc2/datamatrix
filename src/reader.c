@@ -1010,7 +1010,7 @@ int read_datamatrix(unsigned char image_data[],
                 if (debug == 1) {
                     printf("%d Trying all square dimensions\n", try_config);
                 }
-                int * valid_squares = get_valid_squares();
+                const int * valid_squares = get_valid_squares();
                 for (int frequency_index = 0; frequency_index < NO_OF_VALID_SQUARES;
                         frequency_index++) {
                     most_probable_frequency = valid_squares[frequency_index];
@@ -1176,7 +1176,7 @@ int read_datamatrix(unsigned char image_data[],
                 if (debug == 1) {
                     printf("%d Trying all rectangle dimensions\n", try_config);
                 }
-                int * valid_rectangles = get_valid_rectangles();
+                const int * valid_rectangles = get_valid_rectangles();
                 for (int frequency_index = 0;
                         frequency_index < NO_OF_VALID_RECTANGLES;
                         frequency_index++) {

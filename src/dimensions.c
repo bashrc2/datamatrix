@@ -23,12 +23,12 @@
 
 #include "datamatrix.h"
 
-int valid_squares[] = {
+const int valid_squares[] = {
     10,  12,  14,  16,  18,  20,  22,  24,  26,  32, 36,  40,  44,  48,
     52,  64,  72,  80,  88,  96, 104, 120, 132, 144
 };
 
-int valid_rectangles[] = {
+const int valid_rectangles[] = {
     /* IEC16022 dimensions */
     8, 18,
     8, 32,
@@ -56,7 +56,7 @@ int valid_rectangles[] = {
  * \brief returns an array of valid square dimensions as defined by IEC16022
  * \return array of square dimensions
  */
-int * get_valid_squares()
+const int * get_valid_squares()
 {
     return valid_squares;
 }
@@ -65,7 +65,7 @@ int * get_valid_squares()
  * \brief returns an array of valid rectangular dimensions as defined by IEC16022
  * \return array of rectangular dimensions
  */
-int * get_valid_rectangles()
+const int * get_valid_rectangles()
 {
     return valid_rectangles;
 }

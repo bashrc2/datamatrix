@@ -759,7 +759,7 @@ unsigned char rectangular_joined_line_segments(int aspect_ratio)
 {
     int i, possible_aspect_ratio, min_aspect_ratio, max_aspect_ratio;
     const int aspect_tollerance = 10;
-    int * valid_rectangles = get_valid_rectangles();
+    const int * valid_rectangles = get_valid_rectangles();
 
     for (i = 0; i < NO_OF_VALID_RECTANGLES; i++) {
         if (aspect_ratio < 100) {

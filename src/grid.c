@@ -227,7 +227,7 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
     float timing_perimeter_x2, timing_perimeter_y2;
     float timing_perimeter_x3, timing_perimeter_y3;
     float x0, y0, x1, y1, x2, y2, fraction;
-    int * valid_squares = get_valid_squares();
+    const int * valid_squares = get_valid_squares();
 
     get_centroid(perimeter_x0, perimeter_y0,
                  perimeter_x1, perimeter_y1,
@@ -394,7 +394,7 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
     float timing_perimeter_x2, timing_perimeter_y2;
     float timing_perimeter_x3, timing_perimeter_y3;
     float x0, y0, x1, y1, x2, y2, fraction;
-    int * valid_rectangles = get_valid_rectangles();
+    const int * valid_rectangles = get_valid_rectangles();
 
     get_centroid(perimeter_x0, perimeter_y0,
                  perimeter_x1, perimeter_y1,

@@ -687,9 +687,9 @@ char * data_id_convert_company_prefix(char * id_human_readable, char * id_value)
 
 /* dimensions.c */
 
-int * get_valid_squares();
+const int * get_valid_squares();
 
-int * get_valid_rectangles();
+const int * get_valid_rectangles();
 
 /* reader.c */
 
