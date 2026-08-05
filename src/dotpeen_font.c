@@ -979,8 +979,6 @@ static void draw_character(unsigned char img[],
 /**
  * \brief Draws a character within the given bounding box
  * \param fp_image file pointer to the image being saved
- * \param width Width of the image
- * \param height Height of the image
  * \param tx top left corner of the bounding box
  * \param ty top corner of the bounding box
  * \param bx bottom right  corner of the bounding box
@@ -988,7 +986,6 @@ static void draw_character(unsigned char img[],
  * \param chr character to be returned
  */
 static void draw_character_svg(FILE * fp_image,
-                               int width, int height,
                                int tx, int ty, int bx, int by,
                                char chr)
 {
@@ -1097,7 +1094,7 @@ void draw_text_svg(FILE * fp_image,
         int bx = tx + character_width - character_separation;
         int by = ty + character_height;
         if ((bx < (int)width) && (by < (int)height)) {
-            draw_character_svg(fp_image, width, height,
+            draw_character_svg(fp_image,
                                tx, ty, bx, by,
                                text[i]);
         }
