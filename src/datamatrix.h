@@ -275,68 +275,74 @@ unsigned char segment_edges_within_roi(struct line_segments * segments,
                                        int width, int height,
                                        int roi_radius_percent);
 
-int get_segment_aspect_ratio(struct line_segments * segments,
+int get_segment_aspect_ratio(const struct line_segments * segments,
                              int index);
 
 int get_peripheral_edges(struct line_segments * segments,
-                         int index, int width, int height);
+                         const int index, const int width, const int height);
 
 float get_segments_orientation(struct line_segments * segments,
-                               int width, int height,
-                               int quantization_degrees);
+                               const int width, const int height,
+                               const int quantization_degrees);
 
-int fit_perimeter_to_sides(struct line_segments * segments,
-						   int width, int height,
+int fit_perimeter_to_sides(const struct line_segments * segments,
+						   const int width, const int height,
 						   float * perimeter_x0, float * perimeter_y0,
 						   float * perimeter_x1, float * perimeter_y1,
 						   float * perimeter_x2, float * perimeter_y2,
 						   float * perimeter_x3, float * perimeter_y3,
-						   unsigned char debug,
-						   int try_config, int seg_idx,
-						   int offset,
+						   const unsigned char debug,
+						   const int try_config, const int seg_idx,
+						   const int offset,
 						   unsigned char thr_edges_image_data[],
-						   int resized_thresholded_width,
-						   int resized_thresholded_height,
-						   int image_bitsperpixel,
+						   const int resized_thresholded_width,
+						   const int resized_thresholded_height,
+						   const int image_bitsperpixel,
 						   char * debug_filename);
 
-int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
-                           float perimeter_x1, float perimeter_y1,
-                           float perimeter_x2, float perimeter_y2,
-                           float perimeter_x3, float perimeter_y3);
+int get_shape_aspect_ratio(const float perimeter_x0, const float perimeter_y0,
+                           const float perimeter_x1, const float perimeter_y1,
+                           const float perimeter_x2, const float perimeter_y2,
+                           const float perimeter_x3, const float perimeter_y3);
 
 void free_line_segments(struct line_segments * segments);
 
-void show_line_segments(struct line_segments * segments,
+void show_line_segments(const struct line_segments * segments,
                         unsigned char result[], int width, int height,
                         int result_bitsperpixel);
-void show_square_line_segments(struct line_segments * segments,
-                               unsigned char result[], int width, int height,
-                               int result_bitsperpixel);
-void show_rectangular_line_segments(struct line_segments * segments,
-                                    unsigned char result[], int width, int height,
-                                    int result_bitsperpixel);
-void show_peripheral_edges(struct line_segments * segments,
-                           unsigned char result[], int width, int height,
-                           int result_bitsperpixel);
-void show_perimeter(struct line_segments * segments,
-                    unsigned char result[], int width, int height,
-                    int result_bitsperpixel);
-void show_perimeter_intersection(struct line_segments * segments,
-                                 unsigned char result[], int width, int height,
-                                 int result_bitsperpixel,
-                                 int side1, int side2);
-void show_shape_perimeter(unsigned char result[], int width, int height,
-                          int result_bitsperpixel,
-                          float perimeter_x0, float perimeter_y0,
-                          float perimeter_x1, float perimeter_y1,
-                          float perimeter_x2, float perimeter_y2,
-                          float perimeter_x3, float perimeter_y3);
-void show_L_shape_perimeter(struct grid_2d * grid,
+void show_square_line_segments(const struct line_segments * segments,
+                               unsigned char result[],
+							   const int width, const int height,
+                               const int result_bitsperpixel);
+void show_rectangular_line_segments(const struct line_segments * segments,
+                                    unsigned char result[],
+									const int width, const int height,
+                                    const int result_bitsperpixel);
+void show_peripheral_edges(const struct line_segments * segments,
+                           unsigned char result[],
+						   const int width, const int height,
+                           const int result_bitsperpixel);
+void show_perimeter(const struct line_segments * segments,
+                    unsigned char result[],
+					const int width, const int height,
+                    const int result_bitsperpixel);
+void show_perimeter_intersection(const struct line_segments * segments,
+                                 unsigned char result[],
+								 const int width, const int height,
+                                 const int result_bitsperpixel,
+                                 const int side1, const int side2);
+void show_shape_perimeter(unsigned char result[],
+						  const int width, const int height,
+                          const int result_bitsperpixel,
+                          const float perimeter_x0, const float perimeter_y0,
+                          const float perimeter_x1, const float perimeter_y1,
+                          const float perimeter_x2, const float perimeter_y2,
+                          const float perimeter_x3, const float perimeter_y3);
+void show_L_shape_perimeter(const struct grid_2d * grid,
                             unsigned char image_data[],
-                            int image_width, int image_height,
-                            int image_bitsperpixel);
-unsigned char rectangular_joined_line_segments(int aspect_ratio);
+                            const int image_width, const int image_height,
+                            const int image_bitsperpixel);
+unsigned char rectangular_joined_line_segments(const int aspect_ratio);
 
 /* resize.c */
 

@@ -401,7 +401,7 @@ void get_line_segments(unsigned char edges_image[],
  * \param height height of the image
  * \param result_bitsperpixel Number of bits per pixel
  */
-void show_line_segments(struct line_segments * segments,
+void show_line_segments(const struct line_segments * segments,
                         unsigned char result[], int width, int height,
                         int result_bitsperpixel)
 {
@@ -484,8 +484,8 @@ unsigned char segment_edges_within_roi(struct line_segments * segments,
  * \param index of the line segment
  * \return length of the joined line segment
  */
-static int get_joined_segment_length(struct line_segments * segments,
-                                     int index)
+static int get_joined_segment_length(const struct line_segments * segments,
+                                     const int index)
 {
     int total_length=segments->no_of_members[index];
 
@@ -645,8 +645,8 @@ void join_line_segments(struct line_segments * segments,
  * \param max_x returned bottom right x coordinate for the bounding box
  * \param max_y returned bottom right y coordinate for the bounding box
  */
-static void get_segment_bounding_box(struct line_segments * segments,
-                                     int index,
+static void get_segment_bounding_box(const struct line_segments * segments,
+                                     const int index,
                                      int * min_x, int * min_y,
                                      int * max_x, int * max_y)
 {
@@ -678,7 +678,7 @@ static void get_segment_bounding_box(struct line_segments * segments,
  * \param index index of the line segment
  * \return integer aspect ratio (x100)
  */
-int get_segment_aspect_ratio(struct line_segments * segments,
+int get_segment_aspect_ratio(const struct line_segments * segments,
                              int index)
 {
     int min_x=-1, min_y=-1;
@@ -710,9 +710,10 @@ int get_segment_aspect_ratio(struct line_segments * segments,
  * \param height height of the image
  * \param result_bitsperpixel Number of bits per pixel
  */
-void show_square_line_segments(struct line_segments * segments,
-                               unsigned char result[], int width, int height,
-                               int result_bitsperpixel)
+void show_square_line_segments(const struct line_segments * segments,
+                               unsigned char result[],
+							   const int width, const int height,
+                               const int result_bitsperpixel)
 {
     int i,j,index=0,x,y,n,aspect_ratio;
     unsigned char r,g,b;
@@ -755,7 +756,7 @@ void show_square_line_segments(struct line_segments * segments,
  * \param aspect_ratio aspect ratio (x100) of joined line segments
  * \return 1 if the aspect ratio is rectangular
  */
-unsigned char rectangular_joined_line_segments(int aspect_ratio)
+unsigned char rectangular_joined_line_segments(const int aspect_ratio)
 {
     int i, possible_aspect_ratio, min_aspect_ratio, max_aspect_ratio;
     const int aspect_tollerance = 10;
@@ -788,10 +789,10 @@ unsigned char rectangular_joined_line_segments(int aspect_ratio)
  * \param height height of the image
  * \param result_bitsperpixel Number of bits per pixel
  */
-void show_rectangular_line_segments(struct line_segments * segments,
+void show_rectangular_line_segments(const struct line_segments * segments,
                                     unsigned char result[],
-                                    int width, int height,
-                                    int result_bitsperpixel)
+                                    const int width, const int height,
+                                    const int result_bitsperpixel)
 {
     int i,j,index=0,x,y,n,aspect_ratio;
     unsigned char r,g,b;
@@ -836,7 +837,7 @@ void show_rectangular_line_segments(struct line_segments * segments,
  * \param index index of the line segment
  */
 static void update_peripheral(struct line_segments * segments,
-                              int index)
+                              const int index)
 {
     int i, x, y, idx=0;
 
@@ -881,7 +882,7 @@ static void update_peripheral(struct line_segments * segments,
  * \return number of edges around the periphery
  */
 int get_peripheral_edges(struct line_segments * segments,
-                         int index, int width, int height)
+                         const int index, const int width, const int height)
 {
     int min_x=-1, min_y=-1;
     int max_x=-1, max_y=-1;
@@ -937,10 +938,12 @@ int get_peripheral_edges(struct line_segments * segments,
  * \param separator_y1 y coordinate of the end of the demarcation line
  */
 static void assign_edges_to_side(struct line_segments * segments,
-                                 int orientation_quantized2,
-                                 int orthogonal,
-                                 float separator_x0, float separator_y0,
-                                 float separator_x1, float separator_y1)
+                                 const int orientation_quantized2,
+                                 const int orthogonal,
+                                 const float separator_x0,
+								 const float separator_y0,
+                                 const float separator_x1,
+								 const float separator_y1)
 {
     int i, size, side_index, edge_index, prev_x, prev_y, x, y;
     int index = orientation_quantized2;
@@ -1013,9 +1016,9 @@ static void assign_edges_to_side(struct line_segments * segments,
  * \param quantization_degrees angular quantization used for orientation histogram
  */
 static void assign_edges_to_sides(struct line_segments * segments,
-                                  int orientation_quantized,
-                                  float orientation_radians,
-                                  int quantization_degrees)
+                                  const int orientation_quantized,
+                                  const float orientation_radians,
+                                  const int quantization_degrees)
 {
     int orient, orthogonal, opposite, side;
     int no_of_buckets = (int)(360 / quantization_degrees);
@@ -1083,8 +1086,8 @@ static void assign_edges_to_sides(struct line_segments * segments,
  * \return orientation in radians
  */
 float get_segments_orientation(struct line_segments * segments,
-                               int width, int height,
-                               int quantization_degrees)
+                               const int width, const int height,
+                               const int quantization_degrees)
 {
     const int no_of_prev_coords = 8;
     const float twopi = (float)PI * 2;
@@ -1294,9 +1297,10 @@ float get_segments_orientation(struct line_segments * segments,
  * \param height height of the image
  * \param result_bitsperpixel Number of bits per pixel
  */
-void show_peripheral_edges(struct line_segments * segments,
-                           unsigned char result[], int width, int height,
-                           int result_bitsperpixel)
+void show_peripheral_edges(const struct line_segments * segments,
+                           unsigned char result[],
+						   const int width, const int height,
+                           const int result_bitsperpixel)
 {
     int side, edge_index, x, y, n, no_of_edges;
     unsigned char r=0, g=0, b=0;
@@ -1351,9 +1355,10 @@ void show_peripheral_edges(struct line_segments * segments,
  * \param height height of the image
  * \param result_bitsperpixel Number of bits per pixel
  */
-void show_perimeter(struct line_segments * segments,
-                    unsigned char result[], int width, int height,
-                    int result_bitsperpixel)
+void show_perimeter(const struct line_segments * segments,
+                    unsigned char result[],
+					const int width, const int height,
+                    const int result_bitsperpixel)
 {
     int side, x, y, n;
     unsigned char r=0, g=0, b=0, vertical;
@@ -1433,10 +1438,11 @@ void show_perimeter(struct line_segments * segments,
  * \param side1 Index of the first intersecting side
  * \param side2 Index of the second intersecting side
  */
-void show_perimeter_intersection(struct line_segments * segments,
-                                 unsigned char result[], int width, int height,
-                                 int result_bitsperpixel,
-                                 int side1, int side2)
+void show_perimeter_intersection(const struct line_segments * segments,
+                                 unsigned char result[],
+								 const int width, const int height,
+                                 const int result_bitsperpixel,
+                                 const int side1, const int side2)
 {
     int side, x, y, n;
     unsigned char r=0, g=0, b=0, vertical;
@@ -1525,10 +1531,10 @@ void show_perimeter_intersection(struct line_segments * segments,
  * \param perimeter_y3 returned fourth perimeter y coord
  * \return 0 on success, -1 otherwise
  */
-static int fit_perimeter_to_all_sides(struct line_segments * segments,
-        int width, int height,
-        float max_deviation,
-        int centre_x, int centre_y,
+static int fit_perimeter_to_all_sides(const struct line_segments * segments,
+        const int width, const int height,
+        const float max_deviation,
+        const int centre_x, const int centre_y,
         float * perimeter_x0,
         float * perimeter_y0,
         float * perimeter_x1,
@@ -1632,8 +1638,8 @@ static int fit_perimeter_to_all_sides(struct line_segments * segments,
  * \param debug_filename filename of the debug image
  * \return 0 on success, -1 otherwise
  */
-int fit_perimeter_to_sides(struct line_segments * segments,
-						   int width, int height,
+int fit_perimeter_to_sides(const struct line_segments * segments,
+						   const int width, const int height,
 						   float * perimeter_x0,
 						   float * perimeter_y0,
 						   float * perimeter_x1,
@@ -1642,13 +1648,13 @@ int fit_perimeter_to_sides(struct line_segments * segments,
 						   float * perimeter_y2,
 						   float * perimeter_x3,
 						   float * perimeter_y3,
-						   unsigned char debug,
-						   int try_config, int seg_idx,
-						   int offset,
+						   const unsigned char debug,
+						   const int try_config, const int seg_idx,
+						   const int offset,
 						   unsigned char thr_edges_image_data[],
-						   int resized_thresholded_width,
-						   int resized_thresholded_height,
-						   int image_bitsperpixel,
+						   const int resized_thresholded_width,
+						   const int resized_thresholded_height,
+						   const int image_bitsperpixel,
 						   char * debug_filename)
 {
     int side, no_of_edges, max_edges=0, max_side1=-1, max_side2=-1;
@@ -1930,12 +1936,13 @@ int fit_perimeter_to_sides(struct line_segments * segments,
  * \param perimeter_x3 fourth perimeter x coord
  * \param perimeter_y3 fourth perimeter y coord
  */
-void show_shape_perimeter(unsigned char result[], int width, int height,
-                          int result_bitsperpixel,
-                          float perimeter_x0, float perimeter_y0,
-                          float perimeter_x1, float perimeter_y1,
-                          float perimeter_x2, float perimeter_y2,
-                          float perimeter_x3, float perimeter_y3)
+void show_shape_perimeter(unsigned char result[],
+						  const int width, const int height,
+                          const int result_bitsperpixel,
+                          const float perimeter_x0, const float perimeter_y0,
+                          const float perimeter_x1, const float perimeter_y1,
+                          const float perimeter_x2, const float perimeter_y2,
+                          const float perimeter_x3, const float perimeter_y3)
 {
     unsigned char r=0, g=255, b=0;
 
@@ -1965,10 +1972,10 @@ void show_shape_perimeter(unsigned char result[], int width, int height,
  * \param image_height height of the image
  * \param image_bitsperpixel Number of bits per pixel
  */
-void show_L_shape_perimeter(struct grid_2d * grid,
+void show_L_shape_perimeter(const struct grid_2d * grid,
                             unsigned char image_data[],
-                            int image_width, int image_height,
-                            int image_bitsperpixel)
+                            const int image_width, const int image_height,
+                            const int image_bitsperpixel)
 {
     /* show the vertical part of the "L" shape, L1 */
     if (grid->mirrored == 0) {
@@ -2043,10 +2050,10 @@ void show_L_shape_perimeter(struct grid_2d * grid,
  * \param perimeter_y3 fourth perimeter y coord
  * \return integer aspect ratio (x100)
  */
-int get_shape_aspect_ratio(float perimeter_x0, float perimeter_y0,
-                           float perimeter_x1, float perimeter_y1,
-                           float perimeter_x2, float perimeter_y2,
-                           float perimeter_x3, float perimeter_y3)
+int get_shape_aspect_ratio(const float perimeter_x0, const float perimeter_y0,
+                           const float perimeter_x1, const float perimeter_y1,
+                           const float perimeter_x2, const float perimeter_y2,
+                           const float perimeter_x3, const float perimeter_y3)
 {
     float dx, dy;
     float dist0, dist1, dist2, dist3, max_dist, min_dist;
