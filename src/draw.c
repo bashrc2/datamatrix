@@ -42,11 +42,12 @@
  * \param b Blue
  */
 void draw_line(unsigned char img[],
-               int width, int height,
-               int bitsperpixel,
-               int tx, int ty, int bx, int by,
-               int line_width,
-               int r, int g, int b)
+               const int width, const int height,
+               const int bitsperpixel,
+               const int tx, const int ty,
+               const int bx, const int by,
+               const int line_width,
+               const int r, const int g, const int b)
 {
     int linewidth = bx - tx;
     int lineheight = by - ty;
@@ -114,10 +115,10 @@ void draw_line(unsigned char img[],
  * \param b Blue
  */
 void draw_dot(unsigned char img[],
-              int width, int height,
-              int bitsperpixel,
-              int centre_x, int centre_y, int radius,
-              int r, int g, int b)
+              const int width, const int height,
+              const int bitsperpixel,
+              const int centre_x, const int centre_y, const int radius,
+              const int r, const int g, const int b)
 {
     int bytesperpixel = bitsperpixel/8;
     int x, y, n, dx,dy, radius_sqr = radius*radius;

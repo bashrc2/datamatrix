@@ -265,7 +265,7 @@ void darklight(const unsigned char img[],
 /* edges.c */
 
 void detect_edges_binary(unsigned char img[],
-                         int width, int height,
+                         const int width, const int height,
                          unsigned char buffer[]);
 
 void get_line_segments(unsigned char edges_image[], int width, int height,
@@ -366,34 +366,35 @@ int resize_thresholded_image(const unsigned char img[],
 /* draw.c */
 
 void draw_line(unsigned char img[],
-               int width, int height,
-               int bitsperpixel,
-               int tx, int ty, int bx, int by,
-               int line_width,
-               int r, int g, int b);
+               const int width, const int height,
+               const int bitsperpixel,
+               const int tx, const int ty,
+			   const int bx, const int by,
+               const int line_width,
+               const int r, const int g, const int b);
 
 void draw_dot(unsigned char img[],
-              int width, int height,
-              int bitsperpixel,
-              int centre_x, int centre_y, int radius,
-              int r, int g, int b);
+              const int width, const int height,
+              const int bitsperpixel,
+              const int centre_x, const int centre_y, const int radius,
+              const int r, const int g, const int b);
 
 /* dotpeen_font.c */
 
 void draw_text(unsigned char img[],
-               int width, int height,
-               int bitsperpixel,
-               int text_x, int text_y, int character_width,
-               int line_spacing,
-               int character_separation,
-               int r, int g, int b,
+               const int width, const int height,
+               const int bitsperpixel,
+               const int text_x, const int text_y, const int character_width,
+               const int line_spacing,
+               const int character_separation,
+               const int r, const int g, const int b,
                const char * text);
 
 void draw_text_svg(FILE * fp_image,
-                   int width, int height,
-                   int text_x, int text_y, int character_width,
-                   int line_spacing,
-                   int character_separation,
+                   const int width, const int height,
+                   const int text_x, const int text_y, const int character_width,
+                   const int line_spacing,
+                   const int character_separation,
                    const char * text);
 
 int description_text_width(const char * description);

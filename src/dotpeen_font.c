@@ -878,7 +878,7 @@ char * font_misc[] = {
  * \param chr character to be returned
  * \param dotmatrix returned matrix containing the character dot pattern
  */
-static void lookup_character(char chr, char dotmatrix[])
+static void lookup_character(const char chr, char dotmatrix[])
 {
     int offset, w, h, i;
 
@@ -949,11 +949,12 @@ static void lookup_character(char chr, char dotmatrix[])
  * \param chr character to be returned
  */
 static void draw_character(unsigned char img[],
-                           int width, int height,
-                           int bitsperpixel,
-                           int tx, int ty, int bx, int by,
-                           int r, int g, int b,
-                           char chr)
+                           const int width, const int height,
+                           const int bitsperpixel,
+                           const int tx, const int ty,
+                           const int bx, const int by,
+                           const int r, const int g, const int b,
+                           const char chr)
 {
     int dx = bx - tx;
     int dy = by - ty;
@@ -986,8 +987,9 @@ static void draw_character(unsigned char img[],
  * \param chr character to be returned
  */
 static void draw_character_svg(FILE * fp_image,
-                               int tx, int ty, int bx, int by,
-                               char chr)
+                               const int tx, const int ty,
+                               const int bx, const int by,
+                               const char chr)
 {
     int dx = bx - tx;
     int dy = by - ty;
@@ -1027,12 +1029,12 @@ static void draw_character_svg(FILE * fp_image,
  * \param text Text to be drawn
  */
 void draw_text(unsigned char img[],
-               int width, int height,
-               int bitsperpixel,
-               int text_x, int text_y, int character_width,
-               int line_spacing,
-               int character_separation,
-               int r, int g, int b,
+               const int width, const int height,
+               const int bitsperpixel,
+               const int text_x, const int text_y, const int character_width,
+               const int line_spacing,
+               const int character_separation,
+               const int r, const int g, const int b,
                const char * text)
 {
     int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
@@ -1072,10 +1074,10 @@ void draw_text(unsigned char img[],
  * \param text Text to be drawn
  */
 void draw_text_svg(FILE * fp_image,
-                   int width, int height,
-                   int text_x, int text_y, int character_width,
-                   int line_spacing,
-                   int character_separation,
+                   const int width, const int height,
+                   const int text_x, const int text_y, const int character_width,
+                   const int line_spacing,
+                   const int character_separation,
                    const char * text)
 {
     int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;

@@ -38,8 +38,8 @@
  * \param width width of the image
  * \param height height of the image
  */
-void init_line_segments(struct line_segments * segments,
-                        int width, int height)
+static void init_line_segments(struct line_segments * segments,
+							   const int width, const int height)
 {
     int i;
 
@@ -137,7 +137,7 @@ void free_line_segments(struct line_segments * segments)
  * \param buffer buffer image array
  */
 void detect_edges_binary(unsigned char img[],
-                         int width, int height,
+                         const int width, const int height,
                          unsigned char buffer[])
 {
     int x, y, n;
@@ -180,15 +180,15 @@ void detect_edges_binary(unsigned char img[],
  * \param no_of_members returned number of edges within the line segment
  */
 static void trace_edge(unsigned char edges_image[],
-                       int width, int height,
+                       const int width, const int height,
                        int x, int y,
-                       int image_border,
+                       const int image_border,
                        int * perimeter_tx,
                        int * perimeter_ty,
                        int * perimeter_bx,
                        int * perimeter_by,
-                       int ignore_periphery,
-                       int max_members,
+                       const int ignore_periphery,
+                       const int max_members,
                        int members[],
                        int * no_of_members)
 {
