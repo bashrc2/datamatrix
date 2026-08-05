@@ -39,7 +39,7 @@
  * \param height height of the image
  */
 static void init_line_segments(struct line_segments * segments,
-							   const int width, const int height)
+                               const int width, const int height)
 {
     int i;
 
@@ -327,7 +327,7 @@ static void trace_edge(unsigned char edges_image[],
  * \param segments object containing line segments
  */
 static void trace_edges(unsigned char edges_image[],
-                        int width, int height,
+                        const int width, const int height,
                         struct line_segments * segments)
 {
     int x,y,n,index=0,max;
@@ -384,9 +384,9 @@ static void trace_edges(unsigned char edges_image[],
  * \param min_segment_length minimum length of a line segment
  */
 void get_line_segments(unsigned char edges_image[],
-                       int width, int height,
+                       const int width, int const height,
                        struct line_segments * segments,
-                       int min_segment_length)
+                       const int min_segment_length)
 {
     init_line_segments(segments, width, height);
     segments->minimum_segment_length = min_segment_length;
@@ -402,8 +402,9 @@ void get_line_segments(unsigned char edges_image[],
  * \param result_bitsperpixel Number of bits per pixel
  */
 void show_line_segments(const struct line_segments * segments,
-                        unsigned char result[], int width, int height,
-                        int result_bitsperpixel)
+                        unsigned char result[],
+                        const int width, const int height,
+                        const int result_bitsperpixel)
 {
     int i,j,index=0,x,y,n;
     unsigned char r,g,b;
@@ -443,8 +444,8 @@ void show_line_segments(const struct line_segments * segments,
  * \return percentage of the image which contains segments
  */
 unsigned char segment_edges_within_roi(struct line_segments * segments,
-                                       int width, int height,
-                                       int roi_radius_percent)
+                                       const int width, const int height,
+                                       const int roi_radius_percent)
 {
     int i, j, x, y, dx, dy, index=0, index_adjusted;
     int cx = width/2;
@@ -506,7 +507,7 @@ static int get_joined_segment_length(const struct line_segments * segments,
  * \param join_radius radius within which to join line segments together
  */
 void join_line_segments(struct line_segments * segments,
-                        int join_radius)
+                        const int join_radius)
 {
     int i, j, start_x1, start_y1, end_x1, end_y1;
     int start_x2, start_y2, end_x2, end_y2;
@@ -679,7 +680,7 @@ static void get_segment_bounding_box(const struct line_segments * segments,
  * \return integer aspect ratio (x100)
  */
 int get_segment_aspect_ratio(const struct line_segments * segments,
-                             int index)
+                             const int index)
 {
     int min_x=-1, min_y=-1;
     int max_x=-1, max_y=-1;

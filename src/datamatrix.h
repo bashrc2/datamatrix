@@ -268,18 +268,19 @@ void detect_edges_binary(unsigned char img[],
                          const int width, const int height,
                          unsigned char buffer[]);
 
-void get_line_segments(unsigned char edges_image[], int width, int height,
+void get_line_segments(unsigned char edges_image[],
+                       const int width, const int height,
                        struct line_segments * segments,
-                       int min_segment_length);
+                       const int min_segment_length);
 void join_line_segments(struct line_segments * segments,
-                        int join_radius);
+                        const int join_radius);
 
 unsigned char segment_edges_within_roi(struct line_segments * segments,
-                                       int width, int height,
-                                       int roi_radius_percent);
+                                       const int width, const int height,
+                                       const int roi_radius_percent);
 
 int get_segment_aspect_ratio(const struct line_segments * segments,
-                             int index);
+                             const int index);
 
 int get_peripheral_edges(struct line_segments * segments,
                          const int index, const int width, const int height);
@@ -311,8 +312,9 @@ int get_shape_aspect_ratio(const float perimeter_x0, const float perimeter_y0,
 void free_line_segments(struct line_segments * segments);
 
 void show_line_segments(const struct line_segments * segments,
-                        unsigned char result[], int width, int height,
-                        int result_bitsperpixel);
+                        unsigned char result[],
+                        const int width, const int height,
+                        const int result_bitsperpixel);
 void show_square_line_segments(const struct line_segments * segments,
                                unsigned char result[],
                                const int width, const int height,
@@ -369,7 +371,7 @@ void draw_line(unsigned char img[],
                const int width, const int height,
                const int bitsperpixel,
                const int tx, const int ty,
-			   const int bx, const int by,
+               const int bx, const int by,
                const int line_width,
                const int r, const int g, const int b);
 
