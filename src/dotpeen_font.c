@@ -27,7 +27,7 @@
 
 #include "datamatrix.h"
 
-char * font_upper[] = {
+const char * font_upper[] = {
     "  o  ",
     " o o ",
     "o   o",
@@ -315,7 +315,7 @@ char * font_upper[] = {
     "     "
 };
 
-char * font_lower[] = {
+const char * font_lower[] = {
     "     ",
     "     ",
     " ooo ",
@@ -603,7 +603,7 @@ char * font_lower[] = {
     "     "
 };
 
-char * font_numbers[] = {
+const char * font_numbers[] = {
     " ooo ",
     "o   o",
     "o  oo",
