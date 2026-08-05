@@ -43,7 +43,7 @@ void * safemalloc(size_t n)
  * \param text the string to be added
  * \return zero on success
  */
-int decode_strcat(char * result, char * text)
+int decode_strcat(char * result, const char * text)
 {
     if (strlen(result) + strlen(text) + sizeof(char) >= (size_t)MAX_DECODE_LENGTH)
         return -1;

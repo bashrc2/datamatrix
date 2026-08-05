@@ -230,11 +230,11 @@ unsigned char get_percent_high(unsigned char mono_img[],
 
 /* convert.c */
 
-void mono_to_colour(unsigned char img[], int width, int height,
+void mono_to_colour(const unsigned char img[], int width, int height,
                     int bitsperpixel,
                     unsigned char colour[]);
 
-void colour_to_mono(unsigned char img[], int width, int height,
+void colour_to_mono(const unsigned char img[], int width, int height,
                     int bitsperpixel,
                     unsigned char mono[]);
 
@@ -253,7 +253,7 @@ void erode(unsigned char img[], int width, int height,
 
 /* darklight.c */
 
-void darklight(unsigned char img[],
+void darklight(const unsigned char img[],
                int width, int height,
                int sample_step,
                int sampling_radius_percent,
@@ -490,14 +490,14 @@ void show_grid_image(struct grid_2d * grid,
 /* decode.c */
 
 void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
-                       char gs1_url[], char result[],
+                       const char gs1_url[], char result[],
                        unsigned char human_readable);
 unsigned char condense_data_blocks(struct grid_2d * grid,
                                    unsigned char debug);
 
 /* utils.c */
 
-int decode_strcat(char * result, char * text);
+int decode_strcat(char * result, const char * text);
 
 int decode_strcat_char(char * result, char chr);
 
@@ -627,7 +627,7 @@ char * get_fishing_area(char data_str[]);
 
 void gs1_semantics(char result[],
                    char gs1_result[],
-                   char gs1_url[],
+                   const char gs1_url[],
                    unsigned char debug,
                    int * application_identifier,
                    unsigned char * application_identifier_length,
@@ -708,7 +708,7 @@ int read_datamatrix(unsigned char image_data[],
                     unsigned char yaml,
                     int minimum_grid_dimension,
                     int maximum_grid_dimension,
-                    char gs1_url[],
+                    const char gs1_url[],
                     unsigned char raw_decode,
                     unsigned char histogram_module_centres,
                     char histogram_filename[],
@@ -769,8 +769,8 @@ void encode_svg(char * image_filename, int width, int height,
 
 /* decode_text.c */
 
-int decode_datamatrix_from_text(char * datamatrix_text,
-                                char * gs1_url,
+int decode_datamatrix_from_text(const char * datamatrix_text,
+                                const char * gs1_url,
                                 char * custom_dot_char,
                                 char * custom_empty_char,
                                 unsigned char debug);

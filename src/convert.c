@@ -34,7 +34,7 @@
  * \param bitsperpixel Number of bits per pixel
  * \param colour returned colour image
  */
-void mono_to_colour(unsigned char img[], int width, int height,
+void mono_to_colour(const unsigned char img[], int width, int height,
                     int bitsperpixel,
                     unsigned char colour[])
 {
@@ -58,7 +58,7 @@ void mono_to_colour(unsigned char img[], int width, int height,
  * \param bitsperpixel Number of bits per pixel
  * \param mono returned mono image array
  */
-void colour_to_mono(unsigned char img[], int width, int height,
+void colour_to_mono(const unsigned char img[], int width, int height,
                     int bitsperpixel,
                     unsigned char mono[])
 {

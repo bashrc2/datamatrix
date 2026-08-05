@@ -36,8 +36,8 @@
  * \param result string containing ascii datamatrix
  * \returns 1 if replacements were made
  */
-static int datamatrix_unicode_to_ascii(char * datamatrix_text,
-                                       char * dot_text,
+static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
+                                       const char * dot_text,
                                        char * result,
                                        unsigned char debug)
 {
@@ -77,7 +77,7 @@ static int datamatrix_unicode_to_ascii(char * datamatrix_text,
  * \param decode_step returned step between adjacent cells in the X dimension
  * \param empty_char character used to represent empty space
  */
-static void get_text_datamatrix_dimensions(char * datamatrix_ascii,
+static void get_text_datamatrix_dimensions(const char * datamatrix_ascii,
         unsigned char debug,
         int * dimension_x,
         int * dimension_y,
@@ -154,8 +154,8 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
         int dimension_x,
         int dimension_y,
         int decode_step,
-        char * datamatrix_ascii,
-        char * empty_char)
+        const char * datamatrix_ascii,
+        const char * empty_char)
 {
     int i, j, start_i = -1;
     int x_pos, y_pos=0;
@@ -199,8 +199,8 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
  * \param debug set to 1 for debug mode, 0 otherwise
  * \returns 0 on success, -1 otherwise
  */
-int decode_datamatrix_from_text(char * datamatrix_text,
-                                char * gs1_url,
+int decode_datamatrix_from_text(const char * datamatrix_text,
+                                const char * gs1_url,
                                 char * custom_dot_char,
                                 char * custom_empty_char,
                                 unsigned char debug)

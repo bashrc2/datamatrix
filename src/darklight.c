@@ -33,7 +33,7 @@
  * \param mean_dark returned mean dark threshold
  * \param mean_light returned mean light threshold
  */
-static void darklight_thresholds(unsigned int histogram[],
+static void darklight_thresholds(const unsigned int histogram[],
                                  float * mean_dark,
                                  float * mean_light)
 {
@@ -125,7 +125,7 @@ static void darklight_thresholds(unsigned int histogram[],
  * \param dark returned mean dark threshold
  * \param light returned mean light threshold
  */
-void darklight(unsigned char img[],
+void darklight(const unsigned char img[],
                int width, int height,
                int sample_step,
                int sampling_radius_percent,

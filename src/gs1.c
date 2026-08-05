@@ -147,7 +147,7 @@
  */
 void gs1_semantics(char result[],
                    char gs1_result[],
-                   char gs1_url[],
+                   const char gs1_url[],
                    unsigned char debug,
                    int * application_identifier,
                    unsigned char * application_identifier_length,

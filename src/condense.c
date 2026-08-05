@@ -44,7 +44,7 @@ static int grid_data_blocks_axis(int axis_dimension)
  * \param blocks_x returned number of readable data blocks in the x dimension
  * \param blocks_y returned number of readable data blocks in the y dimension
  */
-static void grid_data_blocks(struct grid_2d * grid,
+static void grid_data_blocks(const struct grid_2d * grid,
                              int * blocks_x,
                              int * blocks_y)
 {
