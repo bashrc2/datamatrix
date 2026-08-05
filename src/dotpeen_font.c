@@ -1033,7 +1033,7 @@ void draw_text(unsigned char img[],
                int line_spacing,
                int character_separation,
                int r, int g, int b,
-               char * text)
+               const char * text)
 {
     int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
     int text_len = (int)strlen(text);
@@ -1076,7 +1076,7 @@ void draw_text_svg(FILE * fp_image,
                    int text_x, int text_y, int character_width,
                    int line_spacing,
                    int character_separation,
-                   char * text)
+                   const char * text)
 {
     int character_height = character_width * FONT_HEIGHT / FONT_WIDTH;
     int text_len = (int)strlen(text);
@@ -1107,7 +1107,7 @@ void draw_text_svg(FILE * fp_image,
  * \param description Formatted description alongside datamatrix pattern
  * \return number of characters across
  */
-int description_text_width(char * description)
+int description_text_width(const char * description)
 {
     int w = 0, max_description_width = 0;
     for (int i = 0; i < (int)strlen(description); i++) {
@@ -1132,7 +1132,7 @@ int description_text_width(char * description)
  * \param description Formatted description alongside datamatrix pattern
  * \return number of lines
  */
-int description_text_lines(char * description)
+int description_text_lines(const char * description)
 {
     int lines = 0;
     if (description[0] == 0) return 0;

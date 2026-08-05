@@ -377,17 +377,17 @@ void draw_text(unsigned char img[],
                int line_spacing,
                int character_separation,
                int r, int g, int b,
-               char * text);
+               const char * text);
 
 void draw_text_svg(FILE * fp_image,
                    int width, int height,
                    int text_x, int text_y, int character_width,
                    int line_spacing,
                    int character_separation,
-                   char * text);
+                   const char * text);
 
-int description_text_width(char * description);
-int description_text_lines(char * description);
+int description_text_width(const char * description);
+int description_text_lines(const char * description);
 
 /* geometry.c */
 
