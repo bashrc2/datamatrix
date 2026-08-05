@@ -286,19 +286,19 @@ float get_segments_orientation(struct line_segments * segments,
                                const int quantization_degrees);
 
 int fit_perimeter_to_sides(const struct line_segments * segments,
-						   const int width, const int height,
-						   float * perimeter_x0, float * perimeter_y0,
-						   float * perimeter_x1, float * perimeter_y1,
-						   float * perimeter_x2, float * perimeter_y2,
-						   float * perimeter_x3, float * perimeter_y3,
-						   const unsigned char debug,
-						   const int try_config, const int seg_idx,
-						   const int offset,
-						   unsigned char thr_edges_image_data[],
-						   const int resized_thresholded_width,
-						   const int resized_thresholded_height,
-						   const int image_bitsperpixel,
-						   char * debug_filename);
+                           const int width, const int height,
+                           float * perimeter_x0, float * perimeter_y0,
+                           float * perimeter_x1, float * perimeter_y1,
+                           float * perimeter_x2, float * perimeter_y2,
+                           float * perimeter_x3, float * perimeter_y3,
+                           const unsigned char debug,
+                           const int try_config, const int seg_idx,
+                           const int offset,
+                           unsigned char thr_edges_image_data[],
+                           const int resized_thresholded_width,
+                           const int resized_thresholded_height,
+                           const int image_bitsperpixel,
+                           char * debug_filename);
 
 int get_shape_aspect_ratio(const float perimeter_x0, const float perimeter_y0,
                            const float perimeter_x1, const float perimeter_y1,
@@ -312,27 +312,27 @@ void show_line_segments(const struct line_segments * segments,
                         int result_bitsperpixel);
 void show_square_line_segments(const struct line_segments * segments,
                                unsigned char result[],
-							   const int width, const int height,
+                               const int width, const int height,
                                const int result_bitsperpixel);
 void show_rectangular_line_segments(const struct line_segments * segments,
                                     unsigned char result[],
-									const int width, const int height,
+                                    const int width, const int height,
                                     const int result_bitsperpixel);
 void show_peripheral_edges(const struct line_segments * segments,
                            unsigned char result[],
-						   const int width, const int height,
+                           const int width, const int height,
                            const int result_bitsperpixel);
 void show_perimeter(const struct line_segments * segments,
                     unsigned char result[],
-					const int width, const int height,
+                    const int width, const int height,
                     const int result_bitsperpixel);
 void show_perimeter_intersection(const struct line_segments * segments,
                                  unsigned char result[],
-								 const int width, const int height,
+                                 const int width, const int height,
                                  const int result_bitsperpixel,
                                  const int side1, const int side2);
 void show_shape_perimeter(unsigned char result[],
-						  const int width, const int height,
+                          const int width, const int height,
                           const int result_bitsperpixel,
                           const float perimeter_x0, const float perimeter_y0,
                           const float perimeter_x1, const float perimeter_y1,
@@ -398,7 +398,7 @@ int description_text_lines(const char * description);
 /* geometry.c */
 
 int point_in_polygon(const int x, const int y,
-					 const int points[], const int no_of_points);
+                     const int points[], const int no_of_points);
 
 void get_centroid(const float perimeter_x0, const float perimeter_y0,
                   const float perimeter_x1, const float perimeter_y1,
@@ -448,51 +448,51 @@ float corner_angle(const float x0, const float y0,
 
 float get_cell_width(struct grid_2d * grid);
 
-void create_grid(int dimension_x, int dimension_y,
-                 float perimeter_x0,
-                 float perimeter_y0,
-                 float perimeter_x1,
-                 float perimeter_y1,
-                 float perimeter_x2,
-                 float perimeter_y2,
-                 float perimeter_x3,
-                 float perimeter_y3,
-                 unsigned char mono_img[],
-                 int image_width, int image_height,
+void create_grid(const int dimension_x, const int dimension_y,
+                 const float perimeter_x0,
+                 const float perimeter_y0,
+                 const float perimeter_x1,
+                 const float perimeter_y1,
+                 const float perimeter_x2,
+                 const float perimeter_y2,
+                 const float perimeter_x3,
+                 const float perimeter_y3,
+                 const unsigned char mono_img[],
+                 const int image_width, const int image_height,
                  int sampling_radius,
-                 int sampling_pattern,
+                 const int sampling_pattern,
                  struct grid_2d * grid);
 
-void create_grid_from_pattern(int dimension_x, int dimension_y,
+void create_grid_from_pattern(const int dimension_x, const int dimension_y,
                               struct grid_2d * grid,
-                              unsigned char occupancy[]);
+                              const unsigned char occupancy[]);
 
 int detect_timing_pattern(unsigned char mono_img[],
-                          int width, int height,
-                          int minimum_grid_dimension,
-                          int maximum_grid_dimension,
-                          float perimeter_x0, float perimeter_y0,
-                          float perimeter_x1, float perimeter_y1,
-                          float perimeter_x2, float perimeter_y2,
-                          float perimeter_x3, float perimeter_y3,
-                          int sampling_radius,
-                          unsigned char debug,
+                          const int width, const int height,
+                          const int minimum_grid_dimension,
+                          const int maximum_grid_dimension,
+                          const float perimeter_x0, const float perimeter_y0,
+                          const float perimeter_x1, const float perimeter_y1,
+                          const float perimeter_x2, const float perimeter_y2,
+                          const float perimeter_x3, const float perimeter_y3,
+                          const int sampling_radius,
+                          const unsigned char debug,
                           unsigned char image_data[],
-                          int debug_frequency);
+                          const int debug_frequency);
 
 void rotate_grid(struct grid_2d * grid);
 
-unsigned char get_grid_occupancy_percent(struct grid_2d * grid);
+unsigned char get_grid_occupancy_percent(const struct grid_2d * grid);
 
 void free_grid(struct grid_2d * grid);
 
-void show_grid(struct grid_2d * grid);
+void show_grid(const struct grid_2d * grid);
 
 void show_grid_image(struct grid_2d * grid,
                      unsigned char image_data[],
-                     int image_width, int image_height,
-                     int image_bitsperpixel,
-                     int sampling_radius, int sampling_pattern);
+                     const int image_width, const int image_height,
+                     const int image_bitsperpixel,
+                     const int sampling_radius, const int sampling_pattern);
 
 /* decode.c */
 
@@ -755,7 +755,7 @@ void run_all_tests();
 /* encode.c */
 
 void encode_image(unsigned char img[],
-				  const int width, const int height,
+                  const int width, const int height,
                   const int bitsperpixel, const unsigned char * grid,
                   const int encode_width, const int encode_height,
                   const unsigned char square_modules,
@@ -766,7 +766,7 @@ void encode_image(unsigned char img[],
                   const int character_separation);
 
 void encode_svg(const char * image_filename,
-				const int width, const int height,
+                const int width, const int height,
                 const unsigned char * grid,
                 const int encode_width, const int encode_height,
                 const unsigned char square_modules,

@@ -369,22 +369,22 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
  * \return the most likely timing border frequency
  */
 static int detect_timing_pattern_rectangular(unsigned char mono_img[],
-        int width, int height,
-        int minimum_grid_dimension,
-        int maximum_grid_dimension,
-        float perimeter_x0,
-        float perimeter_y0,
-        float perimeter_x1,
-        float perimeter_y1,
-        float perimeter_x2,
-        float perimeter_y2,
-        float perimeter_x3,
-        float perimeter_y3,
-        int threshold, float side_length,
-        int sampling_radius,
-        unsigned char debug,
+        const int width, const int height,
+        const int minimum_grid_dimension,
+        const int maximum_grid_dimension,
+        const float perimeter_x0,
+        const float perimeter_y0,
+        const float perimeter_x1,
+        const float perimeter_y1,
+        const float perimeter_x2,
+        const float perimeter_y2,
+        const float perimeter_x3,
+        const float perimeter_y3,
+        const int threshold, const float side_length,
+        const int sampling_radius,
+        const unsigned char debug,
         unsigned char image_data[],
-        int debug_frequency)
+        const int debug_frequency)
 {
     float pitch, half_pitch, centre_x, centre_y, vertex_x, vertex_y, dx, dy;
     int side, corner, index, freq, freq_shortest, prob, max_prob=0;
@@ -536,17 +536,17 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
  * \return the most likely timing border frequency
  */
 int detect_timing_pattern(unsigned char mono_img[],
-                          int width, int height,
-                          int minimum_grid_dimension,
-                          int maximum_grid_dimension,
-                          float perimeter_x0, float perimeter_y0,
-                          float perimeter_x1, float perimeter_y1,
-                          float perimeter_x2, float perimeter_y2,
-                          float perimeter_x3, float perimeter_y3,
-                          int sampling_radius,
-                          unsigned char debug,
+                          const int width, const int height,
+                          const int minimum_grid_dimension,
+                          const int maximum_grid_dimension,
+                          const float perimeter_x0, const float perimeter_y0,
+                          const float perimeter_x1, const float perimeter_y1,
+                          const float perimeter_x2, const float perimeter_y2,
+                          const float perimeter_x3, const float perimeter_y3,
+                          const int sampling_radius,
+                          const unsigned char debug,
                           unsigned char image_data[],
-                          int debug_frequency)
+                          const int debug_frequency)
 {
     int threshold = 0;
     float longest_side = get_longest_side(perimeter_x0, perimeter_y0,
@@ -700,7 +700,7 @@ static void orient_grid(struct grid_2d * grid)
         /* mirror */
         grid->mirrored = 1;
         temp = (unsigned char*)safemalloc((size_t)grid->dimension_x *
-										  sizeof(unsigned char));
+                                          sizeof(unsigned char));
         if (temp != NULL) {
             /* mirror occupancy */
             for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
@@ -736,7 +736,7 @@ static void orient_grid(struct grid_2d * grid)
         /* flip */
         grid->flipped = 1;
         temp = (unsigned char*)safemalloc((size_t)grid->dimension_y *
-										  sizeof(unsigned char));
+                                          sizeof(unsigned char));
         if (temp != NULL) {
             /* flip occupancy */
             for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
@@ -770,7 +770,7 @@ static void orient_grid(struct grid_2d * grid)
  * \param dimension_y y dimension of the grid
  * \param grid grid object
  */
-static void create_grid_base(int dimension_x, int dimension_y,
+static void create_grid_base(const int dimension_x, const int dimension_y,
                              struct grid_2d * grid)
 {
     /* m_NN */
@@ -793,13 +793,13 @@ static void create_grid_base(int dimension_x, int dimension_y,
 
     /* generate the grid cells and initialise them to zero */
     grid->occupancy = (unsigned char**)safemalloc((size_t)dimension_x *
-												  sizeof(unsigned char*));
+                                                  sizeof(unsigned char*));
     for (grid_x = 0; grid_x < dimension_x; grid_x++) {
         grid->occupancy[grid_x] =
             (unsigned char *)safemalloc((size_t)dimension_y *
-										sizeof(unsigned char));
+                                        sizeof(unsigned char));
         memset(grid->occupancy[grid_x], 0,
-			   (size_t)dimension_y * sizeof(unsigned char));
+               (size_t)dimension_y * sizeof(unsigned char));
     }
 
     /* generate the grid buffer cells and initialise them to zero */
@@ -816,25 +816,25 @@ static void create_grid_base(int dimension_x, int dimension_y,
     grid->damage = (unsigned char*)safemalloc((size_t)(dimension_x * dimension_x) *
                    sizeof(unsigned char));
     memset(grid->damage, 0,
-		   (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
+           (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* generate original damaged cells for use when drawing damage in an image */
     grid->original_damage = (unsigned char*)safemalloc((size_t)(dimension_x *
-																dimension_x) *
-													   sizeof(unsigned char));
+                                                                dimension_x) *
+                                                       sizeof(unsigned char));
     memset(grid->original_damage, 0,
            (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* generate the damaged cells buffer and initialise them to zero */
     grid->damage_buffer = (unsigned char*)safemalloc((size_t)(dimension_x *
-															  dimension_x) *
-													 sizeof(unsigned char));
+                                                              dimension_x) *
+                                                     sizeof(unsigned char));
     memset(grid->damage_buffer, 0,
            (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* erasures */
     grid->erasures = (int*)safemalloc((size_t)(MAX_GRID_DIMENSION *
-											   MAX_GRID_DIMENSION) * sizeof(int));
+                                               MAX_GRID_DIMENSION) * sizeof(int));
 
     /* codeword array, cleared to zero */
     grid->codeword = (unsigned char*)safemalloc((size_t)MAX_CODEWORDS *
@@ -847,13 +847,13 @@ static void create_grid_base(int dimension_x, int dimension_y,
         grid->codeword_pattern[grid_x] =
             (int *)safemalloc((size_t)dimension_y * sizeof(int));
         memset(grid->codeword_pattern[grid_x], 0,
-			   (size_t)dimension_y * sizeof(int));
+               (size_t)dimension_y * sizeof(int));
     }
 
     grid->corrected_codewords =
         (unsigned char*)safemalloc((size_t)MAX_CODEWORDS * sizeof(unsigned char));
     memset(grid->corrected_codewords, 0,
-		   (size_t)MAX_CODEWORDS * sizeof(unsigned char));
+           (size_t)MAX_CODEWORDS * sizeof(unsigned char));
 
     grid->data_bytes = (unsigned char*)safemalloc((size_t)8 * sizeof(unsigned char));
 
@@ -869,10 +869,10 @@ static void create_grid_base(int dimension_x, int dimension_y,
     grid->m_Gg = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
     grid->m_taltab = (unsigned char*)safemalloc((size_t)max_bits *
-												sizeof(unsigned char));
+                                                sizeof(unsigned char));
 
     grid->m_tal1tab = (unsigned char*)safemalloc((size_t)max_bits *
-												 sizeof(unsigned char));
+                                                 sizeof(unsigned char));
 
     grid->data = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
@@ -901,9 +901,9 @@ static void create_grid_base(int dimension_x, int dimension_y,
  * \param grid grid object
  * \param occupancy grid occupancy array to be inserted
  */
-void create_grid_from_pattern(int dimension_x, int dimension_y,
+void create_grid_from_pattern(const int dimension_x, const int dimension_y,
                               struct grid_2d * grid,
-                              unsigned char occupancy[])
+                              const unsigned char occupancy[])
 {
     int grid_x, grid_y;
 
@@ -929,9 +929,9 @@ void create_grid_from_pattern(int dimension_x, int dimension_y,
  * \param sampling_radius the radius within which to sample
  * \return number of white (occupied) pixels
  */
-static int cell_sample_solid(unsigned char mono_img[],
-                             int image_width, int image_height,
-                             int x, int y, int sampling_radius)
+static int cell_sample_solid(const unsigned char mono_img[],
+                             const int image_width, const int image_height,
+                             const int x, const int y, const int sampling_radius)
 {
     int sample_x, sample_y, n, hits = 0;
     int min_x = x - sampling_radius;
@@ -970,9 +970,9 @@ static int cell_sample_solid(unsigned char mono_img[],
  * \param sampling_radius the radius within which to sample
  * \return number of white (occupied) pixels
  */
-static int cell_sample_ring(unsigned char mono_img[],
-                            int image_width, int image_height,
-                            int x, int y, int sampling_radius)
+static int cell_sample_ring(const unsigned char mono_img[],
+                            const int image_width, const int image_height,
+                            const int x, const int y, const int sampling_radius)
 {
     int sample_x, sample_y, n1, n2, hits = 0;
     int tx = x - sampling_radius;
@@ -1036,19 +1036,19 @@ static int cell_sample_ring(unsigned char mono_img[],
  * \param sampling_pattern solid or ring sampling
  * \param grid grid object
  */
-void create_grid(int dimension_x, int dimension_y,
-                 float perimeter_x0,
-                 float perimeter_y0,
-                 float perimeter_x1,
-                 float perimeter_y1,
-                 float perimeter_x2,
-                 float perimeter_y2,
-                 float perimeter_x3,
-                 float perimeter_y3,
-                 unsigned char mono_img[],
-                 int image_width, int image_height,
+void create_grid(const int dimension_x, const int dimension_y,
+                 const float perimeter_x0,
+                 const float perimeter_y0,
+                 const float perimeter_x1,
+                 const float perimeter_y1,
+                 const float perimeter_x2,
+                 const float perimeter_y2,
+                 const float perimeter_x3,
+                 const float perimeter_y3,
+                 const unsigned char mono_img[],
+                 const int image_width, const int image_height,
                  int sampling_radius,
-                 int sampling_pattern,
+                 const int sampling_pattern,
                  struct grid_2d * grid)
 {
     int grid_x, grid_y, hits;
@@ -1139,7 +1139,7 @@ void create_grid(int dimension_x, int dimension_y,
  * \brief returns the percent of occupied cells in the grid
  * \return percent of occupied cells
  */
-unsigned char get_grid_occupancy_percent(struct grid_2d * grid)
+unsigned char get_grid_occupancy_percent(const struct grid_2d * grid)
 {
     int grid_x, grid_y, hits=0;
 
@@ -1194,7 +1194,7 @@ void free_grid(struct grid_2d * grid)
  * \brief shows the grid occupancy, including any detected cell damage
  * \param grid grid object
  */
-void show_grid(struct grid_2d * grid)
+void show_grid(const struct grid_2d * grid)
 {
     int n, x, y;
 
@@ -1231,9 +1231,9 @@ void show_grid(struct grid_2d * grid)
  */
 void show_grid_image(struct grid_2d * grid,
                      unsigned char image_data[],
-                     int image_width, int image_height,
-                     int image_bitsperpixel,
-                     int sampling_radius, int sampling_pattern)
+                     const int image_width, const int image_height,
+                     const int image_bitsperpixel,
+                     const int sampling_radius, const int sampling_pattern)
 {
     int image_bytesperpixel = image_bitsperpixel/8;
     const int cross_radius = sampling_radius;
