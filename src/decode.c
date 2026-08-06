@@ -28,12 +28,9 @@
 #include "datamatrix.h"
 
 /* encoding types */
-#define ASCII   0
-#define C40     1
-#define X12     2
-#define TEXT    3
-#define EDIFACT 4
-#define BYTE256 5
+enum ecc200_encoding_types {
+    ASCII, C40, X12, TEXT, EDIFACT, BYTE256
+};
 
 static void locate_erasures(const int damage_pattern_x,
                             const int damage_pattern_y,
