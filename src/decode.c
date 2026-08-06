@@ -55,8 +55,8 @@ static void locate_erasures(const int damage_pattern_x,
 static unsigned char ecc200_unrandomize_255_state(const unsigned char value,
                                                   const int idx)
 {
-    int pseudoRandom = ((149 * (idx + 1)) % 255) + 1;
-    int tmp = value - pseudoRandom;
+    int pseudorand = ((149 * (idx + 1)) % 255) + 1;
+    int tmp = value - pseudorand;
     return (unsigned char)((tmp >= 0) ? tmp : tmp + 256);
 }
 
