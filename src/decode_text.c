@@ -210,7 +210,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
     char * dot_strings[] = {
         "●", "█", "⦁", "•", "⚫"
     };
-    int no_of_dot_strings = 5;
+    const int no_of_dot_strings = 5;
     int i, dimension_x=0, dimension_y=0, decode_step=0;
 
     sprintf(&empty_char[0], " ");
