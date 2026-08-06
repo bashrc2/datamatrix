@@ -503,9 +503,9 @@ void show_grid_image(struct grid_2d * grid,
 
 /* decode.c */
 
-void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
+void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
                        const char gs1_url[], char result[],
-                       unsigned char human_readable);
+                       const unsigned char human_readable);
 unsigned char condense_data_blocks(struct grid_2d * grid,
                                    const unsigned char debug);
 

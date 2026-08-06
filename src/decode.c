@@ -35,10 +35,10 @@
 #define EDIFACT 4
 #define BYTE256 5
 
-static void locate_erasures(int damage_pattern_x,
-                            int damage_pattern_y,
+static void locate_erasures(const int damage_pattern_x,
+                            const int damage_pattern_y,
                             int * codeword_pattern[],
-                            unsigned char damage_pattern[],
+                            const unsigned char damage_pattern[],
                             int erasures[],
                             int * erasures_length)
 {
@@ -55,16 +55,17 @@ static void locate_erasures(int damage_pattern_x,
     }
 }
 
-static unsigned char ecc200_unrandomize_255_state(unsigned char value, int idx)
+static unsigned char ecc200_unrandomize_255_state(const unsigned char value,
+                                                  const int idx)
 {
     int pseudoRandom = ((149 * (idx + 1)) % 255) + 1;
     int tmp = value - pseudoRandom;
     return (unsigned char)((tmp >= 0) ? tmp : tmp + 256);
 }
 
-static void ecc200_decode_next_byte_256(unsigned char is_gs1_encodation,
-                                        unsigned char data[],
-                                        int datalength,
+static void ecc200_decode_next_byte_256(const unsigned char is_gs1_encodation,
+                                        const unsigned char data[],
+                                        const int datalength,
                                         int * position,
                                         int * state,
                                         char result[],
@@ -112,16 +113,16 @@ static void ecc200_decode_next_byte_256(unsigned char is_gs1_encodation,
  * \brief returns the percentage of unused error correction
  * \return unused error correction as a percentage
  */
-static unsigned char get_unused_error_correction(int no_of_codewords,
-        int error_correction_codewords,
-        int * no_of_errors,
-        int * no_of_erasures)
+static unsigned char get_unused_error_correction(const int no_of_codewords,
+        const int error_correction_codewords,
+        const int * no_of_errors,
+        const int * no_of_erasures)
 {
     float unused_error_correction;
 
     const int modules_per_codeword = 8;
     float e2t = (float)((*no_of_erasures) + (2 * (*no_of_errors))) /
-		(float)modules_per_codeword;
+        (float)modules_per_codeword;
     float Ecap = (float)(no_of_codewords - error_correction_codewords);
     if (e2t > Ecap) {
         unused_error_correction = 0;
@@ -142,15 +143,15 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                                      int * application_data_start,
                                      int * application_data_end,
                                      unsigned char * application_data_variable,
-                                     unsigned char data[],
-                                     int datalength,
+                                     const unsigned char data[],
+                                     const int datalength,
                                      int * position,
                                      int * state,
                                      int * shift,
                                      char result[],
                                      char gs1_result[],
                                      const char gs1_url[],
-                                     unsigned char debug,
+                                     const unsigned char debug,
                                      char iso15434_result[],
                                      unsigned char * is_iso1543,
                                      char format_code[],
@@ -270,15 +271,15 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                                    int * application_data_start,
                                    int * application_data_end,
                                    unsigned char * application_data_variable,
-                                   unsigned char data[],
-                                   int datalength,
+                                   const unsigned char data[],
+                                   const int datalength,
                                    int * position,
                                    int * state,
                                    int * shift,
                                    char result[],
                                    char gs1_result[],
                                    const char gs1_url[],
-                                   unsigned char debug,
+                                   const unsigned char debug,
                                    char iso15434_result[],
                                    unsigned char * is_iso1543,
                                    char format_code[],
@@ -417,15 +418,15 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        int * application_data_start,
                                        int * application_data_end,
                                        unsigned char * application_data_variable,
-                                       unsigned char data[],
-                                       int datalength,
+                                       const unsigned char data[],
+                                       const int datalength,
                                        int * position,
                                        int * state,
                                        int * shift,
                                        char result[],
                                        char gs1_result[],
                                        const char gs1_url[],
-                                       unsigned char debug,
+                                       const unsigned char debug,
                                        char iso15434_result[],
                                        unsigned char * is_iso1543,
                                        char format_code[],
@@ -501,15 +502,15 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                                    int * application_data_start,
                                    int * application_data_end,
                                    unsigned char * application_data_variable,
-                                   unsigned char data[],
-                                   int datalength,
+                                   const unsigned char data[],
+                                   const int datalength,
                                    int * position,
                                    int * state,
                                    int * shift,
                                    char result[],
                                    char gs1_result[],
                                    const char gs1_url[],
-                                   unsigned char debug,
+                                   const unsigned char debug,
                                    char iso15434_result[],
                                    unsigned char * is_iso1543,
                                    char format_code[],
@@ -598,13 +599,13 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
 }
 
 static void ecc200_decode(unsigned char data1[],
-                          int data_length,
+                          const int data_length,
                           char result[],
                           char gs1_result[],
                           char iso15434_result[],
                           char iso15434_uii[],
                           const char gs1_url[],
-                          unsigned char debug)
+                          const unsigned char debug)
 {
     /* initial state is ASCII, which may change later */
     int state = ASCII, prev_state = -1;
@@ -757,7 +758,7 @@ static void ecc200_decode(unsigned char data1[],
     }
 }
 
-static int reed_solomon_modnn(int x, int m_NN, int m_MM)
+static int reed_solomon_modnn(int x, const int m_NN, const int m_MM)
 {
     while (x >= m_NN) {
         x -= m_NN;
@@ -766,7 +767,7 @@ static int reed_solomon_modnn(int x, int m_NN, int m_MM)
     return(x);
 }
 
-static void reed_solomon_gen_ltab(unsigned char tal[],
+static void reed_solomon_gen_ltab(const unsigned char tal[],
                                   unsigned char m_taltab[],
                                   unsigned char m_tal1tab[])
 {
@@ -789,12 +790,12 @@ static void reed_solomon_gen_ltab(unsigned char tal[],
     }
 }
 
-static void reed_solomon_generate_gf(int m_MM,
-                                     int m_NN,
-                                     int m_A0,
+static void reed_solomon_generate_gf(const int m_MM,
+                                     const int m_NN,
+                                     const int m_A0,
                                      int m_alpha_to[],
                                      int m_index_of[],
-                                     int m_Pp[])
+                                     const int m_Pp[])
 {
     int i, mask;
 
@@ -832,11 +833,11 @@ static void reed_solomon_generate_gf(int m_MM,
     m_alpha_to[m_NN] = 0;
 }
 
-static void reed_solomon_gen_poly(int m_NN,
-                                  int m_MM,
-                                  int m_KK,
-                                  int m_B0,
-                                  int m_PRIM,
+static void reed_solomon_gen_poly(const int m_NN,
+                                  const int m_MM,
+                                  const int m_KK,
+                                  const int m_B0,
+                                  const int m_PRIM,
                                   int m_Gg[],
                                   int m_index_of[],
                                   int m_alpha_to[])
@@ -880,10 +881,10 @@ static void reed_solomon_gen_poly(int m_NN,
     }
 }
 
-static unsigned char reed_solomon_decode_init(int symbolBits,
-        int numberParity,
-        int B0,
-        int Prim,
+static unsigned char reed_solomon_decode_init(const int symbolBits,
+        const int numberParity,
+        const int B0,
+        const int Prim,
         int * m_MM,
         int * m_NN,
         int * m_KK,
@@ -1054,15 +1055,15 @@ static unsigned char reed_solomon_decode_init(int symbolBits,
     return 1;
 }
 
-static int reed_solomon_decode(int symbolBits,
-                               int numberParity,
+static int reed_solomon_decode(const int symbolBits,
+                               const int numberParity,
                                int user_data[],
-                               int user_data_length,
+                               const int user_data_length,
                                int paritydata[],
-                               int paritydata_length,
+                               const int paritydata_length,
                                int eras_pos[],
-                               int eras_pos_length,
-                               struct grid_2d * grid)
+                               const int eras_pos_length,
+                               const struct grid_2d * grid)
 {
     int x, lambda_length, min_value, ci;
     int m_MM = 0;
@@ -1461,14 +1462,14 @@ static int reed_solomon_decode(int symbolBits,
 /**
  * \brief reed solomon error correction
  */
-static int reed_solomon_correct(int n_err_data,
+static int reed_solomon_correct(const int n_err_data,
                                 unsigned char rs_codewords[],
                                 int rs_codewords_length,
                                 int * error_codeword_count,
                                 int erasure_index[],
                                 int erasure_index_length,
                                 int * no_of_erasures,
-                                struct grid_2d * grid)
+                                const struct grid_2d * grid)
 {
     unsigned char found;
     int damaged_codeword_index, ndata, n2, idx, i = 0, j;
@@ -1583,16 +1584,16 @@ static int reed_solomon_correct(int n_err_data,
     return nucorrections;
 }
 
-static int reed_solomon(unsigned char codewords[],
-						int codewords_length,
-						int n_err_data,
-						int erasures[],
-						int erasures_length,
-						int * nooferrors,
-						int * nooferasures,
-						unsigned char corrected_codewords[],
-						int * corrected_codewords_length,
-						struct grid_2d * grid)
+static int reed_solomon(const unsigned char codewords[],
+                        const int codewords_length,
+                        const int n_err_data,
+                        int erasures[],
+                        const int erasures_length,
+                        int * nooferrors,
+                        int * nooferasures,
+                        unsigned char corrected_codewords[],
+                        int * corrected_codewords_length,
+                        const struct grid_2d * grid)
 {
     int i, no_of_errors = -1;
     int no_of_erasures = 0;
@@ -1606,7 +1607,7 @@ static int reed_solomon(unsigned char codewords[],
 
     error_codeword_count = n_err_data;
     memcpy(rs_codewords, codewords,
-		   (size_t)codewords_length * sizeof(unsigned char));
+           (size_t)codewords_length * sizeof(unsigned char));
 
     no_of_errors =
         reed_solomon_correct(n_err_data,
@@ -1638,7 +1639,8 @@ static int reed_solomon(unsigned char codewords[],
  * \param cells_down number of cells down the grid
  * \return number of error correction words
  */
-static int get_no_of_error_correction_words(int cells_across, int cells_down)
+static int get_no_of_error_correction_words(const int cells_across,
+                                            const int cells_down)
 {
     if (cells_across == cells_down) {
         /* square codes */
@@ -1727,8 +1729,9 @@ static int get_no_of_error_correction_words(int cells_across, int cells_down)
  * \param bit value to be inserted
  */
 static void translation_table_module(struct key_value_pair_int* translation_table[],
-                                     int no_of_rows, int no_of_cols,
-                                     int row, int col, int chr, int bit)
+                                     const int no_of_rows, const int no_of_cols,
+                                     int row, int col,
+                                     const int chr, const int bit)
 {
     if (translation_table == NULL) return;
     if (translation_table[0] == NULL) return;
@@ -1757,8 +1760,8 @@ static void translation_table_module(struct key_value_pair_int* translation_tabl
  * \param chr
  */
 static void utah(struct key_value_pair_int** translation_table,
-                 int no_of_rows, int no_of_cols,
-                 int row, int col, int chr)
+                 const int no_of_rows, const int no_of_cols,
+                 const int row, const int col, const int chr)
 {
     translation_table_module(translation_table, no_of_rows, no_of_cols,
                              row - 2, col - 2, chr, 1);
@@ -1815,8 +1818,8 @@ static void corner1(struct key_value_pair_int** translation_table,
  * \param chr
  */
 static void corner2(struct key_value_pair_int** translation_table,
-                    int no_of_rows, int no_of_cols,
-                    int chr)
+                    const int no_of_rows, const int no_of_cols,
+                    const int chr)
 {
     translation_table_module(translation_table, no_of_rows, no_of_cols,
                              no_of_rows - 3, 0, chr, 1);
@@ -1844,8 +1847,8 @@ static void corner2(struct key_value_pair_int** translation_table,
  * \param chr
  */
 static void corner3(struct key_value_pair_int** translation_table,
-                    int no_of_rows, int no_of_cols,
-                    int chr)
+                    const int no_of_rows, const int no_of_cols,
+                    const int chr)
 {
     translation_table_module(translation_table, no_of_rows, no_of_cols,
                              no_of_rows - 3, 0, chr, 1);
@@ -1873,8 +1876,8 @@ static void corner3(struct key_value_pair_int** translation_table,
  * \param chr
  */
 static void corner4(struct key_value_pair_int** translation_table,
-                    int no_of_rows, int no_of_cols,
-                    int chr)
+                    const int no_of_rows, const int no_of_cols,
+                    const int chr)
 {
     translation_table_module(translation_table, no_of_rows, no_of_cols,
                              no_of_rows - 1, 0, chr, 1);
@@ -1895,7 +1898,7 @@ static void corner4(struct key_value_pair_int** translation_table,
 }
 
 static void show_translation_table(struct key_value_pair_int** translation_table,
-                                   int dim_x, int dim_y)
+                                   const int dim_x, const int dim_y)
 {
     int x, y, key, value;
 
@@ -1922,20 +1925,20 @@ static void show_translation_table(struct key_value_pair_int** translation_table
  * \param no_of_cols number of columns in the table
  * \return translation table array
  */
-static struct key_value_pair_int** generate_translation_table(int no_of_rows,
-        int no_of_cols)
+static struct key_value_pair_int** generate_translation_table(const int no_of_rows,
+        const int no_of_cols)
 {
     int i, chr, row, col;
     struct key_value_pair_int** translation_table =
         (struct key_value_pair_int**)safemalloc((size_t)no_of_rows *
-												sizeof(struct key_value_pair_int*));
+                                                sizeof(struct key_value_pair_int*));
     for (i = 0; i < no_of_rows; i++) {
         translation_table[i] =
             (struct key_value_pair_int*)safemalloc((size_t)no_of_cols *
-												   sizeof(struct key_value_pair_int));
+                                                   sizeof(struct key_value_pair_int));
         /* clear the table to zero */
         memset(translation_table[i], 0,
-			   (size_t)no_of_cols * sizeof(struct key_value_pair_int));
+               (size_t)no_of_cols * sizeof(struct key_value_pair_int));
     }
 
     if (translation_table != NULL) {
@@ -1997,10 +2000,10 @@ static struct key_value_pair_int** generate_translation_table(int no_of_rows,
  * \brief finds the given codeword+bit within the translation table
  */
 static void locate_bit(struct key_value_pair_int* translation_table[],
-                       int table_dim_x,
-                       int table_dim_y,
-                       int codeword,
-                       int bit,
+                       const int table_dim_x,
+                       const int table_dim_y,
+                       const int codeword,
+                       const int bit,
                        int * Key,
                        int * Value)
 {
@@ -2029,8 +2032,8 @@ static void locate_bit(struct key_value_pair_int* translation_table[],
  * \param dimension_x x dimension of the grid
  * \param dimension_y y dimension of the grid
  */
-static void show_codeword_pattern(char * title, int * codeword_pattern[],
-                                  int dimension_x, int dimension_y)
+static void show_codeword_pattern(const char * title, int * codeword_pattern[],
+                                  const int dimension_x, const int dimension_y)
 {
     int x, y, i=0;
 
@@ -2089,7 +2092,7 @@ static void show_codeword_pattern(char * title, int * codeword_pattern[],
  * \param debug set to 1 if in debug mode
  * \return number of codewords
  */
-static int translate(struct grid_2d * grid, unsigned char debug)
+static int translate(struct grid_2d * grid, const unsigned char debug)
 {
     int i, bit, max_codewords, codewords_length = 0;
     int Key, Value, x, y;
@@ -2160,22 +2163,22 @@ static int translate(struct grid_2d * grid, unsigned char debug)
  * \param result returned decoded text
  * \param human_readable set to 1 if the decode should be human readable
  */
-void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
+void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
                        const char gs1_url[], char result[],
-                       unsigned char human_readable)
+                       const unsigned char human_readable)
 {
     int i, codewords_length, error_correcting_words;
     int corrected_codewords_length, erasures_length;
     int grid_no_of_errors=0, grid_no_of_erasures=0;
     int * erasures = NULL;
     char * gs1_result =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     char * iso15434_result =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     char * hibc_result =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     char * iso15434_uii =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     int condensed=0;
 
     result[0] = 0;
@@ -2191,7 +2194,7 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
     /* clear the codeword pattern */
     for (i = 0; i < grid->dimension_x; i++)
         memset(grid->codeword_pattern[i], 0,
-			   (size_t)grid->dimension_y * sizeof(int));
+               (size_t)grid->dimension_y * sizeof(int));
 
     codewords_length = translate(grid, debug);
     if (codewords_length == 0) {
@@ -2286,8 +2289,8 @@ void datamatrix_decode(struct grid_2d * grid, unsigned char debug,
                 if (strstr(result, "_100-") != NULL) {
                     if ((result[13] == '_') && (result[17] == '-')) {
                         char * amd_result =
-							(char*)safemalloc((size_t)MAX_DECODE_LENGTH *
-											  sizeof(char));
+                            (char*)safemalloc((size_t)MAX_DECODE_LENGTH *
+                                              sizeof(char));
                         amd_result[0] = 0;
                         decode_strcat(amd_result, "AMD CPU SERIAL: ");
                         for (i = 0; i < 13; i++) {
