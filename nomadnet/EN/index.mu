@@ -6,19 +6,19 @@
 -━
 `f
 
-datamatrix is a commandline utility for generating, reading, and verifying Datamatrix direct part markings. Some image processing functions are based on `[Visionutils`https://codeberg.org/bashrc/visionutils].
+datamatrix is a commandline utility for generating, reading, and verifying Datamatrix direct part markings. Some image processing functions are based on `_`[Visionutils`https://codeberg.org/bashrc/visionutils]`_.
 
 >> Key features
 
  * Generates datamatrix codes in text and image formats
- * Reads PNG files (recommended at least 800 pixels across) using `[lodepng`https://lodev.org/lodepng lodepng]
+ * Reads PNG files (recommended at least 800 pixels across) using `_`[lodepng`https://lodev.org/lodepng lodepng]`_
  * Outputs the plain text encoded by the datamatrix pattern
- * Implemented in pure `[C99`https://en.wikipedia.org/wiki/C99]
- * Supports `[GS1 semantics`https://www.gs1.org/standards/barcodes/2d] and digital links
- * Supports `[MHI Data Identifiers`https://www.mhi.org/standards/mh10/dataidentifiers]
- * Supports `[ANSI/HIBC`https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf] health industry supplier labeling standard
+ * Implemented in pure `_`[C99`https://en.wikipedia.org/wiki/C99]`_
+ * Supports `_`[GS1 semantics`https://www.gs1.org/standards/barcodes/2d]`_ and digital links
+ * Supports `_`[MHI Data Identifiers`https://www.mhi.org/standards/mh10/dataidentifiers]`_
+ * Supports `_`[ANSI/HIBC`https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf]`_ health industry supplier labeling standard
  * Can generate quality metrics for verification reports
- * Parallelized with `[OpenMP`https://www.openmp.org]
+ * Parallelized with `_`[OpenMP`https://www.openmp.org]`_
  * No dependencies or software supply chains!
 
 >> Build and install
@@ -30,7 +30,7 @@ Install the build system:
 Download the source code:
 
     git clone https://gitlab.com/bashrc2/datamatrix
-	cd datamatrix
+    cd datamatrix
 
 Then compile.
 
@@ -202,7 +202,7 @@ When possible, decoded text will appear in a more verbose human readable form. H
 
     datamatrix -f examples/01.png --raw
 
-When decoding GS1 datamatrix symbols you can also specify a [GS1 resolver](https://www.gs1.org/standards/resolver) if you want a digital link to be returned.
+When decoding GS1 datamatrix symbols you can also specify a `_`[GS1 resolver`https://www.gs1.org/standards/resolver]`_ if you want a digital link to be returned.
 
     datamatrix -f examples/01.png --resolver https://id.gs1.org
 
@@ -250,7 +250,7 @@ A verification report in accordance with GS1 2D Barcode Verification Process Imp
 
     datamatrix -f examples/01.png --report myreport.tex
 
-These reports are in [LaTeX](https://en.wikipedia.org/wiki/LaTeX) format, and you can also set contact details, the report image filenames and a custom header logo as follows:
+These reports are in `_`[LaTeX`https://en.wikipedia.org/wiki/LaTeX]`_ format, and you can also set contact details, the report image filenames and a custom header logo as follows:
 
     datamatrix -f examples/01.png --report myreport.tex --address1 "Address line 1" --address2 "Address line 2" --address3 "Address line 3" --phone "123456789" --email "myemail@address" --web "https://mywebsite" --logo mylogo.png -o detection.png --hist histogram.png
 
@@ -272,32 +272,32 @@ A set of images will be produced which show the detection process at each stage.
 
 >> References
 
-`[AIDC Healthcare Implementation Guideline`https://www.gs1.org/docs/healthcare/GS1_Healthcare_Implementation_Guideline.pdf]
+`_`[AIDC Healthcare Implementation Guideline`https://www.gs1.org/docs/healthcare/GS1_Healthcare_Implementation_Guideline.pdf]`_
 
-`[An Introduction to the Global Shipment Identification Number (GSIN)`https://edi.gs1si.org/cashedi/doc/gsin_intro.pdf]
+`_`[An Introduction to the Global Shipment Identification Number (GSIN)`https://edi.gs1si.org/cashedi/doc/gsin_intro.pdf]`_
 
-`[An Introduction to the Serial Shipping Container Code (SSCC)`https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:494e625b-e1d8-4bbd-a1be-5918879cfc3d/An-Introduction-to-the-Serial-Shipping-Container-Code-SSCC.pdf]
+`_`[An Introduction to the Serial Shipping Container Code (SSCC)`https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:494e625b-e1d8-4bbd-a1be-5918879cfc3d/An-Introduction-to-the-Serial-Shipping-Container-Code-SSCC.pdf]`_
 
-`[Data Matrix`https://en.wikipedia.org/wiki/Data_Matrix]
+`_`[Data Matrix`https://en.wikipedia.org/wiki/Data_Matrix]`_
 
-`[Edge linking`https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html]
+`_`[Edge linking`https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MARSHALL/node30.html]`_
 
-`[European Medicines Verification System (EMVS): European Pack Coding Guidelines`https://www.medicinesforeurope.com/docs/European%20Pack%20Coding%20Guideline%20V4_0.pdf]
+`_`[European Medicines Verification System (EMVS): European Pack Coding Guidelines`https://www.medicinesforeurope.com/docs/European%20Pack%20Coding%20Guideline%20V4_0.pdf]`_
 
-`[GRAI Corrections & Clarifications`https://ref.gs1.org/standards/genspecs/gscn/2021/GSCN_21-118_GRAI.pdf]
+`_`[GRAI Corrections & Clarifications`https://ref.gs1.org/standards/genspecs/gscn/2021/GSCN_21-118_GRAI.pdf]`_
 
-`[GS1 General Specifications`https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications]
+`_`[GS1 General Specifications`https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications]`_
 
-`[GS1 2D Barcode Verification Process Implementation Guideline`https://www.gs1.org/docs/barcodes/2D_Barcode_Verification_Process_Implementation_Guideline.pdf]
+`_`[GS1 2D Barcode Verification Process Implementation Guideline`https://www.gs1.org/docs/barcodes/2D_Barcode_Verification_Process_Implementation_Guideline.pdf]`_
 
-`[Line–line intersection`https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection]
+`_`[Line–line intersection`https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection]`_
 
-`[North American Coupon Application Guideline Using GS1 DataBar Expanded Symbols`https://www.gs1us.org/content/dam/gs1us/documents/industries-insights/standards/North-American-Coupon-Application-Guideline-Using-GS1-DataBar.pdf]
+`_`[North American Coupon Application Guideline Using GS1 DataBar Expanded Symbols`https://www.gs1us.org/content/dam/gs1us/documents/industries-insights/standards/North-American-Coupon-Application-Guideline-Using-GS1-DataBar.pdf]`_
 
-`[Popular ISO/IEC 15434 Barcode Formats`https://www.barcodefaq.com/2d/data-matrix/iso-iec-15434]
+`_`[Popular ISO/IEC 15434 Barcode Formats`https://www.barcodefaq.com/2d/data-matrix/iso-iec-15434]`_
 
-`[Reed–Solomon error correction`https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction]
+`_`[Reed–Solomon error correction`https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction]`_
 
-`[The Health Industry Supplier Labeling Standard for Patient Safety & Unique Device Identification (UDI)`https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf]
+`_`[The Health Industry Supplier Labeling Standard for Patient Safety & Unique Device Identification (UDI)`https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf]`_
 
-`[UNECE Standard Bovine Meat Carcases and Cuts`https://unece.org/sites/default/files/2024-03/Bovine_2007_e_0.pdf]
+`_`[UNECE Standard Bovine Meat Carcases and Cuts`https://unece.org/sites/default/files/2024-03/Bovine_2007_e_0.pdf]`_
