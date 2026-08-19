@@ -28,11 +28,16 @@ datamatrix is a commandline utility for generating, reading, and verifying Datam
 => https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf ANSI/HIBC
 => https://www.openmp.org OpenMP
 
-## Build
+## Build and install
 
 Install the build system:
 
-    sudo apt install build-essential
+    sudo apt install build-essential git
+
+Download the source code:
+
+    git clone https://gitlab.com/bashrc2/datamatrix
+	cd datamatrix
 
 Then compile.
 

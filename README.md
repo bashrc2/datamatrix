@@ -20,7 +20,14 @@
 Install the build system:
 
 ``` bash
-sudo apt install build-essential
+sudo apt install build-essential git
+```
+
+Download the source code:
+
+``` bash
+git clone https://gitlab.com/bashrc2/datamatrix
+cd datamatrix
 ```
 
 Then compile.
