@@ -1,5 +1,13 @@
 <img src="https://gitlab.com/bashrc2/datamatrix/-/raw/main/img/logo_square3.png" width="25%" alt="Datamatrix under a magnifying glass"/>
 
+``` text
+████▄   ▄▄▄ ▄▄▄▄▄▄ ▄▄▄  ▄▄   ▄▄  ▄▄▄ ▄▄▄▄▄▄ ▄▄▄▄  ▄▄ ▄▄ ▄▄ 
+██  ██ ██▀██  ██  ██▀██ ██▀▄▀██ ██▀██  ██   ██▄█▄ ██ ▀█▄█▀ 
+████▀  ██▀██  ██  ██▀██ ██   ██ ██▀██  ██   ██ ██ ██ ██ ██ 
+
+```
+
+
 *datamatrix* is a commandline utility for generating, reading, and verifying Datamatrix direct part markings. Some image processing functions are based on [visionutils](https://codeberg.org/bashrc/visionutils).
 
 ## Key features
