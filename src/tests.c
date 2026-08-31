@@ -479,9 +479,7 @@ static void test_hibc_translate()
 
 static void test_hibc_check_character()
 {
-    char * hibc_text = "+A123BJC5D6E71";
-    char check = hibc_check_character(hibc_text);
-    assert(check == 'G');
+    assert(hibc_check_character("+A123BJC5D6E71") == 'G');
 }
 
 static void test_gs1_currency()
