@@ -147,7 +147,7 @@ char * get_gs1_company_prefix(const char data_str[])
 {
     int i;
     char data_str_code[16];
-    unsigned char code_range = 0;
+    bool code_range = false;
 
     int data_len = (int)strlen(data_str);
     if ((data_len < 2) || (data_len > 15)) return nullptr;
@@ -165,10 +165,10 @@ char * get_gs1_company_prefix(const char data_str[])
         if ((int)strlen(gs1_company_prefix[i*3]) != data_len) continue;
         int min_code = atoi(gs1_company_prefix[i*3]);
         int max_code = min_code;
-        code_range = 0;
+        code_range = false;
         if ((int)strlen(gs1_company_prefix[i*3 + 1]) > 0) {
             max_code = atoi(gs1_company_prefix[i*3 + 1]);
-            code_range = 1;
+            code_range = true;
         }
         if ((test_code >= min_code) && (test_code <= max_code)) {
             company_prefix_index = i;
@@ -183,7 +183,7 @@ char * get_gs1_company_prefix(const char data_str[])
     decode_strcat(company_prefix_str,
                   gs1_company_prefix[company_prefix_index*3+2]);
 
-    if (code_range == 1) {
+    if (code_range) {
         decode_strcat(company_prefix_str, ", Code ");
         for (i = 0; i < data_len; i++) {
             decode_strcat_char(company_prefix_str, data_str[i]);
@@ -268,7 +268,7 @@ char * get_country_alpha2(const char data_str[])
     int data_len = (int)strlen(data_str);
     if (data_len != 2) return nullptr;
     for (i = 0; i < 2; i++) {
-        if (is_letter_upper(data_str[i]) == -1) return nullptr;
+        if (!is_letter_upper(data_str[i])) return nullptr;
         data_str_country_code[i] = data_str[i];
     }
     data_str_country_code[2] = 0;
@@ -1585,7 +1585,7 @@ char * get_aquatic_species(const char data_str[])
 {
     if ((int)strlen(data_str) != 3) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
-        if (is_letter_upper(data_str[i]) == -1) return nullptr;
+        if (!is_letter_upper(data_str[i])) return nullptr;
     }
     char * aquatic_species_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -1618,8 +1618,8 @@ char * get_fishing_area(const char data_str[])
     if ((int)strlen(data_str) < 4) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if ((!isdigit(data_str[i])) &&
-            (is_letter_lower(data_str[i]) == -1) &&
-            (is_letter_upper(data_str[i]) == -1) &&
+            (!is_letter_lower(data_str[i])) &&
+            (!is_letter_upper(data_str[i])) &&
             (data_str[i] != '.')) return nullptr;
     }
     char * fishing_area_str =

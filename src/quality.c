@@ -1492,30 +1492,30 @@ static void show_quality_metrics_yaml(const struct grid_2d * grid,
 /**
  * \brief displays quality metrics
  * \param grid grid object
- * \param csv Set to 1 to show in CSV format
- * \param json Set to 1 to show in JSON format
- * \param yaml Set to 1 to show in yaml format
+ * \param csv Set to true to show in CSV format
+ * \param json Set to true to show in JSON format
+ * \param yaml Set to true to show in yaml format
  * \param aperture Aperture reference number from ISO 15416
  * \param light_nm Peak light wavelength used in nanometres
  * \param light_angle_degrees Angle of illumination in degrees
  */
 void show_quality_metrics(const struct grid_2d * grid,
-                          const unsigned char csv,
-                          const unsigned char json,
-                          const unsigned char yaml,
+                          const bool csv,
+                          const bool json,
+                          const bool yaml,
                           const float aperture,
                           const int light_nm,
                           const int light_angle_degrees)
 {
-    if (csv == 1) {
+    if (csv) {
         show_quality_metrics_csv(grid, aperture, light_nm, light_angle_degrees);
         return;
     }
-    else if (json == 1) {
+    else if (json) {
         show_quality_metrics_json(grid, aperture, light_nm, light_angle_degrees);
         return;
     }
-    else if (yaml == 1) {
+    else if (yaml) {
         show_quality_metrics_yaml(grid, aperture, light_nm, light_angle_degrees);
         return;
     }

@@ -60,7 +60,7 @@ static unsigned char ecc200_unrandomize_255_state(const unsigned char value,
     return (unsigned char)((tmp >= 0) ? tmp : tmp + 256);
 }
 
-static void ecc200_decode_next_byte_256(const unsigned char is_gs1_encodation,
+static void ecc200_decode_next_byte_256(const bool is_gs1_encodation,
                                         const unsigned char data[],
                                         const int datalength,
                                         int * position,
@@ -97,7 +97,7 @@ static void ecc200_decode_next_byte_256(const unsigned char is_gs1_encodation,
                 (char)(ecc200_unrandomize_255_state(data[*position],
                                                     pos_from_start++));
             decode_strcat_char(result, decoded_char);
-            if (is_gs1_encodation == 1) {
+            if (is_gs1_encodation) {
                 decode_strcat_char(gs1_result, decoded_char);
             }
             *position = (*position) + 1;
@@ -133,8 +133,8 @@ static unsigned char get_unused_error_correction(const int no_of_codewords,
 /**
  * \brief ASCII encoding
  */
-static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
-                                     unsigned char * is_gs1_encodation,
+static void ecc200_decode_next_ascii(bool * is_structured_append,
+                                     bool * is_gs1_encodation,
                                      int * application_identifier,
                                      unsigned char * application_identifier_length,
                                      int * application_data_start,
@@ -148,9 +148,9 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
                                      char result[],
                                      char gs1_result[],
                                      const char gs1_url[],
-                                     const unsigned char debug,
+                                     const bool debug,
                                      char iso15434_result[],
-                                     unsigned char * is_iso1543,
+                                     bool * is_iso1543,
                                      char format_code[],
                                      int * iso15434_data_start,
                                      char iso15434_uii[])
@@ -158,7 +158,7 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
     int no, first_digit, last_digit;
 
     unsigned char current_byte = data[*position];
-    if (debug == 1) {
+    if (debug) {
         if (*position == 0) {
             printf("Initial byte: %d  ", (int)current_byte);
             if (current_byte == 232) {
@@ -212,11 +212,11 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
         }
         else {
             /* GS1 encodation */
-            *is_gs1_encodation = 1;
+            *is_gs1_encodation = true;
         }
     }
     else if (current_byte == 233) {
-        *is_structured_append = 1;
+        *is_structured_append = true;
     }
     else if (current_byte == 234) {
         /* reader programming */
@@ -236,12 +236,12 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
         *position = datalength;
     }
 
-    if (debug == 1) {
+    if (debug) {
         printf("%d ", (int)current_byte);
     }
 
     /* GS1 semantics processing */
-    if (*is_gs1_encodation == 1) {
+    if (*is_gs1_encodation) {
         gs1_semantics(result, gs1_result, gs1_url, debug,
                       application_identifier,
                       application_identifier_length,
@@ -261,8 +261,8 @@ static void ecc200_decode_next_ascii(unsigned char * is_structured_append,
 /**
  * \brief C40 encoding (IEC 16022)
  */
-static void ecc200_decode_next_c40(unsigned char * is_structured_append,
-                                   unsigned char * is_gs1_encodation,
+static void ecc200_decode_next_c40(bool * is_structured_append,
+                                   bool * is_gs1_encodation,
                                    int * application_identifier,
                                    unsigned char * application_identifier_length,
                                    int * application_data_start,
@@ -276,9 +276,9 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
                                    char result[],
                                    char gs1_result[],
                                    const char gs1_url[],
-                                   const unsigned char debug,
+                                   const bool debug,
                                    char iso15434_result[],
-                                   unsigned char * is_iso1543,
+                                   bool * is_iso1543,
                                    char format_code[],
                                    int * iso15434_data_start,
                                    char iso15434_uii[])
@@ -321,7 +321,7 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 
     /* extract the three characters */
     for (i = 0; i < 3; i++) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d ", c40Values[i]);
         }
         if (*shift == 0) {
@@ -408,8 +408,8 @@ static void ecc200_decode_next_c40(unsigned char * is_structured_append,
 /**
  * \brief edifact encodation
  */
-static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
-                                       unsigned char * is_gs1_encodation,
+static void ecc200_decode_next_edifact(bool * is_structured_append,
+                                       bool * is_gs1_encodation,
                                        int * application_identifier,
                                        unsigned char * application_identifier_length,
                                        int * application_data_start,
@@ -423,9 +423,9 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
                                        char result[],
                                        char gs1_result[],
                                        const char gs1_url[],
-                                       const unsigned char debug,
+                                       const bool debug,
                                        char iso15434_result[],
-                                       unsigned char * is_iso1543,
+                                       bool * is_iso1543,
                                        char format_code[],
                                        int * iso15434_data_start,
                                        char iso15434_uii[])
@@ -446,7 +446,7 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
         *position = (*position) + 3;
 
         for (i = 0; i < 4; i++) {
-            if (debug == 1) printf("%d ", unpacked[i]);
+            if (debug) printf("%d ", unpacked[i]);
 
             /* Test for unlatch condition */
             if (unpacked[i] == 0x1f) {
@@ -492,8 +492,8 @@ static void ecc200_decode_next_edifact(unsigned char * is_structured_append,
 /**
  * \brief x12 encodation
  */
-static void ecc200_decode_next_x12(unsigned char * is_structured_append,
-                                   unsigned char * is_gs1_encodation,
+static void ecc200_decode_next_x12(bool * is_structured_append,
+                                   bool * is_gs1_encodation,
                                    int * application_identifier,
                                    unsigned char * application_identifier_length,
                                    int * application_data_start,
@@ -507,9 +507,9 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
                                    char result[],
                                    char gs1_result[],
                                    const char gs1_url[],
-                                   const unsigned char debug,
+                                   const bool debug,
                                    char iso15434_result[],
-                                   unsigned char * is_iso1543,
+                                   bool * is_iso1543,
                                    char format_code[],
                                    int * iso15434_data_start,
                                    char iso15434_uii[])
@@ -552,7 +552,7 @@ static void ecc200_decode_next_x12(unsigned char * is_structured_append,
 
     /* extract the three characters */
     for (i = 0; i < 3; i++) {
-        if (debug == 1) printf("%d ", x12Values[i]);
+        if (debug) printf("%d ", x12Values[i]);
         if (x12Values[i] == 0) {
             /* <CR> */
             decode_strcat_char(result, (char)13);
@@ -602,7 +602,7 @@ static void ecc200_decode(unsigned char data1[],
                           char iso15434_result[],
                           char iso15434_uii[],
                           const char gs1_url[],
-                          const unsigned char debug)
+                          const bool debug)
 {
     /* initial state is ASCII, which may change later */
     int state = ASCII, prev_state = -1;
@@ -610,27 +610,27 @@ static void ecc200_decode(unsigned char data1[],
     unsigned char * data = data1;
     int position = 0;
     int shift = 0;
-    unsigned char is_structured_append = 0;
-    unsigned char is_gs1_encodation = 0;
+    bool is_structured_append = 0;
+    bool is_gs1_encodation = 0;
     int application_identifier = 0;
     unsigned char application_identifier_length = 2;
     int application_data_start = 0;
     int application_data_end = 2;
     unsigned char application_data_variable = 0;
-    unsigned char is_iso1543 = 0;
+    bool is_iso1543 = false;
     char format_code[MAX_DECODE_LENGTH];
     int iso15434_data_start = -1;
 
     format_code[0] = 0;
     iso15434_uii[0] = 0;
 
-    if (debug == 1) {
+    if (debug) {
         printf("\nECC200 bytes: ");
     }
     while (position < datalength) {
         switch (state) {
         case ASCII:
-            if ((debug == 1) && (prev_state != state)) printf("ASC ");
+            if ((debug) && (prev_state != state)) printf("ASC ");
             ecc200_decode_next_ascii(&is_structured_append,
                                      &is_gs1_encodation,
                                      &application_identifier,
@@ -651,7 +651,7 @@ static void ecc200_decode(unsigned char data1[],
                                      iso15434_uii);
             break;
         case C40:
-            if ((debug == 1) && (prev_state != state)) printf("C40 ");
+            if ((debug) && (prev_state != state)) printf("C40 ");
             ecc200_decode_next_c40(&is_structured_append,
                                    &is_gs1_encodation,
                                    &application_identifier,
@@ -672,7 +672,7 @@ static void ecc200_decode(unsigned char data1[],
                                    iso15434_uii);
             break;
         case TEXT:
-            if ((debug == 1) && (prev_state != state)) printf("TXT ");
+            if ((debug) && (prev_state != state)) printf("TXT ");
             ecc200_decode_next_c40(&is_structured_append,
                                    &is_gs1_encodation,
                                    &application_identifier,
@@ -693,7 +693,7 @@ static void ecc200_decode(unsigned char data1[],
                                    iso15434_uii);
             break;
         case BYTE256:
-            if ((debug == 1) && (prev_state != state)) printf("BYT ");
+            if ((debug) && (prev_state != state)) printf("BYT ");
             ecc200_decode_next_byte_256(is_gs1_encodation,
                                         data,
                                         datalength,
@@ -702,7 +702,7 @@ static void ecc200_decode(unsigned char data1[],
                                         result, gs1_result);
             break;
         case EDIFACT:
-            if ((debug == 1) && (prev_state != state)) printf("EDI ");
+            if ((debug) && (prev_state != state)) printf("EDI ");
             ecc200_decode_next_edifact(&is_structured_append,
                                        &is_gs1_encodation,
                                        &application_identifier,
@@ -723,7 +723,7 @@ static void ecc200_decode(unsigned char data1[],
                                        iso15434_uii);
             break;
         case X12:
-            if ((debug == 1) && (prev_state != state)) printf("X12 ");
+            if ((debug) && (prev_state != state)) printf("X12 ");
             ecc200_decode_next_x12(&is_structured_append,
                                    &is_gs1_encodation,
                                    &application_identifier,
@@ -750,7 +750,7 @@ static void ecc200_decode(unsigned char data1[],
         }
         prev_state = state;
     }
-    if (debug == 1) {
+    if (debug) {
         printf("\n\n");
     }
 }
@@ -2086,10 +2086,10 @@ static void show_codeword_pattern(const char * title, int * codeword_pattern[],
 /**
  * \brief translates the given grid occupancy pattern into a set of codewords
  * \param grid grid object
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \return number of codewords
  */
-static int translate(struct grid_2d * grid, const unsigned char debug)
+static int translate(struct grid_2d * grid, const bool debug)
 {
     int i, bit, max_codewords, codewords_length = 0;
     int Key, Value, x, y;
@@ -2099,7 +2099,7 @@ static int translate(struct grid_2d * grid, const unsigned char debug)
     struct key_value_pair_int ** translation_table =
         generate_translation_table(dim_x, dim_y);
     if (translation_table != nullptr) {
-        if (debug == 1) {
+        if (debug) {
             show_translation_table(translation_table, dim_x, dim_y);
         }
         max_codewords = (int)floor(dim_x * dim_y / 8.0);
@@ -2140,7 +2140,7 @@ static int translate(struct grid_2d * grid, const unsigned char debug)
             }
         }
 
-        if (debug == 1) {
+        if (debug) {
             show_codeword_pattern("Codeword pattern", grid->codeword_pattern,
                                   grid->dimension_x, grid->dimension_y);
         }
@@ -2155,14 +2155,14 @@ static int translate(struct grid_2d * grid, const unsigned char debug)
 /**
  * \brief decode the detected datamatrix within the given grid
  * \param grid grid object
- * \param debug set to 1 to enable debug mode
+ * \param debug set to true to enable debug mode
  * \param gs1_url url prefix for GS1 digital link
  * \param result returned decoded text
- * \param human_readable set to 1 if the decode should be human readable
+ * \param human_readable set to true if the decode should be human readable
  */
-void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
+void datamatrix_decode(struct grid_2d * grid, const bool debug,
                        const char gs1_url[], char result[],
-                       const unsigned char human_readable)
+                       const bool human_readable)
 {
     int i, codewords_length, error_correcting_words;
     int corrected_codewords_length, erasures_length;
@@ -2176,7 +2176,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     char * iso15434_uii =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
-    int condensed=0;
+    bool condensed = false;
 
     result[0] = 0;
     gs1_result[0] = 0;
@@ -2240,7 +2240,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
                       gs1_result, iso15434_result,
                       iso15434_uii,
                       gs1_url, debug);
-        if (human_readable == 1) {
+        if (human_readable) {
             /* if there is a GS1 formatted decode then return that instead */
             if ((int)strlen(gs1_result) > 0) {
                 grid->gs1_datamatrix = true;
@@ -2316,7 +2316,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
     free(hibc_result);
     free(iso15434_uii);
 
-    if (condensed == 1) {
+    if (condensed) {
         /* restore the original grid dimensions */
         grid->dimension_x = original_dimension_x;
         grid->dimension_y = original_dimension_y;

@@ -131,7 +131,7 @@ static unsigned char line_has_edges(const unsigned char mono_edges_img[],
  * \param height height of the image
  * \param image_data original colour image data
  * \param image_bytesperpixel Number of bytes per pixel in the colour image
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param start_x start x coordinate for the direction to be searched
  * \param start_y start y coordinate for the direction to be searched
  * \param end_x end x coordinate for the direction to be searched
@@ -147,7 +147,7 @@ static unsigned char search_line_points(const unsigned char mono_img[],
                                         const int width, const int height,
                                         unsigned char image_data[],
                                         const int image_bytesperpixel,
-                                        const unsigned char debug,
+                                        const bool debug,
                                         const int start_x, const int start_y,
                                         const int end_x, const int end_y,
                                         const int line_dx, const int line_dy,
@@ -166,7 +166,7 @@ static unsigned char search_line_points(const unsigned char mono_img[],
     for (d = 0; d < dist; d++) {
         x = start_x + (d*search_dx/dist);
         y = start_y + (d*search_dy/dist);
-        if (debug == 1) {
+        if (debug) {
             n = (y*width + x)*image_bytesperpixel;
             image_data[n] = 0;
             image_data[n+1] = 255;
@@ -182,7 +182,7 @@ static unsigned char search_line_points(const unsigned char mono_img[],
                 ((positive == 0) && (retval == 0))) {
             *pos_x = x;
             *pos_y = y;
-            if (debug == 1) {
+            if (debug) {
                 n = (y*width + x)*image_bytesperpixel;
                 image_data[n] = 255;
                 image_data[n+1] = 0;
@@ -208,7 +208,7 @@ static unsigned char search_line_points(const unsigned char mono_img[],
  * \param perimeter_x3 fourth perimeter x coord
  * \param perimeter_y3 fourth perimeter y coord
  * \param max_extension_percent
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param image_data original colour image data
  * \param image_bitsperpixel Number of bits per pixel in the colour image
  * \return 1 if expanded, 0 otherwise
@@ -220,7 +220,7 @@ unsigned char expand_perimeter_sides(const unsigned char mono_img[],
                                      float * perimeter_x2, float * perimeter_y2,
                                      float * perimeter_x3, float * perimeter_y3,
                                      const int max_extension_percent,
-                                     const unsigned char debug,
+                                     const bool debug,
                                      unsigned char image_data[],
                                      const int image_bitsperpixel)
 {
@@ -378,7 +378,7 @@ unsigned char contract_perimeter_sides(const unsigned char mono_img[],
                                        float * perimeter_x3,
                                        float * perimeter_y3,
                                        const int min_extension_percent,
-                                       const unsigned char debug,
+                                       const bool debug,
                                        unsigned char image_data[],
                                        const int image_bitsperpixel)
 {

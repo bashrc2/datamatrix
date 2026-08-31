@@ -110,37 +110,37 @@ int getline2(char line[], FILE * fp)
  * \brief returns 0 if the given text ends with the given match
  * \param text The string to be checked
  * \param match The match to check for at the end of the text
- * \return 0 if matched, -1 otherwise
+ * \return true if matched, false otherwise
  */
-int ends_with(char * text, const char * match)
+bool ends_with(char * text, const char * match)
 {
     int i, j=0, match_len = (int)strlen(match);
     int text_len = (int)strlen(text);
     if (match_len > text_len) return -1;
     for (i = match_len; i > 0; i--, j++) {
-        if (text[text_len - i] != match[j]) return -1;
+        if (text[text_len - i] != match[j]) return false;
     }
-    return 0;
+    return true;
 }
 
 /**
  * \brief is the given character a lower case letter?
  * \param ch character
- * \return 0 if the character is a lower case letter, -1 otherwise
+ * \return true if the character is a lower case letter, false otherwise
  */
-int is_letter_lower(const char ch)
+bool is_letter_lower(const char ch)
 {
-    if ((ch >= 'a') && (ch <= 'z')) return 0;
-    return -1;
+    if ((ch >= 'a') && (ch <= 'z')) return true;
+    return false;
 }
 
 /**
  * \brief is the given character an upper case letter?
  * \param ch character
- * \return 0 if the character is an upper case letter, -1 otherwise
+ * \return true if the character is an upper case letter, false otherwise
  */
-int is_letter_upper(const char ch)
+bool is_letter_upper(const char ch)
 {
-    if ((ch >= 'A') && (ch <= 'Z')) return 0;
-    return -1;
+    if ((ch >= 'A') && (ch <= 'Z')) return true;
+    return false;
 }

@@ -48,10 +48,10 @@ char hibc_check_character(const char * encode_text)
  * \param application_identifier Application identifier string
  * \param data_str Data to be used with the application identifier
  * \param encode_text Returned encoded string
- * \return zero on success
+ * \return true on success
  */
-int hibc_encode(const char * application_identifier, const char data_str[],
-                char encode_text[])
+bool hibc_encode(const char * application_identifier, const char data_str[],
+				 char encode_text[])
 {
     int data_len = (int)strlen(data_str);
 
@@ -61,7 +61,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
 
     if (strcmp(application_identifier, "LABELER ID") == 0) {
         if (data_len == 4) {
-            if (is_letter_upper(data_str[0]) == 0) {
+            if (is_letter_upper(data_str[0])) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }
@@ -69,12 +69,12 @@ int hibc_encode(const char * application_identifier, const char data_str[],
             }
             else {
                 printf("LABELER ID first character should be a letter A-Z\n");
-                return 1;
+                return false;
             }
         }
         else {
             printf("LABELER ID should be 4 characters\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "PRODUCT ID") == 0) {
@@ -83,7 +83,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
         }
         else {
             printf("PRODUCT ID should be 1-18 characters\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "UNIT OF MEASURE") == 0) {
@@ -93,12 +93,12 @@ int hibc_encode(const char * application_identifier, const char data_str[],
             }
             else {
                 printf("UNIT OF MEASURE should be a number\n");
-                return 1;
+                return false;
             }
         }
         else {
             printf("UNIT OF MEASURE should be 1 digit\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "EXPIRY JULIAN") == 0) {
@@ -112,12 +112,12 @@ int hibc_encode(const char * application_identifier, const char data_str[],
             }
             else {
                 printf("EXPIRY cannot be set more than once\n");
-                return 1;
+                return false;
             }
         }
         else {
             printf("EXPIRY JULIAN should be 5 digits YYJJJ\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "EXPIRY") == 0) {
@@ -131,12 +131,12 @@ int hibc_encode(const char * application_identifier, const char data_str[],
             }
             else {
                 printf("EXPIRY cannot be set more than once\n");
-                return 1;
+                return false;
             }
         }
         else {
             printf("EXPIRY should be 6 digits YYMMDD\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "EXPIRY HOUR") == 0) {
@@ -150,12 +150,12 @@ int hibc_encode(const char * application_identifier, const char data_str[],
             }
             else {
                 printf("EXPIRY cannot be set more than once\n");
-                return 1;
+                return false;
             }
         }
         else {
             printf("EXPIRY HOUR should be 8 digits YYMMDDHH\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "EXPIRY JULIAN HOUR") == 0) {
@@ -169,12 +169,12 @@ int hibc_encode(const char * application_identifier, const char data_str[],
             }
             else {
                 printf("EXPIRY cannot be set more than once\n");
-                return 1;
+                return false;
             }
         }
         else {
             printf("EXPIRY HOUR should be 7 digits YYJJJHH\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "EXPIRATION DATE") == 0) {
@@ -187,7 +187,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
         }
         else {
             printf("EXPIRATION DATE should be 8 digits YYYYMMDD\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "LOT NUMBER") == 0) {
@@ -202,7 +202,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
         }
         else {
             printf("LOT NUMBER should be 1-18 characters\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "MANUFACTURE DATE") == 0) {
@@ -215,7 +215,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
         }
         else {
             printf("MANUFACTURE DATE should be 8 characters YYYYMMDD\n");
-            return 1;
+            return false;
         }
     }
     else if (strcmp(application_identifier, "SUPPLIER SERIAL NUMBER") == 0) {
@@ -235,12 +235,12 @@ int hibc_encode(const char * application_identifier, const char data_str[],
         }
         else {
             printf("QUANTITY should be 1-5 characters\n");
-            return 1;
+            return false;
         }
     }
     else {
-        return 1;
+        return false;
     }
 
-    return 0;
+    return true;
 }

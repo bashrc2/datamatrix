@@ -192,7 +192,7 @@ int ransac_fit(const int edges[], const int no_of_edges,
     int idx, idx0, idx1, xx0, yy0, xx1, yy1, dx, dy;
     float deviation, deviation_sum, predicted_edge_x, predicted_edge_y;
     int sample, index, index0, index1, edge_sample;
-    unsigned char horizontal;
+    bool horizontal;
     int edge_x, edge_y, linefit_no_of_edges=0;
 
     if ((no_of_samples == 0) || (no_of_edge_samples == 0)) return max_hits;
@@ -222,9 +222,9 @@ int ransac_fit(const int edges[], const int no_of_edges,
         dy = yy1 - yy0;
 
         /* horizontal orientation? */
-        horizontal = 1;
+        horizontal = true;
         if (ABS(dy) > ABS(dx)) {
-            horizontal = 0;
+            horizontal = false;
             gradient = (float)dx / (float)dy;
         }
         else {
@@ -239,7 +239,7 @@ int ransac_fit(const int edges[], const int no_of_edges,
 
             /* calculate the deviation from expected */
             deviation = 0;
-            if (horizontal == 1) {
+            if (horizontal) {
                 predicted_edge_y = (float)yy0 + ((float)(edge_x - xx0) * gradient);
                 deviation = ABS(predicted_edge_y - (float)edge_y);
             }
@@ -296,9 +296,9 @@ int ransac_fit(const int edges[], const int no_of_edges,
         dy = yy1 - yy0;
 
         /* horizontal orientation? */
-        horizontal = 1;
+        horizontal = true;
         if (ABS(dy) > ABS(dx)) {
-            horizontal = 0;
+            horizontal = false;
             gradient = (float)dx / (float)dy;
         }
         else {
@@ -313,7 +313,7 @@ int ransac_fit(const int edges[], const int no_of_edges,
 
             /* calculate the deviation from expected */
             deviation = 0;
-            if (horizontal == 1) {
+            if (horizontal) {
                 predicted_edge_y =
                     (float)yy0 + ((float)(edge_x - xx0) * gradient);
                 deviation = ABS(predicted_edge_y - (float)edge_y);
@@ -342,7 +342,7 @@ int ransac_fit(const int edges[], const int no_of_edges,
 
             for (i = 0; i < linefit_no_of_edges; i++) {
                 idx = linefit[i];
-                if (horizontal == 1) {
+                if (horizontal) {
                     if (edges[idx] < av_x) {
                         *x0 += (float)edges[idx];
                         *y0 += (float)edges[idx + 1];

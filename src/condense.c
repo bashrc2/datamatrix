@@ -57,8 +57,8 @@ static void grid_data_blocks(const struct grid_2d * grid,
  *        This condenses them into a single data block
  * \param grid grid object
  */
-unsigned char condense_data_blocks(struct grid_2d * grid,
-                                   const unsigned char debug)
+bool condense_data_blocks(struct grid_2d * grid,
+						  const bool debug)
 {
     int blocks_x=1, blocks_y=1, grid_x, grid_y, block_x, block_y;
     int original_tx, original_ty, new_tx, new_ty, new_bx, new_by;
@@ -66,7 +66,7 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
 
     grid_data_blocks(grid, &blocks_x, &blocks_y);
 
-    if ((blocks_x == 1) && (blocks_y == 1)) return 0;
+    if ((blocks_x == 1) && (blocks_y == 1)) return false;
 
     /* multiple data blocks become one big block */
     int original_cells_per_block_x = grid->dimension_x / blocks_x;
@@ -79,7 +79,7 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
     int data_width_x = original_cells_per_block_x - 2;
     int data_width_y = original_cells_per_block_y - 2;
 
-    if (debug == 1) {
+    if (debug) {
         printf("Condense dimensions %dx%d -> %dx%d\n",
                grid->dimension_x, grid->dimension_y,
                new_dimension_x, new_dimension_y);
@@ -140,10 +140,10 @@ unsigned char condense_data_blocks(struct grid_2d * grid,
     grid->dimension_x = new_dimension_x;
     grid->dimension_y = new_dimension_y;
 
-    if (debug == 1) {
+    if (debug) {
         printf("\nCondensed:\n");
         show_grid(grid);
     }
 
-    return 1;
+    return true;
 }

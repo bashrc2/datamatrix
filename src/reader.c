@@ -32,14 +32,14 @@
  * \brief returns 1 if any decode has been achieved within any thread
  * \param thr_decode_result array of decode strings, one for each thread
  * \param max_config the number of threads
- * \return 1 if any decode string has non-zero length, 0 otherwise
+ * \return true if any decode string has non-zero length, 0 otherwise
  */
-unsigned char any_decode(char * thr_decode_result[], int max_config)
+bool any_decode(char * thr_decode_result[], int max_config)
 {
     for (int i = 0; i < max_config; i++) {
-        if ((int)strlen(thr_decode_result[i]) > 0) return 1;
+        if ((int)strlen(thr_decode_result[i]) > 0) return true;
     }
-    return 0;
+    return false;
 }
 
 /**
@@ -48,7 +48,7 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param image_width width of the image
  * \param image_height height of the image
  * \param image_bitsperpixel Number of bits per pixel
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param output_filename array containing output image with detected datamatrix
  * \param grid_filename array containing grid image with detected datamatrix
  * \param test_ml_threshold test with a specific mean light value
@@ -56,9 +56,9 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
  * \param test_dilate test with a specific dilation value
  * \param test_frequency test using a known grid dimension
  * \param verify set to 1 if symbol quality metrics are to be calculated
- * \param csv set to 1 if symbol quality metrics to be in CSV format
- * \param json set to 1 if symbol quality metrics to be in json format
- * \param yaml set to 1 if symbol quality metrics to be in yaml format
+ * \param csv set to true if symbol quality metrics to be in CSV format
+ * \param json set to true if symbol quality metrics to be in json format
+ * \param yaml set to true if symbol quality metrics to be in yaml format
  * \param minimum_grid_dimension minimum grid dimension
  * \param maximum_grid_dimension maximum grid dimension
  * \param gs1_url url for GS1 digital link
@@ -92,16 +92,16 @@ unsigned char any_decode(char * thr_decode_result[], int max_config)
 int read_datamatrix(unsigned char image_data[],
                     const int image_width, const int image_height,
                     const int image_bitsperpixel,
-                    const unsigned char debug,
+                    const bool debug,
                     char output_filename[],
                     const char grid_filename[],
                     const int test_ml_threshold,
                     const int test_erode, int const test_dilate,
                     const int test_frequency,
-                    const unsigned char verify,
-                    const unsigned char csv,
-                    const unsigned char json,
-                    const unsigned char yaml,
+                    const bool verify,
+                    const bool csv,
+                    const bool json,
+                    const bool yaml,
                     const int minimum_grid_dimension,
                     const int maximum_grid_dimension,
                     const char gs1_url[],
@@ -114,8 +114,8 @@ int read_datamatrix(unsigned char image_data[],
                     const float aperture,
                     const int light_nm,
                     const int light_angle_degrees,
-                    const unsigned char is_square,
-                    const unsigned char is_rectangle,
+                    const bool is_square,
+                    const bool is_rectangle,
                     const char cell_shape_filename[],
                     char report_template[],
                     char report_filename[],
@@ -137,7 +137,7 @@ int read_datamatrix(unsigned char image_data[],
     int original_image_height = image_height;
     int image_bytesperpixel = image_bitsperpixel/8;
     int try_config, best_config = -1;
-    unsigned char human_readable = 1;
+    bool human_readable = true;
 
     /* the magic numbers
        Note that these are doubled sets so that we can also vary the
@@ -178,7 +178,7 @@ int read_datamatrix(unsigned char image_data[],
     float best_perimeter_x0=-1;
 
     /* in verification reports show the raw decode */
-    if ((verify == 1) || (raw_decode == 1)) human_readable = 0;
+    if ((verify) || (raw_decode)) human_readable = false;
 
     decode_result[0] = 0;
 
@@ -217,7 +217,7 @@ int read_datamatrix(unsigned char image_data[],
         int most_probable_frequency=0;
         int most_probable_frequency_x=0, most_probable_frequency_y=0;
         int aspect_ratio_percent;
-        unsigned char test_specific_config_settings = 0;
+        bool test_specific_config_settings = false;
 
         int ml_threshold = ml_threshold_configs[try_config];
         int erosion_itterations = erosion_itterations_configs[try_config];
@@ -265,13 +265,13 @@ int read_datamatrix(unsigned char image_data[],
         if ((test_ml_threshold > 0) ||
                 (test_erode > 0) || (test_dilate > 0)) {
             /* if we are only trying one combination of settings */
-            test_specific_config_settings = 1;
+            test_specific_config_settings = true;
             ml_threshold = test_ml_threshold;
             erosion_itterations = test_erode;
             dilate_itterations = test_dilate;
         }
         else if (test_frequency > 0) {
-            test_specific_config_settings = 1;
+            test_specific_config_settings = true;
         }
 
         /* convert to meanlight */
@@ -280,7 +280,7 @@ int read_datamatrix(unsigned char image_data[],
                             meanlight_sampling_radius_percent,
                             darklight_sampling_step,
                             thr_meanlight_image_data);
-        if (debug == 1) {
+        if (debug) {
             sprintf(debug_filename[try_config],
                     "debug_%d_02_meanlight.png", try_config);
             write_png_file(debug_filename[try_config],
@@ -312,7 +312,7 @@ int read_datamatrix(unsigned char image_data[],
             /* convert the mono image back to colour */
             mono_to_colour(thr_mono_img, image_width, image_height,
                            image_bitsperpixel, thr_image_data);
-            if (debug == 1) {
+            if (debug) {
                 sprintf(debug_filename[try_config],
                         "debug_%d_03_erode_dilate.png", try_config);
                 write_png_file(debug_filename[try_config],
@@ -338,7 +338,7 @@ int read_datamatrix(unsigned char image_data[],
             free(thr_edges_image_data);
             continue;
         }
-        if (debug == 1) {
+        if (debug) {
             sprintf(debug_filename[try_config],
                     "debug_%d_04_thresholded.png", try_config);
             write_png_file(debug_filename[try_config],
@@ -347,8 +347,8 @@ int read_datamatrix(unsigned char image_data[],
                            thr_edges_image_data);
         }
 
-        unsigned char rectangular = 0;
-        unsigned char perimeter_found = 0;
+        bool rectangular = false;
+        bool perimeter_found = false;
         float perimeter_x0=0, perimeter_y0=0;
         float perimeter_x1=0, perimeter_y1=0;
         float perimeter_x2=0, perimeter_y2=0;
@@ -366,7 +366,7 @@ int read_datamatrix(unsigned char image_data[],
             get_percent_high(thr_binary_image_buffer,
                              resized_thresholded_width,
                              resized_thresholded_height);
-        if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
+        if ((any_decode(&thr_decode_result[0], max_config)) ||
                 ((high_pixels < 5) || (high_pixels > max_high_pixels_percent))) {
             /* Too many high pixels */
             free(thr_image_data);
@@ -384,7 +384,7 @@ int read_datamatrix(unsigned char image_data[],
         mono_to_colour(thr_binary_image,
                        resized_thresholded_width, resized_thresholded_height,
                        image_bitsperpixel, thr_edges_image_data);
-        if (debug == 1) {
+        if (debug) {
             sprintf(debug_filename[try_config], "debug_%d_05_edges.png",
                     try_config);
             write_png_file(debug_filename[try_config],
@@ -397,7 +397,7 @@ int read_datamatrix(unsigned char image_data[],
                           resized_thresholded_height, &segments[try_config],
                           min_segment_length);
 
-        if (debug == 1) {
+        if (debug) {
             show_line_segments(&segments[try_config], thr_edges_image_data,
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -415,7 +415,7 @@ int read_datamatrix(unsigned char image_data[],
                                      resized_thresholded_width,
                                      resized_thresholded_height,
                                      segment_roi_percent);
-        if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
+        if ((any_decode(&thr_decode_result[0], max_config)) ||
                 (segments_percent < 1)) {
             /* not enough line segments */
             free(thr_image_data);
@@ -429,7 +429,7 @@ int read_datamatrix(unsigned char image_data[],
             continue;
         }
 
-        if (debug == 1) {
+        if (debug) {
             show_line_segments(&segments[try_config], thr_edges_image_data,
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -444,7 +444,7 @@ int read_datamatrix(unsigned char image_data[],
 
         join_line_segments(&segments[try_config], segment_join_radius);
 
-        if (debug == 1) {
+        if (debug) {
             show_line_segments(&segments[try_config], thr_edges_image_data,
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -456,7 +456,7 @@ int read_datamatrix(unsigned char image_data[],
                            resized_thresholded_height,
                            24, thr_edges_image_data);
 
-            if (is_rectangle == 0) {
+            if (!is_rectangle) {
                 show_square_line_segments(&segments[try_config],
                                           thr_edges_image_data,
                                           resized_thresholded_width,
@@ -470,7 +470,7 @@ int read_datamatrix(unsigned char image_data[],
                                resized_thresholded_height, 24,
                                thr_edges_image_data);
             }
-            if (is_square == 0) {
+            if (!is_square) {
                 show_rectangular_line_segments(&segments[try_config],
                                                thr_edges_image_data,
                                                resized_thresholded_width,
@@ -487,7 +487,7 @@ int read_datamatrix(unsigned char image_data[],
         }
 
         /* check if no line segments found */
-        if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
+        if ((any_decode(&thr_decode_result[0], max_config)) ||
                 (segments[try_config].no_of_segments == 0)) {
             free_line_segments(&segments[try_config]);
             free(thr_image_data);
@@ -504,7 +504,7 @@ int read_datamatrix(unsigned char image_data[],
            the shortest */
         for (int seg_idx = 0;
                 seg_idx < segments[try_config].no_of_segments; seg_idx++) {
-            if (any_decode(&thr_decode_result[0], max_config) == 1) {
+            if (any_decode(&thr_decode_result[0], max_config)) {
                 break;
             }
 
@@ -516,7 +516,7 @@ int read_datamatrix(unsigned char image_data[],
             /* reject very small objects with not many edges around their
                periphery*/
             if (peripheral_edge_count < min_peripheral_edges) {
-                if (debug == 1) {
+                if (debug) {
                     printf("%d %d below peripheral edges threshold %d/%d\n",
                            try_config, seg_idx, peripheral_edge_count,
                            min_peripheral_edges);
@@ -555,7 +555,7 @@ int read_datamatrix(unsigned char image_data[],
                                resized_thresholded_width,
                                resized_thresholded_height,
                                image_bitsperpixel);
-                if (debug == 1) {
+                if (debug) {
                     sprintf(debug_filename[try_config],
                             "debug_%d_08b_perim_not_fit_%d.png",
                             try_config, seg_idx);
@@ -572,15 +572,15 @@ int read_datamatrix(unsigned char image_data[],
                                        perimeter_x1, perimeter_y1,
                                        perimeter_x2, perimeter_y2,
                                        perimeter_x3, perimeter_y3);
-            if (debug == 1) {
+            if (debug) {
                 printf("%d %d aspect_ratio_percent: %d%%\n",
                        try_config, seg_idx, aspect_ratio_percent);
             }
             rectangular = is_rectangle;
             if ((aspect_ratio_percent < 80) || (aspect_ratio_percent > 120)) {
                 /* if the aspect is rectangular, but square is specified */
-                if (is_square == 1) {
-                    if (debug == 1) {
+                if (is_square) {
+                    if (debug) {
                         printf("%d %d aspect is rectangular, but square is specified\n",
                                try_config, seg_idx);
                     }
@@ -590,16 +590,16 @@ int read_datamatrix(unsigned char image_data[],
                 rectangular =
                     rectangular_joined_line_segments(aspect_ratio_percent);
                 /* if it isn't rectangular and isn't square then continue */
-                if (rectangular == 0) {
-                    if (debug == 1) {
+                if (!rectangular) {
+                    if (debug) {
                         printf("%d %d Looks rectangular, but does not match any rectangle aspect ratio\n",
                                try_config, seg_idx);
                     }
                     continue;
                 }
             }
-            else if (is_rectangle == 1) {
-                if (debug == 1) {
+            else if (is_rectangle) {
+                if (debug) {
                     printf("%d %d rectangle has square aspect ratio %d%%\n",
                            try_config, seg_idx, aspect_ratio_percent);
                 }
@@ -616,7 +616,7 @@ int read_datamatrix(unsigned char image_data[],
                 corner_radians = (2 * (float)PI) - corner_radians;
             angle_degrees = corner_radians / (float)PI * 180;
             if ((angle_degrees < 70) || (angle_degrees > 110)) {
-                if (debug == 1) {
+                if (debug) {
                     printf("%d %d Too much angular distortion %f.1 degrees\n",
                            try_config, seg_idx, angle_degrees);
                 }
@@ -632,7 +632,7 @@ int read_datamatrix(unsigned char image_data[],
                 corner_radians = (2 * (float)PI) - corner_radians;
             angle_degrees = corner_radians / (float)PI * 180;
             if ((angle_degrees < 70) || (angle_degrees > 110)) {
-                if (debug == 1) {
+                if (debug) {
                     printf("%d %d Second corner too much angular distortion %f.1 degrees\n",
                            try_config, seg_idx, angle_degrees);
                 }
@@ -645,7 +645,7 @@ int read_datamatrix(unsigned char image_data[],
                                        &perimeter_x2, &perimeter_y2,
                                        &perimeter_x3, &perimeter_y3);
 
-            if (debug == 1) {
+            if (debug) {
                 show_peripheral_edges(&segments[try_config],
                                       thr_edges_image_data,
                                       resized_thresholded_width,
@@ -659,7 +659,7 @@ int read_datamatrix(unsigned char image_data[],
                                resized_thresholded_height,
                                24, thr_edges_image_data);
             }
-            if (debug == 1) {
+            if (debug) {
                 show_perimeter(&segments[try_config], thr_edges_image_data,
                                resized_thresholded_width,
                                resized_thresholded_height,
@@ -672,7 +672,7 @@ int read_datamatrix(unsigned char image_data[],
                                24, thr_edges_image_data);
             }
 
-            if (debug == 1) {
+            if (debug) {
                 show_shape_perimeter(thr_edges_image_data,
                                      resized_thresholded_width,
                                      resized_thresholded_height,
@@ -743,24 +743,24 @@ int read_datamatrix(unsigned char image_data[],
                                  perimeter_x1, perimeter_y1,
                                  perimeter_x2, perimeter_y2,
                                  perimeter_x3, perimeter_y3);
-            if (debug == 1) {
+            if (debug) {
                 sprintf(debug_filename[try_config],
                         "debug_%d_12_shape_perimeter%d.png",
                         try_config, seg_idx);
                 write_png_file(debug_filename[try_config],
                                image_width, image_height, 24, thr_image_data);
             }
-            perimeter_found = 1;
+            perimeter_found = true;
             break;
         }
 
         /* we have a perimeter, now find the timing border frequency */
-        if (perimeter_found == 1) {
+        if (perimeter_found) {
             colour_to_mono(thr_original_meanlight_image_data,
                            image_width,image_height,image_bitsperpixel,
                            thr_mono_img);
 
-            if (debug == 1) {
+            if (debug) {
                 memcpy(thr_image_data, thr_original_meanlight_image_data,
                        (size_t)(image_width * image_height * image_bytesperpixel));
             }
@@ -773,7 +773,7 @@ int read_datamatrix(unsigned char image_data[],
                                        &perimeter_x3, &perimeter_y3,
                                        150, debug, thr_image_data,
                                        image_bitsperpixel) == 1) {
-                if (debug == 1) {
+                if (debug) {
                     show_shape_perimeter(thr_image_data, image_width,
                                          image_height,
                                          image_bitsperpixel,
@@ -790,7 +790,7 @@ int read_datamatrix(unsigned char image_data[],
                 }
             }
 
-            if (debug == 1) {
+            if (debug) {
                 memcpy(thr_image_data, thr_original_meanlight_image_data,
                        (size_t)(image_width * image_height * image_bytesperpixel));
             }
@@ -804,7 +804,7 @@ int read_datamatrix(unsigned char image_data[],
                                          &perimeter_x3, &perimeter_y3,
                                          20, debug, thr_image_data,
                                          image_bitsperpixel) == 1) {
-                if (debug == 1) {
+                if (debug) {
                     show_shape_perimeter(thr_image_data,
                                          image_width, image_height,
                                          image_bitsperpixel,
@@ -821,7 +821,7 @@ int read_datamatrix(unsigned char image_data[],
                 }
             }
 
-            if (any_decode(&thr_decode_result[0], max_config) == 1) {
+            if (any_decode(&thr_decode_result[0], max_config)) {
                 free_line_segments(&segments[try_config]);
                 free(thr_image_data);
                 free(thr_meanlight_image_data);
@@ -850,7 +850,7 @@ int read_datamatrix(unsigned char image_data[],
                                           timing_pattern_sampling_radius,
                                           0, thr_image_data, 0);
             }
-            if ((most_probable_frequency > 0) && (debug == 1)) {
+            if ((most_probable_frequency > 0) && (debug)) {
                 memcpy(thr_image_data, thr_original_meanlight_image_data,
                        (size_t)(image_width * image_height * (image_bitsperpixel/8)));
                 detect_timing_pattern(thr_mono_img, image_width, image_height,
@@ -868,7 +868,7 @@ int read_datamatrix(unsigned char image_data[],
                                image_width, image_height, 24, thr_image_data);
             }
 
-            if (any_decode(&thr_decode_result[0], max_config) == 1) {
+            if (any_decode(&thr_decode_result[0], max_config)) {
                 free_line_segments(&segments[try_config]);
                 free(thr_image_data);
                 free(thr_meanlight_image_data);
@@ -881,7 +881,7 @@ int read_datamatrix(unsigned char image_data[],
             }
 
             if (most_probable_frequency > 0) {
-                if (debug == 1) {
+                if (debug) {
                     printf("Frequency: %d\n", most_probable_frequency);
                 }
                 /* sample grid cells in different patterns */
@@ -889,7 +889,7 @@ int read_datamatrix(unsigned char image_data[],
                 for (int curr_sampling_pattern = SAMPLING_PATTERN_SOLID;
                         curr_sampling_pattern <= SAMPLING_PATTERN_RING;
                         curr_sampling_pattern++) {
-                    if (any_decode(&thr_decode_result[0], max_config) == 1) {
+                    if (any_decode(&thr_decode_result[0], max_config)) {
                         break;
                     }
                     /* increase the radius for ring sampling */
@@ -914,7 +914,7 @@ int read_datamatrix(unsigned char image_data[],
                         free_grid(&grid[try_config]);
                         break;
                     }
-                    if (debug == 1) {
+                    if (debug) {
                         mono_to_colour(thr_mono_img, image_width, image_height,
                                        image_bitsperpixel, thr_image_data);
                         show_grid_image(&grid[try_config], thr_image_data,
@@ -981,9 +981,9 @@ int read_datamatrix(unsigned char image_data[],
                 }
             }
 
-            if ((any_decode(&thr_decode_result[0], max_config) == 1) ||
-                    (test_specific_config_settings == 1)) {
-                if (verify == 1) {
+            if ((any_decode(&thr_decode_result[0], max_config)) ||
+                    (test_specific_config_settings)) {
+                if (verify) {
                     calculate_quality_metrics(&grid[try_config],
                                               original_image_data,
                                               thr_original_meanlight_image_data,
@@ -1006,8 +1006,8 @@ int read_datamatrix(unsigned char image_data[],
 
             /* if timing border frequency detection fails then try to decode using
                all possible grids */
-            if (rectangular == 0) {
-                if (debug == 1) {
+            if (!rectangular) {
+                if (debug) {
                     printf("%d Trying all square dimensions\n", try_config);
                 }
                 const int * valid_squares = get_valid_squares();
@@ -1016,7 +1016,7 @@ int read_datamatrix(unsigned char image_data[],
                     most_probable_frequency = valid_squares[frequency_index];
                     if ((most_probable_frequency < minimum_grid_dimension) ||
                             (most_probable_frequency > maximum_grid_dimension)) continue;
-                    if (debug == 1) {
+                    if (debug) {
                         printf("%d Trying square dimension %dx%d\n",
                                try_config, most_probable_frequency,
                                most_probable_frequency);
@@ -1042,7 +1042,7 @@ int read_datamatrix(unsigned char image_data[],
                         /* is the cell size smaller than the sampling
                            diameter? */
                         if (curr_cell_size < curr_sampling_radius*2) {
-                            if (debug == 1) {
+                            if (debug) {
                                 printf("Square cell size too small %.2f %d\n",
                                        curr_cell_size,
                                        curr_sampling_radius*2);
@@ -1089,7 +1089,7 @@ int read_datamatrix(unsigned char image_data[],
                                                image_width, image_height, 24,
                                                image_data);
                             }
-                            if (debug == 1) {
+                            if (debug) {
                                 printf("Frequency: %d\n",
                                        most_probable_frequency);
                                 mono_to_colour(thr_mono_img,
@@ -1116,7 +1116,7 @@ int read_datamatrix(unsigned char image_data[],
                                           gs1_url, thr_decode_result[try_config],
                                           human_readable);
                         if ((int)strlen(thr_decode_result[try_config]) == 0) {
-                            if (debug == 1) {
+                            if (debug) {
                                 printf("debug_%d_18_failed to decode %d_%dx%d.png\n",
                                     try_config, curr_sampling_pattern,
                                     most_probable_frequency,
@@ -1140,7 +1140,7 @@ int read_datamatrix(unsigned char image_data[],
                                                image_width, image_height, 24,
                                                image_data);
                             }
-                            if (debug == 1) {
+                            if (debug) {
                                 printf("Frequency: %d\n",
                                        most_probable_frequency);
                                 mono_to_colour(thr_mono_img,
@@ -1165,7 +1165,7 @@ int read_datamatrix(unsigned char image_data[],
                         }
                         free_grid(&grid[try_config]);
                     }
-                    if (any_decode(&thr_decode_result[0], max_config) == 1) {
+                    if (any_decode(&thr_decode_result[0], max_config)) {
                         /* decode achieved */
                         break;
                     }
@@ -1173,7 +1173,7 @@ int read_datamatrix(unsigned char image_data[],
             }
             else {
                 /* try all rectangles */
-                if (debug == 1) {
+                if (debug) {
                     printf("%d Trying all rectangle dimensions\n", try_config);
                 }
                 const int * valid_rectangles = get_valid_rectangles();
@@ -1198,7 +1198,7 @@ int read_datamatrix(unsigned char image_data[],
                         most_probable_frequency =
                             most_probable_frequency_x;
                     }
-                    if (debug == 1) {
+                    if (debug) {
                         printf("%d Trying rectangle dimension %dx%d\n",
                                try_config, most_probable_frequency_x,
                                most_probable_frequency_y);
@@ -1227,7 +1227,7 @@ int read_datamatrix(unsigned char image_data[],
                         /* is the cell size smaller than the sampling
                            diameter? */
                         if (curr_cell_size < curr_sampling_radius*2) {
-                            if (debug == 1) {
+                            if (debug) {
                                 printf("Rectangle cell size too small %.2f %d\n",
                                        curr_cell_size,
                                        curr_sampling_radius*2);
@@ -1254,7 +1254,7 @@ int read_datamatrix(unsigned char image_data[],
                             break;
                         }
 
-                        if (debug == 1) {
+                        if (debug) {
                             mono_to_colour(thr_mono_img, image_width, image_height,
                                            image_bitsperpixel, thr_image_data);
                             show_grid_image(&grid[try_config], thr_image_data,
@@ -1278,7 +1278,7 @@ int read_datamatrix(unsigned char image_data[],
                                           thr_decode_result[try_config],
                                           human_readable);
                         if ((int)strlen(thr_decode_result[try_config]) == 0) {
-                            if (debug == 1) {
+                            if (debug) {
                                 printf("debug_%d_18_failed to decode %d_%dx%d.png\n",
                                     try_config, curr_sampling_pattern,
                                     most_probable_frequency_x,
@@ -1302,7 +1302,7 @@ int read_datamatrix(unsigned char image_data[],
                                                image_width, image_height, 24,
                                                image_data);
                             }
-                            if (debug == 1) {
+                            if (debug) {
                                 printf("Frequency: %dx%d\n",
                                        most_probable_frequency_x,
                                        most_probable_frequency_y);
@@ -1328,15 +1328,15 @@ int read_datamatrix(unsigned char image_data[],
                         }
                         free_grid(&grid[try_config]);
                     }
-                    if (any_decode(&thr_decode_result[0], max_config) == 1) {
+                    if (any_decode(&thr_decode_result[0], max_config)) {
                         /* decode achieved */
                         break;
                     }
                 }
             }
-            if (any_decode(&thr_decode_result[0], max_config) == 1) {
+            if (any_decode(&thr_decode_result[0], max_config)) {
                 /* decode achieved */
-                if (verify == 1) {
+                if (verify) {
                     calculate_quality_metrics(&grid[try_config],
                                               original_image_data,
                                               thr_original_meanlight_image_data,
@@ -1362,7 +1362,7 @@ int read_datamatrix(unsigned char image_data[],
 
         /* quality metrics */
         if ((int)strlen(thr_decode_result[try_config]) > 0) {
-            if (verify == 1) {
+            if (verify) {
                 calculate_quality_metrics(&grid[try_config],
                                           original_image_data,
                                           thr_original_meanlight_image_data,
@@ -1398,7 +1398,7 @@ int read_datamatrix(unsigned char image_data[],
             }
 
             /* quality metrics */
-            if (verify == 1) {
+            if (verify) {
                 show_quality_metrics(&grid[best_config], csv, json, yaml,
                                      aperture, light_nm, light_angle_degrees);
                 if (((int)strlen(report_template) > 0) &&
@@ -1456,7 +1456,7 @@ void decode_as_json(const char * decode_result)
     char * fieldname = (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     fieldname[0] = 0;
     int i, j, start_ctr = 0;
-    unsigned char field_found = 0;
+    bool field_found = false;
 
     char * field_value =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
@@ -1465,12 +1465,12 @@ void decode_as_json(const char * decode_result)
     int field_count = 0;
 
     for (i = 0; i < (int)strlen(decode_result); i++) {
-        if (field_found == 0) {
+        if (!field_found) {
             /* get the field name */
             if (i < (int)strlen(decode_result)-1) {
                 if ((decode_result[i] == ':') &&
                     (decode_result[i+1] == ' ')) {
-                    field_found = 1;
+                    field_found = true;
                     for (j = start_ctr; j < i; j++) {
                         fieldname[j-start_ctr] = (char)tolower(decode_result[j]);
                     }
@@ -1500,7 +1500,7 @@ void decode_as_json(const char * decode_result)
                     }
                     field_value_start_ctr = 0;
                     fieldname[0] = 0;
-                    field_found = 0;
+                    field_found = false;
                     field_count++;
                 }
             }
@@ -1533,19 +1533,19 @@ void decode_as_yaml(const char * decode_result)
     char * fieldname = (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     fieldname[0] = 0;
     int i, j, start_ctr = 0;
-    unsigned char field_found = 0;
+    bool field_found = false;
 
     char * field_value = (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     field_value[0] = 0;
     int field_value_start_ctr = 0;
 
     for (i = 0; i < (int)strlen(decode_result); i++) {
-        if (field_found == 0) {
+        if (!field_found) {
             /* get the field name */
             if (i < (int)strlen(decode_result)-1) {
                 if ((decode_result[i] == ':') &&
                     (decode_result[i+1] == ' ')) {
-                    field_found = 1;
+                    field_found = true;
                     for (j = start_ctr; j < i; j++) {
                         fieldname[j-start_ctr] = (char)tolower(decode_result[j]);
                     }
@@ -1572,7 +1572,7 @@ void decode_as_yaml(const char * decode_result)
                     }
                     field_value_start_ctr = 0;
                     fieldname[0] = 0;
-                    field_found = 0;
+                    field_found = false;
                 }
             }
         }

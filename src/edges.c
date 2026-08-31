@@ -757,7 +757,7 @@ void show_square_line_segments(const struct line_segments * segments,
  * \param aspect_ratio aspect ratio (x100) of joined line segments
  * \return 1 if the aspect ratio is rectangular
  */
-unsigned char rectangular_joined_line_segments(const int aspect_ratio)
+bool rectangular_joined_line_segments(const int aspect_ratio)
 {
     int i, possible_aspect_ratio, min_aspect_ratio, max_aspect_ratio;
     const int aspect_tollerance = 10;
@@ -776,10 +776,10 @@ unsigned char rectangular_joined_line_segments(const int aspect_ratio)
         max_aspect_ratio = possible_aspect_ratio + aspect_tollerance;
         if ((aspect_ratio >= min_aspect_ratio) ||
                 (aspect_ratio <= max_aspect_ratio)) {
-            return (unsigned char)1;
+            return true;
         }
     }
-    return (unsigned char)0;
+    return false;
 }
 
 /**
@@ -804,7 +804,7 @@ void show_rectangular_line_segments(const struct line_segments * segments,
     for (i = 0; i < segments->no_of_segments; i++) {
         aspect_ratio = get_segment_aspect_ratio(segments, i);
 
-        if (rectangular_joined_line_segments(aspect_ratio) == 0) {
+        if (!rectangular_joined_line_segments(aspect_ratio)) {
             index += segments->no_of_members[i];
             continue;
         }
@@ -1628,7 +1628,7 @@ static int fit_perimeter_to_all_sides(const struct line_segments * segments,
  * \param perimeter_y2 returned third perimeter y coord
  * \param perimeter_x3 returned fourth perimeter x coord
  * \param perimeter_y3 returned fourth perimeter y coord
- * \param debug Set to 1 to enable debug
+ * \param debug Set to true to enable debug
  * \param try_config Current settings configuration being tried
  * \param seg_idx Current line segment being tried
  * \param offset extra offset when selecting second longest side
@@ -1649,7 +1649,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
                            float * perimeter_y2,
                            float * perimeter_x3,
                            float * perimeter_y3,
-                           const unsigned char debug,
+                           const bool debug,
                            const int try_config, const int seg_idx,
                            const int offset,
                            unsigned char thr_edges_image_data[],
@@ -1661,7 +1661,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
     int side, no_of_edges, max_edges=0, max_side1=-1, max_side2=-1;
     int first_fit_edges, second_fit_edges, edge_index, x, y, dx, dy;
     int no_of_samples, no_of_edge_samples, edge_idx, dist_sqr, max_dist_sqr;
-    unsigned char enough_edges = 1;
+    bool enough_edges = true;
     float max_deviation=5;
     float x0, y0, x1, y1, cx, cy, dx2, dy2;
     float x2, y2, x3, y3, x4=0, y4=0, x5=0, y5=0;
@@ -1676,7 +1676,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
         }
     }
     if (max_side1 == -1) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d No longest side edges found\n", try_config, seg_idx);
         }
         return -1;
@@ -1685,7 +1685,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
     /* get the orthogonal side with the maximum length */
     max_side2 = (max_side1 + offset) % 4;
     if (segments->side_edges_count[max_side2] == 0) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d No orthogonal side containing edges found\n",
                    try_config, seg_idx);
         }
@@ -1703,7 +1703,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
         }
     }
     if (max_side2 == -1) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d No second longest side edges found\n", try_config, seg_idx);
         }
         return -1;
@@ -1716,11 +1716,11 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
         if ((side == max_side1) || (side == max_side2)) continue;
         no_of_edges = segments->side_edges_count[side];
         if (no_of_edges < min_side_edges) {
-            enough_edges = 0;
+            enough_edges = false;
             break;
         }
     }
-    if (enough_edges == 1) {
+    if (enough_edges) {
         return fit_perimeter_to_all_sides(segments, width, height, max_deviation,
                                           segments->edge_centre_x,
                                           segments->edge_centre_y,
@@ -1729,7 +1729,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
                                           perimeter_x2, perimeter_y2,
                                           perimeter_x3, perimeter_y3);
     }
-    else if (debug == 1) {
+    else if (debug) {
         printf("%d %d Two sides with the least edges do not have sufficient (at least %d)\n",
                try_config, seg_idx, min_side_edges);
     }
@@ -1750,7 +1750,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
                                  no_of_edge_samples,
                                  &x0, &y0, &x1, &y1);
     if (first_fit_edges == NO_LINE_FIT) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d Unable to fit first line %d\n", try_config, seg_idx,
                    first_fit_edges);
         }
@@ -1769,7 +1769,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
                                   no_of_edge_samples,
                                   &x2, &y2, &x3, &y3);
     if (second_fit_edges == NO_LINE_FIT) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d Unable to fit second line %d\n", try_config, seg_idx,
                    second_fit_edges);
         }
@@ -1779,7 +1779,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
     /* do the sides intersect? */
     if (!intersection(x0, y0, x1, y1, x2, y2, x3, y3,
                       &xi, &yi)) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d no intersection\n", try_config, seg_idx);
             show_perimeter_intersection(segments,
                                         thr_edges_image_data,
@@ -1798,7 +1798,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
         return -1;
     }
     if ((xi < 0) || (xi >= width) || (yi < 0) || (yi >= height)) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d intersection out of range (%.1f, %.1f) w%d h%d\n",
                    try_config, seg_idx, xi, yi, width, height);
             show_perimeter_intersection(segments,
@@ -1841,7 +1841,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
     y5 = y4 + (x1 - x0);
     if (!intersection(x0, y0, x1, y1, x4, y4, x5, y5,
                       &xi_outer, &yi_outer)) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d no orthogonal intersection 1\n", try_config, seg_idx);
             show_perimeter_intersection(segments,
                                         thr_edges_image_data,
@@ -1882,7 +1882,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
     y5 = y4 + (x3 - x2);
     if (!intersection(x2, y2, x3, y3, x4, y4, x5, y5,
                       &xi_outer, &yi_outer)) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d no orthogonal intersection 2\n", try_config, seg_idx);
             show_perimeter_intersection(segments,
                                         thr_edges_image_data,
@@ -1914,7 +1914,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
     *perimeter_y2 = cy + dy2;
     if ((*perimeter_x2 < 0) || (*perimeter_y2 < 0) ||
             (*perimeter_x2 >= width) || (*perimeter_y2 >= height)) {
-        if (debug == 1) {
+        if (debug) {
             printf("%d %d no interpolated vertex\n", try_config, seg_idx);
         }
         return -1;

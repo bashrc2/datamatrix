@@ -80,7 +80,7 @@ static void test_rotate()
 static void test_decode()
 {
     printf("test_decode\n");
-    unsigned char human_readable = 1;
+    bool human_readable = true;
     int dimension_x, dimension_y;
     struct grid_2d grid, grid2;
     char gs1_url[MAX_DECODE_LENGTH];
@@ -185,7 +185,7 @@ static void test_decode()
 static void test_gs1_decode()
 {
     printf("test_gs1_decode\n");
-    unsigned char human_readable = 1;
+    bool human_readable = true;
     int dimension_x, dimension_y;
     struct grid_2d grid, grid2;
     char gs1_url[MAX_DECODE_LENGTH];
@@ -367,7 +367,7 @@ static void test_condense()
     dimension_x = 44;
     dimension_y = 44;
     create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy);
-    condense_data_blocks(&grid, 1);
+    condense_data_blocks(&grid, true);
 
     condensed_dimension_x = 42;
     condensed_dimension_y = 42;
@@ -397,7 +397,7 @@ static void test_iso15434_translate()
     char test_data[MAX_DECODE_LENGTH];
     char iso15434_uii[MAX_DECODE_LENGTH];
     char * result;
-    unsigned char debug = 1;
+    bool debug = true;
 
     format_code[0] = 0;
     test_data[0] = 0;

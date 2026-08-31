@@ -295,7 +295,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
                            float * perimeter_x1, float * perimeter_y1,
                            float * perimeter_x2, float * perimeter_y2,
                            float * perimeter_x3, float * perimeter_y3,
-                           const unsigned char debug,
+                           const bool debug,
                            const int try_config, const int seg_idx,
                            const int offset,
                            unsigned char thr_edges_image_data[],
@@ -347,7 +347,7 @@ void show_L_shape_perimeter(const struct grid_2d * grid,
                             unsigned char image_data[],
                             const int image_width, const int image_height,
                             const int image_bitsperpixel);
-unsigned char rectangular_joined_line_segments(const int aspect_ratio);
+bool rectangular_joined_line_segments(const int aspect_ratio);
 
 /* resize.c */
 
@@ -483,7 +483,7 @@ int detect_timing_pattern(unsigned char mono_img[],
                           const float perimeter_x2, const float perimeter_y2,
                           const float perimeter_x3, const float perimeter_y3,
                           const int sampling_radius,
-                          const unsigned char debug,
+                          const bool debug,
                           unsigned char image_data[],
                           const int debug_frequency);
 
@@ -503,11 +503,9 @@ void show_grid_image(struct grid_2d * grid,
 
 /* decode.c */
 
-void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
+void datamatrix_decode(struct grid_2d * grid, const bool debug,
                        const char gs1_url[], char result[],
-                       const unsigned char human_readable);
-unsigned char condense_data_blocks(struct grid_2d * grid,
-                                   const unsigned char debug);
+                       const bool human_readable);
 
 /* utils.c */
 
@@ -519,11 +517,11 @@ void * safemalloc(const size_t n);
 
 int getline2(char line[], FILE * fp);
 
-int ends_with(char * text, const char * match);
+bool ends_with(char * text, const char * match);
 
-int is_letter_lower(const char ch);
+bool is_letter_lower(const char ch);
 
-int is_letter_upper(const char ch);
+bool is_letter_upper(const char ch);
 
 /* shrinkgrow.c */
 
@@ -541,7 +539,7 @@ unsigned char expand_perimeter_sides(const unsigned char mono_img[],
                                      float * perimeter_x2, float * perimeter_y2,
                                      float * perimeter_x3, float * perimeter_y3,
                                      const int max_extension_percent,
-                                     const unsigned char debug,
+                                     const bool debug,
                                      unsigned char image_data[],
                                      const int image_bitsperpixel);
 
@@ -552,7 +550,7 @@ unsigned char contract_perimeter_sides(const unsigned char mono_img[],
                                        float * perimeter_x2, float * perimeter_y2,
                                        float * perimeter_x3, float * perimeter_y3,
                                        const int min_extension_percent,
-                                       const unsigned char debug,
+                                       const bool debug,
                                        unsigned char image_data[],
                                        const int image_bitsperpixel);
 
@@ -570,9 +568,9 @@ void calculate_quality_metrics(struct grid_2d * grid,
                                const char cell_shape_filename[]);
 
 void show_quality_metrics(const struct grid_2d * grid,
-                          const unsigned char csv,
-                          const unsigned char json,
-                          const unsigned char yaml,
+                          const bool csv,
+                          const bool json,
+                          const bool yaml,
                           const float aperture,
                           const int light_nm,
                           const int light_angle_degrees);
@@ -644,7 +642,7 @@ char * get_fishing_area(const char data_str[]);
 void gs1_semantics(char result[],
                    char gs1_result[],
                    const char gs1_url[],
-                   unsigned char debug,
+                   bool debug,
                    int * application_identifier,
                    unsigned char * application_identifier_length,
                    int * application_data_start,
@@ -653,27 +651,27 @@ void gs1_semantics(char result[],
 
 /* gs1_encode.c */
 
-int gs1_encode(const int application_identifier, char data_str[],
-               char encode_text[], char encode_description[]);
+bool gs1_encode(const int application_identifier, char data_str[],
+				char encode_text[], char encode_description[]);
 
 /* hibc_encode.c */
 
-int hibc_encode(const char * application_identifier, const char data_str[],
-                char encode_text[]);
+bool hibc_encode(const char * application_identifier, const char data_str[],
+				 char encode_text[]);
 
 char hibc_check_character(const char * encode_text);
 
 /* condense.c */
 
-unsigned char condense_data_blocks(struct grid_2d * grid,
-                                   unsigned char debug);
+bool condense_data_blocks(struct grid_2d * grid,
+						  bool debug);
 
 /* iso15434.c */
 
 void iso15434_semantics(char result[],
                         char iso15434_result[],
-                        unsigned char debug,
-                        unsigned char * is_iso1543,
+                        bool debug,
+                        bool * is_iso1543,
                         char format_code[],
                         int * iso15434_data_start,
                         char iso15434_uii[]);
@@ -683,13 +681,13 @@ char * iso15434_translate_data_qualifier(char result[],
         int end_index,
         char iso15434_uii[],
         char format_code[],
-        unsigned char debug);
+        bool debug);
 
 /* hibc.c */
 
 void hibc_semantics(char result[],
                     char hibc_result[],
-                    const unsigned char debug);
+                    const bool debug);
 
 /* data_id.c */
 
@@ -712,16 +710,16 @@ const int * get_valid_rectangles();
 int read_datamatrix(unsigned char image_data[],
                     const int image_width, const int image_height,
                     const int image_bitsperpixel,
-                    const unsigned char debug,
+                    const bool debug,
                     char output_filename[],
                     const char grid_filename[],
                     const int test_ml_threshold,
                     const int test_erode, const int test_dilate,
                     const int test_frequency,
-                    const unsigned char verify,
-                    const unsigned char csv,
-                    const unsigned char json,
-                    const unsigned char yaml,
+                    const bool verify,
+                    const bool csv,
+                    const bool json,
+                    const bool yaml,
                     const int minimum_grid_dimension,
                     const int maximum_grid_dimension,
                     const char gs1_url[],
@@ -734,8 +732,8 @@ int read_datamatrix(unsigned char image_data[],
                     const float aperture,
                     const int light_nm,
                     const int light_angle_degrees,
-                    const unsigned char is_square,
-                    const unsigned char is_rectangle,
+                    const bool is_square,
+                    const bool is_rectangle,
                     const char cell_shape_filename[],
                     char report_template[],
                     char report_filename[],
@@ -767,7 +765,7 @@ void encode_image(unsigned char img[],
                   const int width, const int height,
                   const int bitsperpixel, const unsigned char * grid,
                   const int encode_width, const int encode_height,
-                  const unsigned char square_modules,
+                  const bool square_modules,
                   const char * description,
                   const unsigned char description_position,
                   const int character_width,
@@ -778,7 +776,7 @@ void encode_svg(const char * image_filename,
                 const int width, const int height,
                 const unsigned char * grid,
                 const int encode_width, const int encode_height,
-                const unsigned char square_modules,
+                const bool square_modules,
                 const char * description,
                 const unsigned char description_position,
                 const int character_width,
@@ -791,7 +789,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
                                 const char * gs1_url,
                                 char * custom_dot_char,
                                 char * custom_empty_char,
-                                const unsigned char debug);
+                                const bool debug);
 
 /* encode_text.c */
 
@@ -801,17 +799,17 @@ int encode_datamatrix_to_text_or_image(const char * text,
                                        const int character_width,
                                        const int line_spacing,
                                        const int encode_scale,
-                                       const unsigned char is_square,
-                                       const unsigned char csv,
-                                       const unsigned char show_coords,
+                                       const bool is_square,
+                                       const bool csv,
+                                       const bool show_coords,
                                        const float coords_offset_x,
                                        const float coords_offset_y,
                                        char * image_filename,
                                        int encode_image_width,
                                        const char * dot_char,
                                        const char * empty_char,
-                                       const unsigned char square_modules,
-                                       const unsigned char debug);
+                                       const bool square_modules,
+                                       const bool debug);
 
 /* png2.c */
 

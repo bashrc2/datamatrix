@@ -321,11 +321,11 @@ static char * hibc_secondary_data(char result[], const int start_index,
  * \brief state machine for handling HIBC encoding
  * \param result Plaintext decode string
  * \param hibc_result decoded string
- * \param debug set to 1 to enable debugging
+ * \param debug set to true to enable debugging
  */
 void hibc_semantics(char result[],
                     char hibc_result[],
-                    const unsigned char debug)
+                    const bool debug)
 {
     int i, index = 0;
     int str_len = (int)strlen(result);
@@ -340,7 +340,7 @@ void hibc_semantics(char result[],
         is_hibc = 1;
         hibc_result[0] = 0;
         hibc_data_start = 1;
-        if (debug == 1) {
+        if (debug) {
             printf("HIBC %s\n", result);
         }
     }

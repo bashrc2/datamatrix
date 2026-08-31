@@ -53,7 +53,7 @@ float get_cell_width(struct grid_2d * grid)
  * \param by end y coordinate for the perimeter side
  * \param frequency the timing border frequency to be checked
  * \param sampling_radius radius of pixels to be checked at each location in the frequency
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param image_data colour image array
  * \param debug_frequency set to 1 to show the pixels being checked within the colour image
  * \return probability that a timing border exists at this frequency
@@ -64,7 +64,7 @@ static int get_timing_prob_side(unsigned char mono_img[],
                                 float bx, float by,
                                 int frequency,
                                 int sampling_radius,
-                                unsigned char debug,
+                                bool debug,
                                 unsigned char image_data[],
                                 int debug_frequency)
 {
@@ -94,7 +94,7 @@ static int get_timing_prob_side(unsigned char mono_img[],
             n = yy*width + min_x;
             for (xx = min_x; xx <= max_x; xx++, n++) {
                 if (mono_img[n] == expected) cell_prob++;
-                if ((debug == 1) && (frequency == debug_frequency)) {
+                if ((debug) && (frequency == debug_frequency)) {
                     image_data[n*3] = 0;
                     image_data[n*3+1] = 255;
                     image_data[n*3+2] = 0;
@@ -131,7 +131,7 @@ static int get_timing_prob_side(unsigned char mono_img[],
  * \param frequency the timing border frequency to be checked
  * \param frequency2 the second timing border frequency to be checked
  * \param sampling_radius radius of pixels to be checked at each location in the frequency
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param image_data colour image array
  * \param debug_frequency set to 1 to show the pixels being checked within the colour image
  * \return probability that the given corner is the timing border
@@ -143,7 +143,7 @@ static int get_timing_prob(unsigned char mono_img[],
                            float next_corner_x, float next_corner_y,
                            int frequency, int frequency_shortest,
                            int sampling_radius,
-                           unsigned char debug,
+                           bool debug,
                            unsigned char image_data[],
                            int debug_frequency)
 {
@@ -201,7 +201,7 @@ static int get_timing_prob(unsigned char mono_img[],
  * \param threshold minimum threshold for probable timing border
  * \param side_length length of perimeter sides in the square
  * \param sampling_radius radius of pixels to be checked at each location in the frequency
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param image_data colour image array
  * \param debug_frequency set to 1 to show the pixels being checked within the colour image
  * \return the most likely timing border frequency
@@ -216,7 +216,7 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
                                         float perimeter_x3, float perimeter_y3,
                                         int threshold, float side_length,
                                         int sampling_radius,
-                                        unsigned char debug,
+                                        bool debug,
                                         unsigned char image_data[],
                                         int debug_frequency)
 {
@@ -363,7 +363,7 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
  * \param threshold minimum threshold for probable timing border
  * \param side_length length of perimeter sides in the square
  * \param sampling_radius radius of pixels to be checked at each location in the frequency
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param image_data colour image array
  * \param debug_frequency set to 1 to show the pixels being checked within the colour image
  * \return the most likely timing border frequency
@@ -382,7 +382,7 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
         const float perimeter_y3,
         const int threshold, const float side_length,
         const int sampling_radius,
-        const unsigned char debug,
+        const bool debug,
         unsigned char image_data[],
         const int debug_frequency)
 {
@@ -530,7 +530,7 @@ static int detect_timing_pattern_rectangular(unsigned char mono_img[],
  * \param perimeter_x3 fourth perimeter x coord
  * \param perimeter_y3 fourth perimeter y coord
  * \param sampling_radius radius of pixels to be checked at each location in the frequency
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param image_data colour image array
  * \param debug_frequency set to 1 to show the pixels being checked within the colour image
  * \return the most likely timing border frequency
@@ -544,7 +544,7 @@ int detect_timing_pattern(unsigned char mono_img[],
                           const float perimeter_x2, const float perimeter_y2,
                           const float perimeter_x3, const float perimeter_y3,
                           const int sampling_radius,
-                          const unsigned char debug,
+                          const bool debug,
                           unsigned char image_data[],
                           const int debug_frequency)
 {

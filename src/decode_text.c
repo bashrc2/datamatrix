@@ -34,12 +34,13 @@
  * \param datamatrix_text string containing the datamatrix
  * \param dot_text string containing the unicode dot representation
  * \param result string containing ascii datamatrix
+ * \param debug set to true to enable debug
  * \returns 1 if replacements were made
  */
 static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
                                        const char * dot_text,
                                        char * result,
-                                       const unsigned char debug)
+                                       const bool debug)
 {
     int dot_text_len = (int)strlen(dot_text);
     int i, j, ctr = 0, found = 0;
@@ -62,7 +63,7 @@ static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
         }
     }
     result[ctr] = 0;
-    if (debug == 1) {
+    if (debug) {
         printf("datamatrix_unicode_to_ascii\n%s\n", result);
     }
     return found;
@@ -71,14 +72,14 @@ static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
 /**
  * \brief returns the X and Y dimensions of the datamatrix
  * \param datamatrix_ascii string containing the datamatrix
- * \param debug set to 1 for debug mode, 0 otherwise
+ * \param debug set to true for debug mode, false otherwise
  * \param dimension_x returned X dimension
  * \param dimension_y returned Y dimension
  * \param decode_step returned step between adjacent cells in the X dimension
  * \param empty_char character used to represent empty space
  */
 static void get_text_datamatrix_dimensions(const char * datamatrix_ascii,
-        const unsigned char debug,
+        const bool debug,
         int * dimension_x,
         int * dimension_y,
         int * decode_step,
@@ -113,7 +114,7 @@ static void get_text_datamatrix_dimensions(const char * datamatrix_ascii,
             }
         }
     }
-    if (debug == 1) {
+    if (debug) {
         printf("decode_step: %d\n", *decode_step);
     }
     if (*decode_step == 0) {
@@ -135,7 +136,7 @@ static void get_text_datamatrix_dimensions(const char * datamatrix_ascii,
             if (datamatrix_ascii[i] != empty_char[0]) dot_ctr++;
         }
     }
-    if (debug == 1) {
+    if (debug) {
         printf("dimension_x: %d\ndimension_y: %d\n",
                *dimension_x, *dimension_y);
     }
@@ -196,14 +197,14 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
  * \param gs1_url optional GS1 URL prefix
  * \param custom_dot_char character or string representing a dot
  * \param custom_empty_char character or string representing a space
- * \param debug set to 1 for debug mode, 0 otherwise
+ * \param debug set to true for debug mode, false otherwise
  * \returns 0 on success, -1 otherwise
  */
 int decode_datamatrix_from_text(const char * datamatrix_text,
                                 const char * gs1_url,
                                 char * custom_dot_char,
                                 char * custom_empty_char,
-                                const unsigned char debug)
+                                const bool debug)
 {
     char datamatrix_ascii[MAX_DECODE_STRING_LENGTH];
     char empty_char[5];
@@ -263,7 +264,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
     char * decode_result =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     if (decode_result == nullptr) return -1;
-    unsigned char human_readable = 1;
+    bool human_readable = true;
     decode_result[0] = 0;
     /* decode */
     create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy);

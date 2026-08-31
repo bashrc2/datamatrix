@@ -29,7 +29,7 @@
  * \param end_index ending position in the result string
  * \param iso15434_uii returned unique item identifier
  * \param format_code format code
- * \param debug set to 1 for debugging
+ * \param debug set to true for debugging
  * \return translated string
  */
 char * iso15434_translate_data_qualifier(char result[],
@@ -37,17 +37,17 @@ char * iso15434_translate_data_qualifier(char result[],
         int end_index,
         char iso15434_uii[],
         char format_code[],
-        unsigned char debug)
+        bool debug)
 {
     int i, start_pos=0;
     char * translated_str = nullptr;
-    unsigned char found = 0;
+    bool found = false;
 
     if (end_index - start_index < 4) return nullptr;
 
     if ((strcmp(format_code, "12") == 0) ||
             (strcmp(format_code, "DD") == 0)) {
-        if (debug == 1) {
+        if (debug) {
             printf("Format code %s\n", format_code);
         }
         /* MFR */
@@ -58,7 +58,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "MANUFACTURER/CAGE: ");
-            found = 1;
+            found = true;
         }
 
         /* SPL */
@@ -69,7 +69,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "SUPPLIER/CAGE: ");
-            found = 1;
+            found = true;
         }
 
         /* SER / SEQ */
@@ -80,7 +80,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "SERIAL: ");
-            found = 1;
+            found = true;
         }
 
         /* CAG */
@@ -91,7 +91,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "CAGE: ");
-            found = 1;
+            found = true;
         }
 
         /* PNO */
@@ -102,7 +102,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "PART NUMBER: ");
-            found = 1;
+            found = true;
         }
 
         /* DUN */
@@ -113,7 +113,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "DISTRIBUTION UNIT NUMBER: ");
-            found = 1;
+            found = true;
         }
 
         /* UID / UIC */
@@ -124,7 +124,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNIQUE ID: ");
-            found = 1;
+            found = true;
         }
 
         /* UDI */
@@ -135,7 +135,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "DEVICE ID: ");
-            found = 1;
+            found = true;
         }
 
         /* USN */
@@ -146,7 +146,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNIQUE SERIAL: ");
-            found = 1;
+            found = true;
         }
 
         /* UST */
@@ -157,7 +157,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNITS: ");
-            found = 1;
+            found = true;
         }
 
         /* UPC */
@@ -168,7 +168,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNIVERSAL PRODUCT CODE: ");
-            found = 1;
+            found = true;
         }
 
         /* FID */
@@ -179,7 +179,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "FACILITY: ");
-            found = 1;
+            found = true;
         }
 
         /* EAN */
@@ -190,7 +190,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "EUROPEAN ARTICLE NUMBER: ");
-            found = 1;
+            found = true;
         }
 
         /* EOID */
@@ -202,7 +202,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "OPERATOR: ");
-            found = 1;
+            found = true;
         }
 
         /* MID */
@@ -213,7 +213,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "MACHINE: ");
-            found = 1;
+            found = true;
         }
 
         /* RTI */
@@ -224,7 +224,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "RETURNABLE TRANSPORT ITEM: ");
-            found = 1;
+            found = true;
         }
 
         /* RPI */
@@ -235,7 +235,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "RETURNABLE PACKAGING ITEM: ");
-            found = 1;
+            found = true;
         }
 
         /* CIN */
@@ -246,7 +246,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "COMPANY ID: ");
-            found = 1;
+            found = true;
         }
 
         /* IAC */
@@ -257,7 +257,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "ISSUING AGENCY: ");
-            found = 1;
+            found = true;
         }
 
         /* VIN */
@@ -268,7 +268,7 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "VEHICLE ID: ");
-            found = 1;
+            found = true;
         }
 
         /* BTN */
@@ -279,11 +279,11 @@ char * iso15434_translate_data_qualifier(char result[],
 				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "VEHICLE BODY: ");
-            found = 1;
+            found = true;
         }
     }
 
-    if (found == 1) {
+    if (found) {
         /* position to begin reading at */
         if (result[start_index+4] == ' ') {
             start_pos = start_index+5;
@@ -305,7 +305,7 @@ char * iso15434_translate_data_qualifier(char result[],
     else {
         /* format code 06  */
         if (strcmp(format_code, "06") == 0) {
-            if (debug == 1) {
+            if (debug) {
                 printf("Format code 06\n");
             }
             char * data_str =
@@ -357,7 +357,7 @@ char * iso15434_translate_data_qualifier(char result[],
             free(id_value);
         }
         else if (strcmp(format_code, "05") == 0) {
-            if (debug == 1) {
+            if (debug) {
                 printf("Format code 05\n");
             }
             translated_str =
@@ -377,7 +377,7 @@ char * iso15434_translate_data_qualifier(char result[],
                         app_id_str[i] = result[i];
                     }
                     app_id_str[application_identifier_length] = 0;
-                    if (debug == 1) {
+                    if (debug) {
                         printf("Application Identifier %s\n", &app_id_str[0]);
                     }
                     int application_identifier = -1;
@@ -392,7 +392,7 @@ char * iso15434_translate_data_qualifier(char result[],
                                   &application_data_start,
                                   &application_data_end,
                                   &application_data_variable);
-                    if (debug == 1) {
+                    if (debug) {
                         printf("result: %d %s\n", application_identifier, result);
                     }
                     if (application_identifier != -1) {
@@ -417,7 +417,7 @@ char * iso15434_translate_data_qualifier(char result[],
                                       &application_data_start,
                                       &application_data_end,
                                       &application_data_variable);
-                        if (debug == 1) {
+                        if (debug) {
                             printf("translated_str 1 %d: %s\n", i, translated_str);
                         }
                         if ((int)strlen(translated_str) > 0) {
@@ -453,16 +453,16 @@ char * iso15434_translate_data_qualifier(char result[],
  * \brief state machine for handling ISO 15434 encoding
  * \param result Plaintext decode string
  * \param iso15434_result decoded string
- * \param debug set to 1 to enable debugging
- * \param is_iso1543 set to 1 if iso1543 decoding is active
+ * \param debug set to true to enable debugging
+ * \param is_iso1543 set to true if iso1543 decoding is active
  * \param format_code returned iso1543 format code
  * \param iso15434_data_start position of the start of data within result string
  * \param iso15434_uii returned unique item identifier
  */
 void iso15434_semantics(char result[],
                         char iso15434_result[],
-                        unsigned char debug,
-                        unsigned char * is_iso1543,
+                        bool debug,
+                        bool * is_iso1543,
                         char format_code[],
                         int * iso15434_data_start,
                         char iso15434_uii[])
@@ -475,7 +475,7 @@ void iso15434_semantics(char result[],
     const int CHAR_EOT = 4;
 
     if (str_len < 3) {
-        *is_iso1543 = 0;
+        *is_iso1543 = false;
         *iso15434_data_start = -1;
         format_code[0] = 0;
         iso15434_result[0] = 0;
@@ -483,9 +483,9 @@ void iso15434_semantics(char result[],
     }
 
     /* EOT */
-    if ((str_len > 1) && (*is_iso1543 == 1)) {
+    if ((str_len > 1) && (*is_iso1543)) {
         if ((int)(result[str_len-1]) == CHAR_EOT) {
-            if (debug == 1) {
+            if (debug) {
                 printf("EOT\n");
             }
             return;
@@ -495,29 +495,29 @@ void iso15434_semantics(char result[],
     /* look for the beginning */
     if (str_len == 3) {
         if (strcmp(result, "[)>") == 0) {
-            *is_iso1543 = 1;
-            if (debug == 1) {
+            *is_iso1543 = true;
+            if (debug) {
                 printf("Beginning of ISO 1543\n");
             }
         }
         return;
     }
-    if (*is_iso1543 == 0) return;
+    if (!*is_iso1543) return;
 
     char_value = (int)(result[str_len-1]);
 
     if (str_len == 4) {
         /* RS */
         if (char_value != CHAR_RS) {
-            *is_iso1543 = 0;
+            *is_iso1543 = false;
             *iso15434_data_start = -1;
             format_code[0] = 0;
             iso15434_result[0] = 0;
         }
         else {
-            *is_iso1543 = 1;
+            *is_iso1543 = true;
             *iso15434_data_start = str_len;
-            if (debug == 1) {
+            if (debug) {
                 printf("ISO 15434\n");
             }
             if (strstr(iso15434_result, "STANDARD: ") == nullptr) {
@@ -543,7 +543,7 @@ void iso15434_semantics(char result[],
                             (strcmp(format_code, "06") != 0) &&
                             (strcmp(format_code, "05") != 0)) {
                         /* not in a permitted swim lane */
-                        *is_iso1543 = 0;
+                        *is_iso1543 = false;
                         *iso15434_data_start = -1;
                         format_code[0] = 0;
                         iso15434_result[0] = 0;

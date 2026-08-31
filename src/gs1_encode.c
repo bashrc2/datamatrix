@@ -28,10 +28,10 @@
  * \param data_str Data to be used with the application identifier
  * \param encode_text Returned encoded string
  * \param encode_description Returned description shown beneath the datamatrix
- * \return zero on success
+ * \return true on success
  */
-int gs1_encode(const int application_identifier, char data_str[],
-               char encode_text[], char encode_description[])
+bool gs1_encode(const int application_identifier, char data_str[],
+				char encode_text[], char encode_description[])
 {
     char app_id_str[16];
     int data_len = (int)strlen(data_str);

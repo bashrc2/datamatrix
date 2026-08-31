@@ -891,7 +891,7 @@ static void lookup_character(const char chr, char dotmatrix[])
             }
         }
     }
-    else if (is_letter_upper(chr) == 0) {
+    else if (is_letter_upper(chr)) {
         offset = FONT_HEIGHT * (int)(chr - 'A');
         i = 0;
         for (h = 0; h < FONT_HEIGHT; h++) {
@@ -900,7 +900,7 @@ static void lookup_character(const char chr, char dotmatrix[])
             }
         }
     }
-    else if (is_letter_lower(chr) == 0) {
+    else if (is_letter_lower(chr)) {
         offset = FONT_HEIGHT * (int)(chr - 'a');
         i = 0;
         for (h = 0; h < FONT_HEIGHT; h++) {

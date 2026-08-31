@@ -43,7 +43,7 @@ static void encode_image_dot(unsigned char img[],
                              const int bytes_per_pixel,
                              const int dot_x, const int dot_y,
                              const int dot_radius,
-                             const unsigned char square_modules)
+                             const bool square_modules)
 {
     int tx = dot_x - dot_radius;
     int bx = dot_x + dot_radius;
@@ -61,7 +61,7 @@ static void encode_image_dot(unsigned char img[],
         dy = y - dot_y;
         for (x = tx; x < bx; x++) {
             dx = x - dot_x;
-            if ((square_modules == 0) &&
+            if ((!square_modules) &&
                     (SQUARE_MAG(dx, dy) > dot_radius_sqr)) continue;
 
             idx = (y*width + x) * bytes_per_pixel;
@@ -90,7 +90,7 @@ static void encode_image_base(unsigned char img[],
                               const int bitsperpixel,
                               const unsigned char *grid,
                               const int encode_width, const int encode_height,
-                              const unsigned char square_modules,
+                              const bool square_modules,
                               const int tx, const int ty,
                               const int bx, const int by)
 {
@@ -103,7 +103,7 @@ static void encode_image_base(unsigned char img[],
     int half_cell_height = bounding_box_height / ((int)encode_height * 2);
     int dot_radius = half_cell_width * 8 / 10;
 
-    if (square_modules != 0) {
+    if (square_modules) {
         dot_radius = half_cell_width + 1;
     }
 
@@ -285,7 +285,7 @@ void encode_image(unsigned char img[],
                   const int width, const int height,
                   int const bitsperpixel, const unsigned char * grid,
                   int const encode_width, int const encode_height,
-                  const unsigned char square_modules,
+                  const bool square_modules,
                   const char * description,
                   const unsigned char description_position,
                   const int character_width,
@@ -340,7 +340,7 @@ void encode_image(unsigned char img[],
  */
 static void encode_svg_base(const unsigned char * grid,
                             const int encode_width, const int encode_height,
-                            const unsigned char square_modules,
+                            const bool square_modules,
                             const int tx, const int ty, const int bx, const int by,
                             FILE * fp_image)
 {
@@ -352,7 +352,7 @@ static void encode_svg_base(const unsigned char * grid,
     int half_cell_height = bounding_box_height / ((int)encode_height * 2);
     int dot_radius = half_cell_width * 8 / 10;
 
-    if (square_modules != 0) {
+    if (square_modules) {
         dot_radius = half_cell_width + 1;
     }
 
@@ -364,7 +364,7 @@ static void encode_svg_base(const unsigned char * grid,
         for (x = 0; x < encode_width; x++) {
             if (!grid[encode_width * y + x]) continue;
             dot_x = tx + ((int)x * bounding_box_width / (int)encode_width) + half_cell_width;
-            if (square_modules == 0) {
+            if (!square_modules) {
                 fprintf(fp_image,
                         "<circle r=\"%d\" cx=\"%d\" cy=\"%d\" fill=\"black\" />\n",
                         dot_radius, dot_x, dot_y);
@@ -397,7 +397,7 @@ void encode_svg(const char * image_filename,
                 const int width, const int height,
                 const unsigned char * grid,
                 const int encode_width, const int encode_height,
-                const unsigned char square_modules,
+                const bool square_modules,
                 const char * description,
                 const unsigned char description_position,
                 const int character_width,

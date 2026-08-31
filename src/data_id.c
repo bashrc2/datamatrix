@@ -448,7 +448,7 @@ int get_data_identifier(char data_str[],
 
     for (i = 0; i <= 2; i++) {
         search_id[i] = data_str[i];
-        if (is_letter_upper(data_str[i]) == 0) {
+        if (is_letter_upper(data_str[i])) {
             search_id[i+1] = 0;
             id_index = i;
             break;

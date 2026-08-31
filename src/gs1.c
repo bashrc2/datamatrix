@@ -28,42 +28,42 @@
     *application_data_variable = (variable_len);
 
 #define DECODE(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
         decode_strcat(gs1_result, title ": "); \
     }
 
 #define DECODE_PRODUCTION_METHOD(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
         decode_strcat(gs1_result, title ": "); \
         prod_method_str = get_production_method(data_str); \
     }
 
 #define DECODE_FISHING_GEAR(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
         decode_strcat(gs1_result, title ": "); \
         fishing_gear_type_str = get_fishing_gear_type(data_str); \
     }
 
 #define DECODE_FISHING_AREA(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
         decode_strcat(gs1_result, title ": "); \
         fishing_area_str = get_fishing_area(data_str); \
     }
 
 #define DECODE_AQUATIC_SPECIES(title)      \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
         decode_strcat(gs1_result, title ": "); \
         aquatic_species_str = get_aquatic_species(data_str); \
     }
 
 #define DECODE_CERT(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
         decode_strcat(gs1_result, title ": "); \
         if ((int)strlen(data_str) > 2) { \
             certification_ref[0] = data_str[0]; \
@@ -73,50 +73,50 @@
     }
 
 #define DECODE_DATE(title, dateformat) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       date_str = data_id_convert_date(dateformat, data_str); \
     }
 
 #define DECODE_DECIMAL(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       decimal_str = get_decimal_value(*application_identifier, data_str); \
     }
 
 #define DECODE_CURRENCY(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       curr_str = get_currency_value(*application_identifier, data_str); \
     }
 
 #define DECODE_COUNTRY(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       country_str = get_country(data_str); \
     }
 
 #define DECODE_COUNTRY_ALPHA2(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       country_str = get_country_alpha2(data_str); \
     }
 
 #define DECODE_TEMPERATURE(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       temperature = get_temperature(data_str); \
     }
 
 #define DECODE_PROCESSOR(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       processor_country_code[0] = data_str[0]; \
       processor_country_code[1] = data_str[1]; \
@@ -126,8 +126,8 @@
     }
 
 #define DECODE_MEAT(title) \
-    if (debug == 1) printf(title " "); \
-    if (is_digital_link == 0) { \
+    if (debug) printf(title " "); \
+    if (!is_digital_link) { \
       decode_strcat(gs1_result, title ": "); \
       meat_cut_str = get_meat_cut(data_str); \
     }
@@ -138,7 +138,7 @@
  * \param result Plaintext decode string
  * \param gs1_result human readable GS1 formatted decode string
  * \param gs1_url url prefix to use with GS1 digital link
- * \param debug set to 1 if in debug mode
+ * \param debug set to true if in debug mode
  * \param application_identifier Current GS1 application identifier
  * \param application_identifier_length length of the application identifier string in bytes
  * \param application_data_start position in the result decode string where application data starts
@@ -148,7 +148,7 @@
 void gs1_semantics(char result[],
                    char gs1_result[],
                    const char gs1_url[],
-                   unsigned char debug,
+                   bool debug,
                    int * application_identifier,
                    unsigned char * application_identifier_length,
                    int * application_data_start,
@@ -179,7 +179,7 @@ void gs1_semantics(char result[],
     char birth_sequence[2];
     char itip_piece_number_str[3];
     char itip_total_count_str[3];
-    unsigned char is_digital_link = 0;
+    bool is_digital_link = false;
     int roll_width_mm = -1;
     int roll_diameter_mm = -1;
     int roll_length_metres = -1;
@@ -2589,7 +2589,7 @@ void gs1_semantics(char result[],
                         decode_strcat(gs1_result, &app_id_str2[0]);
                         decode_strcat_char(gs1_result, ')');
                     }
-                    is_digital_link = 1;
+                    is_digital_link = true;
                 }
             }
 
@@ -2597,8 +2597,8 @@ void gs1_semantics(char result[],
 
             switch(*application_identifier) {
             case 0: {
-                if (debug == 1) printf("SSCC ");
-                if (is_digital_link == 0) {
+                if (debug) printf("SSCC ");
+                if (!is_digital_link) {
                     /* see https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:494e625b-e1d8-4bbd-a1be-5918879cfc3d/An-Introduction-to-the-Serial-Shipping-Container-Code-SSCC.pdf */
                     decode_strcat(gs1_result, "SSCC: ");
                     if ((int)strlen(data_str) > 5) {
@@ -2629,8 +2629,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 1: {
-                if (debug == 1) printf("GTIN ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GTIN ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GTIN");
                     if ((int)strlen(data_str) > 4) {
                         int gtin_start_index = 0;
@@ -2672,8 +2672,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 3: {
-                if (debug == 1) printf("MTO GTIN ");
-                if (is_digital_link == 0) {
+                if (debug) printf("MTO GTIN ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "MTO GTIN");
                     if ((int)strlen(data_str) > 4) {
                         int gtin_start_index = 0;
@@ -2863,8 +2863,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 253: {
-                if (debug == 1) printf("GDTI ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GDTI ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GDTI: ");
                     if ((int)strlen(data_str) > 4) {
                         int gdti_start_index = 0;
@@ -2883,8 +2883,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 255: {
-                if (debug == 1) printf("GCN ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GCN ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GCN: ");
                     if ((int)strlen(data_str) > 4) {
                         int gcn_start_index = 0;
@@ -4467,8 +4467,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 401: {
-                if (debug == 1) printf("GINC ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GINC ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GINC: ");
                     if ((int)strlen(data_str) > 4) {
                         int ginc_start_index = 0;
@@ -4483,8 +4483,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 402: {
-                if (debug == 1) printf("GSIN ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GSIN ");
+                if (!is_digital_link) {
                     /* see https://edi.gs1si.org/cashedi/doc/gsin_intro.pdf */
                     decode_strcat(gs1_result, "GSIN: ");
                     if ((int)strlen(data_str) > 4) {
@@ -4518,8 +4518,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 410: {
-                if (debug == 1) printf("SHIP TO LOC ");
-                if (is_digital_link == 0) {
+                if (debug) printf("SHIP TO LOC ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "SHIP TO LOC: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4548,8 +4548,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 411: {
-                if (debug == 1) printf("BILL TO ");
-                if (is_digital_link == 0) {
+                if (debug) printf("BILL TO ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "BILL TO: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4578,8 +4578,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 412: {
-                if (debug == 1) printf("PURCHASE FROM ");
-                if (is_digital_link == 0) {
+                if (debug) printf("PURCHASE FROM ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "PURCHASE FROM: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4608,8 +4608,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 413: {
-                if (debug == 1) printf("SHIP FOR LOC ");
-                if (is_digital_link == 0) {
+                if (debug) printf("SHIP FOR LOC ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "SHIP FOR LOC: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4638,8 +4638,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 414: {
-                if (debug == 1) printf("LOCN NO ");
-                if (is_digital_link == 0) {
+                if (debug) printf("LOCN NO ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "LOCN NO: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4668,8 +4668,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 415: {
-                if (debug == 1) printf("PAY TO ");
-                if (is_digital_link == 0) {
+                if (debug) printf("PAY TO ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "PAY TO: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4698,8 +4698,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 416: {
-                if (debug == 1) printf("PROD/SERV LOC ");
-                if (is_digital_link == 0) {
+                if (debug) printf("PROD/SERV LOC ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "PROD/SERV LOC: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4728,8 +4728,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 417: {
-                if (debug == 1) printf("PARTY ");
-                if (is_digital_link == 0) {
+                if (debug) printf("PARTY ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "PARTY: ");
                     if ((int)strlen(data_str) > 4) {
                         int gln_start_index = 0;
@@ -4854,8 +4854,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4309: {
-                if (debug == 1) printf("SHIP TO GEO ");
-                if (is_digital_link == 0) {
+                if (debug) printf("SHIP TO GEO ");
+                if (!is_digital_link) {
                     /* See section 7.14 of GS1 General Specifications */
                     decode_strcat(gs1_result, "SHIP TO GEO: ");
                     if ((int)strlen(data_str) == 20) {
@@ -4934,8 +4934,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4321: {
-                if (debug == 1) printf("DANGEROUS GOODS ");
-                if (is_digital_link == 0) {
+                if (debug) printf("DANGEROUS GOODS ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "DANGEROUS GOODS: ");
                     dangerous_goods = 0;
                     if (data_str[0] == '1') dangerous_goods = 1;
@@ -4943,8 +4943,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4322: {
-                if (debug == 1) printf("AUTH LEAVE ");
-                if (is_digital_link == 0) {
+                if (debug) printf("AUTH LEAVE ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "AUTH LEAVE: ");
                     authority_to_leave = 0;
                     if (data_str[0] == '1') authority_to_leave = 1;
@@ -4952,8 +4952,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 4323: {
-                if (debug == 1) printf("SIG REQUIRED ");
-                if (is_digital_link == 0) {
+                if (debug) printf("SIG REQUIRED ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "SIG REQUIRED: ");
                     signature_required = 0;
                     if (data_str[0] == '1') signature_required = 1;
@@ -5013,8 +5013,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7007: {
-                if (debug == 1) printf("HARVEST DATE ");
-                if (is_digital_link == 0) {
+                if (debug) printf("HARVEST DATE ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "HARVEST DATE: ");
                     date_str = data_id_convert_date("YYMMDD", data_str);
                     if ((date_str != nullptr) && ((int)strlen(data_str) == 12)) {
@@ -5036,8 +5036,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7011: {
-                if (debug == 1) printf("TEST BY DATE ");
-                if (is_digital_link == 0) {
+                if (debug) printf("TEST BY DATE ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "TEST BY DATE: ");
                     if ((int)strlen(data_str) == 6) {
                         date_str = data_id_convert_date("YYMMDD", data_str);
@@ -5061,8 +5061,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7023: {
-                if (debug == 1) printf("GIAI – ASSEMBLY ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GIAI – ASSEMBLY ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GIAI – ASSEMBLY: ");
                     if ((int)strlen(data_str) > 4) {
                         int giai_start_index = 0;
@@ -5117,8 +5117,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7040: {
-                if (debug == 1) printf("UIC+EXT ");
-                if (is_digital_link == 0) {
+                if (debug) printf("UIC+EXT ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "UIC+EXT: ");
                     if ((int)strlen(data_str) >= 4) {
                         uic[0] = data_str[0];
@@ -5131,8 +5131,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7041: {
-                if (debug == 1) printf("UFRGT UNIT TYPE ");
-                if (is_digital_link == 0) {
+                if (debug) printf("UFRGT UNIT TYPE ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "UFRGT UNIT TYPE: ");
                     package_type_str = get_package_type(data_str);
                 }
@@ -5183,8 +5183,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7241: {
-                if (debug == 1) printf("AIDC MEDIA TYPE ");
-                if (is_digital_link == 0) {
+                if (debug) printf("AIDC MEDIA TYPE ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "AIDC MEDIA TYPE: ");
                     if ((int)strlen(data_str) == 2) {
                         if ((isdigit(data_str[0])) &&
@@ -5208,8 +5208,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7252: {
-                if (debug == 1) printf("BIO SEX ");
-                if (is_digital_link == 0) {
+                if (debug) printf("BIO SEX ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "BIO SEX: ");
                     if ((int)strlen(data_str) == 1) {
                         if (isdigit(data_str[0])) {
@@ -5240,8 +5240,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 7258: {
-                if (debug == 1) printf("BIRTH SEQUENCE ");
-                if (is_digital_link == 0) {
+                if (debug) printf("BIRTH SEQUENCE ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "BIRTH SEQUENCE: ");
                     if ((int)strlen(data_str) == 3) {
                         if ((isdigit(data_str[0])) &&
@@ -5258,18 +5258,18 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8001: {
-                if (debug == 1) printf("DIMENSIONS ");
-                if (is_digital_link == 0) {
+                if (debug) printf("DIMENSIONS ");
+                if (!is_digital_link) {
                     /* GS1 General Specifications section 3.9.1 */
                     if ((int)strlen(data_str) == 14) {
-                        unsigned char all_numbers = 1;
+                        bool all_numbers = true;
                         for (int dim_ctr = 0; dim_ctr < 14; dim_ctr++) {
                             if (!isdigit(data_str[dim_ctr])) {
-                                all_numbers = 0;
+                                all_numbers = false;
                                 break;
                             }
                         }
-                        if (all_numbers == 1) {
+                        if (all_numbers) {
                             char roll_width_mm_str[5];
                             roll_width_mm_str[0] = data_str[0];
                             roll_width_mm_str[1] = data_str[1];
@@ -5321,8 +5321,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8003: {
-                if (debug == 1) printf("GRAI ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GRAI ");
+                if (!is_digital_link) {
                     /* GS1 General Specifications section 3.9.3 */
                     decode_strcat(gs1_result, "GRAI: ");
                     if ((int)strlen(data_str) > 5) {
@@ -5353,8 +5353,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8004: {
-                if (debug == 1) printf("GIAI ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GIAI ");
+                if (!is_digital_link) {
                     /* GS1 General Specifications section 3.9.4 */
                     decode_strcat(gs1_result, "GIAI: ");
                     if ((int)strlen(data_str) > 5) {
@@ -5375,8 +5375,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8006: {
-                if (debug == 1) printf("ITIP ");
-                if (is_digital_link == 0) {
+                if (debug) printf("ITIP ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "ITIP: ");
                     if ((int)strlen(data_str) > 5) {
                         /* first digit is always zero */
@@ -5426,8 +5426,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8013: {
-                if (debug == 1) printf("GMN ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GMN ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GMN: ");
                     int gmn_len = (int)strlen(data_str);
                     if (gmn_len > 4) {
@@ -5450,7 +5450,7 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8014: {
-                if (is_digital_link == 0) {
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "HIDRI: ");
                     int hidri_len = (int)strlen(data_str);
                     if (hidri_len > 4) {
@@ -5475,8 +5475,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8017: {
-                if (debug == 1) printf("GSRN - PROVIDER ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GSRN - PROVIDER ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GSRN - PROVIDER: ");
                     if ((int)strlen(data_str) > 4) {
                         int gsrn_start_index = 0;
@@ -5505,8 +5505,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8018: {
-                if (debug == 1) printf("GSRN - RECIPIENT ");
-                if (is_digital_link == 0) {
+                if (debug) printf("GSRN - RECIPIENT ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "GSRN - RECIPIENT: ");
                     if ((int)strlen(data_str) > 4) {
                         int gsrn_start_index = 0;
@@ -5543,8 +5543,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8026: {
-                if (debug == 1) printf("ITIP CONTENT ");
-                if (is_digital_link == 0) {
+                if (debug) printf("ITIP CONTENT ");
+                if (!is_digital_link) {
                     decode_strcat(gs1_result, "ITIP CONTENT: ");
                     if ((int)strlen(data_str) > 5) {
                         /* first digit is always zero */
@@ -5578,8 +5578,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8110: {
-                if (debug == 1) printf("COUPON ");
-                if (is_digital_link == 0) {
+                if (debug) printf("COUPON ");
+                if (!is_digital_link) {
                     coupon_str = get_north_american_coupon(data_str,
                                                            &company_prefix_code[0]);
                 }
@@ -5590,8 +5590,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 8112: {
-                if (debug == 1) printf("COUPON ");
-                if (is_digital_link == 0) {
+                if (debug) printf("COUPON ");
+                if (!is_digital_link) {
                     coupon_str = get_north_american_coupon(data_str,
                                                            &company_prefix_code[0]);
                 }
@@ -5602,8 +5602,8 @@ void gs1_semantics(char result[],
                 break;
             }
             case 977: {
-                if (debug == 1) printf("ISSN ");
-                if (is_digital_link == 0) {
+                if (debug) printf("ISSN ");
+                if (!is_digital_link) {
                     issn_str = get_issn(data_str);
                     if (issn_str == nullptr) {
                         decode_strcat(gs1_result, "ISSN: ");
@@ -5621,13 +5621,13 @@ void gs1_semantics(char result[],
             }
             }
 
-            unsigned char build_digital_link = 0;
+            bool build_digital_link = false;
             if (gs1_url != nullptr) {
                 if ((int)strlen(gs1_url) > 0) {
-                    build_digital_link = 1;
+                    build_digital_link = true;
                 }
             }
-            if (build_digital_link == 1) {
+            if (build_digital_link) {
                 /* build the GS1 digital link */
                 if (gs1_url[0] != '.') {
                     decode_strcat_char(gs1_result, '/');
@@ -5986,7 +5986,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "CHECK CHARACTERS: PASS\n");
                 }
             }
-            if (debug == 1) {
+            if (debug) {
                 printf("| (%d)%s | ",
                        *application_identifier,
                        &result[*application_data_start]);

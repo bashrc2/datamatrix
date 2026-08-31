@@ -52,7 +52,7 @@ static int encode_datamatrix_to_image(char * image_filename,
                                       const int encode_height,
                                       const int encode_image_width,
                                       const int encode_image_height,
-                                      const unsigned char square_modules,
+                                      const bool square_modules,
                                       const char * description,
                                       const unsigned char description_position,
                                       const int character_width,
@@ -68,7 +68,7 @@ static int encode_datamatrix_to_image(char * image_filename,
     }
 
     /* check that the output image filename is png format */
-    if (ends_with(image_filename, ".png") == 0) {
+    if (ends_with(image_filename, ".png")) {
         unsigned char * encode_image_data =
             (unsigned char*)safemalloc((size_t)(encode_image_width *
                                                 encode_image_height * 3));
@@ -86,7 +86,7 @@ static int encode_datamatrix_to_image(char * image_filename,
 
         free(grid);
     }
-    else if (ends_with(image_filename, ".svg") == 0) {
+    else if (ends_with(image_filename, ".svg")) {
         encode_svg(image_filename,
                    encode_image_width, encode_image_height,
                    grid, encode_width, encode_height,
@@ -114,9 +114,9 @@ static int encode_datamatrix_to_image(char * image_filename,
  * \param character_width Width of each description character in pixels
  * \param line spacing Spacing between description lines in pixels
  * \param encode_scale Scaling factor for text datamatrix output
- * \param is_square 1 if the datamatrix should be square
- * \param csv 1 if output should be in CSV format
- * \param show_coords 1 if the output should be a list of dot coordinates
+ * \param is_square true if the datamatrix should be square
+ * \param csv true if output should be in CSV format
+ * \param show_coords true if the output should be a list of dot coordinates
  * \param coords_offset_x X offset added to dot coordinates
  * \param coords_offset_y Y offset added to dot coordinates
  * \param image_filename filename to save datamatrix image to
@@ -133,17 +133,17 @@ int encode_datamatrix_to_text_or_image(const char * text,
                                        const int character_width,
                                        const int line_spacing,
                                        const int encode_scale,
-                                       const unsigned char is_square,
-                                       const unsigned char csv,
-                                       const unsigned char show_coords,
+                                       const bool is_square,
+                                       const bool csv,
+                                       const bool show_coords,
                                        const float coords_offset_x,
                                        const float coords_offset_y,
                                        char * image_filename,
                                        int encode_image_width,
                                        const char * dot_char,
                                        const char * empty_char,
-                                       const unsigned char square_modules,
-                                       const unsigned char debug)
+                                       const bool square_modules,
+                                       const bool debug)
 {
     char * encoding = nullptr;
     unsigned int barcodelen = 0;
@@ -152,8 +152,8 @@ int encode_datamatrix_to_text_or_image(const char * text,
     unsigned int len = 0,
         maxlen = 0,
         encode_ecclen = 0;
-    unsigned char square = 0;
-    unsigned char noquiet = 0;
+    bool square = false;
+    bool noquiet = false;
     /* a small horizontal separation between characters so that they don't
        appear joined together */
     int character_separation = character_width / FONT_WIDTH;
@@ -161,17 +161,17 @@ int encode_datamatrix_to_text_or_image(const char * text,
     barcodelen = (unsigned int)strlen(text);
 
     /* force square shape? */
-    if (is_square == 1) square = 1;
+    if (is_square) square = true;
 
     /* csv output has no quiet zone */
-    if (csv == 1) noquiet = 1;
+    if (csv == true) noquiet = true;
 
     grid = iec16022ecc200(&encode_width, &encode_height,
                           &encoding, barcodelen,
                           (unsigned char *)text, &len,
                           &maxlen, &encode_ecclen,
                           square, noquiet);
-    if (debug == 1)
+    if (debug)
         printf("encoded: '%s' %dx%d\n",
                text, encode_width, encode_height);
     /* show the datamatrix */
@@ -220,7 +220,7 @@ int encode_datamatrix_to_text_or_image(const char * text,
         printf("%s", description);
     }
 
-    if (square_modules == 0) {
+    if (!square_modules) {
         /* round */
         sprintf(&dot_chr[0], "%s%s", dot_char, empty_char);
     }
@@ -234,17 +234,17 @@ int encode_datamatrix_to_text_or_image(const char * text,
         sprintf(&dot_chr[0], "█");
         sprintf(&empty_chr[0], "%s", empty_char);
     }
-    if (csv == 1) {
+    if (csv == true) {
         S = 1;
         sprintf(&dot_chr[0], "1,");
         sprintf(&empty_chr[0], "0,");
     }
     float x_coord, y_coord;
-    unsigned char direction = 0;
-    if (show_coords == 1) S = 1;
+    bool direction = false;
+    if (show_coords) S = 1;
     for (y = 0; y < encode_height_int * S; y++) {
         for (x = 0; x < encode_width_int * S; x++) {
-            if (show_coords == 0) {
+            if (!show_coords) {
                 printf("%s",
                        grid[encode_width_int *
                                          (y / S) + (x / S)] ? dot_chr : empty_chr);
@@ -252,7 +252,7 @@ int encode_datamatrix_to_text_or_image(const char * text,
             else {
                 /* show dot coordinates */
                 x_directional = x;
-                if (direction == 1) x_directional = encode_width_int - 1 - x;
+                if (direction) x_directional = encode_width_int - 1 - x;
                 if (grid[encode_width_int * y + x_directional]) {
                     x_coord =
                         coords_offset_x +
@@ -266,9 +266,9 @@ int encode_datamatrix_to_text_or_image(const char * text,
                 }
             }
         }
-        if (show_coords == 0) printf("\n");
+        if (!show_coords) printf("\n");
         /* change direction for each row */
-        direction = 1 - direction;
+        direction = !direction;
     }
 
     if ((description[0] != 0) && (description_position == DESCRIPTION_BELOW)) {
