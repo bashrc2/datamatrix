@@ -22,7 +22,7 @@ datamatrix is a commandline utility for generating, reading, and verifying Datam
 
 => https://codeberg.org/bashrc/visionutils Visionutils
 => https://lodev.org/lodepng lodepng
-=> https://en.wikipedia.org/wiki/C23 C23
+=> https://en.wikipedia.org/wiki/C23_(C_standard_revision) C23
 => https://www.gs1.org/standards/barcodes/2d GS1 semantics
 => https://www.mhi.org/standards/mh10/dataidentifiers MHI Data Identifiers
 => https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf ANSI/HIBC

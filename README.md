@@ -15,7 +15,7 @@
  * Generates datamatrix codes in text and image formats
  * Reads PNG files (recommended at least 800 pixels across) using [lodepng](https://lodev.org/lodepng)
  * Outputs the plain text encoded by the datamatrix pattern
- * Implemented in pure [C23](https://en.wikipedia.org/wiki/C23)
+ * Implemented in pure [C23](https://en.wikipedia.org/wiki/C23_(C_standard_revision))
  * Supports [GS1 semantics](https://www.gs1.org/standards/barcodes/2d) and digital links
  * Supports [MHI Data Identifiers](https://www.mhi.org/standards/mh10/dataidentifiers)
  * Supports [ANSI/HIBC](https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf) health industry supplier labeling standard
