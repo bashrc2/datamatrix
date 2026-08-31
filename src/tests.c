@@ -271,6 +271,7 @@ static void test_condense()
     char * decode_result =
 		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     assert(decode_result != nullptr);
+	free(decode_result);
 
     unsigned char occupancy[] = {
         1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,
