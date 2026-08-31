@@ -13,7 +13,7 @@ datamatrix is a commandline utility for generating, reading, and verifying Datam
  * Generates datamatrix codes in text and image formats
  * Reads PNG files (recommended at least 800 pixels across) using `_`[lodepng`https://lodev.org/lodepng lodepng]`_
  * Outputs the plain text encoded by the datamatrix pattern
- * Implemented in pure `_`[C99`https://en.wikipedia.org/wiki/C99]`_
+ * Implemented in pure `_`[C23`https://en.wikipedia.org/wiki/C23]`_
  * Supports `_`[GS1 semantics`https://www.gs1.org/standards/barcodes/2d]`_ and digital links
  * Supports `_`[MHI Data Identifiers`https://www.mhi.org/standards/mh10/dataidentifiers]`_
  * Supports `_`[ANSI/HIBC`https://www.hibcc.org/wp-content/uploads/SLS-2.6-Final.pdf]`_ health industry supplier labeling standard
