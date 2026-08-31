@@ -1452,16 +1452,16 @@ char * get_north_american_coupon(char data_str[],
  * \param n number to be checked
  * \return 1 if prime, 0 otherwise
  */
-static unsigned char is_prime(const int n)
+static bool is_prime(const int n)
 {
     /* 0 and 1 are not prime numbers */
-    if (n == 1 || n == 0) return 0;
+    if (n == 1 || n == 0) return false;
 
     /* Check for divisibility from 2 to sqrt(n) */
     for (int i = 2; i <= sqrt(n); i++) {
-        if (n % i == 0) return 0;
+        if (n % i == 0) return false;
     }
-    return 1;
+    return true;
 }
 
 /**
@@ -1482,7 +1482,7 @@ void calc_check_character(const char data_str[], const int check_characters,
     for (int i = data_len-1; i >= 0; i--) {
         for (int j = 0; j < encodable_chars_len; j++) {
             if (encodable_char_ref[j*2][0] == data_str[i]) {
-                while(is_prime(curr_prime) == 0) {
+                while(!is_prime(curr_prime)) {
                     curr_prime++;
                 }
                 sum += (atoi(encodable_char_ref[j*2+1]) * curr_prime);
