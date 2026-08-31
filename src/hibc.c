@@ -329,15 +329,15 @@ void hibc_semantics(char result[],
 {
     int i, index = 0;
     int str_len = (int)strlen(result);
-    bool is_hibc = false;
+    unsigned char is_hibc = 0;
     int hibc_data_start = 0;
     char * translated_str = nullptr;
 
     if (str_len == 0) return;
 
     /* HIBC Supplier Labeling flag */
-    if ((result[0] == '+') && (!is_hibc)) {
-        is_hibc = true;
+    if ((result[0] == '+') && (is_hibc == 0)) {
+        is_hibc = 1;
         hibc_result[0] = 0;
         hibc_data_start = 1;
         if (debug) {
@@ -345,7 +345,7 @@ void hibc_semantics(char result[],
         }
     }
 
-    if (!is_hibc) return;
+    if (is_hibc == 0) return;
 
     for (i = hibc_data_start; i < str_len; i++) {
         if (result[i] == '/') {

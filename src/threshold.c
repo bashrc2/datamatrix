@@ -33,12 +33,12 @@
  * \param height height of the image
  * \param dark peak dark
  * \param light peak light
- * \return true if this is a mostly dark image
+ * \return 0 if this is a mostly dark image
  */
-static bool is_dark_image(const unsigned char img_mono[],
-						  const int width, const int height,
-						  const unsigned char dark,
-						  const unsigned char light)
+static unsigned char is_dark_image(const unsigned char img_mono[],
+                                   const int width, const int height,
+                                   const unsigned char dark,
+                                   const unsigned char light)
 {
     int dark_pixels=0, light_pixels=0;
     int i, diff_dark, diff_light;
@@ -59,8 +59,8 @@ static bool is_dark_image(const unsigned char img_mono[],
             light_pixels++;
         }
     }
-    if (dark_pixels > light_pixels) return true;
-    return false;
+    if (dark_pixels > light_pixels) return 0;
+    return 1;
 }
 
 /**
@@ -85,8 +85,7 @@ int meanlight_threshold(unsigned char img[],
     unsigned char * img_mono = thresholded;
     unsigned char dark=0,light=0,range;
     unsigned int percent_active=0;
-    unsigned char thresh;
-	bool is_dark;
+    unsigned char thresh, is_dark;
     int i, percent;
 
     colour_to_mono(img, width, height, bitsperpixel, img_mono);
