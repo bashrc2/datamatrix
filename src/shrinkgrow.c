@@ -365,22 +365,22 @@ bool expand_perimeter_sides(const unsigned char mono_img[],
  * \param min_extension_percent
  * \param image_data original colour image data
  * \param image_bitsperpixel Number of bits per pixel in the colour image
- * \return 1 if contracted, 0 otherwise
+ * \return true if contracted, false otherwise
  */
-unsigned char contract_perimeter_sides(const unsigned char mono_img[],
-                                       const int width, const int height,
-                                       float * perimeter_x0,
-                                       float * perimeter_y0,
-                                       float * perimeter_x1,
-                                       float * perimeter_y1,
-                                       float * perimeter_x2,
-                                       float * perimeter_y2,
-                                       float * perimeter_x3,
-                                       float * perimeter_y3,
-                                       const int min_extension_percent,
-                                       const bool debug,
-                                       unsigned char image_data[],
-                                       const int image_bitsperpixel)
+bool contract_perimeter_sides(const unsigned char mono_img[],
+							  const int width, const int height,
+							  float * perimeter_x0,
+							  float * perimeter_y0,
+							  float * perimeter_x1,
+							  float * perimeter_y1,
+							  float * perimeter_x2,
+							  float * perimeter_y2,
+							  float * perimeter_x3,
+							  float * perimeter_y3,
+							  const int min_extension_percent,
+							  const bool debug,
+							  unsigned char image_data[],
+							  const int image_bitsperpixel)
 {
     int side, left_x, left_y, right_x, right_y;
     float tx, ty, bx, by, xi, yi;
@@ -393,7 +393,7 @@ unsigned char contract_perimeter_sides(const unsigned char mono_img[],
     float direction_x, direction_y;
     float direction_contracted_right_x, direction_contracted_right_y;
     float direction_contracted_left_x, direction_contracted_left_y;
-    unsigned char contracted=0;
+    bool contracted=false;
     int image_bytesperpixel = image_bitsperpixel/8;
 
     /* get the centre point of the perimeter */
@@ -403,7 +403,6 @@ unsigned char contract_perimeter_sides(const unsigned char mono_img[],
                  *perimeter_x3, *perimeter_y3,
                  &cx, &cy);
 
-    contracted = 0;
     for (side = 0; side < 4; side++) {
         /* get the coords for a side */
         switch(side) {
@@ -526,7 +525,7 @@ unsigned char contract_perimeter_sides(const unsigned char mono_img[],
                            (int)direction_contracted_right_y,
                            dx_quarter, dy_quarter, 1, &right_x, &right_y);
         if ((left_x == -1) && (right_x == -1)) continue;
-        contracted = 1;
+        contracted = true;
         if (left_x == -1) {
             left_x = (int)left_mid_point_x;
             left_y = (int)left_mid_point_y;

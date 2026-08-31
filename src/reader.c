@@ -803,7 +803,7 @@ int read_datamatrix(unsigned char image_data[],
                                          &perimeter_x2, &perimeter_y2,
                                          &perimeter_x3, &perimeter_y3,
                                          20, debug, thr_image_data,
-                                         image_bitsperpixel) == 1) {
+                                         image_bitsperpixel)) {
                 if (debug) {
                     show_shape_perimeter(thr_image_data,
                                          image_width, image_height,

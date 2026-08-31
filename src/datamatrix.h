@@ -547,16 +547,16 @@ bool expand_perimeter_sides(const unsigned char mono_img[],
 							unsigned char image_data[],
 							const int image_bitsperpixel);
 
-unsigned char contract_perimeter_sides(const unsigned char mono_img[],
-                                       const int width, const int height,
-                                       float * perimeter_x0, float * perimeter_y0,
-                                       float * perimeter_x1, float * perimeter_y1,
-                                       float * perimeter_x2, float * perimeter_y2,
-                                       float * perimeter_x3, float * perimeter_y3,
-                                       const int min_extension_percent,
-                                       const bool debug,
-                                       unsigned char image_data[],
-                                       const int image_bitsperpixel);
+bool contract_perimeter_sides(const unsigned char mono_img[],
+							  const int width, const int height,
+							  float * perimeter_x0, float * perimeter_y0,
+							  float * perimeter_x1, float * perimeter_y1,
+							  float * perimeter_x2, float * perimeter_y2,
+							  float * perimeter_x3, float * perimeter_y3,
+							  const int min_extension_percent,
+							  const bool debug,
+							  unsigned char image_data[],
+							  const int image_bitsperpixel);
 
 /* quality.c */
 
