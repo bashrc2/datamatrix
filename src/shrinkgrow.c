@@ -211,18 +211,18 @@ static unsigned char search_line_points(const unsigned char mono_img[],
  * \param debug set to true if in debug mode
  * \param image_data original colour image data
  * \param image_bitsperpixel Number of bits per pixel in the colour image
- * \return 1 if expanded, 0 otherwise
+ * \return true if expanded, false otherwise
  */
-unsigned char expand_perimeter_sides(const unsigned char mono_img[],
-                                     const int width, const int height,
-                                     float * perimeter_x0, float * perimeter_y0,
-                                     float * perimeter_x1, float * perimeter_y1,
-                                     float * perimeter_x2, float * perimeter_y2,
-                                     float * perimeter_x3, float * perimeter_y3,
-                                     const int max_extension_percent,
-                                     const bool debug,
-                                     unsigned char image_data[],
-                                     const int image_bitsperpixel)
+bool expand_perimeter_sides(const unsigned char mono_img[],
+							const int width, const int height,
+							float * perimeter_x0, float * perimeter_y0,
+							float * perimeter_x1, float * perimeter_y1,
+							float * perimeter_x2, float * perimeter_y2,
+							float * perimeter_x3, float * perimeter_y3,
+							const int max_extension_percent,
+							const bool debug,
+							unsigned char image_data[],
+							const int image_bitsperpixel)
 {
     int side, pos_x, pos_y;
     float tx, ty, bx, by, dx, dy, cx=0, cy=0, mid_point_x, mid_point_y;
@@ -230,7 +230,7 @@ unsigned char expand_perimeter_sides(const unsigned char mono_img[],
     float direction_x, direction_y, offset_x, offset_y;
     float direction_extended_x, direction_extended_y;
     float expanded_tx=0, expanded_ty=0, expanded_bx=0, expanded_by=0;
-    unsigned char expanded=0, grown=0;
+    bool expanded=false, grown=false;
     int image_bytesperpixel = image_bitsperpixel/8;
 
     /* get the centre point of the perimeter */
@@ -241,7 +241,7 @@ unsigned char expand_perimeter_sides(const unsigned char mono_img[],
                  &cx, &cy);
 
     for (side = 0; side < 4; side++) {
-        expanded = 0;
+        expanded = false;
         expanded_tx = -1;
 
         /* get the coords for a side */
@@ -307,10 +307,10 @@ unsigned char expand_perimeter_sides(const unsigned char mono_img[],
             expanded_ty = ty + offset_y;
             expanded_bx = bx + offset_x;
             expanded_by = by + offset_y;
-            expanded = 1;
+            expanded = true;
         }
 
-        if (expanded == 0) continue;
+        if (!expanded) continue;
         if (expanded_tx == -1) continue;
 
         switch(side) {
@@ -343,7 +343,7 @@ unsigned char expand_perimeter_sides(const unsigned char mono_img[],
             break;
         }
         }
-        grown = 1;
+        grown = true;
     }
 
     return grown;

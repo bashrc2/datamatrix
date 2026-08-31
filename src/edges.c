@@ -1362,7 +1362,8 @@ void show_perimeter(const struct line_segments * segments,
                     const int result_bitsperpixel)
 {
     int side, x, y, n;
-    unsigned char r=0, g=0, b=0, vertical;
+    unsigned char r=0, g=0, b=0;
+	bool vertical;
     int result_bytesperpixel = result_bitsperpixel/8;
     int * perimeter;
 
@@ -1375,7 +1376,7 @@ void show_perimeter(const struct line_segments * segments,
             g = 255;
             b = 255;
             perimeter = segments->perimeter_left;
-            vertical = 0;
+            vertical = false;
             break;
         }
         case 1: {
@@ -1383,7 +1384,7 @@ void show_perimeter(const struct line_segments * segments,
             g = 255;
             b = 0;
             perimeter = segments->perimeter_right;
-            vertical = 0;
+            vertical = false;
             break;
         }
         case 2: {
@@ -1391,7 +1392,7 @@ void show_perimeter(const struct line_segments * segments,
             g = 0;
             b = 0;
             perimeter = segments->perimeter_top;
-            vertical = 1;
+            vertical = true;
             break;
         }
         case 3: {
@@ -1399,12 +1400,12 @@ void show_perimeter(const struct line_segments * segments,
             g = 255;
             b = 0;
             perimeter = segments->perimeter_bottom;
-            vertical = 1;
+            vertical = true;
             break;
         }
         }
 
-        if (vertical == 0) {
+        if (!vertical) {
             for (y = 0; y < height; y++) {
                 x = perimeter[y];
                 if ((x > 0) && (x < width)) {
@@ -1446,7 +1447,8 @@ void show_perimeter_intersection(const struct line_segments * segments,
                                  const int side1, const int side2)
 {
     int side, x, y, n;
-    unsigned char r=0, g=0, b=0, vertical;
+    unsigned char r=0, g=0, b=0;
+	bool vertical;
     int result_bytesperpixel = result_bitsperpixel/8;
     int * perimeter;
 
@@ -1460,7 +1462,7 @@ void show_perimeter_intersection(const struct line_segments * segments,
             g = 255;
             b = 255;
             perimeter = segments->perimeter_left;
-            vertical = 0;
+            vertical = false;
             break;
         }
         case 1: {
@@ -1468,7 +1470,7 @@ void show_perimeter_intersection(const struct line_segments * segments,
             g = 255;
             b = 0;
             perimeter = segments->perimeter_right;
-            vertical = 0;
+            vertical = false;
             break;
         }
         case 2: {
@@ -1476,7 +1478,7 @@ void show_perimeter_intersection(const struct line_segments * segments,
             g = 0;
             b = 0;
             perimeter = segments->perimeter_top;
-            vertical = 1;
+            vertical = true;
             break;
         }
         case 3: {
@@ -1484,12 +1486,12 @@ void show_perimeter_intersection(const struct line_segments * segments,
             g = 255;
             b = 0;
             perimeter = segments->perimeter_bottom;
-            vertical = 1;
+            vertical = true;
             break;
         }
         }
 
-        if (vertical == 0) {
+        if (!vertical) {
             for (y = 0; y < height; y++) {
                 x = perimeter[y];
                 if ((x > 0) && (x < width)) {
