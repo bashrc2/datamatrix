@@ -31,7 +31,7 @@
  * \return true on success
  */
 bool gs1_encode(const int application_identifier, char data_str[],
-				char encode_text[], char encode_description[])
+                char encode_text[], char encode_description[])
 {
     char app_id_str[16];
     int data_len = (int)strlen(data_str);

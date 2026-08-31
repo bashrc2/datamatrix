@@ -142,18 +142,18 @@ static void encode_image_base(unsigned char img[],
  * \param text_ty Returned top corner of description
  */
 static void get_encode_bounding_box_pattern(const int width, const int height,
-                                            const char * description,
-                                            const int character_width,
-                                            const int line_spacing,
-                                            const unsigned char description_position,
-                                            const int encode_width,
-                                            const int encode_height,
-                                            int * pattern_tx,
-                                            int * pattern_ty,
-                                            int * pattern_bx,
-                                            int * pattern_by,
-                                            int * text_tx,
-                                            int * text_ty)
+        const char * description,
+        const int character_width,
+        const int line_spacing,
+        const unsigned char description_position,
+        const int encode_width,
+        const int encode_height,
+        int * pattern_tx,
+        int * pattern_ty,
+        int * pattern_bx,
+        int * pattern_by,
+        int * text_tx,
+        int * text_ty)
 {
     *pattern_tx = 0;
     *pattern_ty = 0;
@@ -433,7 +433,7 @@ void encode_svg(const char * image_filename,
                                     &pattern_by,
                                     &text_tx,
                                     &text_ty);
-    
+
     encode_svg_base(grid, encode_width, encode_height, square_modules,
                     pattern_tx, pattern_ty, pattern_bx, pattern_by, fp_image);
     if (text_tx != -1) {

@@ -51,7 +51,7 @@ char hibc_check_character(const char * encode_text)
  * \return true on success
  */
 bool hibc_encode(const char * application_identifier, const char data_str[],
-				 char encode_text[])
+                 char encode_text[])
 {
     int data_len = (int)strlen(data_str);
 

@@ -54,11 +54,11 @@ int write_png_file(const char * filename,
 
     if (bitsperpixel == 32) {
         error = lodepng_encode32_file(filename, image,
-									  (unsigned int)width, (unsigned int)height);
+                                      (unsigned int)width, (unsigned int)height);
     }
     if (bitsperpixel == 24) {
         error = lodepng_encode24_file(filename, image,
-									  (unsigned int)width, (unsigned int)height);
+                                      (unsigned int)width, (unsigned int)height);
     }
     if (bitsperpixel == 8) {
         image = (unsigned char*)safemalloc((size_t)(width * height * 3));
@@ -69,8 +69,8 @@ int write_png_file(const char * filename,
                 image[i*3+2] = buffer[i];
             }
             error = lodepng_encode24_file(filename, image,
-										  (unsigned int)width,
-										  (unsigned int)height);
+                                          (unsigned int)width,
+                                          (unsigned int)height);
             free(image);
         }
     }

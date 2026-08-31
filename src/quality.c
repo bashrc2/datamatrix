@@ -222,7 +222,7 @@ static void save_reflectance_histogram(const unsigned char image_data[],
     /* draw the histogram */
     for (x = border_tx; x <= border_bx; x++) {
         reflectance = (unsigned int)(x - border_tx) * (unsigned int)255 /
-            (unsigned int)(border_bx - border_tx);
+                      (unsigned int)(border_bx - border_tx);
         reflectance = histogram[reflectance];
         if (reflectance > max) reflectance = max;
         y = border_by -

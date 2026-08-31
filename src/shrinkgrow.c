@@ -214,15 +214,15 @@ static unsigned char search_line_points(const unsigned char mono_img[],
  * \return true if expanded, false otherwise
  */
 bool expand_perimeter_sides(const unsigned char mono_img[],
-							const int width, const int height,
-							float * perimeter_x0, float * perimeter_y0,
-							float * perimeter_x1, float * perimeter_y1,
-							float * perimeter_x2, float * perimeter_y2,
-							float * perimeter_x3, float * perimeter_y3,
-							const int max_extension_percent,
-							const bool debug,
-							unsigned char image_data[],
-							const int image_bitsperpixel)
+                            const int width, const int height,
+                            float * perimeter_x0, float * perimeter_y0,
+                            float * perimeter_x1, float * perimeter_y1,
+                            float * perimeter_x2, float * perimeter_y2,
+                            float * perimeter_x3, float * perimeter_y3,
+                            const int max_extension_percent,
+                            const bool debug,
+                            unsigned char image_data[],
+                            const int image_bitsperpixel)
 {
     int side, pos_x, pos_y;
     float tx, ty, bx, by, dx, dy, cx=0, cy=0, mid_point_x, mid_point_y;
@@ -289,9 +289,9 @@ bool expand_perimeter_sides(const unsigned char mono_img[],
         direction_y = mid_point_y - cy;
         /* extended outwards further */
         direction_extended_x = cx +
-            (direction_x * (float)max_extension_percent / 100.0f);
+                               (direction_x * (float)max_extension_percent / 100.0f);
         direction_extended_y = cy +
-            (direction_y * (float)max_extension_percent / 100.0f);
+                               (direction_y * (float)max_extension_percent / 100.0f);
 
         pos_x = -1;
         pos_y = -1;
@@ -368,19 +368,19 @@ bool expand_perimeter_sides(const unsigned char mono_img[],
  * \return true if contracted, false otherwise
  */
 bool contract_perimeter_sides(const unsigned char mono_img[],
-							  const int width, const int height,
-							  float * perimeter_x0,
-							  float * perimeter_y0,
-							  float * perimeter_x1,
-							  float * perimeter_y1,
-							  float * perimeter_x2,
-							  float * perimeter_y2,
-							  float * perimeter_x3,
-							  float * perimeter_y3,
-							  const int min_extension_percent,
-							  const bool debug,
-							  unsigned char image_data[],
-							  const int image_bitsperpixel)
+                              const int width, const int height,
+                              float * perimeter_x0,
+                              float * perimeter_y0,
+                              float * perimeter_x1,
+                              float * perimeter_y1,
+                              float * perimeter_x2,
+                              float * perimeter_y2,
+                              float * perimeter_x3,
+                              float * perimeter_y3,
+                              const int min_extension_percent,
+                              const bool debug,
+                              unsigned char image_data[],
+                              const int image_bitsperpixel)
 {
     int side, left_x, left_y, right_x, right_y;
     float tx, ty, bx, by, xi, yi;

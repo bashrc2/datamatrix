@@ -55,7 +55,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'F') &&
                 (result[start_index+2] == 'R')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "MANUFACTURER/CAGE: ");
             found = true;
@@ -66,7 +66,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'P') &&
                 (result[start_index+2] == 'L')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "SUPPLIER/CAGE: ");
             found = true;
@@ -77,7 +77,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'E') &&
                 ((result[start_index+2] == 'R') || (result[start_index+2] == 'Q'))) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "SERIAL: ");
             found = true;
@@ -88,7 +88,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'A') &&
                 (result[start_index+2] == 'G')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "CAGE: ");
             found = true;
@@ -99,7 +99,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'N') &&
                 (result[start_index+2] == 'O')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "PART NUMBER: ");
             found = true;
@@ -110,7 +110,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'U') &&
                 (result[start_index+2] == 'N')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "DISTRIBUTION UNIT NUMBER: ");
             found = true;
@@ -121,7 +121,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'I') &&
                 ((result[start_index+2] == 'D') || (result[start_index+2] == 'C'))) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNIQUE ID: ");
             found = true;
@@ -132,7 +132,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'D') &&
                 (result[start_index+2] == 'I')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "DEVICE ID: ");
             found = true;
@@ -143,7 +143,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'S') &&
                 (result[start_index+2] == 'N')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNIQUE SERIAL: ");
             found = true;
@@ -154,7 +154,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'S') &&
                 (result[start_index+2] == 'T')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNITS: ");
             found = true;
@@ -165,7 +165,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'P') &&
                 (result[start_index+2] == 'C')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "UNIVERSAL PRODUCT CODE: ");
             found = true;
@@ -176,7 +176,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'I') &&
                 (result[start_index+2] == 'D')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "FACILITY: ");
             found = true;
@@ -187,7 +187,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'A') &&
                 (result[start_index+2] == 'N')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "EUROPEAN ARTICLE NUMBER: ");
             found = true;
@@ -199,7 +199,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+2] == 'I') &&
                 (result[start_index+3] == 'D')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "OPERATOR: ");
             found = true;
@@ -210,7 +210,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'I') &&
                 (result[start_index+2] == 'D')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "MACHINE: ");
             found = true;
@@ -221,7 +221,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'T') &&
                 (result[start_index+2] == 'I')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "RETURNABLE TRANSPORT ITEM: ");
             found = true;
@@ -232,7 +232,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'P') &&
                 (result[start_index+2] == 'I')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "RETURNABLE PACKAGING ITEM: ");
             found = true;
@@ -243,7 +243,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'I') &&
                 (result[start_index+2] == 'N')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "COMPANY ID: ");
             found = true;
@@ -254,7 +254,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'A') &&
                 (result[start_index+2] == 'C')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "ISSUING AGENCY: ");
             found = true;
@@ -265,7 +265,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'I') &&
                 (result[start_index+2] == 'N')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "VEHICLE ID: ");
             found = true;
@@ -276,7 +276,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 (result[start_index+1] == 'T') &&
                 (result[start_index+2] == 'N')) {
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
             decode_strcat(translated_str, "VEHICLE BODY: ");
             found = true;
@@ -309,7 +309,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 printf("Format code 06\n");
             }
             char * data_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             data_str[0] = 0;
             for (i = start_pos; i < end_index; i++) {
                 decode_strcat_char(data_str, result[i]);
@@ -319,11 +319,11 @@ char * iso15434_translate_data_qualifier(char result[],
             char * id_human_readable =
                 (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             char * id_value =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
 
             if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
                 translated_str =
-					(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                    (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
                 translated_str[0] = 0;
                 decode_strcat(translated_str, id_human_readable);
                 decode_strcat(translated_str, ": ");
@@ -361,7 +361,7 @@ char * iso15434_translate_data_qualifier(char result[],
                 printf("Format code 05\n");
             }
             translated_str =
-				(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+                (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
             translated_str[0] = 0;
 
             unsigned char application_identifier_length = 4;

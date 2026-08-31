@@ -1553,7 +1553,7 @@ char * get_fishing_gear_type(const char data_str[])
     if ((int)strlen(data_str) < 2) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if ((!isdigit(data_str[i])) &&
-            (data_str[i] != '.')) return nullptr;
+                (data_str[i] != '.')) return nullptr;
     }
     char * fishing_gear_type_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -1618,9 +1618,9 @@ char * get_fishing_area(const char data_str[])
     if ((int)strlen(data_str) < 4) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if ((!isdigit(data_str[i])) &&
-            (!is_letter_lower(data_str[i])) &&
-            (!is_letter_upper(data_str[i])) &&
-            (data_str[i] != '.')) return nullptr;
+                (!is_letter_lower(data_str[i])) &&
+                (!is_letter_upper(data_str[i])) &&
+                (data_str[i] != '.')) return nullptr;
     }
     char * fishing_area_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));

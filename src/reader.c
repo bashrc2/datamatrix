@@ -1118,9 +1118,9 @@ int read_datamatrix(unsigned char image_data[],
                         if ((int)strlen(thr_decode_result[try_config]) == 0) {
                             if (debug) {
                                 printf("debug_%d_18_failed to decode %d_%dx%d.png\n",
-                                    try_config, curr_sampling_pattern,
-                                    most_probable_frequency,
-                                    most_probable_frequency);
+                                       try_config, curr_sampling_pattern,
+                                       most_probable_frequency,
+                                       most_probable_frequency);
                             }
                         }
                         else {
@@ -1280,9 +1280,9 @@ int read_datamatrix(unsigned char image_data[],
                         if ((int)strlen(thr_decode_result[try_config]) == 0) {
                             if (debug) {
                                 printf("debug_%d_18_failed to decode %d_%dx%d.png\n",
-                                    try_config, curr_sampling_pattern,
-                                    most_probable_frequency_x,
-                                    most_probable_frequency_y);
+                                       try_config, curr_sampling_pattern,
+                                       most_probable_frequency_x,
+                                       most_probable_frequency_y);
                             }
                         }
                         else {
@@ -1469,7 +1469,7 @@ void decode_as_json(const char * decode_result)
             /* get the field name */
             if (i < (int)strlen(decode_result)-1) {
                 if ((decode_result[i] == ':') &&
-                    (decode_result[i+1] == ' ')) {
+                        (decode_result[i+1] == ' ')) {
                     field_found = true;
                     for (j = start_ctr; j < i; j++) {
                         fieldname[j-start_ctr] = (char)tolower(decode_result[j]);
@@ -1482,7 +1482,7 @@ void decode_as_json(const char * decode_result)
         else {
             /* get the field value */
             if ((decode_result[i] == '\n') ||
-                (i == (int)strlen(decode_result)-1)) {
+                    (i == (int)strlen(decode_result)-1)) {
                 int end_ctr = i;
                 if (i == (int)strlen(decode_result)-1) end_ctr = i+1;
                 start_ctr = i+1;
@@ -1544,7 +1544,7 @@ void decode_as_yaml(const char * decode_result)
             /* get the field name */
             if (i < (int)strlen(decode_result)-1) {
                 if ((decode_result[i] == ':') &&
-                    (decode_result[i+1] == ' ')) {
+                        (decode_result[i+1] == ' ')) {
                     field_found = true;
                     for (j = start_ctr; j < i; j++) {
                         fieldname[j-start_ctr] = (char)tolower(decode_result[j]);
@@ -1557,7 +1557,7 @@ void decode_as_yaml(const char * decode_result)
         else {
             /* get the field value */
             if ((decode_result[i] == '\n') ||
-                (i == (int)strlen(decode_result)-1)) {
+                    (i == (int)strlen(decode_result)-1)) {
                 int end_ctr = i;
                 if (i == (int)strlen(decode_result)-1) end_ctr = i+1;
                 start_ctr = i+1;

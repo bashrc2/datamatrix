@@ -58,7 +58,7 @@ static void grid_data_blocks(const struct grid_2d * grid,
  * \param grid grid object
  */
 bool condense_data_blocks(struct grid_2d * grid,
-						  const bool debug)
+                          const bool debug)
 {
     int blocks_x=1, blocks_y=1, grid_x, grid_y, block_x, block_y;
     int original_tx, original_ty, new_tx, new_ty, new_bx, new_by;

@@ -125,8 +125,8 @@ int main(int argc, char* argv[])
         if (strstr(pipe, ".png") != nullptr) {
             /* remove spurious endings */
             while ((pipe_len > 4) &&
-                   (!is_letter_lower(pipe[pipe_len-1]))) {
-                pipe[--pipe_len] = 0;               
+                    (!is_letter_lower(pipe[pipe_len-1]))) {
+                pipe[--pipe_len] = 0;
             }
             if (pipe_len > 4) {
                 /* does the file extension look correct? */
@@ -279,7 +279,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--SSCC")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(0, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -287,7 +287,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--GTIN")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(1, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -295,7 +295,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--CONTENT")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(2, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -303,7 +303,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--MTOGTIN")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(3, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -313,7 +313,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--LOT")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(10, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
             else {
@@ -322,11 +322,11 @@ int main(int argc, char* argv[])
             }
         }
         if ((strcmp(argv[i],"--proddate")==0) ||
-            (strcmp(argv[i],"--mandate")==0) ||
+                (strcmp(argv[i],"--mandate")==0) ||
                 (strcmp(argv[i],"--PRODDATE")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(11, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
             else {
@@ -338,7 +338,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--DUEDATE")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(12, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -346,7 +346,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--PACKDATE")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(13, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -356,7 +356,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--BESTBY")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(15, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -364,7 +364,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--SELLBY")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(16, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -372,7 +372,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--USEBY")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(17, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -380,7 +380,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--VARIANT")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(20, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -388,7 +388,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--SERIAL")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(21, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
             else {
@@ -400,7 +400,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--CUSTPARTNO")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(241, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -408,7 +408,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--MTOVARIANT")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(242, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -416,7 +416,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--GDTI")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(253, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -424,7 +424,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--GLN")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(254, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -432,7 +432,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--GCN")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(255, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -440,7 +440,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--ORDERNO")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(400, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -453,8 +453,8 @@ int main(int argc, char* argv[])
             }
         }
         if ((strcmp(argv[i],"--prodid")==0) ||
-            (strcmp(argv[i],"--pcn")==0) ||
-            (strcmp(argv[i],"--catalog")==0) ||
+                (strcmp(argv[i],"--pcn")==0) ||
+                (strcmp(argv[i],"--catalog")==0) ||
                 (strcmp(argv[i],"--productid")==0)) {
             if (!gs1_encoding) {
                 if (hibc_encode("PRODUCT ID", argv[i+1],
@@ -511,7 +511,7 @@ int main(int argc, char* argv[])
             }
         }
         if ((strcmp(argv[i],"--quantity")==0) ||
-            (strcmp(argv[i],"--qty")==0)) {
+                (strcmp(argv[i],"--qty")==0)) {
             if (!gs1_encoding) {
                 if (unit_of_measure != 9) {
                     printf("QUANTITY may only be specified when UNIT OF MEASURE is 9\n");
@@ -526,7 +526,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--GSIN")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(402, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -534,7 +534,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--SHIPTO")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(410, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -542,7 +542,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--BILLTO")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(411, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -550,7 +550,7 @@ int main(int argc, char* argv[])
                 (strcmp(argv[i],"--ORIGIN")==0)) {
             if (!hibc_encoding) {
                 if (!gs1_encode(422, argv[i+1], encode_text,
-								&encode_description[0])) return -1;
+                                &encode_description[0])) return -1;
                 gs1_encoding = true;
             }
         }
@@ -733,7 +733,7 @@ int main(int argc, char* argv[])
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"--decodejson")==0) ||
-            (strcmp(argv[i],"--djson")==0)) {
+                (strcmp(argv[i],"--djson")==0)) {
             decode_json = true;
             decode_yaml = false;
             loop_incr = 1;
@@ -747,7 +747,7 @@ int main(int argc, char* argv[])
             loop_incr = 1;
         }
         if ((strcmp(argv[i],"--decodeyaml")==0) ||
-            (strcmp(argv[i],"--dyaml")==0)) {
+                (strcmp(argv[i],"--dyaml")==0)) {
             decode_json = false;
             decode_yaml = true;
             loop_incr = 1;
@@ -799,9 +799,9 @@ int main(int argc, char* argv[])
         encode_description[0] = 0;
         decode_strcat_char(encode_description, '*');
         decode_strcat(encode_description, encode_text);
-        decode_strcat(encode_description, "*\n");       
+        decode_strcat(encode_description, "*\n");
     }
-    
+
     if (decode_from_text[0] != 0) {
         if ((dot_char_specified) || (empty_char_specified)) {
             return decode_datamatrix_from_text(&decode_from_text[0],
@@ -872,9 +872,9 @@ int main(int argc, char* argv[])
         printf("Couldn't load image depth\n");
         return 0;
     }
-	image_width_int = UINT_TO_INT(image_width);
-	image_height_int = UINT_TO_INT(image_height);
-	image_bitsperpixel_int = UINT_TO_INT(image_bitsperpixel);
+    image_width_int = UINT_TO_INT(image_width);
+    image_height_int = UINT_TO_INT(image_height);
+    image_bitsperpixel_int = UINT_TO_INT(image_bitsperpixel);
 
     if (debug) {
         printf("Image: %s\n", &filename[0]);
@@ -885,13 +885,13 @@ int main(int argc, char* argv[])
     if (resized_image_width > 0) {
         if (resized_image_height == 0) {
             resized_image_height =
-				image_height_int * resized_image_width / image_width_int;
+                image_height_int * resized_image_width / image_width_int;
         }
         /* create an array to store the enlarged image */
         resized_image_data =
             (unsigned char*)safemalloc((size_t)(resized_image_width *
-												resized_image_height *
-												image_bitsperpixel_int/8));
+                                                resized_image_height *
+                                                image_bitsperpixel_int/8));
         if (resized_image_data == nullptr) return -653;
         /* resize the image */
         if (resize_image(image_data, image_width_int, image_height_int,
@@ -917,7 +917,7 @@ int main(int argc, char* argv[])
 
 
     char * decode_result =
-		(char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
+        (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     read_datamatrix(image_data, image_width_int, image_height_int,
                     image_bitsperpixel_int, debug,
                     &output_filename[0],

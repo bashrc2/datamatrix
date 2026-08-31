@@ -150,8 +150,8 @@ int encode_datamatrix_to_text_or_image(const char * text,
     unsigned char *grid = 0;
     unsigned int encode_width = 0, encode_height = 0;
     unsigned int len = 0,
-        maxlen = 0,
-        encode_ecclen = 0;
+                 maxlen = 0,
+                 encode_ecclen = 0;
     bool square = false;
     bool noquiet = false;
     /* a small horizontal separation between characters so that they don't
@@ -176,8 +176,8 @@ int encode_datamatrix_to_text_or_image(const char * text,
                text, encode_width, encode_height);
     /* show the datamatrix */
     int encode_image_height = \
-        UINT_TO_INT((unsigned int)encode_image_width *
-                    encode_height / encode_width);
+                              UINT_TO_INT((unsigned int)encode_image_width *
+                                          encode_height / encode_width);
 
     if (description[0] != 0) {
         /* allow extra height for description of rectangular datamatrix */
@@ -247,7 +247,7 @@ int encode_datamatrix_to_text_or_image(const char * text,
             if (!show_coords) {
                 printf("%s",
                        grid[encode_width_int *
-                                         (y / S) + (x / S)] ? dot_chr : empty_chr);
+                                             (y / S) + (x / S)] ? dot_chr : empty_chr);
             }
             else {
                 /* show dot coordinates */

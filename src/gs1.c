@@ -4869,7 +4869,7 @@ void gs1_semantics(char result[],
                         latlon_str[dec_ctr] = 0;
                         if ((int)strlen(latlon_str) == 10) {
                             latitude =
-								((float)atof(latlon_str) / 10000000.0f) - 90.0f;
+                                ((float)atof(latlon_str) / 10000000.0f) - 90.0f;
 
                             /* second ten characters are longitude */
                             dec_ctr = 0;
@@ -5188,7 +5188,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "AIDC MEDIA TYPE: ");
                     if ((int)strlen(data_str) == 2) {
                         if ((isdigit(data_str[0])) &&
-                            (isdigit(data_str[1]))) {
+                                (isdigit(data_str[1]))) {
                             aidc_media_type = atoi(data_str);
                         }
                     }
@@ -5245,7 +5245,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, "BIRTH SEQUENCE: ");
                     if ((int)strlen(data_str) == 3) {
                         if ((isdigit(data_str[0])) &&
-                            (isdigit(data_str[2]))) {
+                                (isdigit(data_str[2]))) {
                             birth_sequence[0] = data_str[0];
                             birth_sequence[1] = data_str[2];
                         }
@@ -5390,13 +5390,13 @@ void gs1_semantics(char result[],
                     }
                     if ((int)strlen(data_str) == 18) {
                         if ((isdigit(data_str[14])) &&
-                            (isdigit(data_str[15]))) {
+                                (isdigit(data_str[15]))) {
                             itip_piece_number_str[0] = data_str[14];
                             itip_piece_number_str[1] = data_str[15];
                             itip_piece_number_str[2] = 0;
                         }
                         if ((isdigit(data_str[16])) &&
-                            (isdigit(data_str[17]))) {
+                                (isdigit(data_str[17]))) {
                             itip_total_count_str[0] = data_str[16];
                             itip_total_count_str[1] = data_str[17];
                             itip_total_count_str[2] = 0;
@@ -5558,13 +5558,13 @@ void gs1_semantics(char result[],
                     }
                     if ((int)strlen(data_str) == 18) {
                         if ((isdigit(data_str[14])) &&
-                            (isdigit(data_str[15]))) {
+                                (isdigit(data_str[15]))) {
                             itip_piece_number_str[0] = data_str[14];
                             itip_piece_number_str[1] = data_str[15];
                             itip_piece_number_str[2] = 0;
                         }
                         if ((isdigit(data_str[16])) &&
-                            (isdigit(data_str[17]))) {
+                                (isdigit(data_str[17]))) {
                             itip_total_count_str[0] = data_str[16];
                             itip_total_count_str[1] = data_str[17];
                             itip_total_count_str[2] = 0;
@@ -5730,7 +5730,7 @@ void gs1_semantics(char result[],
                 else if (temperature != UNKNOWN_VALUE) {
                     char * temp_str =
                         (char*)safemalloc((size_t)MAX_DECODE_LENGTH *
-										  sizeof(unsigned char));
+                                          sizeof(unsigned char));
                     sprintf(temp_str, "%.2f", temperature);
                     decode_strcat(gs1_result, temp_str);
                     free(temp_str);
@@ -5740,7 +5740,7 @@ void gs1_semantics(char result[],
                     decode_strcat(gs1_result, data_str);
                     char * geo_str =
                         (char*)safemalloc((size_t)MAX_DECODE_LENGTH *
-										  sizeof(unsigned char));
+                                          sizeof(unsigned char));
                     sprintf(geo_str, "LAT %.4f LON %.4f", latitude, longitude);
                     decode_strcat(gs1_result, geo_str);
                     free(geo_str);

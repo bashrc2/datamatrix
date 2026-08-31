@@ -145,7 +145,7 @@ void darklight(const unsigned char img[],
     float mean_dark=0, mean_light=0;
 
     for (y = ty; y <= by; y += (unsigned int)sample_step,
-			 n += vertical_increment) {
+            n += vertical_increment) {
         n2 = n;
 
         for (x = tx; x <= bx; x += (unsigned int)sample_step, n2++)

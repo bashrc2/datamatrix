@@ -913,7 +913,7 @@ int get_peripheral_edges(struct line_segments * segments,
     /* add edges for other joined segments */
     for (int i = 0; i < segments->max_segments; i++) {
         if (i == index) continue;
-        
+
         int idx = i*segments->max_segments + index;
         if (segments->joins[idx] != JOIN_NONE) {
             update_peripheral(segments, i);
@@ -1363,7 +1363,7 @@ void show_perimeter(const struct line_segments * segments,
 {
     int side, x, y, n;
     unsigned char r=0, g=0, b=0;
-	bool vertical;
+    bool vertical;
     int result_bytesperpixel = result_bitsperpixel/8;
     int * perimeter;
 
@@ -1448,7 +1448,7 @@ void show_perimeter_intersection(const struct line_segments * segments,
 {
     int side, x, y, n;
     unsigned char r=0, g=0, b=0;
-	bool vertical;
+    bool vertical;
     int result_bytesperpixel = result_bitsperpixel/8;
     int * perimeter;
 
@@ -1535,17 +1535,17 @@ void show_perimeter_intersection(const struct line_segments * segments,
  * \return 0 on success, -1 otherwise
  */
 static int fit_perimeter_to_all_sides(const struct line_segments * segments,
-        const int width, const int height,
-        const float max_deviation,
-        const int centre_x, const int centre_y,
-        float * perimeter_x0,
-        float * perimeter_y0,
-        float * perimeter_x1,
-        float * perimeter_y1,
-        float * perimeter_x2,
-        float * perimeter_y2,
-        float * perimeter_x3,
-        float * perimeter_y3)
+                                      const int width, const int height,
+                                      const float max_deviation,
+                                      const int centre_x, const int centre_y,
+                                      float * perimeter_x0,
+                                      float * perimeter_y0,
+                                      float * perimeter_x1,
+                                      float * perimeter_y1,
+                                      float * perimeter_x2,
+                                      float * perimeter_y2,
+                                      float * perimeter_x3,
+                                      float * perimeter_y3)
 {
     int side, side2, no_of_samples, no_of_edge_samples, fit_edges;
     float x0=0, y0=0, x1=0, y1=0;
@@ -1693,7 +1693,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
         }
         return -1;
     }
-    
+
     /* get the side with the second highest number of edges */
     /*
     for (side = 0; side < 4; side++) {
@@ -1815,7 +1815,7 @@ int fit_perimeter_to_sides(const struct line_segments * segments,
             write_png_file(debug_filename,
                            resized_thresholded_width,
                            resized_thresholded_height,
-                           24, thr_edges_image_data);           
+                           24, thr_edges_image_data);
         }
         return -1;
     }

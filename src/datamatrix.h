@@ -537,26 +537,26 @@ void shrinkwrap_shape_perimeter(const int erosion_itterations,
                                 float * perimeter_x3, float * perimeter_y3);
 
 bool expand_perimeter_sides(const unsigned char mono_img[],
-							const int width, const int height,
-							float * perimeter_x0, float * perimeter_y0,
-							float * perimeter_x1, float * perimeter_y1,
-							float * perimeter_x2, float * perimeter_y2,
-							float * perimeter_x3, float * perimeter_y3,
-							const int max_extension_percent,
-							const bool debug,
-							unsigned char image_data[],
-							const int image_bitsperpixel);
+                            const int width, const int height,
+                            float * perimeter_x0, float * perimeter_y0,
+                            float * perimeter_x1, float * perimeter_y1,
+                            float * perimeter_x2, float * perimeter_y2,
+                            float * perimeter_x3, float * perimeter_y3,
+                            const int max_extension_percent,
+                            const bool debug,
+                            unsigned char image_data[],
+                            const int image_bitsperpixel);
 
 bool contract_perimeter_sides(const unsigned char mono_img[],
-							  const int width, const int height,
-							  float * perimeter_x0, float * perimeter_y0,
-							  float * perimeter_x1, float * perimeter_y1,
-							  float * perimeter_x2, float * perimeter_y2,
-							  float * perimeter_x3, float * perimeter_y3,
-							  const int min_extension_percent,
-							  const bool debug,
-							  unsigned char image_data[],
-							  const int image_bitsperpixel);
+                              const int width, const int height,
+                              float * perimeter_x0, float * perimeter_y0,
+                              float * perimeter_x1, float * perimeter_y1,
+                              float * perimeter_x2, float * perimeter_y2,
+                              float * perimeter_x3, float * perimeter_y3,
+                              const int min_extension_percent,
+                              const bool debug,
+                              unsigned char image_data[],
+                              const int image_bitsperpixel);
 
 /* quality.c */
 
@@ -656,19 +656,19 @@ void gs1_semantics(char result[],
 /* gs1_encode.c */
 
 bool gs1_encode(const int application_identifier, char data_str[],
-				char encode_text[], char encode_description[]);
+                char encode_text[], char encode_description[]);
 
 /* hibc_encode.c */
 
 bool hibc_encode(const char * application_identifier, const char data_str[],
-				 char encode_text[]);
+                 char encode_text[]);
 
 char hibc_check_character(const char * encode_text);
 
 /* condense.c */
 
 bool condense_data_blocks(struct grid_2d * grid,
-						  bool debug);
+                          bool debug);
 
 /* iso15434.c */
 

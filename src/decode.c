@@ -53,7 +53,7 @@ static void locate_erasures(const int damage_pattern_x,
 }
 
 static unsigned char ecc200_unrandomize_255_state(const unsigned char value,
-                                                  const int idx)
+        const int idx)
 {
     int pseudorand = ((149 * (idx + 1)) % 255) + 1;
     int tmp = value - pseudorand;
@@ -119,7 +119,7 @@ static unsigned char get_unused_error_correction(const int no_of_codewords,
 
     const int modules_per_codeword = 8;
     float e2t = (float)((*no_of_erasures) + (2 * (*no_of_errors))) /
-        (float)modules_per_codeword;
+                (float)modules_per_codeword;
     float Ecap = (float)(no_of_codewords - error_correction_codewords);
     if (e2t > Ecap) {
         unused_error_correction = 0;
@@ -1637,7 +1637,7 @@ static int reed_solomon(const unsigned char codewords[],
  * \return number of error correction words
  */
 static int get_no_of_error_correction_words(const int cells_across,
-                                            const int cells_down)
+        const int cells_down)
 {
     if (cells_across == cells_down) {
         /* square codes */
@@ -1928,11 +1928,11 @@ static struct key_value_pair_int** generate_translation_table(const int no_of_ro
     int i, chr, row, col;
     struct key_value_pair_int** translation_table =
         (struct key_value_pair_int**)safemalloc((size_t)no_of_rows *
-                                                sizeof(struct key_value_pair_int*));
+                sizeof(struct key_value_pair_int*));
     for (i = 0; i < no_of_rows; i++) {
         translation_table[i] =
             (struct key_value_pair_int*)safemalloc((size_t)no_of_cols *
-                                                   sizeof(struct key_value_pair_int));
+                    sizeof(struct key_value_pair_int));
         /* clear the table to zero */
         memset(translation_table[i], 0,
                (size_t)no_of_cols * sizeof(struct key_value_pair_int));
@@ -2300,7 +2300,7 @@ void datamatrix_decode(struct grid_2d * grid, const bool debug,
                         free(amd_result);
                     }
                 }
-            }           
+            }
         }
         grid->unused_error_correction =
             get_unused_error_correction(codewords_length,

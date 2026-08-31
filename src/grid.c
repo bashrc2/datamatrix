@@ -793,7 +793,7 @@ static void create_grid_base(const int dimension_x, const int dimension_y,
 
     /* generate the grid cells and initialise them to zero */
     grid->occupancy = (unsigned char**)safemalloc((size_t)dimension_x *
-                                                  sizeof(unsigned char*));
+                      sizeof(unsigned char*));
     for (grid_x = 0; grid_x < dimension_x; grid_x++) {
         grid->occupancy[grid_x] =
             (unsigned char *)safemalloc((size_t)dimension_y *
@@ -820,21 +820,21 @@ static void create_grid_base(const int dimension_x, const int dimension_y,
 
     /* generate original damaged cells for use when drawing damage in an image */
     grid->original_damage = (unsigned char*)safemalloc((size_t)(dimension_x *
-                                                                dimension_x) *
-                                                       sizeof(unsigned char));
+                            dimension_x) *
+                            sizeof(unsigned char));
     memset(grid->original_damage, 0,
            (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* generate the damaged cells buffer and initialise them to zero */
     grid->damage_buffer = (unsigned char*)safemalloc((size_t)(dimension_x *
-                                                              dimension_x) *
-                                                     sizeof(unsigned char));
+                          dimension_x) *
+                          sizeof(unsigned char));
     memset(grid->damage_buffer, 0,
            (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* erasures */
     grid->erasures = (int*)safemalloc((size_t)(MAX_GRID_DIMENSION *
-                                               MAX_GRID_DIMENSION) * sizeof(int));
+                                      MAX_GRID_DIMENSION) * sizeof(int));
 
     /* codeword array, cleared to zero */
     grid->codeword = (unsigned char*)safemalloc((size_t)MAX_CODEWORDS *
@@ -869,10 +869,10 @@ static void create_grid_base(const int dimension_x, const int dimension_y,
     grid->m_Gg = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
     grid->m_taltab = (unsigned char*)safemalloc((size_t)max_bits *
-                                                sizeof(unsigned char));
+                     sizeof(unsigned char));
 
     grid->m_tal1tab = (unsigned char*)safemalloc((size_t)max_bits *
-                                                 sizeof(unsigned char));
+                      sizeof(unsigned char));
 
     grid->data = (int*)safemalloc((size_t)max_bits * sizeof(int));
 
