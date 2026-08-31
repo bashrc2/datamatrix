@@ -2222,9 +2222,9 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
     grid->no_of_errors = 0;
     grid->no_of_erasures = 0;
     grid->unused_error_correction = 0;
-    grid->gs1_datamatrix = 0;
-    grid->iso15434_datamatrix = 0;
-    grid->hibc_datamatrix = 0;
+    grid->gs1_datamatrix = false;
+    grid->iso15434_datamatrix = false;
+    grid->hibc_datamatrix = false;
     grid_no_of_errors = grid->no_of_errors;
     grid_no_of_erasures = grid->no_of_erasures;
     if (reed_solomon(grid->codeword, codewords_length,
@@ -2243,7 +2243,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
         if (human_readable == 1) {
             /* if there is a GS1 formatted decode then return that instead */
             if ((int)strlen(gs1_result) > 0) {
-                grid->gs1_datamatrix = 1;
+                grid->gs1_datamatrix = true;
                 result[0] = 0;
                 if ((int)strlen(gs1_url) == 0) {
                     decode_strcat(result, "STANDARD: GS1\n");
@@ -2256,7 +2256,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
             }
             /* if there is an ISO 15434 decode then return that instead */
             if ((int)strlen(iso15434_result) > 0) {
-                grid->iso15434_datamatrix = 1;
+                grid->iso15434_datamatrix = true;
                 result[0] = 0;
                 decode_strcat(result, iso15434_result);
                 if ((int)strlen(iso15434_uii) > 0) {
@@ -2273,7 +2273,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
                 if (result[0] == '+') {
                     hibc_semantics(result, hibc_result, debug);
                     if ((int)strlen(hibc_result) > 0) {
-                        grid->hibc_datamatrix = 1;
+                        grid->hibc_datamatrix = true;
                         result[0] = 0;
                         decode_strcat(result, hibc_result);
                         /* remove the final newline */

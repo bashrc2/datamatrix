@@ -143,9 +143,9 @@ struct grid_2d {
     unsigned char * temp_damage;
 
     /* quality metrics */
-    unsigned char gs1_datamatrix;
-    unsigned char iso15434_datamatrix;
-    unsigned char hibc_datamatrix;
+    bool gs1_datamatrix;
+    bool iso15434_datamatrix;
+    bool hibc_datamatrix;
     unsigned char minimum_reflectance;
     unsigned char minimum_reflectance_grade;
     unsigned char unused_error_correction;

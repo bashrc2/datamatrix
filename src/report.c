@@ -115,7 +115,7 @@ void save_verification_report(const struct grid_2d * grid,
             }
             /* symbol type */
             if (strstr(line, "{\\symboltype}") != nullptr) {
-                if (grid->gs1_datamatrix == 1) {
+                if (grid->gs1_datamatrix == true) {
                     fprintf(fp_report, "\\newcommand{\\symboltype}{GS1 datamatrix}\n");
                 }
                 else {

@@ -789,7 +789,7 @@ static void create_grid_base(const int dimension_x, const int dimension_y,
     grid->fixed_pattern_damage = 0;
 
     /* not a GS1 datamatrix */
-    grid->gs1_datamatrix = 0;
+    grid->gs1_datamatrix = false;
 
     /* generate the grid cells and initialise them to zero */
     grid->occupancy = (unsigned char**)safemalloc((size_t)dimension_x *
