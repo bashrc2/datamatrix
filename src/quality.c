@@ -1246,7 +1246,7 @@ static void show_quality_metrics_human_readable(const struct grid_2d * grid,
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
     printf("Timestamp: %d-%02d-%02d %02d:%02d:%02d\n",
@@ -1310,7 +1310,7 @@ static void show_quality_metrics_csv(const struct grid_2d * grid,
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
     printf("\"%d-%02d-%02d %02d:%02d:%02d\", ",
@@ -1371,7 +1371,7 @@ static void show_quality_metrics_json(const struct grid_2d * grid,
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
     printf("{\n");
@@ -1436,7 +1436,7 @@ static void show_quality_metrics_yaml(const struct grid_2d * grid,
 {
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
     printf("---\n");

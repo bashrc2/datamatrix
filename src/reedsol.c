@@ -38,7 +38,7 @@ static word symsize;            /* in bits */
 static word fsize;              /* 2**symsize - 1 */
 static word plen;
 static word off;
-static word *mem = NULL;
+static word *mem = nullptr;
 
 /*
   rs_init(poly, paritylen, offset) initialises the parameters for

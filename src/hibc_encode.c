@@ -103,7 +103,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY JULIAN") == 0) {
         if (data_len == 5) {
-            if (strstr(encode_text, "/$$") == NULL) {
+            if (strstr(encode_text, "/$$") == nullptr) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }
@@ -122,7 +122,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY") == 0) {
         if (data_len == 6) {
-            if (strstr(encode_text, "/$$") == NULL) {
+            if (strstr(encode_text, "/$$") == nullptr) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }
@@ -141,7 +141,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY HOUR") == 0) {
         if (data_len == 8) {
-            if (strstr(encode_text, "/$$") == NULL) {
+            if (strstr(encode_text, "/$$") == nullptr) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }
@@ -160,7 +160,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
     }
     else if (strcmp(application_identifier, "EXPIRY JULIAN HOUR") == 0) {
         if (data_len == 7) {
-            if (strstr(encode_text, "/$$") == NULL) {
+            if (strstr(encode_text, "/$$") == nullptr) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }
@@ -192,7 +192,7 @@ int hibc_encode(const char * application_identifier, const char data_str[],
     }
     else if (strcmp(application_identifier, "LOT NUMBER") == 0) {
         if ((data_len >= 1) && (data_len <= 18)) {
-            if (strstr(encode_text, "/$$") == NULL) {
+            if (strstr(encode_text, "/$$") == nullptr) {
                 if ((int)strlen(encode_text) > 1) {
                     decode_strcat_char(encode_text, '/');
                 }

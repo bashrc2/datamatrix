@@ -61,60 +61,60 @@ void save_verification_report(const struct grid_2d * grid,
                               const char footer[])
 {
     FILE * fp_template, * fp_report;
-    char * line = NULL;
+    char * line = nullptr;
     unsigned char grade = overall_quality_grade(grid);
     char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
     fp_template = fopen(report_template, "r");
-    if (fp_template == NULL) return;
+    if (fp_template == nullptr) return;
 
     fp_report = fopen(report_filename, "w");
-    if (fp_report == NULL) return;
+    if (fp_report == nullptr) return;
 
     line = (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
 
     while (getline2(line, fp_template) != -1) {
-        if (strstr(line, "\\newcommand{") != NULL) {
+        if (strstr(line, "\\newcommand{") != nullptr) {
             /* address line 1 */
-            if (strstr(line, "{\\addressa}") != NULL) {
+            if (strstr(line, "{\\addressa}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\addressa}{%s}\n", address_line1);
                 continue;
             }
             /* address line 2 */
-            if (strstr(line, "{\\addressb}") != NULL) {
+            if (strstr(line, "{\\addressb}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\addressb}{%s}\n", address_line2);
                 continue;
             }
             /* address line 3 */
-            if (strstr(line, "{\\addressc}") != NULL) {
+            if (strstr(line, "{\\addressc}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\addressc}{%s}\n", address_line3);
                 continue;
             }
             /* phone */
-            if (strstr(line, "{\\phone}") != NULL) {
+            if (strstr(line, "{\\phone}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\phone}{%s}\n", phone);
                 continue;
             }
             /* email */
-            if (strstr(line, "{\\email}") != NULL) {
+            if (strstr(line, "{\\email}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\email}{%s}\n", email);
                 continue;
             }
             /* website */
-            if (strstr(line, "{\\website}") != NULL) {
+            if (strstr(line, "{\\website}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\website}{%s}\n", website);
                 continue;
             }
             /* issue date */
-            if (strstr(line, "{\\issuedate}") != NULL) {
+            if (strstr(line, "{\\issuedate}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\issuedate}{%d-%02d-%02d}\n",
                         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
                 continue;
             }
             /* symbol type */
-            if (strstr(line, "{\\symboltype}") != NULL) {
+            if (strstr(line, "{\\symboltype}") != nullptr) {
                 if (grid->gs1_datamatrix == 1) {
                     fprintf(fp_report, "\\newcommand{\\symboltype}{GS1 datamatrix}\n");
                 }
@@ -124,19 +124,19 @@ void save_verification_report(const struct grid_2d * grid,
                 continue;
             }
             /* matrix size */
-            if (strstr(line, "{\\matrixsize}") != NULL) {
+            if (strstr(line, "{\\matrixsize}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\matrixsize}{%dx%d}\n",
                         grid->dimension_x, grid->dimension_y);
                 continue;
             }
             /* overall grade A-F */
-            if (strstr(line, "{\\overallgrade}") != NULL) {
+            if (strstr(line, "{\\overallgrade}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\overallgrade}{%c}\n",
                         grade_letter[grade]);
                 continue;
             }
             /* decode result */
-            if (strstr(line, "{\\decoderesult}") != NULL) {
+            if (strstr(line, "{\\decoderesult}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\decoderesult}{");
                 for (int i = 0; i < (int)strlen(decode_result); i++) {
                     if (decode_result[i] == 29) {
@@ -171,7 +171,7 @@ void save_verification_report(const struct grid_2d * grid,
                 continue;
             }
             /* ISO Symbol Grade 0.0 - 4.0 */
-            if (strstr(line, "{\\isosymbolgrade}") != NULL) {
+            if (strstr(line, "{\\isosymbolgrade}") != nullptr) {
                 if (grade > 0) {
                     fprintf(fp_report, "\\newcommand{\\isosymbolgrade}{%d.0 PASS}\n",
                             (int)grade);
@@ -183,56 +183,56 @@ void save_verification_report(const struct grid_2d * grid,
                 continue;
             }
             /* symbol contrast */
-            if (strstr(line, "{\\symbolcontrast}") != NULL) {
+            if (strstr(line, "{\\symbolcontrast}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\symbolcontrast}{%c (%d\\%%)}\n",
                         grade_letter[(int)grid->symbol_contrast_grade],
                         (int)grid->symbol_contrast);
                 continue;
             }
             /* modulation */
-            if (strstr(line, "{\\modulation}") != NULL) {
+            if (strstr(line, "{\\modulation}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\modulation}{%c (%d\\%%)}\n",
                         grade_letter[(int)grid->modulation_grade],
                         (int)grid->modulation);
                 continue;
             }
             /* axial non-uniformity */
-            if (strstr(line, "{\\axialnonuniformity}") != NULL) {
+            if (strstr(line, "{\\axialnonuniformity}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\axialnonuniformity}{%c (%.1f\\%%)}\n",
                         grade_letter[(int)grid->axial_non_uniformity_grade],
                         grid->axial_non_uniformity);
                 continue;
             }
             /* grid non-uniformity */
-            if (strstr(line, "{\\gridnonuniformity}") != NULL) {
+            if (strstr(line, "{\\gridnonuniformity}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\gridnonuniformity}{%c (%.1f\\%%)}\n",
                         grade_letter[(int)grid->grid_non_uniformity_grade],
                         grid->grid_non_uniformity);
                 continue;
             }
             /* unused error correction */
-            if (strstr(line, "{\\unusederrorcorrection}") != NULL) {
+            if (strstr(line, "{\\unusederrorcorrection}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\unusederrorcorrection}{%c (%d\\%%)}\n",
                         grade_letter[(int)grid->unused_error_correction_grade],
                         (int)grid->unused_error_correction);
                 continue;
             }
             /* fixed pattern damage */
-            if (strstr(line, "{\\fixedpatterndamage}") != NULL) {
+            if (strstr(line, "{\\fixedpatterndamage}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\fixedpatterndamage}{%c (%d\\%%)}\n",
                         grade_letter[(int)grid->fixed_pattern_damage_grade],
                         (int)grid->fixed_pattern_damage);
                 continue;
             }
             /* clock track regularity */
-            if (strstr(line, "{\\clocktrackregularity}") != NULL) {
+            if (strstr(line, "{\\clocktrackregularity}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\clocktrackregularity}{%c (%d\\%%)}\n",
                         grade_letter[(int)grid->clock_track_regularity_grade],
                         (int)grid->clock_track_regularity);
                 continue;
             }
             /* minimum reflectance */
-            if (strstr(line, "{\\minreflectance}") != NULL) {
+            if (strstr(line, "{\\minreflectance}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\minreflectance}{%c (%d\\%%)}\n",
                         grade_letter[(int)grid->minimum_reflectance_grade],
                         (int)grid->minimum_reflectance);
@@ -240,62 +240,62 @@ void save_verification_report(const struct grid_2d * grid,
             }
             /* aperture */
             if (aperture > 0) {
-                if (strstr(line, "{\\lightaperture}") != NULL) {
+                if (strstr(line, "{\\lightaperture}") != nullptr) {
                     fprintf(fp_report, "\\newcommand{\\lightaperture}{%.1f}\n",
                             aperture);
                     continue;
                 }
             }
             /* light wavelength nm */
-            if (strstr(line, "{\\lightnm}") != NULL) {
+            if (strstr(line, "{\\lightnm}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\lightnm}{%d}\n",
                         light_nm);
                 continue;
             }
             /* light angle degrees */
-            if (strstr(line, "{\\lightangle}") != NULL) {
+            if (strstr(line, "{\\lightangle}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\lightangle}{%d}\n",
                         light_angle_degrees);
                 continue;
             }
             /* angle of distortion */
-            if (strstr(line, "{\\angleofdistortion}") != NULL) {
+            if (strstr(line, "{\\angleofdistortion}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\angleofdistortion}{%.1f}\n",
                         grid->angle_of_distortion);
                 continue;
             }
             /* contrast uniformity */
-            if (strstr(line, "{\\contrastuniformity}") != NULL) {
+            if (strstr(line, "{\\contrastuniformity}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\contrastuniformity}{%d}\n",
                         (int)grid->contrast_uniformity);
                 continue;
             }
             /* dots per element */
-            if (strstr(line, "{\\dotsperelement}") != NULL) {
+            if (strstr(line, "{\\dotsperelement}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\dotsperelement}{%d}\n",
                         grid->dots_per_element);
                 continue;
             }
             /* elongation */
-            if (strstr(line, "{\\elongation}") != NULL) {
+            if (strstr(line, "{\\elongation}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\elongation}{%.1f}\n",
                         grid->elongation);
                 continue;
             }
             /* quiet zone */
-            if (strstr(line, "{\\quietzone}") != NULL) {
+            if (strstr(line, "{\\quietzone}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\quietzone}{%d}\n",
                         (int)grid->quiet_zone);
                 continue;
             }
             /* distributed damage */
-            if (strstr(line, "{\\distributeddamage}") != NULL) {
+            if (strstr(line, "{\\distributeddamage}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\distributeddamage}{%d}\n",
                         (int)grid->distributed_damage);
                 continue;
             }
             /* cell fill */
-            if (strstr(line, "{\\cellfill}") != NULL) {
+            if (strstr(line, "{\\cellfill}") != nullptr) {
                 fprintf(fp_report, "\\newcommand{\\cellfill}{%d}\n",
                         (int)grid->cell_fill);
                 continue;
@@ -303,27 +303,27 @@ void save_verification_report(const struct grid_2d * grid,
         }
         /* logo image at top of report */
         if ((int)strlen(logo_filename) > 0) {
-            if (strstr(line, "{img/logo_square.png}") != NULL) {
+            if (strstr(line, "{img/logo_square.png}") != nullptr) {
                 fprintf(fp_report, "\\includegraphics[height=2.5cm,clip]{%s}\n",
                         logo_filename);
                 continue;
             }
         }
         /* detected symbol image */
-        if (strstr(line, "{img/datamatrix.png}") != NULL) {
+        if (strstr(line, "{img/datamatrix.png}") != nullptr) {
             fprintf(fp_report, "    \\includegraphics[height=6cm]{%s}\n",
                     grid_filename);
             continue;
         }
         /* reflectance histogram image */
-        if (strstr(line, "{histogram.png}") != NULL) {
+        if (strstr(line, "{histogram.png}") != nullptr) {
             fprintf(fp_report, "    \\includegraphics[height=6cm]{%s}\n",
                     histogram_filename);
             continue;
         }
         /* footer text */
         if ((int)strlen(footer) > 0) {
-            if (strstr(line, "\\fancyfoot") != NULL) {
+            if (strstr(line, "\\fancyfoot") != nullptr) {
                 fprintf(fp_report, "\\fancyfoot[C]{%s}\n", footer);
                 continue;
             }

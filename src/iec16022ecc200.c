@@ -488,8 +488,8 @@ char * strdup(const char* s)
 {
     size_t slen = strlen(s);
     char* result = malloc(slen + 1);
-    if(result == NULL) {
-        return NULL;
+    if(result == nullptr) {
+        return nullptr;
     }
 
     memcpy(result, s, (size_t)(slen + 1));
@@ -512,7 +512,7 @@ char * strdup(const char* s)
 */
 static char * encmake(int l, unsigned char *s, int *lenp, char exact)
 {
-    char *encoding = NULL;
+    char *encoding = nullptr;
     int p = l;
     int e;
     struct {
@@ -527,7 +527,7 @@ static char * encmake(int l, unsigned char *s, int *lenp, char exact)
     if (!l)
         return strdup(""); /* no length */
     if (l > MAXBARCODE)
-        return NULL; /* not valid */
+        return nullptr; /* not valid */
     while (p--) {
         int b = 0,sub;
         int sl, tl, bl, t;

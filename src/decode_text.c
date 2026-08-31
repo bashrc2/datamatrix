@@ -250,7 +250,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
     unsigned char * occupancy =
         (unsigned char*)safemalloc((size_t)(dimension_x * dimension_y) *
                                    sizeof(unsigned char));
-    if (occupancy == NULL) return -1;
+    if (occupancy == nullptr) return -1;
 
     text_datamatrix_populate_occupancy(occupancy,
                                        dimension_x, dimension_y,
@@ -262,7 +262,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
     struct grid_2d grid;
     char * decode_result =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
-    if (decode_result == NULL) return -1;
+    if (decode_result == nullptr) return -1;
     unsigned char human_readable = 1;
     decode_result[0] = 0;
     /* decode */

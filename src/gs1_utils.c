@@ -88,12 +88,12 @@ float get_temperature(const char data_str[])
 /**
  * \brief returns human readable details for an ISSN
  * \param data_str String to be decoded
- * \return decoded ISSN string or NULL
+ * \return decoded ISSN string or nullptr
  */
 char * get_issn(const char data_str[])
 {
     int i, data_len = (int)strlen(data_str);
-    if (data_len < 10) return NULL;
+    if (data_len < 10) return nullptr;
     char * issn_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     issn_str[0] = 0;
@@ -126,22 +126,22 @@ char * get_issn(const char data_str[])
 char * get_package_type(const char package_code[])
 {
     int i;
-    if ((int)strlen(package_code) > 3) return NULL;
+    if ((int)strlen(package_code) > 3) return nullptr;
     int no_of_package_types = LOOKUP_TABLE_ROWS(package_type_code, 2);
     int data_len = (int)strlen(package_code);
     for (i = 0; i < no_of_package_types; i++) {
         if ((int)strlen(package_type_code[i*2]) != data_len) continue;
-        if (strstr(package_type_code[i*2], package_code) != NULL) {
+        if (strstr(package_type_code[i*2], package_code) != nullptr) {
             return package_type_code[i*2 + 1];
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 /**
  * \brief returns the GS1 Company Prefix for the given code number
  * \param data_str String containing a code number to be decoded
- * \return decoded Company Prefix or NULL
+ * \return decoded Company Prefix or nullptr
  */
 char * get_gs1_company_prefix(const char data_str[])
 {
@@ -150,9 +150,9 @@ char * get_gs1_company_prefix(const char data_str[])
     unsigned char code_range = 0;
 
     int data_len = (int)strlen(data_str);
-    if ((data_len < 2) || (data_len > 15)) return NULL;
+    if ((data_len < 2) || (data_len > 15)) return nullptr;
     for (i = 0; i < data_len; i++) {
-        if (!isdigit(data_str[i])) return NULL;
+        if (!isdigit(data_str[i])) return nullptr;
         data_str_code[i] = data_str[i];
     }
     data_str_code[i] = 0;
@@ -175,7 +175,7 @@ char * get_gs1_company_prefix(const char data_str[])
             break;
         }
     }
-    if (company_prefix_index == -1) return NULL;
+    if (company_prefix_index == -1) return nullptr;
 
     char * company_prefix_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -212,7 +212,7 @@ char * get_company_prefix_str(char company_prefix_code[],
 /**
  * \brief returns the country for the given 3 digit code number
  * \param data_str String containing a code number to be decoded
- * \return decoded country string or NULL
+ * \return decoded country string or nullptr
  */
 char * get_country(const char data_str[])
 {
@@ -220,9 +220,9 @@ char * get_country(const char data_str[])
     char data_str_country_code[4];
 
     int data_len = (int)strlen(data_str);
-    if (data_len < 3) return NULL;
+    if (data_len < 3) return nullptr;
     for (i = 0; i < 3; i++) {
-        if (!isdigit(data_str[i])) return NULL;
+        if (!isdigit(data_str[i])) return nullptr;
         data_str_country_code[i] = data_str[i];
     }
     data_str_country_code[3] = 0;
@@ -237,7 +237,7 @@ char * get_country(const char data_str[])
             break;
         }
     }
-    if (country_index == -1) return NULL;
+    if (country_index == -1) return nullptr;
 
     char * country_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -258,7 +258,7 @@ char * get_country(const char data_str[])
  * \brief returns the country for the given two letter alphabetic code
  *        https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
  * \param data_str String containing a code number to be decoded
- * \return decoded country string or NULL
+ * \return decoded country string or nullptr
  */
 char * get_country_alpha2(const char data_str[])
 {
@@ -266,9 +266,9 @@ char * get_country_alpha2(const char data_str[])
     char data_str_country_code[3];
 
     int data_len = (int)strlen(data_str);
-    if (data_len != 2) return NULL;
+    if (data_len != 2) return nullptr;
     for (i = 0; i < 2; i++) {
-        if (is_letter_upper(data_str[i]) == -1) return NULL;
+        if (is_letter_upper(data_str[i]) == -1) return nullptr;
         data_str_country_code[i] = data_str[i];
     }
     data_str_country_code[2] = 0;
@@ -283,7 +283,7 @@ char * get_country_alpha2(const char data_str[])
             break;
         }
     }
-    if (country_index == -1) return NULL;
+    if (country_index == -1) return nullptr;
 
     char * country_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -297,7 +297,7 @@ char * get_country_alpha2(const char data_str[])
  * \brief returns decoded human readable currency
  * \param application_identifier GS1 application identifier
  * \param data_str String to be decoded
- * \return decoded currency string or NULL
+ * \return decoded currency string or nullptr
  */
 char * get_currency_value(const int application_identifier,
                           const char data_str[])
@@ -305,14 +305,14 @@ char * get_currency_value(const int application_identifier,
     int i;
     char data_str_currency_code[4];
 
-    if (application_identifier < 3910) return NULL;
-    if ((int)strlen(data_str) < 4) return NULL;
+    if (application_identifier < 3910) return nullptr;
+    if ((int)strlen(data_str) < 4) return nullptr;
     int decimal_places = application_identifier % 10;
-    if (decimal_places > 2) return NULL;
+    if (decimal_places > 2) return nullptr;
     /* check that the data is all numeric */
     int data_len = (int)strlen(data_str);
     for (i = 0; i < data_len; i++) {
-        if (!isdigit(data_str[i])) return NULL;
+        if (!isdigit(data_str[i])) return nullptr;
         if (i < 3) {
             /* get the currency code */
             data_str_currency_code[i] = data_str[i];
@@ -330,7 +330,7 @@ char * get_currency_value(const int application_identifier,
             break;
         }
     }
-    if (currency_index == -1) return NULL;
+    if (currency_index == -1) return nullptr;
 
     char * currency_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -354,21 +354,21 @@ char * get_currency_value(const int application_identifier,
  * \brief returns decoded human readable decimal value
  * \param application_identifier GS1 application identifier
  * \param data_str String to be decoded
- * \return decoded decimal string or NULL
+ * \return decoded decimal string or nullptr
  */
 char * get_decimal_value(const int application_identifier,
                          const char data_str[])
 {
     int i;
 
-    if (application_identifier < 3100) return NULL;
-    if ((int)strlen(data_str) < 1) return NULL;
+    if (application_identifier < 3100) return nullptr;
+    if ((int)strlen(data_str) < 1) return nullptr;
     int decimal_places = application_identifier % 10;
-    if (decimal_places > 3) return NULL;
+    if (decimal_places > 3) return nullptr;
     /* check that the data is all numeric */
     int data_len = (int)strlen(data_str);
     for (i = 0; i < data_len; i++) {
-        if (!isdigit(data_str[i])) return NULL;
+        if (!isdigit(data_str[i])) return nullptr;
     }
 
     char * decimal_str =
@@ -396,7 +396,7 @@ char * get_decimal_value(const int application_identifier,
 char * get_meat_cut(const char data_str[])
 {
     int i, data_len = (int)strlen(data_str);
-    if (data_len < 20) return NULL;
+    if (data_len < 20) return nullptr;
     char * meat_cut_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
     meat_cut_str[0] = 0;
@@ -420,7 +420,7 @@ char * get_meat_cut(const char data_str[])
     /* check that all product code characters are numbers */
     for (i = 2; i <= 5; i++) {
         if (!isdigit(data_str[i])) {
-            return NULL;
+            return nullptr;
         }
     }
     prod_code_str[0] = data_str[2];
@@ -772,7 +772,7 @@ char * get_meat_cut(const char data_str[])
 char * get_north_american_coupon(char data_str[],
                                  char company_prefix_code[])
 {
-    if (!isdigit(data_str[0])) return NULL;
+    if (!isdigit(data_str[0])) return nullptr;
 
     char * coupon_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -795,7 +795,7 @@ char * get_north_american_coupon(char data_str[],
         get_company_prefix_str(company_prefix_code,
                                coupon_start_index,
                                data_str);
-    if (company_prefix_str == NULL) {
+    if (company_prefix_str == nullptr) {
         return coupon_str;
     }
     int company_ctr = 0;
@@ -1080,7 +1080,7 @@ char * get_north_american_coupon(char data_str[],
             company_prefix_str =
                 get_company_prefix_str(company_prefix_code,
                                        idx + coupon_start_index, data_str);
-            if (company_prefix_str == NULL) {
+            if (company_prefix_str == nullptr) {
                 return coupon_str;
             }
             company_ctr = 0;
@@ -1215,7 +1215,7 @@ char * get_north_american_coupon(char data_str[],
             company_prefix_str =
                 get_company_prefix_str(company_prefix_code,
                                        idx + coupon_start_index, data_str);
-            if (company_prefix_str == NULL) {
+            if (company_prefix_str == nullptr) {
                 return coupon_str;
             }
             company_ctr = 0;
@@ -1243,7 +1243,7 @@ char * get_north_american_coupon(char data_str[],
 
         /* expiration date */
         date_str = data_id_convert_date("YYMMDD", &data_str[idx]);
-        if (date_str != NULL) {
+        if (date_str != nullptr) {
             decode_strcat(coupon_str, "\nEXPIRATION DATE: ");
             decode_strcat(coupon_str, date_str);
             free(date_str);
@@ -1262,7 +1262,7 @@ char * get_north_american_coupon(char data_str[],
 
         /* start date */
         date_str = data_id_convert_date("YYMMDD", &data_str[idx]);
-        if (date_str != NULL) {
+        if (date_str != nullptr) {
             decode_strcat(coupon_str, "\nSTART DATE: ");
             decode_strcat(coupon_str, date_str);
             free(date_str);
@@ -1319,7 +1319,7 @@ char * get_north_american_coupon(char data_str[],
         company_prefix_str =
             get_company_prefix_str(company_prefix_code,
                                    idx + coupon_start_index, data_str);
-        if (company_prefix_str == NULL) {
+        if (company_prefix_str == nullptr) {
             return coupon_str;
         }
         company_ctr = 0;
@@ -1507,9 +1507,9 @@ void calc_check_character(const char data_str[], const int check_characters,
  */
 char * get_production_method(const char data_str[])
 {
-    if ((int)strlen(data_str) < 2) return NULL;
+    if ((int)strlen(data_str) < 2) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
-        if (!isdigit(data_str[i])) return NULL;
+        if (!isdigit(data_str[i])) return nullptr;
     }
     char * prod_method_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -1536,7 +1536,7 @@ char * get_production_method(const char data_str[])
     if ((int)strlen(prod_method_str) == 0) {
         /* not found */
         free(prod_method_str);
-        return NULL;
+        return nullptr;
     }
     return prod_method_str;
 }
@@ -1550,10 +1550,10 @@ char * get_production_method(const char data_str[])
  */
 char * get_fishing_gear_type(const char data_str[])
 {
-    if ((int)strlen(data_str) < 2) return NULL;
+    if ((int)strlen(data_str) < 2) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if ((!isdigit(data_str[i])) &&
-            (data_str[i] != '.')) return NULL;
+            (data_str[i] != '.')) return nullptr;
     }
     char * fishing_gear_type_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -1569,7 +1569,7 @@ char * get_fishing_gear_type(const char data_str[])
     if (fishing_gear_type_str[0] == 0) {
         /* not found */
         free(fishing_gear_type_str);
-        return NULL;
+        return nullptr;
     }
     return fishing_gear_type_str;
 }
@@ -1583,9 +1583,9 @@ char * get_fishing_gear_type(const char data_str[])
  */
 char * get_aquatic_species(const char data_str[])
 {
-    if ((int)strlen(data_str) != 3) return NULL;
+    if ((int)strlen(data_str) != 3) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
-        if (is_letter_upper(data_str[i]) == -1) return NULL;
+        if (is_letter_upper(data_str[i]) == -1) return nullptr;
     }
     char * aquatic_species_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -1601,7 +1601,7 @@ char * get_aquatic_species(const char data_str[])
     if (aquatic_species_str[0] == 0) {
         /* not found */
         free(aquatic_species_str);
-        return NULL;
+        return nullptr;
     }
     return aquatic_species_str;
 }
@@ -1615,12 +1615,12 @@ char * get_aquatic_species(const char data_str[])
  */
 char * get_fishing_area(const char data_str[])
 {
-    if ((int)strlen(data_str) < 4) return NULL;
+    if ((int)strlen(data_str) < 4) return nullptr;
     for (int i  = 0; i < (int)strlen(data_str); i++) {
         if ((!isdigit(data_str[i])) &&
             (is_letter_lower(data_str[i]) == -1) &&
             (is_letter_upper(data_str[i]) == -1) &&
-            (data_str[i] != '.')) return NULL;
+            (data_str[i] != '.')) return nullptr;
     }
     char * fishing_area_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(unsigned char));
@@ -1640,7 +1640,7 @@ char * get_fishing_area(const char data_str[])
     if (fishing_area_str[0] == 0) {
         /* not found */
         free(fishing_area_str);
-        return NULL;
+        return nullptr;
     }
     return fishing_area_str;
 }

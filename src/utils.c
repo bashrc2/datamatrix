@@ -80,7 +80,7 @@ int getline2(char line[], FILE * fp)
 
     line[0] = 0;
 
-    if (fp == NULL) {
+    if (fp == nullptr) {
         return -1;
     }
 

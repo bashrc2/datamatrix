@@ -41,7 +41,7 @@ static void locate_erasures(const int damage_pattern_x,
 {
     *erasures_length = 0;
 
-    if (damage_pattern == NULL) return;
+    if (damage_pattern == nullptr) return;
     for (int y = damage_pattern_y-1; y >= 0; y--) {
         for (int x = damage_pattern_x-1; x >= 0; x--) {
             if (damage_pattern[y*damage_pattern_x + x]) {
@@ -1134,7 +1134,7 @@ static int reed_solomon_decode(const int symbolBits,
         data[i] = (int)paritydata[j];
     }
     int no_eras = 0;
-    if (eras_pos != NULL) {
+    if (eras_pos != nullptr) {
         no_eras = eras_pos_length;
         if (no_eras >= m_NN - m_KK) {
             /* printf("Too many erasures for error correction to work\n"); */
@@ -1482,8 +1482,8 @@ static int reed_solomon_correct(const int n_err_data,
     memset(parity, 0, (size_t)(*error_codeword_count) * sizeof(int));
 
     /* create erasures array */
-    int * erasures = NULL;
-    if (erasure_index != NULL) {
+    int * erasures = nullptr;
+    if (erasure_index != nullptr) {
         erasures = (int*)safemalloc((size_t)erasure_index_length * sizeof(int));
         memset(erasures, 0, (size_t)erasure_index_length * sizeof(int));
     }
@@ -1504,7 +1504,7 @@ static int reed_solomon_correct(const int n_err_data,
         }
     }
 
-    if (erasure_index != NULL) {
+    if (erasure_index != nullptr) {
         n2 = 0;
         for (i = 0; i < erasure_index_length; i++) {
             damaged_codeword_index = erasure_index[i];
@@ -1532,8 +1532,8 @@ static int reed_solomon_correct(const int n_err_data,
                 erasure_index_length = n2;
             }
             else {
-                if (erasures != NULL) free(erasures);
-                erasures = NULL;
+                if (erasures != nullptr) free(erasures);
+                erasures = nullptr;
             }
         }
     }
@@ -1549,7 +1549,7 @@ static int reed_solomon_correct(const int n_err_data,
         nucorrections = -1;
     }
 
-    if (erasures != NULL) {
+    if (erasures != nullptr) {
         *no_of_erasures = erasure_index_length;
     }
     else {
@@ -1557,14 +1557,14 @@ static int reed_solomon_correct(const int n_err_data,
     }
 
     if (nucorrections < 0) {
-        if (erasures != NULL) free(erasures);
+        if (erasures != nullptr) free(erasures);
         free(data);
         free(parity);
         return -1;
     }
     for (i = ndata; i < n; i++) {
         if (data[i] != 0) {
-            if (erasures != NULL) free(erasures);
+            if (erasures != nullptr) free(erasures);
             free(data);
             free(parity);
             return -1;
@@ -1575,7 +1575,7 @@ static int reed_solomon_correct(const int n_err_data,
         if (idx < data_length) rs_codewords[i] = (unsigned char)data[idx];
     }
 
-    if (erasures != NULL) free(erasures);
+    if (erasures != nullptr) free(erasures);
     free(data);
     free(parity);
     return nucorrections;
@@ -1730,8 +1730,8 @@ static void translation_table_module(struct key_value_pair_int* translation_tabl
                                      int row, int col,
                                      const int chr, const int bit)
 {
-    if (translation_table == NULL) return;
-    if (translation_table[0] == NULL) return;
+    if (translation_table == nullptr) return;
+    if (translation_table[0] == nullptr) return;
     if (row < 0) {
         row += no_of_rows;
         col += 4 - ((no_of_rows + 4) % 8);
@@ -1938,7 +1938,7 @@ static struct key_value_pair_int** generate_translation_table(const int no_of_ro
                (size_t)no_of_cols * sizeof(struct key_value_pair_int));
     }
 
-    if (translation_table != NULL) {
+    if (translation_table != nullptr) {
         chr = 1;
         row = 4;
         col = 0;
@@ -1990,7 +1990,7 @@ static struct key_value_pair_int** generate_translation_table(const int no_of_ro
         } while ((row < no_of_rows) || (col < no_of_cols));
         return translation_table;
     }
-    return NULL;
+    return nullptr;
 }
 
 /**
@@ -2098,7 +2098,7 @@ static int translate(struct grid_2d * grid, const unsigned char debug)
 
     struct key_value_pair_int ** translation_table =
         generate_translation_table(dim_x, dim_y);
-    if (translation_table != NULL) {
+    if (translation_table != nullptr) {
         if (debug == 1) {
             show_translation_table(translation_table, dim_x, dim_y);
         }
@@ -2117,7 +2117,7 @@ static int translate(struct grid_2d * grid, const unsigned char debug)
                 y = Key + 1;
                 if ((x < grid->dimension_x) && (y < grid->dimension_y)) {
                     if (grid->occupancy[x][y] != 0) grid->data_bytes[bit] = 1;
-                    if (grid->codeword_pattern != NULL) {
+                    if (grid->codeword_pattern != nullptr) {
                         grid->codeword_pattern[x][y] = i;
                     }
                     continue;
@@ -2167,7 +2167,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
     int i, codewords_length, error_correcting_words;
     int corrected_codewords_length, erasures_length;
     int grid_no_of_errors=0, grid_no_of_erasures=0;
-    int * erasures = NULL;
+    int * erasures = nullptr;
     char * gs1_result =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     char * iso15434_result =
@@ -2283,7 +2283,7 @@ void datamatrix_decode(struct grid_2d * grid, const unsigned char debug,
             }
             /* is this an AMD CPU? */
             if ((int)strlen(result) == 27) {
-                if (strstr(result, "_100-") != NULL) {
+                if (strstr(result, "_100-") != nullptr) {
                     if ((result[13] == '_') && (result[17] == '-')) {
                         char * amd_result =
                             (char*)safemalloc((size_t)MAX_DECODE_LENGTH *

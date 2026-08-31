@@ -31,8 +31,8 @@
 int main(int argc, char* argv[])
 {
     int i;
-    unsigned char * image_data = NULL;
-    unsigned char * resized_image_data = NULL;
+    unsigned char * image_data = nullptr;
+    unsigned char * resized_image_data = nullptr;
     unsigned int image_width=0;
     unsigned int image_height=0;
     int image_width_int=0;
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
         while(-1 != (pipe[i++] = (char)getchar()));
         int pipe_len = (int)strlen(pipe);
         /* potential filename? */
-        if (strstr(pipe, ".png") != NULL) {
+        if (strstr(pipe, ".png") != nullptr) {
             /* remove spurious endings */
             while ((pipe_len > 4) &&
                    (is_letter_lower(pipe[pipe_len-1]) == -1)) {
@@ -862,7 +862,7 @@ int main(int argc, char* argv[])
 
     image_data = read_png_file(&filename[0], &image_width, &image_height,
                                &image_bitsperpixel);
-    if (image_data == NULL) {
+    if (image_data == nullptr) {
         printf("Couldn't load image %s\n", &filename[0]);
         return 0;
     }
@@ -894,7 +894,7 @@ int main(int argc, char* argv[])
             (unsigned char*)safemalloc((size_t)(resized_image_width *
 												resized_image_height *
 												image_bitsperpixel_int/8));
-        if (resized_image_data == NULL) return -653;
+        if (resized_image_data == nullptr) return -653;
         /* resize the image */
         if (resize_image(image_data, image_width_int, image_height_int,
                          image_bitsperpixel_int,
@@ -908,7 +908,7 @@ int main(int argc, char* argv[])
         image_data = resized_image_data;
         image_width_int = resized_image_width;
         image_height_int = resized_image_height;
-        resized_image_data = NULL;
+        resized_image_data = nullptr;
 
         if (debug == 1) {
             write_png_file("debug_01_resize.png", image_width_int, image_height_int,

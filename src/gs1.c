@@ -2513,21 +2513,21 @@ void gs1_semantics(char result[],
         /* read data associated with the application identifier */
         *application_data_end = curr_pos + (*application_identifier_length);
         data_str = &result[*application_data_start];
-        date_str = NULL;
-        prod_method_str = NULL;
-        fishing_gear_type_str = NULL;
-        fishing_area_str = NULL;
-        aquatic_species_str = NULL;
-        end_date_str = NULL;
-        curr_str = NULL;
-        decimal_str = NULL;
-        country_str = NULL;
-        processor_country_str = NULL;
-        issn_str = NULL;
-        company_prefix_str = NULL;
-        package_type_str = NULL;
-        meat_cut_str = NULL;
-        coupon_str = NULL;
+        date_str = nullptr;
+        prod_method_str = nullptr;
+        fishing_gear_type_str = nullptr;
+        fishing_area_str = nullptr;
+        aquatic_species_str = nullptr;
+        end_date_str = nullptr;
+        curr_str = nullptr;
+        decimal_str = nullptr;
+        country_str = nullptr;
+        processor_country_str = nullptr;
+        issn_str = nullptr;
+        company_prefix_str = nullptr;
+        package_type_str = nullptr;
+        meat_cut_str = nullptr;
+        coupon_str = nullptr;
         gtin_check_digit_passed = -1;
         gsin_check_digit_passed = -1;
         gsrn_check_digit_passed = -1;
@@ -2572,7 +2572,7 @@ void gs1_semantics(char result[],
                 }
             }
 
-            if (gs1_url != NULL) {
+            if (gs1_url != nullptr) {
                 if ((int)strlen(gs1_url) > 0) {
                     /* build the GS1 digital link */
                     if ((int)strlen(gs1_result) == 0) {
@@ -5017,7 +5017,7 @@ void gs1_semantics(char result[],
                 if (is_digital_link == 0) {
                     decode_strcat(gs1_result, "HARVEST DATE: ");
                     date_str = data_id_convert_date("YYMMDD", data_str);
-                    if ((date_str != NULL) && ((int)strlen(data_str) == 12)) {
+                    if ((date_str != nullptr) && ((int)strlen(data_str) == 12)) {
                         end_date_str = data_id_convert_date("YYMMDD", &data_str[6]);
                     }
                 }
@@ -5605,7 +5605,7 @@ void gs1_semantics(char result[],
                 if (debug == 1) printf("ISSN ");
                 if (is_digital_link == 0) {
                     issn_str = get_issn(data_str);
-                    if (issn_str == NULL) {
+                    if (issn_str == nullptr) {
                         decode_strcat(gs1_result, "ISSN: ");
                     }
                 }
@@ -5622,7 +5622,7 @@ void gs1_semantics(char result[],
             }
 
             unsigned char build_digital_link = 0;
-            if (gs1_url != NULL) {
+            if (gs1_url != nullptr) {
                 if ((int)strlen(gs1_url) > 0) {
                     build_digital_link = 1;
                 }
@@ -5636,10 +5636,10 @@ void gs1_semantics(char result[],
             }
             else {
                 /* human readable */
-                if (date_str != NULL) {
+                if (date_str != nullptr) {
                     decode_strcat(gs1_result, date_str);
                     free(date_str);
-                    if (end_date_str != NULL) {
+                    if (end_date_str != nullptr) {
                         /* date span */
                         decode_strcat(gs1_result, " - ");
                         decode_strcat(gs1_result, end_date_str);
@@ -5698,29 +5698,29 @@ void gs1_semantics(char result[],
                         decode_strcat(gs1_result, " RESERVED");
                     }
                 }
-                else if (curr_str != NULL) {
+                else if (curr_str != nullptr) {
                     decode_strcat(gs1_result, curr_str);
                     free(curr_str);
                 }
-                else if (decimal_str != NULL) {
+                else if (decimal_str != nullptr) {
                     decode_strcat(gs1_result, decimal_str);
                     free(decimal_str);
                 }
-                else if (country_str != NULL) {
+                else if (country_str != nullptr) {
                     decode_strcat(gs1_result, country_str);
                     free(country_str);
                 }
-                else if (processor_country_str != NULL) {
+                else if (processor_country_str != nullptr) {
                     decode_strcat(gs1_result, processor_country_str);
                     free(processor_country_str);
                     decode_strcat_char(gs1_result, ' ');
                     decode_strcat(gs1_result, &data_str[3]);
                 }
-                else if (issn_str != NULL) {
+                else if (issn_str != nullptr) {
                     decode_strcat(gs1_result, issn_str);
                     free(issn_str);
                 }
-                else if (company_prefix_str != NULL) {
+                else if (company_prefix_str != nullptr) {
                     decode_strcat(gs1_result, data_str);
                     decode_strcat_char(gs1_result, '\n');
                     decode_strcat(gs1_result, "COUNTRY: ");
@@ -5860,30 +5860,30 @@ void gs1_semantics(char result[],
                         decode_strcat(gs1_result, "NOT KNOWN");
                     }
                 }
-                else if (package_type_str != NULL) {
+                else if (package_type_str != nullptr) {
                     decode_strcat(gs1_result, package_type_str);
                 }
-                else if (meat_cut_str != NULL) {
+                else if (meat_cut_str != nullptr) {
                     decode_strcat(gs1_result, meat_cut_str);
                     free(meat_cut_str);
                 }
-                else if (coupon_str != NULL) {
+                else if (coupon_str != nullptr) {
                     decode_strcat(gs1_result, coupon_str);
                     free(coupon_str);
                 }
-                else if (prod_method_str != NULL) {
+                else if (prod_method_str != nullptr) {
                     decode_strcat(gs1_result, prod_method_str);
                     free(prod_method_str);
                 }
-                else if (fishing_gear_type_str != NULL) {
+                else if (fishing_gear_type_str != nullptr) {
                     decode_strcat(gs1_result, fishing_gear_type_str);
                     free(fishing_gear_type_str);
                 }
-                else if (fishing_area_str != NULL) {
+                else if (fishing_area_str != nullptr) {
                     decode_strcat(gs1_result, fishing_area_str);
                     free(fishing_area_str);
                 }
-                else if (aquatic_species_str != NULL) {
+                else if (aquatic_species_str != nullptr) {
                     decode_strcat(gs1_result, aquatic_species_str);
                     free(aquatic_species_str);
                 }

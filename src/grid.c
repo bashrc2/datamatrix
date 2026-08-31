@@ -701,7 +701,7 @@ static void orient_grid(struct grid_2d * grid)
         grid->mirrored = 1;
         temp = (unsigned char*)safemalloc((size_t)grid->dimension_x *
                                           sizeof(unsigned char));
-        if (temp != NULL) {
+        if (temp != nullptr) {
             /* mirror occupancy */
             for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
                 for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
@@ -737,7 +737,7 @@ static void orient_grid(struct grid_2d * grid)
         grid->flipped = 1;
         temp = (unsigned char*)safemalloc((size_t)grid->dimension_y *
                                           sizeof(unsigned char));
-        if (temp != NULL) {
+        if (temp != nullptr) {
             /* flip occupancy */
             for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
                 for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {

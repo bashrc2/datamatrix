@@ -145,7 +145,7 @@ int encode_datamatrix_to_text_or_image(const char * text,
                                        const unsigned char square_modules,
                                        const unsigned char debug)
 {
-    char * encoding = NULL;
+    char * encoding = nullptr;
     unsigned int barcodelen = 0;
     unsigned char *grid = 0;
     unsigned int encode_width = 0, encode_height = 0;

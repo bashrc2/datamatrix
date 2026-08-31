@@ -40,10 +40,10 @@ char * iso15434_translate_data_qualifier(char result[],
         unsigned char debug)
 {
     int i, start_pos=0;
-    char * translated_str = NULL;
+    char * translated_str = nullptr;
     unsigned char found = 0;
 
-    if (end_index - start_index < 4) return NULL;
+    if (end_index - start_index < 4) return nullptr;
 
     if ((strcmp(format_code, "12") == 0) ||
             (strcmp(format_code, "DD") == 0)) {
@@ -328,14 +328,14 @@ char * iso15434_translate_data_qualifier(char result[],
                 decode_strcat(translated_str, id_human_readable);
                 decode_strcat(translated_str, ": ");
                 char * date_value = data_id_convert_date(id_human_readable, id_value);
-                if (date_value != NULL) {
+                if (date_value != nullptr) {
                     decode_strcat(translated_str, date_value);
                     free(date_value);
                 }
                 else {
                     char * company_prefix =
                         data_id_convert_company_prefix(id_human_readable, id_value);
-                    if (company_prefix != NULL) {
+                    if (company_prefix != nullptr) {
                         decode_strcat(translated_str, company_prefix);
                         free(company_prefix);
                     }
@@ -386,7 +386,7 @@ char * iso15434_translate_data_qualifier(char result[],
                         start_pos + (int)application_identifier_length;
                     unsigned char application_data_variable = 0;
                     gs1_semantics(&app_id_str[0], translated_str,
-                                  NULL, debug,
+                                  nullptr, debug,
                                   &application_identifier,
                                   &application_identifier_length,
                                   &application_data_start,
@@ -411,7 +411,7 @@ char * iso15434_translate_data_qualifier(char result[],
                         }
 
                         gs1_semantics(result, translated_str,
-                                      NULL, debug,
+                                      nullptr, debug,
                                       &application_identifier,
                                       &application_identifier_length,
                                       &application_data_start,
@@ -520,7 +520,7 @@ void iso15434_semantics(char result[],
             if (debug == 1) {
                 printf("ISO 15434\n");
             }
-            if (strstr(iso15434_result, "STANDARD: ") == NULL) {
+            if (strstr(iso15434_result, "STANDARD: ") == nullptr) {
                 decode_strcat(iso15434_result, "STANDARD: ISO15434\n");
             }
         }
@@ -560,7 +560,7 @@ void iso15434_semantics(char result[],
                                                           iso15434_uii,
                                                           format_code,
                                                           debug);
-                    if (translated_str != NULL) {
+                    if (translated_str != nullptr) {
                         decode_strcat(iso15434_result, translated_str);
                         free(translated_str);
                     }

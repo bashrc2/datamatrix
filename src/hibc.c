@@ -33,7 +33,7 @@ static char * hibc_primary_data(const char result[], const int end_index)
 {
     int i;
 
-    if (end_index < 8) return NULL;
+    if (end_index < 8) return nullptr;
 
     char * translated_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
@@ -73,7 +73,7 @@ static char * hibc_secondary_data_flag(char result[], const int start_index,
                                        const int end_index)
 {
     int i, date_offset;
-    char * date_value = NULL;
+    char * date_value = nullptr;
     char * translated_str =
         (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
     translated_str[0] = 0;
@@ -122,7 +122,7 @@ static char * hibc_secondary_data_flag(char result[], const int start_index,
                 }
                 }
 
-                if (date_value != NULL) {
+                if (date_value != nullptr) {
                     decode_strcat(translated_str, "EXPIRY: ");
                     decode_strcat(translated_str, date_value);
                     free(date_value);
@@ -139,7 +139,7 @@ static char * hibc_secondary_data_flag(char result[], const int start_index,
                 /* $$+ */
                 date_value = data_id_convert_date("MMYY", &result[start_index+3]);
                 date_offset = 3+4;
-                if (date_value != NULL) {
+                if (date_value != nullptr) {
                     decode_strcat(translated_str, "EXPIRY: ");
                     decode_strcat(translated_str, date_value);
                     free(date_value);
@@ -189,7 +189,7 @@ static char * hibc_secondary_data_flag(char result[], const int start_index,
             }
             }
 
-            if (date_value != NULL) {
+            if (date_value != nullptr) {
                 decode_strcat(translated_str, "EXPIRY: ");
                 decode_strcat(translated_str, date_value);
                 free(date_value);
@@ -207,7 +207,7 @@ static char * hibc_secondary_data_flag(char result[], const int start_index,
             date_value = data_id_convert_date("MMYY", &result[start_index+3]);
             date_offset = 2+4;
 
-            if (date_value != NULL) {
+            if (date_value != nullptr) {
                 decode_strcat(translated_str, "EXPIRY: ");
                 decode_strcat(translated_str, date_value);
                 free(date_value);
@@ -241,7 +241,7 @@ static char * hibc_secondary_data_flag(char result[], const int start_index,
 
     if ((int)strlen(translated_str) > 0) return translated_str;
     free(translated_str);
-    return NULL;
+    return nullptr;
 }
 
 /**
@@ -256,7 +256,7 @@ static char * hibc_secondary_data(char result[], const int start_index,
 {
     int i;
 
-    if (end_index - start_index < 4) return NULL;
+    if (end_index - start_index < 4) return nullptr;
 
     if (result[start_index] == '$') {
         return hibc_secondary_data_flag(result, start_index, end_index);
@@ -284,14 +284,14 @@ static char * hibc_secondary_data(char result[], const int start_index,
             decode_strcat(translated_str, id_human_readable);
             decode_strcat(translated_str, ": ");
             char * date_value = data_id_convert_date(id_human_readable, id_value);
-            if (date_value != NULL) {
+            if (date_value != nullptr) {
                 decode_strcat(translated_str, date_value);
                 free(date_value);
             }
             else {
                 char * company_prefix =
                     data_id_convert_company_prefix(id_human_readable, id_value);
-                if (company_prefix != NULL) {
+                if (company_prefix != nullptr) {
                     decode_strcat(translated_str, company_prefix);
                     free(company_prefix);
                 }
@@ -314,7 +314,7 @@ static char * hibc_secondary_data(char result[], const int start_index,
         free(translated_str);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /**
@@ -331,7 +331,7 @@ void hibc_semantics(char result[],
     int str_len = (int)strlen(result);
     unsigned char is_hibc = 0;
     int hibc_data_start = 0;
-    char * translated_str = NULL;
+    char * translated_str = nullptr;
 
     if (str_len == 0) return;
 
@@ -355,7 +355,7 @@ void hibc_semantics(char result[],
             else {
                 translated_str = hibc_secondary_data(result, hibc_data_start, i);
             }
-            if (translated_str != NULL) {
+            if (translated_str != nullptr) {
                 decode_strcat(hibc_result, translated_str);
                 free(translated_str);
                 index++;
@@ -370,7 +370,7 @@ void hibc_semantics(char result[],
     else {
         translated_str = hibc_secondary_data(result, hibc_data_start, str_len);
     }
-    if (translated_str != NULL) {
+    if (translated_str != nullptr) {
         decode_strcat(hibc_result, translated_str);
         free(translated_str);
     }

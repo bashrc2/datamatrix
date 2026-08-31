@@ -182,7 +182,7 @@ int read_datamatrix(unsigned char image_data[],
 
     decode_result[0] = 0;
 
-    if (original_image_data == NULL) {
+    if (original_image_data == nullptr) {
         printf("Unable to create original image data\n");
         return -7;
     }
@@ -1447,7 +1447,7 @@ int read_datamatrix(unsigned char image_data[],
  */
 void decode_as_json(const char * decode_result)
 {
-    if (strstr(decode_result, "STANDARD: ") == NULL) {
+    if (strstr(decode_result, "STANDARD: ") == nullptr) {
         printf("{\n  \"decode\": \"%s\"\n}\n", decode_result);
         return;
     }
@@ -1524,7 +1524,7 @@ void decode_as_json(const char * decode_result)
  */
 void decode_as_yaml(const char * decode_result)
 {
-    if (strstr(decode_result, "STANDARD: ") == NULL) {
+    if (strstr(decode_result, "STANDARD: ") == nullptr) {
         printf("---\ndecode: %s\n---\n", decode_result);
         return;
     }

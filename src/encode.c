@@ -356,7 +356,7 @@ static void encode_svg_base(const unsigned char * grid,
         dot_radius = half_cell_width + 1;
     }
 
-    if (fp_image == NULL) return;
+    if (fp_image == nullptr) return;
 
     /* draw dots */
     for (y = 0; y < encode_height; y++) {
@@ -415,7 +415,7 @@ void encode_svg(const char * image_filename,
     int text_ty = -1;
 
     fp_image = fopen(image_filename, "w");
-    if (fp_image == NULL) return;
+    if (fp_image == nullptr) return;
     fprintf(fp_image,
             "<svg height=\"%d\" width=\"%d\" xmlns=\"http://www.w3.org/2000/svg\">\n",
             height, width);
