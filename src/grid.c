@@ -671,7 +671,7 @@ void rotate_grid(struct grid_2d * grid)
                 grid->damage_buffer[grid_x*grid->dimension_x + grid_y];
         }
     }
-    grid->rotated = 1;
+    grid->rotated = true;
 }
 
 /**
@@ -698,7 +698,7 @@ static void orient_grid(struct grid_2d * grid)
     }
     if (right_hits > left_hits) {
         /* mirror */
-        grid->mirrored = 1;
+        grid->mirrored = true;
         temp = (unsigned char*)safemalloc((size_t)grid->dimension_x *
                                           sizeof(unsigned char));
         if (temp != nullptr) {
@@ -734,7 +734,7 @@ static void orient_grid(struct grid_2d * grid)
     }
     if (top_hits > bottom_hits) {
         /* flip */
-        grid->flipped = 1;
+        grid->flipped = true;
         temp = (unsigned char*)safemalloc((size_t)grid->dimension_y *
                                           sizeof(unsigned char));
         if (temp != nullptr) {
@@ -781,9 +781,9 @@ static void create_grid_base(const int dimension_x, const int dimension_y,
     grid->dimension_y = dimension_y;
 
     /* orientation of the occupancy/damage arrays */
-    grid->rotated = 0;
-    grid->mirrored = 0;
-    grid->flipped = 0;
+    grid->rotated = false;
+    grid->mirrored = false;
+    grid->flipped = false;
 
     /* percent of fixed pattern damage */
     grid->fixed_pattern_damage = 0;
@@ -1243,7 +1243,7 @@ void show_grid_image(struct grid_2d * grid,
     int cell_radius = (int)(cell_width/3);
 
     /* show the vertical part of the "L" shape, L1 */
-    if (grid->mirrored == 0) {
+    if (grid->mirrored == false) {
         draw_line(image_data, image_width, image_height,
                   image_bitsperpixel,
                   (int)grid->perimeter.x0, (int)grid->perimeter.y0,
@@ -1261,7 +1261,7 @@ void show_grid_image(struct grid_2d * grid,
     }
 
     /* show the horizontal part of the "L" shape, L2 */
-    if (grid->flipped == 0) {
+    if (grid->flipped == false) {
         draw_line(image_data, image_width, image_height,
                   image_bitsperpixel,
                   (int)grid->perimeter.x3, (int)grid->perimeter.y3,
