@@ -27,10 +27,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <ctype.h>
 #include <math.h>
-#include <assert.h>
 #include <time.h>
 #include <omp.h>
 #include <float.h>
@@ -99,6 +97,12 @@
 
 #ifndef HYPOT
 #define HYPOT(a,b) ((float)sqrt(SQUARE_MAG((a), (b))))
+#endif
+
+#ifdef NDEBUG
+#define assert(...) ((void)0)
+#else
+#define assert(...) /*implementation defined*/
 #endif
 
 enum edge_segment_join_types {
