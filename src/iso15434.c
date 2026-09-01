@@ -37,7 +37,7 @@ char * iso15434_translate_data_qualifier(char result[],
         int end_index,
         char iso15434_uii[],
         char format_code[],
-        bool debug)
+        const bool debug)
 {
     int i, start_pos=0;
     char * translated_str = nullptr;
@@ -461,7 +461,7 @@ char * iso15434_translate_data_qualifier(char result[],
  */
 void iso15434_semantics(char result[],
                         char iso15434_result[],
-                        bool debug,
+                        const bool debug,
                         bool * is_iso1543,
                         char format_code[],
                         int * iso15434_data_start,

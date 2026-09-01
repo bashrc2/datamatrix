@@ -64,7 +64,7 @@ static int get_timing_prob_side(unsigned char mono_img[],
                                 float bx, float by,
                                 int frequency,
                                 int sampling_radius,
-                                bool debug,
+                                const bool debug,
                                 unsigned char image_data[],
                                 int debug_frequency)
 {
@@ -143,7 +143,7 @@ static int get_timing_prob(unsigned char mono_img[],
                            float next_corner_x, float next_corner_y,
                            int frequency, int frequency_shortest,
                            int sampling_radius,
-                           bool debug,
+                           const bool debug,
                            unsigned char image_data[],
                            int debug_frequency)
 {
@@ -216,7 +216,7 @@ static int detect_timing_pattern_square(unsigned char mono_img[],
                                         float perimeter_x3, float perimeter_y3,
                                         int threshold, float side_length,
                                         int sampling_radius,
-                                        bool debug,
+                                        const bool debug,
                                         unsigned char image_data[],
                                         int debug_frequency)
 {

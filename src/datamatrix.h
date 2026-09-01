@@ -646,7 +646,7 @@ char * get_fishing_area(const char data_str[]);
 void gs1_semantics(char result[],
                    char gs1_result[],
                    const char gs1_url[],
-                   bool debug,
+                   const bool debug,
                    int * application_identifier,
                    unsigned char * application_identifier_length,
                    int * application_data_start,
@@ -668,13 +668,13 @@ char hibc_check_character(const char * encode_text);
 /* condense.c */
 
 bool condense_data_blocks(struct grid_2d * grid,
-                          bool debug);
+                          const bool debug);
 
 /* iso15434.c */
 
 void iso15434_semantics(char result[],
                         char iso15434_result[],
-                        bool debug,
+                        const bool debug,
                         bool * is_iso1543,
                         char format_code[],
                         int * iso15434_data_start,
@@ -685,7 +685,7 @@ char * iso15434_translate_data_qualifier(char result[],
         int end_index,
         char iso15434_uii[],
         char format_code[],
-        bool debug);
+        const bool debug);
 
 /* hibc.c */
 
