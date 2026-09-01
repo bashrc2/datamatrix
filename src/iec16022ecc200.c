@@ -238,7 +238,9 @@ char ecc200encode(unsigned char *t, int tl, unsigned char *s,
 #endif
         switch (newenc) { /* encode character */
         case 'c': /* C40 */
+            [[fallthrough]];
         case 't': /* Text */
+            [[fallthrough]];
         case 'x': { /* X12 */
             unsigned int out[6];
             int p = 0;
