@@ -40,11 +40,11 @@
  * \param yi intersection y coordinate
  * \return 0 if the lines intersect, -2 if parallel
  */
-int intersection(const float x0, const float y0,
-                 const float x1, const float y1,
-                 const float x2, const float y2,
-                 const float x3, const float y3,
-                 float * xi, float * yi)
+inline int intersection(const float x0, const float y0,
+						const float x1, const float y1,
+						const float x2, const float y2,
+						const float x3, const float y3,
+						float * xi, float * yi)
 {
     /* constants of linear equations */
     float a1, b1, c1, a2, b2, c2;

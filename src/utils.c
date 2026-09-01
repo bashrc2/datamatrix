@@ -27,7 +27,7 @@
  * \param n number of bytes to allocate
  * \returns void pointer to allocated memory
  */
-void * safemalloc(const size_t n)
+inline void * safemalloc(const size_t n)
 {
     void * ptr = malloc(n);
     if (!ptr) {
