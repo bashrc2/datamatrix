@@ -192,13 +192,14 @@ static void trace_edge(unsigned char edges_image[],
                        int members[],
                        int * no_of_members)
 {
-    int following,n,xx,yy;
+    bool following;
+    int n,xx,yy;
 
     *no_of_members = 0;
 
-    following = 1;
-    while (following!=0) {
-        following = 0;
+    following = true;
+    while (following) {
+        following = false;
 
         /* if we encounter the periphery of the
            image then abandon the trace */
@@ -243,26 +244,26 @@ static void trace_edge(unsigned char edges_image[],
                     if (edges_image[n + xx]==0) {
                         x = xx;
                         y = yy;
-                        following = 1;
+                        following = true;
                     }
                 }
                 xx = x;
-                if ((following==0) &&
+                if ((!following) &&
                         (edges_image[n + xx]==0)) {
                     x = xx;
                     y = yy;
-                    following = 1;
+                    following = true;
                 }
                 xx = x + 1;
-                if ((following==0) && (xx < width)) {
+                if ((!following) && (xx < width)) {
                     if (edges_image[n + xx]==0) {
                         x = xx;
                         y = yy;
-                        following = 1;
+                        following = true;
                     }
                 }
             }
-            if (following == 0) {
+            if (!following) {
                 yy = y;
                 n = yy * width;
                 if (x > 0) {
@@ -270,19 +271,19 @@ static void trace_edge(unsigned char edges_image[],
                     if (edges_image[n + xx]==0) {
                         x = xx;
                         y = yy;
-                        following = 1;
+                        following = true;
                     }
                 }
-                if ((following==0) && (x < width - 1)) {
+                if ((!following) && (x < width - 1)) {
                     xx = x + 1;
                     if (edges_image[n + xx]==0) {
                         x = xx;
                         y = yy;
-                        following = 1;
+                        following = true;
                     }
                 }
             }
-            if (following==0) {
+            if (!following) {
                 yy = y + 1;
                 n = yy * width;
                 if (yy < height) {
@@ -291,24 +292,24 @@ static void trace_edge(unsigned char edges_image[],
                         if (edges_image[n + xx] == 0) {
                             x = xx;
                             y = yy;
-                            following = 1;
+                            following = true;
                         }
                     }
-                    if (following == 0) {
+                    if (!following) {
                         xx++;
                         if (edges_image[n + xx] == 0) {
                             x = xx;
                             y = yy;
-                            following = 1;
+                            following = true;
                         }
                     }
-                    if (following == 0) {
+                    if (!following) {
                         xx++;
                         if (xx < width) {
                             if (edges_image[n + xx] == 0) {
                                 x = xx;
                                 y = yy;
-                                following = 1;
+                                following = true;
                             }
                         }
                     }
