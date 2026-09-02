@@ -1245,7 +1245,7 @@ static void show_quality_metrics_human_readable(const struct grid_2d * grid,
         const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
-    char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+    const char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
     time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
@@ -1309,7 +1309,7 @@ static void show_quality_metrics_csv(const struct grid_2d * grid,
                                      const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
-    char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+    const char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
     time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
@@ -1370,7 +1370,7 @@ static void show_quality_metrics_json(const struct grid_2d * grid,
                                       const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
-    char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+    const char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
     time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
@@ -1435,7 +1435,7 @@ static void show_quality_metrics_yaml(const struct grid_2d * grid,
                                       const int light_angle_degrees)
 {
     unsigned char grade = overall_quality_grade(grid);
-    char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+    const char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
     time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 
