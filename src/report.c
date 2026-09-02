@@ -63,7 +63,7 @@ void save_verification_report(const struct grid_2d * grid,
     FILE * fp_template, * fp_report;
     char * line = nullptr;
     unsigned char grade = overall_quality_grade(grid);
-    char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
+    const char grade_letter[] = {'F', 'D', 'C', 'B', 'A'};
     time_t t = time(nullptr);
     struct tm tm = *localtime(&t);
 

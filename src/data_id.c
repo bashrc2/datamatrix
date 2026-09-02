@@ -490,7 +490,8 @@ static char * month_number_to_text(char month_number[])
     int month_no = atoi(&mnth_str[0]);
     if ((month_no < 1) || (month_no > 12)) return nullptr;
     char * month_text[] = {
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+        "Nov", "Dec"
     };
     return month_text[month_no-1];
 }
