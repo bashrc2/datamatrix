@@ -1166,6 +1166,7 @@ void free_grid(struct grid_2d * grid)
         free(grid->codeword_pattern[x]);
     }
     free(grid->occupancy);
+    free(grid->occupancy_buffer);
     free(grid->original_damage);
     free(grid->damage);
     free(grid->damage_buffer);
@@ -1179,6 +1180,7 @@ void free_grid(struct grid_2d * grid)
     free(grid->m_Gg);
     free(grid->m_taltab);
     free(grid->m_tal1tab);
+    free(grid->m_alpha_to);
     free(grid->data);
     free(grid->lambda);
     free(grid->s);

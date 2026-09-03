@@ -495,6 +495,7 @@ int read_datamatrix(unsigned char image_data[],
             free(thr_original_meanlight_image_data);
             free(thr_mono_img);
             free(thr_binary_image);
+            free(thr_binary_image_buffer);
             free(thr_buffer_img);
             free(thr_edges_image_data);
             continue;
@@ -828,6 +829,7 @@ int read_datamatrix(unsigned char image_data[],
                 free(thr_original_meanlight_image_data);
                 free(thr_mono_img);
                 free(thr_binary_image);
+                free(thr_binary_image_buffer);
                 free(thr_buffer_img);
                 free(thr_edges_image_data);
                 continue;
@@ -875,6 +877,7 @@ int read_datamatrix(unsigned char image_data[],
                 free(thr_original_meanlight_image_data);
                 free(thr_mono_img);
                 free(thr_binary_image);
+                free(thr_binary_image_buffer);
                 free(thr_buffer_img);
                 free(thr_edges_image_data);
                 continue;
@@ -999,6 +1002,7 @@ int read_datamatrix(unsigned char image_data[],
                 free(thr_original_meanlight_image_data);
                 free(thr_mono_img);
                 free(thr_binary_image);
+                free(thr_binary_image_buffer);
                 free(thr_buffer_img);
                 free(thr_edges_image_data);
                 continue;
@@ -1352,6 +1356,7 @@ int read_datamatrix(unsigned char image_data[],
                 free(thr_original_meanlight_image_data);
                 free(thr_mono_img);
                 free(thr_binary_image);
+                free(thr_binary_image_buffer);
                 free(thr_buffer_img);
                 free(thr_edges_image_data);
                 continue;
@@ -1379,6 +1384,7 @@ int read_datamatrix(unsigned char image_data[],
         free(thr_original_meanlight_image_data);
         free(thr_mono_img);
         free(thr_binary_image);
+        free(thr_binary_image_buffer);
         free(thr_buffer_img);
         free(thr_edges_image_data);
     }

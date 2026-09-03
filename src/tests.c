@@ -589,6 +589,7 @@ static void test_date_conversion()
     char * result1 = data_id_convert_date(id_human_readable1, id_value1);
     assert(result1 != nullptr);
     printf("%s\n", result1);
+    free(result1);
 }
 
 static void test_gs1_issn()
