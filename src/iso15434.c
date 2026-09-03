@@ -321,7 +321,7 @@ char * iso15434_translate_data_qualifier(char result[],
             char * id_value =
                 (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
 
-            if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
+            if (get_data_identifier(data_str, id, id_human_readable, id_value)) {
                 translated_str =
                     (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
                 translated_str[0] = 0;

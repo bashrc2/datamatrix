@@ -279,7 +279,7 @@ static char * hibc_secondary_data(char result[], const int start_index,
         char * id_value =
             (char*)safemalloc((size_t)MAX_DECODE_LENGTH * sizeof(char));
 
-        if (get_data_identifier(data_str, id, id_human_readable, id_value) == 1) {
+        if (get_data_identifier(data_str, id, id_human_readable, id_value)) {
             translated_str[0] = 0;
             decode_strcat(translated_str, id_human_readable);
             decode_strcat(translated_str, ": ");

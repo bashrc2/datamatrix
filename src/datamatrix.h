@@ -695,9 +695,9 @@ void hibc_semantics(char result[],
 
 /* data_id.c */
 
-int get_data_identifier(char data_str[],
-                        char id[],
-                        char identifier[], char value[]);
+bool get_data_identifier(char data_str[],
+                         char id[],
+                         char identifier[], char value[]);
 
 char * data_id_convert_date(char * id_human_readable, char * id_value);
 

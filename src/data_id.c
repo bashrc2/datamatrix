@@ -432,10 +432,10 @@ const char * data_identifier[] = {
  * \param id returned short identifier, up to 3 characters
  * \param id_human_readable returned human readable identifier
  * \param value returned identifier value
- * \return 1 if a data identifier was found, 0 otherwise
+ * \return true if a data identifier was found, false otherwise
  */
-int get_data_identifier(char data_str[],
-                        char id[], char id_human_readable[], char value[])
+bool get_data_identifier(char data_str[],
+                         char id[], char id_human_readable[], char value[])
 {
     int no_of_identifiers, i, id_index=-1;
     char search_id[4];
@@ -444,7 +444,7 @@ int get_data_identifier(char data_str[],
     id_human_readable[0] = 0;
     value[0] = 0;
 
-    if ((int)strlen(data_str) < 4) return 0;
+    if ((int)strlen(data_str) < 4) return false;
 
     for (i = 0; i <= 2; i++) {
         search_id[i] = data_str[i];
@@ -455,7 +455,7 @@ int get_data_identifier(char data_str[],
         }
     }
 
-    if (id_index == -1) return 0;
+    if (id_index == -1) return false;
     no_of_identifiers = (int)(sizeof(data_identifier)/sizeof(data_identifier[0]));
     for (i = 0; i < no_of_identifiers; i+=2) {
         if (strcmp(&search_id[0], data_identifier[i]) == 0) {
@@ -468,10 +468,10 @@ int get_data_identifier(char data_str[],
         decode_strcat(value, &data_str[id_index+1]);
         decode_strcat(id, &search_id[0]);
         if ((int)strlen(value) > 0) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 /**
