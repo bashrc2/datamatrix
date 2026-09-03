@@ -32,10 +32,10 @@
  * \param grid grid object
  * \param x x coordinate to test
  * \param y y coordinate to test
- * \return 1 if the point is in the quiet zone
+ * \return true if the point is in the quiet zone
  */
-static unsigned char point_in_quiet_zone(const struct grid_2d * grid,
-        const int x, const int y)
+static bool point_in_quiet_zone(const struct grid_2d * grid,
+                                const int x, const int y)
 {
     int points[4*2] = {
         (int)grid->quiet_zone_perimeter.x0, (int)grid->quiet_zone_perimeter.y0,
@@ -43,8 +43,8 @@ static unsigned char point_in_quiet_zone(const struct grid_2d * grid,
         (int)grid->quiet_zone_perimeter.x2, (int)grid->quiet_zone_perimeter.y2,
         (int)grid->quiet_zone_perimeter.x3, (int)grid->quiet_zone_perimeter.y3
     };
-    if (point_in_polygon(x, y, &points[0], 4) != 0) return 1;
-    return 0;
+    if (point_in_polygon(x, y, &points[0], 4) != 0) return true;
+    return false;
 }
 
 /**
@@ -100,7 +100,7 @@ static void save_reflectance_histogram(const unsigned char image_data[],
         /* calculate the histogram for all pixels inside the quiet zone perimeter */
         for (y = 0; y < image_height; y++) {
             for (x = 0; x < image_width; x++) {
-                if (point_in_quiet_zone(grid, x, y) == 0) continue;
+                if (!point_in_quiet_zone(grid, x, y)) continue;
                 n = (y*image_width + x)*image_bytesperpixel;
                 reflectance = 0;
                 for (bb = 0; bb < image_bytesperpixel; bb++, n++) {
@@ -906,7 +906,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
     /* calculate average reflectance for occupied and empty cells */
     for (y = min_y; y <= max_y; y++) {
         for (x = min_x; x <= max_x; x++) {
-            if (point_in_quiet_zone(grid, x, y) == 0) continue;
+            if (!point_in_quiet_zone(grid, x, y)) continue;
 
             n = (y*image_width + x)*image_bytesperpixel;
             if (thresholded_image_data[n] != 0) {
@@ -960,7 +960,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
     hits = 0;
     for (y = min_y; y <= max_y; y++) {
         for (x = min_x; x <= max_x; x++) {
-            if (point_in_quiet_zone(grid, x, y) == 0) continue;
+            if (!point_in_quiet_zone(grid, x, y)) continue;
 
             n = (y*image_width + x)*image_bytesperpixel;
             reflectance = 0;
@@ -1027,7 +1027,7 @@ static void quality_metric_symbol_contrast(struct grid_2d * grid,
     /* for all pixels inside the perimeter get the min and max reflectance */
     for (y = min_y; y <= max_y; y++) {
         for (x = min_x; x <= max_x; x++) {
-            if (point_in_quiet_zone(grid, x, y) == 0) continue;
+            if (!point_in_quiet_zone(grid, x, y)) continue;
 
             n = (y*image_width + x)*image_bytesperpixel;
             reflectance = 0;
