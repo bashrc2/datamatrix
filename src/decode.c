@@ -1468,7 +1468,7 @@ static int reed_solomon_correct(const int n_err_data,
                                 int * no_of_erasures,
                                 const struct grid_2d * grid)
 {
-    unsigned char found;
+    bool found;
     int damaged_codeword_index, ndata, n2, idx, i = 0, j;
     int nucorrections;
     int n = 255 - (*error_codeword_count);
@@ -1511,14 +1511,14 @@ static int reed_solomon_correct(const int n_err_data,
             damaged_codeword_index =
                 rs_codewords_length - 1 - damaged_codeword_index;
 
-            found = 0;
+            found = false;
             j = 0;
-            while ((j < n2) && (found == 0)) {
-                if (erasures[j] == damaged_codeword_index) found = 1;
+            while ((j < n2) && (!found)) {
+                if (erasures[j] == damaged_codeword_index) found = true;
                 j++;
             }
 
-            if (found == 0) {
+            if (!found) {
                 erasures[n2++] = damaged_codeword_index;
             }
         }
