@@ -878,7 +878,7 @@ static void reed_solomon_gen_poly(const int m_NN,
     }
 }
 
-static unsigned char reed_solomon_decode_init(const int symbolBits,
+static bool reed_solomon_decode_init(const int symbolBits,
         const int numberParity,
         const int B0,
         const int Prim,
@@ -1014,7 +1014,9 @@ static unsigned char reed_solomon_decode_init(const int symbolBits,
             break;
         }
         default: {
-            return 0; /* "Either CCSDS must be defined, or m_MM must be set in range 2-16" */
+			/* "Either CCSDS must be defined, or m_MM must be set in
+			   range 2-16" */
+            return false;
         }
         }
     }
@@ -1049,7 +1051,7 @@ static unsigned char reed_solomon_decode_init(const int symbolBits,
     else {
         *m_Ldec = 1;
     }
-    return 1;
+    return true;
 }
 
 static int reed_solomon_decode(const int symbolBits,
