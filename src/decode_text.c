@@ -37,13 +37,15 @@
  * \param debug set to true to enable debug
  * \returns 1 if replacements were made
  */
-static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
-                                       const char * dot_text,
-                                       char * result,
-                                       const bool debug)
+static bool datamatrix_unicode_to_ascii(const char * datamatrix_text,
+                                        const char * dot_text,
+                                        char * result,
+                                        const bool debug)
 {
     int dot_text_len = (int)strlen(dot_text);
-    int i, j, ctr = 0, found = 0;
+    int i, j, ctr = 0;
+    bool found = false;
+
     for (i = 0; i < (int)strlen(datamatrix_text); i++) {
         if (i > (int)strlen(datamatrix_text) - dot_text_len) {
             result[ctr++] = datamatrix_text[i];
@@ -57,7 +59,7 @@ static int datamatrix_unicode_to_ascii(const char * datamatrix_text,
             result[ctr++] = datamatrix_text[i];
         }
         else {
-            found = 1;
+            found = true;
             result[ctr++] = 'O';
             i += dot_text_len-1;
         }
@@ -234,7 +236,7 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
             if (datamatrix_unicode_to_ascii(datamatrix_text,
                                             dot_text,
                                             &datamatrix_ascii[0],
-                                            debug) == 1) break;
+                                            debug)) break;
         }
     }
 
