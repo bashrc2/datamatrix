@@ -986,5 +986,6 @@ int main(int argc, char* argv[])
     }
 
     free(decode_result);
+    free(image_data);
     return 0;
 }

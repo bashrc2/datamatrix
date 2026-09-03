@@ -208,7 +208,9 @@ int read_datamatrix(unsigned char image_data[],
 
     /* try a few different configurations of erosion/dilation, binary threshold
        and edge threshold */
+    #ifndef MY_DEBUG
     #pragma omp parallel for
+    #endif
     for (try_config = 0; try_config < max_config; try_config++) {
         int meanlight_sampling_radius_percent = ml_sampling_radius[try_config];
         int segment_roi_percent = meanlight_sampling_radius_percent + 20;

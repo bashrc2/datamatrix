@@ -37,6 +37,10 @@
 
 #define DATAMATRIX_VERSION_STRING  "v1.0.0"
 
+#if !defined(NDEBUG)
+#define MY_DEBUG
+#endif
+
 #define GPR_MISSING_VALUE          9999
 #define PARALLEL_LINES             -2
 #define UNKNOWN_DISTANCE           999999
