@@ -141,18 +141,18 @@ static bool line_has_edges(const unsigned char mono_edges_img[],
  * \param positive presence or absence of edges
  * \param pos_x returned x coordinate for the position where edges exist
  * \param pos_y returned y coordinate for the position where edges exist
- * \return 1 if the line has edges, 0 otherwise
+ * \return true if the line has edges, false otherwise
  */
-static unsigned char search_line_points(const unsigned char mono_img[],
-                                        const int width, const int height,
-                                        unsigned char image_data[],
-                                        const int image_bytesperpixel,
-                                        const bool debug,
-                                        const int start_x, const int start_y,
-                                        const int end_x, const int end_y,
-                                        const int line_dx, const int line_dy,
-                                        const unsigned char positive,
-                                        int * pos_x, int * pos_y)
+static bool search_line_points(const unsigned char mono_img[],
+                               const int width, const int height,
+                               unsigned char image_data[],
+                               const int image_bytesperpixel,
+                               const bool debug,
+                               const int start_x, const int start_y,
+                               const int end_x, const int end_y,
+                               const int line_dx, const int line_dy,
+                               const unsigned char positive,
+                               int * pos_x, int * pos_y)
 {
     int x, y, n, retval;
     int search_dx = end_x - start_x;
@@ -188,10 +188,10 @@ static unsigned char search_line_points(const unsigned char mono_img[],
                 image_data[n+1] = 0;
                 image_data[n+2] = 0;
             }
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 /**
