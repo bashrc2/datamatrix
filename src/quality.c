@@ -267,10 +267,10 @@ static void save_reflectance_histogram(const unsigned char image_data[],
  * \param grid grid object
  * \param x x coordinate to test
  * \param y y coordinate to test
- * \return 1 if the given point is inside the perimeter
+ * \return true if the given point is inside the perimeter
  */
-static unsigned char point_in_perimeter(const struct grid_2d * grid,
-                                        const int x, const int y)
+static bool point_in_perimeter(const struct grid_2d * grid,
+                               const int x, const int y)
 {
     int points[4*2] = {
         (int)grid->perimeter.x0, (int)grid->perimeter.y0,
@@ -278,8 +278,8 @@ static unsigned char point_in_perimeter(const struct grid_2d * grid,
         (int)grid->perimeter.x2, (int)grid->perimeter.y2,
         (int)grid->perimeter.x3, (int)grid->perimeter.y3
     };
-    if (point_in_polygon(x, y, &points[0], 4) != 0) return 1;
-    return 0;
+    if (point_in_polygon(x, y, &points[0], 4) != 0) return true;
+    return false;
 }
 
 /**
@@ -916,7 +916,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
                 }
                 occupied_reflectance_hits++;
                 /* is this the quiet zone? */
-                if (point_in_perimeter(grid, x, y) == 0) {
+                if (!point_in_perimeter(grid, x, y)) {
                     quiet_zone_pixels++;
                     quiet_zone_occupancy++;
                 }
@@ -928,7 +928,7 @@ static void quality_metric_modulation(struct grid_2d * grid,
                 }
                 empty_reflectance_hits++;
                 /* is this the quiet zone? */
-                if (point_in_perimeter(grid, x, y) == 0) {
+                if (!point_in_perimeter(grid, x, y)) {
                     quiet_zone_pixels++;
                 }
             }

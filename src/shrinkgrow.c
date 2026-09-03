@@ -88,12 +88,12 @@ void shrinkwrap_shape_perimeter(const int erosion_itterations,
  * \param ty start y coordinate of the line to be checked for edges
  * \param bx end x coordinate of the line to be checked for edges
  * \param by end y coordinate of the line to be checked for edges
- * \return 1 is an edge exists on the line, 0 otherwise
+ * \return true is an edge exists on the line, false otherwise
  */
-static unsigned char line_has_edges(const unsigned char mono_edges_img[],
-                                    const int width, const int height,
-                                    const int tx, const int ty,
-                                    const int bx, const int by)
+static bool line_has_edges(const unsigned char mono_edges_img[],
+                           const int width, const int height,
+                           const int tx, const int ty,
+                           const int bx, const int by)
 {
     int dx = bx - tx;
     int dy = by - ty;
@@ -105,7 +105,7 @@ static unsigned char line_has_edges(const unsigned char mono_edges_img[],
         while ((x != bx) && (x >= 0) && (x < width)) {
             y = ty + ((x - tx)*dy/dx);
             n = (y*width) + x;
-            if (mono_edges_img[n] != 0) return 1;
+            if (mono_edges_img[n] != 0) return true;
             if (dx > 0) x++;
             else x--;
         }
@@ -116,12 +116,12 @@ static unsigned char line_has_edges(const unsigned char mono_edges_img[],
         while ((y != by) && (y >= 0) && (y < height)) {
             x = tx + ((y - ty)*dx/dy);
             n = (y*width) + x;
-            if (mono_edges_img[n] != 0) return 1;
+            if (mono_edges_img[n] != 0) return true;
             if (dy > 0) y++;
             else y--;
         }
     }
-    return 0;
+    return false;
 }
 
 /**
@@ -178,8 +178,8 @@ static unsigned char search_line_points(const unsigned char mono_img[],
         line_by = y + line_dy;
         retval = line_has_edges(mono_img, width, height,
                                 line_tx, line_ty, line_bx, line_by);
-        if (((positive != 0) && (retval != 0)) ||
-                ((positive == 0) && (retval == 0))) {
+        if (((positive != 0) && (retval)) ||
+                ((positive == 0) && (!retval))) {
             *pos_x = x;
             *pos_y = y;
             if (debug) {
