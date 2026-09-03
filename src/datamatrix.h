@@ -822,10 +822,10 @@ unsigned char * read_png_file(const char * filename,
                               unsigned int * height,
                               unsigned int * bitsperpixel);
 
-int write_png_file(const char * filename,
-                   const int width, const int height,
-                   const int bitsperpixel,
-                   unsigned char buffer[]);
+bool write_png_file(const char * filename,
+                    const int width, const int height,
+                    const int bitsperpixel,
+                    unsigned char buffer[]);
 
 /* help.c */
 

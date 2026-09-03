@@ -25,6 +25,14 @@
 
 #include "datamatrix.h"
 
+/*
+ * \brief reads a PNG file and returns an array of pixels
+ * \param filename PNG filename
+ * \param width Returned width of the image
+ * \param height Returned height of the image
+ * \param bitsperpixel Returned bits per pixel
+ * \return array of pixels
+ */
 unsigned char * read_png_file(const char * filename,
                               unsigned int * width,
                               unsigned int * height,
@@ -43,10 +51,19 @@ unsigned char * read_png_file(const char * filename,
     return image;
 }
 
-int write_png_file(const char * filename,
-                   const int width, const int height,
-                   const int bitsperpixel,
-                   unsigned char buffer[])
+/*
+ * \brief saves a PNG to file
+ * \param filename PNG filename
+ * \param width Width of the image
+ * \param height Height of the image
+ * \param bitsperpixel Bits per pixel
+ * \param buffer array of pixels
+ * \return true if the image was saved
+ */
+bool write_png_file(const char * filename,
+                    const int width, const int height,
+                    const int bitsperpixel,
+                    unsigned char buffer[])
 {
     unsigned error=1;
     int i;
@@ -78,7 +95,7 @@ int write_png_file(const char * filename,
     if (error) {
         printf("write_png_file: error %u: %s\n", error,
                lodepng_error_text(error));
-        return -1;
+        return false;
     }
-    return 0;
+    return true;
 }
