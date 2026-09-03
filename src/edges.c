@@ -59,8 +59,7 @@ static void init_line_segments(struct line_segments * segments,
     segments->joins_sorted =
         (int*)safemalloc((size_t)segments->max_segments * sizeof(int));
     segments->selected =
-        (unsigned char*)safemalloc((size_t)segments->max_segments *
-                                   sizeof(unsigned char));
+        (bool*)safemalloc((size_t)segments->max_segments * sizeof(bool));
     segments->joined_length =
         (int*)safemalloc((size_t)segments->max_segments * sizeof(int));
     segments->minimum_segment_length = 20;
@@ -613,8 +612,8 @@ void join_line_segments(struct line_segments * segments,
     /* clear the sorted joins matrix */
     memset(segments->joins_sorted, 0,
            (size_t)segments->max_segments * sizeof(int));
-    memset(segments->selected, 0,
-           (size_t)segments->max_segments * sizeof(unsigned char));
+    memset(segments->selected, false,
+           (size_t)segments->max_segments * sizeof(bool));
 
     /* sort joined segments into length order */
     ctr = 0;
@@ -623,7 +622,7 @@ void join_line_segments(struct line_segments * segments,
         max_length_index = -1;
         /* line segments other than this one */
         for (j = 0; j < segments->no_of_segments; j++) {
-            if (segments->selected[j] != 0) continue;
+            if (segments->selected[j]) continue;
             if (segments->joined_length[j] >= max_length) {
                 max_length = segments->joined_length[j];
                 max_length_index = j;
@@ -633,7 +632,7 @@ void join_line_segments(struct line_segments * segments,
             printf("No max length found\n");
             break;
         }
-        segments->selected[max_length_index] = 1;
+        segments->selected[max_length_index] = true;
         segments->joins_sorted[ctr++] = max_length_index;
     }
 }

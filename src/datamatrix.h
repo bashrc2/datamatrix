@@ -205,7 +205,7 @@ struct line_segments {
     unsigned char * joins;
     int * joined_length;
     int * joins_sorted;
-    unsigned char * selected;
+    bool * selected;
     int * perimeter_left;
     int * perimeter_right;
     int * perimeter_top;
