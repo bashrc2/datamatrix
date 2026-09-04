@@ -1252,7 +1252,7 @@ static void show_quality_metrics_human_readable(const struct grid_2d * grid,
     printf("Timestamp: %d-%02d-%02d %02d:%02d:%02d\n",
            tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
            tm.tm_hour, tm.tm_min, tm.tm_sec);
-    if (grid->gs1_datamatrix == true) {
+    if (grid->gs1_datamatrix) {
         printf("Symbol type: GS1 datamatrix\n");
     }
     else {
@@ -1316,7 +1316,7 @@ static void show_quality_metrics_csv(const struct grid_2d * grid,
     printf("\"%d-%02d-%02d %02d:%02d:%02d\", ",
            tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
            tm.tm_hour, tm.tm_min, tm.tm_sec);
-    if (grid->gs1_datamatrix == true) {
+    if (grid->gs1_datamatrix) {
         printf("\"GS1 datamatrix\", ");
     }
     else {
@@ -1380,7 +1380,7 @@ static void show_quality_metrics_json(const struct grid_2d * grid,
            tm.tm_hour, tm.tm_min, tm.tm_sec);
     printf("  \"issuedate\": \"%d-%02d-%02d\",\n",
            tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
-    if (grid->gs1_datamatrix == true) {
+    if (grid->gs1_datamatrix) {
         printf("  \"symbol_type\": \"GS1 datamatrix\",\n");
     }
     else {
@@ -1445,7 +1445,7 @@ static void show_quality_metrics_yaml(const struct grid_2d * grid,
     printf("timestamp: %d-%02d-%02d %02d:%02d:%02d\n",
            tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
            tm.tm_hour, tm.tm_min, tm.tm_sec);
-    if (grid->gs1_datamatrix == true) {
+    if (grid->gs1_datamatrix) {
         printf("symbol_type: GS1 datamatrix\n");
     }
     else {

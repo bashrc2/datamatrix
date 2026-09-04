@@ -164,7 +164,7 @@ int encode_datamatrix_to_text_or_image(const char * text,
     if (is_square) square = true;
 
     /* csv output has no quiet zone */
-    if (csv == true) noquiet = true;
+    if (csv) noquiet = true;
 
     grid = iec16022ecc200(&encode_width, &encode_height,
                           &encoding, barcodelen,
@@ -234,7 +234,7 @@ int encode_datamatrix_to_text_or_image(const char * text,
         sprintf(&dot_chr[0], "█");
         sprintf(&empty_chr[0], "%s", empty_char);
     }
-    if (csv == true) {
+    if (csv) {
         S = 1;
         sprintf(&dot_chr[0], "1,");
         sprintf(&empty_chr[0], "0,");

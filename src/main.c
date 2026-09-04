@@ -958,10 +958,10 @@ int main(int argc, char* argv[])
             if ((!decode_json) && (!decode_yaml)) {
                 printf("%s\n", decode_result);
             }
-            else if (decode_json == true) {
+            else if (decode_json) {
                 decode_as_json(decode_result);
             }
-            else if (decode_yaml == true) {
+            else if (decode_yaml) {
                 decode_as_yaml(decode_result);
             }
         }
@@ -969,10 +969,10 @@ int main(int argc, char* argv[])
             if ((!csv) && (!json) && (!yaml)) {
                 printf("Decode: PASS (%s)\n", decode_result);
             }
-            else if (csv == true) {
+            else if (csv) {
                 printf("\"PASS\", \"%s\",\n", decode_result);
             }
-            else if (json == true) {
+            else if (json) {
                 printf("  \"decode\": { \"grade\": \"PASS\", \"text\": \"%s\" }\n",
                        decode_result);
                 printf("}\n");

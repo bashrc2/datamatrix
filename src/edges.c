@@ -1981,7 +1981,7 @@ void show_L_shape_perimeter(const struct grid_2d * grid,
                             const int image_bitsperpixel)
 {
     /* show the vertical part of the "L" shape, L1 */
-    if (grid->mirrored == false) {
+    if (!grid->mirrored) {
         draw_line(image_data, image_width, image_height,
                   image_bitsperpixel,
                   (int)grid->perimeter.x0, (int)grid->perimeter.y0,
@@ -2011,7 +2011,7 @@ void show_L_shape_perimeter(const struct grid_2d * grid,
     }
 
     /* show the horizontal part of the "L" shape, L2 */
-    if (grid->flipped == false) {
+    if (!grid->flipped) {
         draw_line(image_data, image_width, image_height,
                   image_bitsperpixel,
                   (int)grid->perimeter.x3, (int)grid->perimeter.y3,
