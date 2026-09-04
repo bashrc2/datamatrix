@@ -85,7 +85,7 @@ bool condense_data_blocks(struct grid_2d * grid,
                new_dimension_x, new_dimension_y);
     }
 
-    unsigned char ** new_occupancy = grid->occupancy_buffer;
+    bool ** new_occupancy = grid->occupancy_buffer;
     unsigned char * new_damage = grid->damage_buffer;
     memset(new_damage, 0,
            (size_t)(new_dimension_x * new_dimension_y) * sizeof(unsigned char));
@@ -115,18 +115,20 @@ bool condense_data_blocks(struct grid_2d * grid,
 
     /* solid border */
     for (grid_y = new_dimension_y-1; grid_y >= 0; grid_y--) {
-        new_occupancy[0][grid_y] = 1;
+        new_occupancy[0][grid_y] = true;
     }
     for (grid_x = new_dimension_x-1; grid_x >= 0; grid_x--) {
-        new_occupancy[grid_x][new_dimension_y-1] = 1;
+        new_occupancy[grid_x][new_dimension_y-1] = true;
     }
 
     /* timing border */
     for (grid_y = new_dimension_y-1; grid_y >= 0; grid_y--) {
-        new_occupancy[new_dimension_x-1][grid_y] = (unsigned char)(grid_y % 2);
+        new_occupancy[new_dimension_x-1][grid_y] = false;
+        if (grid_y % 2 == 1) new_occupancy[new_dimension_x-1][grid_y] = true;
     }
     for (grid_x = new_dimension_x-1; grid_x >= 0; grid_x--) {
-        new_occupancy[grid_x][0] = (unsigned char)(1 - (grid_x % 2));
+        new_occupancy[grid_x][0] = false;
+        if (1 - (grid_x % 2) == 1) new_occupancy[grid_x][0] = true;
     }
 
     /* copy back to the original occupancy and damage arrays */

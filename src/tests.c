@@ -56,7 +56,7 @@ static void test_rotate()
 
     int dimension_x = 10;
     int dimension_y = 10;
-    create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
+    create_grid_from_test_pattern(dimension_x, dimension_y, &grid, occupancy1);
 
     printf("Not rotated:\n");
     show_grid(&grid);
@@ -104,7 +104,7 @@ static void test_decode()
     };
     dimension_x = 10;
     dimension_y = 10;
-    create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
+    create_grid_from_test_pattern(dimension_x, dimension_y, &grid, occupancy1);
     show_grid(&grid);
     datamatrix_decode(&grid, 1, &gs1_url[0], decode_result, human_readable);
     assert((int)strlen(decode_result) > 0);
@@ -172,7 +172,7 @@ static void test_decode()
      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     */
 
-    create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy2);
+    create_grid_from_test_pattern(dimension_x, dimension_y, &grid2, occupancy2);
     show_grid(&grid2);
     datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result, human_readable);
     assert((int)strlen(decode_result) > 0);
@@ -220,7 +220,7 @@ static void test_gs1_decode()
     };
     dimension_x = 20;
     dimension_y = 20;
-    create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy1);
+    create_grid_from_test_pattern(dimension_x, dimension_y, &grid, occupancy1);
     show_grid(&grid);
     datamatrix_decode(&grid, 1, &gs1_url[0], decode_result, human_readable);
     assert((int)strlen(decode_result) > 0);
@@ -233,7 +233,7 @@ static void test_gs1_decode()
     /* try with gs1 digital link url */
     decode_result[0] = 0;
     decode_strcat(&gs1_url[0], "https://test.domain");
-    create_grid_from_pattern(dimension_x, dimension_y, &grid2, occupancy1);
+    create_grid_from_test_pattern(dimension_x, dimension_y, &grid2, occupancy1);
     show_grid(&grid2);
     datamatrix_decode(&grid2, 1, &gs1_url[0], decode_result, human_readable);
     assert((int)strlen(decode_result) > 0);
@@ -367,7 +367,7 @@ static void test_condense()
 
     dimension_x = 44;
     dimension_y = 44;
-    create_grid_from_pattern(dimension_x, dimension_y, &grid, occupancy);
+    create_grid_from_test_pattern(dimension_x, dimension_y, &grid, occupancy);
     condense_data_blocks(&grid, true);
 
     condensed_dimension_x = 42;

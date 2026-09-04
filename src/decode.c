@@ -879,24 +879,24 @@ static void reed_solomon_gen_poly(const int m_NN,
 }
 
 static bool reed_solomon_decode_init(const int symbolBits,
-        const int numberParity,
-        const int B0,
-        const int Prim,
-        int * m_MM,
-        int * m_NN,
-        int * m_KK,
-        int * m_B0,
-        int * m_PRIM,
-        int * m_A0,
-        unsigned char * m_CCSDS,
-        int m_Pp[],
-        int m_alpha_to[],
-        int m_index_of[],
-        int m_Gg[],
-        int * m_Ldec,
-        unsigned char tal[],
-        unsigned char m_taltab[],
-        unsigned char m_tal1tab[])
+                                     const int numberParity,
+                                     const int B0,
+                                     const int Prim,
+                                     int * m_MM,
+                                     int * m_NN,
+                                     int * m_KK,
+                                     int * m_B0,
+                                     int * m_PRIM,
+                                     int * m_A0,
+                                     unsigned char * m_CCSDS,
+                                     int m_Pp[],
+                                     int m_alpha_to[],
+                                     int m_index_of[],
+                                     int m_Gg[],
+                                     int * m_Ldec,
+                                     unsigned char tal[],
+                                     unsigned char m_taltab[],
+                                     unsigned char m_tal1tab[])
 {
     *m_MM = symbolBits;
     *m_NN = (1 << (*m_MM)) - 1;
@@ -1014,8 +1014,8 @@ static bool reed_solomon_decode_init(const int symbolBits,
             break;
         }
         default: {
-			/* "Either CCSDS must be defined, or m_MM must be set in
-			   range 2-16" */
+            /* "Either CCSDS must be defined, or m_MM must be set in
+               range 2-16" */
             return false;
         }
         }
@@ -2118,7 +2118,7 @@ static int translate(struct grid_2d * grid, const bool debug)
                 x = Value + 1;
                 y = Key + 1;
                 if ((x < grid->dimension_x) && (y < grid->dimension_y)) {
-                    if (grid->occupancy[x][y] != 0) grid->data_bytes[bit] = 1;
+                    if (grid->occupancy[x][y]) grid->data_bytes[bit] = 1;
                     if (grid->codeword_pattern != nullptr) {
                         grid->codeword_pattern[x][y] = i;
                     }

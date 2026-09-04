@@ -130,8 +130,8 @@ struct perimeter_points {
 struct grid_2d {
     struct perimeter_points perimeter;
     struct perimeter_points quiet_zone_perimeter;
-    unsigned char ** occupancy;
-    unsigned char ** occupancy_buffer;
+    bool ** occupancy;
+    bool ** occupancy_buffer;
     unsigned char * damage;
     unsigned char * original_damage;
     unsigned char * damage_buffer;
@@ -147,7 +147,7 @@ struct grid_2d {
     bool rotated, flipped, mirrored;
 
     /* temporary decoding arrays used during condensation */
-    unsigned char ** temp_occupancy;
+    bool ** temp_occupancy;
     unsigned char * temp_damage;
 
     /* quality metrics */
@@ -480,7 +480,10 @@ void create_grid(const int dimension_x, const int dimension_y,
 
 void create_grid_from_pattern(const int dimension_x, const int dimension_y,
                               struct grid_2d * grid,
-                              const unsigned char occupancy[]);
+                              const bool occupancy[]);
+void create_grid_from_test_pattern(const int dimension_x, const int dimension_y,
+                                   struct grid_2d * grid,
+                                   const unsigned char occupancy[]);
 
 int detect_timing_pattern(unsigned char mono_img[],
                           const int width, const int height,

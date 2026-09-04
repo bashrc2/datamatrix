@@ -596,41 +596,44 @@ int detect_timing_pattern(unsigned char mono_img[],
  */
 static void complete_fixed_pattern(struct grid_2d * grid)
 {
-    int grid_x, grid_y, expected;
+    int grid_x, grid_y;
+    bool expected;
     int damage=0, timing_border_damage=0;
     int fixed_pattern_cells=0;
     int timing_border_cells=0;
 
     /* solid border */
     for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
-        if (grid->occupancy[0][grid_y] == 0) damage++;
-        grid->occupancy[0][grid_y] = 1;
+        if (!grid->occupancy[0][grid_y]) damage++;
+        grid->occupancy[0][grid_y] = true;
         fixed_pattern_cells++;
     }
     for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
-        if (grid->occupancy[grid_x][grid->dimension_y-1] == 0) damage++;
-        grid->occupancy[grid_x][grid->dimension_y-1] = 1;
+        if (!grid->occupancy[grid_x][grid->dimension_y-1]) damage++;
+        grid->occupancy[grid_x][grid->dimension_y-1] = true;
         fixed_pattern_cells++;
     }
 
     /* timing border */
     for (grid_y = grid->dimension_y-1; grid_y >= 0; grid_y--) {
-        expected = grid_y % 2;
+        expected = false;
+        if (grid_y % 2 == 1) expected = true;
         if (grid->occupancy[grid->dimension_x-1][grid_y] != expected) {
             damage++;
             timing_border_damage++;
         }
-        grid->occupancy[grid->dimension_x-1][grid_y] = (unsigned char)expected;
+        grid->occupancy[grid->dimension_x-1][grid_y] = expected;
         fixed_pattern_cells++;
         timing_border_cells++;
     }
     for (grid_x = grid->dimension_x-1; grid_x >= 0; grid_x--) {
-        expected = 1 - (grid_x % 2);
+        expected = false;
+        if (1 - (grid_x % 2) == 1) expected = true;
         if (grid->occupancy[grid_x][0] != expected) {
             damage++;
             timing_border_damage++;
         }
-        grid->occupancy[grid_x][0] = (unsigned char)expected;
+        grid->occupancy[grid_x][0] = expected;
         fixed_pattern_cells++;
         timing_border_cells++;
     }
@@ -681,7 +684,7 @@ void rotate_grid(struct grid_2d * grid)
 static void orient_grid(struct grid_2d * grid)
 {
     int n, n2, grid_x, grid_y, left_hits=0, right_hits=0, top_hits=0, bottom_hits=0;
-    unsigned char * temp;
+    bool * temp;
 
     /* keep a copy of the original damage pattern for use when displaying
        damage in an image */
@@ -699,8 +702,8 @@ static void orient_grid(struct grid_2d * grid)
     if (right_hits > left_hits) {
         /* mirror */
         grid->mirrored = true;
-        temp = (unsigned char*)safemalloc((size_t)grid->dimension_x *
-                                          sizeof(unsigned char));
+        temp = (bool*)safemalloc((size_t)grid->dimension_x *
+                                 sizeof(bool));
         if (temp != nullptr) {
             /* mirror occupancy */
             for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
@@ -735,8 +738,8 @@ static void orient_grid(struct grid_2d * grid)
     if (top_hits > bottom_hits) {
         /* flip */
         grid->flipped = true;
-        temp = (unsigned char*)safemalloc((size_t)grid->dimension_y *
-                                          sizeof(unsigned char));
+        temp = (bool*)safemalloc((size_t)grid->dimension_y *
+                                 sizeof(bool));
         if (temp != nullptr) {
             /* flip occupancy */
             for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
@@ -792,24 +795,24 @@ static void create_grid_base(const int dimension_x, const int dimension_y,
     grid->gs1_datamatrix = false;
 
     /* generate the grid cells and initialise them to zero */
-    grid->occupancy = (unsigned char**)safemalloc((size_t)dimension_x *
-                      sizeof(unsigned char*));
+    grid->occupancy = (bool**)safemalloc((size_t)dimension_x *
+                                         sizeof(bool*));
     for (grid_x = 0; grid_x < dimension_x; grid_x++) {
         grid->occupancy[grid_x] =
-            (unsigned char *)safemalloc((size_t)dimension_y *
-                                        sizeof(unsigned char));
-        memset(grid->occupancy[grid_x], 0,
+            (bool *)safemalloc((size_t)dimension_y *
+                               sizeof(bool));
+        memset(grid->occupancy[grid_x], false,
                (size_t)dimension_y * sizeof(unsigned char));
     }
 
     /* generate the grid buffer cells and initialise them to zero */
     grid->occupancy_buffer =
-        (unsigned char**)safemalloc((size_t)dimension_x * sizeof(unsigned char*));
+        (bool**)safemalloc((size_t)dimension_x * sizeof(bool*));
     for (grid_x = 0; grid_x < dimension_x; grid_x++) {
         grid->occupancy_buffer[grid_x] =
-            (unsigned char *)safemalloc((size_t)dimension_y * sizeof(unsigned char));
-        memset(grid->occupancy_buffer[grid_x], 0,
-               (size_t)dimension_y * sizeof(unsigned char));
+            (bool *)safemalloc((size_t)dimension_y * sizeof(bool));
+        memset(grid->occupancy_buffer[grid_x], false,
+               (size_t)dimension_y * sizeof(bool));
     }
 
     /* generate the damaged cells and initialise them to zero */
@@ -899,11 +902,11 @@ static void create_grid_base(const int dimension_x, const int dimension_y,
  * \param dimension_x x dimension of the grid
  * \param dimension_y y dimension of the grid
  * \param grid grid object
- * \param occupancy grid occupancy array to be inserted
+ * \param occupancy grid occupancy array of boolean values to be inserted
  */
 void create_grid_from_pattern(const int dimension_x, const int dimension_y,
                               struct grid_2d * grid,
-                              const unsigned char occupancy[])
+                              const bool occupancy[])
 {
     int grid_x, grid_y;
 
@@ -912,6 +915,34 @@ void create_grid_from_pattern(const int dimension_x, const int dimension_y,
     for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
         for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
             grid->occupancy[grid_x][grid_y] = occupancy[grid_y*dimension_x + grid_x];
+        }
+    }
+    orient_grid(grid);
+    complete_fixed_pattern(grid);
+}
+
+/**
+ * \brief create a grid from an occupancy pattern.
+ *        This is used by unit testing
+ * \param dimension_x x dimension of the grid
+ * \param dimension_y y dimension of the grid
+ * \param grid grid object
+ * \param occupancy grid occupancy array of 0 and 1 values to be inserted
+ */
+void create_grid_from_test_pattern(const int dimension_x, const int dimension_y,
+                                   struct grid_2d * grid,
+                                   const unsigned char occupancy[])
+{
+    int grid_x, grid_y;
+
+    create_grid_base(dimension_x, dimension_y, grid);
+
+    for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
+        for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
+            grid->occupancy[grid_x][grid_y] = false;
+            if (occupancy[grid_y*dimension_x + grid_x] == 1) {
+                grid->occupancy[grid_x][grid_y] = true;
+            }
         }
     }
     orient_grid(grid);
@@ -1122,7 +1153,7 @@ void create_grid(const int dimension_x, const int dimension_y,
                                                 (int)xi, (int)yi, sampling_radius);
                     }
                     if (hits > occupancy_threshold) {
-                        grid->occupancy[grid_x][grid_y] = 1;
+                        grid->occupancy[grid_x][grid_y] = true;
                     }
                     if ((hits > 0) && (hits <= damage_threshold)) {
                         grid->damage[grid_y*grid->dimension_x + grid_x] = 1;
@@ -1145,7 +1176,7 @@ unsigned char get_grid_occupancy_percent(const struct grid_2d * grid)
 
     for (grid_y = 0; grid_y < grid->dimension_y; grid_y++) {
         for (grid_x = 0; grid_x < grid->dimension_x; grid_x++) {
-            if (grid->occupancy[grid_x][grid_y] == 1) hits++;
+            if (grid->occupancy[grid_x][grid_y]) hits++;
         }
     }
     return (unsigned char)(hits * 100 / (grid->dimension_x * grid->dimension_y));
@@ -1208,7 +1239,7 @@ void show_grid(const struct grid_2d * grid)
                 printf("x");
             }
             else {
-                if (grid->occupancy[x][y] == 0) {
+                if (!grid->occupancy[x][y]) {
                     printf(" ");
                 }
                 else {

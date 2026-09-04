@@ -153,7 +153,7 @@ static void get_text_datamatrix_dimensions(const char * datamatrix_ascii,
  * \param datamatrix_ascii string containing the datamatrix
  * \param empty_char character or string used to represent empty space
  */
-static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
+static void text_datamatrix_populate_occupancy(bool occupancy[],
         const int dimension_x,
         const int dimension_y,
         const int decode_step,
@@ -164,7 +164,7 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
     int x_pos, y_pos=0;
 
     /* clear the grid */
-    memset(occupancy, 0,
+    memset(occupancy, false,
            (size_t)(dimension_x * dimension_y) * sizeof(unsigned char));
 
     /* for each line of the datamatrix string */
@@ -181,10 +181,10 @@ static void text_datamatrix_populate_occupancy(unsigned char occupancy[],
                 for (j = i; j < i + (decode_step * dimension_x);
                         j += decode_step, x_pos++) {
                     if (datamatrix_ascii[j] == empty_char[0]) {
-                        occupancy[(y_pos * dimension_x) + x_pos] = 0;
+                        occupancy[(y_pos * dimension_x) + x_pos] = false;
                     }
                     else {
-                        occupancy[(y_pos * dimension_x) + x_pos] = 1;
+                        occupancy[(y_pos * dimension_x) + x_pos] = true;
                     }
                 }
                 y_pos++;
@@ -250,9 +250,9 @@ int decode_datamatrix_from_text(const char * datamatrix_text,
             (decode_step == 0)) return -1;
 
     /* make an occupancy grid */
-    unsigned char * occupancy =
-        (unsigned char*)safemalloc((size_t)(dimension_x * dimension_y) *
-                                   sizeof(unsigned char));
+    bool * occupancy =
+        (bool*)safemalloc((size_t)(dimension_x * dimension_y) *
+                          sizeof(bool));
     if (occupancy == nullptr) return -1;
 
     text_datamatrix_populate_occupancy(occupancy,
