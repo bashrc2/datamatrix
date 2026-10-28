@@ -2079,6 +2079,10 @@ void gs1_semantics(char result[],
             APP_ID(20, 3, 20);
             break;
         }
+        case 717: {
+            APP_ID(20, 3, 20);
+            break;
+        }
         case 4300: {
             APP_ID(35, 4, 35);
             break;
@@ -4827,6 +4831,10 @@ void gs1_semantics(char result[],
             }
             case 716: {
                 DECODE("NHRN ITALY AIFA");
+                break;
+            }
+            case 717: {
+                DECODE("NHRN COSTA RICA");
                 break;
             }
             case 4300: {
