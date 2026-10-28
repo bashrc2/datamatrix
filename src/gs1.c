@@ -2479,6 +2479,18 @@ void gs1_semantics(char result[],
             APP_ID(90, 4, 90);
             break;
         }
+        case 8040: {
+            APP_ID(4, 15, 0);
+            break;
+        }
+        case 8041: {
+            APP_ID(4, 15, 0);
+            break;
+        }
+        case 8042: {
+            APP_ID(4, 32, 0);
+            break;
+        }
         case 8110: {
             APP_ID(70, 4, 70);
             break;
@@ -5575,6 +5587,22 @@ void gs1_semantics(char result[],
             }
             case 8030: {
                 DECODE("DIGSIG");
+                break;
+            }
+            case 8040: {
+                DECODE("IMEI");
+                break;
+            }
+            case 8041: {
+                DECODE("IMEI2");
+                break;
+            }
+            case 8042: {
+                DECODE("EMBEDDED SIM");
+                break;
+            }
+            case 8043: {
+                DECODE("PHYSICAL SIM");
                 break;
             }
             case 8110: {
